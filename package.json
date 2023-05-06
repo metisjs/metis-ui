@@ -1,0 +1,93 @@
+{
+  "name": "@meta/ui",
+  "version": "0.0.1",
+  "description": "A react library developed with dumi",
+  "license": "MIT",
+  "main": "lib/components/index.js",
+  "module": "es/components/index.js",
+  "typings": "lib/components/index.d.ts",
+  "files": [
+    "dist",
+    "lib",
+    "es"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{md,json}": [
+      "prettier --write --no-error-on-unmatched-pattern"
+    ],
+    "*.{css,less}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@types/color": "^3.0.3",
+    "@types/react": "^18.0.38",
+    "@types/react-dom": "^18.0.11",
+    "@umijs/lint": "^4.0.66",
+    "@umijs/plugins": "^4.0.66",
+    "dumi": "^2.1.22",
+    "eslint": "^8.39.0",
+    "father": "^4.1.9",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.8",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-tailwindcss": "^0.2.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "stylelint": "^15.6.0",
+    "tailwindcss": "^3.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0",
+    "tailwindcss": ">=3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wangjianming.x@gmail.com"
+  ],
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "color": "^4.2.3",
+    "rc-util": "^5.30.0"
+  }
+}
