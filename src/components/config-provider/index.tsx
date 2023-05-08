@@ -10,19 +10,15 @@ import * as React from 'react';
 // import message from '../message';
 // import notification from '../notification';
 // import type { Theme } from './context';
-import {
-  ConfigConsumer,
-  ConfigConsumerProps,
-  ConfigContext,
-  CSPConfig,
-  DirectionType,
-} from './context';
+import type { CSPConfig, ConfigConsumerProps, DirectionType } from './context';
+import { ConfigConsumer, ConfigContext } from './context';
 // import { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
 import type { SizeType } from './SizeContext';
 import SizeContext, { SizeContextProvider } from './SizeContext';
 
-export { ConfigContext, ConfigConsumer, CSPConfig, DirectionType, ConfigConsumerProps };
+export { ConfigContext, ConfigConsumer };
+export { CSPConfig, DirectionType, ConfigConsumerProps };
 
 export const configConsumerProps = [
   'getTargetContainer',

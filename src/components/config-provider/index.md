@@ -1,10 +1,9 @@
 ---
-category: Components
-subtitle: 全局化配置
-cols: 1
-type: 其他
-title: ConfigProvider
-cover: https://gw.alipayobjects.com/zos/alicdn/kegYxl1wj/ConfigProvider.svg
+title: 全局化配置
+order: 0
+group:
+  title: 其他
+  order: 10
 ---
 
 为组件提供统一的全局化配置。

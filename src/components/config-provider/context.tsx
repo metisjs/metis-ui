@@ -17,8 +17,6 @@ export interface CSPConfig {
   nonce?: string;
 }
 
-export type DirectionType = 'ltr' | 'rtl' | undefined;
-
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;

@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
 
-import type { DirectionType } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 
 export interface SpaceCompactItemContextType {
@@ -16,7 +15,7 @@ export const SpaceCompactItemContext = React.createContext<SpaceCompactItemConte
   null,
 );
 
-export const useCompactItemContext = (prefixCls: string, direction: DirectionType) => {
+export const useCompactItemContext = () => {
   const compactItemContext = React.useContext(SpaceCompactItemContext);
 
   const compactItemClassnames = React.useMemo(() => {
@@ -26,12 +25,11 @@ export const useCompactItemContext = (prefixCls: string, direction: DirectionTyp
     const separator = compactDirection === 'vertical' ? '-vertical-' : '-';
 
     return classNames({
-      [`${prefixCls}-compact${separator}item`]: true,
-      [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
-      [`${prefixCls}-compact${separator}last-item`]: isLastItem,
-      [`${prefixCls}-compact${separator}item-rtl`]: direction === 'rtl',
+      [`compact${separator}item`]: true,
+      [`compact${separator}first-item`]: isFirstItem,
+      [`compact${separator}last-item`]: isLastItem,
     });
-  }, [prefixCls, direction, compactItemContext]);
+  }, [compactItemContext]);
 
   return {
     compactSize: compactItemContext?.compactSize,
@@ -40,7 +38,7 @@ export const useCompactItemContext = (prefixCls: string, direction: DirectionTyp
   };
 };
 
-export const NoCompactStyle: React.FC<React.PropsWithChildren<{}>> = ({ children }) => (
+export const NoCompactStyle: React.FC<React.PropsWithChildren> = ({ children }) => (
   <SpaceCompactItemContext.Provider value={null}>{children}</SpaceCompactItemContext.Provider>
 );
 
@@ -75,7 +73,7 @@ const Compact: React.FC<SpaceCompactProps> = (props) => {
   const nodes = React.useMemo(
     () =>
       childNodes.map((child, i) => {
-        const key = (child && child.key) || `${prefixCls}-item-${i}`;
+        const key = (child && child.key) || `item-${i}`;
 
         return (
           <CompactItem

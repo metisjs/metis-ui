@@ -4,7 +4,7 @@ function withOpacityValue(variable: string, fallbackColor?: string) {
     fallbackColorValue = `, var(${fallbackColor})`;
   }
 
-  return `hsl(var(${variable}${fallbackColorValue}) / <alpha-value>)`;
+  return `hsla(var(${variable}${fallbackColorValue}) / <alpha-value>)`;
 }
 
 const colorObject = {
@@ -22,18 +22,6 @@ const colorObject = {
   accent: withOpacityValue('--accent'),
   'accent-active': withOpacityValue('--accent-active', '--accent'),
   'accent-bg': withOpacityValue('--accent-bg'),
-
-  info: withOpacityValue('--info'),
-  'info-bg': withOpacityValue('--inc', '--nc'),
-
-  success: withOpacityValue('--su'),
-  'success-bg': withOpacityValue('--suc', '--nc'),
-
-  warning: withOpacityValue('--wa'),
-  'warning-bg': withOpacityValue('--wac', '--nc'),
-
-  error: withOpacityValue('--error'),
-  'error-bg': withOpacityValue('--error', '--nc'),
 };
 
 export default colorObject;

@@ -1,8 +1,7 @@
-/* eslint-disable react/button-has-type */
 import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-
+import cva from '../_util/cva';
 import { cloneElement, isFragment } from '../_util/reactNode';
 import { tuple } from '../_util/type';
 import Wave from '../_util/wave';
@@ -74,7 +73,7 @@ function spaceChildren(children: React.ReactNode, needInserted: boolean) {
   );
 }
 
-const ButtonTypes = tuple('default', 'primary', 'ghost', 'dashed', 'link', 'text');
+const ButtonTypes = tuple('default', 'primary', 'dashed', 'link', 'text');
 export type ButtonType = (typeof ButtonTypes)[number];
 const ButtonShapes = tuple('default', 'circle', 'round');
 export type ButtonShape = (typeof ButtonShapes)[number];
@@ -84,11 +83,6 @@ export type ButtonHTMLType = (typeof ButtonHTMLTypes)[number];
 export interface BaseButtonProps {
   type?: ButtonType;
   icon?: React.ReactNode;
-  /**
-   * Shape of Button
-   *
-   * @default default
-   */
   shape?: ButtonShape;
   size?: SizeType;
   disabled?: boolean;
@@ -125,6 +119,33 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
+const clsVariants = cva('', {
+  variants: {
+    type: {
+      default: '',
+      primary: '',
+      dashed: '',
+      link: '',
+      text: '',
+    },
+    shape: {
+      default: '',
+      circle: '',
+      round: '',
+    },
+    size: {
+      small: '',
+      middle: '',
+      large: '',
+    },
+    loading: { true: '' },
+  },
+  defaultVariants: {
+    type: 'default',
+    shape: 'default',
+  },
+});
+
 const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
   const {
     loading = false,
@@ -152,7 +173,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   const groupSize = React.useContext(GroupSizeContext);
   const [innerLoading, setLoading] = React.useState<Loading>(!!loading);
   const [hasTwoCNChar, setHasTwoCNChar] = React.useState(false);
-  const { autoInsertSpaceInButton, direction } = React.useContext(ConfigContext);
+  const { autoInsertSpaceInButton } = React.useContext(ConfigContext);
   const buttonRef = (ref as any) || React.createRef<HTMLElement>();
   const isNeedInserted = () =>
     React.Children.count(children) === 1 && !icon && !isUnBorderedButtonType(type);
@@ -209,11 +230,9 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   };
 
   const autoInsertSpace = autoInsertSpaceInButton !== false;
-  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls, direction);
+  const { compactSize, compactItemClassnames } = useCompactItemContext();
 
-  const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined };
-  const sizeFullname = compactSize || groupSize || customizeSize || size;
-  const sizeCls = sizeFullname ? sizeClassNameMap[sizeFullname] || '' : '';
+  const mergedSize = compactSize || groupSize || customizeSize || size;
 
   const iconType = innerLoading ? 'loading' : icon;
 
@@ -237,11 +256,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   );
 
   const iconNode =
-    icon && !innerLoading ? (
-      icon
-    ) : (
-      <LoadingIcon existIcon={!!icon} prefixCls={prefixCls} loading={!!innerLoading} />
-    );
+    icon && !innerLoading ? icon : <LoadingIcon existIcon={!!icon} loading={!!innerLoading} />;
 
   const kids =
     children || children === 0
@@ -250,7 +265,12 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   if (linkButtonRestProps.href !== undefined) {
     return (
-      <a {...linkButtonRestProps} className={classes} onClick={handleClick} ref={buttonRef}>
+      <a
+        {...linkButtonRestProps}
+        className={clsVariants({ type, size: mergedSize }, [compactItemClassnames, className])}
+        onClick={handleClick}
+        ref={buttonRef}
+      >
         {iconNode}
         {kids}
       </a>

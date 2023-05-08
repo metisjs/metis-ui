@@ -1,4 +1,4 @@
-import { Button, Space } from '@meta/ui';
+import { Space } from '@meta/ui';
 import React from 'react';
 
 const App: React.FC = () => (
@@ -6,28 +6,28 @@ const App: React.FC = () => (
     <div className="space-align-block">
       <Space align="center">
         center
-        <Button type="primary">Primary</Button>
+        <div className="bg-primary">Primary</div>
         <span className="mock-block">Block</span>
       </Space>
     </div>
     <div className="space-align-block">
       <Space align="start">
         start
-        <Button type="primary">Primary</Button>
+        <div>Primary</div>
         <span className="mock-block">Block</span>
       </Space>
     </div>
     <div className="space-align-block">
       <Space align="end">
         end
-        <Button type="primary">Primary</Button>
+        <div>Primary</div>
         <span className="mock-block">Block</span>
       </Space>
     </div>
     <div className="space-align-block">
       <Space align="baseline">
         baseline
-        <Button type="primary">Primary</Button>
+        <div>Primary</div>
         <span className="mock-block">Block</span>
       </Space>
     </div>

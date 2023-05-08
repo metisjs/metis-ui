@@ -20,6 +20,7 @@
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "preinstall": "npx only-allow pnpm",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
     "start": "npm run dev"
@@ -58,9 +59,9 @@
     "@types/color": "^3.0.3",
     "@types/react": "^18.0.38",
     "@types/react-dom": "^18.0.11",
-    "@umijs/lint": "^4.0.66",
-    "@umijs/plugins": "^4.0.66",
-    "dumi": "^2.1.22",
+    "@umijs/lint": "4.0.66",
+    "@umijs/plugins": "4.0.66",
+    "dumi": "2.1.22",
     "eslint": "^8.39.0",
     "father": "^4.1.9",
     "husky": "^8.0.3",
@@ -86,8 +87,15 @@
     "wangjianming.x@gmail.com"
   ],
   "dependencies": {
+    "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.2",
     "color": "^4.2.3",
-    "rc-util": "^5.30.0"
+    "rc-util": "^5.30.0",
+    "tailwind-merge": "^1.12.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@umijs/plugins@4.0.66": "patches/@umijs__plugins@4.0.66.patch"
+    }
   }
 }
