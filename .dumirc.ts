@@ -16,4 +16,14 @@ export default defineConfig({
   },
   tailwindcss: {},
   plugins: ['@umijs/plugins/dist/tailwindcss'],
+  extraBabelPlugins: [
+    [
+      'import',
+      {
+        libraryName: '@icon-park/react',
+        libraryDirectory: 'es/icons',
+        camel2DashComponentName: false,
+      },
+    ],
+  ],
 });

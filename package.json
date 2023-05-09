@@ -87,9 +87,11 @@
     "wangjianming.x@gmail.com"
   ],
   "dependencies": {
+    "@icon-park/react": "^1.4.2",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.2",
     "color": "^4.2.3",
+    "rc-motion": "^2.7.3",
     "rc-util": "^5.30.0",
     "tailwind-merge": "^1.12.0"
   },

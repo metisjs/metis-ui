@@ -8,6 +8,7 @@ type ColorParam = string | { [key: string]: any };
 function generateForegroundColorFrom(input: ColorParam, percentage = 0.8) {
   if (Color(input).isDark()) {
     let arr = Color(input).mix(Color('white'), percentage).saturate(10).hsl().array();
+    console.log(arr);
     return (
       arr[0].toPrecision(5).replace(/\.?0+$/, '') +
       ' ' +
@@ -84,6 +85,10 @@ function convertToHsl(input: ColorParam) {
           ' ' +
           darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
           '%';
+      }
+
+      if (!input.hasOwnProperty('primary-content')) {
+        resultObj['--primary-content'] = generateForegroundColorFrom(input['primary']);
       }
     });
     return resultObj;

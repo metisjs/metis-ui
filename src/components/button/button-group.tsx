@@ -1,24 +1,19 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { ConfigContext } from '../config-provider';
-import type { SizeType } from '../config-provider/SizeContext';
 import warning from '../_util/warning';
+import type { SizeType } from '../config-provider/SizeContext';
 
 export interface ButtonGroupProps {
   size?: SizeType;
   style?: React.CSSProperties;
   className?: string;
-  prefixCls?: string;
   children?: React.ReactNode;
 }
 
 export const GroupSizeContext = React.createContext<SizeType | undefined>(undefined);
 
-const ButtonGroup: React.FC<ButtonGroupProps> = props => {
-  const { getPrefixCls, direction } = React.useContext(ConfigContext);
-
-  const { prefixCls: customizePrefixCls, size, className, ...others } = props;
-  const prefixCls = getPrefixCls('btn-group', customizePrefixCls);
+const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
+  const { size, className, ...others } = props;
 
   // large => lg
   // small => sm
@@ -37,14 +32,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = props => {
       warning(!size, 'Button.Group', 'Invalid prop `size`.');
   }
 
-  const classes = classNames(
-    prefixCls,
-    {
-      [`${prefixCls}-${sizeCls}`]: sizeCls,
-      [`${prefixCls}-rtl`]: direction === 'rtl',
-    },
-    className,
-  );
+  const classes = classNames(className);
 
   return (
     <GroupSizeContext.Provider value={size}>
