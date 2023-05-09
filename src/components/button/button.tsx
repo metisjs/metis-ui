@@ -1,10 +1,8 @@
-import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import cva from '../_util/cva';
 import { cloneElement, isFragment } from '../_util/reactNode';
 import { tuple } from '../_util/type';
-import Wave from '../_util/wave';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
@@ -119,30 +117,31 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
-const clsVariants = cva('', {
+const clsVariants = cva('relative inline-block font-medium text-sm shadow', {
   variants: {
     type: {
       default: '',
-      primary: '',
-      dashed: '',
+      primary: 'bg-primary text-primary-content',
+      dashed: 'border-dashed border shadow-none',
       link: '',
       text: '',
     },
     shape: {
       default: '',
-      circle: '',
+      circle: 'rounded-full',
       round: '',
     },
     size: {
-      small: '',
-      middle: '',
-      large: '',
+      small: 'py-1 px-2 rounded',
+      middle: 'py-1.5 px-2.5 rounded-md',
+      large: 'py-2 px-3 rounded-lg',
     },
     loading: { true: '' },
   },
   defaultVariants: {
     type: 'default',
     shape: 'default',
+    size: 'middle',
   },
 });
 
@@ -159,9 +158,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     icon,
     ghost = false,
     block = false,
-    /** If we extract items here, we don't need use omit.js */
-    // React does not recognize the `htmlType` prop on a DOM element. Here we pick it out of `rest`.
-    htmlType = 'button' as ButtonProps['htmlType'],
+    htmlType = 'button',
     ...rest
   } = props;
 
@@ -238,23 +235,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const linkButtonRestProps = omit(rest as AnchorButtonProps & { navigate: any }, ['navigate']);
 
-  const classes = classNames(
-    {
-      [`rounded-full`]: shape !== 'default' && shape,
-      [`${prefixCls}-${type}`]: type,
-      [`${prefixCls}-${sizeCls}`]: sizeCls,
-      [`${prefixCls}-icon-only`]: !children && children !== 0 && !!iconType,
-      [`${prefixCls}-background-ghost`]: ghost && !isUnBorderedButtonType(type),
-      [`${prefixCls}-loading`]: innerLoading,
-      [`${prefixCls}-two-chinese-chars`]: hasTwoCNChar && autoInsertSpace && !innerLoading,
-      [`${prefixCls}-block`]: block,
-      [`${prefixCls}-dangerous`]: !!danger,
-      [`${prefixCls}-disabled`]: linkButtonRestProps.href !== undefined && mergedDisabled,
-    },
-    compactItemClassnames,
-    className,
-  );
-
   const iconNode =
     icon && !innerLoading ? icon : <LoadingIcon existIcon={!!icon} loading={!!innerLoading} />;
 
@@ -263,14 +243,12 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       ? spaceChildren(children, isNeedInserted() && autoInsertSpace)
       : null;
 
+  const variants = { type, size: mergedSize };
+  const classes = clsVariants(variants, [compactItemClassnames, className]);
+
   if (linkButtonRestProps.href !== undefined) {
     return (
-      <a
-        {...linkButtonRestProps}
-        className={clsVariants({ type, size: mergedSize }, [compactItemClassnames, className])}
-        onClick={handleClick}
-        ref={buttonRef}
-      >
+      <a {...linkButtonRestProps} className={classes} onClick={handleClick} ref={buttonRef}>
         {iconNode}
         {kids}
       </a>
@@ -279,7 +257,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const buttonNode = (
     <button
-      {...(rest as NativeButtonProps)}
+      {...rest}
+      // eslint-disable-next-line react/button-has-type
       type={htmlType}
       className={classes}
       onClick={handleClick}
@@ -291,11 +270,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     </button>
   );
 
-  if (isUnBorderedButtonType(type)) {
-    return buttonNode;
-  }
-
-  return <Wave disabled={!!innerLoading}>{buttonNode}</Wave>;
+  return buttonNode;
 };
 
 const Button = React.forwardRef<unknown, ButtonProps>(InternalButton) as CompoundedComponent;

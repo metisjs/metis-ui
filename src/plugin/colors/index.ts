@@ -13,15 +13,13 @@ const colorObject = {
 
   primary: withOpacityValue('--primary'),
   'primary-active': withOpacityValue('--primary-active', '--primary'),
-  'primary-bg': withOpacityValue('--primary-bg'),
+  'primary-content': withOpacityValue('--primary-content'),
 
   secondary: withOpacityValue('--secondary'),
   'secondary-active': withOpacityValue('--secondary-active', '--secondary'),
-  'secondary-bg': withOpacityValue('--secondary-bg'),
 
   accent: withOpacityValue('--accent'),
   'accent-active': withOpacityValue('--accent-active', '--accent'),
-  'accent-bg': withOpacityValue('--accent-bg'),
 };
 
 export default colorObject;
