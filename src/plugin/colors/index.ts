@@ -11,15 +11,18 @@ const colorObject = {
   transparent: 'transparent',
   current: 'currentColor',
 
-  primary: withOpacityValue('--primary'),
-  'primary-active': withOpacityValue('--primary-active', '--primary'),
-  'primary-content': withOpacityValue('--primary-content'),
-
-  secondary: withOpacityValue('--secondary'),
-  'secondary-active': withOpacityValue('--secondary-active', '--secondary'),
-
-  accent: withOpacityValue('--accent'),
-  'accent-active': withOpacityValue('--accent-active', '--accent'),
+  primary: {
+    DEFAULT: withOpacityValue('--primary'),
+    foreground: withOpacityValue('--primary-foreground'),
+    accent: withOpacityValue('--primary-accent'),
+    soft: withOpacityValue('--primary-soft'),
+  },
+  secondary: {
+    DEFAULT: withOpacityValue('--secondary'),
+    foreground: withOpacityValue('--secondary-foreground'),
+    accent: withOpacityValue('--secondary-accent'),
+    soft: withOpacityValue('--secondary-soft'),
+  },
 };
 
 export default colorObject;

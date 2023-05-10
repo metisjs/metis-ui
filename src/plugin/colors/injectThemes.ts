@@ -5,31 +5,22 @@ import themes from './themes';
 
 type ColorParam = string | { [key: string]: any };
 
-function generateForegroundColorFrom(input: ColorParam, percentage = 0.8) {
-  if (Color(input).isDark()) {
-    let arr = Color(input).mix(Color('white'), percentage).saturate(10).hsl().array();
-    console.log(arr);
-    return (
-      arr[0].toPrecision(5).replace(/\.?0+$/, '') +
-      ' ' +
-      arr[1].toPrecision(5).replace(/\.?0+$/, '') +
-      '%' +
-      ' ' +
-      arr[2].toPrecision(5).replace(/\.?0+$/, '') +
-      '%'
-    );
-  } else {
-    let arr = Color(input).mix(Color('black'), percentage).saturate(10).hsl().array();
-    return (
-      arr[0].toPrecision(5).replace(/\.?0+$/, '') +
-      ' ' +
-      arr[1].toPrecision(5).replace(/\.?0+$/, '') +
-      '%' +
-      ' ' +
-      arr[2].toPrecision(5).replace(/\.?0+$/, '') +
-      '%'
-    );
-  }
+function generateForegroundColorFrom(input: ColorParam, percentage = 1) {
+  const arr = Color(input)
+    .mix(Color(Color(input).isDark() ? 'white' : 'black'), percentage)
+    .saturate(10)
+    .hsl()
+    .array();
+    
+  return (
+    arr[0].toPrecision(5).replace(/\.?0+$/, '') +
+    ' ' +
+    arr[1].toPrecision(5).replace(/\.?0+$/, '') +
+    '%' +
+    ' ' +
+    arr[2].toPrecision(5).replace(/\.?0+$/, '') +
+    '%'
+  );
 }
 
 function convertToHsl(input: ColorParam) {
@@ -50,45 +41,8 @@ function convertToHsl(input: ColorParam) {
         resultObj[rule] = value;
       }
 
-      // auto generate active colors
-      if (!input.hasOwnProperty('primary-active')) {
-        const darkerHslArray = Color(input['primary']).darken(0.2).hsl().array();
-        resultObj['--primary-active'] =
-          darkerHslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          darkerHslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      }
-
-      if (!input.hasOwnProperty('secondary-active')) {
-        const darkerHslArray = Color(input['secondary']).darken(0.2).hsl().array();
-        resultObj['--secondary-active'] =
-          darkerHslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          darkerHslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      }
-
-      if (!input.hasOwnProperty('accent-active')) {
-        const darkerHslArray = Color(input['accent']).darken(0.2).hsl().array();
-        resultObj['--accent-active'] =
-          darkerHslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          darkerHslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      }
-
-      if (!input.hasOwnProperty('primary-content')) {
-        resultObj['--primary-content'] = generateForegroundColorFrom(input['primary']);
+      if (!input.hasOwnProperty('primary-foreground')) {
+        resultObj['--primary-foreground'] = generateForegroundColorFrom(input['primary']);
       }
     });
     return resultObj;

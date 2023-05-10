@@ -22,7 +22,6 @@ export interface ConfigConsumerProps {
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
   // renderEmpty?: RenderEmptyHandler;
   csp?: CSPConfig;
-  autoInsertSpaceInButton?: boolean;
   input?: {
     autoComplete?: string;
   };

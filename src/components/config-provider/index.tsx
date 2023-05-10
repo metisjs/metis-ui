@@ -25,7 +25,6 @@ export const configConsumerProps = [
   'getPopupContainer',
   // 'renderEmpty',
   'csp',
-  'autoInsertSpaceInButton',
   'locale',
   'pageHeader',
 ];
@@ -47,7 +46,6 @@ export interface ConfigProviderProps {
   children?: React.ReactNode;
   // renderEmpty?: RenderEmptyHandler;
   csp?: CSPConfig;
-  autoInsertSpaceInButton?: boolean;
   form?: {
     // validateMessages?: ValidateMessages;
     // requiredMark?: RequiredMark;
@@ -82,7 +80,6 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const {
     children,
     csp,
-    autoInsertSpaceInButton,
     // form,
     // locale,
     componentSize,
@@ -98,7 +95,6 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const config = {
     ...parentContext,
     csp,
-    autoInsertSpaceInButton,
     // locale: locale || legacyLocale,
     direction,
     space,
