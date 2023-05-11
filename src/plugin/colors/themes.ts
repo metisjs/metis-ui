@@ -1,14 +1,32 @@
-import colors from 'tailwindcss/colors';
-
 export default {
   '[data-theme=dark]': {
     'color-scheme': 'dark',
-    primary: '#661AE6',
-    secondary: '#D926AA',
+    primary: 'indigo-600',
+    success: 'green-400',
+    warning: 'yellow-400',
+    error: 'red-400',
+    info: 'blue-400',
+    text: 'gray-900',
+    border: 'gray-500',
+    'bg-container': 'white',
+    'bg-elevated': 'white',
+    'bg-layout': 'gray-100',
+    'bg-spotlight': 'gray-900',
+    'bg-mask': 'gray-500',
   },
   '[data-theme=light]': {
     'color-scheme': 'light',
-    primary: colors.indigo,
-    secondary: colors.gray,
+    primary: 'indigo-600',
+    success: 'green-400',
+    warning: 'yellow-400',
+    error: 'red-400',
+    info: 'blue-400',
+    text: 'gray-900',
+    border: 'gray-500',
+    'bg-container': 'white',
+    'bg-elevated': 'white',
+    'bg-layout': 'gray-100',
+    'bg-spotlight': 'gray-900',
+    'bg-mask': 'gray-500',
   },
 } as const;

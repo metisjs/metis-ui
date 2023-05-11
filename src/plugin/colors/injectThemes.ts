@@ -5,23 +5,38 @@ import themes from './themes';
 
 type ColorParam = string | { [key: string]: any };
 
-function generateForegroundColorFrom(input: ColorParam, percentage = 1) {
-  const arr = Color(input)
-    .mix(Color(Color(input).isDark() ? 'white' : 'black'), percentage)
-    .saturate(10)
-    .hsl()
-    .array();
-    
-  return (
-    arr[0].toPrecision(5).replace(/\.?0+$/, '') +
-    ' ' +
-    arr[1].toPrecision(5).replace(/\.?0+$/, '') +
-    '%' +
-    ' ' +
-    arr[2].toPrecision(5).replace(/\.?0+$/, '') +
-    '%'
-  );
-}
+const BASE_LEVEL = {
+  bg: -4,
+  'bg-hover': -3,
+  hover: -1,
+  active: 1,
+  'text-hover': 2,
+  text: 3,
+  'text-active': 4,
+} as const;
+const COLOR_LEVEL = {
+  primary: {
+    bg: -6,
+    'bg-hover': -5,
+    hover: -1,
+    active: 1,
+    'text-hover': -1,
+    text: 0,
+    'text-active': 1,
+  },
+  success: BASE_LEVEL,
+  warning: BASE_LEVEL,
+  error: BASE_LEVEL,
+  info: BASE_LEVEL,
+  text: {
+    secondary: -2,
+    tertiary: -2,
+    quaternary: -2,
+  },
+  border: { secondary: -2 },
+} as const;
+
+function generateColorPaletteFrom(base: string, color: string) {}
 
 function convertToHsl(input: ColorParam) {
   let resultObj: Record<string, any> = {};
@@ -39,10 +54,6 @@ function convertToHsl(input: ColorParam) {
           '%';
       } else {
         resultObj[rule] = value;
-      }
-
-      if (!input.hasOwnProperty('primary-foreground')) {
-        resultObj['--primary-foreground'] = generateForegroundColorFrom(input['primary']);
       }
     });
     return resultObj;
