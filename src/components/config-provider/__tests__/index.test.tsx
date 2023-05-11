@@ -35,16 +35,6 @@ describe('ConfigProvider', () => {
     jest.useRealTimers();
   });
 
-  it('autoInsertSpaceInButton', () => {
-    const text = '确定';
-    const { container } = render(
-      <ConfigProvider autoInsertSpaceInButton={false}>
-        <Button>{text}</Button>
-      </ConfigProvider>,
-    );
-    expect(container.querySelector('span')?.innerHTML).toBe(text);
-  });
-
   it('renderEmpty', () => {
     const text = 'empty placeholder';
     const { container } = render(

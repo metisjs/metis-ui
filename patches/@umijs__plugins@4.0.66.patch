@@ -1,0 +1,13 @@
+diff --git a/dist/tailwindcss.js b/dist/tailwindcss.js
+index 87a3a2acca4aee9bc492e222684005c433a22e7f..907010b8160d1ded33da2a8d8151580519a4f0ff 100644
+--- a/dist/tailwindcss.js
++++ b/dist/tailwindcss.js
+@@ -40,7 +40,7 @@ var tailwindcss_default = (api) => {
+     const inputPath = (0, import_path.join)(api.cwd, "tailwind.css");
+     const generatedPath = (0, import_path.join)(api.paths.absTmpPath, outputPath);
+     const binPath = getTailwindBinPath({ cwd: api.cwd });
+-    const configPath = (0, import_path.join)(api.cwd, "tailwind.config.js");
++    const configPath = (0, import_path.join)(api.cwd, "tailwind.config.ts");
+     if (process.env.IS_UMI_BUILD_WORKER) {
+       return;
+     }

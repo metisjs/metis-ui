@@ -1,9 +1,7 @@
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import cva from '../_util/cva';
-import { cloneElement, isFragment } from '../_util/reactNode';
 import { tuple } from '../_util/type';
-import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
@@ -11,67 +9,7 @@ import { useCompactItemContext } from '../space/Compact';
 import LoadingIcon from './LoadingIcon';
 import Group, { GroupSizeContext } from './button-group';
 
-const rxTwoCNChar = /^[\u4e00-\u9fa5]{2}$/;
-const isTwoCNChar = rxTwoCNChar.test.bind(rxTwoCNChar);
-function isString(str: any) {
-  return typeof str === 'string';
-}
-
-function isUnBorderedButtonType(type: ButtonType | undefined) {
-  return type === 'text' || type === 'link';
-}
-
-// Insert one space between two chinese characters automatically.
-function insertSpace(child: React.ReactElement | string | number, needInserted: boolean) {
-  // Check the child if is undefined or null.
-  if (child === null || child === undefined) {
-    return;
-  }
-  const SPACE = needInserted ? ' ' : '';
-  // strictNullChecks oops.
-  if (
-    typeof child !== 'string' &&
-    typeof child !== 'number' &&
-    isString(child.type) &&
-    isTwoCNChar(child.props.children)
-  ) {
-    return cloneElement(child, {
-      children: child.props.children.split('').join(SPACE),
-    });
-  }
-  if (typeof child === 'string') {
-    return isTwoCNChar(child) ? <span>{child.split('').join(SPACE)}</span> : <span>{child}</span>;
-  }
-  if (isFragment(child)) {
-    return <span>{child}</span>;
-  }
-  return child;
-}
-
-function spaceChildren(children: React.ReactNode, needInserted: boolean) {
-  let isPrevChildPure: boolean = false;
-  const childList: React.ReactNode[] = [];
-  React.Children.forEach(children, (child) => {
-    const type = typeof child;
-    const isCurrentChildPure = type === 'string' || type === 'number';
-    if (isPrevChildPure && isCurrentChildPure) {
-      const lastIndex = childList.length - 1;
-      const lastChild = childList[lastIndex];
-      childList[lastIndex] = `${lastChild}${child}`;
-    } else {
-      childList.push(child);
-    }
-
-    isPrevChildPure = isCurrentChildPure;
-  });
-
-  // Pass to React.Children.map to auto fill key
-  return React.Children.map(childList, (child) =>
-    insertSpace(child as React.ReactElement | string | number, needInserted),
-  );
-}
-
-const ButtonTypes = tuple('default', 'primary', 'dashed', 'link', 'text');
+const ButtonTypes = tuple('default', 'primary', 'link');
 export type ButtonType = (typeof ButtonTypes)[number];
 const ButtonShapes = tuple('default', 'circle', 'round');
 export type ButtonShape = (typeof ButtonShapes)[number];
@@ -88,7 +26,6 @@ export interface BaseButtonProps {
   className?: string;
   ghost?: boolean;
   danger?: boolean;
-  block?: boolean;
   children?: React.ReactNode;
 }
 
@@ -117,14 +54,13 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
-const clsVariants = cva('relative inline-block font-medium text-sm shadow', {
+const clsVariants = cva('relative inline-flex items-center font-medium text-sm shadow-sm', {
   variants: {
     type: {
       default: '',
-      primary: 'bg-primary text-primary-content',
-      dashed: 'border-dashed border shadow-none',
-      link: '',
-      text: '',
+      primary:
+        'bg-primary text-primary-foreground hover:bg-primary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
+      link: 'shadow-none',
     },
     shape: {
       default: '',
@@ -132,9 +68,9 @@ const clsVariants = cva('relative inline-block font-medium text-sm shadow', {
       round: '',
     },
     size: {
-      small: 'py-1 px-2 rounded',
-      middle: 'py-1.5 px-2.5 rounded-md',
-      large: 'py-2 px-3 rounded-lg',
+      small: 'py-1 px-3 rounded',
+      middle: 'py-1.5 px-4 rounded-md',
+      large: 'py-2 px-6 rounded-lg',
     },
     loading: { true: '' },
   },
@@ -157,7 +93,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     children,
     icon,
     ghost = false,
-    block = false,
     htmlType = 'button',
     ...rest
   } = props;
@@ -169,26 +104,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const groupSize = React.useContext(GroupSizeContext);
   const [innerLoading, setLoading] = React.useState<Loading>(!!loading);
-  const [hasTwoCNChar, setHasTwoCNChar] = React.useState(false);
-  const { autoInsertSpaceInButton } = React.useContext(ConfigContext);
   const buttonRef = (ref as any) || React.createRef<HTMLElement>();
-  const isNeedInserted = () =>
-    React.Children.count(children) === 1 && !icon && !isUnBorderedButtonType(type);
-
-  const fixTwoCNChar = () => {
-    // Fix for HOC usage like <FormatMessage />
-    if (!buttonRef || !buttonRef.current || autoInsertSpaceInButton === false) {
-      return;
-    }
-    const buttonText = buttonRef.current.textContent;
-    if (isNeedInserted() && isTwoCNChar(buttonText)) {
-      if (!hasTwoCNChar) {
-        setHasTwoCNChar(true);
-      }
-    } else if (hasTwoCNChar) {
-      setHasTwoCNChar(false);
-    }
-  };
 
   // =============== Update Loading ===============
   const loadingOrDelay: Loading = typeof loading === 'boolean' ? loading : loading?.delay || true;
@@ -215,8 +131,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     };
   }, [loadingOrDelay]);
 
-  React.useEffect(fixTwoCNChar, [buttonRef]);
-
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => {
     const { onClick } = props;
     if (innerLoading || mergedDisabled) {
@@ -226,7 +140,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)?.(e);
   };
 
-  const autoInsertSpace = autoInsertSpaceInButton !== false;
   const { compactSize, compactItemClassnames } = useCompactItemContext();
 
   const mergedSize = compactSize || groupSize || customizeSize || size;
@@ -238,11 +151,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   const iconNode =
     icon && !innerLoading ? icon : <LoadingIcon existIcon={!!icon} loading={!!innerLoading} />;
 
-  const kids =
-    children || children === 0
-      ? spaceChildren(children, isNeedInserted() && autoInsertSpace)
-      : null;
-
   const variants = { type, size: mergedSize };
   const classes = clsVariants(variants, [compactItemClassnames, className]);
 
@@ -250,7 +158,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     return (
       <a {...linkButtonRestProps} className={classes} onClick={handleClick} ref={buttonRef}>
         {iconNode}
-        {kids}
+        {children}
       </a>
     );
   }
@@ -266,7 +174,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       ref={buttonRef}
     >
       {iconNode}
-      {kids}
+      {children}
     </button>
   );
 

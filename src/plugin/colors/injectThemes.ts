@@ -5,32 +5,38 @@ import themes from './themes';
 
 type ColorParam = string | { [key: string]: any };
 
-function generateForegroundColorFrom(input: ColorParam, percentage = 0.8) {
-  if (Color(input).isDark()) {
-    let arr = Color(input).mix(Color('white'), percentage).saturate(10).hsl().array();
-    console.log(arr);
-    return (
-      arr[0].toPrecision(5).replace(/\.?0+$/, '') +
-      ' ' +
-      arr[1].toPrecision(5).replace(/\.?0+$/, '') +
-      '%' +
-      ' ' +
-      arr[2].toPrecision(5).replace(/\.?0+$/, '') +
-      '%'
-    );
-  } else {
-    let arr = Color(input).mix(Color('black'), percentage).saturate(10).hsl().array();
-    return (
-      arr[0].toPrecision(5).replace(/\.?0+$/, '') +
-      ' ' +
-      arr[1].toPrecision(5).replace(/\.?0+$/, '') +
-      '%' +
-      ' ' +
-      arr[2].toPrecision(5).replace(/\.?0+$/, '') +
-      '%'
-    );
-  }
-}
+const BASE_LEVEL = {
+  bg: -4,
+  'bg-hover': -3,
+  hover: -1,
+  active: 1,
+  'text-hover': 2,
+  text: 3,
+  'text-active': 4,
+} as const;
+const COLOR_LEVEL = {
+  primary: {
+    bg: -6,
+    'bg-hover': -5,
+    hover: -1,
+    active: 1,
+    'text-hover': -1,
+    text: 0,
+    'text-active': 1,
+  },
+  success: BASE_LEVEL,
+  warning: BASE_LEVEL,
+  error: BASE_LEVEL,
+  info: BASE_LEVEL,
+  text: {
+    secondary: -2,
+    tertiary: -2,
+    quaternary: -2,
+  },
+  border: { secondary: -2 },
+} as const;
+
+function generateColorPaletteFrom(base: string, color: string) {}
 
 function convertToHsl(input: ColorParam) {
   let resultObj: Record<string, any> = {};
@@ -48,47 +54,6 @@ function convertToHsl(input: ColorParam) {
           '%';
       } else {
         resultObj[rule] = value;
-      }
-
-      // auto generate active colors
-      if (!input.hasOwnProperty('primary-active')) {
-        const darkerHslArray = Color(input['primary']).darken(0.2).hsl().array();
-        resultObj['--primary-active'] =
-          darkerHslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          darkerHslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      }
-
-      if (!input.hasOwnProperty('secondary-active')) {
-        const darkerHslArray = Color(input['secondary']).darken(0.2).hsl().array();
-        resultObj['--secondary-active'] =
-          darkerHslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          darkerHslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      }
-
-      if (!input.hasOwnProperty('accent-active')) {
-        const darkerHslArray = Color(input['accent']).darken(0.2).hsl().array();
-        resultObj['--accent-active'] =
-          darkerHslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          darkerHslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          darkerHslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      }
-
-      if (!input.hasOwnProperty('primary-content')) {
-        resultObj['--primary-content'] = generateForegroundColorFrom(input['primary']);
       }
     });
     return resultObj;
