@@ -9,7 +9,7 @@ import { useCompactItemContext } from '../space/Compact';
 import LoadingIcon from './LoadingIcon';
 import Group, { GroupSizeContext } from './button-group';
 
-const ButtonTypes = tuple('default', 'primary', 'link');
+const ButtonTypes = tuple('default', 'primary', 'text', 'link');
 export type ButtonType = (typeof ButtonTypes)[number];
 const ButtonShapes = tuple('default', 'circle', 'round');
 export type ButtonShape = (typeof ButtonShapes)[number];
@@ -61,6 +61,7 @@ const clsVariants = cva('relative inline-flex items-center font-medium text-sm s
         'text-neutral-text hover:ring-primary hover:text-primary ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
       primary:
         'bg-primary text-white hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
+      text: '',
       link: 'text-primary shadow-none focus:outline-none focus-visible:ring-none hover:text-primary-hover',
     },
     shape: {
