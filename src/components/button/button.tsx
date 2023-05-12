@@ -65,7 +65,6 @@ const clsVariants = cva('relative inline-flex items-center font-medium text-sm s
     },
     shape: {
       default: '',
-      circle: 'rounded-full',
       round: 'rounded-full',
     },
     size: {
@@ -152,7 +151,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   const iconNode =
     icon && !innerLoading ? icon : <LoadingIcon existIcon={!!icon} loading={!!innerLoading} />;
 
-  const variants = { type, size: mergedSize };
+  const variants = { type, size: mergedSize, shape };
   const classes = clsVariants(variants, [compactItemClassnames, className]);
 
   if (linkButtonRestProps.href !== undefined) {
