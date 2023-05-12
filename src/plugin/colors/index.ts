@@ -1,83 +1,83 @@
-function withOpacityValue(variable: string) {
-  return `hsla(var(${variable}) / <alpha-value>)`;
-}
-
 const colorObject = {
   transparent: 'transparent',
   current: 'currentColor',
 
   /** 品牌色 */
   primary: {
-    DEFAULT: withOpacityValue('--primary'),
-    bg: withOpacityValue('--primary-bg'),
-    'bg-hover': withOpacityValue('--primary-bg-hover'),
-    hover: withOpacityValue('--primary-hover'),
-    active: withOpacityValue('--primary-active'),
-    'text-hover': withOpacityValue('--primary-text-hover'),
-    text: withOpacityValue('--primary-text'),
-    'text-active': withOpacityValue('--primary-text-active'),
+    DEFAULT: 'hsla(var(--primary))',
+    bg: 'hsla(var(--primary-bg))',
+    'bg-hover': 'hsla(var(--primary-bg-hover))',
+    hover: 'hsla(var(--primary-hover))',
+    active: 'hsla(var(--primary-active))',
+    'text-hover': 'hsla(var(--primary-text-hover))',
+    text: 'hsla(var(--primary-text))',
+    'text-active': 'hsla(var(--primary-text-active))',
   },
 
   /** 成功色 */
   success: {
-    DEFAULT: withOpacityValue('--success'),
-    bg: withOpacityValue('--success-bg'),
-    'bg-hover': withOpacityValue('--success-bg-hover'),
-    hover: withOpacityValue('--success-hover'),
-    active: withOpacityValue('--success-active'),
-    'text-hover': withOpacityValue('--success-text-hover'),
-    text: withOpacityValue('--success-text'),
-    'text-active': withOpacityValue('--success-text-active'),
+    DEFAULT: 'hsla(var(--success))',
+    bg: 'hsla(var(--success-bg))',
+    'bg-hover': 'hsla(var(--success-bg-hover))',
+    hover: 'hsla(var(--success-hover))',
+    active: 'hsla(var(--success-active))',
+    'text-hover': 'hsla(var(--success-text-hover))',
+    text: 'hsla(var(--success-text))',
+    'text-active': 'hsla(var(--success-text-active))',
   },
 
   /** 警戒色 */
   warning: {
-    DEFAULT: withOpacityValue('--warning'),
-    bg: withOpacityValue('--warning-bg'),
-    'bg-hover': withOpacityValue('--warning-bg-hover'),
-    hover: withOpacityValue('--warning-hover'),
-    active: withOpacityValue('--warning-active'),
-    'text-hover': withOpacityValue('--warning-text-hover'),
-    text: withOpacityValue('--warning-text'),
-    'text-active': withOpacityValue('--warning-text-active'),
+    DEFAULT: 'hsla(var(--warning))',
+    bg: 'hsla(var(--warning-bg))',
+    'bg-hover': 'hsla(var(--warning-bg-hover))',
+    hover: 'hsla(var(--warning-hover))',
+    active: 'hsla(var(--warning-active))',
+    'text-hover': 'hsla(var(--warning-text-hover))',
+    text: 'hsla(var(--warning-text))',
+    'text-active': 'hsla(var(--warning-text-active))',
   },
 
   /** 错误色 */
   error: {
-    DEFAULT: withOpacityValue('--error'),
-    bg: withOpacityValue('--error-bg'),
-    'bg-hover': withOpacityValue('--info-bg-hover'),
-    hover: withOpacityValue('--error-hover'),
-    active: withOpacityValue('--error-active'),
-    'text-hover': withOpacityValue('--error-text-hover'),
-    text: withOpacityValue('--error-text'),
-    'text-active': withOpacityValue('--error-text-active'),
+    DEFAULT: 'hsla(var(--error))',
+    bg: 'hsla(var(--error-bg))',
+    'bg-hover': 'hsla(var(--info-bg-hover))',
+    hover: 'hsla(var(--error-hover))',
+    active: 'hsla(var(--error-active))',
+    'text-hover': 'hsla(var(--error-text-hover))',
+    text: 'hsla(var(--error-text))',
+    'text-active': 'hsla(var(--error-text-active))',
   },
 
   /** 信息色 */
   info: {
-    DEFAULT: withOpacityValue('--info'),
-    bg: withOpacityValue('--info-bg'),
-    'bg-hover': withOpacityValue('--info-bg-hover'),
-    hover: withOpacityValue('--info-hover'),
-    active: withOpacityValue('--info-active'),
-    'text-hover': withOpacityValue('--info-text-hover'),
-    text: withOpacityValue('--info-text'),
-    'text-active': withOpacityValue('--info-text-active'),
+    DEFAULT: 'hsla(var(--info))',
+    bg: 'hsla(var(--info-bg))',
+    'bg-hover': 'hsla(var(--info-bg-hover))',
+    hover: 'hsla(var(--info-hover))',
+    active: 'hsla(var(--info-active))',
+    'text-hover': 'hsla(var(--info-text-hover))',
+    text: 'hsla(var(--info-text))',
+    'text-active': 'hsla(var(--info-text-active))',
   },
 
   /** 中性色 */
-  text: withOpacityValue('--text'),
-  'text-secondary': withOpacityValue('--text-secondary'),
-  'text-tertiary': withOpacityValue('--text-tertiary'),
-  'text-quaternary': withOpacityValue('--text-quaternary'),
-  border: withOpacityValue('--border'),
-  'border-secondary': withOpacityValue('--border-secondary'),
-  'bg-container': withOpacityValue('--bg-container'),
-  'bg-elevated': withOpacityValue('--bg-elevated'),
-  'bg-layout': withOpacityValue('--bg-layout'),
-  'bg-spotlight': withOpacityValue('--bg-spotlight'),
-  'bg-mask': withOpacityValue('--bg-mask'),
+  neutral: {
+    text: `hsla(var(--neutral-text))`,
+    'text-secondary': 'hsla(var(--neutral-text-secondary))',
+    'text-tertiary': 'hsla(var(--neutral-text-tertiary))',
+    'text-quaternary': 'hsla(var(--neutral-text-quaternary))',
+    border: 'hsla(var(--neutral-border))',
+    'border-secondary': 'hsla(var(--neutral-border-secondary))',
+    fill: `hsla(var(--neutral-fill))`,
+    'fill-secondary': 'hsla(var(--neutral-fill-secondary))',
+    'bg-container': 'hsla(var(--neutral-bg-container))',
+    'bg-elevated': 'hsla(var(--neutral-bg-elevated))',
+    'bg-layout': 'hsla(var(--neutral-bg-layout))',
+    'bg-spotlight': 'hsla(var(--neutral-bg-spotlight))',
+    'bg-mask': 'hsla(var(--neutral-bg-mask))',
+  },
 };
 
 export default colorObject;

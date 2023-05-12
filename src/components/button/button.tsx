@@ -57,15 +57,16 @@ type Loading = number | boolean;
 const clsVariants = cva('relative inline-flex items-center font-medium text-sm shadow-sm', {
   variants: {
     type: {
-      default: '',
+      default:
+        'text-neutral-text hover:ring-primary hover:text-primary ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
       primary:
-        'bg-primary text-primary-foreground hover:bg-primary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
-      link: 'shadow-none',
+        'bg-primary text-white hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
+      link: 'text-primary shadow-none focus:outline-none focus-visible:ring-none hover:text-primary-hover',
     },
     shape: {
       default: '',
       circle: 'rounded-full',
-      round: '',
+      round: 'rounded-full',
     },
     size: {
       small: 'py-1 px-3 rounded',

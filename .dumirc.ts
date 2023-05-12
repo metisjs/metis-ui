@@ -4,6 +4,14 @@ import path from 'path';
 export default defineConfig({
   hash: true,
   outputPath: '_site',
+  themeConfig: {
+    hd: { rules: [] },
+    name: 'mateui',
+    prefersColor: { default: 'auto' },
+    socialLinks: {
+      github: 'https://github.com/meta-oa/meta-ui',
+    },
+  },
   resolve: {
     docDirs: [{ type: 'doc', dir: 'docs' }],
     atomDirs: [{ type: 'component', dir: 'src/components' }],
