@@ -1,20 +1,13 @@
 import Color from 'color';
+import get from 'lodash/get';
+import twColors from 'tailwindcss/colors';
 import { PluginAPI } from 'tailwindcss/types/config';
-import colorObject from '.';
+import { DefaultColors } from 'tailwindcss/types/generated/colors';
 import themes from './themes';
 
-type ColorParam = string | { [key: string]: any };
+type ColorParam = { [key: string]: any };
 
-const BASE_LEVEL = {
-  bg: -4,
-  'bg-hover': -3,
-  hover: -1,
-  active: 1,
-  'text-hover': 2,
-  text: 3,
-  'text-active': 4,
-} as const;
-const COLOR_LEVEL = {
+const COLOR_OFFSET = {
   primary: {
     bg: -6,
     'bg-hover': -5,
@@ -24,41 +17,109 @@ const COLOR_LEVEL = {
     text: 0,
     'text-active': 1,
   },
-  success: BASE_LEVEL,
-  warning: BASE_LEVEL,
-  error: BASE_LEVEL,
-  info: BASE_LEVEL,
-  text: {
+  success: {
+    bg: -4,
+    'bg-hover': -3,
+    hover: -1,
+    active: 1,
+    'text-hover': 2,
+    text: 3,
+    'text-active': 4,
+  },
+  warning: {
+    bg: -4,
+    'bg-hover': -3,
+    hover: -1,
+    active: 1,
+    'text-hover': 2,
+    text: 3,
+    'text-active': 4,
+  },
+  error: {
+    bg: -4,
+    'bg-hover': -3,
+    hover: -1,
+    active: 1,
+    'text-hover': 2,
+    text: 3,
+    'text-active': 4,
+  },
+  info: {
+    bg: -4,
+    'bg-hover': -3,
+    hover: -1,
+    active: 1,
+    'text-hover': 2,
+    text: 3,
+    'text-active': 4,
+  },
+  'neutral-text': {
     secondary: -2,
     tertiary: -2,
     quaternary: -2,
   },
-  border: { secondary: -2 },
+  'neutral-border': { secondary: -2 },
+  'neutral-fill': { secondary: -1 },
 } as const;
 
-function generateColorPaletteFrom(base: string, color: string) {}
+function getWeightByOffset(base: number, offset: number) {
+  const values = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+  const baseIndex = values.indexOf(base);
+
+  let offsetIndex = Math.min(Math.max(0, baseIndex + offset), values.length - 1);
+
+  return values[offsetIndex];
+}
+
+function generateColorPaletteFrom(base: string, color: string, skip: string[]) {
+  const [colorType, colorWeight] = color.split('-') as [keyof DefaultColors, string | undefined];
+
+  const baseColor: string = get(twColors, [colorType, colorWeight].filter(Boolean) as string[]);
+
+  if (!baseColor) {
+    return { [base]: color };
+  }
+
+  const resultObj = { [base]: baseColor };
+
+  if (!colorWeight || !(base in COLOR_OFFSET)) return resultObj;
+
+  return Object.entries(COLOR_OFFSET[base as keyof typeof COLOR_OFFSET]).reduce((perv, [k, v]) => {
+    const key = `${base}-${k}`;
+    if (skip.includes(key)) return perv;
+
+    return {
+      ...perv,
+      [key]: get(twColors, [colorType, getWeightByOffset(Number(colorWeight), v)]),
+    };
+  }, resultObj);
+}
 
 function convertToHsl(input: ColorParam) {
   let resultObj: Record<string, any> = {};
-  if (typeof input === 'object' && input !== null) {
-    Object.entries(input).forEach(([rule, value]) => {
-      if (colorObject.hasOwnProperty(rule)) {
-        const hslArray = Color(value).hsl().array();
-        resultObj[`--${rule}`] =
+  Object.entries(input).forEach(([rule, value]) => {
+    if (rule !== 'color-scheme') {
+      const [color, alpha = 100] = value.split('/');
+      const colorPalette = generateColorPaletteFrom(rule, color, Object.keys(input));
+      Object.entries(colorPalette).forEach(([k, v]) => {
+        const hslArray = Color(v).hsl().array();
+
+        resultObj[`--${k}`] =
           hslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
           ' ' +
           hslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
           '%' +
           ' ' +
           hslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
-          '%';
-      } else {
-        resultObj[rule] = value;
-      }
-    });
-    return resultObj;
-  }
-  return input;
+          '%' +
+          ' / ' +
+          alpha / 100;
+      });
+    } else {
+      resultObj[rule] = value;
+    }
+  });
+  return resultObj;
 }
 
 export default function injectThemes(addBase: PluginAPI['addBase'], config: PluginAPI['config']) {
@@ -74,7 +135,7 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     config('metaui.themes').forEach((item: { [key: string]: any }) => {
       if (typeof item === 'object' && item !== null) {
         Object.entries(item).forEach(([name, value]) => {
-          includedThemesObj['[data-theme=' + name + ']'] = convertToHsl(value);
+          includedThemesObj['[data-prefers-color=' + name + ']'] = convertToHsl(value);
           themeOrder.push(name);
         });
       }
@@ -90,15 +151,15 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     if (index === 0) {
       // first theme as root
       addBase({
-        [':root']: includedThemesObj['[data-theme=' + themeName + ']'],
+        [':root']: includedThemesObj['[data-prefers-color=' + themeName + ']'],
       });
     }
 
     addBase({
-      ['[data-theme=' + themeName + ']']: includedThemesObj['[data-theme=' + themeName + ']'],
+      ['[data-prefers-color=' + themeName + ']']:
+        includedThemesObj['[data-prefers-color=' + themeName + ']'],
     });
   });
-
   if (config('metaui.themeWithSystem')) {
     const themeWithSystem = config<boolean | string>('metaui.themeWithSystem');
     const darkTheme = typeof themeWithSystem === 'string' ? themeWithSystem : 'dark';
@@ -106,7 +167,7 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     if (themeWithSystem && themeOrder.includes(darkTheme)) {
       addBase({
         ['@media (prefers-color-scheme: dark)']: {
-          [':root']: includedThemesObj[`[data-theme=${darkTheme}]`],
+          [':root']: includedThemesObj[`[data-prefers-color=${darkTheme}]`],
         },
       });
     }
