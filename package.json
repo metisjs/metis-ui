@@ -1,5 +1,5 @@
 {
-  "name": "@meta/ui",
+  "name": "meta-ui",
   "version": "0.0.1",
   "description": "A react library developed with dumi",
   "license": "MIT",
@@ -87,7 +87,7 @@
     "wangjianming.x@gmail.com"
   ],
   "dependencies": {
-    "@icon-park/react": "^1.4.2",
+    "@matejs/icons": "^0.0.2",
     "@types/lodash": "^4.14.194",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.2",

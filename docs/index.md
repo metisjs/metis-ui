@@ -1,12 +1,12 @@
 ---
 hero:
-  title: meta ui
+  title: Meta UI
   description: A react library developed with dumi
   actions:
-    - text: Hello
-      link: /
-    - text: World
-      link: /
+    - text: 开始使用
+      link: /guide
+    - text: Github
+      link: https://github.com/meta-oa/meta-ui
 features:
   - title: Hello
     emoji: 💎
@@ -18,5 +18,3 @@ features:
     emoji: 🚀
     description: Put ! description here
 ---
-
-meta-ui

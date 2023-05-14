@@ -1,1 +1,5 @@
-This is a guide example.
+---
+nav:
+  title: 指南
+  order: 0
+---

@@ -7,5 +7,4 @@ export default {
     extend: {},
   },
   plugins: [plugin],
-  metaui: { themeWithSystem: true },
 } satisfies Config;

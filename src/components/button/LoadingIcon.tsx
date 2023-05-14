@@ -1,4 +1,4 @@
-import { LoadingFour } from '@icon-park/react';
+// import { LoadingFour } from '@matejs/icons';
 import CSSMotion from 'rc-motion';
 import React from 'react';
 
@@ -17,11 +17,7 @@ const LoadingIcon: React.FC<LoadingIconProps> = ({ loading, existIcon }) => {
   const visible = !!loading;
 
   if (existIcon) {
-    return (
-      <span className="animate-spin">
-        <LoadingFour />
-      </span>
-    );
+    return <span className="animate-spin">{/* <LoadingFour /> */}</span>;
   }
 
   return (
@@ -38,7 +34,7 @@ const LoadingIcon: React.FC<LoadingIconProps> = ({ loading, existIcon }) => {
     >
       {({ className, style }: { className?: string; style?: React.CSSProperties }, ref: any) => (
         <span className="animate-spin" style={style} ref={ref}>
-          <LoadingFour className={className} />
+          {/* <LoadingFour className={className} /> */}
         </span>
       )}
     </CSSMotion>

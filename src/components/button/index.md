@@ -1,4 +1,7 @@
 ---
+nav:
+  title: 组件
+  order: 1
 title: Button
 order: 0
 group:
@@ -6,12 +9,16 @@ group:
   order: 0
 ---
 
+# Button 按钮
+
 按钮用于开始一个即时操作。
 
 ## 代码演示
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" description="按钮有四种类型：主按钮、次按钮、文本按钮和链接按钮。主按钮在同一个操作区域最多出现一次。">按钮类型</code>
+<code src="./demo/icon.tsx" description="当需要在 `Button` 内嵌入 `Icon` 时，可以设置 `icon` 属性，或者直接在 `Button` 内使用 `Icon` 组件。
+如果想控制 `Icon` 具体的位置，只能直接使用 `Icon` 组件，而非 `icon` 属性。">图标按钮</code>
 
 ## API
 

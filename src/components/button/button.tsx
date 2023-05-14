@@ -11,7 +11,7 @@ import Group, { GroupSizeContext } from './button-group';
 
 const ButtonTypes = tuple('default', 'primary', 'text', 'link');
 export type ButtonType = (typeof ButtonTypes)[number];
-const ButtonShapes = tuple('default', 'circle', 'round');
+const ButtonShapes = tuple('default', 'round');
 export type ButtonShape = (typeof ButtonShapes)[number];
 const ButtonHTMLTypes = tuple('submit', 'button', 'reset');
 export type ButtonHTMLType = (typeof ButtonHTMLTypes)[number];
@@ -54,33 +54,36 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
-const clsVariants = cva('relative inline-flex items-center font-medium text-sm shadow-sm', {
-  variants: {
-    type: {
-      default:
-        'text-neutral-text hover:ring-primary hover:text-primary ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
-      primary:
-        'bg-primary text-white hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
-      text: '',
-      link: 'text-primary shadow-none focus:outline-none focus-visible:ring-none hover:text-primary-hover',
+const clsVariants = cva(
+  'relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5',
+  {
+    variants: {
+      type: {
+        default:
+          'text-neutral-text hover:ring-primary hover:text-primary ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
+        primary:
+          'bg-primary text-white hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
+        text: 'text-neutral-text shadow-none focus:outline-none hover:bg-neutral-fill-secondary focus-visible:ring-primary',
+        link: 'text-primary shadow-none focus:outline-none focus-visible:ring-none hover:text-primary-hover',
+      },
+      shape: {
+        default: '',
+        round: 'rounded-full',
+      },
+      size: {
+        small: 'py-1 px-3 rounded',
+        middle: 'py-1.5 px-4 rounded-md',
+        large: 'py-2 px-6 rounded-lg gap-x-2',
+      },
+      loading: { true: '' },
     },
-    shape: {
-      default: '',
-      round: 'rounded-full',
+    defaultVariants: {
+      type: 'default',
+      shape: 'default',
+      size: 'middle',
     },
-    size: {
-      small: 'py-1 px-3 rounded',
-      middle: 'py-1.5 px-4 rounded-md',
-      large: 'py-2 px-6 rounded-lg',
-    },
-    loading: { true: '' },
   },
-  defaultVariants: {
-    type: 'default',
-    shape: 'default',
-    size: 'middle',
-  },
-});
+);
 
 const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
   const {

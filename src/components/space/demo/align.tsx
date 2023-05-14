@@ -1,4 +1,4 @@
-import { Space } from '@meta/ui';
+import { Space } from 'meta-ui';
 import React from 'react';
 
 const App: React.FC = () => (

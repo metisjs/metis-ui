@@ -1,4 +1,4 @@
-import { Button, Space } from '@meta/ui';
+import { Button, Space } from 'meta-ui';
 import React from 'react';
 
 const App: React.FC = () => (

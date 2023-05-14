@@ -13,7 +13,7 @@ group:
 ConfigProvider 使用 React 的 [context](https://facebook.github.io/react/docs/context.html) 特性，只需在应用外围包裹一次即可全局生效。
 
 ```jsx
-import { ConfigProvider } from '@meta/ui';
+import { ConfigProvider } from 'meta-ui';
 
 // ...
 

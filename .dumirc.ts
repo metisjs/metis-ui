@@ -4,23 +4,23 @@ import path from 'path';
 export default defineConfig({
   hash: true,
   outputPath: '_site',
+  favicons: ['/favicon.ico'],
   themeConfig: {
-    hd: { rules: [] },
-    name: 'mateui',
+    logo: '/logo.svg',
+    name: 'Mate UI',
     prefersColor: { default: 'auto' },
     socialLinks: {
       github: 'https://github.com/meta-oa/meta-ui',
     },
   },
+  theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
   resolve: {
-    docDirs: [{ type: 'doc', dir: 'docs' }],
     atomDirs: [{ type: 'component', dir: 'src/components' }],
-    entryFile: './src/components/index.ts',
   },
   alias: {
-    '@meta/ui/lib': path.join(__dirname, 'src/components'),
-    '@meta/ui/es': path.join(__dirname, 'src/components'),
-    '@meta/ui': path.join(__dirname, 'src/components'),
+    'meta-ui/lib': path.join(__dirname, 'src/components'),
+    'meta-ui/es': path.join(__dirname, 'src/components'),
+    'meta-ui': path.join(__dirname, 'src/components'),
   },
   tailwindcss: {},
   plugins: ['@umijs/plugins/dist/tailwindcss'],
