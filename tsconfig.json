@@ -12,5 +12,5 @@
       "meta-ui/*": ["src/components/*", "*"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "components"]
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "components", "src/components/button/demo/ghost.tsx"]
 }

@@ -55,28 +55,71 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 type Loading = number | boolean;
 
 const clsVariants = cva(
-  'relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5',
+  'relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5 focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
         default:
-          'text-neutral-text hover:ring-primary hover:text-primary ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
+          'bg-neutral-container text-neutral-text enabled:hover:ring-primary-hover enabled:hover:text-primary-text-hover ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
         primary:
-          'bg-primary text-white hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary',
-        text: 'text-neutral-text shadow-none focus:outline-none hover:bg-neutral-fill-secondary focus-visible:ring-primary',
-        link: 'text-primary shadow-none focus:outline-none focus-visible:ring-none hover:text-primary-hover',
-      },
-      shape: {
-        default: '',
-        round: 'rounded-full',
+          'bg-primary text-white enabled:hover:bg-primary-hover focus-visible:ring-offset-2 focus-visible:ring-primary',
+        text: 'text-neutral-text shadow-none ring-inset enabled:hover:bg-neutral-fill-secondary focus-visible:ring-primary',
+        link: 'text-primary shadow-none ring-inset focus-visible:ring-none enabled:hover:text-primary-hover focus-visible:ring-primary',
       },
       size: {
         small: 'py-1 px-3 rounded',
         middle: 'py-1.5 px-4 rounded-md',
         large: 'py-2 px-6 rounded-lg gap-x-2',
       },
-      loading: { true: '' },
+      shape: {
+        default: '',
+        round: 'rounded-full',
+      },
+      iconOnly: {
+        true: 'w-8 h-8 ps-0 pe-0 justify-center text-base',
+      },
+      disabled: { true: 'cursor-not-allowed opacity-40 focus-visible:ring-0' },
+      danger: {
+        true: 'text-error ring-error enabled:hover:ring-error-hover enabled:hover:text-error-hover focus-visible:ring-error',
+      },
+      ghost: { true: 'bg-transparent text-white ring-white enabled:hover:bg-transparent' },
+      loading: { true: 'opacity-70' },
     },
+    compoundVariants: [
+      {
+        size: 'small',
+        iconOnly: true,
+        className: 'w-7 h-7',
+      },
+      {
+        size: 'large',
+        iconOnly: true,
+        className: 'w-9 h-9',
+      },
+      {
+        type: 'primary',
+        danger: true,
+        ghost: false,
+        className: 'bg-error text-white enabled:hover:bg-error-hover enabled:hover:text-white',
+      },
+      {
+        type: 'text',
+        danger: true,
+        className: 'enabled:hover:bg-error-bg',
+      },
+      {
+        type: 'primary',
+        ghost: true,
+        danger: false,
+        className:
+          'ring-1 ring-primary text-primary enabled:hover:ring-primary-hover  enabled:hover:text-primary-hover',
+      },
+      {
+        danger: true,
+        ghost: true,
+        className: 'text-error ring-error ring-1',
+      },
+    ],
     defaultVariants: {
       type: 'default',
       shape: 'default',
@@ -155,7 +198,16 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   const iconNode =
     icon && !innerLoading ? icon : <LoadingIcon existIcon={!!icon} loading={!!innerLoading} />;
 
-  const variants = { type, size: mergedSize, shape };
+  const variants = {
+    type,
+    size: mergedSize,
+    shape,
+    iconOnly: !children && children !== 0 && !!iconType,
+    disabled: mergedDisabled,
+    danger: !!danger,
+    ghost: type !== 'text' && type !== 'link' && ghost,
+    loading: !!innerLoading,
+  };
   const classes = clsVariants(variants, [compactItemClassnames, className]);
 
   if (linkButtonRestProps.href !== undefined) {
