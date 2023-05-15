@@ -1,3 +1,4 @@
+import { LoadingOutline } from '@metaoa/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import cva from '../_util/cva';
@@ -6,7 +7,6 @@ import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import { useCompactItemContext } from '../space/Compact';
-import LoadingIcon from './LoadingIcon';
 import Group, { GroupSizeContext } from './button-group';
 
 const ButtonTypes = tuple('default', 'primary', 'text', 'link');
@@ -55,7 +55,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 type Loading = number | boolean;
 
 const clsVariants = cva(
-  'relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5 focus:outline-none focus-visible:ring-2',
+  'meta-btn relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5 transition ease-in-out duration-150 focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
@@ -67,9 +67,9 @@ const clsVariants = cva(
         link: 'text-primary shadow-none ring-inset focus-visible:ring-none enabled:hover:text-primary-hover focus-visible:ring-primary',
       },
       size: {
-        small: 'py-1 px-3 rounded',
+        small: 'meta-btn-small py-1 px-3 rounded',
         middle: 'py-1.5 px-4 rounded-md',
-        large: 'py-2 px-6 rounded-lg gap-x-2',
+        large: 'meta-btn-large py-2 px-6 rounded-lg gap-x-2',
       },
       shape: {
         default: '',
@@ -83,7 +83,7 @@ const clsVariants = cva(
         true: 'text-error ring-error enabled:hover:ring-error-hover enabled:hover:text-error-hover focus-visible:ring-error',
       },
       ghost: { true: 'bg-transparent text-white ring-white enabled:hover:bg-transparent' },
-      loading: { true: 'opacity-70' },
+      loading: { true: 'cursor-not-allowed' },
     },
     compoundVariants: [
       {
@@ -112,7 +112,7 @@ const clsVariants = cva(
         ghost: true,
         danger: false,
         className:
-          'ring-1 ring-primary text-primary enabled:hover:ring-primary-hover  enabled:hover:text-primary-hover',
+          'ring-1 ring-primary text-primary enabled:hover:ring-primary-hover enabled:hover:text-primary-hover',
       },
       {
         danger: true,
@@ -195,8 +195,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const linkButtonRestProps = omit(rest as AnchorButtonProps & { navigate: any }, ['navigate']);
 
-  const iconNode =
-    icon && !innerLoading ? icon : <LoadingIcon existIcon={!!icon} loading={!!innerLoading} />;
+  const iconNode = innerLoading ? <LoadingOutline className="animate-spin" /> : icon;
 
   const variants = {
     type,
