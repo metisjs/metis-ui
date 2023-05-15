@@ -16,9 +16,12 @@ group:
 ## 代码演示
 
 <!-- prettier-ignore -->
-<code src="./demo/basic.tsx" description="按钮有四种类型：主按钮、次按钮、文本按钮和链接按钮。主按钮在同一个操作区域最多出现一次。">按钮类型</code>
-<code src="./demo/icon.tsx" description="当需要在 `Button` 内嵌入 `Icon` 时，可以设置 `icon` 属性，或者直接在 `Button` 内使用 `Icon` 组件。
-如果想控制 `Icon` 具体的位置，只能直接使用 `Icon` 组件，而非 `icon` 属性。">图标按钮</code>
+<code src="./demo/basic.tsx">按钮类型</code>
+<code src="./demo/icon.tsx">图标按钮</code>
+<code src="./demo/size.tsx">按钮尺寸</code>
+<code src="./demo/disabled.tsx">不可用状态</code>
+<code src="./demo/loading.tsx">加载中状态</code>
+<code src="./demo/ghost.tsx">幽灵按钮</code>
 
 ## API
 
@@ -35,7 +38,7 @@ group:
 | htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type) | string                                     | `button`  |      |
 | icon     | 设置按钮的图标组件                                                                                                                   | ReactNode                                  | -         |      |
 | loading  | 设置按钮载入状态                                                                                                                     | boolean \| { delay: number }               | false     |      |
-| shape    | 设置按钮形状                                                                                                                         | `default` \| `circle` \| `round`           | 'default' |      |
+| shape    | 设置按钮形状                                                                                                                         | `default` \| `round`                       | 'default' |      |
 | size     | 设置按钮大小                                                                                                                         | `large` \| `middle` \| `small`             | `middle`  |      |
 | target   | 相当于 a 链接的 target 属性，href 存在时生效                                                                                         | string                                     | -         |      |
 | type     | 设置按钮类型                                                                                                                         | `primary` \| `link` \| `text` \| `default` | `default` |      |

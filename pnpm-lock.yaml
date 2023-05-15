@@ -6,9 +6,9 @@ patchedDependencies:
     path: patches/@umijs__plugins@4.0.66.patch
 
 dependencies:
-  '@matejs/icons':
-    specifier: ^0.0.2
-    version: 0.0.2(react-dom@18.2.0)(react@18.2.0)
+  '@metaoa/icons':
+    specifier: ^0.0.1
+    version: 0.0.1(react-dom@18.2.0)(react@18.2.0)
   '@types/lodash':
     specifier: ^4.14.194
     version: 4.14.194
@@ -2805,14 +2805,6 @@ packages:
       typescript: 5.0.4
     dev: true
 
-  /@heroicons/react@2.0.18(react@18.2.0):
-    resolution: {integrity: sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==}
-    peerDependencies:
-      react: '>= 16'
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /@humanwhocodes/config-array@0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
     engines: {node: '>=10.10.0'}
@@ -3005,13 +2997,13 @@ packages:
       react: 18.2.0
     dev: true
 
-  /@matejs/icons@0.0.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-55usmmYss7kI4kXxPpjjUADmRail2L8KeTjZV4Vfy/nPL6CFP7fP9io9BqS5+AD+0YEXJaAAhSWHcvNh8S38bQ==}
+  /@metaoa/icons@0.0.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-r9+7toBxsiMGxudmb2DSR4/k4FhU+vYwl0fZP9vnNNPHtWvxSv0kLqKT80vV7q9UMfiLGZH7+8vAZcAOMgpvWg==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@heroicons/react': 2.0.18(react@18.2.0)
+      heroicons: 2.0.18
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -8272,6 +8264,10 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: true
+
+  /heroicons@2.0.18:
+    resolution: {integrity: sha512-3iaqznaz5GJ8Mox/eDfKHo7tYKuPiZV4vbg6pB6wjJhBa7ZKQlXT1KuUnsjkEiPy/ezyiqppOX6wUqYguMIq8w==}
+    dev: false
 
   /heti-findandreplacedomtext@0.5.0:
     resolution: {integrity: sha512-GFZjqU8LAdu1uR72GqrReI+lzNLMlcWtvdz1TKNJiofyo1mfTecFYSZEoEbcLcRMl+KwEldnNQoS4BwO8wtg0A==}
