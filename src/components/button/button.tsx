@@ -3,11 +3,16 @@ import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import cva from '../_util/cva';
 import { tuple } from '../_util/type';
+import warning from '../_util/warning';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import { useCompactItemContext } from '../space/Compact';
 import Group, { GroupSizeContext } from './button-group';
+
+function isUnBorderedButtonType(type: ButtonType | undefined) {
+  return type === 'text' || type === 'link';
+}
 
 const ButtonTypes = tuple('default', 'primary', 'text', 'link');
 export type ButtonType = (typeof ButtonTypes)[number];
@@ -54,7 +59,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
-const clsVariants = cva(
+const variantStyles = cva(
   'meta-btn relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5 transition ease-in-out duration-150 focus:outline-none focus-visible:ring-2',
   {
     variants: {
@@ -67,17 +72,18 @@ const clsVariants = cva(
         link: 'text-primary shadow-none ring-inset focus-visible:ring-none enabled:hover:text-primary-hover focus-visible:ring-primary',
       },
       size: {
-        small: 'meta-btn-small py-1 px-3 rounded',
-        middle: 'py-1.5 px-4 rounded-md',
-        large: 'meta-btn-large py-2 px-6 rounded-lg gap-x-2',
+        small: 'py-1.5 px-2.5 rounded-md',
+        middle: 'py-2 px-3 rounded-md',
+        large: 'py-2.5 px-4 rounded-md gap-x-2',
       },
       shape: {
         default: '',
         round: 'rounded-full',
       },
       iconOnly: {
-        true: 'w-8 h-8 ps-0 pe-0 justify-center text-base',
+        true: 'w-9 h-9 ps-0 pe-0 justify-center text-base',
       },
+      link: { true: '' },
       disabled: { true: 'cursor-not-allowed opacity-40 focus-visible:ring-0' },
       danger: {
         true: 'text-error ring-error enabled:hover:ring-error-hover enabled:hover:text-error-hover focus-visible:ring-error',
@@ -89,12 +95,36 @@ const clsVariants = cva(
       {
         size: 'small',
         iconOnly: true,
-        className: 'w-7 h-7',
+        className: 'w-8 h-8',
       },
       {
         size: 'large',
         iconOnly: true,
-        className: 'w-9 h-9',
+        className: 'w-10 h-10',
+      },
+      {
+        type: 'default',
+        link: true,
+        disabled: false,
+        className: 'hover:ring-primary-hover hover:text-primary-text-hover',
+      },
+      {
+        type: 'primary',
+        link: true,
+        disabled: false,
+        className: 'hover:bg-primary-hover',
+      },
+      {
+        type: 'text',
+        link: true,
+        disabled: false,
+        className: 'hover:bg-neutral-fill-secondary',
+      },
+      {
+        type: 'link',
+        link: true,
+        disabled: false,
+        className: 'hover:text-primary-hover',
       },
       {
         type: 'primary',
@@ -187,6 +217,12 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)?.(e);
   };
 
+  warning(
+    !(ghost && isUnBorderedButtonType(type)),
+    'Button',
+    "`link` or `text` button can't be a `ghost` button.",
+  );
+
   const { compactSize, compactItemClassnames } = useCompactItemContext();
 
   const mergedSize = compactSize || groupSize || customizeSize || size;
@@ -202,12 +238,13 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     size: mergedSize,
     shape,
     iconOnly: !children && children !== 0 && !!iconType,
+    link: linkButtonRestProps.href !== undefined,
     disabled: mergedDisabled,
     danger: !!danger,
     ghost: type !== 'text' && type !== 'link' && ghost,
     loading: !!innerLoading,
   };
-  const classes = clsVariants(variants, [compactItemClassnames, className]);
+  const classes = variantStyles(variants, [compactItemClassnames, className]);
 
   if (linkButtonRestProps.href !== undefined) {
     return (

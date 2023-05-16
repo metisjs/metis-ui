@@ -22,6 +22,7 @@ group:
 <code src="./demo/disabled.tsx">不可用状态</code>
 <code src="./demo/loading.tsx">加载中状态</code>
 <code src="./demo/ghost.tsx">幽灵按钮</code>
+<code src="./demo/danger.tsx">危险按钮</code>
 
 ## API
 
