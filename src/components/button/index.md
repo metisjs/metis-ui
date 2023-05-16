@@ -3,7 +3,6 @@ nav:
   title: 组件
   order: 1
 title: Button
-order: 0
 group:
   title: 通用
   order: 0
