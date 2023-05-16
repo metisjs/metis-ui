@@ -44,7 +44,7 @@ export default function MotionThumb(props: MotionThumbInterface) {
   const findValueElement = (val: SegmentedValue) => {
     const index = getValueIndex(val);
 
-    const ele = containerRef.current?.querySelectorAll<HTMLDivElement>(`.${prefixCls}-item`)[index];
+    const ele = containerRef.current?.querySelectorAll<HTMLDivElement>(`.segmented-item`)[index];
 
     return ele?.offsetParent && ele;
   };

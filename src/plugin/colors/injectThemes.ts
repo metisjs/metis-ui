@@ -54,9 +54,9 @@ const COLOR_OFFSET = {
     'text-active': 3,
   },
   'neutral-text': {
-    secondary: -2,
-    tertiary: -2,
-    quaternary: -2,
+    secondary: -5,
+    tertiary: -6,
+    quaternary: -7,
   },
   'neutral-border': { secondary: -2 },
   'neutral-fill': { secondary: -1 },
