@@ -10,8 +10,6 @@ import MotionThumb from './MotionThumb';
 
 type SegmentedValue = string | number;
 
-type SegmentedRawOption = SegmentedValue;
-
 interface SegmentedLabeledOptionWithoutIcon {
   className?: string;
   disabled?: boolean;
@@ -35,12 +33,16 @@ function isSegmentedLabeledOptionWithIcon(
   return typeof option === 'object' && !!(option as SegmentedLabeledOptionWithIcon)?.icon;
 }
 
+export type SegmentedRawOption = SegmentedValue;
+
 export type SegmentedLabeledOption =
   | SegmentedLabeledOptionWithIcon
   | SegmentedLabeledOptionWithoutIcon;
 
+export type SegmentedOptions = (SegmentedRawOption | SegmentedLabeledOption)[];
+
 export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'size'> {
-  options: (SegmentedRawOption | SegmentedLabeledOption)[];
+  options: SegmentedOptions;
   defaultValue?: SegmentedValue;
   value?: SegmentedValue;
   onChange?: (value: SegmentedValue) => void;

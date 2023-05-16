@@ -15,11 +15,9 @@ export interface MotionThumbInterface {
   containerRef: React.RefObject<HTMLDivElement>;
   value: SegmentedValue;
   getValueIndex: (value: SegmentedValue) => number;
-  prefixCls: string;
   motionName: string;
   onMotionStart: VoidFunction;
   onMotionEnd: VoidFunction;
-  direction?: 'ltr' | 'rtl';
 }
 
 const calcThumbStyle = (targetElement: HTMLElement | null | undefined): ThumbReact =>
@@ -37,16 +35,7 @@ const calcThumbStyle = (targetElement: HTMLElement | null | undefined): ThumbRea
 const toPX = (value: number) => (value !== undefined ? `${value}px` : undefined);
 
 export default function MotionThumb(props: MotionThumbInterface) {
-  const {
-    prefixCls,
-    containerRef,
-    value,
-    getValueIndex,
-    motionName,
-    onMotionStart,
-    onMotionEnd,
-    direction,
-  } = props;
+  const { containerRef, value, getValueIndex, motionName, onMotionStart, onMotionEnd } = props;
 
   const thumbRef = React.useRef<HTMLDivElement>(null);
   const [prevValue, setPrevValue] = React.useState(value);
@@ -83,16 +72,8 @@ export default function MotionThumb(props: MotionThumbInterface) {
     }
   }, [value]);
 
-  const thumbStart = React.useMemo(
-    () =>
-      direction === 'rtl' ? toPX(-(prevStyle?.right as number)) : toPX(prevStyle?.left as number),
-    [direction, prevStyle],
-  );
-  const thumbActive = React.useMemo(
-    () =>
-      direction === 'rtl' ? toPX(-(nextStyle?.right as number)) : toPX(nextStyle?.left as number),
-    [direction, nextStyle],
-  );
+  const thumbStart = React.useMemo(() => toPX(prevStyle?.left as number), [prevStyle]);
+  const thumbActive = React.useMemo(() => toPX(nextStyle?.left as number), [nextStyle]);
 
   // =========================== Motion ===========================
   const onAppearStart = () => {
@@ -140,7 +121,7 @@ export default function MotionThumb(props: MotionThumbInterface) {
         const motionProps = {
           ref: composeRef(thumbRef, ref),
           style: mergedStyle,
-          className: classNames(`${prefixCls}-thumb`, motionClassName),
+          className: classNames(`thumb`, motionClassName),
         };
 
         if (process.env.NODE_ENV === 'test') {
