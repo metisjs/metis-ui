@@ -8,8 +8,6 @@ import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import MotionThumb from './MotionThumb';
 
-type SegmentedValue = string | number;
-
 interface SegmentedLabeledOptionWithoutIcon {
   className?: string;
   disabled?: boolean;
@@ -32,6 +30,8 @@ function isSegmentedLabeledOptionWithIcon(
 ): option is SegmentedLabeledOptionWithIcon {
   return typeof option === 'object' && !!(option as SegmentedLabeledOptionWithIcon)?.icon;
 }
+
+export type SegmentedValue = string | number;
 
 export type SegmentedRawOption = SegmentedValue;
 
