@@ -61,7 +61,7 @@ function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
 }
 
 const optionVariantStyles = cva(
-  'segmented-item relative flex cursor-pointer justify-center truncate rounded-md text-sm text-neutral-text-secondary transition-colors',
+  'segmented-item relative flex cursor-pointer justify-center truncate rounded-md text-sm text-neutral-text-secondary',
   {
     variants: {
       selected: { true: 'bg-neutral-bg-container font-medium text-neutral-text shadow' },
@@ -132,7 +132,6 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
     disabled,
     defaultValue,
     value,
-    motionName = 'segmented-thumb-motion',
     onChange,
     ...restProps
   } = props;
@@ -171,8 +170,6 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
 
   const divProps = omit(restProps, ['children']);
 
-  console.log(thumbShow);
-
   return (
     <div
       {...divProps}
@@ -187,7 +184,6 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
         <MotionThumb
           value={rawValue}
           containerRef={containerRef}
-          motionName={motionName}
           getValueIndex={(val) => segmentedOptions.findIndex((n) => n.value === val)}
           onMotionStart={() => {
             setThumbShow(true);

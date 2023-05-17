@@ -87,7 +87,6 @@
     "wangjianming.x@gmail.com"
   ],
   "dependencies": {
-    "@headlessui/react": "^1.7.14",
     "@metaoa/icons": "^0.0.4",
     "@types/lodash": "^4.14.194",
     "class-variance-authority": "^0.6.0",

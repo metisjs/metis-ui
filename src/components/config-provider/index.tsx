@@ -10,7 +10,7 @@ import * as React from 'react';
 // import message from '../message';
 // import notification from '../notification';
 // import type { Theme } from './context';
-import type { CSPConfig, ConfigConsumerProps, DirectionType } from './context';
+import type { CSPConfig, ConfigConsumerProps } from './context';
 import { ConfigConsumer, ConfigContext } from './context';
 // import { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
@@ -18,7 +18,7 @@ import type { SizeType } from './SizeContext';
 import SizeContext, { SizeContextProvider } from './SizeContext';
 
 export { ConfigContext, ConfigConsumer };
-export { CSPConfig, DirectionType, ConfigConsumerProps };
+export { CSPConfig, ConfigConsumerProps };
 
 export const configConsumerProps = [
   'getTargetContainer',
@@ -63,7 +63,6 @@ export interface ConfigProviderProps {
   };
   componentSize?: SizeType;
   componentDisabled?: boolean;
-  direction?: DirectionType;
   space?: {
     size?: SizeType | number;
   };
