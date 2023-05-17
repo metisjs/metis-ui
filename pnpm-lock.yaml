@@ -6,6 +6,9 @@ patchedDependencies:
     path: patches/@umijs__plugins@4.0.66.patch
 
 dependencies:
+  '@headlessui/react':
+    specifier: ^1.7.14
+    version: 1.7.14(react-dom@18.2.0)(react@18.2.0)
   '@metaoa/icons':
     specifier: ^0.0.4
     version: 0.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -24,9 +27,6 @@ dependencies:
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
-  rc-motion:
-    specifier: ^2.7.3
-    version: 2.7.3(react-dom@18.2.0)(react@18.2.0)
   rc-util:
     specifier: ^5.30.0
     version: 5.30.0(react-dom@18.2.0)(react@18.2.0)
@@ -2821,6 +2821,18 @@ packages:
       tslib: 2.5.0
       typescript: 5.0.4
     dev: true
+
+  /@headlessui/react@1.7.14(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-znzdq9PG8rkwcu9oQ2FwIy0ZFtP9Z7ycS+BAqJ3R5EIqC/0bJGvhT7193rFf+45i9nnPsYvCQVW4V/bB9Xc+gA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@humanwhocodes/config-array@0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
@@ -5850,6 +5862,10 @@ packages:
       - '@types/react'
       - react-dom
     dev: true
+
+  /client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
 
   /cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
@@ -12303,6 +12319,7 @@ packages:
       rc-util: 5.30.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: true
 
   /rc-notification@5.0.4(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-3535oellIRlt1LspERfK8yvCqb8Gio3R02rULciaSc1xe3H7ArTU/khlUTv1ddGzua4HhmF4D4Rwz/+mBxETvg==}

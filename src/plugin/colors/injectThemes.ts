@@ -54,12 +54,12 @@ const COLOR_OFFSET = {
     'text-active': 3,
   },
   'neutral-text': {
-    secondary: -5,
-    tertiary: -6,
-    quaternary: -7,
+    secondary: -4,
+    tertiary: -5,
+    quaternary: -6,
   },
   'neutral-border': { secondary: -2 },
-  'neutral-fill': { secondary: -1 },
+  'neutral-fill': { secondary: -1, tertiary: -2, quaternary: -3 },
 } as const;
 
 function getWeightByOffset(base: number, offset: number) {

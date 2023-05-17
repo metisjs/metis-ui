@@ -28,7 +28,7 @@ export default {
     'neutral-fill': 'gray-200',
     'neutral-bg-container': 'white',
     'neutral-bg-elevated': 'white',
-    'neutral-bg-layout': 'gray-100',
+    'neutral-bg-layout': 'slate-100',
     'neutral-bg-spotlight': 'gray-900',
     'neutral-bg-mask': 'gray-500',
   },
