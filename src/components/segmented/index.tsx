@@ -3,6 +3,7 @@ import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
+import cva from '../_util/cva';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import MotionThumb from './MotionThumb';
@@ -46,46 +47,53 @@ export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'o
   size?: SizeType;
 }
 
-function getValidTitle(option: SegmentedLabeledOption) {
-  if (typeof option.title !== 'undefined') {
-    return option.title;
-  }
-
-  // read `label` when title is `undefined`
-  if (typeof option.label !== 'object') {
-    return option.label?.toString();
-  }
-}
-
 function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
   return options.map((option) => {
     if (typeof option === 'object' && option !== null) {
-      const validTitle = getValidTitle(option);
-
-      return {
-        ...option,
-        title: validTitle,
-      };
+      return option;
     }
 
     return {
       label: option?.toString(),
-      title: option?.toString(),
       value: option,
     };
   });
 }
 
+const optionVariantStyles = cva(
+  'segmented-item relative flex cursor-pointer justify-center truncate rounded-md text-sm text-neutral-text-secondary transition-colors',
+  {
+    variants: {
+      selected: { true: 'bg-neutral-bg-container font-medium text-neutral-text shadow' },
+      block: { true: 'min-w-0 flex-1' },
+      disabled: {
+        true: 'cursor-not-allowed text-neutral-text-tertiary',
+        false: 'hover:text-neutral-text',
+      },
+      size: {
+        small: 'px-2.5 py-1.5',
+        middle: 'px-3 py-2',
+        large: 'px-4 py-2.5',
+      },
+    },
+    defaultVariants: {
+      size: 'middle',
+      disabled: false,
+    },
+  },
+);
+
 const InternalSegmentedOption: React.FC<{
   className?: string;
   disabled?: boolean;
   checked: boolean;
+  selected: boolean;
   label?: React.ReactNode;
   icon?: React.ReactNode;
   title?: string;
   value: SegmentedRawOption;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
-}> = ({ className, disabled, checked, label, icon, title, value, onChange }) => {
+}> = ({ className, disabled, checked, selected, label, icon, title, value, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) {
       return;
@@ -95,15 +103,7 @@ const InternalSegmentedOption: React.FC<{
   };
 
   return (
-    <label
-      className={classNames(
-        'relative flex cursor-pointer justify-center truncate rounded-md text-sm text-neutral-text-secondary transition-colors ',
-        {
-          '': disabled,
-        },
-        className,
-      )}
-    >
+    <label className={className}>
       <input
         className="pointer-events-none absolute inset-0 h-0 w-0 opacity-0"
         type="radio"
@@ -111,8 +111,12 @@ const InternalSegmentedOption: React.FC<{
         checked={checked}
         onChange={handleChange}
       />
-      <div className="flex gap-x-1" title={title}>
-        {icon && <span>{icon}</span>}
+      <div className="flex gap-x-2" title={title}>
+        {icon && (
+          <span className={classNames('text-xl/[1.25rem]', selected && 'text-primary')}>
+            {icon}
+          </span>
+        )}
         {label && <span>{label}</span>}
       </div>
     </label>
@@ -167,17 +171,19 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
 
   const divProps = omit(restProps, ['children']);
 
+  console.log(thumbShow);
+
   return (
     <div
       {...divProps}
       className={classNames(
-        'inline-block rounded-md bg-neutral-bg-layout p-1 text-neutral-text',
+        'inline-block rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text',
         { 'block-segmented flex': block },
         className,
       )}
       ref={mergedRef}
     >
-      <div className={`relative flex w-full items-stretch justify-start gap-x-1`}>
+      <div className={`relative flex w-full items-stretch justify-start gap-x-0.5`}>
         <MotionThumb
           value={rawValue}
           containerRef={containerRef}
@@ -193,18 +199,16 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
         {segmentedOptions.map((segmentedOption) => (
           <InternalSegmentedOption
             key={segmentedOption.value}
-            className={classNames(
-              `segmented-item`,
+            className={optionVariantStyles(
               {
-                'bg-neutral-bg-container text-neutral-text':
-                  segmentedOption.value === rawValue && !thumbShow,
-                'min-w-0 flex-1': block,
-                'px-4 py-2.5': mergedSize === 'large',
-                'px-3 py-2': mergedSize === 'middle',
-                'px-2.5 py-1.5': mergedSize === 'small',
+                selected: segmentedOption.value === rawValue && !thumbShow,
+                block,
+                size: mergedSize,
+                disabled: !!disabled || !!segmentedOption.disabled,
               },
-              segmentedOption.className,
+              [segmentedOption.className],
             )}
+            selected={segmentedOption.value === rawValue && !thumbShow}
             checked={segmentedOption.value === rawValue}
             onChange={handleChange}
             {...segmentedOption}
