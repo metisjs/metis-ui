@@ -11,19 +11,25 @@ import {
   diffKeys,
   parseKeys,
 } from './util/diff';
-import { supportTransition } from './util/motion';
 
 const MOTION_PROP_NAMES = [
   'eventProps',
   'visible',
   'children',
-  'motionName',
   'enter',
   'leave',
   'leaveImmediately',
   'deadline',
-  'removeOnLeave',
-  'leavedClassName',
+  'preserveOnLeave',
+  'appearPrepareCls',
+  'enterPrepareCls',
+  'leavePrepareCls',
+  'appearStartCls',
+  'enterStartCls',
+  'leaveStartCls',
+  'appearActiveCls',
+  'enterActiveCls',
+  'leaveActiveCls',
   'onAppearStart',
   'onAppearActive',
   'onAppearEnd',
@@ -53,13 +59,9 @@ export interface MotionListState {
 
 /**
  * Generate a MotionList component with config
- * @param transitionSupport No need since MotionList no longer depends on transition support
  * @param Motion Motion component
  */
-export function genMotionList(
-  transitionSupport: boolean,
-  Motion = OriginMotion,
-): React.ComponentClass<MotionListProps> {
+export function genMotionList(Motion = OriginMotion): React.ComponentClass<MotionListProps> {
   class MotionList extends React.Component<MotionListProps, MotionListState> {
     static defaultProps = {
       component: 'div',
@@ -110,16 +112,17 @@ export function genMotionList(
 
     render() {
       const { keyEntities } = this.state;
-      const { component, children, onVisibleChanged, onAllRemoved, ...restProps } = this.props;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { component, children, onVisibleChanged, onAllRemoved, keys, ...restProps } =
+        this.props;
 
       const Component = component || React.Fragment;
 
       const motionProps: MotionProps = {};
       MOTION_PROP_NAMES.forEach((prop) => {
-        motionProps[prop] = restProps[prop];
-        delete restProps[prop];
+        motionProps[prop as keyof MotionProps] = restProps[prop as keyof typeof restProps];
+        delete restProps[prop as keyof typeof restProps];
       });
-      delete restProps.keys;
 
       return (
         <Component {...restProps}>
@@ -155,4 +158,4 @@ export function genMotionList(
   return MotionList;
 }
 
-export default genMotionList(supportTransition);
+export default genMotionList();

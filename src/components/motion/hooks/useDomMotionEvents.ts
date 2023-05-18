@@ -19,7 +19,7 @@ export default (
   }, []);
 
   // Remove events
-  function removeMotionEvents(element: HTMLElement) {
+  function removeMotionEvents(element?: HTMLElement) {
     if (element) {
       element.removeEventListener(transitionEndName, onInternalMotionEnd);
       element.removeEventListener(animationEndName, onInternalMotionEnd);

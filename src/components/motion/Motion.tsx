@@ -1,19 +1,26 @@
 /* eslint-disable react/default-props-match-prop-types, react/no-multi-comp, react/prop-types */
-import classNames from 'classnames';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
 import DomWrapper from './DomWrapper';
 import { Context } from './context';
 import useStatus from './hooks/useStatus';
-import { isActive } from './hooks/useStepQueue';
-import type {
+import {
   MotionEndEventHandler,
   MotionEventHandler,
   MotionPrepareEventHandler,
   MotionStatus,
+  STATUS_APPEAR,
+  STATUS_ENTER,
+  STATUS_LEAVE,
+  STATUS_NONE,
+  STEP_ACTIVATED,
+  STEP_ACTIVE,
+  STEP_NONE,
+  STEP_PREPARE,
+  STEP_PREPARED,
+  STEP_START,
 } from './interface';
-import { STATUS_NONE, STEP_PREPARE, STEP_START } from './interface';
 import { supportTransition } from './util/motion';
 
 export interface MotionProps {
@@ -39,15 +46,15 @@ export interface MotionProps {
   /**
    * 状态触发时的className
    */
-  appearPrepare?: string;
-  enterPrepare?: string;
-  leavePrepare?: string;
-  appearStart?: string;
-  enterStart?: string;
-  leaveStart?: string;
-  appearActive?: string;
-  enterActive?: string;
-  leaveActive?: string;
+  appearPrepareCls?: string;
+  enterPrepareCls?: string;
+  leavePrepareCls?: string;
+  appearStartCls?: string;
+  enterStartCls?: string;
+  leaveStartCls?: string;
+  appearActiveCls?: string;
+  enterActiveCls?: string;
+  leaveActiveCls?: string;
 
   // Prepare groups
   /** Prepare phase is used for measure element info. It will always trigger even motion is off */
@@ -114,6 +121,15 @@ export function genMotion(
       forceRender,
       children,
       eventProps,
+      appearPrepareCls,
+      enterPrepareCls,
+      leavePrepareCls,
+      appearStartCls,
+      enterStartCls,
+      leaveStartCls,
+      appearActiveCls,
+      enterActiveCls,
+      leaveActiveCls,
     } = props;
 
     const { motion: contextMotion } = React.useContext(Context);
@@ -123,7 +139,7 @@ export function genMotion(
     // Ref to the react node, it may be a HTMLElement
     const nodeRef = useRef<any>();
     // Ref to the dom wrapper in case ref can not pass to HTMLElement
-    const wrapperNodeRef = useRef();
+    const wrapperNodeRef = useRef(null);
 
     function getDomElement() {
       return nodeRef.current;
@@ -154,7 +170,35 @@ export function genMotion(
 
     // ===================== Render =====================
     let motionChildren: React.ReactNode;
-    const mergedProps = { ...eventProps, visible };
+    const mergedProps = { ...eventProps, visible: visible };
+
+    const getClsx = (targetStatus: MotionStatus) => {
+      switch (targetStatus) {
+        case STATUS_APPEAR:
+          return {
+            [STEP_PREPARE]: appearPrepareCls,
+            [STEP_START]: appearStartCls,
+            [STEP_ACTIVE]: appearActiveCls,
+          };
+
+        case STATUS_ENTER:
+          return {
+            [STEP_PREPARE]: enterPrepareCls,
+            [STEP_START]: enterStartCls,
+            [STEP_ACTIVE]: enterActiveCls,
+          };
+
+        case STATUS_LEAVE:
+          return {
+            [STEP_PREPARE]: leavePrepareCls,
+            [STEP_START]: leaveStartCls,
+            [STEP_ACTIVE]: leaveActiveCls,
+          };
+
+        default:
+          return { [STEP_PREPARE]: '', [STEP_START]: '', [STEP_ACTIVE]: '' };
+      }
+    };
 
     if (!children) {
       // No children
@@ -172,23 +216,15 @@ export function genMotion(
       }
     } else {
       // In motion
-      let statusClassName: string;
-      if (statusStep === STEP_PREPARE) {
-        statusClassName = 'prepare';
-      } else if (isActive(statusStep)) {
-        statusSuffix = 'active';
-      } else if (statusStep === STEP_START) {
-        statusSuffix = 'start';
-      }
-
-
+      const statusClassName =
+        statusStep !== STEP_NONE && statusStep !== STEP_ACTIVATED && statusStep !== STEP_PREPARED
+          ? getClsx(status)?.[statusStep]
+          : '';
+      console.log(statusClassName);
       motionChildren = children(
         {
           ...mergedProps,
-          className: classNames(getTransitionName(motionName, status), {
-            [motionCls]: motionCls && statusSuffix,
-            [motionName as string]: typeof motionName === 'string',
-          }),
+          className: statusClassName,
           style: statusStyle,
         },
         setNodeRef,
