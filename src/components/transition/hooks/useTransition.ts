@@ -1,3 +1,4 @@
+import useLatestValue from 'meta-ui/_util/hooks/useLatestValue';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { MutableRefObject } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
@@ -30,16 +31,16 @@ export default function useTransition({
   onStart,
   onStop,
 }: TransitionArgs) {
-  let mounted = useIsMounted();
-  let d = useDisposables();
+  const mounted = useIsMounted();
+  const d = useDisposables();
 
-  let latestDirection = useLatestValue(direction);
+  const latestDirection = useLatestValue(direction);
 
   useLayoutEffect(() => {
-    let dd = new Disposables();
+    const dd = new Disposables();
     d.add(dd.dispose);
 
-    let node = container.current;
+    const node = container.current;
     if (!node) return; // We don't have a DOM node (yet)
     if (latestDirection.current === 'idle') return; // We don't need to transition
     if (!mounted.current) return;
