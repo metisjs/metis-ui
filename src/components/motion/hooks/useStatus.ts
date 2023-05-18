@@ -1,7 +1,6 @@
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useState from 'rc-util/lib/hooks/useState';
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import type { MotionProps } from '../Motion';
 import type {
   MotionEvent,
@@ -31,7 +30,7 @@ export default function useStatus(
     enter = true,
     appear = true,
     leave = true,
-    deadline,
+    deadline = 0,
     leaveImmediately,
     onAppearPrepare,
     onEnterPrepare,
@@ -51,10 +50,10 @@ export default function useStatus(
   // Used for outer render usage to avoid `visible: false & status: none` to render nothing
   const [asyncVisible, setAsyncVisible] = useState<boolean>();
   const [status, setStatus] = useState<MotionStatus>(STATUS_NONE);
-  const [style, setStyle] = useState<React.CSSProperties | undefined>(null);
+  const [style, setStyle] = useState<React.CSSProperties | null>(null);
 
   const mountedRef = useRef(false);
-  const deadlineRef = useRef(null);
+  const deadlineRef = useRef<NodeJS.Timeout>();
 
   // =========================== Dom Node ===========================
   function getDomElement() {
@@ -148,7 +147,9 @@ export default function useStatus(
 
     // Rest step is sync update
     if (step in eventHandlers) {
-      setStyle(eventHandlers[step]?.(getDomElement(), null) || null);
+      setStyle(
+        (eventHandlers as Record<string, MotionEventHandler>)[step]?.(getDomElement()) || null,
+      );
     }
 
     if (step === STEP_ACTIVE) {
@@ -187,7 +188,7 @@ export default function useStatus(
     //   return;
     // }
 
-    let nextStatus: MotionStatus;
+    let nextStatus: MotionStatus = STATUS_NONE;
 
     // Appear
     if (!isMounted && visible && appear) {
@@ -207,7 +208,7 @@ export default function useStatus(
     const nextEventHandlers = getEventHandlers(nextStatus);
 
     // Update to next status
-    if (nextStatus && (supportMotion || nextEventHandlers[STEP_PREPARE])) {
+    if (supportMotion || nextEventHandlers[STEP_PREPARE]) {
       setStatus(nextStatus);
       startStep();
     } else {
@@ -257,7 +258,7 @@ export default function useStatus(
   }, [asyncVisible, status]);
 
   // ============================ Styles ============================
-  let mergedStyle = style;
+  let mergedStyle = { ...style };
   if (eventHandlers[STEP_PREPARE] && step === STEP_START) {
     mergedStyle = {
       transition: 'none',

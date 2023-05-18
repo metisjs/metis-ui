@@ -11,6 +11,7 @@ export type DiffStatus =
 export interface KeyObject {
   key: React.Key;
   status?: DiffStatus;
+  [name: string]: any;
 }
 
 export function wrapKeyToObject(key: React.Key | KeyObject) {
@@ -26,7 +27,7 @@ export function wrapKeyToObject(key: React.Key | KeyObject) {
   };
 }
 
-export function parseKeys(keys: KeyObject[] = []) {
+export function parseKeys(keys: (KeyObject | React.Key)[] = []) {
   return keys.map(wrapKeyToObject);
 }
 

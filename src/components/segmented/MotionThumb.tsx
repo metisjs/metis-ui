@@ -1,7 +1,8 @@
+import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import React, { Fragment } from 'react';
+import React from 'react';
 import type { SegmentedValue } from '.';
-import Transition from '../motion';
+import Motion from '../motion';
 
 type ThumbReact = {
   left: number;
@@ -71,26 +72,66 @@ export default function MotionThumb(props: MotionThumbInterface) {
   const thumbStart = React.useMemo(() => toPX(prevStyle?.left as number), [prevStyle]);
   const thumbActive = React.useMemo(() => toPX(nextStyle?.left as number), [nextStyle]);
 
-  const afterEnter = () => {
+  // =========================== Motion ===========================
+  const onAppearStart = () => {
+    return {
+      transform: `translateX(var(--thumb-start-left))`,
+      width: `var(--thumb-start-width)`,
+    };
+  };
+  const onAppearActive = () => {
+    return {
+      transform: `translateX(var(--thumb-active-left))`,
+      width: `var(--thumb-active-width)`,
+    };
+  };
+  const onVisibleChanged = () => {
     setPrevStyle(null);
     setNextStyle(null);
     onMotionEnd();
   };
 
-  const show = !!prevStyle && !!nextStyle;
-
-  console.log(show, thumbStart, thumbActive);
+  // =========================== Render ===========================
+  // No need motion when nothing exist in queue
+  if (!prevStyle || !nextStyle) {
+    return null;
+  }
 
   return (
-    <Transition
-      as={Fragment}
-      show={show}
-      enter="transform transition-all duration-300 ease-in-out"
-      enterFrom={`translate-x-[${thumbStart}] w-[56px]`}
-      enterTo={`translate-x-[${thumbStart}]  w-[71px]`}
-      afterEnter={afterEnter}
+    <Motion
+      visible
+      appearActiveCls="will-change-transform will-change-[width] transition-all duration-[5000ms]"
+      onAppearStart={onAppearStart}
+      onAppearActive={onAppearActive}
+      onVisibleChanged={onVisibleChanged}
     >
-      <div className="absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container font-medium text-neutral-text" />
-    </Transition>
+      {({ className: motionClassName, style: motionStyle }, ref) => {
+        const mergedStyle = {
+          ...motionStyle,
+          '--thumb-start-left': thumbStart,
+          '--thumb-start-width': toPX(prevStyle?.width),
+          '--thumb-active-left': thumbActive,
+          '--thumb-active-width': toPX(nextStyle?.width),
+        } as React.CSSProperties;
+
+        // It's little ugly which should be refactor when @umi/test update to latest jsdom
+        const motionProps = {
+          ref,
+          style: mergedStyle,
+          className: classNames(
+            `absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container font-medium text-neutral-text will-change-transform will-change-[width] transition-all duration-[5000ms]`,
+            motionClassName,
+          ),
+        };
+
+        console.log(mergedStyle, motionClassName);
+
+        if (process.env.NODE_ENV === 'test') {
+          (motionProps as any)['data-test-style'] = JSON.stringify(mergedStyle);
+        }
+
+        return <div {...motionProps} />;
+      }}
+    </Motion>
   );
 }

@@ -1,6 +1,6 @@
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useState from 'rc-util/lib/hooks/useState';
 import * as React from 'react';
+import { useLayoutEffect } from 'react';
 import type { MotionStatus, StepStatus } from '../interface';
 import {
   STEP_ACTIVATED,
