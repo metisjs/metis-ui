@@ -36,6 +36,8 @@ export default function useTransition({
 
   const latestDirection = useLatestValue(direction);
 
+  console.log(latestDirection);
+
   useLayoutEffect(() => {
     const dd = new Disposables();
     d.add(dd.dispose);

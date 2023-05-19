@@ -1,4 +1,16 @@
+import classNames from 'classnames';
+import omit from 'rc-util/lib/omit';
+import { composeRef } from 'rc-util/lib/ref';
+import {
+  ElementType,
+  Fragment,
+  ReactNode,
+  cloneElement,
+  createElement,
+  isValidElement,
+} from 'react';
 import Disposables from './disposables';
+import { NestingContextValues, TreeStates } from './interface';
 
 function once<T>(cb: (...args: T[]) => void) {
   let state = { called: false };
@@ -168,4 +180,129 @@ export function transition(
   });
 
   return d.dispose;
+}
+
+export function microTask(cb: () => void) {
+  if (typeof queueMicrotask === 'function') {
+    queueMicrotask(cb);
+  } else {
+    Promise.resolve()
+      .then(cb)
+      .catch((e) =>
+        setTimeout(() => {
+          throw e;
+        }),
+      );
+  }
+}
+
+export function splitClasses(classes: string = '') {
+  return classes.split(' ').filter((className) => className.trim().length > 1);
+}
+
+export function hasChildren(
+  bag: NestingContextValues['children'] | { children: NestingContextValues['children'] },
+): boolean {
+  if ('children' in bag) return hasChildren(bag.children);
+  return (
+    bag.current
+      .filter(({ el }) => el.current !== null)
+      .filter(({ state }) => state === TreeStates.Visible).length > 0
+  );
+}
+
+export function compact<T extends Record<any, any>>(object: T) {
+  let clone = Object.assign({}, object);
+  for (let key in clone) {
+    if (clone[key] === undefined) delete clone[key];
+  }
+  return clone;
+}
+
+export function render({
+  props,
+  tag,
+  visible = true,
+  name,
+}: {
+  props: {
+    as?: ElementType;
+    children?: ReactNode;
+    ref?: unknown;
+    unmount?: boolean;
+    className?: string;
+    [key: string]: any;
+  };
+  tag: ElementType;
+  visible: boolean;
+  name: string;
+}) {
+  let { as: Component = tag, children, unmount = true, ...rest } = omit(props, ['unmount']);
+
+  if (!visible && unmount) {
+    return null;
+  }
+
+  let styleProps = {};
+  if (!visible && !unmount) {
+    styleProps = { style: { display: 'none' } };
+  }
+
+  let refRelatedProps = props.ref !== undefined ? { ref: props.ref as any } : {};
+
+  if (Component === Fragment) {
+    if (Object.keys(compact(rest)).length > 0) {
+      if (!isValidElement(children) || (Array.isArray(children) && children.length > 1)) {
+        throw new Error(
+          [
+            'Passing props on "Fragment"!',
+            '',
+            `The current component <${name} /> is rendering a "Fragment".`,
+            `However we need to passthrough the following props:`,
+            Object.keys(rest)
+              .map((line) => `  - ${line}`)
+              .join('\n'),
+            '',
+            'You can apply a few solutions:',
+            [
+              'Add an `as="..."` prop, to ensure that we render an actual element instead of a "Fragment".',
+              'Render a single element as the child so that we can forward the props onto that element.',
+            ]
+              .map((line) => `  - ${line}`)
+              .join('\n'),
+          ].join('\n'),
+        );
+      }
+
+      // Merge class name prop in SSR
+      let childProps = children.props as { className: string } | null;
+
+      let newClassName = classNames(childProps?.className, rest.className);
+      let classNameProps = newClassName ? { className: newClassName } : {};
+
+      return cloneElement(
+        children,
+        Object.assign(
+          {},
+          children.props,
+          compact(omit(rest, ['ref'])),
+          styleProps,
+          refRelatedProps,
+          composeRef(...[(children as any).ref, refRelatedProps.ref].filter(Boolean)),
+          classNameProps,
+        ),
+      );
+    }
+  }
+
+  return createElement(
+    Component,
+    Object.assign(
+      {},
+      omit(rest, ['ref']),
+      styleProps,
+      Component !== Fragment ? refRelatedProps : {},
+    ),
+    children,
+  );
 }

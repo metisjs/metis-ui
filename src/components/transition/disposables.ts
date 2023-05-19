@@ -1,5 +1,11 @@
+import { microTask } from './utils';
+
 class Disposables {
   private disposables: (() => void)[] = [];
+
+  constructor() {
+    this.dispose = this.dispose.bind(this);
+  }
 
   addEventListener<TEventName extends keyof WindowEventMap>(
     element: HTMLElement | Window | Document,
@@ -25,6 +31,18 @@ class Disposables {
   setTimeout(...args: Parameters<typeof setTimeout>) {
     const timer = setTimeout(...args);
     return this.add(() => clearTimeout(timer));
+  }
+
+  microTask(...args: Parameters<typeof microTask>) {
+    let task = { current: true };
+    microTask(() => {
+      if (task.current) {
+        args[0]();
+      }
+    });
+    return this.add(() => {
+      task.current = false;
+    });
   }
 
   group(cb: (d: Disposables) => void) {

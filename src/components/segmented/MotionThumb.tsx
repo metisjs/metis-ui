@@ -1,8 +1,6 @@
-import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import React from 'react';
 import type { SegmentedValue } from '.';
-import Motion from '../motion';
 
 type ThumbReact = {
   left: number;
@@ -98,40 +96,41 @@ export default function MotionThumb(props: MotionThumbInterface) {
   }
 
   return (
-    <Motion
-      visible
-      appearActiveCls="will-change-transform will-change-[width] transition-all duration-[5000ms]"
-      onAppearStart={onAppearStart}
-      onAppearActive={onAppearActive}
-      onVisibleChanged={onVisibleChanged}
-    >
-      {({ className: motionClassName, style: motionStyle }, ref) => {
-        const mergedStyle = {
-          ...motionStyle,
-          '--thumb-start-left': thumbStart,
-          '--thumb-start-width': toPX(prevStyle?.width),
-          '--thumb-active-left': thumbActive,
-          '--thumb-active-width': toPX(nextStyle?.width),
-        } as React.CSSProperties;
+    <div>1234</div>
+    // <Motion
+    //   visible
+    //   appearActiveCls="will-change-transform will-change-[width] transition-all duration-[5000ms]"
+    //   onAppearStart={onAppearStart}
+    //   onAppearActive={onAppearActive}
+    //   onVisibleChanged={onVisibleChanged}
+    // >
+    //   {({ className: motionClassName, style: motionStyle }, ref) => {
+    //     const mergedStyle = {
+    //       ...motionStyle,
+    //       '--thumb-start-left': thumbStart,
+    //       '--thumb-start-width': toPX(prevStyle?.width),
+    //       '--thumb-active-left': thumbActive,
+    //       '--thumb-active-width': toPX(nextStyle?.width),
+    //     } as React.CSSProperties;
 
-        // It's little ugly which should be refactor when @umi/test update to latest jsdom
-        const motionProps = {
-          ref,
-          style: mergedStyle,
-          className: classNames(
-            `absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container font-medium text-neutral-text will-change-transform will-change-[width] transition-all duration-[5000ms]`,
-            motionClassName,
-          ),
-        };
+    //     // It's little ugly which should be refactor when @umi/test update to latest jsdom
+    //     const motionProps = {
+    //       ref,
+    //       style: mergedStyle,
+    //       className: classNames(
+    //         `absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container font-medium text-neutral-text will-change-transform will-change-[width] transition-all duration-[5000ms]`,
+    //         motionClassName,
+    //       ),
+    //     };
 
-        console.log(mergedStyle, motionClassName);
+    //     console.log(mergedStyle, motionClassName);
 
-        if (process.env.NODE_ENV === 'test') {
-          (motionProps as any)['data-test-style'] = JSON.stringify(mergedStyle);
-        }
+    //     if (process.env.NODE_ENV === 'test') {
+    //       (motionProps as any)['data-test-style'] = JSON.stringify(mergedStyle);
+    //     }
 
-        return <div {...motionProps} />;
-      }}
-    </Motion>
+    //     return <div {...motionProps} />;
+    //   }}
+    // </Motion>
   );
 }
