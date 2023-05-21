@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import useLatestValue from 'meta-ui/_util/hooks/useLatestValue';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import React, {
+  CSSProperties,
   ForwardRefRenderFunction,
   JSXElementConstructor,
   forwardRef,
@@ -27,7 +28,7 @@ import {
   TransitionEvents,
   TreeStates,
 } from './interface';
-import { hasChildren, match, render, splitClasses } from './utils';
+import { hasChildren, match, render, splitClasses, splitStyles } from './utils';
 
 const DEFAULT_TRANSITION_CHILD_TAG = 'div' as const;
 
@@ -35,13 +36,13 @@ export interface TransitionItemProps extends TransitionEvents {
   as?: keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
   className?: string;
   unmount?: boolean;
-  enter?: string;
-  enterFrom?: string;
-  enterTo?: string;
-  entered?: string;
-  leave?: string;
-  leaveFrom?: string;
-  leaveTo?: string;
+  enter?: string | CSSProperties;
+  enterFrom?: string | CSSProperties;
+  enterTo?: string | CSSProperties;
+  entered?: string | CSSProperties;
+  leave?: string | CSSProperties;
+  leaveFrom?: string | CSSProperties;
+  leaveTo?: string | CSSProperties;
   children?: React.ReactNode;
 }
 
@@ -108,6 +109,16 @@ const InternalTransitionItem: ForwardRefRenderFunction<HTMLElement, TransitionIt
     leaveTo: splitClasses(leaveTo),
   });
 
+  const styles = useLatestValue({
+    enter: splitStyles(enter),
+    enterFrom: splitStyles(enterFrom),
+    enterTo: splitStyles(enterTo),
+    entered: splitStyles(entered),
+    leave: splitStyles(leave),
+    leaveFrom: splitStyles(leaveFrom),
+    leaveTo: splitStyles(leaveTo),
+  });
+
   const events = useEvents({
     beforeEnter,
     afterEnter,
@@ -170,6 +181,7 @@ const InternalTransitionItem: ForwardRefRenderFunction<HTMLElement, TransitionIt
   useTransition({
     container,
     classes,
+    styles,
     direction: transitionDirection,
     onStart: useLatestValue((direction) => {
       nesting.onStart(container, direction, beforeEvent);
@@ -196,12 +208,20 @@ const InternalTransitionItem: ForwardRefRenderFunction<HTMLElement, TransitionIt
     }
   }, [show, skip, state]);
 
-  let theirProps = rest;
+  let theirProps: Record<string, any> = rest;
   if (appear && show && initial) {
     theirProps = {
       ...theirProps,
       // Already apply the `enter` and `enterFrom` on the server if required
-      className: classNames(rest.className, ...classes.current.enter, ...classes.current.enterFrom),
+      className: classNames(
+        rest.className,
+        typeof enter === 'string' && classes.current.enter,
+        typeof enterFrom === 'string' && classes.current.enterFrom,
+      ),
+      style: {
+        ...(typeof enter !== 'string' ? enter : {}),
+        ...(typeof enterFrom !== 'string' ? enterFrom : {}),
+      },
     };
   }
 

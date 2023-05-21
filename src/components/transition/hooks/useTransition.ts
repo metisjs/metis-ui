@@ -1,6 +1,6 @@
 import useLatestValue from 'meta-ui/_util/hooks/useLatestValue';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import type { MutableRefObject } from 'react';
+import type { CSSProperties, MutableRefObject } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
 import Disposables from '../disposables';
 import { transition } from '../utils';
@@ -19,6 +19,17 @@ interface TransitionArgs {
 
     entered: string[];
   }>;
+  styles: MutableRefObject<{
+    enter: CSSProperties;
+    enterFrom: CSSProperties;
+    enterTo: CSSProperties;
+
+    leave: CSSProperties;
+    leaveFrom: CSSProperties;
+    leaveTo: CSSProperties;
+
+    entered: CSSProperties;
+  }>;
   direction: 'enter' | 'leave' | 'idle';
   onStart: MutableRefObject<(direction: TransitionArgs['direction']) => void>;
   onStop: MutableRefObject<(direction: TransitionArgs['direction']) => void>;
@@ -28,6 +39,7 @@ export default function useTransition({
   container,
   direction,
   classes,
+  styles,
   onStart,
   onStop,
 }: TransitionArgs) {
@@ -35,8 +47,6 @@ export default function useTransition({
   const d = useDisposables();
 
   const latestDirection = useLatestValue(direction);
-
-  console.log(latestDirection);
 
   useLayoutEffect(() => {
     const dd = new Disposables();
@@ -52,7 +62,7 @@ export default function useTransition({
     onStart.current(latestDirection.current);
 
     dd.add(
-      transition(node, classes.current, latestDirection.current === 'enter', () => {
+      transition(node, classes.current, styles.current, latestDirection.current === 'enter', () => {
         dd.dispose();
         onStop.current(latestDirection.current);
       }),

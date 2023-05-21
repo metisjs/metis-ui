@@ -61,10 +61,12 @@ function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
 }
 
 const optionVariantStyles = cva(
-  'segmented-item relative flex cursor-pointer justify-center truncate rounded-md text-sm text-neutral-text-secondary',
+  'segmented-item relative flex cursor-pointer justify-center rounded-md text-sm text-neutral-text-secondary',
   {
     variants: {
-      selected: { true: 'bg-neutral-bg-container font-medium text-neutral-text shadow' },
+      selected: {
+        true: 'bg-neutral-bg-container text-neutral-text shadow',
+      },
       block: { true: 'min-w-0 flex-1' },
       disabled: {
         true: 'cursor-not-allowed text-neutral-text-tertiary',
@@ -111,13 +113,13 @@ const InternalSegmentedOption: React.FC<{
         checked={checked}
         onChange={handleChange}
       />
-      <div className="flex gap-x-2" title={title}>
+      <div className="flex w-full justify-center gap-x-2" title={title}>
         {icon && (
           <span className={classNames('text-xl/[1.25rem]', selected && 'text-primary')}>
             {icon}
           </span>
         )}
-        {label && <span>{label}</span>}
+        {label && <span className="truncate">{label}</span>}
       </div>
     </label>
   );
@@ -174,7 +176,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
     <div
       {...divProps}
       className={classNames(
-        'inline-block rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text',
+        'inline-block rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text transition-all duration-300',
         { 'block-segmented flex': block },
         className,
       )}

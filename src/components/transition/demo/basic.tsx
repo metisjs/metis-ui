@@ -12,6 +12,7 @@ export default () => {
     <div className="flex flex-col items-center py-16">
       <div className="h-32 w-32">
         <Transition
+          appear
           as={Fragment}
           show={isShowing}
           enter="transform transition duration-[400ms]"

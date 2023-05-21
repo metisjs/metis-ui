@@ -14,4 +14,4 @@ type CompoundedComponent = ForwardRefExoticComponent<
 
 export { TransitionProps, TransitionChildProps };
 
-export default Transition;
+export default Transition as CompoundedComponent;

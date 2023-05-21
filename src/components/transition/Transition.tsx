@@ -75,14 +75,14 @@ const InternalTransition: ForwardRefRenderFunction<HTMLElement, TransitionProps>
 
   const sharedProps = { unmount };
 
-  const beforeEnter = useEvent(() => {
+  const afterEnter = useEvent(() => {
     if (initial) setInitial(false);
-    props.beforeEnter?.();
+    props.afterEnter?.();
   });
 
-  const beforeLeave = useEvent(() => {
+  const afterLeave = useEvent(() => {
     if (initial) setInitial(false);
-    props.beforeLeave?.();
+    props.afterLeave?.();
   });
 
   return (
@@ -97,8 +97,8 @@ const InternalTransition: ForwardRefRenderFunction<HTMLElement, TransitionProps>
                 ref={transitionRef}
                 {...sharedProps}
                 {...theirProps}
-                beforeEnter={beforeEnter}
-                beforeLeave={beforeLeave}
+                afterEnter={afterEnter}
+                afterLeave={afterLeave}
               />
             ),
           },

@@ -1,6 +1,7 @@
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import React from 'react';
+import React, { Fragment } from 'react';
 import type { SegmentedValue } from '.';
+import Transition from '../transition';
 
 type ThumbReact = {
   left: number;
@@ -70,20 +71,7 @@ export default function MotionThumb(props: MotionThumbInterface) {
   const thumbStart = React.useMemo(() => toPX(prevStyle?.left as number), [prevStyle]);
   const thumbActive = React.useMemo(() => toPX(nextStyle?.left as number), [nextStyle]);
 
-  // =========================== Motion ===========================
-  const onAppearStart = () => {
-    return {
-      transform: `translateX(var(--thumb-start-left))`,
-      width: `var(--thumb-start-width)`,
-    };
-  };
-  const onAppearActive = () => {
-    return {
-      transform: `translateX(var(--thumb-active-left))`,
-      width: `var(--thumb-active-width)`,
-    };
-  };
-  const onVisibleChanged = () => {
+  const afterEnter = () => {
     setPrevStyle(null);
     setNextStyle(null);
     onMotionEnd();
@@ -96,41 +84,16 @@ export default function MotionThumb(props: MotionThumbInterface) {
   }
 
   return (
-    <div>1234</div>
-    // <Motion
-    //   visible
-    //   appearActiveCls="will-change-transform will-change-[width] transition-all duration-[5000ms]"
-    //   onAppearStart={onAppearStart}
-    //   onAppearActive={onAppearActive}
-    //   onVisibleChanged={onVisibleChanged}
-    // >
-    //   {({ className: motionClassName, style: motionStyle }, ref) => {
-    //     const mergedStyle = {
-    //       ...motionStyle,
-    //       '--thumb-start-left': thumbStart,
-    //       '--thumb-start-width': toPX(prevStyle?.width),
-    //       '--thumb-active-left': thumbActive,
-    //       '--thumb-active-width': toPX(nextStyle?.width),
-    //     } as React.CSSProperties;
-
-    //     // It's little ugly which should be refactor when @umi/test update to latest jsdom
-    //     const motionProps = {
-    //       ref,
-    //       style: mergedStyle,
-    //       className: classNames(
-    //         `absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container font-medium text-neutral-text will-change-transform will-change-[width] transition-all duration-[5000ms]`,
-    //         motionClassName,
-    //       ),
-    //     };
-
-    //     console.log(mergedStyle, motionClassName);
-
-    //     if (process.env.NODE_ENV === 'test') {
-    //       (motionProps as any)['data-test-style'] = JSON.stringify(mergedStyle);
-    //     }
-
-    //     return <div {...motionProps} />;
-    //   }}
-    // </Motion>
+    <Transition
+      as={Fragment}
+      appear
+      show
+      enter="transition-all duration-300 ease-in-out"
+      enterFrom={{ transform: `translateX(${thumbStart})`, width: prevStyle?.width }}
+      enterTo={{ transform: `translateX(${thumbActive})`, width: nextStyle?.width }}
+      afterEnter={afterEnter}
+    >
+      <div className="absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container shadow"></div>
+    </Transition>
   );
 }

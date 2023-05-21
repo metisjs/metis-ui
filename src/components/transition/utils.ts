@@ -1,7 +1,9 @@
+/* eslint-disable eqeqeq */
 import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import {
+  CSSProperties,
   ElementType,
   Fragment,
   ReactNode,
@@ -28,6 +30,155 @@ function addClasses(node: HTMLElement, ...classes: string[]) {
 
 function removeClasses(node: HTMLElement, ...classes: string[]) {
   if (node && classes.length > 0) node.classList.remove(...classes);
+}
+
+/**
+ * CSS properties which accept numbers but are not in units of "px".
+ */
+function isUnitlessNumber(name: string): boolean {
+  const unitlessNumbers = new Set([
+    'animationIterationCount',
+    'aspectRatio',
+    'borderImageOutset',
+    'borderImageSlice',
+    'borderImageWidth',
+    'boxFlex',
+    'boxFlexGroup',
+    'boxOrdinalGroup',
+    'columnCount',
+    'columns',
+    'flex',
+    'flexGrow',
+    'flexPositive',
+    'flexShrink',
+    'flexNegative',
+    'flexOrder',
+    'gridArea',
+    'gridRow',
+    'gridRowEnd',
+    'gridRowSpan',
+    'gridRowStart',
+    'gridColumn',
+    'gridColumnEnd',
+    'gridColumnSpan',
+    'gridColumnStart',
+    'fontWeight',
+    'lineClamp',
+    'lineHeight',
+    'opacity',
+    'order',
+    'orphans',
+    'scale',
+    'tabSize',
+    'widows',
+    'zIndex',
+    'zoom',
+    'fillOpacity', // SVG-related properties
+    'floodOpacity',
+    'stopOpacity',
+    'strokeDasharray',
+    'strokeDashoffset',
+    'strokeMiterlimit',
+    'strokeOpacity',
+    'strokeWidth',
+    'MozAnimationIterationCount',
+    'MozBoxFlex',
+    'MozBoxFlexGroup',
+    'MozLineClamp',
+    'msAnimationIterationCount',
+    'msFlex',
+    'msZoom',
+    'msFlexGrow',
+    'msFlexNegative',
+    'msFlexOrder',
+    'msFlexPositive',
+    'msFlexShrink',
+    'msGridColumn',
+    'msGridColumnSpan',
+    'msGridRow',
+    'msGridRowSpan',
+    'WebkitAnimationIterationCount',
+    'WebkitBoxFlex',
+    'WebKitBoxFlexGroup',
+    'WebkitBoxOrdinalGroup',
+    'WebkitColumnCount',
+    'WebkitColumns',
+    'WebkitFlex',
+    'WebkitFlexGrow',
+    'WebkitFlexPositive',
+    'WebkitFlexShrink',
+    'WebkitLineClamp',
+  ]);
+  return unitlessNumbers.has(name);
+}
+
+function setValueForStyle(
+  style: CSSStyleDeclaration,
+  styleName: string,
+  value?: string | number | null,
+) {
+  const isCustomProperty = styleName.indexOf('--') === 0;
+
+  if (value == null || typeof value === 'boolean' || value === '') {
+    if (isCustomProperty) {
+      style.setProperty(styleName, '');
+    } else if (styleName === 'float') {
+      style.cssFloat = '';
+    } else {
+      style[styleName as any] = '';
+    }
+  } else if (isCustomProperty) {
+    style.setProperty(styleName, value as string);
+  } else if (typeof value === 'number' && value !== 0 && !isUnitlessNumber(styleName)) {
+    style[styleName as any] = value + 'px'; // Presumes implicit 'px' suffix for unitless numbers
+  } else {
+    if (styleName === 'float') {
+      style.cssFloat = `${value}`;
+    } else {
+      style[styleName as any] = ('' + value).trim();
+    }
+  }
+}
+
+function validateStyles(styles: CSSProperties) {
+  if (styles != null && typeof styles !== 'object') {
+    throw new Error(
+      'The `style` prop expects a mapping from style properties to values, ' +
+        "not a string. For example, style={{marginRight: spacing + 'em'}} when " +
+        'using JSX.',
+    );
+  }
+}
+
+function addStyles(node: HTMLElement, styles: CSSProperties) {
+  validateStyles(styles);
+
+  const style = node.style;
+  for (const styleName in styles) {
+    if (styles.hasOwnProperty(styleName)) {
+      const value = styles[styleName as keyof CSSProperties];
+      setValueForStyle(style, styleName, value);
+    }
+  }
+}
+
+function removeStyles(node: HTMLElement, styles: CSSProperties) {
+  validateStyles(styles);
+
+  const style = node.style;
+  for (const styleName in styles) {
+    if (styles.hasOwnProperty(styleName)) {
+      // Clear style
+      const isCustomProperty = styleName.indexOf('--') === 0;
+      if (isCustomProperty) {
+        style.setProperty(styleName, '');
+      } else if (styleName === 'float') {
+        style.cssFloat = '';
+      } else {
+        style[styleName as any] = '';
+      }
+    }
+  }
 }
 
 function waitForTransition(node: HTMLElement, done: () => void) {
@@ -126,6 +277,17 @@ export function transition(
     leaveTo: string[];
     entered: string[];
   },
+  styles: {
+    enter: CSSProperties;
+    enterFrom: CSSProperties;
+    enterTo: CSSProperties;
+
+    leave: CSSProperties;
+    leaveFrom: CSSProperties;
+    leaveTo: CSSProperties;
+
+    entered: CSSProperties;
+  },
   show: boolean,
   done?: () => void,
 ) {
@@ -142,17 +304,30 @@ export function transition(
     node.style.display = '';
   }
 
-  const base = match(direction, {
+  const baseCls = match(direction, {
     enter: () => classes.enter,
     leave: () => classes.leave,
   });
-  const to = match(direction, {
+  const toCls = match(direction, {
     enter: () => classes.enterTo,
     leave: () => classes.leaveTo,
   });
-  const from = match(direction, {
+  const fromCls = match(direction, {
     enter: () => classes.enterFrom,
     leave: () => classes.leaveFrom,
+  });
+
+  const baseStyle = match(direction, {
+    enter: () => styles.enter,
+    leave: () => styles.leave,
+  });
+  const toStyle = match(direction, {
+    enter: () => styles.enterTo,
+    leave: () => styles.leaveTo,
+  });
+  const fromStyle = match(direction, {
+    enter: () => styles.enterFrom,
+    leave: () => styles.leaveFrom,
   });
 
   removeClasses(
@@ -165,15 +340,29 @@ export function transition(
     ...classes.leaveTo,
     ...classes.entered,
   );
-  addClasses(node, ...base, ...from);
+  removeStyles(node, {
+    ...styles.enter,
+    ...styles.enterTo,
+    ...styles.enterFrom,
+    ...styles.leave,
+    ...styles.leaveFrom,
+    ...styles.leaveTo,
+    ...styles.entered,
+  });
+  addClasses(node, ...baseCls, ...fromCls);
+  addStyles(node, { ...baseStyle, ...fromStyle });
 
   d.nextFrame(() => {
-    removeClasses(node, ...from);
-    addClasses(node, ...to);
+    removeClasses(node, ...fromCls);
+    removeStyles(node, fromStyle);
+    addClasses(node, ...toCls);
+    addStyles(node, toStyle);
 
     waitForTransition(node, () => {
-      removeClasses(node, ...base);
+      removeClasses(node, ...baseCls);
+      removeStyles(node, baseStyle);
       addClasses(node, ...classes.entered);
+      addStyles(node, styles.entered);
 
       return _done();
     });
@@ -196,8 +385,14 @@ export function microTask(cb: () => void) {
   }
 }
 
-export function splitClasses(classes: string = '') {
-  return classes.split(' ').filter((className) => className.trim().length > 1);
+export function splitClasses(classes: string | CSSProperties = '') {
+  return typeof classes === 'string'
+    ? classes.split(' ').filter((className) => className.trim().length > 1)
+    : [];
+}
+
+export function splitStyles(styles: string | CSSProperties = '') {
+  return typeof styles === 'string' ? {} : styles;
 }
 
 export function hasChildren(
@@ -279,6 +474,8 @@ export function render({
 
       let newClassName = classNames(childProps?.className, rest.className);
       let classNameProps = newClassName ? { className: newClassName } : {};
+
+      console.log(classNameProps);
 
       return cloneElement(
         children,
