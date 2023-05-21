@@ -475,8 +475,6 @@ export function render({
       let newClassName = classNames(childProps?.className, rest.className);
       let classNameProps = newClassName ? { className: newClassName } : {};
 
-      console.log(classNameProps);
-
       return cloneElement(
         children,
         Object.assign(

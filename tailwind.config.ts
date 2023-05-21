@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 import plugin from './src/plugin';
 
 export default {
-  content: ['./src/components/**/*.{ts,tsx,js,jsx}'],
+  content: ['./src/components/**/*.{ts,tsx,js,jsx}', './.dumi/**/*.{ts,tsx,js,jsx}'],
   theme: {
     extend: {},
   },
