@@ -2,7 +2,6 @@ import { defineConfig } from 'dumi';
 import path from 'path';
 
 export default defineConfig({
-  mfsu: false,
   hash: true,
   outputPath: '_site',
   favicons: ['/favicon.ico'],

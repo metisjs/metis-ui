@@ -20,9 +20,10 @@ export interface GroupProps {
 const Group: React.FC<GroupProps> = (props) => {
   const { className = '', maxCount, maxStyle, size } = props;
 
-  const cls = classNames('relative -space-x-1 overflow-hidden', className);
+  const cls = classNames('group relative -space-x-1 overflow-hidden', className);
 
-  const { children, maxPopoverPlacement = 'top', maxPopoverTrigger = 'hover' } = props;
+  // const { children, maxPopoverPlacement = 'top', maxPopoverTrigger = 'hover' } = props;
+  const { children } = props;
   const childrenWithProps = toArray(children).map((child, index) =>
     cloneElement(child, {
       key: `avatar-key-${index}`,
@@ -32,7 +33,8 @@ const Group: React.FC<GroupProps> = (props) => {
   const numOfChildren = childrenWithProps.length;
   if (maxCount && maxCount < numOfChildren) {
     const childrenShow = childrenWithProps.slice(0, maxCount);
-    const childrenHidden = childrenWithProps.slice(maxCount, numOfChildren);
+    console.log(childrenShow);
+    // const childrenHidden = childrenWithProps.slice(maxCount, numOfChildren);
     childrenShow.push(
       // <Popover
       //   key="avatar-popover-key"

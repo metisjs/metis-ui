@@ -27,7 +27,7 @@ export default function IconSearch() {
     <main>
       <div className="pointer-events-none sticky top-[76px] z-50 -mb-12 overflow-hidden pb-12">
         <div className="relative">
-          <div className="pointer-events-auto relative bg-white pb-4 shadow-[0_1px_3px_rgba(15,23,42,0.08)]">
+          <div className="pointer-events-auto relative bg-neutral-bg-container pb-4 shadow-[0_1px_3px_rgba(15,23,42,0.08)]">
             <div className="flex flex-col items-center sm:flex-row">
               <div className="relative flex-auto">
                 <input

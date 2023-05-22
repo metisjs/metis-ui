@@ -10,7 +10,7 @@ export default {
     'neutral-border': 'white/20',
     'neutral-fill': 'gray-100',
     'neutral-fill-secondary': 'white/12',
-    'neutral-bg-container': 'white',
+    'neutral-bg-container': 'black/10',
     'neutral-bg-elevated': 'white',
     'neutral-bg-layout': 'gray-100',
     'neutral-bg-spotlight': 'gray-900',

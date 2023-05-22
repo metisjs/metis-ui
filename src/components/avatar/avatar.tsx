@@ -28,12 +28,12 @@ export interface AvatarProps {
 }
 
 const variantStyles = cva(
-  'relative overflow-hidden whitespace-nowrap inline-block text-center align-middle bg-neutral-fill text-white',
+  'relative overflow-hidden whitespace-nowrap inline-block text-center align-middle bg-neutral-fill text-white text-sm [.group_&]:ring-2 [.group_&]:ring-white',
   {
     variants: {
       size: {
-        large: 'w-10 h-10 text-xl leading-10',
-        default: 'w-8 h-8 text-lg  leading-8',
+        large: 'w-10 h-10 leading-10',
+        default: 'w-8 h-8 leading-8',
         small: 'w-6 h-6 leading-6',
       },
       shape: {
@@ -41,7 +41,20 @@ const variantStyles = cva(
         square: 'rounded-md',
       },
       image: { true: 'bg-transparent' },
+      icon: { true: '' },
     },
+    compoundVariants: [
+      {
+        size: 'large',
+        icon: true,
+        className: 'text-2xl',
+      },
+      {
+        size: 'default',
+        icon: true,
+        className: 'text-lg',
+      },
+    ],
     defaultVariants: {},
   },
 );
@@ -140,7 +153,9 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   } else if (hasImageElement) {
     childrenToRender = src;
   } else if (icon) {
-    childrenToRender = <span className="inline-flex items-center justify-center h-full">{icon}</span>;
+    childrenToRender = (
+      <span className="inline-flex h-full items-center justify-center">{icon}</span>
+    );
   } else if (mounted || scale !== 1) {
     const transformString = `scale(${scale}) translateX(-50%)`;
     const childrenStyle: React.CSSProperties = {
@@ -193,6 +208,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
           size: typeof size === 'string' ? size : undefined,
           shape,
           image: hasImageElement || (!!src && isImgExist),
+          icon: !!icon,
         },
         [className],
       )}

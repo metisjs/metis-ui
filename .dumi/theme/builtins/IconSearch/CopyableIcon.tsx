@@ -74,7 +74,7 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({ name }) => {
           aria-haspopup="true"
           aria-controls={name}
           aria-expanded={state === 'active'}
-          className="absolute inset-0 flex h-full w-full cursor-pointer items-center justify-center rounded-xl text-slate-900 ring-1 ring-inset ring-slate-900/[0.08] hover:text-primary"
+          className="absolute inset-0 flex h-full w-full cursor-pointer items-center justify-center rounded-xl text-neutral-text  ring-1 ring-inset ring-neutral-border hover:text-primary"
           onClick={copy}
         >
           <span
@@ -104,7 +104,7 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({ name }) => {
         </Transition>
       </div>
       <div
-        className="mt-3 truncate text-center text-[0.8125rem] leading-6 text-slate-500"
+        className="mt-3 truncate text-center text-[0.8125rem] leading-6 text-neutral-text"
         title={name}
       >
         {name.replace(/(Outline|Solid)$/, '')}
