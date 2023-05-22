@@ -28,7 +28,7 @@ export interface AvatarProps {
 }
 
 const variantStyles = cva(
-  'relative overflow-hidden whitespace-nowrap inline-block text-center align-middle bg-neutral-fill text-white text-sm [.group_&]:ring-2 [.group_&]:ring-white',
+  'relative overflow-hidden whitespace-nowrap inline-block text-center align-middle bg-neutral-fill text-white text-sm [.group_&]:ring-2 [.group_&]:ring-neutral-bg-container',
   {
     variants: {
       size: {

@@ -33,7 +33,6 @@ const Group: React.FC<GroupProps> = (props) => {
   const numOfChildren = childrenWithProps.length;
   if (maxCount && maxCount < numOfChildren) {
     const childrenShow = childrenWithProps.slice(0, maxCount);
-    console.log(childrenShow);
     // const childrenHidden = childrenWithProps.slice(maxCount, numOfChildren);
     childrenShow.push(
       // <Popover
