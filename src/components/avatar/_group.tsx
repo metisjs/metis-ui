@@ -4,7 +4,7 @@ import * as React from 'react';
 import { cloneElement } from '../_util/reactNode';
 import type { AvatarSize } from './SizeContext';
 import { SizeContextProvider } from './SizeContext';
-import Avatar from './avatar';
+import Avatar from './_avatar';
 
 export interface GroupProps {
   className?: string;

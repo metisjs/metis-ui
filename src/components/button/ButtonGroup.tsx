@@ -32,7 +32,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = (props) => {
       warning(!size, 'Button.Group', 'Invalid prop `size`.');
   }
 
-  const classes = classNames(className);
+  const classes = classNames(className, sizeCls);
 
   return (
     <GroupSizeContext.Provider value={size}>
