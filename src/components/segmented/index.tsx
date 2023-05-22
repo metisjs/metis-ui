@@ -64,14 +64,14 @@ const optionVariantStyles = cva(
   'segmented-item relative flex cursor-pointer justify-center rounded-md text-sm text-neutral-text-secondary',
   {
     variants: {
-      selected: {
-        true: 'bg-neutral-bg-container text-neutral-text shadow',
-      },
-      block: { true: 'min-w-0 flex-1' },
       disabled: {
         true: 'cursor-not-allowed text-neutral-text-tertiary',
         false: 'hover:text-neutral-text',
       },
+      selected: {
+        true: 'bg-neutral-bg-container shadow text-primary hover:text-primary',
+      },
+      block: { true: 'min-w-0 flex-1' },
       size: {
         small: 'px-2.5 py-1.5',
         middle: 'px-3 py-2',
@@ -89,13 +89,12 @@ const InternalSegmentedOption: React.FC<{
   className?: string;
   disabled?: boolean;
   checked: boolean;
-  selected: boolean;
   label?: React.ReactNode;
   icon?: React.ReactNode;
   title?: string;
   value: SegmentedRawOption;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
-}> = ({ className, disabled, checked, selected, label, icon, title, value, onChange }) => {
+}> = ({ className, disabled, checked, label, icon, title, value, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) {
       return;
@@ -114,11 +113,7 @@ const InternalSegmentedOption: React.FC<{
         onChange={handleChange}
       />
       <div className="flex w-full justify-center gap-x-2" title={title}>
-        {icon && (
-          <span className={classNames('text-xl/[1.25rem]', selected && 'text-primary')}>
-            {icon}
-          </span>
-        )}
+        {icon && <span className={classNames('text-xl/[1.25rem]')}>{icon}</span>}
         {label && <span className="truncate">{label}</span>}
       </div>
     </label>
@@ -206,7 +201,6 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
               },
               [segmentedOption.className],
             )}
-            selected={segmentedOption.value === rawValue && !thumbShow}
             checked={segmentedOption.value === rawValue}
             onChange={handleChange}
             {...segmentedOption}
