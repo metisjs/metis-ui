@@ -68,7 +68,7 @@ const variantStyles = cva(
           'bg-neutral-container text-neutral-text enabled:hover:ring-primary-hover enabled:hover:text-primary-text-hover ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
         primary:
           'bg-primary text-white enabled:hover:bg-primary-hover focus-visible:ring-offset-2 focus-visible:ring-primary',
-        text: 'text-neutral-text shadow-none ring-inset enabled:hover:bg-neutral-fill-secondary focus-visible:ring-primary',
+        text: 'text-neutral-text shadow-none ring-inset enabled:hover:bg-neutral-fill-tertiary focus-visible:ring-primary',
         link: 'text-primary shadow-none ring-inset focus-visible:ring-none enabled:hover:text-primary-hover focus-visible:ring-primary',
       },
       size: {
