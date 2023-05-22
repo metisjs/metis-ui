@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
 import { cloneElement } from '../_util/reactNode';
+import Avatar from './Avatar';
 import type { AvatarSize } from './SizeContext';
 import { SizeContextProvider } from './SizeContext';
-import Avatar from './_avatar';
 
 export interface GroupProps {
   className?: string;

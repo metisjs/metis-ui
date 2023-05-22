@@ -1,10 +1,10 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
-import type { AvatarProps } from './_avatar';
-import InternalAvatar from './_avatar';
-import Group from './_group';
+import type { AvatarProps } from './Avatar';
+import InternalAvatar from './Avatar';
+import Group from './Group';
 
-export type { AvatarProps } from './_avatar';
-export type { GroupProps } from './_group';
+export type { AvatarProps } from './Avatar';
+export type { GroupProps } from './Group';
 export { Group };
 
 type CompoundedComponent = ForwardRefExoticComponent<
