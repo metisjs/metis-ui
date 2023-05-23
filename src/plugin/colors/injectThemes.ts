@@ -3,64 +3,11 @@ import get from 'lodash/get';
 import twColors from 'tailwindcss/colors';
 import { PluginAPI } from 'tailwindcss/types/config';
 import { DefaultColors } from 'tailwindcss/types/generated/colors';
+import colorPalette from './colorPalette';
 import themes from './themes';
 
 type ColorParam = { [key: string]: any };
-
-const COLOR_OFFSET = {
-  primary: {
-    bg: -6,
-    'bg-hover': -5,
-    hover: -1,
-    active: 1,
-    'text-hover': -1,
-    text: 0,
-    'text-active': 1,
-  },
-  success: {
-    bg: -4,
-    'bg-hover': -3,
-    hover: -1,
-    active: 1,
-    'text-hover': 1,
-    text: 2,
-    'text-active': 3,
-  },
-  warning: {
-    bg: -4,
-    'bg-hover': -3,
-    hover: -1,
-    active: 1,
-    'text-hover': 1,
-    text: 2,
-    'text-active': 3,
-  },
-  error: {
-    bg: -4,
-    'bg-hover': -3,
-    hover: -1,
-    active: 1,
-    'text-hover': 1,
-    text: 2,
-    'text-active': 3,
-  },
-  info: {
-    bg: -4,
-    'bg-hover': -3,
-    hover: -1,
-    active: 1,
-    'text-hover': 1,
-    text: 2,
-    'text-active': 3,
-  },
-  'neutral-text': {
-    secondary: -4,
-    tertiary: -5,
-    quaternary: -6,
-  },
-  'neutral-border': { secondary: -2 },
-  'neutral-fill': { secondary: -1, tertiary: -2, quaternary: -3 },
-} as const;
+type ColorScheme = 'light' | 'dark';
 
 function getWeightByOffset(base: number, offset: number) {
   const values = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
@@ -71,7 +18,12 @@ function getWeightByOffset(base: number, offset: number) {
   return values[offsetIndex];
 }
 
-function generateColorPaletteFrom(base: string, color: string, skip: string[]) {
+function generateColorPaletteFrom(
+  scheme: ColorScheme,
+  base: string,
+  color: string,
+  skip: string[],
+) {
   const [colorType, colorWeight] = color.split('-') as [keyof DefaultColors, string | undefined];
 
   const baseColor: string = get(twColors, [colorType, colorWeight].filter(Boolean) as string[]);
@@ -80,11 +32,13 @@ function generateColorPaletteFrom(base: string, color: string, skip: string[]) {
     return { [base]: color };
   }
 
+  const palette = colorPalette[scheme];
+
   const resultObj = { [base]: baseColor };
 
-  if (!colorWeight || !(base in COLOR_OFFSET)) return resultObj;
+  if (!colorWeight || !(base in palette)) return resultObj;
 
-  return Object.entries(COLOR_OFFSET[base as keyof typeof COLOR_OFFSET]).reduce((perv, [k, v]) => {
+  return Object.entries(palette[base as keyof typeof palette]).reduce((perv, [k, v]) => {
     const key = `${base}-${k}`;
     if (skip.includes(key)) return perv;
 
@@ -100,7 +54,12 @@ function convertToHsl(input: ColorParam) {
   Object.entries(input).forEach(([rule, value]) => {
     if (rule !== 'color-scheme') {
       const [color, alpha = 100] = value.split('/');
-      const colorPalette = generateColorPaletteFrom(rule, color, Object.keys(input));
+      const colorPalette = generateColorPaletteFrom(
+        input['color-scheme'] as ColorScheme,
+        rule,
+        color,
+        Object.keys(input),
+      );
       Object.entries(colorPalette).forEach(([k, v]) => {
         const hslArray = Color(v).hsl().array();
 
