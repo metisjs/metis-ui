@@ -1,5 +1,14 @@
 export { default as Avatar } from './avatar';
+export type { AvatarProps } from './avatar';
 export { default as Button } from './button';
+export type { ButtonProps } from './button';
+export { default as Divider } from './divider';
+export type { DividerProps } from './divider';
+export { default as Input } from './input';
+export type { InputProps, InputRef } from './input';
 export { default as Segmented } from './segmented';
+export type { SegmentedProps } from './segmented';
 export { default as Space } from './space';
+export type { SpaceProps } from './space';
 export { default as Transition } from './transition';
+export type { TransitionChildProps, TransitionProps } from './transition';

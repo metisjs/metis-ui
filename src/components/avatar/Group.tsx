@@ -42,7 +42,7 @@ const Group: React.FC<GroupProps> = (props) => {
       //   placement={maxPopoverPlacement}
       //   overlayClassName={`${prefixCls}-popover`}
       // >
-      <Avatar style={maxStyle}>{`+${numOfChildren - maxCount}`}</Avatar>,
+      <Avatar key="avatar-key-count" style={maxStyle}>{`+${numOfChildren - maxCount}`}</Avatar>,
       // </Popover>,
     );
     return (

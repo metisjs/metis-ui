@@ -1,11 +1,11 @@
 module.exports = {
   pluginSearchDirs: false,
   plugins: [
-    require.resolve('prettier-plugin-organize-imports'),
-    require.resolve('prettier-plugin-packagejson'),
-    require.resolve('prettier-plugin-tailwindcss'),
+    require('prettier-plugin-organize-imports'),
+    require('prettier-plugin-packagejson'),
+    require('prettier-plugin-tailwindcss'),
   ],
-  tailwindFunctions: ['cva', 'classNames', 'classnames'],
+  tailwindFunctions: ['cva', 'classNames', 'classnames', 'clsx'],
   printWidth: 100,
   proseWrap: 'never',
   singleQuote: true,
