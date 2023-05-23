@@ -1,22 +1,5 @@
----
-order: 98
-title:
-  zh-CN: Style Debug
-  en-US: Style Debug
-debug: true
----
-
-## zh-CN
-
-Buggy! 测试一些踩过的样式坑。
-
-## en-US
-
-Buggy!
-
-```tsx
-import { Input } from 'meta-ui';
 import React from 'react';
+import { Input } from 'antd';
 
 const { TextArea } = Input;
 
@@ -34,4 +17,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-```

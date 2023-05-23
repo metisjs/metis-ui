@@ -1,22 +1,5 @@
----
-order: 99
-title:
-  zh-CN: 文本域
-  en-US: TextArea
-debug: true
----
-
-## zh-CN
-
-用于多行输入。
-
-## en-US
-
-For multi-line input.
-
-```tsx
-import { Button, Input } from 'meta-ui';
 import React, { useState } from 'react';
+import { Button, Input } from 'antd';
 
 const { TextArea } = Input;
 
@@ -38,4 +21,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-```

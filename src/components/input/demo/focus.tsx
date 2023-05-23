@@ -1,23 +1,7 @@
----
-order: 21
-title:
-  zh-CN: 聚焦
-  en-US: Focus
----
-
-## zh-CN
-
-聚焦额外配置属性。
-
-## en-US
-
-Focus with additional option.
-
-```tsx
-import type { InputRef } from 'meta-ui';
-
-import { Button, Input, Space, Switch } from 'meta-ui';
 import React, { useRef, useState } from 'react';
+import type { InputRef } from 'antd';
+
+import { Button, Input, Space, Switch } from 'antd';
 
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
@@ -84,4 +68,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-```

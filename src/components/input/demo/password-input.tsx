@@ -1,22 +1,6 @@
----
-order: 10
-title:
-  zh-CN: 密码框
-  en-US: Password box
----
-
-## zh-CN
-
-密码框。
-
-## en-US
-
-Input type of password.
-
-```tsx
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { Button, Input, Space } from 'meta-ui';
 import React from 'react';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Button, Input, Space } from 'antd';
 
 const App: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -42,4 +26,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-```

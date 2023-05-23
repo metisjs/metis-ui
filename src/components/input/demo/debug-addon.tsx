@@ -1,23 +1,6 @@
----
-order: 100
-title:
-  zh-CN: debug 前置/后置标签
-  en-US: debug Pre / Post tab
-debug: true
----
-
-## zh-CN
-
-一些特殊的前置后置标签。
-
-## en-US
-
-Some special pre & post tabs example.
-
-```tsx
-import { SettingOutlined } from '@ant-design/icons';
-import { Button, Input, Space } from 'meta-ui';
 import React from 'react';
+import { SettingOutlined } from '@ant-design/icons';
+import { Input, Space, Button } from 'antd';
 
 const App: React.FC = () => (
   <Space direction="vertical">
@@ -39,4 +22,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-```

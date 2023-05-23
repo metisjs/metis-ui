@@ -1,22 +1,6 @@
----
-order: 8
-title:
-  zh-CN: 前缀和后缀
-  en-US: prefix and suffix
----
-
-## zh-CN
-
-在输入框上添加前缀或后缀图标。
-
-## en-US
-
-Add a prefix or suffix icons inside input.
-
-```tsx
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { Input, Tooltip } from 'meta-ui';
 import React from 'react';
+import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { Input, Tooltip } from 'antd';
 
 const App: React.FC = () => (
   <>
@@ -39,4 +23,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-```

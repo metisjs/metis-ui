@@ -1,33 +1,17 @@
----
-order: 2
-title:
-  zh-CN: 前置/后置标签
-  en-US: Pre / Post tab
----
-
-## zh-CN
-
-用于配置一些固定组合。
-
-## en-US
-
-Using pre & post tabs example.
-
-```tsx
-import { SettingOutlined } from '@ant-design/icons';
-import { Cascader, Input, Select, Space } from 'meta-ui';
 import React from 'react';
+import { SettingOutlined } from '@ant-design/icons';
+import { Cascader, Input, Select, Space } from 'antd';
 
 const { Option } = Select;
 
 const selectBefore = (
-  <Select defaultValue="http://" className="select-before">
+  <Select defaultValue="http://">
     <Option value="http://">http://</Option>
     <Option value="https://">https://</Option>
   </Select>
 );
 const selectAfter = (
-  <Select defaultValue=".com" className="select-after">
+  <Select defaultValue=".com">
     <Option value=".com">.com</Option>
     <Option value=".jp">.jp</Option>
     <Option value=".cn">.cn</Option>
@@ -49,22 +33,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-```
-
-```css
-.select-before {
-  width: 90px;
-}
-
-.select-after {
-  width: 80px;
-}
-
-[data-theme='compact'] .select-before {
-  width: 71px;
-}
-
-[data-theme='compact'] .select-after {
-  width: 65px;
-}
-```

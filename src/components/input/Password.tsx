@@ -1,18 +1,15 @@
-import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
-import EyeOutlined from '@ant-design/icons/EyeOutlined';
-import classNames from 'classnames';
+import { EyeOutline, EyeSlashOutline } from '@metaoa/icons';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import type { ConfigConsumerProps } from '../config-provider';
-import { ConfigConsumer } from '../config-provider';
-import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
+import { clsx } from '../_util/classNameUtils';
 import type { InputProps, InputRef } from './Input';
 import Input from './Input';
+import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
 
 const defaultIconRender = (visible: boolean): React.ReactNode =>
-  visible ? <EyeOutlined /> : <EyeInvisibleOutlined />;
+  visible ? <EyeOutline /> : <EyeSlashOutline />;
 
 type VisibilityToggle = {
   visible?: boolean;
@@ -57,7 +54,7 @@ const Password = React.forwardRef<InputRef, PasswordProps>((props, ref) => {
     if (visible) {
       removePasswordTimeout();
     }
-    setVisible(prevState => {
+    setVisible((prevState) => {
       const newState = !prevState;
       if (typeof visibilityToggle === 'object') {
         visibilityToggle.onVisibleChange?.(newState);
@@ -66,13 +63,13 @@ const Password = React.forwardRef<InputRef, PasswordProps>((props, ref) => {
     });
   };
 
-  const getIcon = (prefixCls: string) => {
+  const getIcon = () => {
     const { action = 'click', iconRender = defaultIconRender } = props;
     const iconTrigger = ActionMap[action] || '';
     const icon = iconRender(visible);
     const iconProps = {
       [iconTrigger]: onVisibleChange,
-      className: `${prefixCls}-icon`,
+      className: `-icon`,
       key: 'passwordIcon',
       onMouseDown: (e: MouseEvent) => {
         // Prevent focused state lost
@@ -88,39 +85,26 @@ const Password = React.forwardRef<InputRef, PasswordProps>((props, ref) => {
     return React.cloneElement(React.isValidElement(icon) ? icon : <span>{icon}</span>, iconProps);
   };
 
-  const renderPassword = ({ getPrefixCls }: ConfigConsumerProps) => {
-    const {
-      className,
-      prefixCls: customizePrefixCls,
-      inputPrefixCls: customizeInputPrefixCls,
-      size,
-      ...restProps
-    } = props;
+  const { className, size, ...restProps } = props;
 
-    const inputPrefixCls = getPrefixCls('input', customizeInputPrefixCls);
-    const prefixCls = getPrefixCls('input-password', customizePrefixCls);
+  const suffixIcon = visibilityToggle && getIcon();
 
-    const suffixIcon = visibilityToggle && getIcon(prefixCls);
-    const inputClassName = classNames(prefixCls, className, {
-      [`${prefixCls}-${size}`]: !!size,
-    });
+  const inputClassName = clsx(className, {
+    [`-${size}`]: !!size,
+  });
 
-    const omittedProps: InputProps = {
-      ...omit(restProps, ['suffix', 'iconRender', 'visibilityToggle']),
-      type: visible ? 'text' : 'password',
-      className: inputClassName,
-      prefixCls: inputPrefixCls,
-      suffix: suffixIcon,
-    };
-
-    if (size) {
-      omittedProps.size = size;
-    }
-
-    return <Input ref={composeRef(ref, inputRef)} {...omittedProps} />;
+  const omittedProps: InputProps = {
+    ...omit(restProps, ['suffix', 'iconRender', 'visibilityToggle']),
+    type: visible ? 'text' : 'password',
+    className: inputClassName,
+    suffix: suffixIcon,
   };
 
-  return <ConfigConsumer>{renderPassword}</ConfigConsumer>;
+  if (size) {
+    omittedProps.size = size;
+  }
+
+  return <Input ref={composeRef(ref, inputRef)} {...omittedProps} />;
 });
 
 if (process.env.NODE_ENV !== 'production') {

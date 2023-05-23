@@ -1,21 +1,5 @@
----
-order: 12
-title:
-  zh-CN: 带字数提示
-  en-US: With character counting
----
-
-## zh-CN
-
-展示字数提示。
-
-## en-US
-
-Show character counting.
-
-```tsx
-import { Input } from 'meta-ui';
 import React from 'react';
+import { Input } from 'antd';
 
 const { TextArea } = Input;
 
@@ -33,4 +17,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-```

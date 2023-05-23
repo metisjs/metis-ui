@@ -1,12 +1,4 @@
----
-order: 99
-title:
-  zh-CN: 文本对齐
-  en-US: Text Align
-debug: true
----
-
-```tsx
+import React from 'react';
 import {
   AutoComplete,
   Button,
@@ -20,8 +12,7 @@ import {
   TimePicker,
   TreeSelect,
   Typography,
-} from 'meta-ui';
-import React from 'react';
+} from 'antd';
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -104,4 +95,3 @@ const App: React.FC = () => (
 );
 
 export default App;
-```

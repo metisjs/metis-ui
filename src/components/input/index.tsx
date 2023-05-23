@@ -1,5 +1,4 @@
 import type * as React from 'react';
-import Group from './Group';
 import type { InputProps, InputRef } from './Input';
 import InternalInput from './Input';
 import Password from './Password';
@@ -13,14 +12,12 @@ export type { TextAreaProps } from './TextArea';
 type CompoundedComponent = React.ForwardRefExoticComponent<
   InputProps & React.RefAttributes<InputRef>
 > & {
-  Group: typeof Group;
   TextArea: typeof TextArea;
   Password: typeof Password;
 };
 
 const Input = InternalInput as CompoundedComponent;
 
-Input.Group = Group;
 Input.TextArea = TextArea;
 Input.Password = Password;
 export default Input;
