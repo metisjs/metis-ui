@@ -6,6 +6,7 @@ import type { TextAreaProps as RcTextAreaProps } from 'rc-textarea/lib/interface
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -28,6 +29,45 @@ export interface TextAreaRef {
   blur: () => void;
   resizableTextArea?: RcTextAreaRef['resizableTextArea'];
 }
+
+const textareaVariantStyles = cva(
+  'meta-input relative block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+  {
+    variants: {
+      size: {
+        small: 'px-2 py-1.5',
+        middle: 'px-3 py-1.5 leading-6',
+        large: 'px-3 py-2 text-base',
+      },
+      borderless: { true: 'ring-0 focus:ring-0' },
+      hasPrefixSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
+      addonBefore: { true: 'rounded-s-none' },
+      addonAfter: { true: 'rounded-e-none' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
+
+const affixWrapperVariantStyles = cva(
+  'meta-input relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
+  {
+    variants: {
+      size: {
+        small: 'gap-x-1 px-2 py-1.5',
+        middle: 'px-3 py-1.5 leading-6',
+        large: 'px-3 py-2 text-base',
+      },
+      borderless: { true: 'ring-0 focus:ring-0' },
+      addonBefore: { true: 'rounded-s-none' },
+      addonAfter: { true: 'rounded-e-none' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
 
 const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
@@ -99,14 +139,13 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         }}
         classNames={{
           ...classNames,
-          textarea: clsx(
+          textarea: textareaVariantStyles(
             {
-              [`-borderless`]: !bordered,
-              [`-sm`]: mergedSize === 'small',
-              [`-lg`]: mergedSize === 'large',
+              size: mergedSize,
+              borderless: !bordered,
+              hasSuffix: !!hasFeedback,
             },
-            getStatusClassNames(mergedStatus),
-            classNames?.textarea,
+            [mergedSize, getStatusClassNames(mergedStatus), classNames.textarea],
           ),
         }}
         suffix={hasFeedback && <span className={`-textarea-suffix`}>{feedbackIcon}</span>}

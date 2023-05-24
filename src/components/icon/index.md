@@ -1,11 +1,10 @@
 ---
 title: Icon
+subtitle: 图标
 group:
   title: 通用
   order: 0
 ---
-
-# Icon 图标
 
 > 由 [heroicons](https://heroicons.com/) 扩展而来
 

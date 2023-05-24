@@ -1,5 +1,8 @@
+/**
+ * description: 没有边框。
+ */
+import { Input } from 'meta-ui';
 import React from 'react';
-import { Input } from 'antd';
 
 const App: React.FC = () => <Input placeholder="Borderless" bordered={false} />;
 

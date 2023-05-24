@@ -3,12 +3,11 @@ nav:
   title: 组件
   order: 1
 title: Button
+subtitle: 按钮
 group:
   title: 通用
   order: 0
 ---
-
-# Button 按钮
 
 按钮用于开始一个即时操作。
 

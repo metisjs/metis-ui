@@ -1,12 +1,10 @@
 ---
 title: Transition
-order: 3
+subtitle: 过渡动画
 group:
   title: 其他
   order: 6
 ---
-
-# Transition 过渡动画
 
 > 基于 [HeadlessUI/Transition](https://headlessui.com/react/transition) 修改而来
 

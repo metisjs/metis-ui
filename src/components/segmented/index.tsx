@@ -69,7 +69,7 @@ const optionVariantStyles = cva(
         false: 'hover:text-neutral-text',
       },
       selected: {
-        true: 'bg-neutral-bg-container shadow text-primary hover:text-primary',
+        true: 'bg-neutral-bg-container text-primary shadow hover:text-primary',
       },
       block: { true: 'min-w-0 flex-1' },
       size: {
