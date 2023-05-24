@@ -60,7 +60,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 type Loading = number | boolean;
 
 const variantStyles = cva(
-  'meta-btn relative inline-flex items-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+  'meta-btn relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
@@ -72,12 +72,12 @@ const variantStyles = cva(
         link: 'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover',
       },
       size: {
-        small: 'rounded-md px-2.5 py-1.5',
-        middle: 'rounded-md px-3 py-2',
-        large: 'gap-x-2 rounded-md px-4 py-2.5',
+        small: 'px-2.5 py-1.5',
+        middle: 'px-3 py-2',
+        large: 'gap-x-2 px-4 py-2.5',
       },
       shape: {
-        default: '',
+        default: 'rounded-md',
         round: 'rounded-full',
       },
       iconOnly: {

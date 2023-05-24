@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import useFlexGapSupport from '../_util/hooks/useFlexGapSupport';
 import { ConfigContext } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
@@ -17,7 +17,6 @@ export const SpaceContext = React.createContext({
 export type SpaceSize = SizeType | number;
 
 export interface SpaceProps extends React.HTMLAttributes<HTMLDivElement> {
-  prefixCls?: string;
   className?: string;
   itemClassName?: string;
   style?: React.CSSProperties;
@@ -68,7 +67,7 @@ const Space: React.FC<SpaceProps> = (props) => {
   const childNodes = toArray(children, { keepEmpty: true });
 
   const mergedAlign = align === undefined && direction === 'horizontal' ? 'center' : align;
-  const clx = classNames(
+  const clx = clsx(
     {
       'flex-col': direction === 'vertical',
     },

@@ -1,6 +1,9 @@
+/**
+ * description: 密码框。
+ */
+import { LockClosedOutline, LockOpenOutline } from '@metaoa/icons';
+import { Button, Input, Space } from 'meta-ui';
 import React from 'react';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { Button, Input, Space } from 'antd';
 
 const App: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -10,7 +13,7 @@ const App: React.FC = () => {
       <Input.Password placeholder="input password" />
       <Input.Password
         placeholder="input password"
-        iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+        iconRender={(visible) => (visible ? <LockOpenOutline /> : <LockClosedOutline />)}
       />
       <Space direction="horizontal">
         <Input.Password

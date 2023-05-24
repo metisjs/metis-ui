@@ -75,7 +75,15 @@ const inputVariantStyles = cva(
       hasPrefixSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
       addonBefore: { true: 'rounded-s-none' },
       addonAfter: { true: 'rounded-e-none' },
+      disabled: { true: 'bg-transparent' },
     },
+    compoundVariants: [
+      {
+        hasPrefixSuffix: false,
+        disabled: true,
+        className: 'bg-neutral-fill-tertiary text-neutral-text-tertiary',
+      },
+    ],
     defaultVariants: {
       size: 'middle',
     },
@@ -94,6 +102,7 @@ const affixWrapperVariantStyles = cva(
       borderless: { true: 'ring-0 focus:ring-0' },
       addonBefore: { true: 'rounded-s-none' },
       addonAfter: { true: 'rounded-e-none' },
+      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-tertiary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -111,6 +120,7 @@ const addonBeforeWrapperVariantStyles = cva(
         large: 'h-10 px-3 text-base',
       },
       borderless: { true: 'ring-0' },
+      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-tertiary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -128,6 +138,7 @@ const addonAfterWrapperVariantStyles = cva(
         large: 'h-10 px-3 text-base',
       },
       borderless: { true: 'ring-0' },
+      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-tertiary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -237,6 +248,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
                 className={addonAfterWrapperVariantStyles({
                   size: mergedSize,
                   borderless: !bordered,
+                  disabled: !!mergedDisabled,
                 })}
               >
                 {addonAfter}
@@ -253,6 +265,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
                 className={addonBeforeWrapperVariantStyles({
                   size: mergedSize,
                   borderless: !bordered,
+                  disabled: !!mergedDisabled,
                 })}
               >
                 {addonBefore}
@@ -266,6 +279,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           {
             size: mergedSize,
             borderless: !bordered,
+            disabled: !!mergedDisabled,
             hasPrefixSuffix: inputHasPrefixSuffix,
             addonAfter: !!addonAfter,
             addonBefore: !!addonBefore,
@@ -276,14 +290,24 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
             classNames.input,
           ],
         ),
-        prefix: clsx('flex items-center text-neutral-text-secondary', classNames.prefix),
-        suffix: clsx('flex items-center text-neutral-text-secondary', classNames.suffix),
+        prefix: clsx(
+          'flex items-center text-neutral-text-secondary',
+          mergedDisabled && 'text-neutral-text-tertiary',
+          classNames.prefix,
+        ),
+        suffix: clsx(
+          'flex items-center gap-x-1 text-neutral-text-secondary',
+          mergedDisabled && 'text-neutral-text-tertiary',
+          classNames.suffix,
+        ),
+        clear: 'flex items-center text-neutral-text-tertiary',
       }}
       classes={{
         affixWrapper: affixWrapperVariantStyles(
           {
             size: mergedSize,
             borderless: !bordered,
+            disabled: !!mergedDisabled,
             addonAfter: !!addonAfter,
             addonBefore: !!addonBefore,
           },

@@ -27,13 +27,20 @@ group:
 
 <code src="./demo/textarea.tsx">文本域</code>
 
-<!--
 <code src="./demo/autosize-textarea.tsx">适应文本高度的文本域</code>
-<code src="./demo/tooltip.tsx">输入时格式化展示</code>
+
+<!--
+<code src="./demo/tooltip.tsx">输入时格式化展示</code>-->
+
 <code src="./demo/presuffix.tsx">前缀和后缀</code>
+
 <code src="./demo/password-input.tsx">密码框</code>
-<code src="./demo/allowClear.tsx">带移除图标</code>
+
+<code src="./demo/allow-clear.tsx">带移除图标</code>
+
 <code src="./demo/show-count.tsx">带字数提示</code>
+
+<!--
 <code src="./demo/textarea-show-count.tsx">带字数提示的文本域</code>
 <code src="./demo/status.tsx">自定义状态</code>-->
 

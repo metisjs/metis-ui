@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import { SpaceContext } from '.';
+import { clsx } from '../_util/classNameUtils';
 
 export interface ItemProps {
   className?: string;
@@ -34,7 +34,7 @@ export default function Item({ className, direction, index, children, split, wra
     return null;
   }
 
-  const clx = classNames('empty:hidden', className);
+  const clx = clsx('empty:hidden', className);
 
   return (
     <>

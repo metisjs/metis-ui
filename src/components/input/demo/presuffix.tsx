@@ -1,25 +1,17 @@
+import { InformationCircleOutline, UsersSolid } from '@metaoa/icons';
+import { Input, Space } from 'meta-ui';
 import React from 'react';
-import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { Input, Tooltip } from 'antd';
 
 const App: React.FC = () => (
-  <>
+  <Space direction="vertical" className="flex">
     <Input
       placeholder="Enter your username"
-      prefix={<UserOutlined className="site-form-item-icon" />}
-      suffix={
-        <Tooltip title="Extra information">
-          <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-        </Tooltip>
-      }
+      prefix={<UsersSolid className="site-form-item-icon" />}
+      suffix={<InformationCircleOutline style={{ color: 'rgba(0,0,0,.45)' }} />}
     />
-    <br />
-    <br />
     <Input prefix="￥" suffix="RMB" />
-    <br />
-    <br />
     <Input prefix="￥" suffix="RMB" disabled />
-  </>
+  </Space>
 );
 
 export default App;

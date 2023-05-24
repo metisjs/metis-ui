@@ -3,7 +3,6 @@ import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { clsx } from '../_util/classNameUtils';
 import type { InputProps, InputRef } from './Input';
 import Input from './Input';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
@@ -69,7 +68,7 @@ const Password = React.forwardRef<InputRef, PasswordProps>((props, ref) => {
     const icon = iconRender(visible);
     const iconProps = {
       [iconTrigger]: onVisibleChange,
-      className: `-icon`,
+      className: 'cursor-pointer',
       key: 'passwordIcon',
       onMouseDown: (e: MouseEvent) => {
         // Prevent focused state lost
@@ -85,24 +84,16 @@ const Password = React.forwardRef<InputRef, PasswordProps>((props, ref) => {
     return React.cloneElement(React.isValidElement(icon) ? icon : <span>{icon}</span>, iconProps);
   };
 
-  const { className, size, ...restProps } = props;
+  const { className, ...restProps } = props;
 
   const suffixIcon = visibilityToggle && getIcon();
-
-  const inputClassName = clsx(className, {
-    [`-${size}`]: !!size,
-  });
 
   const omittedProps: InputProps = {
     ...omit(restProps, ['suffix', 'iconRender', 'visibilityToggle']),
     type: visible ? 'text' : 'password',
-    className: inputClassName,
+    className,
     suffix: suffixIcon,
   };
-
-  if (size) {
-    omittedProps.size = size;
-  }
 
   return <Input ref={composeRef(ref, inputRef)} {...omittedProps} />;
 });

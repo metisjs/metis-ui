@@ -5,7 +5,7 @@ import RcTextArea from 'rc-textarea';
 import type { TextAreaProps as RcTextAreaProps } from 'rc-textarea/lib/interface';
 import * as React from 'react';
 import { forwardRef } from 'react';
-import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ComplexClassName, getClassNames } from '../_util/classNameUtils';
 import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
@@ -40,10 +40,16 @@ const textareaVariantStyles = cva(
         large: 'px-3 py-2 text-base',
       },
       borderless: { true: 'ring-0 focus:ring-0' },
-      hasPrefixSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
-      addonBefore: { true: 'rounded-s-none' },
-      addonAfter: { true: 'rounded-e-none' },
+      hasSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
+      disabled: { true: 'bg-transparent' },
     },
+    compoundVariants: [
+      {
+        hasSuffix: false,
+        disabled: true,
+        className: 'bg-neutral-fill-tertiary text-neutral-text-tertiary',
+      },
+    ],
     defaultVariants: {
       size: 'middle',
     },
@@ -60,8 +66,7 @@ const affixWrapperVariantStyles = cva(
         large: 'px-3 py-2 text-base',
       },
       borderless: { true: 'ring-0 focus:ring-0' },
-      addonBefore: { true: 'rounded-s-none' },
-      addonAfter: { true: 'rounded-e-none' },
+      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-tertiary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -126,29 +131,27 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         disabled={mergedDisabled}
         allowClear={mergedAllowClear}
         classes={{
-          affixWrapper: clsx(
-            `-textarea-affix-wrapper`,
+          affixWrapper: affixWrapperVariantStyles(
             {
-              [`-affix-wrapper-borderless`]: !bordered,
-              [`-affix-wrapper-sm`]: mergedSize === 'small',
-              [`-affix-wrapper-lg`]: mergedSize === 'large',
-              [`-textarea-show-count`]: showCount,
+              size: mergedSize,
+              borderless: !bordered,
+              disabled: mergedDisabled,
             },
-            getStatusClassNames(mergedStatus),
+            [mergedSize, getStatusClassNames(mergedStatus)],
           ),
         }}
         classNames={{
-          ...classNames,
           textarea: textareaVariantStyles(
             {
               size: mergedSize,
               borderless: !bordered,
               hasSuffix: !!hasFeedback,
+              disabled: mergedDisabled,
             },
             [mergedSize, getStatusClassNames(mergedStatus), classNames.textarea],
           ),
         }}
-        suffix={hasFeedback && <span className={`-textarea-suffix`}>{feedbackIcon}</span>}
+        suffix={hasFeedback && <span className="">{feedbackIcon}</span>}
         showCount={showCount}
         ref={innerRef}
       />
