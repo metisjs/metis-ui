@@ -1,11 +1,6 @@
-import type { Config } from 'tailwindcss';
-import plugin from './src/plugin';
+import metaUIPreset from './src/preset';
 
 export default {
-  darkMode: ['class', '[data-prefers-color="dark"]'],
+  presets: [metaUIPreset],
   content: ['./src/components/**/*.{ts,tsx,js,jsx}', './.dumi/**/*.{ts,tsx,js,jsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [plugin],
-} satisfies Config;
+};
