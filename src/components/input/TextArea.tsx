@@ -30,7 +30,7 @@ export interface TextAreaRef {
   resizableTextArea?: RcTextAreaRef['resizableTextArea'];
 }
 
-const textAreaVariantStyles = cva(
+const textareaVariantStyles = cva(
   'meta-input relative block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
   {
     variants: {
@@ -140,14 +140,17 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         }}
         classNames={{
           ...classNames,
-          textarea: clsx(
+          textarea: textareaVariantStyles(
             {
-              [`-borderless`]: !bordered,
-              [`-sm`]: mergedSize === 'small',
-              [`-lg`]: mergedSize === 'large',
+              size: mergedSize,
+              borderless: !bordered,
+              hasSuffix:!!hasFeedback,
             },
-            getStatusClassNames(mergedStatus),
-            classNames?.textarea,
+            [
+              mergedSize,
+              getStatusClassNames(mergedStatus),
+              classNames.textarea,
+            ],
           ),
         }}
         suffix={hasFeedback && <span className={`-textarea-suffix`}>{feedbackIcon}</span>}
