@@ -1,10 +1,10 @@
 ---
 title: Input
+subtitle: 输入框
 group:
   title: 数据录入
+  order: 3
 ---
-
-# Input 输入框
 
 通过鼠标或键盘输入内容，是最基础的表单域的包装。
 
@@ -17,8 +17,9 @@ group:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本使用</code>
+<code src="./demo/size.tsx">三种大小</code>
 
-<!-- <code src="./demo/size.tsx">三种大小</code>
+<!--
 <code src="./demo/addon.tsx">前置/后置标签</code>
 <code src="./demo/compact-style.tsx">紧凑模式</code>
 <code src="./demo/group.tsx" debug>输入框组合</code>

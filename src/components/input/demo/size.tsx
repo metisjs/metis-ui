@@ -1,16 +1,16 @@
+import { UserOutline } from '@metaoa/icons';
+import { Input } from 'meta-ui';
 import React from 'react';
-import { UserOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
 
 const App: React.FC = () => (
   <>
-    <Input size="large" placeholder="large size" prefix={<UserOutlined />} />
+    <Input size="large" placeholder="large size" prefix={<UserOutline />} />
     <br />
     <br />
-    <Input placeholder="default size" prefix={<UserOutlined />} />
+    <Input placeholder="default size" prefix={<UserOutline />} />
     <br />
     <br />
-    <Input size="small" placeholder="small size" prefix={<UserOutlined />} />
+    <Input size="small" placeholder="small size" prefix={<UserOutline />} />
   </>
 );
 

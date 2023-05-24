@@ -5,6 +5,7 @@ import type { BaseInputProps } from 'rc-input/lib/interface';
 import { composeRef } from 'rc-util/lib/ref';
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
@@ -60,6 +61,20 @@ export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' |
   bordered?: boolean;
   [key: `data-${string}`]: string | undefined;
 }
+
+const inputVariantStyles = cva(
+  'relative block w-full rounded-md border-0 px-3 py-1.5 text-sm leading-6 text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+  {
+    variants: {
+      size: {
+        small: '',
+        middle: '',
+        large: '',
+      },
+      borderless: { true: '' },
+    },
+  },
+);
 
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
@@ -175,14 +190,12 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       }
       classNames={{
         ...classNames,
-        input: clsx(
+        input: inputVariantStyles(
           {
-            sm: mergedSize === 'small',
-            lg: mergedSize === 'large',
-            '[`${prefixCls}-borderless`]': !bordered,
+            size: mergedSize,
+            borderless: !bordered,
           },
-          !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
-          classNames.input,
+          [!inputHasPrefixSuffix && getStatusClassNames(mergedStatus), classNames.input],
         ),
       }}
       classes={{
