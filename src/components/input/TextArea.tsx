@@ -6,6 +6,7 @@ import type { TextAreaProps as RcTextAreaProps } from 'rc-textarea/lib/interface
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -14,7 +15,6 @@ import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import type { InputFocusOptions } from './Input';
 import { triggerFocus } from './Input';
-import cva from '../_util/cva';
 
 export interface TextAreaProps
   extends Omit<RcTextAreaProps, 'suffix' | 'className' | 'classNames'> {
@@ -68,7 +68,6 @@ const affixWrapperVariantStyles = cva(
     },
   },
 );
-
 
 const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
@@ -144,13 +143,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
             {
               size: mergedSize,
               borderless: !bordered,
-              hasSuffix:!!hasFeedback,
+              hasSuffix: !!hasFeedback,
             },
-            [
-              mergedSize,
-              getStatusClassNames(mergedStatus),
-              classNames.textarea,
-            ],
+            [mergedSize, getStatusClassNames(mergedStatus), classNames.textarea],
           ),
         }}
         suffix={hasFeedback && <span className={`-textarea-suffix`}>{feedbackIcon}</span>}
