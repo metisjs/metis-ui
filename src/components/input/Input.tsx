@@ -63,15 +63,74 @@ export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' |
 }
 
 const inputVariantStyles = cva(
-  'relative block w-full rounded-md border-0 px-3 py-1.5 text-sm leading-6 text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+  'meta-input relative block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
   {
     variants: {
       size: {
-        small: '',
-        middle: '',
-        large: '',
+        small: 'px-2 py-1.5',
+        middle: 'px-3 py-1.5 leading-6',
+        large: 'px-3 py-2 text-base',
       },
-      borderless: { true: '' },
+      borderless: { true: 'ring-0 focus:ring-0' },
+      hasPrefixSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
+      addonBefore: { true: 'rounded-s-none' },
+      addonAfter: { true: 'rounded-e-none' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
+
+const affixWrapperVariantStyles = cva(
+  'meta-input relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
+  {
+    variants: {
+      size: {
+        small: 'gap-x-1 px-2 py-1.5',
+        middle: 'px-3 py-1.5 leading-6',
+        large: 'px-3 py-2 text-base',
+      },
+      borderless: { true: 'ring-0 focus:ring-0' },
+      addonBefore: { true: 'rounded-s-none' },
+      addonAfter: { true: 'rounded-e-none' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
+
+const addonBeforeWrapperVariantStyles = cva(
+  '-mr-[1px] inline-flex items-center rounded-s-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-1 ring-inset ring-neutral-border',
+  {
+    variants: {
+      size: {
+        small: 'h-8 px-2',
+        middle: 'h-9  px-3',
+        large: 'h-10 px-3 text-base',
+      },
+      borderless: { true: 'ring-0' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
+
+const addonAfterWrapperVariantStyles = cva(
+  '-ml-[1px] inline-flex items-center rounded-e-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-1 ring-inset ring-neutral-border',
+  {
+    variants: {
+      size: {
+        small: 'h-8 px-2',
+        middle: 'h-9  px-3',
+        large: 'h-10 px-3 text-base',
+      },
+      borderless: { true: 'ring-0' },
+    },
+    defaultVariants: {
+      size: 'middle',
     },
   },
 );
@@ -174,7 +233,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         addonAfter && (
           <NoCompactStyle>
             <NoFormStyle override status>
-              {addonAfter}
+              <span
+                className={addonAfterWrapperVariantStyles({
+                  size: mergedSize,
+                  borderless: !bordered,
+                })}
+              >
+                {addonAfter}
+              </span>
             </NoFormStyle>
           </NoCompactStyle>
         )
@@ -183,38 +249,48 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         addonBefore && (
           <NoCompactStyle>
             <NoFormStyle override status>
-              {addonBefore}
+              <span
+                className={addonBeforeWrapperVariantStyles({
+                  size: mergedSize,
+                  borderless: !bordered,
+                })}
+              >
+                {addonBefore}
+              </span>
             </NoFormStyle>
           </NoCompactStyle>
         )
       }
       classNames={{
-        ...classNames,
         input: inputVariantStyles(
           {
             size: mergedSize,
             borderless: !bordered,
+            hasPrefixSuffix: inputHasPrefixSuffix,
+            addonAfter: !!addonAfter,
+            addonBefore: !!addonBefore,
           },
-          [!inputHasPrefixSuffix && getStatusClassNames(mergedStatus), classNames.input],
+          [
+            mergedSize,
+            !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
+            classNames.input,
+          ],
         ),
+        prefix: clsx('flex items-center text-neutral-text-secondary', classNames.prefix),
+        suffix: clsx('flex items-center text-neutral-text-secondary', classNames.suffix),
       }}
       classes={{
-        affixWrapper: clsx(
+        affixWrapper: affixWrapperVariantStyles(
           {
-            '[`${prefixCls}-affix-wrapper-sm`]': mergedSize === 'small',
-            '[`${prefixCls}-affix-wrapper-lg`]': mergedSize === 'large',
-            '[`${prefixCls}-affix-wrapper-borderless`]': !bordered,
+            size: mergedSize,
+            borderless: !bordered,
+            addonAfter: !!addonAfter,
+            addonBefore: !!addonBefore,
           },
-          getStatusClassNames(mergedStatus, hasFeedback),
+          [mergedSize, getStatusClassNames(mergedStatus, hasFeedback)],
         ),
-        group: clsx(
-          {
-            '[`${prefixCls}-group-wrapper-sm`]': mergedSize === 'small',
-            '[`${prefixCls}-group-wrapper-lg`]': mergedSize === 'large',
-            '[`${prefixCls}-group-wrapper-disabled`]': mergedDisabled,
-          },
-          getStatusClassNames(mergedStatus, hasFeedback),
-        ),
+        group: 'inline-block w-full text-start align-top',
+        wrapper: clsx('meta-input flex items-center', mergedSize),
       }}
     />
   );

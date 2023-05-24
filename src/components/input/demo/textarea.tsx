@@ -1,5 +1,8 @@
+/**
+ * description: 用于多行输入。
+ */
+import { Input } from 'meta-ui';
 import React from 'react';
-import { Input } from 'antd';
 
 const { TextArea } = Input;
 

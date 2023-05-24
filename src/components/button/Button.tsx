@@ -60,33 +60,33 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 type Loading = number | boolean;
 
 const variantStyles = cva(
-  'meta-btn relative inline-flex items-center font-medium text-sm shadow-sm gap-x-1.5 transition ease-in-out duration-150 focus:outline-none focus-visible:ring-2',
+  'meta-btn relative inline-flex items-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
         default:
-          'bg-neutral-container text-neutral-text enabled:hover:ring-primary-hover enabled:hover:text-primary-text-hover ring-1 ring-inset ring-neutral-border focus-visible:ring-primary',
+          'bg-neutral-container bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:text-primary-text-hover enabled:hover:ring-primary-hover',
         primary:
-          'bg-primary text-white enabled:hover:bg-primary-hover focus-visible:ring-offset-2 focus-visible:ring-primary',
-        text: 'text-neutral-text shadow-none ring-inset enabled:hover:bg-neutral-fill-tertiary focus-visible:ring-primary',
-        link: 'text-primary shadow-none ring-inset focus-visible:ring-none enabled:hover:text-primary-hover focus-visible:ring-primary',
+          'bg-primary text-white focus-visible:ring-primary focus-visible:ring-offset-2 enabled:hover:bg-primary-hover',
+        text: 'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary',
+        link: 'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover',
       },
       size: {
-        small: 'py-1.5 px-2.5 rounded-md',
-        middle: 'py-2 px-3 rounded-md',
-        large: 'py-2.5 px-4 rounded-md gap-x-2',
+        small: 'rounded-md px-2.5 py-1.5',
+        middle: 'rounded-md px-3 py-2',
+        large: 'gap-x-2 rounded-md px-4 py-2.5',
       },
       shape: {
         default: '',
         round: 'rounded-full',
       },
       iconOnly: {
-        true: 'w-9 h-9 ps-0 pe-0 justify-center text-base',
+        true: 'h-9 w-9 justify-center pe-0 ps-0 text-base',
       },
       link: { true: '' },
       disabled: { true: 'cursor-not-allowed opacity-40 focus-visible:ring-0' },
       danger: {
-        true: 'text-error ring-error enabled:hover:ring-error-hover enabled:hover:text-error-hover focus-visible:ring-error',
+        true: 'text-error ring-error focus-visible:ring-error enabled:hover:text-error-hover enabled:hover:ring-error-hover',
       },
       ghost: { true: 'bg-transparent text-white ring-white enabled:hover:bg-transparent' },
       loading: { true: 'cursor-not-allowed' },
@@ -95,18 +95,18 @@ const variantStyles = cva(
       {
         size: 'small',
         iconOnly: true,
-        className: 'w-8 h-8',
+        className: 'h-8 w-8',
       },
       {
         size: 'large',
         iconOnly: true,
-        className: 'w-10 h-10',
+        className: 'h-10 w-10',
       },
       {
         type: 'default',
         link: true,
         disabled: false,
-        className: 'hover:ring-primary-hover hover:text-primary-text-hover',
+        className: 'hover:text-primary-text-hover hover:ring-primary-hover',
       },
       {
         type: 'primary',
@@ -142,12 +142,12 @@ const variantStyles = cva(
         ghost: true,
         danger: false,
         className:
-          'ring-1 ring-primary text-primary enabled:hover:ring-primary-hover enabled:hover:text-primary-hover',
+          'text-primary ring-1 ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover',
       },
       {
         danger: true,
         ghost: true,
-        className: 'text-error ring-error ring-1',
+        className: 'text-error ring-1 ring-error',
       },
     ],
     defaultVariants: {

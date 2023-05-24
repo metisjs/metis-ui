@@ -14,6 +14,7 @@ import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import type { InputFocusOptions } from './Input';
 import { triggerFocus } from './Input';
+import cva from '../_util/cva';
 
 export interface TextAreaProps
   extends Omit<RcTextAreaProps, 'suffix' | 'className' | 'classNames'> {
@@ -28,6 +29,46 @@ export interface TextAreaRef {
   blur: () => void;
   resizableTextArea?: RcTextAreaRef['resizableTextArea'];
 }
+
+const textAreaVariantStyles = cva(
+  'meta-input relative block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+  {
+    variants: {
+      size: {
+        small: 'px-2 py-1.5',
+        middle: 'px-3 py-1.5 leading-6',
+        large: 'px-3 py-2 text-base',
+      },
+      borderless: { true: 'ring-0 focus:ring-0' },
+      hasPrefixSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
+      addonBefore: { true: 'rounded-s-none' },
+      addonAfter: { true: 'rounded-e-none' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
+
+const affixWrapperVariantStyles = cva(
+  'meta-input relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
+  {
+    variants: {
+      size: {
+        small: 'gap-x-1 px-2 py-1.5',
+        middle: 'px-3 py-1.5 leading-6',
+        large: 'px-3 py-2 text-base',
+      },
+      borderless: { true: 'ring-0 focus:ring-0' },
+      addonBefore: { true: 'rounded-s-none' },
+      addonAfter: { true: 'rounded-e-none' },
+    },
+    defaultVariants: {
+      size: 'middle',
+    },
+  },
+);
+
 
 const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
