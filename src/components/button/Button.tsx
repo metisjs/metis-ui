@@ -2,6 +2,7 @@ import { LoadingOutline } from '@metaoa/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import cva from '../_util/cva';
+import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
 import warning from '../_util/warning';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -59,8 +60,8 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
-const variantStyles = cva(
-  'meta-btn relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+const btnVariantStyles = cva(
+  'relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
@@ -74,7 +75,7 @@ const variantStyles = cva(
       size: {
         small: 'px-2.5 py-1.5',
         middle: 'px-3 py-2',
-        large: 'gap-x-2 px-4 py-2.5',
+        large: 'gap-x-2 px-4 py-2 text-base',
       },
       shape: {
         default: 'rounded-md',
@@ -158,6 +159,20 @@ const variantStyles = cva(
   },
 );
 
+const iconVariantStyles = cva('', {
+  variants: {
+    size: { small: 'h-4 w-4', middle: 'h-4 w-4', large: 'h-5 w-5' },
+    iconOnly: { true: '' },
+  },
+  compoundVariants: [
+    { size: ['small', 'middle'], iconOnly: true, className: 'h-5 w-5' },
+    { size: 'large', iconOnly: true, className: 'h-6 w-6' },
+  ],
+  defaultVariants: {
+    size: 'middle',
+  },
+});
+
 const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
   const {
     loading = false,
@@ -231,20 +246,30 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const linkButtonRestProps = omit(rest as AnchorButtonProps & { navigate: any }, ['navigate']);
 
-  const iconNode = innerLoading ? <LoadingOutline className="animate-spin" /> : icon;
+  const iconOnly = !children && children !== 0 && !!iconType;
+
+  const iconNode = innerLoading ? (
+    <LoadingOutline
+      className={iconVariantStyles({ size: mergedSize, iconOnly }, ['animate-spin'])}
+    />
+  ) : (
+    cloneElement(icon, ({ className: originCls }) => ({
+      className: iconVariantStyles({ size: mergedSize, iconOnly }, [originCls]),
+    }))
+  );
 
   const variants = {
     type,
     size: mergedSize,
     shape,
-    iconOnly: !children && children !== 0 && !!iconType,
+    iconOnly,
     link: linkButtonRestProps.href !== undefined,
     disabled: mergedDisabled,
     danger: !!danger,
     ghost: type !== 'text' && type !== 'link' && ghost,
     loading: !!innerLoading,
   };
-  const classes = variantStyles(variants, [compactItemClassnames, className]);
+  const classes = btnVariantStyles(variants, [compactItemClassnames, className]);
 
   if (linkButtonRestProps.href !== undefined) {
     return (

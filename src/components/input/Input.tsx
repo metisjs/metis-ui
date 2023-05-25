@@ -146,6 +146,15 @@ const addonAfterWrapperVariantStyles = cva(
   },
 );
 
+const iconVariantStyles = cva('', {
+  variants: {
+    size: { small: 'h-4 w-4', middle: 'h-4 w-4', large: 'h-5 w-5' },
+  },
+  defaultVariants: {
+    size: 'middle',
+  },
+});
+
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
     bordered = true,
@@ -293,6 +302,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         prefix: clsx(
           'flex items-center text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-tertiary',
+          prefix
           classNames.prefix,
         ),
         suffix: clsx(
