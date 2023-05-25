@@ -300,7 +300,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           mergedDisabled && 'text-neutral-text-tertiary',
           classNames.suffix,
         ),
-        clear: 'flex items-center text-neutral-text-tertiary',
+        clear: 'flex items-center text-neutral-text-quaternary',
       }}
       classes={{
         affixWrapper: affixWrapperVariantStyles(
