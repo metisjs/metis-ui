@@ -13,7 +13,7 @@ const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) 
 const App: React.FC = () => (
   <Space direction="vertical" className="flex">
     <Input showCount maxLength={20} onChange={onChange} />
-    <TextArea showCount maxLength={100} onChange={onChange} />
+    <TextArea showCount maxLength={1000} onChange={onChange} />
   </Space>
 );
 

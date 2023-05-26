@@ -1,4 +1,6 @@
-import React from 'react';
+/**
+ * description: 展示字数提示。
+ */
 import {
   AutoComplete,
   Button,
@@ -12,7 +14,8 @@ import {
   TimePicker,
   TreeSelect,
   Typography,
-} from 'antd';
+} from 'meta-ui';
+import React from 'react';
 
 const { Text } = Typography;
 const { Option } = Select;

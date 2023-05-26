@@ -1,11 +1,14 @@
+/**
+ * description: 聚焦额外配置属性。
+ */
+import type { InputRef } from 'meta-ui';
 import React, { useRef, useState } from 'react';
-import type { InputRef } from 'antd';
 
-import { Button, Input, Space, Switch } from 'antd';
+import { Button, Input, Space } from 'meta-ui';
 
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
-  const [input, setInput] = useState(true);
+  const [input] = useState(true);
 
   const sharedProps = {
     style: { width: '100%' },
@@ -52,14 +55,14 @@ const App: React.FC = () => {
         >
           Focus prevent scroll
         </Button>
-        <Switch
+        {/* <Switch
           checked={input}
           checkedChildren="Input"
           unCheckedChildren="TextArea"
           onChange={() => {
             setInput(!input);
           }}
-        />
+        /> */}
       </Space>
       <br />
       {input ? <Input {...sharedProps} /> : <Input.TextArea {...sharedProps} />}

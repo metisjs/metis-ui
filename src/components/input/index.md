@@ -22,7 +22,6 @@ group:
 
 <!--
 <code src="./demo/compact-style.tsx">紧凑模式</code>
-<code src="./demo/group.tsx" debug>输入框组合</code>
 -->
 
 <code src="./demo/textarea.tsx">文本域</code>
@@ -40,18 +39,19 @@ group:
 
 <code src="./demo/show-count.tsx">带字数提示</code>
 
-<!--
-<code src="./demo/textarea-show-count.tsx">带字数提示的文本域</code>
-<code src="./demo/status.tsx">自定义状态</code>-->
+<code src="./demo/status.tsx">自定义状态</code>
 
 <code src="./demo/borderless.tsx">无边框</code>
 
-<!--
 <code src="./demo/focus.tsx">聚焦</code>
+
 <code src="./demo/borderless-debug.tsx" debug>Style Debug</code>
-<code src="./demo/align.tsx" debug>文本对齐</code>
-<code src="./demo/textarea-resize.tsx" debug>文本域</code>
-<code src="./demo/debug-addon.tsx" debug>debug 前置/后置标签</code> -->
+
+<code src="./demo/textarea-resize-debug.tsx" debug>文本域</code>
+
+<!--
+<code src="./demo/align-debug.tsx" debug>文本对齐</code>
+ -->
 
 ## API
 
@@ -93,6 +93,7 @@ Input 的其他属性和 React 自带的 [input](https://reactjs.org/docs/dom-el
 | defaultValue | 输入框默认内容 | string | - |  |
 | maxLength | 内容最大长度 | number | - |  |
 | showCount | 是否展示字数 | boolean \| { formatter: (info: { value: string, count: number, maxLength?: number }) => string } | false |  |
+| status | 设置校验状态 | 'error' \| 'warning' | - |  |
 | size | 控件大小。注：标准表单内的输入框大小限制为 `middle` | `large` \| `middle` \| `small` | - |  |
 | value | 输入框内容 | string | - |  |
 | onPressEnter | 按下回车的回调 | function(e) | - |  |
