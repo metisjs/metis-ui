@@ -47,7 +47,7 @@ const textareaVariantStyles = cva(
       {
         hasSuffix: false,
         disabled: true,
-        className: 'bg-neutral-fill-tertiary text-neutral-text-tertiary',
+        className: 'bg-neutral-fill-tertiary text-neutral-text-quaternary',
       },
     ],
     defaultVariants: {
@@ -66,7 +66,7 @@ const affixWrapperVariantStyles = cva(
         large: 'px-3 py-2 text-base',
       },
       borderless: { true: 'ring-0 focus:ring-0' },
-      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-tertiary' },
+      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-quaternary' },
     },
     defaultVariants: {
       size: 'middle',

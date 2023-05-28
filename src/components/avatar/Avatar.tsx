@@ -28,13 +28,13 @@ export interface AvatarProps {
 }
 
 const variantStyles = cva(
-  'relative overflow-hidden whitespace-nowrap inline-block text-center align-middle bg-neutral-fill text-white text-sm [.group_&]:ring-2 [.group_&]:ring-neutral-bg-container',
+  'relative inline-block overflow-hidden whitespace-nowrap bg-neutral-fill text-center align-middle text-sm text-white [.group_&]:ring-2 [.group_&]:ring-neutral-bg-container',
   {
     variants: {
       size: {
-        large: 'w-10 h-10 leading-10',
-        default: 'w-8 h-8 leading-8',
-        small: 'w-6 h-6 leading-6',
+        large: 'h-10 w-10 leading-10',
+        default: 'h-8 w-8 leading-8',
+        small: 'h-6 w-6 leading-6',
       },
       shape: {
         circle: 'rounded-full',

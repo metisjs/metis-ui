@@ -65,7 +65,7 @@ const optionVariantStyles = cva(
   {
     variants: {
       disabled: {
-        true: 'cursor-not-allowed text-neutral-text-tertiary',
+        true: 'cursor-not-allowed text-neutral-text-quaternary',
         false: 'hover:text-neutral-text',
       },
       selected: {

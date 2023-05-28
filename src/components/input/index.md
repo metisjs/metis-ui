@@ -121,11 +121,11 @@ Input 的其他属性和 React 自带的 [input](https://reactjs.org/docs/dom-el
 | blur | 取消焦点 | - |  |
 | focus | 获取焦点 | (option?: { preventScroll?: boolean, cursor?: 'start' \| 'end' \| 'all' }) |  |
 
-### `className` 属性
+#### `className` 属性
 
 > `string` 类型表示根元素 class
 
-#### Input
+##### Input
 
 | 名称   | 说明               | 版本 |
 | ------ | ------------------ | ---- |
@@ -135,7 +135,7 @@ Input 的其他属性和 React 自带的 [input](https://reactjs.org/docs/dom-el
 | suffix | 所有后缀的包裹元素 |      |
 | count  | 文字计数元素       |      |
 
-#### Input.TextArea
+##### Input.TextArea
 
 | 名称     | 说明            | 版本 |
 | -------- | --------------- | ---- |
