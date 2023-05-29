@@ -90,7 +90,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
 
   const innerClass = clsx(
     'block h-4 w-4 cursor-pointer rounded-full border border-neutral-border text-white',
-    'peer-focus-visible/radio:outline peer-focus-visible/radio:outline-2 peer-focus-visible/radio:outline-offset-2 peer-focus-visible/radio:outline-primary',
+    'peer-focus/radio:outline peer-focus/radio:outline-2 peer-focus/radio:outline-offset-2 peer-focus/radio:outline-primary',
     {
       'border-primary bg-primary': mergedChecked,
       'border-neutral-border bg-neutral-fill-tertiary text-neutral-text-quaternary': mergedDisabled,
