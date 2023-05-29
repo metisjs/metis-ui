@@ -17,6 +17,7 @@ export default defineConfig({
   theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
   resolve: {
     atomDirs: [{ type: 'component', dir: 'src/components' }],
+    codeBlockMode: 'passive',
   },
   alias: {
     'meta-ui/lib': path.join(__dirname, 'src/components'),

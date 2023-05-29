@@ -1,5 +1,8 @@
-import { Checkbox } from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
+/**
+ * description: 方便的从数组生成 Checkbox 组。
+ */
+import { Checkbox, Space } from 'meta-ui';
+import type { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
 import React from 'react';
 
 const onChange = (checkedValues: CheckboxValueType[]) => {
@@ -21,20 +24,16 @@ const optionsWithDisabled = [
 ];
 
 const App: React.FC = () => (
-  <>
+  <Space direction="vertical">
     <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
-    <br />
-    <br />
     <Checkbox.Group options={options} defaultValue={['Pear']} onChange={onChange} />
-    <br />
-    <br />
     <Checkbox.Group
       options={optionsWithDisabled}
       disabled
       defaultValue={['Apple']}
       onChange={onChange}
     />
-  </>
+  </Space>
 );
 
 export default App;

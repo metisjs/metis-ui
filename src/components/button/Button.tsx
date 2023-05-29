@@ -161,11 +161,11 @@ const btnVariantStyles = cva(
 
 const iconVariantStyles = cva('', {
   variants: {
-    size: { small: 'h-4 w-4', middle: 'h-4 w-4', large: 'h-5 w-5' },
+    size: { small: 'h-4 w-4', middle: 'h-5 w-5', large: 'h-5 w-5' },
     iconOnly: { true: '' },
   },
   compoundVariants: [
-    { size: ['small', 'middle'], iconOnly: true, className: 'h-5 w-5' },
+    { size: 'small', iconOnly: true, className: 'h-5 w-5' },
     { size: 'large', iconOnly: true, className: 'h-6 w-6' },
   ],
   defaultVariants: {

@@ -1,10 +1,13 @@
+/**
+ * description: Buggy! 测试一些踩过的样式坑。
+ */
+import { Input, Space } from 'meta-ui';
 import React from 'react';
-import { Input } from 'antd';
 
 const { TextArea } = Input;
 
 const App: React.FC = () => (
-  <div style={{ backgroundColor: 'rgba(0, 0, 128, .2)' }}>
+  <Space direction="vertical" className="flex">
     <Input placeholder="Unbordered" bordered={false} />
     <Input placeholder="Unbordered" bordered={false} size="large" />
     <TextArea placeholder="Unbordered" bordered={false} />
@@ -13,7 +16,7 @@ const App: React.FC = () => (
     <Input prefix="￥" suffix="RMB" bordered={false} />
     <Input prefix="￥" suffix="RMB" disabled bordered={false} />
     <TextArea allowClear style={{ border: '2px solid #000' }} />
-  </div>
+  </Space>
 );
 
 export default App;

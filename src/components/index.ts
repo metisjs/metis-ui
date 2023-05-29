@@ -8,6 +8,8 @@ export { default as Divider } from './divider';
 export type { DividerProps } from './divider';
 export { default as Input } from './input';
 export type { InputProps, InputRef } from './input';
+export { default as Radio } from './radio';
+export type { RadioChangeEvent, RadioGroupProps, RadioProps } from './radio';
 export { default as Segmented } from './segmented';
 export type { SegmentedProps } from './segmented';
 export { default as Space } from './space';

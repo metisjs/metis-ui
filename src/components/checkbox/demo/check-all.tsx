@@ -1,7 +1,10 @@
+/**
+ * description: 在实现全选效果时，你可能会用到 `indeterminate` 属性。
+ */
+import { Checkbox, Divider } from 'meta-ui';
+import type { CheckboxChangeEvent } from 'meta-ui/es/checkbox';
+import type { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
 import React, { useState } from 'react';
-import { Checkbox, Divider } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const CheckboxGroup = Checkbox.Group;
 

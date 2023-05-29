@@ -6,8 +6,7 @@ import { composeRef } from 'rc-util/lib/ref';
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
 import cva from '../_util/cva';
-import type { InputStatus } from '../_util/statusUtils';
-import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
+import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -63,7 +62,7 @@ export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' |
 }
 
 const inputVariantStyles = cva(
-  'meta-input relative block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+  'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
   {
     variants: {
       size: {
@@ -91,7 +90,7 @@ const inputVariantStyles = cva(
 );
 
 const affixWrapperVariantStyles = cva(
-  'meta-input relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
+  'relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
   {
     variants: {
       size: {
@@ -146,15 +145,6 @@ const addonAfterWrapperVariantStyles = cva(
   },
 );
 
-const iconVariantStyles = cva('', {
-  variants: {
-    size: { small: 'h-4 w-4', middle: 'h-4 w-4', large: 'h-5 w-5' },
-  },
-  defaultVariants: {
-    size: 'middle',
-  },
-});
-
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
     bordered = true,
@@ -163,12 +153,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     disabled: customDisabled,
     onBlur,
     onFocus,
+    prefix,
     suffix,
     allowClear,
     addonAfter,
     addonBefore,
     className,
     onChange,
+    showCount,
     ...rest
   } = props;
   const classNames = getClassNames(className);
@@ -191,7 +183,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const mergedStatus = getMergedStatus(contextStatus, customStatus);
 
   // ===================== Focus warning =====================
-  const inputHasPrefixSuffix = hasPrefixSuffix(props) || !!hasFeedback;
+  const inputHasPrefixSuffix = hasPrefixSuffix(props) || !!showCount || !!hasFeedback;
   const prevHasPrefixSuffix = useRef<boolean>(inputHasPrefixSuffix);
   useEffect(() => {
     if (inputHasPrefixSuffix && !prevHasPrefixSuffix.current) {
@@ -234,17 +226,22 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   if (typeof allowClear === 'object' && allowClear?.clearIcon) {
     mergedAllowClear = allowClear;
   } else if (allowClear) {
-    mergedAllowClear = { clearIcon: <XCircleSolid /> };
+    mergedAllowClear = {
+      clearIcon: <XCircleSolid className="h-4 w-4" />,
+    };
   }
 
   return (
     <RcInput
+      prefixCls="meta"
       ref={composeRef(ref, inputRef)}
       autoComplete={input?.autoComplete}
+      showCount={showCount}
       {...rest}
       disabled={mergedDisabled}
       onBlur={handleBlur}
       onFocus={handleFocus}
+      prefix={prefix}
       suffix={suffixNode}
       allowClear={mergedAllowClear}
       className={clsx(classNames.root, compactItemClassnames)}
@@ -300,16 +297,23 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           ],
         ),
         prefix: clsx(
-          'flex items-center text-neutral-text-secondary',
+          'meta-prefix flex flex-none items-center text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
+          mergedSize === 'small' && 'meta-prefix-small',
           classNames.prefix,
         ),
         suffix: clsx(
-          'flex items-center gap-x-1 text-neutral-text-secondary',
+          'meta-suffix flex flex-none items-center gap-x-1 text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
+          mergedSize === 'small' && 'meta-suffix-small',
           classNames.suffix,
         ),
-        clear: 'flex items-center text-neutral-text-quaternary',
+        count: clsx(
+          'text-neutral-text-tertiary',
+          mergedDisabled && 'text-neutral-text-quaternary',
+          classNames.count,
+        ),
+        clear: 'flex items-center text-neutral-text-quaternary hover:text-neutral-text-tertiary',
       }}
       classes={{
         affixWrapper: affixWrapperVariantStyles(
@@ -320,10 +324,10 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
             addonAfter: !!addonAfter,
             addonBefore: !!addonBefore,
           },
-          [mergedSize, getStatusClassNames(mergedStatus, hasFeedback)],
+          [getStatusClassNames(mergedStatus, hasFeedback)],
         ),
         group: 'inline-block w-full text-start align-top',
-        wrapper: clsx('meta-input flex items-center', mergedSize),
+        wrapper: clsx('flex items-center', mergedSize),
       }}
     />
   );

@@ -1,30 +1,33 @@
+/**
+ * description: Checkbox.Group 内嵌 Checkbox，可以实现灵活的布局。
+ */
+import { Checkbox } from 'meta-ui';
+import type { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
 import React from 'react';
-import { Checkbox, Col, Row } from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const onChange = (checkedValues: CheckboxValueType[]) => {
   console.log('checked = ', checkedValues);
 };
 
 const App: React.FC = () => (
-  <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
-    <Row>
-      <Col span={8}>
+  <Checkbox.Group className="flex" onChange={onChange}>
+    <div className="flex w-full flex-wrap">
+      <div className="basis-1/3">
         <Checkbox value="A">A</Checkbox>
-      </Col>
-      <Col span={8}>
+      </div>
+      <div className="basis-1/3">
         <Checkbox value="B">B</Checkbox>
-      </Col>
-      <Col span={8}>
+      </div>
+      <div className="basis-1/3">
         <Checkbox value="C">C</Checkbox>
-      </Col>
-      <Col span={8}>
+      </div>
+      <div className="basis-1/3">
         <Checkbox value="D">D</Checkbox>
-      </Col>
-      <Col span={8}>
+      </div>
+      <div className="basis-1/3">
         <Checkbox value="E">E</Checkbox>
-      </Col>
-    </Row>
+      </div>
+    </div>
   </Checkbox.Group>
 );
 

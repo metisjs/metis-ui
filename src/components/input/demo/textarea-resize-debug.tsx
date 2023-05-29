@@ -1,5 +1,8 @@
+/**
+ * description: 用于多行输入。
+ */
+import { Button, Input, Space } from 'meta-ui';
 import React, { useState } from 'react';
-import { Button, Input } from 'antd';
 
 const { TextArea } = Input;
 
@@ -10,13 +13,13 @@ const App: React.FC = () => {
   const [autoResize, setAutoResize] = useState(false);
 
   return (
-    <>
-      <Button onClick={() => setAutoResize(!autoResize)} style={{ marginBottom: 16 }}>
+    <Space direction="vertical" className="flex">
+      <Button onClick={() => setAutoResize(!autoResize)} style={{ marginBottom: 8 }}>
         Auto Resize: {String(autoResize)}
       </Button>
       <TextArea rows={4} autoSize={autoResize} defaultValue={defaultValue} />
       <TextArea allowClear style={{ width: 93 }} />
-    </>
+    </Space>
   );
 };
 
