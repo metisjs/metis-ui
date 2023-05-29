@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import type { CheckboxChangeEvent } from './Checkbox';
 import Checkbox from './Checkbox';
 
@@ -97,9 +97,6 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
     );
   };
 
-  const prefixCls = '';
-  const groupPrefixCls = `${prefixCls}-group`;
-
   const domProps = omit(restProps, ['value', 'disabled']);
 
   if (options && options.length > 0) {
@@ -110,7 +107,6 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
         value={option.value}
         checked={value.includes(option.value)}
         onChange={option.onChange}
-        className={`${groupPrefixCls}-item`}
         style={option.style}
       >
         {option.label}
@@ -126,7 +122,9 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
     registerValue,
     cancelValue,
   };
-  const classString = classNames(groupPrefixCls, {}, className);
+
+  const classString = clsx('inline-flex flex-wrap gap-x-2', className);
+
   return (
     <div className={classString} style={style} {...domProps} ref={ref}>
       <GroupContext.Provider value={context}>{children}</GroupContext.Provider>

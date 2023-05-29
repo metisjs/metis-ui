@@ -147,7 +147,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
   };
 
   const classString = clsx(
-    'inline-flex cursor-pointer items-center gap-x-2 text-sm leading-6',
+    'inline-flex cursor-pointer items-center text-sm leading-6',
     {
       'text-neutral-text-quaternary': mergedDisabled,
       '': isFormItemInput,
@@ -193,7 +193,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
           {mergedChecked && <CheckedIcon className="absolute inset-0" />}
         </span>
       </span>
-      {children !== undefined && <span>{children}</span>}
+      {children !== undefined && <span className="pe-2 ps-2">{children}</span>}
     </label>
   );
 };

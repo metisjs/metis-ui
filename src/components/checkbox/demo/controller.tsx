@@ -1,6 +1,9 @@
+/**
+ * description: 联动 checkbox。
+ */
+import { Button, Checkbox } from 'meta-ui';
+import type { CheckboxChangeEvent } from 'meta-ui/es/checkbox';
 import React, { useState } from 'react';
-import { Button, Checkbox } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const App: React.FC = () => {
   const [checked, setChecked] = useState(true);
