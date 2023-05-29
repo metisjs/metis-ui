@@ -62,7 +62,7 @@ export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' |
 }
 
 const inputVariantStyles = cva(
-  'relative block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+  'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
   {
     variants: {
       size: {

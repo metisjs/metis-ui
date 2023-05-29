@@ -59,13 +59,14 @@ group:
 | root     | 根元素          |      |
 | checkbox | `checkbox` 元素 |      |
 
-##### Option
+#### Option
 
 ```typescript
 interface Option {
   label: string;
   value: string;
   disabled?: boolean;
+  className?: string | { root?: string; checkbox?: string };
 }
 ```
 

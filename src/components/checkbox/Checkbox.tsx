@@ -25,7 +25,6 @@ export interface AbstractCheckboxProps<T> {
   children?: React.ReactNode;
   id?: string;
   autoFocus?: boolean;
-  type?: string;
   skipGroup?: boolean;
 }
 
@@ -67,7 +66,6 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     checked,
     defaultChecked,
     onChange,
-    type = 'checkbox',
     ...restProps
   } = props;
   const classNames = getClassNames(className);
@@ -129,7 +127,6 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     onChange?.({
       target: {
         ...props,
-        type,
         checked: e.target.checked,
       },
       stopPropagation() {
@@ -186,7 +183,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
           onChange={handleChange}
           disabled={mergedDisabled}
           checked={mergedChecked}
-          type={type}
+          type="checkbox"
           {...restProps}
         />
         <span className={innerClass}>

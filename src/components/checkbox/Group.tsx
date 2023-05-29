@@ -1,12 +1,13 @@
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { ComplexClassName, clsx } from '../_util/classNameUtils';
 import type { CheckboxChangeEvent } from './Checkbox';
 import Checkbox from './Checkbox';
 
 export type CheckboxValueType = string | number | boolean;
 
 export interface CheckboxOptionType {
+  className?: ComplexClassName<'checkbox'>;
   label: React.ReactNode;
   value: CheckboxValueType;
   style?: React.CSSProperties;
@@ -99,8 +100,9 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
 
   const domProps = omit(restProps, ['value', 'disabled']);
 
+  let mergedChildren = children;
   if (options && options.length > 0) {
-    children = getOptions().map((option) => (
+    mergedChildren = getOptions().map((option) => (
       <Checkbox
         key={option.value.toString()}
         disabled={'disabled' in option ? option.disabled : restProps.disabled}
@@ -108,6 +110,7 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
         checked={value.includes(option.value)}
         onChange={option.onChange}
         style={option.style}
+        className={option.className}
       >
         {option.label}
       </Checkbox>
@@ -127,7 +130,7 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
 
   return (
     <div className={classString} style={style} {...domProps} ref={ref}>
-      <GroupContext.Provider value={context}>{children}</GroupContext.Provider>
+      <GroupContext.Provider value={context}>{mergedChildren}</GroupContext.Provider>
     </div>
   );
 };
