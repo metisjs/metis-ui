@@ -2,6 +2,8 @@ export { default as Avatar } from './avatar';
 export type { AvatarProps } from './avatar';
 export { default as Button } from './button';
 export type { ButtonProps } from './button';
+export { default as Checkbox } from './checkbox';
+export type { CheckboxOptionType, CheckboxProps, CheckboxRef } from './checkbox';
 export { default as Divider } from './divider';
 export type { DividerProps } from './divider';
 export { default as Input } from './input';

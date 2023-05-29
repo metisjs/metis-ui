@@ -61,14 +61,14 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 type Loading = number | boolean;
 
 const btnVariantStyles = cva(
-  'relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+  'meta-btn relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
         default:
           'bg-neutral-container bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:text-primary-text-hover enabled:hover:ring-primary-hover',
         primary:
-          'bg-primary text-white focus-visible:ring-primary focus-visible:ring-offset-2 enabled:hover:bg-primary-hover',
+          'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover',
         text: 'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary',
         link: 'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover',
       },

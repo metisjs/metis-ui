@@ -80,7 +80,7 @@ const inputVariantStyles = cva(
       {
         hasPrefixSuffix: false,
         disabled: true,
-        className: 'bg-neutral-fill-tertiary text-neutral-text-tertiary',
+        className: 'bg-neutral-fill-tertiary text-neutral-text-quaternary',
       },
     ],
     defaultVariants: {
@@ -101,7 +101,7 @@ const affixWrapperVariantStyles = cva(
       borderless: { true: 'ring-0 focus:ring-0' },
       addonBefore: { true: 'rounded-s-none' },
       addonAfter: { true: 'rounded-e-none' },
-      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-tertiary' },
+      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-quaternary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -119,7 +119,7 @@ const addonBeforeWrapperVariantStyles = cva(
         large: 'h-10 px-3 text-base',
       },
       borderless: { true: 'ring-0' },
-      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-tertiary' },
+      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-quaternary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -137,7 +137,7 @@ const addonAfterWrapperVariantStyles = cva(
         large: 'h-10 px-3 text-base',
       },
       borderless: { true: 'ring-0' },
-      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-tertiary' },
+      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -298,13 +298,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         ),
         prefix: clsx(
           'meta-prefix flex flex-none items-center text-neutral-text-secondary',
-          mergedDisabled && 'text-neutral-text-tertiary',
+          mergedDisabled && 'text-neutral-text-quaternary',
           mergedSize === 'small' && 'meta-prefix-small',
           classNames.prefix,
         ),
         suffix: clsx(
           'meta-suffix flex flex-none items-center gap-x-1 text-neutral-text-secondary',
-          mergedDisabled && 'text-neutral-text-tertiary',
+          mergedDisabled && 'text-neutral-text-quaternary',
           mergedSize === 'small' && 'meta-suffix-small',
           classNames.suffix,
         ),
