@@ -150,7 +150,7 @@ Input 的其他属性和 React 自带的 [input](https://reactjs.org/docs/dom-el
 
 当 Input 动态添加或者删除 `prefix/suffix/showCount` 时，React 会重新创建 DOM 结构而新的 input 是没有焦点的。你可以预设一个空的 `<span />` 来保持 DOM 结构不变：
 
-```jsx | pure
+```jsx
 const suffix = condition ? <Icon type="smile" /> : <span />;
 
 <Input suffix={suffix} />;
