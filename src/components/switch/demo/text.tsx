@@ -6,11 +6,11 @@ import React from 'react';
 
 const App: React.FC = () => (
   <Space direction="vertical">
-    <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked />
+    <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked size="small" />
     <Switch checkedChildren="1" unCheckedChildren="0" />
     {/* <Switch
-      checkedChildren={<CheckOutlined />}
-      unCheckedChildren={<CloseOutlined />}
+      checkedChildren={<CheckOutline />}
+      unCheckedChildren={<XMarkOutline />}
       defaultChecked
     /> */}
   </Space>
