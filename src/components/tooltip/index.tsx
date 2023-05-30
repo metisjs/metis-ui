@@ -1,4 +1,3 @@
-import type { BuildInPlacements } from '@rc-component/trigger';
 import classNames from 'classnames';
 import RcTooltip from 'rc-tooltip';
 import type {
@@ -9,17 +8,13 @@ import type { placements as Placements } from 'rc-tooltip/lib/placements';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
-import type { PresetColorType } from '../_util/colors';
-import { getTransitionName } from '../_util/motion';
 import type { AdjustOverflow, PlacementsConfig } from '../_util/placements';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
-import type { LiteralUnion } from '../_util/type';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import { NoCompactStyle } from '../space/Compact';
-import PurePanel from './PurePanel';
-import useStyle from './style';
+import type { BuildInPlacements } from '../trigger';
 import { parseColor } from './util';
 
 export type { AdjustOverflow, PlacementsConfig };
@@ -74,12 +69,10 @@ export interface AbstractTooltipProps extends LegacyTooltipProps {
   style?: React.CSSProperties;
   className?: string;
   rootClassName?: string;
-  color?: LiteralUnion<PresetColorType>;
+  color?: string;
   placement?: TooltipPlacement;
   builtinPlacements?: typeof Placements;
   openClassName?: string;
-  /** @deprecated Please use `arrow` instead. */
-  arrowPointAtCenter?: boolean;
   arrow?:
     | boolean
     | {
@@ -187,8 +180,6 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   const mergedShowArrow = !!arrow;
 
-  const { token } = useToken();
-
   const { getPopupContainer: getContextPopupContainer } = React.useContext(ConfigContext);
 
   // ============================== Ref ===============================
@@ -208,30 +199,10 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   // ============================== Warn ==============================
   if (process.env.NODE_ENV !== 'production') {
-    [
-      ['visible', 'open'],
-      ['defaultVisible', 'defaultOpen'],
-      ['onVisibleChange', 'onOpenChange'],
-      ['afterVisibleChange', 'afterOpenChange'],
-      ['arrowPointAtCenter', 'arrow'],
-    ].forEach(([deprecatedName, newName]) => {
-      warning(
-        !(deprecatedName in props),
-        'Tooltip',
-        `\`${deprecatedName}\` is deprecated, please use \`${newName}\` instead.`,
-      );
-    });
-
     warning(
       !destroyTooltipOnHide || typeof destroyTooltipOnHide === 'boolean',
       'Tooltip',
       '`destroyTooltipOnHide` no need config `keepParent` anymore. Please use `boolean` value directly.',
-    );
-
-    warning(
-      !arrow || typeof arrow === 'boolean' || !('arrowPointAtCenter' in arrow),
-      'Tooltip',
-      '`arrowPointAtCenter` in `arrow` is deprecated, please use `pointAtCenter` instead.',
     );
   }
 
@@ -293,7 +264,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     ...otherProps
   } = props;
 
-  const prefixCls = getPrefixCls('tooltip', customizePrefixCls);
+  const prefixCls = getPrefixCls('tooltip');
   const rootPrefixCls = getPrefixCls();
 
   const injectFromPopover = (props as any)['data-popover-inject'];
@@ -317,25 +288,14 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
         })
       : childProps.className;
 
-  // Style
-  const [wrapSSR, hashId] = useStyle(prefixCls, !injectFromPopover);
-
   // Color
-  const colorInfo = parseColor(prefixCls, color);
+  const colorInfo = parseColor(color);
   const formattedOverlayInnerStyle = { ...overlayInnerStyle, ...colorInfo.overlayStyle };
   const arrowContentStyle = colorInfo.arrowStyle;
 
-  const customOverlayClassName = classNames(
-    overlayClassName,
-    {
-      [`${prefixCls}-rtl`]: direction === 'rtl',
-    },
-    colorInfo.className,
-    rootClassName,
-    hashId,
-  );
+  const customOverlayClassName = classNames(overlayClassName, {}, rootClassName);
 
-  return wrapSSR(
+  return (
     <RcTooltip
       {...otherProps}
       showArrow={mergedShowArrow}
@@ -361,18 +321,12 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       destroyTooltipOnHide={!!destroyTooltipOnHide}
     >
       {tempOpen ? cloneElement(child, { className: childCls }) : child}
-    </RcTooltip>,
+    </RcTooltip>
   );
-}) as React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<TooltipProps> & React.RefAttributes<unknown>
-> & {
-  _InternalPanelDoNotUseOrYouWillBeFired: typeof PurePanel;
-};
+});
 
 if (process.env.NODE_ENV !== 'production') {
   Tooltip.displayName = 'Tooltip';
 }
-
-Tooltip._InternalPanelDoNotUseOrYouWillBeFired = PurePanel;
 
 export default Tooltip;
