@@ -29,6 +29,9 @@ export default tailwindPlugin(mainFunction, {
         'neutral-900': tailwindColors.neutral[900],
         'neutral-950': tailwindColors.neutral[950],
       },
+      opacity: {
+        disabled: '0.6',
+      },
     },
   },
 });

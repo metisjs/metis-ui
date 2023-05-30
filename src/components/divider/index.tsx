@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import cva from '../_util/cva';
 import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
 
 export interface DividerProps {
   type?: 'horizontal' | 'vertical';
@@ -48,8 +50,12 @@ const Divider: React.FC<DividerProps> = (props) => {
     plain,
     ...restProps
   } = props;
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('divider');
+
   const hasChildren = !!children;
   const classString = variantStyles({ type, orientation, withText: hasChildren, dashed, plain }, [
+    prefixCls,
     className,
   ]);
 
@@ -64,7 +70,9 @@ const Divider: React.FC<DividerProps> = (props) => {
 
   return (
     <div className={classString} {...restProps} role="separator">
-      {children && type !== 'vertical' && <span className="inline-block px-2">{children}</span>}
+      {children && type !== 'vertical' && (
+        <span className={clsx(`${prefixCls}-inner-text`, 'inline-block px-2')}>{children}</span>
+      )}
     </div>
   );
 };

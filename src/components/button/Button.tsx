@@ -5,11 +5,11 @@ import cva from '../_util/cva';
 import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
 import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import { useCompactItemContext } from '../space/Compact';
-import Group, { GroupSizeContext } from './ButtonGroup';
 
 function isUnBorderedButtonType(type: ButtonType | undefined) {
   return type === 'text' || type === 'link';
@@ -53,7 +53,6 @@ export type ButtonProps = Partial<AnchorButtonProps & NativeButtonProps>;
 type CompoundedComponent = React.ForwardRefExoticComponent<
   ButtonProps & React.RefAttributes<HTMLElement>
 > & {
-  Group: typeof Group;
   /** @internal */
   __META_BUTTON: boolean;
 };
@@ -61,7 +60,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 type Loading = number | boolean;
 
 const btnVariantStyles = cva(
-  'meta-btn relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+  'relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
   {
     variants: {
       type: {
@@ -85,7 +84,7 @@ const btnVariantStyles = cva(
         true: 'h-9 w-9 justify-center pe-0 ps-0 text-base',
       },
       link: { true: '' },
-      disabled: { true: 'cursor-not-allowed opacity-40 focus-visible:ring-0' },
+      disabled: { true: 'cursor-not-allowed opacity-disabled focus-visible:ring-0' },
       danger: {
         true: 'text-error ring-error focus-visible:ring-error enabled:hover:text-error-hover enabled:hover:ring-error-hover',
       },
@@ -189,12 +188,14 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     ...rest
   } = props;
 
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('btn');
+
   const size = React.useContext(SizeContext);
   // ===================== Disabled =====================
   const disabled = React.useContext(DisabledContext);
   const mergedDisabled = customDisabled ?? disabled;
 
-  const groupSize = React.useContext(GroupSizeContext);
   const [innerLoading, setLoading] = React.useState<Loading>(!!loading);
   const buttonRef = (ref as any) || React.createRef<HTMLElement>();
 
@@ -240,7 +241,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const { compactSize, compactItemClassnames } = useCompactItemContext();
 
-  const mergedSize = compactSize || groupSize || customizeSize || size;
+  const mergedSize = compactSize || customizeSize || size;
 
   const iconType = innerLoading ? 'loading' : icon;
 
@@ -269,7 +270,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     ghost: type !== 'text' && type !== 'link' && ghost,
     loading: !!innerLoading,
   };
-  const classes = btnVariantStyles(variants, [compactItemClassnames, className]);
+  const classes = btnVariantStyles(variants, [prefixCls, compactItemClassnames, className]);
 
   if (linkButtonRestProps.href !== undefined) {
     return (
@@ -303,7 +304,6 @@ if (process.env.NODE_ENV !== 'production') {
   Button.displayName = 'Button';
 }
 
-Button.Group = Group;
 Button.__META_BUTTON = true;
 
 export default Button;

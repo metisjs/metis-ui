@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import useLatestValue from 'meta-ui/_util/hooks/useLatestValue';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import React, {
   CSSProperties,
@@ -10,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import useLatestValue from '../_util/hooks/useLatestValue';
 import useSyncRefs from '../_util/hooks/useSyncRefs';
 import {
   NestingContext,

@@ -20,6 +20,7 @@ export interface CSPConfig {
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
+  getPrefixCls: (suffixCls?: string) => string;
   // renderEmpty?: RenderEmptyHandler;
   csp?: CSPConfig;
   input?: {
@@ -43,7 +44,13 @@ export interface ConfigConsumerProps {
   };
 }
 
-// 🚨 Do not pass `defaultRenderEmpty` here since it will case circular dependency.
-export const ConfigContext = React.createContext<ConfigConsumerProps>({});
+const defaultGetPrefixCls = (suffixCls?: string) => {
+  return suffixCls ? `meta-${suffixCls}` : 'meta';
+};
+
+export const ConfigContext = React.createContext<ConfigConsumerProps>({
+  // We provide a default function for Context without provider
+  getPrefixCls: defaultGetPrefixCls,
+});
 
 export const ConfigConsumer = ConfigContext.Consumer;

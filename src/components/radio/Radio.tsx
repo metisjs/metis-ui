@@ -2,6 +2,7 @@ import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { clsx, getClassNames } from '../_util/classNameUtils';
 import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import { FormItemInputContext } from '../form/context';
 import CheckedIcon from './CheckedIcon';
@@ -22,6 +23,9 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
     onChange,
     ...restProps
   } = props;
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('radio');
+
   const classNames = getClassNames(className);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -85,6 +89,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       'text-neutral-text-quaternary': mergedDisabled,
       '': isFormItemInput,
     },
+    `${prefixCls}-wrapper`,
     classNames.root,
   );
 
@@ -96,6 +101,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       'border-neutral-border bg-neutral-fill-tertiary text-neutral-text-quaternary': mergedDisabled,
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
+    `${prefixCls}-inner`,
     classNames.radio,
   );
 
@@ -106,7 +112,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <span className="relative">
+      <span className={`${prefixCls} relative`}>
         <input
           name={radioGroup ? radioGroup.name : name}
           className={'peer/radio absolute inset-0 z-[1] cursor-pointer opacity-0'}
