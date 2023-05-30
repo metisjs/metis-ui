@@ -3,7 +3,9 @@ import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import cva from '../_util/cva';
+import { ConfigContext } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import MotionThumb from './MotionThumb';
@@ -95,6 +97,9 @@ const InternalSegmentedOption: React.FC<{
   value: SegmentedRawOption;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
 }> = ({ className, disabled, checked, label, icon, title, value, onChange }) => {
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('segmented-item');
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) {
       return;
@@ -104,15 +109,21 @@ const InternalSegmentedOption: React.FC<{
   };
 
   return (
-    <label className={className}>
+    <label className={clsx(className, prefixCls)}>
       <input
-        className="pointer-events-none absolute inset-0 h-0 w-0 opacity-0"
+        className={clsx(
+          'pointer-events-none absolute inset-0 h-0 w-0 opacity-0',
+          `${prefixCls}-input`,
+        )}
         type="radio"
         disabled={disabled}
         checked={checked}
         onChange={handleChange}
       />
-      <div className="flex w-full justify-center gap-x-2" title={title}>
+      <div
+        className={clsx('flex w-full justify-center gap-x-2', `${prefixCls}-label`)}
+        title={title}
+      >
         {icon && <span className={classNames('text-xl/[1.25rem]')}>{icon}</span>}
         {label && <span className="truncate">{label}</span>}
       </div>
@@ -132,6 +143,8 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
     onChange,
     ...restProps
   } = props;
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('segmented');
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mergedRef = React.useMemo(
@@ -173,11 +186,14 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
       className={classNames(
         'inline-block rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text transition-all duration-300',
         { 'block-segmented flex': block },
+        prefixCls,
         className,
       )}
       ref={mergedRef}
     >
-      <div className={`relative flex w-full items-stretch justify-start gap-x-0.5`}>
+      <div
+        className={`relative flex w-full items-stretch justify-start gap-x-0.5 ${prefixCls}-group`}
+      >
         <MotionThumb
           value={rawValue}
           containerRef={containerRef}

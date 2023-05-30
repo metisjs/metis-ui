@@ -2,11 +2,15 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import getDataOrAriaProps from '../_util/getDataOrAriaProps';
+import { ConfigContext } from '../config-provider';
 import { RadioGroupContextProvider } from './Context';
 import Radio from './Radio';
 import type { RadioChangeEvent, RadioGroupProps } from './interface';
 
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref) => {
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('radio-group');
+
   const [value, setValue] = useMergedState(props.defaultValue, {
     value: props.value,
   });
@@ -69,7 +73,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref
     });
   }
 
-  const classString = clsx('inline-flex flex-wrap gap-x-2', className);
+  const classString = clsx('inline-flex flex-wrap gap-x-2', prefixCls, className);
 
   return (
     <div

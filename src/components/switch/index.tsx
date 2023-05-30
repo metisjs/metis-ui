@@ -2,6 +2,7 @@ import { LoadingOutline } from '@metaoa/icons';
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 
@@ -54,6 +55,9 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     },
     ref,
   ) => {
+    const { getPrefixCls } = React.useContext(ConfigContext);
+    const prefixCls = getPrefixCls('switch');
+
     const [innerChecked, setInnerChecked] = useMergedState<boolean>(false, {
       value: checked,
       defaultValue: defaultChecked,
@@ -104,6 +108,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         'bg-primary': innerChecked,
         'h-5 min-w-[2rem]': mergedSize === 'small',
       },
+      prefixCls,
       classNames.root,
     );
 
@@ -114,6 +119,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         'h-4 w-4': mergedSize === 'small',
         'start-[calc(100%-18px)]': innerChecked && mergedSize === 'small',
       },
+      `${prefixCls}-handle`,
       classNames.handle,
     );
 
@@ -144,6 +150,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
             mergedSize === 'small' && 'pe-[6px] ps-5 leading-5',
             innerChecked && 'pe-[26px] ps-[9px]',
             innerChecked && mergedSize === 'small' && 'pe-5 ps-[6px]',
+            `${prefixCls}-inner`,
           )}
         >
           <span
@@ -151,6 +158,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
               'pointer-events-none me-[calc(100%-24px+52px)] ms-[calc(-100%+24px-52px)] block text-white transition-all duration-200 ease-in-out',
               mergedSize === 'small' && 'me-[calc(100%-20px+40px)] ms-[calc(-100%+20px-40px)]',
               innerChecked && 'me-0 ms-0',
+              `${prefixCls}-inner-checked`,
             )}
           >
             {checkedChildren}
@@ -163,6 +171,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
               mergedSize === 'small' &&
                 innerChecked &&
                 'me-[calc(-100%+20px-40px)] ms-[calc(100%-20px+40px)]',
+              `${prefixCls}-inner-unchecked`,
             )}
           >
             {unCheckedChildren}
