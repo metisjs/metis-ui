@@ -3,7 +3,7 @@ title: Switch
 subtitle: 开关
 group:
   title: 数据录入
-  order: 4
+  order: 3
 ---
 
 开关选择器。
