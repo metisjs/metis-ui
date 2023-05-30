@@ -2,6 +2,7 @@ import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
 import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import { FormItemInputContext } from '../form/context';
 import CheckedIcon from './CheckedIcon';
@@ -69,6 +70,8 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     ...restProps
   } = props;
   const classNames = getClassNames(className);
+
+  const { getPrefixCls } = React.useContext(ConfigContext);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [rawChecked, setRawChecked] = useMergedState(defaultChecked, {
@@ -143,12 +146,15 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     }
   };
 
+  const prefixCls = getPrefixCls('checkbox');
+
   const classString = clsx(
     'inline-flex cursor-pointer items-center text-sm leading-6',
     {
       'text-neutral-text-quaternary': mergedDisabled,
       '': isFormItemInput,
     },
+    `${prefixCls}-wrapper`,
     classNames.root,
   );
 
@@ -162,6 +168,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       'border-neutral-border bg-neutral-fill-tertiary text-neutral-text-quaternary': mergedDisabled,
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
+    `${prefixCls}-inner`,
     classNames.checkbox,
   );
 
@@ -174,7 +181,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <span className="relative">
+      <span className={`${prefixCls} relative`}>
         <input
           aria-checked={ariaChecked}
           name={checkboxGroup && !skipGroup ? checkboxGroup.name : name}

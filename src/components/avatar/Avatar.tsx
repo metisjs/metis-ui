@@ -2,6 +2,7 @@ import ResizeObserver from 'rc-resize-observer';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import cva from '../_util/cva';
+import { ConfigContext } from '../config-provider';
 import type { AvatarSize } from './SizeContext';
 import SizeContext from './SizeContext';
 
@@ -73,6 +74,8 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   const avatarChildrenRef = React.useRef<HTMLSpanElement>(null);
   const avatarNodeMergeRef = composeRef<HTMLSpanElement>(ref, avatarNodeRef);
 
+  const { getPrefixCls } = React.useContext(ConfigContext);
+
   const setScaleParam = () => {
     if (!avatarChildrenRef.current || !avatarNodeRef.current) {
       return;
@@ -126,6 +129,8 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   const size = customSize === 'default' ? groupSize : customSize;
 
   const hasImageElement = React.isValidElement(src);
+
+  const prefixCls = getPrefixCls('avatar');
 
   const sizeStyle: React.CSSProperties =
     typeof size === 'number'
@@ -210,7 +215,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
           image: hasImageElement || (!!src && isImgExist),
           icon: !!icon,
         },
-        [className],
+        [prefixCls, className],
       )}
       ref={avatarNodeMergeRef}
     >

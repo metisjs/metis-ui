@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
+import { ConfigContext } from '../config-provider';
 import Avatar from './Avatar';
 import type { AvatarSize } from './SizeContext';
 import { SizeContextProvider } from './SizeContext';
@@ -18,9 +19,12 @@ export interface GroupProps {
 }
 
 const Group: React.FC<GroupProps> = (props) => {
+  const { getPrefixCls } = React.useContext(ConfigContext);
   const { className = '', maxCount, maxStyle, size } = props;
 
-  const cls = classNames('group relative -space-x-1 overflow-hidden', className);
+  const prefixCls = getPrefixCls('avatar-group');
+
+  const cls = clsx(prefixCls, 'group relative -space-x-1 overflow-hidden', className);
 
   // const { children, maxPopoverPlacement = 'top', maxPopoverTrigger = 'hover' } = props;
   const { children } = props;

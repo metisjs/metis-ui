@@ -164,8 +164,9 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     ...rest
   } = props;
   const classNames = getClassNames(className);
-  const { input } = React.useContext(ConfigContext);
+  const { getPrefixCls, input } = React.useContext(ConfigContext);
 
+  const prefixCls = getPrefixCls('input');
   const inputRef = useRef<InputRef>(null);
 
   // ===================== Compact Item =====================
@@ -233,7 +234,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
 
   return (
     <RcInput
-      prefixCls="meta"
+      prefixCls={prefixCls}
       ref={composeRef(ref, inputRef)}
       autoComplete={input?.autoComplete}
       showCount={showCount}
@@ -297,15 +298,15 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           ],
         ),
         prefix: clsx(
-          'meta-prefix flex flex-none items-center text-neutral-text-secondary',
+          'flex flex-none items-center text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
-          mergedSize === 'small' && 'meta-prefix-small',
+          mergedSize === 'small' && `${prefixCls}-prefix-small`,
           classNames.prefix,
         ),
         suffix: clsx(
-          'meta-suffix flex flex-none items-center gap-x-1 text-neutral-text-secondary',
+          'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
-          mergedSize === 'small' && 'meta-suffix-small',
+          mergedSize === 'small' && `${prefixCls}-suffix-small`,
           classNames.suffix,
         ),
         count: clsx(

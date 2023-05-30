@@ -4,7 +4,6 @@ import InternalInput from './Input';
 import Password from './Password';
 import TextArea from './TextArea';
 
-export type { GroupProps } from './Group';
 export type { InputProps, InputRef } from './Input';
 export type { PasswordProps } from './Password';
 export type { TextAreaProps } from './TextArea';
