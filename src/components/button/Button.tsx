@@ -85,7 +85,7 @@ const btnVariantStyles = cva(
         true: 'h-9 w-9 justify-center pe-0 ps-0 text-base',
       },
       link: { true: '' },
-      disabled: { true: 'cursor-not-allowed opacity-50 focus-visible:ring-0' },
+      disabled: { true: 'cursor-not-allowed opacity-disabled focus-visible:ring-0' },
       danger: {
         true: 'text-error ring-error focus-visible:ring-error enabled:hover:text-error-hover enabled:hover:ring-error-hover',
       },

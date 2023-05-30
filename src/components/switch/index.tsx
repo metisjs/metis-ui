@@ -99,10 +99,10 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     const rootCls = clsx(
       'relative inline-block h-6 min-w-[2.75rem] cursor-pointer select-none rounded-full bg-neutral-fill-secondary text-xs transition-colors duration-200 ease-in-out',
       'focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary',
-      'disabled:cursor-not-allowed disabled:opacity-50',
+      'disabled:cursor-not-allowed disabled:opacity-disabled',
       {
         'bg-primary': innerChecked,
-        'h-5 min-w-[1.75rem]': mergedSize === 'small',
+        'h-5 min-w-[2rem]': mergedSize === 'small',
       },
       classNames.root,
     );
