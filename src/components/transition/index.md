@@ -34,6 +34,7 @@ group:
 | leaveFrom | `leave`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | leaveTo | `leave`阶段开始后立即添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | beforeEnter | 状态切换的回调 | () => void | - |  |
+| afterEnter | 状态切换的回调 | () => void | - |  |
 | beforeLeave | 状态切换的回调 | () => void | - |  |
 | afterLeave | 状态切换的回调 | () => void | - |  |
 
@@ -52,5 +53,6 @@ group:
 | leaveFrom | `leave`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | leaveTo | `leave`阶段开始后立即添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | beforeEnter | 状态切换的回调 | () => void | - |  |
+| afterEnter | 状态切换的回调 | () => void | - |  |
 | beforeLeave | 状态切换的回调 | () => void | - |  |
 | afterLeave | 状态切换的回调 | () => void | - |  |
