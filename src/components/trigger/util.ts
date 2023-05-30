@@ -9,6 +9,7 @@ function isPointsEq(a1: string[] = [], a2: string[] = [], isAlignPoint: boolean)
 
 export function getAlignPopupClassName(
   builtinPlacements: BuildInPlacements,
+  prefixCls: string,
   align: AlignType,
   isAlignPoint: boolean,
 ): string {
@@ -19,7 +20,7 @@ export function getAlignPopupClassName(
   for (let i = 0; i < placements.length; i += 1) {
     const placement = placements[i];
     if (isPointsEq(builtinPlacements[placement]?.points, points, isAlignPoint)) {
-      return `placement-${placement}`;
+      return `${prefixCls}-placement-${placement}`;
     }
   }
 

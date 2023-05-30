@@ -1,4 +1,4 @@
-import { ComplexClassName, getClassNames } from 'meta-ui/es/_util/classNameUtils';
+import { ComplexClassName, clsx, getClassNames } from 'meta-ui/es/_util/classNameUtils';
 import ResizeObserver from 'rc-resize-observer';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { composeRef } from 'rc-util/lib/ref';
@@ -12,10 +12,11 @@ import Mask from './Mask';
 import PopupContent from './PopupContent';
 
 export interface PopupProps {
+  prefixCls: string;
   className?: ComplexClassName<'mask'>;
   style?: React.CSSProperties;
   popup?: TriggerProps['popup'];
-  target: HTMLElement;
+  target: HTMLElement | null;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
   zIndex?: number;
@@ -63,6 +64,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
   const {
     popup,
     className,
+    prefixCls,
     style,
     target,
 
@@ -114,7 +116,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
   const childNode = typeof popup === 'function' ? popup() : popup;
 
   // We can not remove holder only when motion finished.
-  const isNodeVisible = open || keepDom;
+  const isNodeOpen = open || keepDom;
 
   // ======================= Container ========================
   const getPopupContainerNeedParams = (getPopupContainer?.length ?? 0) > 0;
@@ -166,11 +168,12 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
 
   return (
     <Portal
-      open={forceRender || isNodeVisible}
-      getContainer={getPopupContainer && (() => getPopupContainer(target))}
+      open={forceRender || isNodeOpen}
+      getContainer={getPopupContainer && (() => getPopupContainer(target!))}
       autoDestroy={autoDestroy}
     >
       <Mask
+        prefixCls={prefixCls}
         className={classNames.mask}
         open={open}
         zIndex={zIndex}
@@ -196,7 +199,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
             >
               <div
                 ref={composeRef(resizeObserverRef, ref)}
-                className={classNames.root}
+                className={clsx(prefixCls, classNames.root)}
                 style={
                   {
                     '--arrow-x': `${arrowPos.x || 0}px`,
@@ -212,7 +215,9 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
                 onMouseLeave={onMouseLeave}
                 onClick={onClick}
               >
-                {arrow && <Arrow arrow={arrow} arrowPos={arrowPos} align={align} />}
+                {arrow && (
+                  <Arrow prefixCls={prefixCls} arrow={arrow} arrowPos={arrowPos} align={align} />
+                )}
                 <PopupContent cache={!open}>{childNode}</PopupContent>
               </div>
             </Transition>

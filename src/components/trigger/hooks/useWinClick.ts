@@ -7,8 +7,8 @@ import { getWin } from '../util';
 export default function useWinClick(
   open: boolean,
   clickToHide: boolean,
-  targetEle: HTMLElement,
-  popupEle: HTMLElement,
+  targetEle: HTMLElement | null,
+  popupEle: HTMLElement | null,
   mask: boolean,
   maskClosable: boolean,
   inPopupOrChild: (target: EventTarget | null) => boolean,
@@ -56,7 +56,7 @@ export default function useWinClick(
       win.addEventListener('click', onWindowClick);
 
       // shadow root
-      const targetShadowRoot = getShadowRoot(targetEle);
+      const targetShadowRoot = getShadowRoot(targetEle!);
       if (targetShadowRoot) {
         targetShadowRoot.addEventListener('mousedown', onWindowMouseDown);
         targetShadowRoot.addEventListener('click', onWindowClick);

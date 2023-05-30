@@ -43,6 +43,8 @@ export interface TriggerProps {
   showAction?: ActionType[];
   hideAction?: ActionType[];
 
+  prefixCls?: string;
+
   zIndex?: number;
 
   onPopupAlign?: (element: HTMLElement, align: AlignType) => void;
@@ -50,10 +52,10 @@ export interface TriggerProps {
   stretch?: string;
 
   // ==================== Open =====================
-  popupVisible?: boolean;
-  defaultPopupVisible?: boolean;
-  onPopupVisibleChange?: (visible: boolean) => void;
-  afterPopupVisibleChange?: (visible: boolean) => void;
+  popupOpen?: boolean;
+  defaultPopupOpen?: boolean;
+  onPopupOpenChange?: (open: boolean) => void;
+  afterPopupOpenChange?: (open: boolean) => void;
 
   // =================== Portal ====================
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -102,6 +104,7 @@ export interface TriggerProps {
 export function generateTrigger(PortalComponent: React.ComponentType<any> = Portal) {
   const Trigger = React.forwardRef<TriggerRef, TriggerProps>((props, ref) => {
     const {
+      prefixCls = 'meta-trigger-popup',
       children,
 
       // Action
@@ -110,10 +113,10 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       hideAction,
 
       // Open
-      popupVisible,
-      defaultPopupVisible,
-      onPopupVisibleChange,
-      afterPopupVisibleChange,
+      popupOpen,
+      defaultPopupOpen,
+      onPopupOpenChange,
+      afterPopupOpenChange,
 
       // Delay
       mouseEnterDelay,
@@ -224,21 +227,21 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     });
 
     // ============================ Open ============================
-    const [internalOpen, setInternalOpen] = React.useState(defaultPopupVisible || false);
+    const [internalOpen, setInternalOpen] = React.useState(defaultPopupOpen || false);
 
     // Render still use props as first priority
-    const mergedOpen = popupVisible ?? internalOpen;
+    const mergedOpen = popupOpen ?? internalOpen;
 
-    // We use effect sync here in case `popupVisible` back to `undefined`
+    // We use effect sync here in case `popupOpen` back to `undefined`
     const setMergedOpen = useEvent((nextOpen: boolean) => {
-      if (popupVisible === undefined) {
+      if (popupOpen === undefined) {
         setInternalOpen(nextOpen);
       }
     });
 
     useLayoutEffect(() => {
-      setInternalOpen(popupVisible || false);
-    }, [popupVisible]);
+      setInternalOpen(popupOpen || false);
+    }, [popupOpen]);
 
     const openRef = React.useRef(mergedOpen);
     openRef.current = mergedOpen;
@@ -246,7 +249,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const internalTriggerOpen = useEvent((nextOpen: boolean) => {
       if (mergedOpen !== nextOpen) {
         setMergedOpen(nextOpen);
-        onPopupVisibleChange?.(nextOpen);
+        onPopupOpenChange?.(nextOpen);
       }
     });
 
@@ -323,20 +326,25 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     }, [JSON.stringify(popupAlign)]);
 
     const alignedClassName = React.useMemo(() => {
-      const baseClassName = getAlignPopupClassName(builtinPlacements, alignInfo, !!alignPoint);
+      const baseClassName = getAlignPopupClassName(
+        builtinPlacements,
+        prefixCls,
+        alignInfo,
+        !!alignPoint,
+      );
 
       return clsx(baseClassName, getPopupClassNameFromAlign?.(alignInfo));
-    }, [alignInfo, getPopupClassNameFromAlign, builtinPlacements, alignPoint]);
+    }, [alignInfo, getPopupClassNameFromAlign, builtinPlacements, prefixCls, alignPoint]);
 
     React.useImperativeHandle(ref, () => ({
       forceAlign: triggerAlign,
     }));
 
     // ========================== Motion ============================
-    const onVisibleChanged = (visible: boolean) => {
+    const onOpenChanged = (open: boolean) => {
       setInMotion(false);
       onAlign();
-      afterPopupVisibleChange?.(visible);
+      afterPopupOpenChange?.(open);
     };
 
     // We will trigger align when motion is in prepare
@@ -410,7 +418,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       clickToHide,
       targetEle,
       popupEle,
-      mask,
+      !!mask,
       maskClosable,
       inPopupOrChild,
       triggerOpen,
@@ -493,10 +501,10 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     ];
 
     passedEventList.forEach((eventName) => {
-      if (restProps[eventName]) {
+      if ((restProps as any)[eventName]) {
         passedProps[eventName] = (...args: any[]) => {
           mergedChildrenProps[eventName]?.(...args);
-          restProps[eventName](...args);
+          (restProps as any)[eventName](...args);
         };
       }
     });
@@ -512,12 +520,12 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       y: arrowY,
     };
 
-    const innerArrow: ArrowTypeOuter = arrow
+    const innerArrow: ArrowTypeOuter | undefined = arrow
       ? {
           // true and Object likely
           ...(arrow !== true ? arrow : {}),
         }
-      : null;
+      : undefined;
 
     // Render
     return (
@@ -529,6 +537,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
           <Popup
             portal={PortalComponent}
             ref={setPopupRef}
+            prefixCls={prefixCls}
             popup={popup}
             className={{ root: clsx(classNames.popup, alignedClassName), mask: classNames.mask }}
             style={popupStyle}
@@ -546,7 +555,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
             // Transition
             transition={popupTransition}
             maskTransition={maskTransition}
-            onVisibleChanged={onVisibleChanged}
+            onOpenChanged={onOpenChanged}
             onPrepare={onPrepare}
             // Portal
             forceRender={forceRender}

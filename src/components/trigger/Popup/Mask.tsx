@@ -1,8 +1,10 @@
+import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import * as React from 'react';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
 
 export interface MaskProps {
+  prefixCls: string;
   className?: string;
   open?: boolean;
   zIndex?: number;
@@ -11,7 +13,7 @@ export interface MaskProps {
 }
 
 export default function Mask(props: MaskProps) {
-  const { className, open, zIndex, mask, transition } = props;
+  const { prefixCls, className, open, zIndex, mask, transition } = props;
 
   if (!mask) {
     return null;
@@ -19,7 +21,7 @@ export default function Mask(props: MaskProps) {
 
   return (
     <Transition {...transition} appear show={open} unmount>
-      <div className={className} style={{ zIndex }} />
+      <div className={clsx(`${prefixCls}-mask`, className)} style={{ zIndex }} />
     </Transition>
   );
 }

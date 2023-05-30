@@ -1,14 +1,16 @@
+import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import * as React from 'react';
 import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
 
 export interface ArrowProps {
+  prefixCls: string;
   align?: AlignType;
   arrow: ArrowTypeOuter;
   arrowPos: ArrowPos;
 }
 
 export default function Arrow(props: ArrowProps) {
-  const { align, arrow, arrowPos } = props;
+  const { prefixCls, align, arrow, arrowPos } = props;
 
   const { className, content } = arrow || {};
   const { x = 0, y = 0 } = arrowPos;
@@ -53,7 +55,7 @@ export default function Arrow(props: ArrowProps) {
   }
 
   return (
-    <div ref={arrowRef} className={className} style={alignStyle}>
+    <div ref={arrowRef} className={clsx(`${prefixCls}-arrow`, className)} style={alignStyle}>
       {content}
     </div>
   );
