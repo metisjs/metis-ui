@@ -5,7 +5,7 @@ import RcTextArea from 'rc-textarea';
 import type { TextAreaProps as RcTextAreaProps } from 'rc-textarea/lib/interface';
 import * as React from 'react';
 import { forwardRef } from 'react';
-import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
@@ -81,7 +81,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     },
     ref,
   ) => {
-    const classNames = getClassNames(className);
+    const complexCls = getComplexCls(className);
 
     // ===================== Size =====================
     const mergedSize = useSize(customizeSize);
@@ -122,7 +122,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     return (
       <RcTextArea
         {...rest}
-        className={classNames.root}
+        className={complexCls.root}
         disabled={mergedDisabled}
         allowClear={mergedAllowClear}
         classes={{
@@ -143,14 +143,14 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
               disabled: mergedDisabled,
               allowClear: !!mergedAllowClear,
             },
-            [mergedSize, getStatusClassNames(mergedStatus), classNames.textarea],
+            [mergedSize, getStatusClassNames(mergedStatus), complexCls.textarea],
           ),
           count: clsx(
             'absolute bottom-1.5 right-3 bg-neutral-bg-container pl-1 text-neutral-text-tertiary',
             mergedDisabled && 'text-neutral-text-quaternary',
             mergedSize === 'small' && 'right-2',
             mergedSize === 'large' && 'bottom-2',
-            classNames.count,
+            complexCls.count,
           ),
           clear: clsx(
             'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',

@@ -11,17 +11,17 @@ export function clsx(...args: classNames.ArgumentArray) {
   return twMerge(classNames(...args));
 }
 
-function getClassNames(complexClassName?: string): { root?: string };
-function getClassNames<T extends string>(
+function getComplexCls(complexClassName?: string): { root?: string };
+function getComplexCls<T extends string>(
   complexClassName?: ComplexClassName<T>,
 ): {
   [P in T]?: string;
 };
-function getClassNames(complexClassName: any = ''): any {
+function getComplexCls(complexClassName: any = ''): any {
   if (typeof complexClassName === 'string') {
     return { root: complexClassName };
   }
 
   return complexClassName;
 }
-export { getClassNames };
+export { getComplexCls };
