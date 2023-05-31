@@ -13,10 +13,11 @@ export default () => {
         <Space>
           {/* Background overlay */}
           <Transition.Child
-            enter="transition-opacity ease-linear duration-300"
+            unmount
+            enter="transition-opacity ease-linear duration-500"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
+            leave="transition-opacity ease-linear duration-500"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
@@ -24,16 +25,17 @@ export default () => {
           </Transition.Child>
 
           {/* Sliding sidebar */}
-          <Transition.Child
-            enter="transition ease-in-out duration-300 transform"
+          {/* <Transition.Child
+            unmount={false}
+            enter="transition ease-in-out duration-500 transform"
             enterFrom="translate-x-full"
             enterTo="translate-x-0"
-            leave="transition ease-in-out duration-300 transform"
+            leave="transition ease-in-out duration-500 transform"
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
             <div className="h-32 w-32 rounded-md bg-indigo-400 shadow-lg" />
-          </Transition.Child>
+          </Transition.Child> */}
         </Space>
       </Transition>
     </Space>

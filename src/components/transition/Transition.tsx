@@ -23,7 +23,7 @@ export type TransitionProps = TransitionItemProps & {
 };
 
 const InternalTransition: ForwardRefRenderFunction<HTMLElement, TransitionProps> = (props, ref) => {
-  let { show, appear = false, unmount, ...theirProps } = props;
+  let { show, appear = false, unmount = true, ...theirProps } = props;
   const internalTransitionRef = useRef<HTMLElement | null>(null);
   const transitionRef = useSyncRefs(internalTransitionRef, ref);
 

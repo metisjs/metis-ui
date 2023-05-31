@@ -66,11 +66,13 @@ const InternalTransitionItem: ForwardRefRenderFunction<HTMLElement, TransitionIt
     leaveFrom,
     leaveTo,
 
+    unmount = true,
+
     ...rest
   } = props as typeof props;
   const container = useRef<HTMLElement>(null);
   const transitionRef = useSyncRefs(container, ref);
-  const strategy = rest.unmount ? RenderStrategy.Unmount : RenderStrategy.Hidden;
+  const strategy = unmount ? RenderStrategy.Unmount : RenderStrategy.Hidden;
 
   const { show, appear, initial } = useTransitionContext();
 
@@ -208,7 +210,7 @@ const InternalTransitionItem: ForwardRefRenderFunction<HTMLElement, TransitionIt
     }
   }, [show, skip, state]);
 
-  let theirProps: Record<string, any> = rest;
+  let theirProps: Record<string, any> = { ...rest, unmount };
   if (appear && show && initial) {
     theirProps = {
       ...theirProps,

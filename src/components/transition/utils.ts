@@ -432,7 +432,7 @@ export function render({
   visible: boolean;
   name: string;
 }) {
-  let { as: Component = tag, children, unmount = true, ...rest } = omit(props, ['unmount']);
+  let { as: Component = tag, children, unmount = true, ...rest } = props;
 
   if (!visible && unmount) {
     return null;
@@ -440,7 +440,7 @@ export function render({
 
   let styleProps = {};
   if (!visible && !unmount) {
-    styleProps = { style: { display: 'none' } };
+    styleProps = { hidden: true, style: { display: 'none' } };
   }
 
   let refRelatedProps = props.ref !== undefined ? { ref: props.ref as any } : {};

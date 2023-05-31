@@ -1,4 +1,4 @@
-import { ComplexClassName, clsx, getClassNames } from 'meta-ui/es/_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from 'meta-ui/es/_util/classNameUtils';
 import ResizeObserver from 'rc-resize-observer';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { composeRef } from 'rc-util/lib/ref';
@@ -111,7 +111,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     targetHeight,
   } = props;
 
-  const classNames = getClassNames(className);
+  const complexCls = getComplexCls(className);
 
   const childNode = typeof popup === 'function' ? popup() : popup;
 
@@ -174,7 +174,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     >
       <Mask
         prefixCls={prefixCls}
-        className={classNames.mask}
+        className={complexCls.mask}
         open={open}
         zIndex={zIndex}
         mask={mask}
@@ -184,22 +184,25 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
         {(resizeObserverRef) => {
           return (
             <Transition
+              as={React.Fragment}
               unmount={!forceRender}
               {...transition}
               beforeEnter={onPrepare}
               show={open}
               afterEnter={() => {
+                console.log('afterEnter');
                 transition?.afterEnter?.();
                 onOpenChanged(true);
               }}
               afterLeave={() => {
+                console.log('afterLeave');
                 transition?.afterLeave?.();
                 onOpenChanged(false);
               }}
             >
               <div
                 ref={composeRef(resizeObserverRef, ref)}
-                className={clsx(prefixCls, classNames.root)}
+                className={clsx(prefixCls, complexCls.root)}
                 style={
                   {
                     '--arrow-x': `${arrowPos.x || 0}px`,

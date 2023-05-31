@@ -11,7 +11,7 @@ export default () => {
   return (
     <div className="flex flex-col items-center py-16">
       <div className="h-32 w-32">
-        <Transition
+        {/* <Transition
           appear
           as={Fragment}
           show={isShowing}
@@ -23,7 +23,7 @@ export default () => {
           leaveTo="opacity-0 scale-95 "
         >
           <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />
-        </Transition>
+        </Transition> */}
       </div>
 
       <Button

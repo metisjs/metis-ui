@@ -15,6 +15,10 @@ const InternalTransitionChild: ForwardRefRenderFunction<HTMLElement, TransitionC
   let hasTransitionContext = useContext(TransitionContext) !== null;
   let hasOpenClosedContext = useContext(OpenClosedContext) !== null;
 
+  if (![true, false].includes(show as unknown as boolean)) {
+    throw new Error('A <Transition /> is used but it is missing a `show={true | false}` prop.');
+  }
+
   return (
     <>
       {!hasTransitionContext && hasOpenClosedContext ? (

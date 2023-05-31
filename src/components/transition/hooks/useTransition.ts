@@ -1,7 +1,7 @@
-import useLatestValue from 'meta-ui/_util/hooks/useLatestValue';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { CSSProperties, MutableRefObject } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
+import useLatestValue from '../../_util/hooks/useLatestValue';
 import Disposables from '../disposables';
 import { transition } from '../utils';
 import useDisposables from './useDisposables';

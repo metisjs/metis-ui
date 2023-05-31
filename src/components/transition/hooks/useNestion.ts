@@ -1,7 +1,7 @@
-import useLatestValue from 'meta-ui/_util/hooks/useLatestValue';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useMemo, useRef } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
+import useLatestValue from '../../_util/hooks/useLatestValue';
 import {
   ContainerElement,
   NestingContextValues,
