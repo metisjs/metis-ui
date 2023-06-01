@@ -1,120 +1,148 @@
-import useEvent from 'rc-util/lib/hooks/useEvent';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import React, {
-  ForwardRefRenderFunction,
-  Fragment,
-  forwardRef,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import useSyncRefs from '../_util/hooks/useSyncRefs';
-import TransitionItem, { TransitionItemProps } from './TransitionItem';
-import { NestingContext, OpenClosedContext, TransitionContext } from './context';
-import useNesting from './hooks/useNestion';
-import { State, TransitionContextValues, TreeStates } from './interface';
-import { hasChildren, render } from './utils';
+/* eslint-disable react/default-props-match-prop-types, react/no-multi-comp, react/prop-types */
+import { fillRef, supportRef } from 'rc-util/lib/ref';
+import * as React from 'react';
+import { useRef } from 'react';
+import DomWrapper from './DomWrapper';
+import useStatus from './hooks/useStatus';
+import type {
+  TransitionEventHandler,
+  TransitionPrepareEventHandler,
+  TransitionStatus,
+  TransitionStyle,
+} from './interface';
+import { STATUS_NONE } from './interface';
 
-export type TransitionProps = TransitionItemProps & {
-  show?: boolean;
+export interface TransitionProps {
+  visible?: boolean;
   appear?: boolean;
-};
+  /**
+   * Create element in view even the element is invisible.
+   * Will patch `display: none` style on it.
+   */
+  forceRender?: boolean;
+  /**
+   * Remove element when motion end. This will not work when `forceRender` is set.
+   */
+  removeOnLeave?: boolean;
+  /** @private Used by CSSMotionList. Do not use in your production. */
+  eventProps?: object;
 
-const InternalTransition: ForwardRefRenderFunction<HTMLElement, TransitionProps> = (props, ref) => {
-  let { show, appear = false, unmount = true, ...theirProps } = props;
-  const internalTransitionRef = useRef<HTMLElement | null>(null);
-  const transitionRef = useSyncRefs(internalTransitionRef, ref);
+  enter?: TransitionStyle;
+  enterFrom?: TransitionStyle;
+  enterTo?: TransitionStyle;
+  leave?: TransitionStyle;
+  leaveFrom?: TransitionStyle;
+  leaveTo?: TransitionStyle;
 
-  const usesOpenClosedState = useContext(OpenClosedContext);
+  beforeEnter?: TransitionPrepareEventHandler;
+  afterEnter?: TransitionEventHandler;
+  beforeLeave?: TransitionPrepareEventHandler;
+  afterLeave?: TransitionEventHandler;
 
-  if (show === undefined && usesOpenClosedState !== null) {
-    show = (usesOpenClosedState & State.Open) === State.Open;
+  // Special
+  /** This will always trigger after final visible changed. Even if no motion configured. */
+  onVisibleChanged?: (visible: boolean) => void;
+
+  internalRef?: React.Ref<any>;
+
+  children?: (
+    props: {
+      visible?: boolean;
+      className?: string;
+      style?: React.CSSProperties;
+      [key: string]: any;
+    },
+    ref: (node: any) => void,
+  ) => React.ReactElement;
+}
+
+export interface CSSMotionState {
+  status?: TransitionStatus;
+  statusActive?: boolean;
+  newStatus?: boolean;
+  statusStyle?: React.CSSProperties;
+  prevProps?: TransitionProps;
+}
+
+const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
+  const { visible = true, removeOnLeave = true, forceRender, children, eventProps } = props;
+
+  // Ref to the react node, it may be a HTMLElement
+  const nodeRef = useRef<any>();
+  // Ref to the dom wrapper in case ref can not pass to HTMLElement
+  const wrapperNodeRef = useRef(null);
+
+  function getDomElement() {
+    return nodeRef.current;
   }
 
-  if (![true, false].includes(show as unknown as boolean)) {
-    throw new Error('A <Transition /> is used but it is missing a `show={true | false}` prop.');
+  const [status, , statusStyle, statusClassName, mergedVisible] = useStatus(
+    visible,
+    getDomElement,
+    props,
+  );
+
+  // Record whether content has rendered
+  // Will return null for un-rendered even when `removeOnLeave={false}`
+  const renderedRef = React.useRef(mergedVisible);
+  if (mergedVisible) {
+    renderedRef.current = true;
   }
 
-  const [state, setState] = useState(show ? TreeStates.Visible : TreeStates.Hidden);
-
-  const nestingBag = useNesting(() => {
-    setState(TreeStates.Hidden);
-  });
-
-  const [initial, setInitial] = useState(true);
-
-  // Change the `initial` value
-  const changes = useRef([show]);
-  useLayoutEffect(() => {
-    // We can skip this effect
-    if (initial === false) {
-      return;
-    }
-
-    // Track the changes
-    if (changes.current[changes.current.length - 1] !== show) {
-      changes.current.push(show);
-      setInitial(false);
-    }
-  }, [changes, show]);
-
-  const transitionBag = useMemo<TransitionContextValues>(
-    () => ({ show: show as boolean, appear, initial }),
-    [show, appear, initial],
+  // ====================== Refs ======================
+  const setNodeRef = React.useCallback(
+    (node: any) => {
+      nodeRef.current = node;
+      fillRef(ref, node);
+    },
+    [ref],
   );
 
-  useEffect(() => {
-    if (show) {
-      setState(TreeStates.Visible);
-    } else if (!hasChildren(nestingBag)) {
-      setState(TreeStates.Hidden);
+  // ===================== Render =====================
+  let motionChildren: React.ReactNode;
+  const mergedProps = { ...eventProps, visible };
+
+  if (!children) {
+    // No children
+    motionChildren = null;
+  } else if (status === STATUS_NONE) {
+    // Stable children
+    if (mergedVisible) {
+      motionChildren = children({ ...mergedProps }, setNodeRef);
+    } else if (forceRender || !removeOnLeave) {
+      motionChildren = children({ ...mergedProps, style: { display: 'none' } }, setNodeRef);
+    } else {
+      motionChildren = null;
     }
-  }, [show, nestingBag]);
+  } else {
+    motionChildren = children(
+      {
+        ...mergedProps,
+        className: statusClassName ?? undefined,
+        style: statusStyle ?? undefined,
+      },
+      setNodeRef,
+    );
+  }
 
-  const sharedProps = { unmount };
+  console.log(statusClassName, statusStyle);
 
-  const afterEnter = useEvent(() => {
-    if (initial) setInitial(false);
-    props.afterEnter?.();
-  });
+  // Auto inject ref if child node not have `ref` props
+  if (React.isValidElement(motionChildren) && supportRef(motionChildren)) {
+    const { ref: originNodeRef } = motionChildren as any;
 
-  const afterLeave = useEvent(() => {
-    if (initial) setInitial(false);
-    props.afterLeave?.();
-  });
+    if (!originNodeRef) {
+      motionChildren = React.cloneElement<any>(motionChildren, {
+        ref: setNodeRef,
+      });
+    }
+  }
 
-  return (
-    <NestingContext.Provider value={nestingBag}>
-      <TransitionContext.Provider value={transitionBag}>
-        {render({
-          props: {
-            ...sharedProps,
-            as: Fragment,
-            children: (
-              <TransitionItem
-                ref={transitionRef}
-                {...sharedProps}
-                {...theirProps}
-                afterEnter={afterEnter}
-                afterLeave={afterLeave}
-              />
-            ),
-          },
-          tag: Fragment,
-          visible: state === TreeStates.Visible,
-          name: 'Transition',
-        })}
-      </TransitionContext.Provider>
-    </NestingContext.Provider>
-  );
-};
-
-const Transition = forwardRef<HTMLElement, TransitionProps>(InternalTransition);
+  return <DomWrapper ref={wrapperNodeRef}>{motionChildren}</DomWrapper>;
+});
 
 if (process.env.NODE_ENV !== 'production') {
-  Transition.displayName = 'Transition';
+  Transition.displayName = 'CSSMotion';
 }
 
 export default Transition;

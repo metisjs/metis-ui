@@ -1,17 +1,14 @@
-import type { ForwardRefExoticComponent } from 'react';
 import type { TransitionProps } from './Transition';
 import Transition from './Transition';
-import type { TransitionChildProps } from './TransitionChild';
-import TransitionChild from './TransitionChild';
-
-type CompoundedComponent = ForwardRefExoticComponent<
-  TransitionProps & React.RefAttributes<HTMLElement>
-> & {
-  Child: typeof TransitionChild;
+import type { TransitionListProps } from './TransitionList';
+import CSSMotionList from './TransitionList';
+import type { TransitionEventHandler, TransitionPrepareEventHandler } from './interface';
+export { CSSMotionList };
+export type {
+  TransitionProps,
+  TransitionListProps,
+  TransitionPrepareEventHandler,
+  TransitionEventHandler,
 };
 
-(Transition as CompoundedComponent).Child = TransitionChild;
-
-export { TransitionProps, TransitionChildProps };
-
-export default Transition as CompoundedComponent;
+export default Transition;
