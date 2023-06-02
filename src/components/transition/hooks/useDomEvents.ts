@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useRef } from 'react';
 
 export default (
-  callback: (event: TransitionEvent | AnimationEvent) => void,
+  callback: (event: TransitionEvent) => void,
 ): [(element: HTMLElement) => void, (element: HTMLElement) => void] => {
   const cacheElementRef = useRef<HTMLElement>();
 
@@ -11,7 +11,7 @@ export default (
   callbackRef.current = callback;
 
   // Internal motion event handler
-  const onInternalTransitionEnd = React.useCallback((event: TransitionEvent | AnimationEvent) => {
+  const onInternalTransitionEnd = React.useCallback((event: TransitionEvent) => {
     callbackRef.current(event);
   }, []);
 
@@ -19,7 +19,6 @@ export default (
   function removeTransitionEvents(element?: HTMLElement) {
     if (element) {
       element.removeEventListener('transitionend', onInternalTransitionEnd);
-      element.removeEventListener('animationend', onInternalTransitionEnd);
     }
   }
 
@@ -31,9 +30,7 @@ export default (
 
     if (element && element !== cacheElementRef.current) {
       element.addEventListener('transitionend', onInternalTransitionEnd);
-      element.addEventListener('animationend', onInternalTransitionEnd);
 
-      // Save as cache in case dom removed trigger by `motionDeadline`
       cacheElementRef.current = element;
     }
   }

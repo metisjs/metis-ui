@@ -44,7 +44,6 @@ export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'o
   onChange?: (value: SegmentedValue) => void;
   disabled?: boolean;
   direction?: 'ltr' | 'rtl';
-  motionName?: string;
   block?: boolean;
   size?: SizeType;
 }
