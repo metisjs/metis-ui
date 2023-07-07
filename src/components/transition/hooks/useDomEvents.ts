@@ -1,18 +1,13 @@
 import * as React from 'react';
 import { useRef } from 'react';
 
-export default (
-  callback: (event: TransitionEvent) => void,
-): [(element: HTMLElement) => void, (element: HTMLElement) => void] => {
+export default () => {
   const cacheElementRef = useRef<HTMLElement>();
-
-  // Cache callback
-  const callbackRef = useRef(callback);
-  callbackRef.current = callback;
+  const callbackRef = useRef<(event: TransitionEvent) => void>();
 
   // Internal motion event handler
   const onInternalTransitionEnd = React.useCallback((event: TransitionEvent) => {
-    callbackRef.current(event);
+    callbackRef.current?.(event);
   }, []);
 
   // Remove events
@@ -23,7 +18,9 @@ export default (
   }
 
   // Patch events
-  function patchTransitionEvents(element: HTMLElement) {
+  function patchTransitionEvents(element: HTMLElement, callback: (event: TransitionEvent) => void) {
+    callbackRef.current = callback;
+
     if (cacheElementRef.current && cacheElementRef.current !== element) {
       removeTransitionEvents(cacheElementRef.current);
     }

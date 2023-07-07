@@ -1,18 +1,18 @@
-/* eslint-disable react/default-props-match-prop-types, react/no-multi-comp, react/prop-types */
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
 import useLatestValue from '../_util/hooks/useLatestValue';
+import usePrevious from '../_util/hooks/usePrevious';
 import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
-import type {
+import {
   TransitionEventHandler,
   TransitionPrepareEventHandler,
   TransitionStatus,
   TransitionStyle,
 } from './interface';
-import { STATUS_NONE } from './interface';
-import { getStatusStyle, splitStyle } from './util/style';
+import { splitStyle } from './util/style';
 
 export interface TransitionProps {
   visible?: boolean;
@@ -35,17 +35,14 @@ export interface TransitionProps {
   leave?: TransitionStyle;
   leaveFrom?: TransitionStyle;
   leaveTo?: TransitionStyle;
+  entered?: TransitionStyle;
 
   beforeEnter?: TransitionPrepareEventHandler;
   afterEnter?: TransitionEventHandler;
   beforeLeave?: TransitionPrepareEventHandler;
   afterLeave?: TransitionEventHandler;
 
-  // Special
-  /** This will always trigger after final visible changed. Even if no transition configured. */
   onVisibleChanged?: (visible: boolean) => void;
-
-  internalRef?: React.Ref<any>;
 
   children?: (
     props: {
@@ -68,6 +65,7 @@ export interface CSSMotionState {
 
 const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const {
+    appear,
     visible = true,
     removeOnLeave = true,
     forceRender,
@@ -79,6 +77,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     leave,
     leaveFrom,
     leaveTo,
+    entered,
   } = props;
 
   // Ref to the react node, it may be a HTMLElement
@@ -86,16 +85,50 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   // Ref to the dom wrapper in case ref can not pass to HTMLElement
   const wrapperNodeRef = useRef(null);
 
-  function getDomElement() {
-    return nodeRef.current;
-  }
+  const [initial, setInitial] = React.useState(true);
+  useLayoutEffect(() => {
+    if (initial === false) {
+      return;
+    }
 
-  const [status, step, mergedVisible] = useStatus(visible, getDomElement, props);
+    setInitial(false);
+  }, []);
+
+  // Skipping initial transition
+  const skip = initial && !appear;
+  const prevVisible = usePrevious(visible);
+  const status = (() => {
+    if (skip) return TransitionStatus.None;
+    if (prevVisible === visible) return TransitionStatus.None;
+    return visible ? TransitionStatus.Enter : TransitionStatus.Leave;
+  })();
+
+  const styles = useLatestValue({
+    enter: splitStyle(enter),
+    enterFrom: splitStyle(enterFrom),
+    enterTo: splitStyle(enterTo),
+    leave: splitStyle(leave),
+    leaveFrom: splitStyle(leaveFrom),
+    leaveTo: splitStyle(leaveTo),
+    entered: splitStyle(entered),
+  });
+
+  useStatus({
+    container: nodeRef,
+    status,
+    styles,
+    onStart: () => {
+      console.log('start', status);
+    },
+    onStop: () => {
+      console.log('end', status);
+    },
+  });
 
   // Record whether content has rendered
   // Will return null for un-rendered even when `removeOnLeave={false}`
-  const renderedRef = React.useRef(mergedVisible);
-  if (mergedVisible) {
+  const renderedRef = React.useRef(visible);
+  if (visible) {
     renderedRef.current = true;
   }
 
@@ -108,42 +141,29 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     [ref],
   );
 
-  let styles = useLatestValue({
-    enter: splitStyle(enter),
-    enterFrom: splitStyle(enterFrom),
-    enterTo: splitStyle(enterTo),
-    leave: splitStyle(leave),
-    leaveFrom: splitStyle(leaveFrom),
-    leaveTo: splitStyle(leaveTo),
-  });
-
-  // ===================== Render =====================
+  // ===================== Render ================
   let transitionChildren: React.ReactNode;
   const mergedProps = { ...eventProps, visible };
 
   if (!children) {
     // No children
     transitionChildren = null;
-  } else if (status === STATUS_NONE) {
+  } else if (status === TransitionStatus.None) {
     // Stable children
-    if (mergedVisible) {
+    if (visible) {
       transitionChildren = children({ ...mergedProps }, setNodeRef);
-    } else if (forceRender || !removeOnLeave) {
+    } else if (forceRender || (!removeOnLeave && renderedRef.current)) {
       transitionChildren = children({ ...mergedProps, style: { display: 'none' } }, setNodeRef);
     } else {
       transitionChildren = null;
     }
   } else {
-    const statusStyle = getStatusStyle(status, step, styles);
     transitionChildren = children(
       {
         ...mergedProps,
-        className: statusStyle.className ?? undefined,
-        style: statusStyle.style ?? undefined,
       },
       setNodeRef,
     );
-    console.log(status, step, statusStyle);
   }
 
   // Auto inject ref if child node not have `ref` props
@@ -161,7 +181,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 });
 
 if (process.env.NODE_ENV !== 'production') {
-  Transition.displayName = 'CSSMotion';
+  Transition.displayName = 'Transition';
 }
 
 export default Transition;

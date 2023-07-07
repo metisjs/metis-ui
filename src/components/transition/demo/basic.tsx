@@ -13,9 +13,9 @@ export default () => {
     <div className="flex flex-col items-center py-16">
       <div className="h-32 w-32">
         <Transition
-          appear
+          // appear
           visible={isShowing}
-          enter="transform transition duration-[1400ms]"
+          enter="transform transition duration-[2000ms]"
           enterFrom="opacity-0 rotate-[-120deg] scale-50"
           enterTo="opacity-100 rotate-0 scale-100"
           leave="transform duration-[2000ms] transition ease-in-out"
@@ -41,7 +41,7 @@ export default () => {
           setIsShowing(false);
           setTimeout(() => {
             setIsShowing(true);
-          }, 500);
+          }, 2000);
         }}
         className="mt-8"
       >

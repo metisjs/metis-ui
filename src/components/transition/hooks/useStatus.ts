@@ -1,157 +1,102 @@
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import useState from 'rc-util/lib/hooks/useState';
-import * as React from 'react';
-import { useEffect, useRef } from 'react';
-import type { TransitionProps } from '../Transition';
-import type { StepStatus, TransitionStatus } from '../interface';
-import {
-  STATUS_APPEAR,
-  STATUS_ENTER,
-  STATUS_LEAVE,
-  STATUS_NONE,
-  STEP_ACTIVE,
-  STEP_PREPARE,
-} from '../interface';
-import useDomMotionEvents from './useDomEvents';
-import useStepQueue, { DoStep, isActive } from './useStepQueue';
+import { MutableRefObject } from 'react';
+import useIsMounted from '../../_util/hooks/useIsMounted';
+import useLatestValue from '../../_util/hooks/useLatestValue';
+import { TransitionStatus, TransitionStyleType } from '../interface';
+import { addClasses, addStyles, removeClasses, removeStyles } from '../util/style';
+import useDomEvents from './useDomEvents';
+import useNextFrame from './useNextFrame';
 
-export default function useStatus(
-  visible: boolean,
-  getElement: () => HTMLElement,
-  { appear, beforeEnter, afterEnter, beforeLeave, afterLeave, onVisibleChanged }: TransitionProps,
-): [TransitionStatus, StepStatus, boolean] {
-  // Used for outer render usage to avoid `visible: false & status: none` to render nothing
-  const [asyncVisible, setAsyncVisible] = useState<boolean>();
-  const [status, setStatus] = useState<TransitionStatus>(STATUS_NONE);
+interface StatusArgs {
+  container: MutableRefObject<HTMLElement | null>;
+  styles: MutableRefObject<{
+    enter: TransitionStyleType;
+    enterFrom: TransitionStyleType;
+    enterTo: TransitionStyleType;
+    leave: TransitionStyleType;
+    leaveFrom: TransitionStyleType;
+    leaveTo: TransitionStyleType;
+    entered: TransitionStyleType;
+  }>;
+  status: TransitionStatus;
+  onStart: () => void;
+  onStop: () => void;
+}
 
-  const mountedRef = useRef(false);
+export default function useStatus({ container, status, styles, onStart, onStop }: StatusArgs) {
+  let mounted = useIsMounted();
 
-  const activeRef = useRef(false);
+  const [nextFrame, cancelNextFrame] = useNextFrame();
+  const [patchTransitionEvents] = useDomEvents();
 
-  /**
-   * Clean up status
-   */
-  function updateTransitionEndStatus() {
-    setStatus(STATUS_NONE, true);
-  }
+  const onStartRef = useLatestValue(onStart);
+  const onStopRef = useLatestValue(onStop);
 
-  function onInternalTransitionEnd(event: TransitionEvent) {
-    const element = getElement();
-    if (event && event.target !== element) {
-      return;
-    }
-
-    const currentActive = activeRef.current;
-
-    if ((status === STATUS_APPEAR || STATUS_ENTER) && currentActive) {
-      afterEnter?.(element, event);
-    } else if (status === STATUS_LEAVE && currentActive) {
-      afterLeave?.(element, event);
-    }
-
-    if (status !== STATUS_NONE && currentActive) {
-      updateTransitionEndStatus();
-    }
-  }
-
-  const [patchMotionEvents] = useDomMotionEvents(onInternalTransitionEnd);
-
-  // ============================= Step =============================
-  const [startStep, step] = useStepQueue(status, () => {
-    if (step === STEP_PREPARE) {
-      const element = getElement();
-
-      if (status === STATUS_APPEAR || status === STATUS_ENTER) {
-        beforeEnter?.(element);
-      } else if (status === STATUS_LEAVE) {
-        beforeLeave?.(element);
-      }
-    }
-
-    if (step === STEP_ACTIVE) {
-      // Patch events when transition needed
-      patchMotionEvents(getElement());
-    }
-
-    return DoStep;
-  });
-
-  const active = isActive(step);
-  activeRef.current = active;
-
-  // ============================ Status ============================
-  // Update with new status
   useLayoutEffect(() => {
-    setAsyncVisible(visible);
+    const node = container.current;
+    if (!node) return; // We don't have a DOM node (yet)
+    if (status === TransitionStatus.None) return; // We don't need to transition
+    if (!mounted.current) return;
 
-    const isMounted = mountedRef.current;
-    mountedRef.current = true;
+    onStartRef.current();
 
-    let nextStatus: TransitionStatus = STATUS_NONE;
-
-    // Appear
-    if (!isMounted && visible && appear) {
-      nextStatus = STATUS_APPEAR;
+    if (status === TransitionStatus.Enter) {
+      node.removeAttribute('hidden');
+      node.style.display = '';
     }
 
-    // Enter
-    if (isMounted && visible) {
-      nextStatus = STATUS_ENTER;
-    }
+    const baseCls = styles.current[status].className;
+    const toCls = styles.current[`${status}To`].className;
+    const fromCls = styles.current[`${status}From`].className;
 
-    // Leave
-    if (isMounted && !visible) {
-      nextStatus = STATUS_LEAVE;
-    }
+    const baseStyle = styles.current[status].style;
+    const toStyle = styles.current[`${status}To`].style;
+    const fromStyle = styles.current[`${status}From`].style;
 
-    // Update to next status
-    if (nextStatus) {
-      setStatus(nextStatus);
-      startStep();
-    } else {
-      // Set back in case no transition but prev status has prepare step
-      setStatus(STATUS_NONE);
-    }
-  }, [visible]);
+    removeClasses(
+      node,
+      ...styles.current.enter.className,
+      ...styles.current.enterTo.className,
+      ...styles.current.enterFrom.className,
+      ...styles.current.leave.className,
+      ...styles.current.leaveFrom.className,
+      ...styles.current.leaveTo.className,
+      ...styles.current.entered.className,
+    );
+    removeStyles(node, {
+      ...styles.current.enter.style,
+      ...styles.current.enterTo.style,
+      ...styles.current.enterFrom.style,
+      ...styles.current.leave.style,
+      ...styles.current.leaveFrom.style,
+      ...styles.current.leaveTo.style,
+      ...styles.current.entered.style,
+    });
+    addClasses(node, ...baseCls, ...fromCls);
+    addStyles(node, { ...baseStyle, ...fromStyle });
 
-  // ============================ Effect ============================
-  // Reset when transition changed
-  useEffect(() => {
-    if (
-      // Cancel appear
-      (status === STATUS_APPEAR && !appear) ||
-      // Cancel enter
-      status === STATUS_ENTER ||
-      // Cancel leave
-      status === STATUS_LEAVE
-    ) {
-      setStatus(STATUS_NONE);
-    }
-  }, [appear]);
+    nextFrame((info) => {
+      if (info.isCanceled()) return;
 
-  useEffect(
-    () => () => {
-      mountedRef.current = false;
-    },
-    [],
-  );
+      removeClasses(node, ...fromCls);
+      removeStyles(node, fromStyle);
+      addClasses(node, ...toCls);
+      addStyles(node, toStyle);
 
-  // Trigger `onVisibleChanged`
-  const firstMountChangeRef = React.useRef(false);
-  useEffect(() => {
-    // [visible & transition not end] => [!visible & transition end] still need trigger onVisibleChanged
-    if (asyncVisible) {
-      firstMountChangeRef.current = true;
-    }
+      patchTransitionEvents(node, (event) => {
+        if (event.target !== event.currentTarget) return;
 
-    if (asyncVisible !== undefined && status === STATUS_NONE) {
-      // Skip first render is invisible since it's nothing changed
-      if (firstMountChangeRef.current || asyncVisible) {
-        onVisibleChanged?.(asyncVisible);
-      }
-      firstMountChangeRef.current = true;
-    }
-  }, [asyncVisible, status]);
+        removeClasses(node, ...baseCls, ...toCls);
+        removeStyles(node, { ...baseStyle, ...toStyle });
+        addClasses(node, ...styles.current.entered.className);
+        addStyles(node, styles.current.entered.style);
 
-  return [status, step, asyncVisible ?? visible];
+        onStopRef.current();
+      });
+    });
+
+    return () => {
+      cancelNextFrame();
+    };
+  }, [status]);
 }

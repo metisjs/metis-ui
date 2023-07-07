@@ -23,6 +23,7 @@ const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
   'leave',
   'leaveFrom',
   'leaveTo',
+  'entered',
   'beforeEnter',
   'afterEnter',
   'beforeLeave',
