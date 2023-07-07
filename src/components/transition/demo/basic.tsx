@@ -3,7 +3,6 @@
  */
 import { ArrowPathOutline } from '@metaoa/icons';
 import { Button, Transition } from 'meta-ui';
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import React, { useState } from 'react';
 
 export default () => {
@@ -26,12 +25,7 @@ export default () => {
           beforeLeave={() => console.log('beforeLeave')}
           afterLeave={() => console.log('afterLeave')}
         >
-          {({ className, style }) => (
-            <div
-              className={clsx('h-full w-full rounded-md bg-red-400 shadow-lg', className)}
-              style={style}
-            />
-          )}
+          {() => <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />}
         </Transition>
       </div>
 
