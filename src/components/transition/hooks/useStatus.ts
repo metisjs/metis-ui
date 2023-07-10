@@ -1,5 +1,6 @@
+import usePrevious from 'meta-ui/es/_util/hooks/usePrevious';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { MutableRefObject } from 'react';
+import { MutableRefObject, useState } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
 import useLatestValue from '../../_util/hooks/useLatestValue';
 import { once } from '../../_util/once';
@@ -16,6 +17,8 @@ import { useDisposables } from './useDisposables';
 
 interface StatusArgs {
   container: MutableRefObject<HTMLElement | null>;
+  skip: boolean;
+  visible: boolean;
   styles: MutableRefObject<{
     enter: TransitionStyleType;
     enterFrom: TransitionStyleType;
@@ -25,7 +28,6 @@ interface StatusArgs {
     leaveTo: TransitionStyleType;
     entered: TransitionStyleType;
   }>;
-  status: TransitionStatus;
   onStart: () => void;
   onStop: () => void;
 }
@@ -102,13 +104,31 @@ function transition(
   return d.dispose;
 }
 
-export default function useTransition({ container, status, styles, onStart, onStop }: StatusArgs) {
+export default function useStatus({
+  container,
+  skip,
+  visible,
+  styles,
+  onStart,
+  onStop,
+}: StatusArgs) {
   const mounted = useIsMounted();
+
+  const [status, setStatus] = useState(TransitionStatus.None);
 
   const d = useDisposables();
 
   const onStartRef = useLatestValue(onStart);
   const onStopRef = useLatestValue(onStop);
+
+  const prevVisible = usePrevious(visible);
+  useLayoutEffect(() => {
+    setStatus(() => {
+      if (skip) return TransitionStatus.None;
+      if (prevVisible === visible) return TransitionStatus.None;
+      return visible ? TransitionStatus.Enter : TransitionStatus.Leave;
+    });
+  }, [skip, visible]);
 
   useLayoutEffect(() => {
     const dd = disposables();
@@ -126,10 +146,13 @@ export default function useTransition({ container, status, styles, onStart, onSt
     dd.add(
       transition(node, styles.current, status, () => {
         dd.dispose();
+        setStatus(TransitionStatus.None);
         onStopRef.current();
       }),
     );
 
     return dd.dispose;
   }, [status]);
+
+  return [status];
 }

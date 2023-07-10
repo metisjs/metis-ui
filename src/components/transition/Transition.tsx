@@ -3,9 +3,8 @@ import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
 import useLatestValue from '../_util/hooks/useLatestValue';
-import usePrevious from '../_util/hooks/usePrevious';
 import DomWrapper from './DomWrapper';
-import useTransition from './hooks/useTransition';
+import useStatus from './hooks/useStatus';
 import { TransitionEventHandler, TransitionStatus, TransitionStyle } from './interface';
 import { splitStyle } from './util/style';
 
@@ -97,15 +96,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     }
   }, [visible]);
 
-  // Skipping initial transition
-  const skip = initial && !appear;
-  const prevVisible = usePrevious(visible);
-  const status = (() => {
-    if (skip) return TransitionStatus.None;
-    if (prevVisible === visible) return TransitionStatus.None;
-    return visible ? TransitionStatus.Enter : TransitionStatus.Leave;
-  })();
-
   const styles = useLatestValue({
     enter: splitStyle(enter),
     enterFrom: splitStyle(enterFrom),
@@ -116,9 +106,10 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     entered: splitStyle(entered),
   });
 
-  useTransition({
+  const [status] = useStatus({
     container: nodeRef,
-    status,
+    skip: initial && !appear,
+    visible,
     styles,
     onStart: () => {
       if (initial) setInitial(false);
@@ -157,7 +148,12 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   } else if (status === TransitionStatus.None) {
     // Stable children
     if (visible) {
-      transitionChildren = children({ ...mergedProps }, setNodeRef);
+      transitionChildren = children(
+        {
+          ...mergedProps,
+        },
+        setNodeRef,
+      );
     } else if (forceRender || (!removeOnLeave && renderedRef.current)) {
       transitionChildren = children({ ...mergedProps, style: { display: 'none' } }, setNodeRef);
     } else {
