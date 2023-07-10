@@ -4,9 +4,7 @@ export enum TransitionStatus {
   Leave = 'leave',
 }
 
-export type TransitionPrepareEventHandler = (element: HTMLElement) => void;
-
-export type TransitionEventHandler = (element: HTMLElement, event: TransitionEvent) => void;
+export type TransitionEventHandler = () => void;
 
 export type TransitionStyleType = { className: string[]; style: React.CSSProperties };
 export type TransitionStyle =

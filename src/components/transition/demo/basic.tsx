@@ -12,14 +12,14 @@ export default () => {
     <div className="flex flex-col items-center py-16">
       <div className="h-32 w-32">
         <Transition
-          // appear
+          appear
           visible={isShowing}
-          enter="transform transition duration-[2000ms]"
+          enter="transform transition duration-[400ms]"
           enterFrom="opacity-0 rotate-[-120deg] scale-50"
           enterTo="opacity-100 rotate-0 scale-100"
-          leave="transform duration-[2000ms] transition ease-in-out"
+          leave="transform duration-[400ms] transition ease-in-out"
           leaveFrom="opacity-100 rotate-0 scale-100 "
-          leaveTo="opacity-0 scale-95"
+          leaveTo="opacity-0 scale-95 "
           beforeEnter={() => console.log('beforeEnter')}
           afterEnter={() => console.log('afterEnter')}
           beforeLeave={() => console.log('beforeLeave')}
@@ -35,7 +35,7 @@ export default () => {
           setIsShowing(false);
           setTimeout(() => {
             setIsShowing(true);
-          }, 2000);
+          }, 500);
         }}
         className="mt-8"
       >

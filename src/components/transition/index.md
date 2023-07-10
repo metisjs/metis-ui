@@ -20,8 +20,7 @@ group:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| show | 子元素应该显示还是隐藏 | boolean | - |  |
-| as | 要代替`Transition`本身呈现的元素或组件 | string \| Component | `div` |  |
+| visible | 子元素应该显示还是隐藏 | boolean | - |  |
 | appear | 动画是否应在初始化时运行 | boolean | false |  |
 | removeOnLeave | 根据显示状态是否应卸载或隐藏元素 | boolean | true | - |
 | enter | `enter`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |
@@ -40,7 +39,6 @@ group:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| as | 要代替`Transition`本身呈现的元素或组件 | string \| Component | `div` |  |
 | appear | 动画是否应在初始化时运行 | boolean | false |  |
 | unmount | 根据显示状态是否应卸载或隐藏元素 | boolean | true | - |
 | enter | `enter`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |

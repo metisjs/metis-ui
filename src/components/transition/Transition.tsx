@@ -5,13 +5,8 @@ import { useRef } from 'react';
 import useLatestValue from '../_util/hooks/useLatestValue';
 import usePrevious from '../_util/hooks/usePrevious';
 import DomWrapper from './DomWrapper';
-import useStatus from './hooks/useStatus';
-import {
-  TransitionEventHandler,
-  TransitionPrepareEventHandler,
-  TransitionStatus,
-  TransitionStyle,
-} from './interface';
+import useTransition from './hooks/useTransition';
+import { TransitionEventHandler, TransitionStatus, TransitionStyle } from './interface';
 import { splitStyle } from './util/style';
 
 export interface TransitionProps {
@@ -37,9 +32,9 @@ export interface TransitionProps {
   leaveTo?: TransitionStyle;
   entered?: TransitionStyle;
 
-  beforeEnter?: TransitionPrepareEventHandler;
+  beforeEnter?: TransitionEventHandler;
   afterEnter?: TransitionEventHandler;
-  beforeLeave?: TransitionPrepareEventHandler;
+  beforeLeave?: TransitionEventHandler;
   afterLeave?: TransitionEventHandler;
 
   onVisibleChanged?: (visible: boolean) => void;
@@ -78,6 +73,10 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     leaveFrom,
     leaveTo,
     entered,
+    beforeEnter,
+    beforeLeave,
+    afterEnter,
+    afterLeave,
   } = props;
 
   // Ref to the react node, it may be a HTMLElement
@@ -86,13 +85,17 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const wrapperNodeRef = useRef(null);
 
   const [initial, setInitial] = React.useState(true);
+  let changes = useRef([visible]);
   useLayoutEffect(() => {
     if (initial === false) {
       return;
     }
 
-    setInitial(false);
-  }, []);
+    if (changes.current[changes.current.length - 1] !== visible) {
+      changes.current.push(visible);
+      setInitial(false);
+    }
+  }, [visible]);
 
   // Skipping initial transition
   const skip = initial && !appear;
@@ -113,15 +116,18 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     entered: splitStyle(entered),
   });
 
-  useStatus({
+  useTransition({
     container: nodeRef,
     status,
     styles,
     onStart: () => {
-      console.log('start', status);
+      if (initial) setInitial(false);
+      if (visible) beforeEnter?.();
+      else beforeLeave?.();
     },
     onStop: () => {
-      console.log('end', status);
+      if (visible) afterEnter?.();
+      else afterLeave?.();
     },
   });
 
