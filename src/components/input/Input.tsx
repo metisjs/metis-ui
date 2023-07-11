@@ -4,7 +4,7 @@ import RcInput from 'rc-input';
 import type { BaseInputProps } from 'rc-input/lib/interface';
 import { composeRef } from 'rc-util/lib/ref';
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
-import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import cva from '../_util/cva';
 import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
@@ -163,7 +163,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     showCount,
     ...rest
   } = props;
-  const classNames = getClassNames(className);
+  const complexCls = getComplexCls(className);
   const { getPrefixCls, input } = React.useContext(ConfigContext);
 
   const prefixCls = getPrefixCls('input');
@@ -245,7 +245,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       prefix={prefix}
       suffix={suffixNode}
       allowClear={mergedAllowClear}
-      className={clsx(classNames.root, compactItemClassnames)}
+      className={clsx(complexCls.root, compactItemClassnames)}
       onChange={handleChange}
       addonAfter={
         addonAfter && (
@@ -294,25 +294,25 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           [
             mergedSize,
             !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
-            classNames.input,
+            complexCls.input,
           ],
         ),
         prefix: clsx(
           'flex flex-none items-center text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
           mergedSize === 'small' && `${prefixCls}-prefix-small`,
-          classNames.prefix,
+          complexCls.prefix,
         ),
         suffix: clsx(
           'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
           mergedSize === 'small' && `${prefixCls}-suffix-small`,
-          classNames.suffix,
+          complexCls.suffix,
         ),
         count: clsx(
           'text-neutral-text-tertiary',
           mergedDisabled && 'text-neutral-text-quaternary',
-          classNames.count,
+          complexCls.count,
         ),
         clear: 'flex items-center text-neutral-text-quaternary hover:text-neutral-text-tertiary',
       }}

@@ -3,7 +3,7 @@
  */
 import { ArrowPathOutline } from '@metaoa/icons';
 import { Button, Transition } from 'meta-ui';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 export default () => {
   const [isShowing, setIsShowing] = useState(true);
@@ -13,14 +13,17 @@ export default () => {
       <div className="h-32 w-32">
         <Transition
           appear
-          as={Fragment}
-          show={isShowing}
+          visible={isShowing}
           enter="transform transition duration-[400ms]"
           enterFrom="opacity-0 rotate-[-120deg] scale-50"
           enterTo="opacity-100 rotate-0 scale-100"
-          leave="transform duration-200 transition ease-in-out"
+          leave="transform duration-[400ms] transition ease-in-out"
           leaveFrom="opacity-100 rotate-0 scale-100 "
           leaveTo="opacity-0 scale-95 "
+          beforeEnter={() => console.log('beforeEnter')}
+          afterEnter={() => console.log('afterEnter')}
+          beforeLeave={() => console.log('beforeLeave')}
+          afterLeave={() => console.log('afterLeave')}
         >
           <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />
         </Transition>

@@ -1,6 +1,6 @@
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -69,7 +69,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     onChange,
     ...restProps
   } = props;
-  const classNames = getClassNames(className);
+  const complexCls = getComplexCls(className);
 
   const { getPrefixCls } = React.useContext(ConfigContext);
 
@@ -155,7 +155,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       '': isFormItemInput,
     },
     `${prefixCls}-wrapper`,
-    classNames.root,
+    complexCls.root,
   );
 
   const innerClass = clsx(
@@ -169,7 +169,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
     `${prefixCls}-inner`,
-    classNames.checkbox,
+    complexCls.checkbox,
   );
 
   const ariaChecked = indeterminate ? 'mixed' : undefined;

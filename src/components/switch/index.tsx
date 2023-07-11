@@ -1,7 +1,7 @@
 import { LoadingOutline } from '@metaoa/icons';
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
@@ -67,7 +67,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     const disabled = React.useContext(DisabledContext);
     const mergedDisabled = (customDisabled ?? disabled) || loading;
 
-    const classNames = getClassNames(className);
+    const complexCls = getComplexCls(className);
 
     const mergedSize = useSize(customizeSize);
 
@@ -109,7 +109,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         'h-5 min-w-[2rem]': mergedSize === 'small',
       },
       prefixCls,
-      classNames.root,
+      complexCls.root,
     );
 
     const handleCls = clsx(
@@ -120,7 +120,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         'start-[calc(100%-18px)]': innerChecked && mergedSize === 'small',
       },
       `${prefixCls}-handle`,
-      classNames.handle,
+      complexCls.handle,
     );
 
     return (

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Disposables from '../disposables';
+import disposables from '../util/disposables';
 
-export default function useDisposables() {
+export function useDisposables() {
   // Using useState instead of useRef so that we can use the initializer function.
-  let [d] = useState(() => new Disposables());
+  let [d] = useState(disposables);
   useEffect(() => () => d.dispose(), [d]);
   return d;
 }

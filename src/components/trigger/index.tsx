@@ -6,7 +6,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useId from 'rc-util/lib/hooks/useId';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import * as React from 'react';
-import { ComplexClassName, clsx, getClassNames } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import { TransitionProps } from '../transition';
 import type { TriggerContextProps } from './Context';
 import TriggerContext from './Context';
@@ -165,7 +165,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       ...restProps
     } = props;
 
-    const classNames = getClassNames(className);
+    const complexCls = getComplexCls(className);
 
     const mergedAutoDestroy = autoDestroy || false;
 
@@ -477,8 +477,8 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     }
 
     // ========================= ClassName ==========================
-    if (classNames.root) {
-      cloneProps.className = clsx(originChildProps.className, classNames.root);
+    if (complexCls.root) {
+      cloneProps.className = clsx(originChildProps.className, complexCls.root);
     }
 
     // =========================== Render ===========================
@@ -539,7 +539,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
             ref={setPopupRef}
             prefixCls={prefixCls}
             popup={popup}
-            className={{ root: clsx(classNames.popup, alignedClassName), mask: classNames.mask }}
+            className={{ root: clsx(complexCls.popup, alignedClassName), mask: complexCls.mask }}
             style={popupStyle}
             target={targetEle}
             onMouseEnter={onPopupMouseEnter}
