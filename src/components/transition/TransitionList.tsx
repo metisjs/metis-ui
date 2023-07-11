@@ -13,8 +13,8 @@ import {
 } from './util/diff';
 
 const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
-  'eventProps',
   'visible',
+  'children',
   'appear',
   'removeOnLeave',
   'enter',
@@ -31,11 +31,12 @@ const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
 ];
 
 export interface TransitionListProps
-  extends Omit<TransitionProps, 'onVisibleChanged'>,
+  extends Omit<TransitionProps, 'children' | 'onVisibleChanged'>,
     Omit<React.HTMLAttributes<any>, 'children'> {
   keys: (React.Key | { key: React.Key; [name: string]: any })[];
   component?: string | React.ComponentType | false;
-
+  className?: string;
+  children: (props: { [key: string]: any }) => React.ReactElement;
   /** This will always trigger after final visible changed. Even if no transition configured. */
   onVisibleChanged?: (visible: boolean, info: { key: React.Key }) => void;
   /** All transition leaves in the screen */
@@ -98,6 +99,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
 
     const Component = component || React.Fragment;
 
+    // @ts-ignore
     const transitionProps: TransitionProps = {};
     TRANSITION_PROP_NAMES.forEach((prop: keyof TransitionProps) => {
       // @ts-ignore
@@ -117,7 +119,6 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
               {...transitionProps}
               key={eventProps.key}
               visible={visible}
-              eventProps={eventProps}
               onVisibleChanged={(changedVisible) => {
                 onVisibleChanged?.(changedVisible, { key: eventProps.key });
 
@@ -130,7 +131,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
                 }
               }}
             >
-              {children}
+              {children(eventProps)}
             </Transition>
           );
         })}

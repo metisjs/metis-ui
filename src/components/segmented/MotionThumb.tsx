@@ -1,5 +1,5 @@
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import React, { Fragment } from 'react';
+import React from 'react';
 import type { SegmentedValue } from '.';
 import Transition from '../transition';
 
@@ -85,9 +85,8 @@ export default function MotionThumb(props: MotionThumbInterface) {
 
   return (
     <Transition
-      as={Fragment}
       appear
-      show
+      visible
       enter="transition-all duration-300 ease-in-out"
       enterFrom={{ transform: `translateX(${thumbStart})`, width: prevStyle?.width }}
       enterTo={{ transform: `translateX(${thumbActive})`, width: nextStyle?.width }}

@@ -2,7 +2,9 @@ import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
+import { clsx } from '../_util/classNameUtils';
 import useLatestValue from '../_util/hooks/useLatestValue';
+import warning from '../_util/warning';
 import useStatus from './hooks/useStatus';
 import { TransitionEventHandler, TransitionStatus, TransitionStyle } from './interface';
 import { splitStyle } from './util/style';
@@ -19,8 +21,6 @@ export interface TransitionProps {
    * Remove element when transition end. This will not work when `forceRender` is set.
    */
   removeOnLeave?: boolean;
-  /** @private Used by CSSMotionList. Do not use in your production. */
-  eventProps?: object;
 
   enter?: TransitionStyle;
   enterFrom?: TransitionStyle;
@@ -37,15 +37,7 @@ export interface TransitionProps {
 
   onVisibleChanged?: (visible: boolean) => void;
 
-  children: React.ReactNode;
-}
-
-export interface CSSMotionState {
-  status?: TransitionStatus;
-  statusActive?: boolean;
-  newStatus?: boolean;
-  statusStyle?: React.CSSProperties;
-  prevProps?: TransitionProps;
+  children: React.ReactElement;
 }
 
 const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
@@ -55,7 +47,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     removeOnLeave = true,
     forceRender,
     children,
-    eventProps,
     enter,
     enterFrom,
     enterTo,
@@ -67,22 +58,31 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     beforeLeave,
     afterEnter,
     afterLeave,
+    onVisibleChanged,
   } = props;
+
+  warning(
+    React.isValidElement(children) && supportRef(children),
+    'Transition',
+    'children is not a valid Element',
+  );
 
   // Ref to the react node, it may be a HTMLElement
   const nodeRef = useRef<any>();
 
-  const [initial, setInitial] = React.useState(true);
-  let changes = useRef([visible]);
+  const initial = useRef(true);
+  const changes = useRef([visible]);
   useLayoutEffect(() => {
-    if (initial === false) {
+    if (!initial.current) {
       return;
     }
 
     if (changes.current[changes.current.length - 1] !== visible) {
       changes.current.push(visible);
-      setInitial(false);
+      initial.current = false;
     }
+
+    onVisibleChanged?.(visible);
   }, [visible]);
 
   const styles = useLatestValue({
@@ -97,15 +97,15 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   const [status] = useStatus({
     container: nodeRef,
-    skip: initial && !appear,
+    skip: initial.current && !appear,
     visible,
     styles,
     onStart: () => {
-      if (initial) setInitial(false);
       if (visible) beforeEnter?.();
       else beforeLeave?.();
     },
     onStop: () => {
+      if (initial.current) initial.current = false;
       if (visible) afterEnter?.();
       else afterLeave?.();
     },
@@ -127,34 +127,34 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     [ref],
   );
 
-  // ===================== Render ================
-  let transitionChildren: React.ReactNode = null;
-  const mergedProps = { ...eventProps, visible };
+  let mergedProps: Partial<any> & React.Attributes = { ref: setNodeRef };
 
-  if (React.isValidElement(children) && supportRef(children)) {
-    if (status === TransitionStatus.None) {
-      // Stable children
-      if (visible) {
-        transitionChildren = React.cloneElement<any>(children, {
-          ...mergedProps,
-          ref: setNodeRef,
-        });
-      } else if (forceRender || (!removeOnLeave && renderedRef.current)) {
-        transitionChildren = React.cloneElement<any>(children, {
-          ...mergedProps,
-          style: { display: 'none' },
-          ref: setNodeRef,
-        });
-      }
-    } else {
-      transitionChildren = React.cloneElement<any>(children, {
-        ...mergedProps,
-        ref: setNodeRef,
-      });
-    }
+  if (appear && visible && initial.current && status === TransitionStatus.None) {
+    mergedProps.className = clsx(
+      mergedProps.classNames,
+      ...styles.current.enter.className,
+      ...styles.current.enterFrom.className,
+    );
+    mergedProps.style = {
+      ...mergedProps.style,
+      ...styles.current.enter.style,
+      ...styles.current.enterFrom.style,
+    };
   }
 
-  return transitionChildren;
+  if (status !== TransitionStatus.None || visible) {
+    return React.cloneElement<any>(children, mergedProps);
+  }
+
+  if (
+    status === TransitionStatus.None &&
+    !visible &&
+    (forceRender || (!removeOnLeave && renderedRef.current))
+  ) {
+    return React.cloneElement<any>(children, { ...mergedProps, style: { display: 'none' } });
+  }
+
+  return null;
 });
 
 if (process.env.NODE_ENV !== 'production') {

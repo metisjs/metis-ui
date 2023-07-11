@@ -6,14 +6,14 @@ import { Button, Transition } from 'meta-ui';
 import React, { useState } from 'react';
 
 export default () => {
-  const [isShowing, setIsShowing] = useState(true);
+  const [visible, setVisible] = useState(true);
 
   return (
     <div className="flex flex-col items-center py-16">
       <div className="h-32 w-32">
         <Transition
           appear
-          visible={isShowing}
+          visible={visible}
           enter="transform transition duration-[400ms]"
           enterFrom="opacity-0 rotate-[-120deg] scale-50"
           enterTo="opacity-100 rotate-0 scale-100"
@@ -28,13 +28,12 @@ export default () => {
           <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />
         </Transition>
       </div>
-
       <Button
         icon={<ArrowPathOutline />}
         onClick={() => {
-          setIsShowing(false);
+          setVisible(false);
           setTimeout(() => {
-            setIsShowing(true);
+            setVisible(true);
           }, 500);
         }}
         className="mt-8"

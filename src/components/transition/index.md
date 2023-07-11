@@ -12,7 +12,7 @@ group:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx" >显示隐藏</code>
-<code src="./demo/multiple.tsx" >多个元素</code>
+<code src="./demo/list.tsx" >列表</code>
 
 ## API
 
@@ -37,5 +37,9 @@ group:
 
 ### TransitionList
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| ---- | ---- | ---- | ------ | ---- |
+extends all the props from [Transition](#Transition)
+
+| 参数      | 说明                 | 类型                          | 默认值 | 版本 |
+| --------- | -------------------- | ----------------------------- | ------ | ---- |
+| keys      | transition list keys | React.Key[]                   | -      |
+| component | wrapper component    | string \| React.ComponentType | div    |
