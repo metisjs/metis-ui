@@ -25,7 +25,7 @@ export default () => {
           beforeLeave={() => console.log('beforeLeave')}
           afterLeave={() => console.log('afterLeave')}
         >
-          {() => <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />}
+          <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />
         </Transition>
       </div>
 

@@ -3,7 +3,6 @@ import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
 import useLatestValue from '../_util/hooks/useLatestValue';
-import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
 import { TransitionEventHandler, TransitionStatus, TransitionStyle } from './interface';
 import { splitStyle } from './util/style';
@@ -38,15 +37,7 @@ export interface TransitionProps {
 
   onVisibleChanged?: (visible: boolean) => void;
 
-  children?: (
-    props: {
-      visible?: boolean;
-      className?: string;
-      style?: React.CSSProperties;
-      [key: string]: any;
-    },
-    ref: (node: any) => void,
-  ) => React.ReactElement;
+  children: React.ReactNode;
 }
 
 export interface CSSMotionState {
@@ -80,8 +71,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   // Ref to the react node, it may be a HTMLElement
   const nodeRef = useRef<any>();
-  // Ref to the dom wrapper in case ref can not pass to HTMLElement
-  const wrapperNodeRef = useRef(null);
 
   const [initial, setInitial] = React.useState(true);
   let changes = useRef([visible]);
@@ -139,47 +128,33 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   );
 
   // ===================== Render ================
-  let transitionChildren: React.ReactNode;
+  let transitionChildren: React.ReactNode = null;
   const mergedProps = { ...eventProps, visible };
 
-  if (!children) {
-    // No children
-    transitionChildren = null;
-  } else if (status === TransitionStatus.None) {
-    // Stable children
-    if (visible) {
-      transitionChildren = children(
-        {
+  if (React.isValidElement(children) && supportRef(children)) {
+    if (status === TransitionStatus.None) {
+      // Stable children
+      if (visible) {
+        transitionChildren = React.cloneElement<any>(children, {
           ...mergedProps,
-        },
-        setNodeRef,
-      );
-    } else if (forceRender || (!removeOnLeave && renderedRef.current)) {
-      transitionChildren = children({ ...mergedProps, style: { display: 'none' } }, setNodeRef);
+          ref: setNodeRef,
+        });
+      } else if (forceRender || (!removeOnLeave && renderedRef.current)) {
+        transitionChildren = React.cloneElement<any>(children, {
+          ...mergedProps,
+          style: { display: 'none' },
+          ref: setNodeRef,
+        });
+      }
     } else {
-      transitionChildren = null;
-    }
-  } else {
-    transitionChildren = children(
-      {
+      transitionChildren = React.cloneElement<any>(children, {
         ...mergedProps,
-      },
-      setNodeRef,
-    );
-  }
-
-  // Auto inject ref if child node not have `ref` props
-  if (React.isValidElement(transitionChildren) && supportRef(transitionChildren)) {
-    const { ref: originNodeRef } = transitionChildren as any;
-
-    if (!originNodeRef) {
-      transitionChildren = React.cloneElement<any>(transitionChildren, {
         ref: setNodeRef,
       });
     }
   }
 
-  return <DomWrapper ref={wrapperNodeRef}>{transitionChildren}</DomWrapper>;
+  return transitionChildren;
 });
 
 if (process.env.NODE_ENV !== 'production') {
