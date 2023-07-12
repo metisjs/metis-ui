@@ -184,7 +184,10 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const formattedOverlayInnerStyle = { ...overlayInnerStyle, ...colorInfo.overlayStyle };
   const arrowContentStyle = colorInfo.arrowStyle;
 
-  const customOverlayClassName = clsx({}, complexCls.root);
+  const customOverlayClassName = clsx(
+    'visible absolute z-[1070] block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)]',
+    complexCls.root,
+  );
 
   const getPopupElement = () => (
     <Popup

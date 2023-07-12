@@ -112,7 +112,7 @@ export default function useAlign(
     arrowY: 0,
     scaleX: 1,
     scaleY: 1,
-    align: builtinPlacements[placement] || {},
+    align: builtinPlacements[placement ?? ''] || {},
   });
   const alignCountRef = React.useRef(0);
 
@@ -155,7 +155,7 @@ export default function useAlign(
 
       // Placement
       const placementInfo: AlignType = {
-        ...builtinPlacements[placement],
+        ...builtinPlacements[placement ?? ''],
         ...popupAlign,
       };
 

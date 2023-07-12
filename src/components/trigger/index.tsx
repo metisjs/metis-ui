@@ -25,7 +25,7 @@ import type {
 } from './interface';
 import { getAlignPopupClassName } from './util';
 
-export type { BuildInPlacements, AlignType, ActionType, ArrowTypeOuter as ArrowType };
+export type { ActionType, AlignType, ArrowTypeOuter as ArrowType, BuildInPlacements };
 
 export interface TriggerRef {
   forceAlign: VoidFunction;

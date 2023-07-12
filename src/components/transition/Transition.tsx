@@ -129,6 +129,8 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     (node: any) => {
       nodeRef.current = node;
       fillRef(ref, node);
+      // @ts-ignore
+      fillRef(children.ref, node);
     },
     [ref],
   );
