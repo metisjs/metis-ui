@@ -85,6 +85,12 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     onVisibleChanged?.(visible);
   }, [visible]);
 
+  useLayoutEffect(() => {
+    if (!appear) {
+      initial.current = false;
+    }
+  }, [appear]);
+
   const styles = useLatestValue({
     enter: splitStyle(enter),
     enterFrom: splitStyle(enterFrom),

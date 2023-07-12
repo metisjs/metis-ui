@@ -50,12 +50,14 @@ export default () => {
       >
         {({ key, background }) => (
           <div
-            className="flex h-20 w-20 items-center justify-center bg-red-400"
+            className="relative flex h-20 w-20 overflow-hidden bg-red-400"
             style={{
               background,
             }}
           >
-            <span>{key}</span>
+            <span className="absolute left-[40px] top-1/2 -translate-x-1/2 -translate-y-1/2">
+              {key}
+            </span>
           </div>
         )}
       </Transition.List>
