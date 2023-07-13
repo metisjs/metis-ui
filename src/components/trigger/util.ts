@@ -20,7 +20,7 @@ export function getAlignPopupClassName(
   for (let i = 0; i < placements.length; i += 1) {
     const placement = placements[i];
     if (isPointsEq(builtinPlacements[placement]?.points, points, isAlignPoint)) {
-      return `${prefixCls}-placement-${placement}`;
+      return `placement-${placement}`;
     }
   }
 

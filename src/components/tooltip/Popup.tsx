@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 
@@ -15,9 +14,12 @@ export default function Popup(props: PopupProps) {
   const { children, prefixCls, id, overlayInnerStyle, className, style } = props;
 
   return (
-    <div className={classNames(`${prefixCls}-content`, className)} style={style}>
+    <div className={clsx(`${prefixCls}-content`, 'relative', className)} style={style}>
       <div
-        className={clsx(`${prefixCls}-inner`, 'bg-neutral-bg-spotlight text-white')}
+        className={clsx(
+          `${prefixCls}-inner`,
+          'box-border min-h-[32px] min-w-[32px] break-words rounded-md bg-neutral-bg-spotlight px-1.5 py-2 text-start text-sm text-white shadow-sm',
+        )}
         id={id}
         role="tooltip"
         style={overlayInnerStyle}

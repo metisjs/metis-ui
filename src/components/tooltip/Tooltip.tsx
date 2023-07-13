@@ -2,6 +2,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
 import { clsx, getComplexCls } from '../_util/classNameUtils';
+import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
@@ -96,8 +97,6 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   const complexCls = getComplexCls(className);
 
-  const mergedShowArrow = !!arrow;
-
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
 
@@ -137,7 +136,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       getPlacements({
         arrowPointAtCenter: mergedArrowPointAtCenter,
         autoAdjustOverflow,
-        arrowWidth: mergedShowArrow ? 16 : 0,
+        arrowWidth: !!arrow ? 16 : 0,
         borderRadius: 6,
         offset: 4,
         visibleFirst: true,
@@ -185,8 +184,21 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const arrowContentStyle = colorInfo.arrowStyle;
 
   const customOverlayClassName = clsx(
-    'visible absolute z-[1070] block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)]',
+    'visible absolute z-[1070] block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
     complexCls.root,
+  );
+
+  const mergedArrow = React.useMemo(
+    () =>
+      !!arrow
+        ? {
+            className: getArrowClassName({
+              contentRadius: 6,
+              limitVerticalRadius: true,
+            }),
+          }
+        : false,
+    [],
   );
 
   const getPopupElement = () => (
@@ -222,7 +234,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       autoDestroy={!!destroyTooltipOnHide}
       mouseLeaveDelay={mouseLeaveDelay}
       mouseEnterDelay={mouseEnterDelay}
-      arrow={mergedShowArrow}
+      arrow={mergedArrow}
       popupStyle={{ ...arrowContentStyle, ...overlayStyle }}
       getPopupContainer={getPopupContainer || getTooltipContainer || getContextPopupContainer}
     >
