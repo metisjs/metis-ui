@@ -28,8 +28,41 @@ interface StatusArgs {
     leaveTo: TransitionStyleType;
     entered: TransitionStyleType;
   }>;
-  onStart: () => void;
+  onStart: () => Promise<any> | void;
   onStop: () => void;
+}
+
+function clearStyles(
+  node: HTMLElement,
+  styles: {
+    enter: TransitionStyleType;
+    enterFrom: TransitionStyleType;
+    enterTo: TransitionStyleType;
+    leave: TransitionStyleType;
+    leaveFrom: TransitionStyleType;
+    leaveTo: TransitionStyleType;
+    entered: TransitionStyleType;
+  },
+) {
+  removeClasses(
+    node,
+    ...styles.enter.className,
+    ...styles.enterTo.className,
+    ...styles.enterFrom.className,
+    ...styles.leave.className,
+    ...styles.leaveTo.className,
+    ...styles.leaveFrom.className,
+    ...styles.entered.className,
+  );
+  removeStyles(node, {
+    ...styles.enter.style,
+    ...styles.enterTo.style,
+    ...styles.enterFrom.style,
+    ...styles.leave.style,
+    ...styles.leaveFrom.style,
+    ...styles.leaveTo.style,
+    ...styles.entered.style,
+  });
 }
 
 function transition(
@@ -61,26 +94,6 @@ function transition(
   const baseStyle = styles[status].style;
   const toStyle = styles[`${status}To`].style;
   const fromStyle = styles[`${status}From`].style;
-
-  removeClasses(
-    node,
-    ...styles.enter.className,
-    ...styles.enterTo.className,
-    ...styles.enterFrom.className,
-    ...styles.leave.className,
-    ...styles.leaveTo.className,
-    ...styles.leaveFrom.className,
-    ...styles.entered.className,
-  );
-  removeStyles(node, {
-    ...styles.enter.style,
-    ...styles.enterTo.style,
-    ...styles.enterFrom.style,
-    ...styles.leave.style,
-    ...styles.leaveFrom.style,
-    ...styles.leaveTo.style,
-    ...styles.entered.style,
-  });
 
   addClasses(node, ...baseCls, ...fromCls);
   addStyles(node, { ...baseStyle, ...fromStyle });
@@ -141,15 +154,19 @@ export default function useStatus({
 
     dd.dispose();
 
-    onStartRef.current();
+    clearStyles(node, styles.current);
 
-    dd.add(
-      transition(node, styles.current, status, () => {
-        dd.dispose();
-        setStatus(TransitionStatus.None);
-        onStopRef.current();
-      }),
-    );
+    const result = onStartRef.current();
+
+    Promise.resolve(result).then(() => {
+      dd.add(
+        transition(node, styles.current, status, () => {
+          dd.dispose();
+          setStatus(TransitionStatus.None);
+          onStopRef.current();
+        }),
+      );
+    });
 
     return dd.dispose;
   }, [status]);

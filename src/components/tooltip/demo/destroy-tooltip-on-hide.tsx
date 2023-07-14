@@ -1,5 +1,8 @@
+/**
+ * description: 通过 `destroyTooltipOnHide` 控制提示关闭时是否销毁 dom 节点。
+ */
+import { Tooltip } from 'meta-ui';
 import React from 'react';
-import { Tooltip } from 'antd';
 
 const App: React.FC = () => (
   <Tooltip destroyTooltipOnHide title="prompt text">

@@ -1,5 +1,8 @@
-import type { TooltipProps } from 'antd';
-import { Button, Tooltip, Typography } from 'antd';
+/**
+ * description: 气泡框不可见时自动调整位置。
+ */
+import type { TooltipProps } from 'meta-ui';
+import { Button, Tooltip } from 'meta-ui';
 import React from 'react';
 
 const Block = React.forwardRef<HTMLDivElement, Partial<TooltipProps>>((props, ref) => (
@@ -42,10 +45,10 @@ const App: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-      <Typography.Title level={5}>With `getPopupContainer`</Typography.Title>
+      <h5>With `getPopupContainer`</h5>
       <Block ref={containerRef1} getPopupContainer={(trigger) => trigger.parentElement!} />
 
-      <Typography.Title level={5}>Without `getPopupContainer`</Typography.Title>
+      <h5>Without `getPopupContainer`</h5>
       <Block ref={containerRef2} />
     </div>
   );

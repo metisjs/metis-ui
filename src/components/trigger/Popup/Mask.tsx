@@ -9,7 +9,7 @@ export interface MaskProps {
   open?: boolean;
   zIndex?: number;
   mask?: boolean;
-  transition?: TransitionProps;
+  transition?: Partial<TransitionProps>;
 }
 
 export default function Mask(props: MaskProps) {

@@ -38,8 +38,8 @@ export interface PopupProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 
   // Transition
-  transition?: TransitionProps;
-  maskTransition?: TransitionProps;
+  transition?: Partial<TransitionProps>;
+  maskTransition?: Partial<TransitionProps>;
 
   // Portal
   forceRender?: boolean;

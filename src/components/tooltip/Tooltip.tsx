@@ -184,7 +184,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const arrowContentStyle = colorInfo.arrowStyle;
 
   const customOverlayClassName = clsx(
-    'visible absolute z-[1070] block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
+    'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
     complexCls.root,
   );
 
@@ -193,12 +193,11 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       !!arrow
         ? {
             className: getArrowClassName({
-              contentRadius: 6,
               limitVerticalRadius: true,
             }),
           }
         : false,
-    [],
+    [arrow],
   );
 
   const getPopupElement = () => (
@@ -227,9 +226,14 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       popupOpen={tempOpen}
       onPopupOpenChange={onOpenChange}
       afterPopupOpenChange={afterOpenChange}
-      // popupTransitionName={transitionName}
-      // popupAnimation={animation}
-      // popupMotion={motion}
+      popupTransition={{
+        enter: 'transition duration-[100ms]',
+        enterFrom: 'opacity-0 scale-[0.8]',
+        enterTo: 'opacity-100 scale-100',
+        leave: 'transition duration-[100ms]',
+        leaveFrom: 'opacity-100 scale-100 ',
+        leaveTo: 'opacity-0 scale-[0.8]',
+      }}
       defaultPopupOpen={defaultOpen}
       autoDestroy={!!destroyTooltipOnHide}
       mouseLeaveDelay={mouseLeaveDelay}

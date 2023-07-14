@@ -1,4 +1,7 @@
-import { Button, Tooltip } from 'antd';
+/**
+ * description: 当 Tooltip 贴边时，自动偏移并且调整箭头位置。当超出过多时，则一同滚出屏幕。
+ */
+import { Button, Tooltip } from 'meta-ui';
 import React from 'react';
 
 const App: React.FC = () => {
@@ -18,7 +21,7 @@ const App: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        <Tooltip title="Thanks for using antd. Have a nice day!" trigger="click" defaultOpen>
+        <Tooltip title="Thanks for using meta ui. Have a nice day!" trigger="click" defaultOpen>
           <Button>Scroll The Window</Button>
         </Tooltip>
       </div>

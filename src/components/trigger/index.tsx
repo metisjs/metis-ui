@@ -67,8 +67,8 @@ export interface TriggerProps {
   maskClosable?: boolean;
 
   // =================== Transition ====================
-  popupTransition?: TransitionProps;
-  maskTransition?: TransitionProps;
+  popupTransition?: Partial<TransitionProps>;
+  maskTransition?: Partial<TransitionProps>;
 
   // ==================== Delay ====================
   mouseEnterDelay?: number;

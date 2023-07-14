@@ -6,7 +6,12 @@ import { clsx } from '../_util/classNameUtils';
 import useLatestValue from '../_util/hooks/useLatestValue';
 import warning from '../_util/warning';
 import useStatus from './hooks/useStatus';
-import { TransitionEventHandler, TransitionStatus, TransitionStyle } from './interface';
+import {
+  TransitionBeforeEventHandler,
+  TransitionEventHandler,
+  TransitionStatus,
+  TransitionStyle,
+} from './interface';
 import { splitStyle } from './util/style';
 
 export interface TransitionProps {
@@ -30,9 +35,9 @@ export interface TransitionProps {
   leaveTo?: TransitionStyle;
   entered?: TransitionStyle;
 
-  beforeEnter?: TransitionEventHandler;
+  beforeEnter?: TransitionBeforeEventHandler;
   afterEnter?: TransitionEventHandler;
-  beforeLeave?: TransitionEventHandler;
+  beforeLeave?: TransitionBeforeEventHandler;
   afterLeave?: TransitionEventHandler;
 
   onVisibleChanged?: (visible: boolean) => void;
@@ -73,6 +78,8 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const initial = useRef(true);
   const changes = useRef([visible]);
   useLayoutEffect(() => {
+    onVisibleChanged?.(visible);
+
     if (!initial.current) {
       return;
     }
@@ -81,8 +88,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
       changes.current.push(visible);
       initial.current = false;
     }
-
-    onVisibleChanged?.(visible);
   }, [visible]);
 
   useLayoutEffect(() => {
@@ -106,10 +111,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     skip: initial.current && !appear,
     visible,
     styles,
-    onStart: () => {
-      if (visible) beforeEnter?.();
-      else beforeLeave?.();
-    },
+    onStart: () => (visible ? beforeEnter?.() : beforeLeave?.()),
     onStop: () => {
       if (initial.current) initial.current = false;
       if (visible) afterEnter?.();
@@ -139,12 +141,12 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   if (appear && visible && initial.current && status === TransitionStatus.None) {
     mergedProps.className = clsx(
-      mergedProps.classNames,
+      children.props.classNames,
       ...styles.current.enter.className,
       ...styles.current.enterFrom.className,
     );
     mergedProps.style = {
-      ...mergedProps.style,
+      ...children.props.style,
       ...styles.current.enter.style,
       ...styles.current.enterFrom.style,
     };
@@ -159,7 +161,10 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     !visible &&
     (forceRender || (!removeOnLeave && renderedRef.current))
   ) {
-    return React.cloneElement<any>(children, { ...mergedProps, style: { display: 'none' } });
+    return React.cloneElement<any>(children, {
+      ...mergedProps,
+      style: { ...children.props.style, display: 'none' },
+    });
   }
 
   return null;
