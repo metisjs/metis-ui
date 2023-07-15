@@ -1,4 +1,7 @@
-import { Button, Tooltip } from 'antd';
+/**
+ * 位置有 12 个方向。
+ */
+import { Button, Tooltip } from 'meta-ui';
 import React from 'react';
 
 const text = <span>prompt text</span>;
@@ -9,46 +12,46 @@ const App: React.FC = () => (
   <div>
     <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
       <Tooltip placement="topLeft" title={text}>
-        <Button>TL</Button>
+        <Button className="ml-1.5 w-[70px]">TL</Button>
       </Tooltip>
       <Tooltip placement="top" title={text}>
-        <Button>Top</Button>
+        <Button className="ml-1.5 w-[70px]">Top</Button>
       </Tooltip>
       <Tooltip placement="topRight" title={text}>
-        <Button>TR</Button>
+        <Button className="ml-1.5 w-[70px]">TR</Button>
       </Tooltip>
     </div>
     <div style={{ width: buttonWidth, float: 'left' }}>
       <Tooltip placement="leftTop" title={text}>
-        <Button>LT</Button>
+        <Button className="mt-1.5 w-[70px]">LT</Button>
       </Tooltip>
       <Tooltip placement="left" title={text}>
-        <Button>Left</Button>
+        <Button className="mt-1.5 w-[70px]">Left</Button>
       </Tooltip>
       <Tooltip placement="leftBottom" title={text}>
-        <Button>LB</Button>
+        <Button className="mt-1.5 w-[70px]">LB</Button>
       </Tooltip>
     </div>
     <div style={{ width: buttonWidth, marginLeft: buttonWidth * 4 + 24 }}>
       <Tooltip placement="rightTop" title={text}>
-        <Button>RT</Button>
+        <Button className="mt-1.5 w-[70px]">RT</Button>
       </Tooltip>
       <Tooltip placement="right" title={text}>
-        <Button>Right</Button>
+        <Button className="mt-1.5 w-[70px]">Right</Button>
       </Tooltip>
       <Tooltip placement="rightBottom" title={text}>
-        <Button>RB</Button>
+        <Button className="mt-1.5 w-[70px]">RB</Button>
       </Tooltip>
     </div>
     <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
       <Tooltip placement="bottomLeft" title={text}>
-        <Button>BL</Button>
+        <Button className="ml-1.5 w-[70px]">BL</Button>
       </Tooltip>
       <Tooltip placement="bottom" title={text}>
-        <Button>Bottom</Button>
+        <Button className="ml-1.5 w-[70px]">Bottom</Button>
       </Tooltip>
       <Tooltip placement="bottomRight" title={text}>
-        <Button>BR</Button>
+        <Button className="ml-1.5 w-[70px]">BR</Button>
       </Tooltip>
     </div>
   </div>

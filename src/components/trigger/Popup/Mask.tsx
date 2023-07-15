@@ -9,7 +9,7 @@ export interface MaskProps {
   open?: boolean;
   zIndex?: number;
   mask?: boolean;
-  transition?: TransitionProps;
+  transition?: Partial<TransitionProps>;
 }
 
 export default function Mask(props: MaskProps) {
@@ -20,7 +20,7 @@ export default function Mask(props: MaskProps) {
   }
 
   return (
-    <Transition {...transition} appear show={open} unmount>
+    <Transition {...transition} appear visible={open} removeOnLeave>
       <div className={clsx(`${prefixCls}-mask`, className)} style={{ zIndex }} />
     </Transition>
   );

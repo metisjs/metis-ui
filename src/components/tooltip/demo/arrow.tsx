@@ -1,4 +1,7 @@
-import { Button, Divider, Segmented, Tooltip } from 'antd';
+/**
+ * description: 支持显示、隐藏以及将箭头保持居中定位。
+ */
+import { Button, Divider, Segmented, Tooltip } from 'meta-ui';
 import React, { useMemo, useState } from 'react';
 
 const text = <span>prompt text</span>;

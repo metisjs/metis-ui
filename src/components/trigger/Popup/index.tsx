@@ -38,8 +38,8 @@ export interface PopupProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 
   // Transition
-  transition?: TransitionProps;
-  maskTransition?: TransitionProps;
+  transition?: Partial<TransitionProps>;
+  maskTransition?: Partial<TransitionProps>;
 
   // Portal
   forceRender?: boolean;
@@ -184,20 +184,21 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
         {(resizeObserverRef) => {
           return (
             <Transition
-              as={React.Fragment}
-              unmount={!forceRender}
+              appear
+              removeOnLeave={false}
+              forceRender={forceRender}
               {...transition}
               beforeEnter={onPrepare}
-              show={open}
+              visible={open}
               afterEnter={() => {
-                console.log('afterEnter');
                 transition?.afterEnter?.();
-                onOpenChanged(true);
               }}
               afterLeave={() => {
-                console.log('afterLeave');
                 transition?.afterLeave?.();
-                onOpenChanged(false);
+              }}
+              onVisibleChanged={(nextVisible) => {
+                transition?.onVisibleChanged?.(nextVisible);
+                onOpenChanged(nextVisible);
               }}
             >
               <div

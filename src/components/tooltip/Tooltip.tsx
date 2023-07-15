@@ -2,6 +2,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
 import { clsx, getComplexCls } from '../_util/classNameUtils';
+import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
@@ -96,8 +97,6 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   const complexCls = getComplexCls(className);
 
-  const mergedShowArrow = !!arrow;
-
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
 
@@ -137,7 +136,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       getPlacements({
         arrowPointAtCenter: mergedArrowPointAtCenter,
         autoAdjustOverflow,
-        arrowWidth: mergedShowArrow ? 16 : 0,
+        arrowWidth: !!arrow ? 16 : 0,
         borderRadius: 6,
         offset: 4,
         visibleFirst: true,
@@ -184,7 +183,22 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const formattedOverlayInnerStyle = { ...overlayInnerStyle, ...colorInfo.overlayStyle };
   const arrowContentStyle = colorInfo.arrowStyle;
 
-  const customOverlayClassName = clsx({}, complexCls.root);
+  const customOverlayClassName = clsx(
+    'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
+    complexCls.root,
+  );
+
+  const mergedArrow = React.useMemo(
+    () =>
+      !!arrow
+        ? {
+            className: getArrowClassName({
+              limitVerticalRadius: true,
+            }),
+          }
+        : false,
+    [arrow],
+  );
 
   const getPopupElement = () => (
     <Popup
@@ -212,14 +226,19 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       popupOpen={tempOpen}
       onPopupOpenChange={onOpenChange}
       afterPopupOpenChange={afterOpenChange}
-      // popupTransitionName={transitionName}
-      // popupAnimation={animation}
-      // popupMotion={motion}
+      popupTransition={{
+        enter: 'transition duration-[100ms]',
+        enterFrom: 'opacity-0 scale-[0.8]',
+        enterTo: 'opacity-100 scale-100',
+        leave: 'transition duration-[100ms]',
+        leaveFrom: 'opacity-100 scale-100 ',
+        leaveTo: 'opacity-0 scale-[0.8]',
+      }}
       defaultPopupOpen={defaultOpen}
       autoDestroy={!!destroyTooltipOnHide}
       mouseLeaveDelay={mouseLeaveDelay}
       mouseEnterDelay={mouseEnterDelay}
-      arrow={mergedShowArrow}
+      arrow={mergedArrow}
       popupStyle={{ ...arrowContentStyle, ...overlayStyle }}
       getPopupContainer={getPopupContainer || getTooltipContainer || getContextPopupContainer}
     >

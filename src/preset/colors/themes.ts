@@ -18,7 +18,7 @@ export default {
     'neutral-bg-container': 'gray-800',
     'neutral-bg-elevated': 'black',
     'neutral-bg-layout': 'gray-900',
-    'neutral-bg-spotlight': 'gray-900',
+    'neutral-bg-spotlight': 'gray-700/88',
     'neutral-bg-mask': 'gray-900',
   },
   '[data-prefers-color=light]': {
@@ -34,7 +34,7 @@ export default {
     'neutral-bg-container': 'white',
     'neutral-bg-elevated': 'white',
     'neutral-bg-layout': 'slate-100',
-    'neutral-bg-spotlight': 'gray-900',
+    'neutral-bg-spotlight': 'gray-900/88',
     'neutral-bg-mask': 'gray-900',
   },
 } as const;

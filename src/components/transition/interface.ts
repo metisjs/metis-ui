@@ -5,6 +5,7 @@ export enum TransitionStatus {
 }
 
 export type TransitionEventHandler = () => void;
+export type TransitionBeforeEventHandler = () => Promise<any> | void;
 
 export type TransitionStyleType = { className: string[]; style: React.CSSProperties };
 export type TransitionStyle =
