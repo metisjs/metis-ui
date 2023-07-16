@@ -17,6 +17,7 @@ export const SpaceContext = React.createContext({
 export type SpaceSize = SizeType | number;
 
 export interface SpaceProps extends React.HTMLAttributes<HTMLDivElement> {
+  prefixCls?: string;
   className?: string;
   itemClassName?: string;
   style?: React.CSSProperties;
@@ -42,6 +43,7 @@ const Space: React.FC<SpaceProps> = (props) => {
   const { space } = React.useContext(ConfigContext);
 
   const {
+    prefixCls: customizePrefixCls,
     size = space?.size || 'small',
     align,
     className,
@@ -53,6 +55,7 @@ const Space: React.FC<SpaceProps> = (props) => {
     wrap = false,
     ...otherProps
   } = props;
+  const { getPrefixCls } = React.useContext(ConfigContext);
 
   const supportFlexGap = useFlexGapSupport();
 
@@ -66,13 +69,18 @@ const Space: React.FC<SpaceProps> = (props) => {
 
   const childNodes = toArray(children, { keepEmpty: true });
 
-  const mergedAlign = align === undefined && direction === 'horizontal' ? 'center' : align;
+  const prefixCls = getPrefixCls('space', customizePrefixCls);
   const clx = clsx(
+    prefixCls,
     {
       'flex-col': direction === 'vertical',
     },
     'inline-flex',
-    `items-${mergedAlign}`,
+    align === undefined && direction === 'horizontal' && 'items-center',
+    align === 'start' && `items-start`,
+    align === 'end' && `items-end`,
+    align === 'center' && `items-center`,
+    align === 'baseline' && `items-baseline`,
     className,
   );
 

@@ -29,6 +29,7 @@ export interface BaseButtonProps {
   size?: SizeType;
   disabled?: boolean;
   loading?: boolean | { delay?: number };
+  prefixCls?: string;
   className?: string;
   ghost?: boolean;
   danger?: boolean;
@@ -174,6 +175,7 @@ const iconVariantStyles = cva('', {
 
 const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
   const {
+    prefixCls: customizePrefixCls,
     loading = false,
     type = 'default',
     danger,
@@ -189,7 +191,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   } = props;
 
   const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('btn');
+  const prefixCls = getPrefixCls('btn', customizePrefixCls);
 
   const size = React.useContext(SizeContext);
   // ===================== Disabled =====================

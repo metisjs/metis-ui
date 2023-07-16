@@ -20,7 +20,7 @@ export interface CSPConfig {
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
-  getPrefixCls: (suffixCls?: string) => string;
+  getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
   // renderEmpty?: RenderEmptyHandler;
   csp?: CSPConfig;
   input?: {
@@ -44,7 +44,10 @@ export interface ConfigConsumerProps {
   };
 }
 
-const defaultGetPrefixCls = (suffixCls?: string) => {
+const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
+  if (customizePrefixCls) {
+    return customizePrefixCls;
+  }
   return suffixCls ? `meta-${suffixCls}` : 'meta';
 };
 

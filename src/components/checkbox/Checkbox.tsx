@@ -13,6 +13,7 @@ export interface AbstractCheckboxProps<T> {
   defaultChecked?: boolean;
   checked?: boolean;
   style?: React.CSSProperties;
+  prefixCls?: string;
   disabled?: boolean;
   onChange?: (e: T) => void;
   onClick?: React.MouseEventHandler<HTMLElement>;
@@ -55,6 +56,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
   ref,
 ) => {
   const {
+    prefixCls: customizePrefixCls,
     name,
     className,
     children,
@@ -146,7 +148,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     }
   };
 
-  const prefixCls = getPrefixCls('checkbox');
+  const prefixCls = getPrefixCls('checkbox', customizePrefixCls);
 
   const classString = clsx(
     'inline-flex cursor-pointer items-center text-sm leading-6',

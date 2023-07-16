@@ -11,6 +11,7 @@ import type { RadioProps, RadioRef } from './interface';
 
 const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (props, ref) => {
   const {
+    prefixCls: customizePrefixCls,
     name,
     className,
     children,
@@ -24,7 +25,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
     ...restProps
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('radio');
+  const prefixCls = getPrefixCls('radio', customizePrefixCls);
 
   const complexCls = getComplexCls(className);
 

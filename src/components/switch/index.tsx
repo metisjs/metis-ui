@@ -14,6 +14,7 @@ export type SwitchChangeEventHandler = (
 export type SwitchClickEventHandler = SwitchChangeEventHandler;
 
 export interface SwitchProps {
+  prefixCls?: string;
   size?: SwitchSize;
   className?: ComplexClassName<'handle'>;
   rootClassName?: string;
@@ -42,6 +43,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
   (
     {
+      prefixCls: customizePrefixCls,
       size: customizeSize,
       disabled: customDisabled,
       loading,
@@ -56,7 +58,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     ref,
   ) => {
     const { getPrefixCls } = React.useContext(ConfigContext);
-    const prefixCls = getPrefixCls('switch');
+    const prefixCls = getPrefixCls('switch', customizePrefixCls);
 
     const [innerChecked, setInnerChecked] = useMergedState<boolean>(false, {
       value: checked,

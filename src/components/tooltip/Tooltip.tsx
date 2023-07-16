@@ -72,6 +72,7 @@ function getDisabledCompatibleChildren(element: React.ReactElement<any>, prefixC
 
 const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const {
+    prefixCls: customizePrefixCls,
     id,
     className,
     getTooltipContainer,
@@ -93,6 +94,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     trigger,
     align,
     defaultOpen,
+    transition,
   } = props;
 
   const complexCls = getComplexCls(className);
@@ -157,7 +159,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     </NoCompactStyle>
   );
 
-  const prefixCls = getPrefixCls('tooltip');
+  const prefixCls = getPrefixCls('tooltip', customizePrefixCls);
 
   let tempOpen = open;
   // Hide tooltip when there is no title
@@ -185,7 +187,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   const customOverlayClassName = clsx(
     'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
-    complexCls.root,
+    complexCls.overlay,
   );
 
   const mergedArrow = React.useMemo(
@@ -206,6 +208,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       prefixCls={prefixCls}
       id={id}
       overlayInnerStyle={formattedOverlayInnerStyle}
+      className={{ root: complexCls.popup, inner: complexCls.popupInner }}
     >
       {memoOverlayWrapper}
     </Popup>
@@ -226,14 +229,16 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       popupOpen={tempOpen}
       onPopupOpenChange={onOpenChange}
       afterPopupOpenChange={afterOpenChange}
-      popupTransition={{
-        enter: 'transition duration-[100ms]',
-        enterFrom: 'opacity-0 scale-[0.8]',
-        enterTo: 'opacity-100 scale-100',
-        leave: 'transition duration-[100ms]',
-        leaveFrom: 'opacity-100 scale-100 ',
-        leaveTo: 'opacity-0 scale-[0.8]',
-      }}
+      popupTransition={
+        transition ?? {
+          enter: 'transition duration-[100ms]',
+          enterFrom: 'opacity-0 scale-[0.8]',
+          enterTo: 'opacity-100 scale-100',
+          leave: 'transition duration-[100ms]',
+          leaveFrom: 'opacity-100 scale-100 ',
+          leaveTo: 'opacity-0 scale-[0.8]',
+        }
+      }
       defaultPopupOpen={defaultOpen}
       autoDestroy={!!destroyTooltipOnHide}
       mouseLeaveDelay={mouseLeaveDelay}

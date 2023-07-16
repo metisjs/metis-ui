@@ -8,8 +8,22 @@ import Radio from './Radio';
 import type { RadioChangeEvent, RadioGroupProps } from './interface';
 
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref) => {
+  const {
+    prefixCls: customizePrefixCls,
+    className,
+    options,
+    disabled,
+    children,
+    style,
+    id,
+    onMouseEnter,
+    onMouseLeave,
+    onFocus,
+    onBlur,
+  } = props;
+
   const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('radio-group');
+  const prefixCls = getPrefixCls('radio-group', customizePrefixCls);
 
   const [value, setValue] = useMergedState(props.defaultValue, {
     value: props.value,
@@ -26,19 +40,6 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref
       onChange(ev);
     }
   };
-
-  const {
-    className,
-    options,
-    disabled,
-    children,
-    style,
-    id,
-    onMouseEnter,
-    onMouseLeave,
-    onFocus,
-    onBlur,
-  } = props;
 
   let childrenToRender = children;
   // 如果存在 options, 优先使用

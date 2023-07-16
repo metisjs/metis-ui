@@ -1,5 +1,5 @@
+import { Input, Tooltip } from 'meta-ui';
 import React, { useState } from 'react';
-import { Input, Tooltip } from 'antd';
 
 interface NumericInputProps {
   style: React.CSSProperties;
@@ -36,7 +36,7 @@ const NumericInput = (props: NumericInputProps) => {
   );
 
   return (
-    <Tooltip trigger={['focus']} title={title} placement="topLeft" overlayClassName="numeric-input">
+    <Tooltip trigger={['focus']} title={title} placement="topLeft">
       <Input
         {...props}
         onChange={handleChange}

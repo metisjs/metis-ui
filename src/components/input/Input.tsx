@@ -147,6 +147,7 @@ const addonAfterWrapperVariantStyles = cva(
 
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
+    prefixCls: customizePrefixCls,
     bordered = true,
     status: customStatus,
     size: customSize,
@@ -166,7 +167,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const complexCls = getComplexCls(className);
   const { getPrefixCls, input } = React.useContext(ConfigContext);
 
-  const prefixCls = getPrefixCls('input');
+  const prefixCls = getPrefixCls('input', customizePrefixCls);
   const inputRef = useRef<InputRef>(null);
 
   // ===================== Compact Item =====================

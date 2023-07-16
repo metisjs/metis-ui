@@ -16,7 +16,7 @@ export default {
     'neutral-fill-tertiary': 'white/8',
     'neutral-fill-quaternary': 'white/4',
     'neutral-bg-container': 'gray-800',
-    'neutral-bg-elevated': 'black',
+    'neutral-bg-elevated': 'gray-900',
     'neutral-bg-layout': 'gray-900',
     'neutral-bg-spotlight': 'gray-700/88',
     'neutral-bg-mask': 'gray-900',

@@ -1,5 +1,6 @@
 import { ComplexClassName } from '../_util/classNameUtils';
 import { AdjustOverflow } from '../_util/placements';
+import { TransitionProps } from '../transition';
 import type { ActionType, AlignType, ArrowType, BuildInPlacements, TriggerProps } from '../trigger';
 
 export interface AbstractTooltipProps
@@ -22,7 +23,8 @@ export interface AbstractTooltipProps
   overlayInnerStyle?: React.CSSProperties;
   zIndex?: number;
   style?: React.CSSProperties;
-  className?: ComplexClassName<'open'>;
+  className?: ComplexClassName<'open' | 'overlay' | 'popup' | 'popupInner'>;
+  prefixCls?: string;
   color?: string;
   builtinPlacements?: BuildInPlacements;
   arrow?:
@@ -33,6 +35,7 @@ export interface AbstractTooltipProps
   autoAdjustOverflow?: boolean | AdjustOverflow;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   children?: React.ReactNode;
+  transition?: Partial<TransitionProps>;
 }
 
 export interface TooltipRef {

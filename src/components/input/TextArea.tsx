@@ -9,6 +9,7 @@ import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
+import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import useSize from '../config-provider/hooks/useSize';
@@ -70,6 +71,7 @@ const affixWrapperVariantStyles = cva(
 const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
     {
+      prefixCls: customizePrefixCls,
       bordered = true,
       size: customizeSize,
       disabled: customDisabled,
@@ -82,6 +84,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     ref,
   ) => {
     const complexCls = getComplexCls(className);
+    const { getPrefixCls } = React.useContext(ConfigContext);
 
     // ===================== Size =====================
     const mergedSize = useSize(customizeSize);
@@ -108,6 +111,8 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       },
       blur: () => innerRef.current?.blur(),
     }));
+
+    const prefixCls = getPrefixCls('input', customizePrefixCls);
 
     // Allow clear
     let mergedAllowClear: BaseInputProps['allowClear'];
@@ -156,7 +161,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
             'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',
           ),
         }}
-        suffix={hasFeedback && <span className="">{feedbackIcon}</span>}
+        suffix={
+          hasFeedback && <span className={`${prefixCls}-textarea-suffix`}>{feedbackIcon}</span>
+        }
         showCount={showCount}
         ref={innerRef}
       />

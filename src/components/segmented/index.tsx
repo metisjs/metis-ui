@@ -38,6 +38,7 @@ export type SegmentedLabeledOption =
 export type SegmentedOptions = (SegmentedRawOption | SegmentedLabeledOption)[];
 
 export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'size'> {
+  prefixCls?: string;
   options: SegmentedOptions;
   defaultValue?: SegmentedValue;
   value?: SegmentedValue;
@@ -132,6 +133,7 @@ const InternalSegmentedOption: React.FC<{
 
 const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) => {
   const {
+    prefixCls: customizePrefixCls,
     className,
     block,
     options = [],
@@ -143,7 +145,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
     ...restProps
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('segmented');
+  const prefixCls = getPrefixCls('segmented', customizePrefixCls);
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mergedRef = React.useMemo(

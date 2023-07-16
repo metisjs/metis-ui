@@ -18,6 +18,7 @@ export interface AvatarProps {
   /** Icon to be used in avatar */
   icon?: React.ReactNode;
   style?: React.CSSProperties;
+  prefixCls?: string;
   className?: string;
   children?: React.ReactNode;
   alt?: string;
@@ -113,6 +114,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   };
 
   const {
+    prefixCls: customizePrefixCls,
     shape = 'circle',
     size: customSize = 'default',
     src,
@@ -130,7 +132,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
 
   const hasImageElement = React.isValidElement(src);
 
-  const prefixCls = getPrefixCls('avatar');
+  const prefixCls = getPrefixCls('avatar', customizePrefixCls);
 
   const sizeStyle: React.CSSProperties =
     typeof size === 'number'

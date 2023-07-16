@@ -5,6 +5,7 @@ import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 
 export interface DividerProps {
+  prefixCls?: string;
   type?: 'horizontal' | 'vertical';
   orientation?: 'left' | 'right' | 'center';
   className?: string;
@@ -42,6 +43,7 @@ const variantStyles = cva('border-neutral-fill-secondary', {
 
 const Divider: React.FC<DividerProps> = (props) => {
   const {
+    prefixCls: customizePrefixCls,
     type = 'horizontal',
     orientation = 'center',
     className,
@@ -51,7 +53,7 @@ const Divider: React.FC<DividerProps> = (props) => {
     ...restProps
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('divider');
+  const prefixCls = getPrefixCls('divider', customizePrefixCls);
 
   const hasChildren = !!children;
   const classString = variantStyles({ type, orientation, withText: hasChildren, dashed, plain }, [
