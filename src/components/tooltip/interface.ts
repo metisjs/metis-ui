@@ -23,7 +23,7 @@ export interface AbstractTooltipProps
   overlayInnerStyle?: React.CSSProperties;
   zIndex?: number;
   style?: React.CSSProperties;
-  className?: ComplexClassName<'open' | 'overlay' | 'popup' | 'popupInner'>;
+  className?: ComplexClassName<'open' | 'overlay' | 'popup' | 'popupInner' | 'arrow'>;
   prefixCls?: string;
   color?: string;
   builtinPlacements?: BuildInPlacements;

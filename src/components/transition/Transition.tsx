@@ -78,8 +78,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const initial = useRef(true);
   const changes = useRef([visible]);
   useLayoutEffect(() => {
-    onVisibleChanged?.(visible);
-
     if (!initial.current) {
       return;
     }
@@ -113,6 +111,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     styles,
     onStart: () => (visible ? beforeEnter?.() : beforeLeave?.()),
     onStop: () => {
+      onVisibleChanged?.(visible);
       if (initial.current) initial.current = false;
       if (visible) afterEnter?.();
       else afterLeave?.();

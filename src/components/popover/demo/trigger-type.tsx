@@ -1,4 +1,7 @@
-import { Button, Popover, Space } from 'antd';
+/**
+ * description: 鼠标移入、聚集、点击。
+ */
+import { Button, Popover, Space } from 'meta-ui';
 import React from 'react';
 
 const content = (

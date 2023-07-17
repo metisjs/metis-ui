@@ -1,4 +1,7 @@
-import { Button, Divider, Popover, Segmented } from 'antd';
+/**
+ * description: 通过 `arrow` 属性隐藏箭头。
+ */
+import { Button, Divider, Popover, Segmented } from 'meta-ui';
 import React, { useMemo, useState } from 'react';
 
 const text = <span>Title</span>;
@@ -10,6 +13,13 @@ const content = (
 );
 
 const buttonWidth = 70;
+const gap = 8;
+
+const btnProps = {
+  style: {
+    width: buttonWidth,
+  },
+};
 
 const App: React.FC = () => {
   const [showArrow, setShowArrow] = useState(true);
@@ -30,48 +40,72 @@ const App: React.FC = () => {
         }}
       />
       <Divider orientation="center">Content</Divider>
-      <div style={{ marginLeft: buttonWidth, whiteSpace: 'nowrap' }}>
+      <div style={{ marginLeft: buttonWidth, display: 'flex', flexWrap: 'nowrap', columnGap: gap }}>
         <Popover placement="topLeft" title={text} content={content} arrow={mergedArrow}>
-          <Button>TL</Button>
+          <Button {...btnProps}>TL</Button>
         </Popover>
         <Popover placement="top" title={text} content={content} arrow={mergedArrow}>
-          <Button>Top</Button>
+          <Button {...btnProps}>Top</Button>
         </Popover>
         <Popover placement="topRight" title={text} content={content} arrow={mergedArrow}>
-          <Button>TR</Button>
+          <Button {...btnProps}>TR</Button>
         </Popover>
       </div>
-      <div style={{ width: buttonWidth, float: 'left' }}>
+      <div
+        style={{
+          width: buttonWidth,
+          float: 'left',
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: gap,
+        }}
+      >
         <Popover placement="leftTop" title={text} content={content} arrow={mergedArrow}>
-          <Button>LT</Button>
+          <Button {...btnProps}>LT</Button>
         </Popover>
         <Popover placement="left" title={text} content={content} arrow={mergedArrow}>
-          <Button>Left</Button>
+          <Button {...btnProps}>Left</Button>
         </Popover>
         <Popover placement="leftBottom" title={text} content={content} arrow={mergedArrow}>
-          <Button>LB</Button>
+          <Button {...btnProps}>LB</Button>
         </Popover>
       </div>
-      <div style={{ width: buttonWidth, marginLeft: buttonWidth * 4 + 24 }}>
+      <div
+        style={{
+          width: buttonWidth,
+          marginLeft: buttonWidth * 4 + 24,
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: gap,
+        }}
+      >
         <Popover placement="rightTop" title={text} content={content} arrow={mergedArrow}>
-          <Button>RT</Button>
+          <Button {...btnProps}>RT</Button>
         </Popover>
         <Popover placement="right" title={text} content={content} arrow={mergedArrow}>
-          <Button>Right</Button>
+          <Button {...btnProps}>Right</Button>
         </Popover>
         <Popover placement="rightBottom" title={text} content={content} arrow={mergedArrow}>
-          <Button>RB</Button>
+          <Button {...btnProps}>RB</Button>
         </Popover>
       </div>
-      <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+      <div
+        style={{
+          marginLeft: buttonWidth,
+          clear: 'both',
+          display: 'flex',
+          flexWrap: 'nowrap',
+          columnGap: gap,
+        }}
+      >
         <Popover placement="bottomLeft" title={text} content={content} arrow={mergedArrow}>
-          <Button>BL</Button>
+          <Button {...btnProps}>BL</Button>
         </Popover>
         <Popover placement="bottom" title={text} content={content} arrow={mergedArrow}>
-          <Button>Bottom</Button>
+          <Button {...btnProps}>Bottom</Button>
         </Popover>
         <Popover placement="bottomRight" title={text} content={content} arrow={mergedArrow}>
-          <Button>BR</Button>
+          <Button {...btnProps}>BR</Button>
         </Popover>
       </div>
     </div>
