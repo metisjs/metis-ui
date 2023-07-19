@@ -10,7 +10,7 @@ export function toArray<T>(value: T | T[]): T[] {
 export const isClient =
   typeof window !== 'undefined' && window.document && window.document.documentElement;
 
-export function hasValue(value) {
+export function hasValue(value: any) {
   return value !== undefined && value !== null;
 }
 
@@ -19,12 +19,12 @@ function isTitleType(title: any) {
 }
 
 export function getTitle(item: DisplayValueType): string {
-  let title: string = undefined;
+  let title: string = '';
   if (item) {
     if (isTitleType(item.title)) {
-      title = item.title.toString();
+      title = item.title!.toString();
     } else if (isTitleType(item.label)) {
-      title = item.label.toString();
+      title = item.label!.toString();
     }
   }
 

@@ -1,5 +1,5 @@
-import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
+import * as React from 'react';
 import type { BaseOptionType, DefaultOptionType } from '../Select';
 
 function convertNodeToOption<OptionType extends BaseOptionType = DefaultOptionType>(
@@ -32,15 +32,15 @@ export function convertChildrenToData<OptionType extends BaseOptionType = Defaul
       };
 
       if (optionOnly || !isSelectOptGroup) {
-        return convertNodeToOption(node);
+        return convertNodeToOption<OptionType>(node);
       }
 
       return {
-        key: `__RC_SELECT_GRP__${key === null ? index : key}__`,
+        key: `__META_SELECT_GRP__${key === null ? index : key}__`,
         label: key,
         ...restProps,
         options: convertChildrenToData(children),
       };
     })
-    .filter((data) => data);
+    .filter((data) => data) as OptionType[];
 }

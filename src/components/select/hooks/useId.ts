@@ -1,5 +1,5 @@
-import * as React from 'react';
 import canUseDom from 'rc-util/lib/Dom/canUseDom';
+import * as React from 'react';
 
 let uuid = 0;
 
@@ -24,9 +24,6 @@ export function getUUID(): number | string {
 
 export default function useId(id?: string) {
   // Inner id for accessibility usage. Only work in client side
-  const [innerId, setInnerId] = React.useState<string>();
-  React.useEffect(() => {
-    setInnerId(`rc_select_${getUUID()}`);
-  }, []);
-  return id || innerId;
+  const [innerId] = React.useState<string>(() => id ?? `meta_select_${getUUID()}`);
+  return innerId;
 }

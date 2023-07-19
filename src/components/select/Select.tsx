@@ -30,8 +30,9 @@
  */
 
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import warning from 'rc-util/lib/warning';
 import * as React from 'react';
+import useMemoizedFn from '../_util/hooks/useMemoizedFn';
+import warning from '../_util/warning';
 import type {
   BaseSelectProps,
   BaseSelectPropsWithoutPrivate,
@@ -41,15 +42,14 @@ import type {
   RenderNode,
 } from './BaseSelect';
 import BaseSelect, { isMultiple } from './BaseSelect';
+import OptGroup from './OptGroup';
+import Option from './Option';
+import OptionList from './OptionList';
+import SelectContext, { SelectContextProps } from './SelectContext';
 import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
-import useRefFunc from './hooks/useRefFunc';
-import OptGroup from './OptGroup';
-import Option from './Option';
-import OptionList from './OptionList';
-import SelectContext from './SelectContext';
 import { hasValue, toArray } from './utils/commonUtil';
 import { fillFieldNames, flattenOptions, injectPropsWithOption } from './utils/valueUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
@@ -57,7 +57,7 @@ import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 const OMIT_DOM_PROPS = ['inputValue'];
 
 export type OnActiveValue = (
-  active: RawValueType,
+  active: RawValueType | null,
   index: number,
   info?: { source?: 'keyboard' | 'mouse' },
 ) => void;
@@ -68,8 +68,6 @@ export type RawValueType = string | number;
 export interface LabelInValueType {
   label: React.ReactNode;
   value: RawValueType;
-  /** @deprecated `key` is useless since it should always same as `value` */
-  key?: React.Key;
 }
 
 export type DraftValueType =
@@ -116,8 +114,6 @@ export interface SelectProps<ValueType = any, OptionType extends BaseOptionType 
   fieldNames?: FieldNames;
 
   // >>> Search
-  /** @deprecated Use `searchValue` instead */
-  inputValue?: string;
   searchValue?: string;
   onSearch?: (value: string) => void;
   autoClearSearchValue?: boolean;
@@ -140,7 +136,6 @@ export interface SelectProps<ValueType = any, OptionType extends BaseOptionType 
   options?: OptionType[];
   defaultActiveFirstOption?: boolean;
   virtual?: boolean;
-  direction?: 'ltr' | 'rtl';
   listHeight?: number;
   listItemHeight?: number;
 
@@ -163,12 +158,11 @@ const Select = React.forwardRef(
     const {
       id,
       mode,
-      prefixCls = 'rc-select',
+      prefixCls = '',
       backfill,
       fieldNames,
 
       // Search
-      inputValue,
       searchValue,
       onSearch,
       autoClearSearchValue = true,
@@ -188,7 +182,6 @@ const Select = React.forwardRef(
       defaultActiveFirstOption,
       menuItemSelectedIcon,
       virtual,
-      direction,
       listHeight = 200,
       listItemHeight = 20,
 
@@ -226,7 +219,7 @@ const Select = React.forwardRef(
 
     // =========================== Search ===========================
     const [mergedSearchValue, setSearchValue] = useMergedState('', {
-      value: searchValue !== undefined ? searchValue : inputValue,
+      value: searchValue,
       postState: (search) => search || '',
     });
 
@@ -250,17 +243,16 @@ const Select = React.forwardRef(
         return valueList.map((val) => {
           let rawValue: RawValueType;
           let rawLabel: React.ReactNode;
-          let rawKey: React.Key;
+          let rawKey: React.Key = '';
           let rawDisabled: boolean | undefined;
-          let rawTitle: string;
+          let rawTitle: string = '';
 
           // Fill label & value
           if (isRawValue(val)) {
             rawValue = val;
           } else {
-            rawKey = val.key;
             rawLabel = val.label;
-            rawValue = val.value ?? rawKey;
+            rawValue = val.value!;
           }
 
           const option = valueOptions.get(rawValue);
@@ -268,7 +260,7 @@ const Select = React.forwardRef(
             // Fill missing props
             if (rawLabel === undefined)
               rawLabel = option?.[optionLabelProp || mergedFieldNames.label];
-            if (rawKey === undefined) rawKey = option?.key ?? rawValue;
+            rawKey = option?.key ?? rawValue;
             rawDisabled = option?.disabled;
             rawTitle = option?.title;
 
@@ -352,7 +344,7 @@ const Select = React.forwardRef(
 
     // ======================= Display Option =======================
     // Create a placeholder item if not exist in `options`
-    const createTagOption = useRefFunc((val: RawValueType, label?: React.ReactNode) => {
+    const createTagOption = useMemoizedFn((val: RawValueType, label?: React.ReactNode) => {
       const mergedLabel = label ?? val;
       return {
         [mergedFieldNames.value]: val,
@@ -367,7 +359,7 @@ const Select = React.forwardRef(
       }
 
       // >>> Tag mode
-      const cloneOptions = [...mergedOptions];
+      const cloneOptions = [...(mergedOptions ?? [])];
 
       // Check if value exist in options (include new patch item)
       const existOptions = (val: RawValueType) => valueOptions.has(val);
@@ -451,7 +443,7 @@ const Select = React.forwardRef(
     };
 
     // ======================= Accessibility ========================
-    const [activeValue, setActiveValue] = React.useState<string>(null);
+    const [activeValue, setActiveValue] = React.useState<string>();
     const [accessibilityIndex, setAccessibilityIndex] = React.useState(0);
     const mergedDefaultActiveFirstOption =
       defaultActiveFirstOption !== undefined ? defaultActiveFirstOption : mode !== 'combobox';
@@ -460,7 +452,7 @@ const Select = React.forwardRef(
       (active, index, { source = 'keyboard' } = {}) => {
         setAccessibilityIndex(index);
 
-        if (backfill && mode === 'combobox' && active !== null && source === 'keyboard') {
+        if (backfill && mode === 'combobox' && active && source === 'keyboard') {
           setActiveValue(String(active));
         }
       },
@@ -476,7 +468,6 @@ const Select = React.forwardRef(
             ? {
                 label: option?.[mergedFieldNames.label],
                 value: val,
-                key: option?.key ?? val,
               }
             : val,
           injectPropsWithOption(option),
@@ -493,7 +484,7 @@ const Select = React.forwardRef(
     };
 
     // Used for OptionList selection
-    const onInternalSelect = useRefFunc<OnInternalSelect>((val, info) => {
+    const onInternalSelect = useMemoizedFn<OnInternalSelect>((val, info) => {
       let cloneValues: (RawValueType | DisplayValueType)[];
 
       // Single mode always trigger select only with option list
@@ -526,7 +517,7 @@ const Select = React.forwardRef(
 
       if (type === 'remove' || type === 'clear') {
         values.forEach((item) => {
-          triggerSelect(item.value, false, type);
+          triggerSelect(item.value!, false, type);
         });
       }
     };
@@ -534,7 +525,7 @@ const Select = React.forwardRef(
     // =========================== Search ===========================
     const onInternalSearch: BaseSelectProps['onSearch'] = (searchText, info) => {
       setSearchValue(searchText);
-      setActiveValue(null);
+      setActiveValue(undefined);
 
       // [Submit] Tag mode should flush input
       if (info.source === 'submit') {
@@ -568,7 +559,7 @@ const Select = React.forwardRef(
             const opt = labelOptions.get(word);
             return opt?.value;
           })
-          .filter((val) => val !== undefined);
+          .filter((val) => val !== undefined) as RawValueType[];
       }
 
       const newRawValues = Array.from(new Set<RawValueType>([...rawValues, ...patchValues]));
@@ -579,7 +570,7 @@ const Select = React.forwardRef(
     };
 
     // ========================== Context ===========================
-    const selectContext = React.useMemo(() => {
+    const selectContext = React.useMemo((): SelectContextProps => {
       const realVirtual = virtual !== false && dropdownMatchSelectWidth !== false;
       return {
         ...parsedOptions,
@@ -591,7 +582,6 @@ const Select = React.forwardRef(
         rawValues,
         fieldNames: mergedFieldNames,
         virtual: realVirtual,
-        direction,
         listHeight,
         listItemHeight,
         childrenAsData,
@@ -634,8 +624,6 @@ const Select = React.forwardRef(
           // >>> Values
           displayValues={displayValues}
           onDisplayValuesChange={onDisplayValuesChange}
-          // >>> Trigger
-          direction={direction}
           // >>> Search
           searchValue={mergedSearchValue}
           onSearch={onInternalSearch}

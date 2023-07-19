@@ -1,17 +1,17 @@
+import classNames from 'classnames';
+import Overflow from 'rc-overflow';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import { useState } from 'react';
-import classNames from 'classnames';
-import pickAttrs from 'rc-util/lib/pickAttrs';
-import Overflow from 'rc-overflow';
-import TransBtn from '../TransBtn';
 import type { InnerSelectorProps } from '.';
-import Input from './Input';
-import useLayoutEffect from '../hooks/useLayoutEffect';
-import type { DisplayValueType, RenderNode, CustomTagProps, RawValueType } from '../BaseSelect';
+import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
+import TransBtn from '../TransBtn';
 import { getTitle } from '../utils/commonUtil';
+import Input from './Input';
 
 function itemKey(value: DisplayValueType) {
-  return value.key ?? value.value;
+  return value.key ?? value.value ?? '';
 }
 
 interface SelectorProps extends InnerSelectorProps {
@@ -25,9 +25,6 @@ interface SelectorProps extends InnerSelectorProps {
   tokenSeparators?: string[];
   tagRender?: (props: CustomTagProps) => React.ReactElement;
   onToggleOpen: (open?: boolean) => void;
-
-  // Motion
-  choiceTransitionName?: string;
 
   // Event
   onRemove: (value: DisplayValueType) => void;
@@ -80,12 +77,18 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   const selectionPrefixCls = `${prefixCls}-selection`;
 
   // ===================== Search ======================
-  const inputValue = open || (mode === "multiple" && autoClearSearchValue === false) || mode === 'tags' ? searchValue : '';
-  const inputEditable: boolean = mode === 'tags' || (mode === "multiple" && autoClearSearchValue === false) || (showSearch && (open || focused));
+  const inputValue =
+    open || (mode === 'multiple' && autoClearSearchValue === false) || mode === 'tags'
+      ? searchValue
+      : '';
+  const inputEditable: boolean =
+    mode === 'tags' ||
+    (mode === 'multiple' && autoClearSearchValue === false) ||
+    (!!showSearch && (open || focused));
 
   // We measure width and set to the input immediately
   useLayoutEffect(() => {
-    setInputWidth(measureRef.current.scrollWidth);
+    setInputWidth(measureRef.current!.scrollWidth);
   }, [inputValue]);
 
   // ===================== Render ======================
@@ -124,7 +127,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
     content: React.ReactNode,
     itemDisabled: boolean,
     closable: boolean,
-    onClose: React.MouseEventHandler,
+    onClose: React.MouseEventHandler<HTMLElement>,
   ) {
     const onMouseDown = (e: React.MouseEvent) => {
       onPreventMouseDown(e);
@@ -133,7 +136,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
 
     return (
       <span onMouseDown={onMouseDown}>
-        {tagRender({
+        {tagRender?.({
           label: content,
           value,
           disabled: itemDisabled,
@@ -166,8 +169,8 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
     };
 
     return typeof tagRender === 'function'
-      ? customizeRenderSelector(value, displayLabel, itemDisabled, closable, onClose)
-      : defaultRenderSelector(valueItem, displayLabel, itemDisabled, closable, onClose);
+      ? customizeRenderSelector(value!, displayLabel, !!itemDisabled, closable, onClose)
+      : defaultRenderSelector(valueItem, displayLabel, !!itemDisabled, closable, onClose);
   }
 
   function renderRest(omittedValues: DisplayValueType[]) {
@@ -176,7 +179,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         ? maxTagPlaceholder(omittedValues)
         : maxTagPlaceholder;
 
-    return defaultRenderSelector({ title: content }, content, false);
+    return defaultRenderSelector({ title: content as string }, content, false);
   }
 
   // >>> Input Node
@@ -197,8 +200,8 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         prefixCls={prefixCls}
         id={id}
         inputElement={null}
-        disabled={disabled}
-        autoFocus={autoFocus}
+        disabled={!!disabled}
+        autoFocus={!!autoFocus}
         autoComplete={autoComplete}
         editable={inputEditable}
         activeDescendantId={activeDescendantId}

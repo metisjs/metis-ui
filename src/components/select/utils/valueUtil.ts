@@ -1,11 +1,10 @@
-import type { BaseOptionType, DefaultOptionType } from '../Select';
-import warning from 'rc-util/lib/warning';
-import type { RawValueType, FieldNames } from '../Select';
+import warning from '../../_util/warning';
+import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../Select';
 import type { FlattenOptionData } from '../interface';
 
 function getKey(data: BaseOptionType, index: number) {
   const { key } = data;
-  let value: RawValueType;
+  let value: RawValueType | undefined = undefined;
 
   if ('value' in data) {
     ({ value } = data);
@@ -17,7 +16,7 @@ function getKey(data: BaseOptionType, index: number) {
   if (value !== undefined) {
     return value;
   }
-  return `rc-index-key-${index}`;
+  return `meta-index-key-${index}`;
 }
 
 export function fillFieldNames(fieldNames: FieldNames | undefined, childrenAsData: boolean) {
@@ -47,7 +46,7 @@ export function flattenOptions<OptionType extends BaseOptionType = DefaultOption
     label: fieldLabel,
     value: fieldValue,
     options: fieldOptions,
-    groupLabel
+    groupLabel,
   } = fillFieldNames(fieldNames, false);
 
   function dig(list: OptionType[], isGroupOption: boolean) {
@@ -107,14 +106,14 @@ export function injectPropsWithOption<T extends object>(option: T): T {
   return newOption;
 }
 
-export function getSeparatedContent(text: string, tokens: string[]): string[] {
+export function getSeparatedContent(text: string, tokens?: string[]) {
   if (!tokens || !tokens.length) {
     return null;
   }
 
   let match = false;
 
-  function separate(str: string, [token, ...restTokens]: string[]) {
+  function separate(str: string, [token, ...restTokens]: string[]): string[] {
     if (!token) {
       return [str];
     }

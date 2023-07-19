@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../_util/classNameUtils';
 import type { RenderNode } from './BaseSelect';
 
 export interface TransBtnProps {
@@ -40,6 +40,7 @@ const TransBtn: React.FC<TransBtnProps> = ({
         userSelect: 'none',
         WebkitUserSelect: 'none',
       }}
+      // eslint-disable-next-line react/no-unknown-property
       unselectable="on"
       onClick={onClick}
       aria-hidden
@@ -47,9 +48,7 @@ const TransBtn: React.FC<TransBtnProps> = ({
       {icon !== undefined ? (
         icon
       ) : (
-        <span className={classNames(className.split(/\s+/).map((cls) => `${cls}-icon`))}>
-          {children}
-        </span>
+        <span className={clsx(className.split(/\s+/).map((cls) => `${cls}-icon`))}>{children}</span>
       )}
     </span>
   );

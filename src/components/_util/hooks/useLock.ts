@@ -7,8 +7,8 @@ import * as React from 'react';
  * And after time duration, it will back to `null` automatically.
  */
 export default function useLock(duration: number = 250): [() => boolean, (lock: boolean) => void] {
-  const lockRef = React.useRef<boolean>(null);
-  const timeoutRef = React.useRef<number>(null);
+  const lockRef = React.useRef<boolean>();
+  const timeoutRef = React.useRef<number>();
 
   // Clean up
   React.useEffect(
@@ -19,15 +19,15 @@ export default function useLock(duration: number = 250): [() => boolean, (lock: 
   );
 
   function doLock(locked: boolean) {
-    if (locked || lockRef.current === null) {
+    if (locked || lockRef.current === undefined) {
       lockRef.current = locked;
     }
 
     window.clearTimeout(timeoutRef.current);
     timeoutRef.current = window.setTimeout(() => {
-      lockRef.current = null;
+      lockRef.current = undefined;
     }, duration);
   }
 
-  return [() => lockRef.current, doLock];
+  return [() => !!lockRef.current, doLock];
 }

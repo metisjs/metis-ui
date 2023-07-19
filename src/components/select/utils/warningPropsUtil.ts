@@ -1,6 +1,6 @@
 import toNodeArray from 'rc-util/lib/Children/toArray';
-import warning, { noteOnce } from 'rc-util/lib/warning';
 import * as React from 'react';
+import warning, { noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
 import type {
   BaseOptionType,
@@ -28,7 +28,6 @@ function warningProps(props: SelectProps) {
     autoFocus,
     labelInValue,
     value,
-    inputValue,
     optionLabelProp,
   } = props;
 
@@ -86,7 +85,7 @@ function warningProps(props: SelectProps) {
   }
 
   noteOnce(
-    !defaultOpen || autoFocus,
+    !defaultOpen || !!autoFocus,
     '`defaultOpen` makes Select open without focus which means it will not close by click outside. You can set `autoFocus` if needed.',
   );
 
@@ -106,7 +105,7 @@ function warningProps(props: SelectProps) {
 
   // Syntactic sugar should use correct children type
   if (children) {
-    let invalidateChildType = null;
+    let invalidateChildType: any = null;
     toNodeArray(children).some((node: React.ReactNode) => {
       if (!React.isValidElement(node) || !node.type) {
         return false;
@@ -149,31 +148,26 @@ function warningProps(props: SelectProps) {
         }\`.`,
       );
     }
-
-    warning(
-      inputValue === undefined,
-      '`inputValue` is deprecated, please use `searchValue` instead.',
-    );
   }
 }
 
 // value in Select option should not be null
 // note: OptGroup has options too
-export function warningNullOptions(options: DefaultOptionType[], fieldNames: FieldNames) {
+export function warningNullOptions(options?: DefaultOptionType[], fieldNames?: FieldNames) {
   if (options) {
     const recursiveOptions = (optionsList: DefaultOptionType[], inGroup: boolean = false) => {
       for (let i = 0; i < optionsList.length; i++) {
         const option = optionsList[i];
 
-        if (option[fieldNames?.value] === null) {
+        if (option[fieldNames?.value ?? ''] === null) {
           warning(false, '`value` in Select options should not be `null`.');
           return true;
         }
 
         if (
           !inGroup &&
-          Array.isArray(option[fieldNames?.options]) &&
-          recursiveOptions(option[fieldNames?.options], true)
+          Array.isArray(option[fieldNames?.options ?? '']) &&
+          recursiveOptions(option[fieldNames?.options ?? ''], true)
         ) {
           break;
         }

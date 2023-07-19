@@ -1,6 +1,6 @@
 import * as React from 'react';
+import type { DefaultOptionType, FieldNames, SelectProps } from '../Select';
 import { toArray } from '../utils/commonUtil';
-import type { FieldNames, DefaultOptionType, SelectProps } from '../Select';
 import { injectPropsWithOption } from '../utils/valueUtil';
 
 function includes(test: React.ReactNode, search: string) {
@@ -8,7 +8,7 @@ function includes(test: React.ReactNode, search: string) {
 }
 
 export default (
-  options: DefaultOptionType[],
+  options: DefaultOptionType[] = [],
   fieldNames: FieldNames,
   searchValue?: string,
   filterOption?: SelectProps['filterOption'],
@@ -19,7 +19,11 @@ export default (
       return options;
     }
 
-    const { options: fieldOptions, label: fieldLabel, value: fieldValue } = fieldNames;
+    const {
+      options: fieldOptions = '',
+      label: fieldLabel = '',
+      value: fieldValue = '',
+    } = fieldNames;
     const filteredOptions: DefaultOptionType[] = [];
 
     const customizeFilter = typeof filterOption === 'function';

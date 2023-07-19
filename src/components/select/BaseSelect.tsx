@@ -1,21 +1,21 @@
-import type { AlignType, BuildInPlacements } from '@rc-component/trigger/lib/interface';
-import classNames from 'classnames';
+import KeyCode from 'rc-util/lib/KeyCode';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import isMobile from 'rc-util/lib/isMobile';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
 import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
-import { BaseSelectContext } from './hooks/useBaseProps';
-import useDelayReset from './hooks/useDelayReset';
-import useLock from './hooks/useLock';
-import useSelectTriggerControl from './hooks/useSelectTriggerControl';
-import type { RefSelectorProps } from './Selector';
-import Selector from './Selector';
+import { clsx } from '../_util/classNameUtils';
+import useLock from '../_util/hooks/useLock';
+import { TransitionProps } from '../transition';
+import { AlignType, BuildInPlacements } from '../trigger';
 import type { RefTriggerProps } from './SelectTrigger';
 import SelectTrigger from './SelectTrigger';
+import type { RefSelectorProps } from './Selector';
+import Selector from './Selector';
 import TransBtn from './TransBtn';
+import { BaseSelectContext } from './hooks/useBaseProps';
+import useDelayReset from './hooks/useDelayReset';
+import useSelectTriggerControl from './hooks/useSelectTriggerControl';
 import { getSeparatedContent } from './utils/valueUtil';
 
 const DEFAULT_OMIT_PROPS = [
@@ -27,7 +27,6 @@ const DEFAULT_OMIT_PROPS = [
   'maxTagCount',
   'maxTagTextLength',
   'maxTagPlaceholder',
-  'choiceTransitionName',
   'onInputKeyDown',
   'onPopupScroll',
   'tabIndex',
@@ -129,7 +128,6 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   title?: string;
   showSearch?: boolean;
   tagRender?: (props: CustomTagProps) => React.ReactElement;
-  direction?: 'ltr' | 'rtl';
   maxLength?: number;
 
   // MISC
@@ -138,8 +136,6 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   notFoundContent?: React.ReactNode;
   placeholder?: React.ReactNode;
   onClear?: () => void;
-
-  choiceTransitionName?: string;
 
   // >>> Mode
   mode?: Mode;
@@ -176,8 +172,7 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   removeIcon?: RenderNode;
 
   // >>> Dropdown
-  animation?: string;
-  transitionName?: string;
+  transition?: Partial<TransitionProps>;
   dropdownStyle?: React.CSSProperties;
   dropdownClassName?: string;
   dropdownMatchSelectWidth?: boolean | number;
@@ -203,7 +198,7 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export function isMultiple(mode: Mode) {
+export function isMultiple(mode?: Mode) {
   return mode === 'tags' || mode === 'multiple';
 }
 
@@ -214,7 +209,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     className,
     showSearch,
     tagRender,
-    direction,
     omitDomProps,
 
     // Value
@@ -259,8 +253,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
     // Dropdown
     OptionList,
-    animation,
-    transitionName,
+    transition,
     dropdownStyle,
     dropdownClassName,
     dropdownMatchSelectWidth,
@@ -294,19 +287,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   } as Omit<keyof typeof restProps, (typeof DEFAULT_OMIT_PROPS)[number]>;
 
   DEFAULT_OMIT_PROPS.forEach((propName) => {
+    // @ts-ignore
     delete domProps[propName];
   });
 
   omitDomProps?.forEach((propName) => {
+    // @ts-ignore
     delete domProps[propName];
   });
-
-  // ============================= Mobile =============================
-  const [mobile, setMobile] = React.useState(false);
-  React.useEffect(() => {
-    // Only update on the client side
-    setMobile(isMobile());
-  }, []);
 
   // ============================== Refs ==============================
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -320,9 +308,9 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   // =========================== Imperative ===========================
   React.useImperativeHandle(ref, () => ({
-    focus: selectorRef.current?.focus,
-    blur: selectorRef.current?.blur,
-    scrollTo: (arg) => listRef.current?.scrollTo(arg),
+    focus: () => selectorRef.current?.focus(),
+    blur: () => selectorRef.current?.blur(),
+    scrollTo: (arg) => listRef.current?.scrollTo?.(arg),
   }));
 
   // ========================== Search Value ==========================
@@ -338,15 +326,15 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   // ========================== Custom Input ==========================
   // Only works in `combobox`
-  const customizeInputElement: React.ReactElement =
+  const customizeInputElement =
     (mode === 'combobox' && typeof getInputElement === 'function' && getInputElement()) || null;
 
-  // Used for customize replacement for `rc-cascader`
-  const customizeRawInputElement: React.ReactElement =
-    typeof getRawInputElement === 'function' && getRawInputElement();
+  // Used for customize replacement for `cascader`
+  const customizeRawInputElement = typeof getRawInputElement === 'function' && getRawInputElement();
 
   const customizeRawInputRef = useComposeRef<HTMLElement>(
     selectorDomRef,
+    // @ts-ignore
     customizeRawInputElement?.props?.ref,
   );
 
@@ -398,9 +386,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     onActiveValueChange?.(null);
 
     // Check if match the `tokenSeparators`
-    const patchLabels: string[] = isCompositing
-      ? null
-      : getSeparatedContent(searchText, tokenSeparators);
+    const patchLabels = isCompositing ? null : getSeparatedContent(searchText, tokenSeparators);
 
     // Ignore combobox since it's not split-able
     if (mode !== 'combobox' && patchLabels) {
@@ -597,7 +583,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   const onInternalMouseDown: React.MouseEventHandler<HTMLDivElement> = (event, ...restArgs) => {
     const { target } = event;
-    const popupElement: HTMLDivElement = triggerRef.current?.getPopupElement();
+    const popupElement = triggerRef.current?.getPopupElement();
 
     // We should give focus back to selector if clicked item is not focusable
     if (popupElement && popupElement.contains(target as HTMLElement)) {
@@ -609,7 +595,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
         cancelSetMockFocused();
 
-        if (!mobile && !popupElement.contains(document.activeElement)) {
+        if (!popupElement.contains(document.activeElement)) {
           selectorRef.current?.focus();
         }
       });
@@ -621,7 +607,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   };
 
   // ============================ Dropdown ============================
-  const [containerWidth, setContainerWidth] = React.useState(null);
+  const [containerWidth, setContainerWidth] = React.useState<number>(0);
 
   const [, forceUpdate] = React.useState({});
   // We need force update here since popup dom is render async
@@ -631,7 +617,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   useLayoutEffect(() => {
     if (triggerOpen) {
-      const newWidth = Math.ceil(containerRef.current?.offsetWidth);
+      const newWidth = Math.ceil(containerRef.current!.offsetWidth);
       if (containerWidth !== newWidth && !Number.isNaN(newWidth)) {
         setContainerWidth(newWidth);
       }
@@ -639,7 +625,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   }, [triggerOpen]);
 
   // Used for raw custom input trigger
-  let onTriggerVisibleChange: null | ((newOpen: boolean) => void);
+  let onTriggerVisibleChange: undefined | ((newOpen: boolean) => void);
   if (customizeRawInputElement) {
     onTriggerVisibleChange = (newOpen: boolean) => {
       onToggleOpen(newOpen);
@@ -680,7 +666,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   if (showSuffixIcon) {
     arrowNode = (
       <TransBtn
-        className={classNames(`${prefixCls}-arrow`, {
+        className={clsx(`${prefixCls}-arrow`, {
           [`${prefixCls}-arrow-loading`]: loading,
         })}
         customizeIcon={suffixIcon}
@@ -730,33 +716,35 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   const optionList = <OptionList ref={listRef} />;
 
   // ============================= Select =============================
-  const mergedClassName = classNames(prefixCls, className, {
-    [`${prefixCls}-focused`]: mockFocused,
-    [`${prefixCls}-multiple`]: multiple,
-    [`${prefixCls}-single`]: !multiple,
-    [`${prefixCls}-allow-clear`]: allowClear,
-    [`${prefixCls}-show-arrow`]: showSuffixIcon,
-    [`${prefixCls}-disabled`]: disabled,
-    [`${prefixCls}-loading`]: loading,
-    [`${prefixCls}-open`]: mergedOpen,
-    [`${prefixCls}-customize-input`]: customizeInputElement,
-    [`${prefixCls}-show-search`]: mergedShowSearch,
-  });
+  const mergedClassName = clsx(
+    prefixCls,
+    {
+      [`${prefixCls}-focused`]: mockFocused,
+      [`${prefixCls}-multiple`]: multiple,
+      [`${prefixCls}-single`]: !multiple,
+      [`${prefixCls}-allow-clear`]: allowClear,
+      [`${prefixCls}-show-arrow`]: showSuffixIcon,
+      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixCls}-loading`]: loading,
+      [`${prefixCls}-open`]: mergedOpen,
+      [`${prefixCls}-customize-input`]: customizeInputElement,
+      [`${prefixCls}-show-search`]: mergedShowSearch,
+    },
+    className,
+  );
 
   // >>> Selector
   const selectorNode = (
     <SelectTrigger
       ref={triggerRef}
-      disabled={disabled}
+      disabled={!!disabled}
       prefixCls={prefixCls}
-      visible={triggerOpen}
+      open={triggerOpen}
       popupElement={optionList}
       containerWidth={containerWidth}
-      animation={animation}
-      transitionName={transitionName}
+      transition={transition}
       dropdownStyle={dropdownStyle}
       dropdownClassName={dropdownClassName}
-      direction={direction}
       dropdownMatchSelectWidth={dropdownMatchSelectWidth}
       dropdownRender={dropdownRender}
       dropdownAlign={dropdownAlign}
@@ -764,8 +752,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       builtinPlacements={builtinPlacements}
       getPopupContainer={getPopupContainer}
       empty={emptyOptions}
-      getTriggerDOMNode={() => selectorDomRef.current}
-      onPopupVisibleChange={onTriggerVisibleChange}
+      getTriggerDOMNode={() => selectorDomRef.current!}
+      onPopupOpenChange={onTriggerVisibleChange}
       onPopupMouseEnter={onPopupMouseEnter}
     >
       {customizeRawInputElement ? (
@@ -781,14 +769,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
           ref={selectorRef}
           id={id}
           showSearch={mergedShowSearch}
-          autoClearSearchValue={autoClearSearchValue}
+          autoClearSearchValue={!!autoClearSearchValue}
           mode={mode}
           activeDescendantId={activeDescendantId}
           tagRender={tagRender}
           values={displayValues}
           open={mergedOpen}
           onToggleOpen={onToggleOpen}
-          activeValue={activeValue}
+          activeValue={activeValue!}
           searchValue={mergedSearchValue}
           onSearch={onInternalSearch}
           onSearchSubmit={onInternalSearchSubmit}

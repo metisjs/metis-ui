@@ -8,15 +8,15 @@
  * - https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
  */
 
-import * as React from 'react';
-import { useRef } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { ScrollTo } from 'rc-virtual-list/lib/List';
-import MultipleSelector from './MultipleSelector';
-import SingleSelector from './SingleSelector';
-import useLock from '../hooks/useLock';
+import * as React from 'react';
+import { useRef } from 'react';
+import useLock from '../../_util/hooks/useLock';
 import type { CustomTagProps, DisplayValueType, Mode, RenderNode } from '../BaseSelect';
 import { isValidateOpenKey } from '../utils/keyUtil';
+import MultipleSelector from './MultipleSelector';
+import SingleSelector from './SingleSelector';
 
 export interface InnerSelectorProps {
   prefixCls: string;
@@ -59,11 +59,11 @@ export interface SelectorProps {
   open: boolean;
   /** Display in the Selector value, it's not same as `value` prop */
   values: DisplayValueType[];
-  mode: Mode;
+  mode?: Mode;
   searchValue: string;
   activeValue: string;
   autoClearSearchValue: boolean;
-  inputElement: JSX.Element;
+  inputElement: JSX.Element | null;
   maxLength?: number;
 
   autoFocus?: boolean;
@@ -82,9 +82,6 @@ export interface SelectorProps {
   /** Check if `tokenSeparators` contains `\n` or `\r\n` */
   tokenWithEnter?: boolean;
 
-  // Motion
-  choiceTransitionName?: string;
-
   onToggleOpen: (open?: boolean) => void;
   /** `onSearch` returns go next step boolean to check if need do toggle open */
   onSearch: (searchText: string, fromTyping: boolean, isCompositing: boolean) => boolean;
@@ -99,7 +96,7 @@ export interface SelectorProps {
   domRef: React.Ref<HTMLDivElement>;
 }
 
-const Selector: React.RefForwardingComponent<RefSelectorProps, SelectorProps> = (props, ref) => {
+const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> = (props, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const compositionStatusRef = useRef<boolean>(false);
 
@@ -123,10 +120,10 @@ const Selector: React.RefForwardingComponent<RefSelectorProps, SelectorProps> = 
   // ======================= Ref =======================
   React.useImperativeHandle(ref, () => ({
     focus: () => {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     },
     blur: () => {
-      inputRef.current.blur();
+      inputRef.current?.blur();
     },
   }));
 
@@ -164,7 +161,7 @@ const Selector: React.RefForwardingComponent<RefSelectorProps, SelectorProps> = 
   };
 
   // When paste come, ignore next onChange
-  const pastedTextRef = useRef<string>(null);
+  const pastedTextRef = useRef<string | null>(null);
 
   const triggerOnSearch = (value: string) => {
     if (onSearch(value, true, compositionStatusRef.current) !== false) {
@@ -212,16 +209,16 @@ const Selector: React.RefForwardingComponent<RefSelectorProps, SelectorProps> = 
     pastedTextRef.current = value;
   };
 
-  const onClick = ({ target }) => {
+  const onClick: React.MouseEventHandler<HTMLDivElement> = ({ target }) => {
     if (target !== inputRef.current) {
       // Should focus input if click the selector
       const isIE = (document.body.style as any).msTouchAction !== undefined;
       if (isIE) {
         setTimeout(() => {
-          inputRef.current.focus();
+          inputRef.current?.focus();
         });
       } else {
-        inputRef.current.focus();
+        inputRef.current?.focus();
       }
     }
   };
@@ -256,9 +253,9 @@ const Selector: React.RefForwardingComponent<RefSelectorProps, SelectorProps> = 
 
   const selectNode =
     mode === 'multiple' || mode === 'tags' ? (
-      <MultipleSelector {...props} {...sharedProps} />
+      <MultipleSelector mode={mode} {...props} {...sharedProps} />
     ) : (
-      <SingleSelector {...props} {...sharedProps} />
+      <SingleSelector mode={mode!} {...props} {...sharedProps} />
     );
 
   return (

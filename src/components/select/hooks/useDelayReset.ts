@@ -8,10 +8,10 @@ export default function useDelayReset(
   timeout: number = 10,
 ): [boolean, (val: boolean, callback?: () => void) => void, () => void] {
   const [bool, setBool] = React.useState<boolean>(false);
-  const delayRef = React.useRef<number>(null);
+  const delayRef = React.useRef<number | null>(null);
 
   const cancelLatest = () => {
-    window.clearTimeout(delayRef.current);
+    if (delayRef.current !== null) window.clearTimeout(delayRef.current);
   };
 
   React.useEffect(() => cancelLatest, []);

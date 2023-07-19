@@ -1,11 +1,11 @@
-import Trigger from '@rc-component/trigger';
-import type { AlignType, BuildInPlacements } from '@rc-component/trigger/lib/interface';
-import classNames from 'classnames';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
+import { TransitionProps } from '../transition';
+import Trigger, { AlignType, BuildInPlacements } from '../trigger';
 import type { Placement, RenderDOMFunc } from './BaseSelect';
 
 const getBuiltInPlacements = (
-  dropdownMatchSelectWidth: number | boolean,
+  dropdownMatchSelectWidth?: number | boolean,
 ): Record<string, AlignType> => {
   // Enable horizontal overflow auto-adjustment when a custom dropdown width is provided
   const adjustX = dropdownMatchSelectWidth === true ? 0 : 1;
@@ -57,45 +57,42 @@ export interface SelectTriggerProps {
   prefixCls: string;
   children: React.ReactElement;
   disabled: boolean;
-  visible: boolean;
+  open: boolean;
   popupElement: React.ReactElement;
 
-  animation?: string;
-  transitionName?: string;
+  transition?: Partial<TransitionProps>;
   containerWidth: number;
   placement?: Placement;
   builtinPlacements?: BuildInPlacements;
-  dropdownStyle: React.CSSProperties;
-  dropdownClassName: string;
-  direction: string;
+  dropdownStyle?: React.CSSProperties;
+  dropdownClassName?: string;
   dropdownMatchSelectWidth?: boolean | number;
   dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
   getPopupContainer?: RenderDOMFunc;
-  dropdownAlign: AlignType;
+  dropdownAlign?: AlignType;
   empty: boolean;
 
   getTriggerDOMNode: () => HTMLElement;
-  onPopupVisibleChange?: (visible: boolean) => void;
+  onPopupOpenChange?: (visible: boolean) => void;
 
   onPopupMouseEnter: () => void;
 }
 
-const SelectTrigger: React.RefForwardingComponent<RefTriggerProps, SelectTriggerProps> = (
+const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTriggerProps> = (
   props,
   ref,
 ) => {
   const {
     prefixCls,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     disabled,
-    visible,
+    open,
     children,
     popupElement,
     containerWidth,
-    animation,
-    transitionName,
+    transition,
     dropdownStyle,
     dropdownClassName,
-    direction = 'ltr',
     placement,
     builtinPlacements,
     dropdownMatchSelectWidth,
@@ -104,7 +101,7 @@ const SelectTrigger: React.RefForwardingComponent<RefTriggerProps, SelectTrigger
     getPopupContainer,
     empty,
     getTriggerDOMNode,
-    onPopupVisibleChange,
+    onPopupOpenChange,
     onPopupMouseEnter,
     ...restProps
   } = props;
@@ -121,14 +118,11 @@ const SelectTrigger: React.RefForwardingComponent<RefTriggerProps, SelectTrigger
     [builtinPlacements, dropdownMatchSelectWidth],
   );
 
-  // ===================== Motion ======================
-  const mergedTransitionName = animation ? `${dropdownPrefixCls}-${animation}` : transitionName;
-
   // ======================= Ref =======================
   const popupRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => ({
-    getPopupElement: () => popupRef.current,
+    getPopupElement: () => popupRef.current!,
   }));
 
   const popupStyle: React.CSSProperties = {
@@ -145,26 +139,28 @@ const SelectTrigger: React.RefForwardingComponent<RefTriggerProps, SelectTrigger
   return (
     <Trigger
       {...restProps}
-      showAction={onPopupVisibleChange ? ['click'] : []}
-      hideAction={onPopupVisibleChange ? ['click'] : []}
-      popupPlacement={placement || (direction === 'rtl' ? 'bottomRight' : 'bottomLeft')}
+      showAction={onPopupOpenChange ? ['click'] : []}
+      hideAction={onPopupOpenChange ? ['click'] : []}
+      popupPlacement={placement || 'bottomLeft'}
       builtinPlacements={mergedBuiltinPlacements}
       prefixCls={dropdownPrefixCls}
-      popupTransitionName={mergedTransitionName}
+      popupTransition={transition}
       popup={
         <div ref={popupRef} onMouseEnter={onPopupMouseEnter}>
           {popupNode}
         </div>
       }
       popupAlign={dropdownAlign}
-      popupVisible={visible}
+      popupOpen={open}
       getPopupContainer={getPopupContainer}
-      popupClassName={classNames(dropdownClassName, {
-        [`${dropdownPrefixCls}-empty`]: empty,
-      })}
+      className={{
+        popup: clsx(dropdownClassName, {
+          [`${dropdownPrefixCls}-empty`]: empty,
+        }),
+      }}
       popupStyle={popupStyle}
       getTriggerDOMNode={getTriggerDOMNode}
-      onPopupVisibleChange={onPopupVisibleChange}
+      onPopupOpenChange={onPopupOpenChange}
     >
       {children}
     </Trigger>

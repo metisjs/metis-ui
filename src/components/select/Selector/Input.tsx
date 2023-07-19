@@ -1,23 +1,23 @@
-import * as React from 'react';
 import classNames from 'classnames';
 import { composeRef } from 'rc-util/lib/ref';
 import { warning } from 'rc-util/lib/warning';
+import * as React from 'react';
 
 type InputRef = HTMLInputElement | HTMLTextAreaElement;
 
 interface InputProps {
   prefixCls: string;
   id: string;
-  inputElement: React.ReactElement;
+  inputElement: React.ReactElement | null;
   disabled: boolean;
   autoFocus: boolean;
-  autoComplete: string;
+  autoComplete?: string;
   editable: boolean;
   activeDescendantId?: string;
   value: string;
   maxLength?: number;
   open: boolean;
-  tabIndex: number;
+  tabIndex?: number;
   /** Pass accessibility props to input */
   attrs: Record<string, unknown>;
 
@@ -33,7 +33,7 @@ interface InputProps {
   >;
 }
 
-const Input: React.RefForwardingComponent<InputRef, InputProps> = (
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   {
     prefixCls,
     id,
@@ -57,7 +57,7 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
   },
   ref,
 ) => {
-  let inputNode: React.ComponentElement<any, any> = inputElement || <input />;
+  let inputNode: any = inputElement || <input />;
 
   const { ref: originRef, props: originProps } = inputNode;
 

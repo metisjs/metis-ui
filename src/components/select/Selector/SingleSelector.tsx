@@ -1,11 +1,11 @@
-import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import Input from './Input';
+import * as React from 'react';
 import type { InnerSelectorProps } from '.';
 import { getTitle } from '../utils/commonUtil';
+import Input from './Input';
 
 interface SelectorProps extends InnerSelectorProps {
-  inputElement: React.ReactElement;
+  inputElement: React.ReactElement | null;
   activeValue: string;
 }
 
@@ -66,12 +66,11 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
     if (item) {
       return null;
     }
-    const hiddenStyle = hasTextInput ? { visibility: 'hidden' } as React.CSSProperties : undefined;
+    const hiddenStyle = hasTextInput
+      ? ({ visibility: 'hidden' } as React.CSSProperties)
+      : undefined;
     return (
-      <span
-        className={`${prefixCls}-selection-placeholder`}
-        style={hiddenStyle}
-      >
+      <span className={`${prefixCls}-selection-placeholder`} style={hiddenStyle}>
         {placeholder}
       </span>
     );
@@ -86,10 +85,10 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
           id={id}
           open={open}
           inputElement={inputElement}
-          disabled={disabled}
-          autoFocus={autoFocus}
+          disabled={!!disabled}
+          autoFocus={!!autoFocus}
           autoComplete={autoComplete}
-          editable={inputEditable}
+          editable={!!inputEditable}
           activeDescendantId={activeDescendantId}
           value={inputValue}
           onKeyDown={onInputKeyDown}
@@ -108,14 +107,12 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       </span>
 
       {/* Display value */}
-      {(!combobox && item) ? (
+      {!combobox && item ? (
         <span
           className={`${prefixCls}-selection-item`}
           title={selectionTitle}
           // 当 Select 已经选中选项时，还需 selection 隐藏但留在原地占位
-          // https://github.com/ant-design/ant-design/issues/27688
-          // https://github.com/ant-design/ant-design/issues/41530
-          style={hasTextInput ? { visibility: 'hidden' } as React.CSSProperties : undefined}
+          style={hasTextInput ? ({ visibility: 'hidden' } as React.CSSProperties) : undefined}
         >
           {item.label}
         </span>

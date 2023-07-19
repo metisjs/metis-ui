@@ -35,7 +35,7 @@ export default (
 
     patchedValues.forEach((item) => {
       valueCache.set(item.value, item);
-      optionCache.set(item.value, valueOptions.get(item.value) || prevOptionCache.get(item.value));
+      optionCache.set(item.value, valueOptions.get(item.value) || prevOptionCache.get(item.value)!);
     });
 
     cacheRef.current.values = valueCache;
@@ -45,7 +45,7 @@ export default (
   }, [labeledValues, valueOptions]);
 
   const getOption = React.useCallback(
-    (val: RawValueType) => valueOptions.get(val) || cacheRef.current.options.get(val),
+    (val: RawValueType) => valueOptions.get(val) || cacheRef.current.options.get(val)!,
     [valueOptions],
   );
 

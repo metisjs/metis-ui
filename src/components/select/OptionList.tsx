@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import useMemo from 'rc-util/lib/hooks/useMemo';
 import KeyCode from 'rc-util/lib/KeyCode';
+import useMemo from 'rc-util/lib/hooks/useMemo';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { ListRef } from 'rc-virtual-list';
@@ -8,12 +8,12 @@ import List from 'rc-virtual-list';
 import type { ScrollConfig } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useEffect } from 'react';
-import useBaseProps from './hooks/useBaseProps';
-import type { FlattenOptionData } from './interface';
+import { isPlatformMac } from '../_util/platform';
 import type { BaseOptionType, RawValueType } from './Select';
 import SelectContext from './SelectContext';
 import TransBtn from './TransBtn';
-import { isPlatformMac } from './utils/platformUtil';
+import useBaseProps from './hooks/useBaseProps';
+import type { FlattenOptionData } from './interface';
 
 // export interface OptionListProps<OptionsType extends object[]> {
 export type OptionListProps = Record<string, never>;
@@ -32,7 +32,10 @@ function isTitleType(content: any) {
  * Using virtual list of option display.
  * Will fallback to dom if use customize render.
  */
-const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, ref) => {
+const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<string, never>> = (
+  _,
+  ref,
+) => {
   const {
     prefixCls,
     id,
@@ -51,9 +54,8 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
     onSelect,
     menuItemSelectedIcon,
     rawValues,
-    fieldNames,
+    fieldNames = {},
     virtual,
-    direction,
     listHeight,
     listItemHeight,
   } = React.useContext(SelectContext);
@@ -63,7 +65,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
   const memoFlattenOptions = useMemo(
     () => flattenOptions,
     [open, flattenOptions],
-    (prev, next) => next[0] && prev[1] !== next[1],
+    (prev, next) => !!next[0] && prev[1] !== next[1],
   );
 
   // =========================== List ===========================
@@ -107,7 +109,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
       onActiveValue(null, -1, info);
       return;
     }
-    onActiveValue(flattenItem.value, index, info);
+    onActiveValue(flattenItem.value!, index, info);
   };
 
   // Auto active first item when list length or searchValue changed
@@ -115,7 +117,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
     setActive(defaultActiveFirstOption !== false ? getEnabledActiveIndex(0) : -1);
   }, [memoFlattenOptions.length, searchValue]);
 
-  // https://github.com/ant-design/ant-design/issues/34975
   const isSelected = React.useCallback(
     (value: RawValueType) => rawValues.has(value) && mode !== 'combobox',
     [mode, [...rawValues].toString(), rawValues.size],
@@ -142,6 +143,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
 
     // Force trigger scrollbar visible when open
     if (open) {
+      //@ts-ignore
       listRef.current?.scrollTo(undefined);
     }
 
@@ -149,7 +151,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
   }, [open, searchValue, flattenOptions.length]);
 
   // ========================== Values ==========================
-  const onSelectValue = (value: RawValueType) => {
+  const onSelectValue = (value?: RawValueType) => {
     if (value !== undefined) {
       onSelect(value, { selected: !rawValues.has(value) });
     }
@@ -239,7 +241,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
     );
   }
 
-  const omitFieldNameList = Object.keys(fieldNames).map((key) => fieldNames[key]);
+  const omitFieldNameList = Object.keys(fieldNames);
 
   const getLabel = (item: Record<string, any>) => item.label;
 
@@ -263,7 +265,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
     const mergedLabel = getLabel(item);
     return item ? (
       <div
-        aria-label={typeof mergedLabel === 'string' && !group ? mergedLabel : null}
+        aria-label={typeof mergedLabel === 'string' && !group ? mergedLabel : undefined}
         {...attrs}
         key={index}
         {...getItemAriaProps(item, index)}
@@ -298,8 +300,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
         onMouseDown={onListMouseDown}
         onScroll={onPopupScroll}
         virtual={virtual}
-        direction={direction}
-        innerProps={virtual ? null : a11yProps}
+        innerProps={virtual ? undefined : a11yProps}
       >
         {(item, itemIndex) => {
           const { group, groupOption, data, label, value } = item;
@@ -307,7 +308,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
 
           // Group
           if (group) {
-            const groupTitle = data.title ?? (isTitleType(label) ? label.toString() : undefined);
+            const groupTitle = data.title ?? (isTitleType(label) ? label!.toString() : undefined);
 
             return (
               <div
@@ -319,11 +320,12 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
             );
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { disabled, title, children, style, className, ...otherProps } = data;
           const passedProps = omit(otherProps, omitFieldNameList);
 
           // Option
-          const selected = isSelected(value);
+          const selected = isSelected(value!);
 
           const optionPrefixCls = `${itemPrefixCls}-option`;
           const optionClassName = classNames(itemPrefixCls, optionPrefixCls, className, {
@@ -338,9 +340,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, {}> = (_, r
           const iconVisible =
             !menuItemSelectedIcon || typeof menuItemSelectedIcon === 'function' || selected;
 
-          // https://github.com/ant-design/ant-design/issues/34145
           const content = typeof mergedLabel === 'number' ? mergedLabel : mergedLabel || value;
-          // https://github.com/ant-design/ant-design/issues/26717
           let optionTitle = isTitleType(content) ? content.toString() : undefined;
           if (title !== undefined) {
             optionTitle = title;
