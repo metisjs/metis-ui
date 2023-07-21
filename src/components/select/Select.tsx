@@ -1,38 +1,16 @@
-/**
- * To match accessibility requirement, we always provide an input in the component.
- * Other element will not set `tabIndex` to avoid `onBlur` sequence problem.
- * For focused select, we set `aria-live="polite"` to update the accessibility content.
- *
- * ref:
- * - keyboard: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/listbox_role#Keyboard_interactions
- *
- * New api:
- * - listHeight
- * - listItemHeight
- * - component
- *
- * Remove deprecated api:
- * - multiple
- * - tags
- * - combobox
- * - firstActiveValue
- * - dropdownMenuStyle
- * - openClassName (Not list in api)
- *
- * Update:
- * - `backfill` only support `combobox` mode
- * - `combobox` mode not support `labelInValue` since it's meaningless
- * - `getInputElement` only support `combobox` mode
- * - `onChange` return OptionData instead of ReactNode
- * - `filterOption` `onChange` `onSelect` accept OptionData instead of ReactNode
- * - `combobox` mode trigger `onChange` will get `undefined` if no `value` match in Option
- * - `combobox` mode not support `optionLabelProp`
- */
-
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
+import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
+import DisabledContext from '../config-provider/DisabledContext';
+import { SizeType } from '../config-provider/SizeContext';
+import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import useSize from '../config-provider/hooks/useSize';
+import { FormItemInputContext } from '../form/context';
+import { useCompactItemContext } from '../space/Compact';
 import type {
   BaseSelectProps,
   BaseSelectPropsWithoutPrivate,
@@ -46,15 +24,21 @@ import OptGroup from './OptGroup';
 import Option from './Option';
 import OptionList from './OptionList';
 import SelectContext, { SelectContextProps } from './SelectContext';
+import useBuiltinPlacements from './hooks/useBuiltinPlacements';
 import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
 import { hasValue, toArray } from './utils/commonUtil';
+import getIcons from './utils/iconUtil';
 import { fillFieldNames, flattenOptions, injectPropsWithOption } from './utils/valueUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
 const OMIT_DOM_PROPS = ['inputValue'];
+
+const SelectPlacements = ['bottomLeft', 'bottomRight', 'topLeft', 'topRight'] as const;
+
+export type SelectCommonPlacement = (typeof SelectPlacements)[number];
 
 export type OnActiveValue = (
   active: RawValueType | null,
@@ -104,11 +88,19 @@ export type SelectHandler<ValueType, OptionType extends BaseOptionType = Default
 type ArrayElementType<T> = T extends (infer E)[] ? E : T;
 
 export interface SelectProps<ValueType = any, OptionType extends BaseOptionType = DefaultOptionType>
-  extends BaseSelectPropsWithoutPrivate {
+  extends Omit<
+    BaseSelectPropsWithoutPrivate,
+    'mode' | 'getInputElement' | 'getRawInputElement' | 'backfill' | 'placement' | 'className'
+  > {
   prefixCls?: string;
   id?: string;
+  className?: ComplexClassName<'popup'>;
 
-  backfill?: boolean;
+  bordered?: boolean;
+  disabled?: boolean;
+
+  // >>> Size
+  size?: SizeType;
 
   // >>> Field Names
   fieldNames?: FieldNames;
@@ -141,12 +133,19 @@ export interface SelectProps<ValueType = any, OptionType extends BaseOptionType 
 
   // >>> Icon
   menuItemSelectedIcon?: RenderNode;
+  suffixIcon?: React.ReactNode;
 
-  mode?: 'combobox' | 'multiple' | 'tags';
+  mode?: 'multiple' | 'tags';
+  /** @private Internal usage. Do not use in your production. */
+  combobox?: boolean;
+
   labelInValue?: boolean;
   value?: ValueType | null;
   defaultValue?: ValueType | null;
   onChange?: (value: ValueType, option: OptionType | OptionType[]) => void;
+
+  placement?: SelectCommonPlacement;
+  status?: InputStatus;
 }
 
 function isRawValue(value: DraftValueType): value is RawValueType {
@@ -158,9 +157,11 @@ const Select = React.forwardRef(
     const {
       id,
       mode,
-      prefixCls = '',
-      backfill,
+      combobox,
+      className,
+      prefixCls: customizePrefixCls,
       fieldNames,
+      bordered,
 
       // Search
       searchValue,
@@ -170,7 +171,7 @@ const Select = React.forwardRef(
       // Select
       onSelect,
       onDeselect,
-      dropdownMatchSelectWidth = true,
+      popupMatchSelectWidth = true,
 
       // Options
       filterOption,
@@ -180,10 +181,9 @@ const Select = React.forwardRef(
       options,
       children,
       defaultActiveFirstOption,
-      menuItemSelectedIcon,
       virtual,
-      listHeight = 200,
-      listItemHeight = 20,
+      listHeight = 256,
+      listItemHeight = 24,
 
       // Value
       value,
@@ -191,19 +191,87 @@ const Select = React.forwardRef(
       labelInValue,
       onChange,
 
+      status: customStatus,
+      notFoundContent,
+      size: customizeSize,
+      disabled: customDisabled,
+      placement,
+      builtinPlacements,
+      getPopupContainer,
+
       ...restProps
     } = props;
 
+    const {
+      getPopupContainer: getContextPopupContainer,
+      getPrefixCls,
+      renderEmpty,
+      virtual: contextVirtual,
+      popupMatchSelectWidth: contextPopupMatchSelectWidth,
+      popupOverflow,
+    } = React.useContext(ConfigContext);
+
+    const complexCls = getComplexCls(className);
+    const prefixCls = getPrefixCls('select', customizePrefixCls);
     const mergedId = useId(id);
     const multiple = isMultiple(mode);
     const childrenAsData = !!(!options && children);
+    const mergedVirtual = virtual ?? contextVirtual;
+    const mergedMode = combobox ? 'combobox' : mode;
+    const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? contextPopupMatchSelectWidth;
 
+    const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+    const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+    // ===================== Disabled =====================
+    const disabled = React.useContext(DisabledContext);
+    const mergedDisabled = customDisabled ?? disabled;
+
+    // ===================== Form Status =====================
+    const {
+      status: contextStatus,
+      hasFeedback,
+      isFormItemInput,
+      feedbackIcon,
+    } = React.useContext(FormItemInputContext);
+    const mergedStatus = getMergedStatus(contextStatus, customStatus);
+
+    // ===================== Empty =====================
+    let mergedNotFound: React.ReactNode;
+    if (notFoundContent !== undefined) {
+      mergedNotFound = notFoundContent;
+    } else if (mergedMode === 'combobox') {
+      mergedNotFound = null;
+    } else {
+      mergedNotFound = renderEmpty?.('Select') || <DefaultRenderEmpty componentName="Select" />;
+    }
+
+    // ===================== Icons =====================
+    const { suffixIcon, itemIcon, removeIcon, clearIcon } = getIcons({
+      ...props,
+      multiple,
+      hasFeedback,
+      feedbackIcon,
+      prefixCls,
+    });
+
+    // ===================== Placement =====================
+    const memoPlacement = React.useMemo<SelectCommonPlacement>(() => {
+      if (placement !== undefined) {
+        return placement;
+      }
+      return 'bottomLeft';
+    }, [placement]);
+
+    const mergedBuiltinPlacements = useBuiltinPlacements(builtinPlacements, popupOverflow);
+
+    // ========================= FilterOption =========================
     const mergedFilterOption = React.useMemo(() => {
-      if (filterOption === undefined && mode === 'combobox') {
+      if (filterOption === undefined && mergedMode === 'combobox') {
         return false;
       }
       return filterOption;
-    }, [filterOption, mode]);
+    }, [filterOption, mergedMode]);
 
     // ========================= FieldNames =========================
     const mergedFieldNames = React.useMemo(
@@ -300,20 +368,19 @@ const Select = React.forwardRef(
       const values = convert2LabelValues(internalValue);
 
       // combobox no need save value when it's no value
-      if (mode === 'combobox' && !values[0]?.value) {
+      if (mergedMode === 'combobox' && !values[0]?.value) {
         return [];
       }
 
       return values;
-    }, [internalValue, convert2LabelValues, mode]);
+    }, [internalValue, convert2LabelValues, mergedMode]);
 
     // Fill label with cache to avoid option remove
     const [mergedValues, getMixedOption] = useCache(rawLabeledValues, valueOptions);
 
     const displayValues = React.useMemo(() => {
       // `null` need show as placeholder instead
-      // https://github.com/ant-design/ant-design/issues/25057
-      if (!mode && mergedValues.length === 1) {
+      if (!mergedMode && mergedValues.length === 1) {
         const firstValue = mergedValues[0];
         if (
           firstValue.value === null &&
@@ -327,7 +394,7 @@ const Select = React.forwardRef(
         ...item,
         label: item.label ?? item.value,
       }));
-    }, [mode, mergedValues]);
+    }, [mergedMode, mergedValues]);
 
     /** Convert `displayValues` to raw value type set */
     const rawValues = React.useMemo(
@@ -336,7 +403,7 @@ const Select = React.forwardRef(
     );
 
     React.useEffect(() => {
-      if (mode === 'combobox') {
+      if (mergedMode === 'combobox') {
         const strValue = mergedValues[0]?.value;
         setSearchValue(hasValue(strValue) ? String(strValue) : '');
       }
@@ -354,7 +421,7 @@ const Select = React.forwardRef(
 
     // Fill tag as option if mode is `tags`
     const filledTagOptions = React.useMemo(() => {
-      if (mode !== 'tags') {
+      if (mergedMode !== 'tags') {
         return mergedOptions;
       }
 
@@ -376,7 +443,7 @@ const Select = React.forwardRef(
         });
 
       return cloneOptions;
-    }, [createTagOption, mergedOptions, valueOptions, mergedValues, mode]);
+    }, [createTagOption, mergedOptions, valueOptions, mergedValues, mergedMode]);
 
     const filteredOptions = useFilterOptions(
       filledTagOptions,
@@ -389,7 +456,7 @@ const Select = React.forwardRef(
     // Fill options with search value if needed
     const filledSearchOptions = React.useMemo(() => {
       if (
-        mode !== 'tags' ||
+        mergedMode !== 'tags' ||
         !mergedSearchValue ||
         filteredOptions.some((item) => item[optionFilterProp || 'value'] === mergedSearchValue)
       ) {
@@ -398,7 +465,7 @@ const Select = React.forwardRef(
 
       // Fill search value as option
       return [createTagOption(mergedSearchValue), ...filteredOptions];
-    }, [createTagOption, optionFilterProp, mode, filteredOptions, mergedSearchValue]);
+    }, [createTagOption, optionFilterProp, mergedMode, filteredOptions, mergedSearchValue]);
 
     const orderedFilteredOptions = React.useMemo(() => {
       if (!filterSort) {
@@ -446,17 +513,13 @@ const Select = React.forwardRef(
     const [activeValue, setActiveValue] = React.useState<string>();
     const [accessibilityIndex, setAccessibilityIndex] = React.useState(0);
     const mergedDefaultActiveFirstOption =
-      defaultActiveFirstOption !== undefined ? defaultActiveFirstOption : mode !== 'combobox';
+      defaultActiveFirstOption !== undefined ? defaultActiveFirstOption : mergedMode !== 'combobox';
 
     const onActiveValue: OnActiveValue = React.useCallback(
-      (active, index, { source = 'keyboard' } = {}) => {
+      (_, index) => {
         setAccessibilityIndex(index);
-
-        if (backfill && mode === 'combobox' && active && source === 'keyboard') {
-          setActiveValue(String(active));
-        }
       },
-      [backfill, mode],
+      [mergedMode],
     );
 
     // ========================= OptionList =========================
@@ -500,10 +563,10 @@ const Select = React.forwardRef(
       triggerSelect(val, mergedSelect);
 
       // Clean search value if single or configured
-      if (mode === 'combobox') {
+      if (mergedMode === 'combobox') {
         // setSearchValue(String(val));
         setActiveValue('');
-      } else if (!isMultiple || autoClearSearchValue) {
+      } else if (!isMultiple(mergedMode) || autoClearSearchValue) {
         setSearchValue('');
         setActiveValue('');
       }
@@ -542,7 +605,7 @@ const Select = React.forwardRef(
       }
 
       if (info.source !== 'blur') {
-        if (mode === 'combobox') {
+        if (mergedMode === 'combobox') {
           triggerChange(searchText);
         }
 
@@ -553,7 +616,7 @@ const Select = React.forwardRef(
     const onInternalSearchSplit: BaseSelectProps['onSearchSplit'] = (words) => {
       let patchValues: RawValueType[] = words;
 
-      if (mode !== 'tags') {
+      if (mergedMode !== 'tags') {
         patchValues = words
           .map((word) => {
             const opt = labelOptions.get(word);
@@ -569,16 +632,31 @@ const Select = React.forwardRef(
       });
     };
 
+    // ========================== Style ===========================
+    const rootClassName = clsx(
+      {
+        [`${prefixCls}-lg`]: mergedSize === 'large',
+        [`${prefixCls}-sm`]: mergedSize === 'small',
+        [`${prefixCls}-borderless`]: !bordered,
+        [`${prefixCls}-in-form-item`]: isFormItemInput,
+      },
+      getStatusClassNames(mergedStatus, hasFeedback),
+      compactItemClassnames,
+      complexCls.root,
+    );
+
+    const popupClassName = clsx(complexCls.popup);
+
     // ========================== Context ===========================
     const selectContext = React.useMemo((): SelectContextProps => {
-      const realVirtual = virtual !== false && dropdownMatchSelectWidth !== false;
+      const realVirtual = mergedVirtual !== false && popupMatchSelectWidth !== false;
       return {
         ...parsedOptions,
         flattenOptions: displayOptions,
         onActiveValue,
         defaultActiveFirstOption: mergedDefaultActiveFirstOption,
         onSelect: onInternalSelect,
-        menuItemSelectedIcon,
+        menuItemSelectedIcon: itemIcon,
         rawValues,
         fieldNames: mergedFieldNames,
         virtual: realVirtual,
@@ -592,11 +670,11 @@ const Select = React.forwardRef(
       onActiveValue,
       mergedDefaultActiveFirstOption,
       onInternalSelect,
-      menuItemSelectedIcon,
+      itemIcon,
       rawValues,
       mergedFieldNames,
       virtual,
-      dropdownMatchSelectWidth,
+      popupMatchSelectWidth,
       listHeight,
       listItemHeight,
       childrenAsData,
@@ -620,7 +698,20 @@ const Select = React.forwardRef(
           prefixCls={prefixCls}
           ref={ref}
           omitDomProps={OMIT_DOM_PROPS}
-          mode={mode}
+          mode={mergedMode}
+          disabled={mergedDisabled}
+          builtinPlacements={mergedBuiltinPlacements}
+          popupMatchSelectWidth={mergedPopupMatchSelectWidth}
+          suffixIcon={suffixIcon}
+          removeIcon={removeIcon}
+          clearIcon={clearIcon}
+          placement={memoPlacement}
+          notFoundContent={mergedNotFound}
+          getPopupContainer={getPopupContainer || getContextPopupContainer}
+          className={{
+            root: rootClassName,
+            popup: popupClassName,
+          }}
           // >>> Values
           displayValues={displayValues}
           onDisplayValuesChange={onDisplayValuesChange}
@@ -629,7 +720,6 @@ const Select = React.forwardRef(
           onSearch={onInternalSearch}
           autoClearSearchValue={autoClearSearchValue}
           onSearchSplit={onInternalSearchSplit}
-          dropdownMatchSelectWidth={dropdownMatchSelectWidth}
           // >>> OptionList
           OptionList={OptionList}
           emptyOptions={!displayOptions.length}

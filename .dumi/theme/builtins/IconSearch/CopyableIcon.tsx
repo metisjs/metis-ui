@@ -89,8 +89,7 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({ name }) => {
           </span>
         </button>
         <Transition
-          as={React.Fragment}
-          show={state === 'copied'}
+          visible={state === 'copied'}
           enter="transition-opacity duration-300 ease-out"
           enterFrom="opacity-0"
           enterTo="opacity-100"

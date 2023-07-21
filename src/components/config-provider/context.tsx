@@ -2,7 +2,7 @@ import * as React from 'react';
 // import type { RequiredMark } from '../form/Form';
 // import type { Locale } from '../locale-provider';
 import type { SizeType } from './SizeContext';
-// import type { RenderEmptyHandler } from './defaultRenderEmpty';
+import type { RenderEmptyHandler } from './defaultRenderEmpty';
 
 export interface Theme {
   primaryColor?: string;
@@ -17,11 +17,13 @@ export interface CSPConfig {
   nonce?: string;
 }
 
+export type PopupOverflow = 'viewport' | 'scroll';
+
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
-  // renderEmpty?: RenderEmptyHandler;
+  renderEmpty?: RenderEmptyHandler;
   csp?: CSPConfig;
   input?: {
     autoComplete?: string;
@@ -37,7 +39,8 @@ export interface ConfigConsumerProps {
     size?: SizeType | number;
   };
   virtual?: boolean;
-  dropdownMatchSelectWidth?: boolean;
+  popupMatchSelectWidth?: boolean;
+  popupOverflow?: PopupOverflow;
   form?: {
     // requiredMark?: RequiredMark;
     colon?: boolean;

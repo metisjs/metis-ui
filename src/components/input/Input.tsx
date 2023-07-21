@@ -171,7 +171,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const inputRef = useRef<InputRef>(null);
 
   // ===================== Compact Item =====================
-  const { compactSize, compactItemClassnames } = useCompactItemContext();
+  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
   // ===================== Size =====================
   const mergedSize = useSize((ctx) => compactSize ?? customSize ?? ctx);

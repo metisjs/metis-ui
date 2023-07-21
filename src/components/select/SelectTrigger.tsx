@@ -5,10 +5,10 @@ import Trigger, { AlignType, BuildInPlacements } from '../trigger';
 import type { Placement, RenderDOMFunc } from './BaseSelect';
 
 const getBuiltInPlacements = (
-  dropdownMatchSelectWidth?: number | boolean,
+  popupMatchSelectWidth?: number | boolean,
 ): Record<string, AlignType> => {
   // Enable horizontal overflow auto-adjustment when a custom dropdown width is provided
-  const adjustX = dropdownMatchSelectWidth === true ? 0 : 1;
+  const adjustX = popupMatchSelectWidth === true ? 0 : 1;
   return {
     bottomLeft: {
       points: ['tl', 'bl'],
@@ -64,12 +64,11 @@ export interface SelectTriggerProps {
   containerWidth: number;
   placement?: Placement;
   builtinPlacements?: BuildInPlacements;
-  dropdownStyle?: React.CSSProperties;
-  dropdownClassName?: string;
-  dropdownMatchSelectWidth?: boolean | number;
-  dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
+  popupClassName?: string;
+  popupMatchSelectWidth?: boolean | number;
+  popupRender?: (menu: React.ReactElement) => React.ReactElement;
   getPopupContainer?: RenderDOMFunc;
-  dropdownAlign?: AlignType;
+  popupAlign?: AlignType;
   empty: boolean;
 
   getTriggerDOMNode: () => HTMLElement;
@@ -91,13 +90,12 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
     popupElement,
     containerWidth,
     transition,
-    dropdownStyle,
-    dropdownClassName,
+    popupClassName,
     placement,
     builtinPlacements,
-    dropdownMatchSelectWidth,
-    dropdownRender,
-    dropdownAlign,
+    popupMatchSelectWidth,
+    popupRender,
+    popupAlign,
     getPopupContainer,
     empty,
     getTriggerDOMNode,
@@ -109,13 +107,13 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
   const dropdownPrefixCls = `${prefixCls}-dropdown`;
 
   let popupNode = popupElement;
-  if (dropdownRender) {
-    popupNode = dropdownRender(popupElement);
+  if (popupRender) {
+    popupNode = popupRender(popupElement);
   }
 
   const mergedBuiltinPlacements = React.useMemo(
-    () => builtinPlacements || getBuiltInPlacements(dropdownMatchSelectWidth),
-    [builtinPlacements, dropdownMatchSelectWidth],
+    () => builtinPlacements || getBuiltInPlacements(popupMatchSelectWidth),
+    [builtinPlacements, popupMatchSelectWidth],
   );
 
   // ======================= Ref =======================
@@ -127,12 +125,11 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
 
   const popupStyle: React.CSSProperties = {
     minWidth: containerWidth,
-    ...dropdownStyle,
   };
 
-  if (typeof dropdownMatchSelectWidth === 'number') {
-    popupStyle.width = dropdownMatchSelectWidth;
-  } else if (dropdownMatchSelectWidth) {
+  if (typeof popupMatchSelectWidth === 'number') {
+    popupStyle.width = popupMatchSelectWidth;
+  } else if (popupMatchSelectWidth) {
     popupStyle.width = containerWidth;
   }
 
@@ -150,13 +147,16 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
           {popupNode}
         </div>
       }
-      popupAlign={dropdownAlign}
+      popupAlign={popupAlign}
       popupOpen={open}
       getPopupContainer={getPopupContainer}
       className={{
-        popup: clsx(dropdownClassName, {
-          [`${dropdownPrefixCls}-empty`]: empty,
-        }),
+        popup: clsx(
+          {
+            [`${dropdownPrefixCls}-empty`]: empty,
+          },
+          popupClassName,
+        ),
       }}
       popupStyle={popupStyle}
       getTriggerDOMNode={getTriggerDOMNode}

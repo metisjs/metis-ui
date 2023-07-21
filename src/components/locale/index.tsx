@@ -1,0 +1,81 @@
+'use client';
+
+import * as React from 'react';
+// import { changeConfirmLocale } from '../modal/locale';
+import { EmptyLocale } from '../empty';
+import type { LocaleContextProps } from './context';
+import LocaleContext from './context';
+
+export { default as useLocale } from './useLocale';
+
+export const ANT_MARK = 'internalMark';
+
+export interface Locale {
+  locale: string;
+  // Pagination?: PaginationLocale;
+  // DatePicker?: DatePickerLocale;
+  TimePicker?: Record<string, any>;
+  Calendar?: Record<string, any>;
+  // Table?: TableLocale;
+  // Modal?: ModalLocale;
+  // Tour?: TourLocale;
+  // Popconfirm?: PopconfirmLocale;
+  // Transfer?: TransferLocale;
+  Select?: Record<string, any>;
+  // Upload?: UploadLocale;
+  Empty?: EmptyLocale;
+  global?: Record<string, any>;
+  PageHeader?: { back: string };
+  Icon?: Record<string, any>;
+  Text?: {
+    edit?: any;
+    copy?: any;
+    copied?: any;
+    expand?: any;
+  };
+  Form?: {
+    optional?: string;
+    // defaultValidateMessages: ValidateMessages;
+  };
+  Image?: {
+    preview: string;
+  };
+  QRCode?: {
+    expired: string;
+    refresh: string;
+  };
+  ColorPicker?: {
+    presetEmpty: string;
+  };
+}
+
+export interface LocaleProviderProps {
+  locale: Locale;
+  children?: React.ReactNode;
+}
+
+const LocaleProvider: React.FC<LocaleProviderProps> = (props) => {
+  const { locale = {} as Locale, children } = props;
+
+  // React.useEffect(() => {
+  //   changeConfirmLocale(locale && locale.Modal);
+  //   return () => {
+  //     changeConfirmLocale();
+  //   };
+  // }, [locale]);
+
+  const getMemoizedContextValue = React.useMemo<LocaleContextProps>(
+    () => ({ ...locale, exist: true }),
+    [locale],
+  );
+
+  return (
+    <LocaleContext.Provider value={getMemoizedContextValue}>{children}</LocaleContext.Provider>
+  );
+};
+
+if (process.env.NODE_ENV !== 'production') {
+  LocaleProvider.displayName = 'LocaleProvider';
+}
+
+export default LocaleProvider;

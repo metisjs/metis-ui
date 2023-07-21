@@ -17,8 +17,7 @@ import { DisabledContextProvider } from './DisabledContext';
 import type { SizeType } from './SizeContext';
 import SizeContext, { SizeContextProvider } from './SizeContext';
 
-export { ConfigContext, ConfigConsumer };
-export { CSPConfig, ConfigConsumerProps };
+export { CSPConfig, ConfigConsumer, ConfigConsumerProps, ConfigContext };
 
 export const configConsumerProps = [
   'getTargetContainer',
@@ -67,7 +66,7 @@ export interface ConfigProviderProps {
     size?: SizeType | number;
   };
   virtual?: boolean;
-  dropdownMatchSelectWidth?: boolean;
+  popupMatchSelectWidth?: boolean;
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
@@ -85,7 +84,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     direction,
     space,
     virtual,
-    dropdownMatchSelectWidth,
+    popupMatchSelectWidth,
     // legacyLocale,
     parentContext,
     componentDisabled,
@@ -98,7 +97,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     direction,
     space,
     virtual,
-    dropdownMatchSelectWidth,
+    popupMatchSelectWidth,
   };
 
   // Pass the props used by `useContext` directly with child component.

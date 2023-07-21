@@ -4,7 +4,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { useComposeRef } from 'rc-util/lib/ref';
 import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import useLock from '../_util/hooks/useLock';
 import { TransitionProps } from '../transition';
 import { AlignType, BuildInPlacements } from '../trigger';
@@ -123,7 +123,7 @@ export interface BaseSelectPrivateProps {
 export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSelectPrivateProps>;
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
-  className?: string;
+  className?: ComplexClassName<'popup'>;
   style?: React.CSSProperties;
   title?: string;
   showSearch?: boolean;
@@ -147,7 +147,7 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   // >>> Open
   open?: boolean;
   defaultOpen?: boolean;
-  onDropdownVisibleChange?: (open: boolean) => void;
+  onPopupOpenChange?: (open: boolean) => void;
 
   // >>> Customize Input
   /** @private Internal usage. Do not use in your production. */
@@ -171,13 +171,11 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   /** Selector remove icon */
   removeIcon?: RenderNode;
 
-  // >>> Dropdown
+  // >>> Popup
   transition?: Partial<TransitionProps>;
-  dropdownStyle?: React.CSSProperties;
-  dropdownClassName?: string;
-  dropdownMatchSelectWidth?: boolean | number;
-  dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
-  dropdownAlign?: AlignType;
+  popupMatchSelectWidth?: boolean | number;
+  popupRender?: (menu: React.ReactElement) => React.ReactElement;
+  popupAlign?: AlignType;
   placement?: Placement;
   builtinPlacements?: BuildInPlacements;
   getPopupContainer?: RenderDOMFunc;
@@ -232,7 +230,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     // Open
     open,
     defaultOpen,
-    onDropdownVisibleChange,
+    onPopupOpenChange,
 
     // Active
     activeValue,
@@ -254,11 +252,9 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     // Dropdown
     OptionList,
     transition,
-    dropdownStyle,
-    dropdownClassName,
-    dropdownMatchSelectWidth,
-    dropdownRender,
-    dropdownAlign,
+    popupMatchSelectWidth: popupMatchSelectWidth,
+    popupRender,
+    popupAlign,
     placement,
     builtinPlacements,
     getPopupContainer,
@@ -278,6 +274,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   } = props;
 
   // ============================== MISC ==============================
+  const complexCls = getComplexCls(className);
   const multiple = isMultiple(mode);
   const mergedShowSearch =
     (showSearch !== undefined ? showSearch : multiple) || mode === 'combobox';
@@ -367,11 +364,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         setInnerOpen(nextOpen);
 
         if (mergedOpen !== nextOpen) {
-          onDropdownVisibleChange?.(nextOpen);
+          onPopupOpenChange?.(nextOpen);
         }
       }
     },
-    [disabled, mergedOpen, setInnerOpen, onDropdownVisibleChange],
+    [disabled, mergedOpen, setInnerOpen, onPopupOpenChange],
   );
 
   // ============================= Search =============================
@@ -730,7 +727,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-customize-input`]: customizeInputElement,
       [`${prefixCls}-show-search`]: mergedShowSearch,
     },
-    className,
+    complexCls.root,
   );
 
   // >>> Selector
@@ -743,11 +740,10 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       popupElement={optionList}
       containerWidth={containerWidth}
       transition={transition}
-      dropdownStyle={dropdownStyle}
-      dropdownClassName={dropdownClassName}
-      dropdownMatchSelectWidth={dropdownMatchSelectWidth}
-      dropdownRender={dropdownRender}
-      dropdownAlign={dropdownAlign}
+      popupClassName={complexCls.popup}
+      popupMatchSelectWidth={popupMatchSelectWidth}
+      popupRender={popupRender}
+      popupAlign={popupAlign}
       placement={placement}
       builtinPlacements={builtinPlacements}
       getPopupContainer={getPopupContainer}
