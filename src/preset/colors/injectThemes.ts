@@ -89,8 +89,6 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     includedThemesObj[theme] = convertToHsl(value);
   });
 
-  console.log(includedThemesObj);
-
   // add custom themes
   if (Array.isArray(config('metaui.themes'))) {
     config('metaui.themes').forEach((item: { [key: string]: any }) => {
