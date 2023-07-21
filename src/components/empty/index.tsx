@@ -59,7 +59,14 @@ const Empty: CompoundedComponent = ({
 
   return (
     <div
-      className={clsx(prefixCls, 'me-2 ms-2 text-center text-sm', complexCls.root)}
+      className={clsx(
+        prefixCls,
+        'mx-2 text-center text-sm',
+        {
+          'my-8': image === simpleEmptyImg,
+        },
+        complexCls.root,
+      )}
       style={style}
       {...restProps}
     >

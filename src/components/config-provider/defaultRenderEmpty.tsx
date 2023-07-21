@@ -20,7 +20,12 @@ const DefaultRenderEmpty: React.FC<EmptyProps> = (props) => {
     case 'Cascader':
     case 'Transfer':
     case 'Mentions':
-      return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} className={`${prefix}-small`} />;
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          className={{ root: 'me-2 ms-2', image: 'h-[35px]' }}
+        />
+      );
     /* istanbul ignore next */
     default:
       // Should never hit if we take all the component into consider.
