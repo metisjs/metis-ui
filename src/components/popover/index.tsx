@@ -55,6 +55,8 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
     'z-[1030] cursor-auto select-text rounded-lg p-3 text-neutral-text shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
   );
 
+  const arrowCls = clsx('after:ring-1 after:ring-neutral-border-secondary');
+
   return (
     <Tooltip
       placement={placement}
@@ -64,7 +66,7 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
       overlayStyle={overlayStyle}
       {...otherProps}
       prefixCls={prefixCls}
-      className={{ overlay: overlayCls, popupInner: popupInnerCls }}
+      className={{ overlay: overlayCls, popupInner: popupInnerCls, arrow: arrowCls }}
       ref={ref}
       overlay={
         title || content ? <Overlay prefixCls={prefixCls} title={title} content={content} /> : null

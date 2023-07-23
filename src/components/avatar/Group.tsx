@@ -3,6 +3,7 @@ import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
+import Popover from '../popover';
 import Avatar from './Avatar';
 import type { AvatarSize } from './SizeContext';
 import { SizeContextProvider } from './SizeContext';
@@ -26,8 +27,7 @@ const Group: React.FC<GroupProps> = (props) => {
 
   const cls = clsx(prefixCls, 'group relative -space-x-1 overflow-hidden', className);
 
-  // const { children, maxPopoverPlacement = 'top', maxPopoverTrigger = 'hover' } = props;
-  const { children } = props;
+  const { children, maxPopoverPlacement = 'top', maxPopoverTrigger = 'hover' } = props;
   const childrenWithProps = toArray(children).map((child, index) =>
     cloneElement(child, {
       key: `avatar-key-${index}`,
@@ -37,17 +37,17 @@ const Group: React.FC<GroupProps> = (props) => {
   const numOfChildren = childrenWithProps.length;
   if (maxCount && maxCount < numOfChildren) {
     const childrenShow = childrenWithProps.slice(0, maxCount);
-    // const childrenHidden = childrenWithProps.slice(maxCount, numOfChildren);
+    const childrenHidden = childrenWithProps.slice(maxCount, numOfChildren);
     childrenShow.push(
-      // <Popover
-      //   key="avatar-popover-key"
-      //   content={childrenHidden}
-      //   trigger={maxPopoverTrigger}
-      //   placement={maxPopoverPlacement}
-      //   overlayClassName={`${prefixCls}-popover`}
-      // >
-      <Avatar key="avatar-key-count" style={maxStyle}>{`+${numOfChildren - maxCount}`}</Avatar>,
-      // </Popover>,
+      <Popover
+        key="avatar-popover-key"
+        content={<div className="flex gap-1">{childrenHidden}</div>}
+        trigger={maxPopoverTrigger}
+        placement={maxPopoverPlacement}
+        className={{ overlay: `${prefixCls}-popover` }}
+      >
+        <Avatar key="avatar-key-count" style={maxStyle}>{`+${numOfChildren - maxCount}`}</Avatar>
+      </Popover>,
     );
     return (
       <SizeContextProvider size={size}>

@@ -31,12 +31,6 @@ export interface TriggerRef {
   forceAlign: VoidFunction;
 }
 
-// Removed Props List
-// Seems this can be auto
-// getDocument?: (element?: HTMLElement) => Document;
-
-// New version will not wrap popup with `rc-trigger-popup-content` when multiple children
-
 export interface TriggerProps {
   children: React.ReactElement;
   action?: ActionType | ActionType[];
@@ -326,12 +320,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     }, [JSON.stringify(popupAlign)]);
 
     const alignedClassName = React.useMemo(() => {
-      const baseClassName = getAlignPopupClassName(
-        builtinPlacements,
-        prefixCls,
-        alignInfo,
-        !!alignPoint,
-      );
+      const baseClassName = getAlignPopupClassName(builtinPlacements, alignInfo, !!alignPoint);
 
       return clsx(baseClassName, getPopupClassNameFromAlign?.(alignInfo));
     }, [alignInfo, getPopupClassNameFromAlign, builtinPlacements, prefixCls, alignPoint]);

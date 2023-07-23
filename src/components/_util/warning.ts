@@ -1,4 +1,4 @@
-import rcWarning, { resetWarned } from 'rc-util/lib/warning';
+import rcWarning, { noteOnce, resetWarned } from 'rc-util/lib/warning';
 
 export { resetWarned };
 export function noop() {}
@@ -16,5 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
   };
 }
+
+export { noteOnce };
 
 export default warning;

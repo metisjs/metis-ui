@@ -38,7 +38,7 @@ export default {
       tertiary: -5,
       quaternary: -6,
     },
-    'neutral-border': { secondary: -2 },
+    'neutral-border': { secondary: -1 },
     'neutral-fill': { secondary: -1, tertiary: -2, quaternary: -3 },
   },
   dark: {

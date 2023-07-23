@@ -15,7 +15,7 @@ export const SpaceCompactItemContext = React.createContext<SpaceCompactItemConte
   null,
 );
 
-export const useCompactItemContext = () => {
+export const useCompactItemContext = (prefixCls: string) => {
   const compactItemContext = React.useContext(SpaceCompactItemContext);
 
   const compactItemClassnames = React.useMemo(() => {
@@ -25,9 +25,9 @@ export const useCompactItemContext = () => {
     const separator = compactDirection === 'vertical' ? '-vertical-' : '-';
 
     return classNames({
-      [`compact${separator}item`]: true,
-      [`compact${separator}first-item`]: isFirstItem,
-      [`compact${separator}last-item`]: isLastItem,
+      [`${prefixCls}-compact${separator}item`]: true,
+      [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
+      [`${prefixCls}-compact${separator}last-item`]: isLastItem,
     });
   }, [compactItemContext]);
 

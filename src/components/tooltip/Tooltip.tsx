@@ -92,9 +92,10 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     mouseLeaveDelay = 0.1,
     overlayStyle,
     trigger,
-    align,
+    align = {},
     defaultOpen,
     transition,
+    ...restProps
   } = props;
 
   const complexCls = getComplexCls(className);
@@ -196,6 +197,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
         ? {
             className: getArrowClassName({
               limitVerticalRadius: true,
+              custom: complexCls.arrow,
             }),
           }
         : false,
@@ -216,6 +218,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   return (
     <Trigger
+      {...restProps}
       className={{
         popup: customOverlayClassName,
       }}

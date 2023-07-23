@@ -241,7 +241,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     "`link` or `text` button can't be a `ghost` button.",
   );
 
-  const { compactSize, compactItemClassnames } = useCompactItemContext();
+  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
   const mergedSize = compactSize || customizeSize || size;
 

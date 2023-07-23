@@ -1,4 +1,4 @@
-import Color from 'color';
+import { TinyColor } from '@ctrl/tinycolor';
 import get from 'lodash/get';
 import twColors from 'tailwindcss/colors';
 import { PluginAPI } from 'tailwindcss/types/config';
@@ -49,7 +49,7 @@ function generateColorPaletteFrom(
   }, resultObj);
 }
 
-function convertToHsl(input: ColorParam) {
+export function convertToHsl(input: ColorParam) {
   let resultObj: Record<string, any> = {};
   Object.entries(input).forEach(([rule, value]) => {
     if (rule !== 'color-scheme') {
@@ -61,15 +61,15 @@ function convertToHsl(input: ColorParam) {
         Object.keys(input),
       );
       Object.entries(colorPalette).forEach(([k, v]) => {
-        const hslArray = Color(v).hsl().array();
+        const hsl = new TinyColor(v).toHsl();
 
         resultObj[`--${k}`] =
-          hslArray[0].toPrecision(5).replace(/\.?0+$/, '') +
+          hsl.h.toPrecision(5).replace(/\.?0+$/, '') +
           ' ' +
-          hslArray[1].toPrecision(5).replace(/\.?0+$/, '') +
+          (hsl.s * 100).toPrecision(5).replace(/\.?0+$/, '') +
           '%' +
           ' ' +
-          hslArray[2].toPrecision(5).replace(/\.?0+$/, '') +
+          (hsl.l * 100).toPrecision(5).replace(/\.?0+$/, '') +
           '%' +
           ' / ' +
           alpha / 100;

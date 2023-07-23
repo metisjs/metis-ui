@@ -9,7 +9,6 @@ function isPointsEq(a1: string[] = [], a2: string[] = [], isAlignPoint: boolean)
 
 export function getAlignPopupClassName(
   builtinPlacements: BuildInPlacements,
-  prefixCls: string,
   align: AlignType,
   isAlignPoint: boolean,
 ): string {
