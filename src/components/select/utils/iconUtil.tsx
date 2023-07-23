@@ -3,7 +3,7 @@ import {
   ChevronDownOutline,
   LoadingOutline,
   MagnifyingGlassOutline,
-  XCircleOutline,
+  XCircleSolid,
   XMarkOutline,
 } from '@metaoa/icons';
 import type { ReactNode } from 'react';
@@ -17,7 +17,6 @@ export default function getIcons({
   menuItemSelectedIcon,
   removeIcon,
   loading,
-  multiple,
   hasFeedback,
   prefixCls,
   feedbackIcon,
@@ -33,7 +32,7 @@ export default function getIcons({
   prefixCls: string;
 }) {
   // Clear Icon
-  const mergedClearIcon = clearIcon ?? <XCircleOutline />;
+  const mergedClearIcon = clearIcon ?? <XCircleSolid />;
 
   // Validation Feedback Icon
   const getSuffixIconNode = (arrowIcon?: ReactNode) => (
@@ -63,10 +62,8 @@ export default function getIcons({
   let mergedItemIcon = null;
   if (menuItemSelectedIcon !== undefined) {
     mergedItemIcon = menuItemSelectedIcon;
-  } else if (multiple) {
-    mergedItemIcon = <CheckOutline />;
   } else {
-    mergedItemIcon = null;
+    mergedItemIcon = <CheckOutline className="h-5 w-5" />;
   }
 
   let mergedRemoveIcon = null;

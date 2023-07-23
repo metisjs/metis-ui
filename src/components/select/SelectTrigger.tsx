@@ -104,7 +104,7 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
     ...restProps
   } = props;
 
-  const dropdownPrefixCls = `${prefixCls}-dropdown`;
+  const popupPrefixCls = `${prefixCls}-popup`;
 
   let popupNode = popupElement;
   if (popupRender) {
@@ -140,7 +140,7 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
       hideAction={onPopupOpenChange ? ['click'] : []}
       popupPlacement={placement || 'bottomLeft'}
       builtinPlacements={mergedBuiltinPlacements}
-      prefixCls={dropdownPrefixCls}
+      prefixCls={popupPrefixCls}
       popupTransition={transition}
       popup={
         <div ref={popupRef} onMouseEnter={onPopupMouseEnter}>
@@ -153,7 +153,7 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
       className={{
         popup: clsx(
           {
-            [`${dropdownPrefixCls}-empty`]: empty,
+            [`${popupPrefixCls}-empty`]: empty,
           },
           popupClassName,
         ),

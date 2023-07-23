@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import omit from 'rc-util/lib/omit';
@@ -8,6 +7,7 @@ import List from 'rc-virtual-list';
 import type { ScrollConfig } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useEffect } from 'react';
+import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import type { BaseOptionType, RawValueType } from './Select';
 import SelectContext from './SelectContext';
@@ -311,10 +311,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             const groupTitle = data.title ?? (isTitleType(label) ? label!.toString() : undefined);
 
             return (
-              <div
-                className={classNames(itemPrefixCls, `${itemPrefixCls}-group`)}
-                title={groupTitle}
-              >
+              <div className={clsx(itemPrefixCls, `${itemPrefixCls}-group`)} title={groupTitle}>
                 {label !== undefined ? label : key}
               </div>
             );
@@ -328,12 +325,19 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
           const selected = isSelected(value!);
 
           const optionPrefixCls = `${itemPrefixCls}-option`;
-          const optionClassName = classNames(itemPrefixCls, optionPrefixCls, className, {
-            [`${optionPrefixCls}-grouped`]: groupOption,
-            [`${optionPrefixCls}-active`]: activeIndex === itemIndex && !disabled,
-            [`${optionPrefixCls}-disabled`]: disabled,
-            [`${optionPrefixCls}-selected`]: selected,
-          });
+          const optionClassName = clsx(
+            itemPrefixCls,
+            optionPrefixCls,
+            'relative flex cursor-default select-none items-center py-2 pl-3 pr-9 text-sm',
+            {
+              [`${optionPrefixCls}-grouped`]: groupOption,
+              [`${optionPrefixCls}-active bg-primary text-white`]:
+                activeIndex === itemIndex && !disabled,
+              [`${optionPrefixCls}-disabled text-neutral-text-quaternary`]: disabled,
+              [`${optionPrefixCls}-selected font-semibold`]: selected,
+            },
+            className,
+          );
 
           const mergedLabel = getLabel(item);
 
@@ -366,11 +370,18 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               }}
               style={style}
             >
-              <div className={`${optionPrefixCls}-content`}>{content}</div>
+              <div className={clsx(`${optionPrefixCls}-content`, 'truncate')}>{content}</div>
               {React.isValidElement(menuItemSelectedIcon) || selected}
               {iconVisible && (
                 <TransBtn
-                  className={`${itemPrefixCls}-option-state`}
+                  className={clsx(
+                    `${itemPrefixCls}-option-state`,
+                    'absolute inset-y-0 right-0 flex items-center pr-4',
+                    {
+                      'text-primary': selected,
+                      'text-white': activeIndex === itemIndex && !disabled,
+                    },
+                  )}
                   customizeIcon={menuItemSelectedIcon}
                   customizeIconProps={{ isSelected: selected }}
                 >

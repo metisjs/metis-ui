@@ -1,3 +1,4 @@
+import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import type { InnerSelectorProps } from '.';
@@ -78,7 +79,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
 
   return (
     <>
-      <span className={`${prefixCls}-selection-search`}>
+      <span className={clsx(`${prefixCls}-selection-search absolute bottom-0 end-3 start-3 top-0`)}>
         <Input
           ref={inputRef}
           prefixCls={prefixCls}
@@ -109,7 +110,9 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       {/* Display value */}
       {!combobox && item ? (
         <span
-          className={`${prefixCls}-selection-item`}
+          className={clsx(
+            `${prefixCls}-selection-item relative flex-1 select-none truncate pe-5 text-sm`,
+          )}
           title={selectionTitle}
           // 当 Select 已经选中选项时，还需 selection 隐藏但留在原地占位
           style={hasTextInput ? ({ visibility: 'hidden' } as React.CSSProperties) : undefined}

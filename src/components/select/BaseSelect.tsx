@@ -123,7 +123,7 @@ export interface BaseSelectPrivateProps {
 export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSelectPrivateProps>;
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
-  className?: ComplexClassName<'popup'>;
+  className?: ComplexClassName<'popup' | 'selector'>;
   style?: React.CSSProperties;
   title?: string;
   showSearch?: boolean;
@@ -663,9 +663,13 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   if (showSuffixIcon) {
     arrowNode = (
       <TransBtn
-        className={clsx(`${prefixCls}-arrow`, {
-          [`${prefixCls}-arrow-loading`]: loading,
-        })}
+        className={clsx(
+          `${prefixCls}-arrow`,
+          'pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-3 text-neutral-text-tertiary',
+          {
+            [`${prefixCls}-arrow-loading`]: loading,
+          },
+        )}
         customizeIcon={suffixIcon}
         customizeIconProps={{
           loading,
@@ -681,6 +685,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ============================= Clear ==============================
   let clearNode: React.ReactNode;
   const onClearMouseDown: React.MouseEventHandler<HTMLSpanElement> = () => {
+    console.log('group-hover/select:opacity-100');
+
     onClear?.();
 
     selectorRef.current?.focus();
@@ -700,12 +706,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   ) {
     clearNode = (
       <TransBtn
-        className={`${prefixCls}-clear`}
+        className={clsx(
+          `${prefixCls}-clear`,
+          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-sm text-neutral-text-tertiary opacity-0 transition-all',
+          'group-hover/select:opacity-100',
+        )}
         onMouseDown={onClearMouseDown}
         customizeIcon={clearIcon}
-      >
-        ×
-      </TransBtn>
+      />
     );
   }
 
@@ -715,13 +723,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ============================= Select =============================
   const mergedClassName = clsx(
     prefixCls,
+    'bg-neutral-bg-container text-sm text-neutral-text',
     {
       [`${prefixCls}-focused`]: mockFocused,
       [`${prefixCls}-multiple`]: multiple,
       [`${prefixCls}-single`]: !multiple,
       [`${prefixCls}-allow-clear`]: allowClear,
       [`${prefixCls}-show-arrow`]: showSuffixIcon,
-      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixCls}-disabled bg-neutral-fill-tertiary text-neutral-text-quaternary`]: disabled,
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
@@ -761,6 +770,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
           {...props}
           domRef={selectorDomRef}
           prefixCls={prefixCls}
+          className={complexCls.selector}
           inputElement={customizeInputElement}
           ref={selectorRef}
           id={id}

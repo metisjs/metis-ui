@@ -94,7 +94,7 @@ export interface SelectProps<ValueType = any, OptionType extends BaseOptionType 
   > {
   prefixCls?: string;
   id?: string;
-  className?: ComplexClassName<'popup'>;
+  className?: ComplexClassName<'popup' | 'selector'>;
 
   bordered?: boolean;
   disabled?: boolean;
@@ -161,7 +161,7 @@ const Select = React.forwardRef(
       className,
       prefixCls: customizePrefixCls,
       fieldNames,
-      bordered,
+      bordered = true,
 
       // Search
       searchValue,
@@ -634,6 +634,7 @@ const Select = React.forwardRef(
 
     // ========================== Style ===========================
     const rootClassName = clsx(
+      'group/select relative cursor-pointer',
       {
         [`${prefixCls}-lg`]: mergedSize === 'large',
         [`${prefixCls}-sm`]: mergedSize === 'small',
@@ -645,7 +646,12 @@ const Select = React.forwardRef(
       complexCls.root,
     );
 
-    const popupClassName = clsx(complexCls.popup);
+    const selectorClassName = clsx('', {}, complexCls.selector);
+
+    const popupClassName = clsx(
+      'absolute z-[1050] rounded-md bg-neutral-bg-container py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+      complexCls.popup,
+    );
 
     // ========================== Context ===========================
     const selectContext = React.useMemo((): SelectContextProps => {
@@ -711,6 +717,12 @@ const Select = React.forwardRef(
           className={{
             root: rootClassName,
             popup: popupClassName,
+            selector: selectorClassName,
+          }}
+          transition={{
+            leave: 'transition ease-in duration-100',
+            leaveFrom: 'opacity-100',
+            leaveTo: 'opacity-0',
           }}
           // >>> Values
           displayValues={displayValues}

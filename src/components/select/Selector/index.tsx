@@ -8,6 +8,7 @@
  * - https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
  */
 
+import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
@@ -55,6 +56,7 @@ export interface RefSelectorProps {
 export interface SelectorProps {
   id: string;
   prefixCls: string;
+  className?: string;
   showSearch?: boolean;
   open: boolean;
   /** Display in the Selector value, it's not same as `value` prop */
@@ -102,6 +104,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
 
   const {
     prefixCls,
+    className,
     open,
     mode,
     showSearch,
@@ -261,7 +264,10 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
   return (
     <div
       ref={domRef}
-      className={`${prefixCls}-selector`}
+      className={clsx(
+        `${prefixCls}-selector relative flex h-8 rounded-md px-3 py-1.5 text-left shadow-sm ring-1 ring-inset ring-neutral-border focus:outline-none focus:ring-2 focus:ring-primary`,
+        className,
+      )}
       onClick={onClick}
       onMouseDown={onMouseDown}
     >
