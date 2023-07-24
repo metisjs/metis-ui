@@ -1,6 +1,9 @@
+/**
+ * description:多选，从已有条目中选择。
+ */
+import type { SelectProps } from 'meta-ui';
+import { Select, Space } from 'meta-ui';
 import React from 'react';
-import { Select, Space } from 'antd';
-import type { SelectProps } from 'antd';
 
 const options: SelectProps['options'] = [];
 

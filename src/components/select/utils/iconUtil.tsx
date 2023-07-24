@@ -32,7 +32,7 @@ export default function getIcons({
   prefixCls: string;
 }) {
   // Clear Icon
-  const mergedClearIcon = clearIcon ?? <XCircleSolid />;
+  const mergedClearIcon = clearIcon ?? <XCircleSolid className="h-4 w-4" />;
 
   // Validation Feedback Icon
   const getSuffixIconNode = (arrowIcon?: ReactNode) => (
@@ -47,9 +47,9 @@ export default function getIcons({
   if (suffixIcon !== undefined) {
     mergedSuffixIcon = getSuffixIconNode(suffixIcon);
   } else if (loading) {
-    mergedSuffixIcon = getSuffixIconNode(<LoadingOutline className="animate-spin" />);
+    mergedSuffixIcon = getSuffixIconNode(<LoadingOutline className="h-4 w-4 animate-spin" />);
   } else {
-    const iconCls = `${prefixCls}-suffix`;
+    const iconCls = `${prefixCls}-suffix w-4 h-4`;
     mergedSuffixIcon = ({ open, showSearch }: { open: boolean; showSearch: boolean }) => {
       if (open && showSearch) {
         return getSuffixIconNode(<MagnifyingGlassOutline className={iconCls} />);

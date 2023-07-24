@@ -1,9 +1,9 @@
-import { ComplexClassName, clsx, getComplexCls } from 'meta-ui/es/_util/classNameUtils';
 import ResizeObserver from 'rc-resize-observer';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import type { TriggerProps } from '../';
+import { ComplexClassName, clsx, getComplexCls } from '../../_util/classNameUtils';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
 import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';

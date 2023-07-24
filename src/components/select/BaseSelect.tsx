@@ -656,37 +656,9 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ==                            Render                            ==
   // ==================================================================
 
-  // ============================= Arrow ==============================
-  const showSuffixIcon = !!suffixIcon || loading;
-  let arrowNode: React.ReactNode;
-
-  if (showSuffixIcon) {
-    arrowNode = (
-      <TransBtn
-        className={clsx(
-          `${prefixCls}-arrow`,
-          'pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-3 text-neutral-text-tertiary',
-          {
-            [`${prefixCls}-arrow-loading`]: loading,
-          },
-        )}
-        customizeIcon={suffixIcon}
-        customizeIconProps={{
-          loading,
-          searchValue: mergedSearchValue,
-          open: mergedOpen,
-          focused: mockFocused,
-          showSearch: mergedShowSearch,
-        }}
-      />
-    );
-  }
-
   // ============================= Clear ==============================
   let clearNode: React.ReactNode;
   const onClearMouseDown: React.MouseEventHandler<HTMLSpanElement> = () => {
-    console.log('group-hover/select:opacity-100');
-
     onClear?.();
 
     selectorRef.current?.focus();
@@ -708,7 +680,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-sm text-neutral-text-tertiary opacity-0 transition-all',
+          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-quaternary opacity-0 transition-all hover:text-neutral-text-tertiary',
           'group-hover/select:opacity-100',
         )}
         onMouseDown={onClearMouseDown}
@@ -717,13 +689,40 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     );
   }
 
+  // ============================= Arrow ==============================
+  const showSuffixIcon = !!suffixIcon || loading;
+  let arrowNode: React.ReactNode;
+
+  if (showSuffixIcon) {
+    arrowNode = (
+      <TransBtn
+        className={clsx(
+          `${prefixCls}-arrow`,
+          'pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-3 text-neutral-text-tertiary',
+          {
+            [`${prefixCls}-arrow-loading`]: loading,
+            'group-hover/select:opacity-0': !!clearNode,
+          },
+        )}
+        customizeIcon={suffixIcon}
+        customizeIconProps={{
+          loading,
+          searchValue: mergedSearchValue,
+          open: mergedOpen,
+          focused: mockFocused,
+          showSearch: mergedShowSearch,
+        }}
+      />
+    );
+  }
+
   // =========================== OptionList ===========================
   const optionList = <OptionList ref={listRef} />;
 
-  // ============================= Select =============================
-  const mergedClassName = clsx(
+  // ============================= Style =============================
+  const mergedRootClassName = clsx(
     prefixCls,
-    'bg-neutral-bg-container text-sm text-neutral-text',
+    'inline-block bg-neutral-bg-container text-sm text-neutral-text',
     {
       [`${prefixCls}-focused`]: mockFocused,
       [`${prefixCls}-multiple`]: multiple,
@@ -739,6 +738,15 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     complexCls.root,
   );
 
+  const mergedSelectorClassName = clsx(
+    {
+      'ring-2 ring-primary': mockFocused,
+      'text-neutral-text-quaternary': mergedOpen && mergedShowSearch,
+    },
+    complexCls.selector,
+  );
+
+  // ============================= Select =============================
   // >>> Selector
   const selectorNode = (
     <SelectTrigger
@@ -770,7 +778,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
           {...props}
           domRef={selectorDomRef}
           prefixCls={prefixCls}
-          className={complexCls.selector}
+          className={mergedSelectorClassName}
           inputElement={customizeInputElement}
           ref={selectorRef}
           id={id}
@@ -802,7 +810,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   } else {
     renderNode = (
       <div
-        className={mergedClassName}
+        className={mergedRootClassName}
         {...domProps}
         ref={containerRef}
         onMouseDown={onInternalMouseDown}

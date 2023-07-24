@@ -1,13 +1,14 @@
-import classNames from 'classnames';
 import { composeRef } from 'rc-util/lib/ref';
-import { warning } from 'rc-util/lib/warning';
 import * as React from 'react';
+import { clsx } from '../../_util/classNameUtils';
+import warning from '../../_util/warning';
 
 type InputRef = HTMLInputElement | HTMLTextAreaElement;
 
 interface InputProps {
   prefixCls: string;
   id: string;
+  className?: string;
   inputElement: React.ReactElement | null;
   disabled: boolean;
   autoFocus: boolean;
@@ -37,6 +38,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   {
     prefixCls,
     id,
+    className,
     inputElement,
     disabled,
     tabIndex,
@@ -87,7 +89,12 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     autoComplete: autoComplete || 'off',
 
     autoFocus,
-    className: classNames(`${prefixCls}-selection-search-input`, inputNode?.props?.className),
+    className: clsx(
+      `${prefixCls}-selection-search-input`,
+      'search h-full w-full border-0 bg-transparent p-0 pe-2 text-sm text-neutral-text outline-0 focus:outline-0 focus:ring-0',
+      className,
+      inputNode?.props?.className,
+    ),
 
     role: 'combobox',
     'aria-expanded': open,

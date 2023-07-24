@@ -8,11 +8,11 @@
  * - https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
  */
 
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useRef } from 'react';
+import { clsx } from '../../_util/classNameUtils';
 import useLock from '../../_util/hooks/useLock';
 import type { CustomTagProps, DisplayValueType, Mode, RenderNode } from '../BaseSelect';
 import { isValidateOpenKey } from '../utils/keyUtil';
@@ -265,7 +265,8 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
     <div
       ref={domRef}
       className={clsx(
-        `${prefixCls}-selector relative flex h-8 rounded-md px-3 py-1.5 text-left shadow-sm ring-1 ring-inset ring-neutral-border focus:outline-none focus:ring-2 focus:ring-primary`,
+        `${prefixCls}-selector relative flex h-9 w-full rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
+        { 'flex flex-wrap items-center pe-9': mode === 'multiple' || mode === 'tags' },
         className,
       )}
       onClick={onClick}

@@ -1,6 +1,10 @@
 export default {
   html: { WebkitTapHighlightColor: 'transparent' },
   svg: { display: 'inline-block' },
+  "[type='search']::-webkit-search-cancel-button, [type='search']::-webkit-search-decoration": {
+    display: 'none',
+    appearance: 'none',
+  },
   'a:not(.meta-btn)': { color: 'hsla(var(--primary))' },
   'a:not(.meta-btn):hover': { color: 'hsla(var(--primary-hover))' },
   '.meta-input-prefix > svg.meta-icon, .meta-input-suffix > svg.meta-icon': {

@@ -17,9 +17,11 @@ group:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本使用</code>
-
-<!-- <code src="./demo/search.tsx">带搜索框</code>
+<code src="./demo/search.tsx">带搜索框</code>
 <code src="./demo/multiple.tsx">多选</code>
+
+<!--
+
 <code src="./demo/size.tsx">三种大小</code>
 <code src="./demo/option-label-prop.tsx">定制回填内容</code>
 <code src="./demo/search-sort.tsx">带排序的搜索</code>
@@ -55,7 +57,7 @@ group:
 | autoClearSearchValue | 是否在选中项后清空搜索框，只在 `mode` 为 `multiple` 或 `tags` 时有效 | boolean | true |  |
 | autoFocus | 默认获取焦点 | boolean | false |  |
 | bordered | 是否有边框 | boolean | true |  |
-| clearIcon | 自定义的多选框清空图标 | ReactNode | - |  |
+| clearIcon | 自定义清空图标 | ReactNode | - |  |
 | defaultActiveFirstOption | 是否默认高亮第一个选项 | boolean | true |  |
 | defaultOpen | 是否默认展开下拉菜单 | boolean | - |  |
 | defaultValue | 指定默认选中的条目 | string \| string\[] \|<br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |

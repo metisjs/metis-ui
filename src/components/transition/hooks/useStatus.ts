@@ -1,8 +1,8 @@
-import usePrevious from 'meta-ui/es/_util/hooks/usePrevious';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { MutableRefObject, useState } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
 import useLatestValue from '../../_util/hooks/useLatestValue';
+import usePrevious from '../../_util/hooks/usePrevious';
 import { once } from '../../_util/once';
 import { TransitionStatus, TransitionStyleType } from '../interface';
 import disposables from '../util/disposables';

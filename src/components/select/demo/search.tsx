@@ -1,4 +1,7 @@
-import { Select } from 'antd';
+/**
+ * description: 展开后可对选项进行搜索。
+ */
+import { Select } from 'meta-ui';
 import React from 'react';
 
 const onChange = (value: string) => {
@@ -33,6 +36,7 @@ const App: React.FC = () => (
         label: 'Tom',
       },
     ]}
+    style={{ width: 160 }}
   />
 );
 
