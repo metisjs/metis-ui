@@ -742,6 +742,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     {
       'ring-2 ring-primary': mockFocused,
       'text-neutral-text-quaternary': mergedOpen && mergedShowSearch,
+      'cursor-text': mergedShowSearch,
     },
     complexCls.selector,
   );
