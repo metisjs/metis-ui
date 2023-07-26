@@ -265,7 +265,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
     <div
       ref={domRef}
       className={clsx(
-        `${prefixCls}-selector relative flex h-9 w-full rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
+        `${prefixCls}-selector relative flex h-9 w-full truncate rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
         { 'flex flex-wrap items-center pe-9': mode === 'multiple' || mode === 'tags' },
         className,
       )}

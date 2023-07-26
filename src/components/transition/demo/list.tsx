@@ -1,7 +1,7 @@
 /**
  * description: 一组动画列表
  */
-import { range } from 'lodash';
+import range from 'lodash/range';
 import { Button, Checkbox, Space, Transition } from 'meta-ui';
 import { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
 import React, { useState } from 'react';

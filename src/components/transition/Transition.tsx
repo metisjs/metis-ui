@@ -136,6 +136,8 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     [ref],
   );
 
+  console.log(status, children);
+
   let mergedProps: Partial<any> & React.Attributes = { ref: setNodeRef };
 
   if (appear && visible && initial.current && status === TransitionStatus.None) {
@@ -173,4 +175,7 @@ if (process.env.NODE_ENV !== 'production') {
   Transition.displayName = 'Transition';
 }
 
-export default Transition;
+export default React.memo(
+  Transition,
+  (prev, next) => prev.visible === next.visible || prev.children === next.children,
+);

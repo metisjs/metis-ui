@@ -190,12 +190,8 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
               {...transition}
               beforeEnter={onPrepare}
               visible={open}
-              afterEnter={() => {
-                transition?.afterEnter?.();
-              }}
-              afterLeave={() => {
-                transition?.afterLeave?.();
-              }}
+              afterEnter={transition?.afterEnter}
+              afterLeave={transition?.afterLeave}
               onVisibleChanged={(nextVisible) => {
                 transition?.onVisibleChanged?.(nextVisible);
                 onOpenChanged(nextVisible);
