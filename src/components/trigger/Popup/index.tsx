@@ -181,48 +181,46 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
         transition={maskTransition}
       />
       <ResizeObserver onResize={onAlign} disabled={!open}>
-        {(resizeObserverRef) => {
-          return (
-            <Transition
-              appear
-              removeOnLeave={false}
-              forceRender={forceRender}
-              {...transition}
-              beforeEnter={onPrepare}
-              visible={open}
-              afterEnter={transition?.afterEnter}
-              afterLeave={transition?.afterLeave}
-              onVisibleChanged={(nextVisible) => {
-                transition?.onVisibleChanged?.(nextVisible);
-                onOpenChanged(nextVisible);
-              }}
+        {(resizeObserverRef) => (
+          <Transition
+            appear
+            removeOnLeave={false}
+            forceRender={forceRender}
+            {...transition}
+            beforeEnter={onPrepare}
+            visible={open}
+            afterEnter={transition?.afterEnter}
+            afterLeave={transition?.afterLeave}
+            onVisibleChanged={(nextVisible) => {
+              transition?.onVisibleChanged?.(nextVisible);
+              onOpenChanged(nextVisible);
+            }}
+          >
+            <div
+              ref={composeRef(resizeObserverRef, ref)}
+              className={clsx(prefixCls, complexCls.root)}
+              style={
+                {
+                  '--arrow-x': `${arrowPos.x || 0}px`,
+                  '--arrow-y': `${arrowPos.y || 0}px`,
+                  ...offsetStyle,
+                  ...miscStyle,
+                  boxSizing: 'border-box',
+                  zIndex,
+                  ...style,
+                } as React.CSSProperties
+              }
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              onClick={onClick}
             >
-              <div
-                ref={composeRef(resizeObserverRef, ref)}
-                className={clsx(prefixCls, complexCls.root)}
-                style={
-                  {
-                    '--arrow-x': `${arrowPos.x || 0}px`,
-                    '--arrow-y': `${arrowPos.y || 0}px`,
-                    ...offsetStyle,
-                    ...miscStyle,
-                    boxSizing: 'border-box',
-                    zIndex,
-                    ...style,
-                  } as React.CSSProperties
-                }
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
-                onClick={onClick}
-              >
-                {arrow && (
-                  <Arrow prefixCls={prefixCls} arrow={arrow} arrowPos={arrowPos} align={align} />
-                )}
-                <PopupContent cache={!open}>{childNode}</PopupContent>
-              </div>
-            </Transition>
-          );
-        }}
+              {arrow && (
+                <Arrow prefixCls={prefixCls} arrow={arrow} arrowPos={arrowPos} align={align} />
+              )}
+              <PopupContent cache={!open}>{childNode}</PopupContent>
+            </div>
+          </Transition>
+        )}
       </ResizeObserver>
     </Portal>
   );

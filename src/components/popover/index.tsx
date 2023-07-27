@@ -72,10 +72,10 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
         title || content ? <Overlay prefixCls={prefixCls} title={title} content={content} /> : null
       }
       transition={{
-        enter: 'transition duration-[200ms]',
+        enter: 'transition duration-[2000ms]',
         enterFrom: 'opacity-0 scale-0',
         enterTo: 'opacity-100 scale-100',
-        leave: 'transition duration-[200ms]',
+        leave: 'transition duration-[2000ms]',
         leaveFrom: 'opacity-100 scale-100 ',
         leaveTo: 'opacity-0 scale-0',
       }}

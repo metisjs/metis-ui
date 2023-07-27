@@ -3,14 +3,7 @@ import * as React from 'react';
 import type { TransitionProps } from './Transition';
 import Transition from './Transition';
 import type { KeyObject } from './util/diff';
-import {
-  STATUS_ADD,
-  STATUS_KEEP,
-  STATUS_REMOVE,
-  STATUS_REMOVED,
-  diffKeys,
-  parseKeys,
-} from './util/diff';
+import { STATUS_ADD, STATUS_KEEP, STATUS_REMOVED, diffKeys, parseKeys } from './util/diff';
 
 const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
   'visible',
@@ -64,15 +57,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
     const mixedKeyEntities = diffKeys(keyEntities, parsedKeyObjects);
 
     return {
-      keyEntities: mixedKeyEntities.filter((entity) => {
-        const prevEntity = keyEntities.find(({ key }) => entity.key === key);
-
-        // Remove if already mark as removed
-        if (prevEntity && prevEntity.status === STATUS_REMOVED && entity.status === STATUS_REMOVE) {
-          return false;
-        }
-        return true;
-      }),
+      keyEntities: mixedKeyEntities,
     };
   }
 

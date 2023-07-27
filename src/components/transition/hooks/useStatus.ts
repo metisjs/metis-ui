@@ -13,7 +13,6 @@ import {
   removeStyles,
   waitForTransition,
 } from '../util/style';
-import { useDisposables } from './useDisposables';
 
 interface StatusArgs {
   container: MutableRefObject<HTMLElement | null>;
@@ -129,8 +128,6 @@ export default function useStatus({
 
   const [status, setStatus] = useState(TransitionStatus.None);
 
-  const d = useDisposables();
-
   const onStartRef = useLatestValue(onStart);
   const onStopRef = useLatestValue(onStop);
 
@@ -145,7 +142,6 @@ export default function useStatus({
 
   useLayoutEffect(() => {
     const dd = disposables();
-    d.add(dd.dispose);
 
     const node = container.current;
     if (!node) return; // We don't have a DOM node (yet)

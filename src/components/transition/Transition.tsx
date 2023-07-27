@@ -126,17 +126,12 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   }
 
   // ====================== Refs ======================
-  const setNodeRef = React.useCallback(
-    (node: any) => {
-      nodeRef.current = node;
-      fillRef(ref, node);
-      // @ts-ignore
-      fillRef(children.ref, node);
-    },
-    [ref],
-  );
-
-  console.log(status, children);
+  const setNodeRef = React.useCallback((node: any) => {
+    nodeRef.current = node;
+    fillRef(ref, node);
+    // @ts-ignore
+    fillRef(children.ref, node);
+  }, []);
 
   let mergedProps: Partial<any> & React.Attributes = { ref: setNodeRef };
 
@@ -175,7 +170,4 @@ if (process.env.NODE_ENV !== 'production') {
   Transition.displayName = 'Transition';
 }
 
-export default React.memo(
-  Transition,
-  (prev, next) => prev.visible === next.visible || prev.children === next.children,
-);
+export default Transition;
