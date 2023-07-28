@@ -96,12 +96,20 @@ function transition(
 
   addClasses(node, ...baseCls, ...fromCls);
   addStyles(node, { ...baseStyle, ...fromStyle });
+  console.log('add base from');
 
   d.nextFrame(() => {
     removeClasses(node, ...fromCls);
     removeStyles(node, fromStyle);
     addClasses(node, ...toCls);
     addStyles(node, toStyle);
+    console.log(
+      'add to',
+      node.className.replace(
+        'meta-popover visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-elevated))] placement-top',
+        '',
+      ),
+    );
 
     waitForTransition(node, () => {
       removeClasses(node, ...baseCls);
@@ -151,6 +159,7 @@ export default function useStatus({
     dd.dispose();
 
     clearStyles(node, styles.current);
+    console.log('clear styles');
 
     const result = onStartRef.current();
 

@@ -228,6 +228,7 @@ export function waitForTransition(node: HTMLElement, done: () => void) {
 
       let dispose = d.addEventListener(node, 'transitionend', (event) => {
         if (event.target !== event.currentTarget) return;
+        console.log('transitionend');
         done();
         dispose();
       });

@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import useLatestValue from '../_util/hooks/useLatestValue';
-import warning from '../_util/warning';
 import useStatus from './hooks/useStatus';
 import {
   TransitionBeforeEventHandler,
@@ -26,6 +25,8 @@ export interface TransitionProps {
    * Remove element when transition end. This will not work when `forceRender` is set.
    */
   removeOnLeave?: boolean;
+  /** @private Used by CSSMotionList. Do not use in your production. */
+  eventProps?: object;
 
   enter?: TransitionStyle;
   enterFrom?: TransitionStyle;
@@ -42,7 +43,15 @@ export interface TransitionProps {
 
   onVisibleChanged?: (visible: boolean) => void;
 
-  children: React.ReactElement;
+  children?: (
+    props: {
+      visible?: boolean;
+      className?: string;
+      style?: React.CSSProperties;
+      [key: string]: any;
+    },
+    ref: (node: any) => void,
+  ) => React.ReactElement;
 }
 
 const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
@@ -59,18 +68,13 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     leaveFrom,
     leaveTo,
     entered,
+    eventProps,
     beforeEnter,
     beforeLeave,
     afterEnter,
     afterLeave,
     onVisibleChanged,
   } = props;
-
-  warning(
-    React.isValidElement(children) && supportRef(children),
-    'Transition',
-    'children is not a valid Element',
-  );
 
   // Ref to the react node, it may be a HTMLElement
   const nodeRef = useRef<any>();
@@ -129,41 +133,50 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const setNodeRef = React.useCallback((node: any) => {
     nodeRef.current = node;
     fillRef(ref, node);
-    // @ts-ignore
-    fillRef(children.ref, node);
   }, []);
 
-  let mergedProps: Partial<any> & React.Attributes = { ref: setNodeRef };
+  // ===================== Render =====================
+  let transitionChildren: React.ReactElement | null = null;
+  const mergedProps: Record<string, any> = { ...eventProps, visible };
 
-  if (appear && visible && initial.current && status === TransitionStatus.None) {
-    mergedProps.className = clsx(
-      children.props.classNames,
-      ...styles.current.enter.className,
-      ...styles.current.enterFrom.className,
-    );
-    mergedProps.style = {
-      ...children.props.style,
-      ...styles.current.enter.style,
-      ...styles.current.enterFrom.style,
-    };
+  if (children) {
+    if (appear && visible && initial.current && status === TransitionStatus.None) {
+      mergedProps.className = clsx(
+        ...styles.current.enter.className,
+        ...styles.current.enterFrom.className,
+      );
+      mergedProps.style = { ...styles.current.enter.style, ...styles.current.enterFrom.style };
+    }
+
+    if (status !== TransitionStatus.None || visible) {
+      transitionChildren = children(mergedProps, setNodeRef);
+    } else if (
+      status === TransitionStatus.None &&
+      !visible &&
+      (forceRender || (!removeOnLeave && renderedRef.current))
+    ) {
+      transitionChildren = children(
+        {
+          ...mergedProps,
+          style: { display: 'none' },
+        },
+        setNodeRef,
+      );
+    }
   }
 
-  if (status !== TransitionStatus.None || visible) {
-    return React.cloneElement<any>(children, mergedProps);
+  // Auto inject ref if child node not have `ref` props
+  if (React.isValidElement(transitionChildren) && supportRef(transitionChildren)) {
+    const { ref: originNodeRef } = transitionChildren as any;
+
+    if (!originNodeRef) {
+      transitionChildren = React.cloneElement<any>(transitionChildren, {
+        ref: setNodeRef,
+      });
+    }
   }
 
-  if (
-    status === TransitionStatus.None &&
-    !visible &&
-    (forceRender || (!removeOnLeave && renderedRef.current))
-  ) {
-    return React.cloneElement<any>(children, {
-      ...mergedProps,
-      style: { ...children.props.style, display: 'none' },
-    });
-  }
-
-  return null;
+  return transitionChildren;
 });
 
 if (process.env.NODE_ENV !== 'production') {

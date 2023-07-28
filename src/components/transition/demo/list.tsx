@@ -48,9 +48,10 @@ export default () => {
           console.log('Visible Changed >>>', changedVisible, info);
         }}
       >
-        {({ key, background }) => (
+        {({ key, background, className }, ref) => (
           <div
-            className="relative flex h-20 w-20 overflow-hidden bg-red-400"
+            ref={ref}
+            className={`${className} relative flex h-20 w-20 overflow-hidden bg-red-400`}
             style={{
               background,
             }}
