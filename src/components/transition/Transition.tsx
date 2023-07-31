@@ -130,10 +130,13 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   }
 
   // ====================== Refs ======================
-  const setNodeRef = React.useCallback((node: any) => {
-    nodeRef.current = node;
-    fillRef(ref, node);
-  }, []);
+  const setNodeRef = React.useCallback(
+    (node: any) => {
+      nodeRef.current = node;
+      fillRef(ref, node);
+    },
+    [ref],
+  );
 
   // ===================== Render =====================
   let transitionChildren: React.ReactElement | null = null;
@@ -164,6 +167,14 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
       );
     }
   }
+
+  console.log(
+    status,
+    nodeRef.current?.className.replace(
+      'meta-popover visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-elevated))] placement-top',
+      '',
+    ),
+  );
 
   // Auto inject ref if child node not have `ref` props
   if (React.isValidElement(transitionChildren) && supportRef(transitionChildren)) {

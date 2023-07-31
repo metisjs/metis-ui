@@ -110,8 +110,10 @@ function transition(
         '',
       ),
     );
+    console.time('transitionend');
 
     waitForTransition(node, () => {
+      console.timeEnd('transitionend');
       removeClasses(node, ...baseCls);
       removeStyles(node, baseStyle);
       addClasses(node, ...styles.entered.className);
