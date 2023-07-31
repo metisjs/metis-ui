@@ -102,9 +102,13 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   ) {
     return (
       <span
-        className={classNames(`${selectionPrefixCls}-item`, {
-          [`${selectionPrefixCls}-item-disabled`]: itemDisabled,
-        })}
+        className={classNames(
+          `${selectionPrefixCls}-item`,
+          'inline-flex max-w-full flex-none self-center',
+          {
+            [`${selectionPrefixCls}-item-disabled`]: itemDisabled,
+          },
+        )}
         title={getTitle(item)}
       >
         <span className={`${selectionPrefixCls}-item-content`}>{content}</span>
@@ -227,6 +231,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   const selectionNode = (
     <Overflow
       prefixCls={`${selectionPrefixCls}-overflow`}
+      className="relative flex max-w-full flex-auto flex-wrap"
       data={values}
       renderItem={renderItem}
       renderRest={renderRest}
@@ -241,7 +246,11 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       {selectionNode}
 
       {!values.length && !inputValue && (
-        <span className={`${selectionPrefixCls}-placeholder`}>{placeholder}</span>
+        <span
+          className={`${selectionPrefixCls}-placeholder pointer-events-none truncate pe-6 text-neutral-text-quaternary`}
+        >
+          {placeholder}
+        </span>
       )}
     </>
   );

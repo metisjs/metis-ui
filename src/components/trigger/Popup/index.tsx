@@ -1,9 +1,9 @@
-import { ComplexClassName, clsx, getComplexCls } from 'meta-ui/es/_util/classNameUtils';
 import ResizeObserver from 'rc-resize-observer';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import type { TriggerProps } from '../';
+import { ComplexClassName, clsx, getComplexCls } from '../../_util/classNameUtils';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
 import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
@@ -181,35 +181,32 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
         transition={maskTransition}
       />
       <ResizeObserver onResize={onAlign} disabled={!open}>
-        {(resizeObserverRef) => {
-          return (
-            <Transition
-              appear
-              removeOnLeave={false}
-              forceRender={forceRender}
-              {...transition}
-              beforeEnter={onPrepare}
-              visible={open}
-              afterEnter={() => {
-                transition?.afterEnter?.();
-              }}
-              afterLeave={() => {
-                transition?.afterLeave?.();
-              }}
-              onVisibleChanged={(nextVisible) => {
-                transition?.onVisibleChanged?.(nextVisible);
-                onOpenChanged(nextVisible);
-              }}
-            >
+        {(resizeObserverRef) => (
+          <Transition
+            appear
+            removeOnLeave={false}
+            forceRender={forceRender}
+            {...transition}
+            beforeEnter={onPrepare}
+            visible={open}
+            afterEnter={transition?.afterEnter}
+            afterLeave={transition?.afterLeave}
+            onVisibleChanged={(nextVisible) => {
+              transition?.onVisibleChanged?.(nextVisible);
+              onOpenChanged(nextVisible);
+            }}
+          >
+            {({ className: transitionClx, style: transitionStyle }, transitionRef) => (
               <div
-                ref={composeRef(resizeObserverRef, ref)}
-                className={clsx(prefixCls, complexCls.root)}
+                ref={composeRef(resizeObserverRef, ref, transitionRef)}
+                className={clsx(prefixCls, transitionClx, complexCls.root)}
                 style={
                   {
                     '--arrow-x': `${arrowPos.x || 0}px`,
                     '--arrow-y': `${arrowPos.y || 0}px`,
                     ...offsetStyle,
                     ...miscStyle,
+                    ...transitionStyle,
                     boxSizing: 'border-box',
                     zIndex,
                     ...style,
@@ -224,9 +221,9 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
                 )}
                 <PopupContent cache={!open}>{childNode}</PopupContent>
               </div>
-            </Transition>
-          );
-        }}
+            )}
+          </Transition>
+        )}
       </ResizeObserver>
     </Portal>
   );

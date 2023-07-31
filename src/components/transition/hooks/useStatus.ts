@@ -1,8 +1,8 @@
-import usePrevious from 'meta-ui/es/_util/hooks/usePrevious';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { MutableRefObject, useState } from 'react';
 import useIsMounted from '../../_util/hooks/useIsMounted';
 import useLatestValue from '../../_util/hooks/useLatestValue';
+import usePrevious from '../../_util/hooks/usePrevious';
 import { once } from '../../_util/once';
 import { TransitionStatus, TransitionStyleType } from '../interface';
 import disposables from '../util/disposables';
@@ -13,7 +13,6 @@ import {
   removeStyles,
   waitForTransition,
 } from '../util/style';
-import { useDisposables } from './useDisposables';
 
 interface StatusArgs {
   container: MutableRefObject<HTMLElement | null>;
@@ -97,14 +96,24 @@ function transition(
 
   addClasses(node, ...baseCls, ...fromCls);
   addStyles(node, { ...baseStyle, ...fromStyle });
+  console.log('add base from');
 
   d.nextFrame(() => {
     removeClasses(node, ...fromCls);
     removeStyles(node, fromStyle);
     addClasses(node, ...toCls);
     addStyles(node, toStyle);
+    console.log(
+      'add to',
+      node.className.replace(
+        'meta-popover visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-elevated))] placement-top',
+        '',
+      ),
+    );
+    console.time('transitionend');
 
     waitForTransition(node, () => {
+      console.timeEnd('transitionend');
       removeClasses(node, ...baseCls);
       removeStyles(node, baseStyle);
       addClasses(node, ...styles.entered.className);
@@ -129,8 +138,6 @@ export default function useStatus({
 
   const [status, setStatus] = useState(TransitionStatus.None);
 
-  const d = useDisposables();
-
   const onStartRef = useLatestValue(onStart);
   const onStopRef = useLatestValue(onStop);
 
@@ -145,7 +152,6 @@ export default function useStatus({
 
   useLayoutEffect(() => {
     const dd = disposables();
-    d.add(dd.dispose);
 
     const node = container.current;
     if (!node) return; // We don't have a DOM node (yet)
@@ -155,6 +161,7 @@ export default function useStatus({
     dd.dispose();
 
     clearStyles(node, styles.current);
+    console.log('clear styles');
 
     const result = onStartRef.current();
 

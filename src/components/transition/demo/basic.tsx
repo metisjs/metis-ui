@@ -25,7 +25,12 @@ export default () => {
           beforeLeave={() => console.log('beforeLeave')}
           afterLeave={() => console.log('afterLeave')}
         >
-          <div className="h-full w-full rounded-md bg-red-400 shadow-lg" />
+          {({ className }, ref) => (
+            <div
+              ref={ref}
+              className={`${className} h-full w-full rounded-md bg-red-400 shadow-lg`}
+            />
+          )}
         </Transition>
       </div>
       <Button

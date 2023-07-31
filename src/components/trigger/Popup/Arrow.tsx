@@ -1,5 +1,5 @@
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import * as React from 'react';
+import { clsx } from '../../_util/classNameUtils';
 import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
 
 export interface ArrowProps {

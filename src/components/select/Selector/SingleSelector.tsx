@@ -1,7 +1,7 @@
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import type { InnerSelectorProps } from '.';
+import { clsx } from '../../_util/classNameUtils';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 
@@ -71,7 +71,13 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       ? ({ visibility: 'hidden' } as React.CSSProperties)
       : undefined;
     return (
-      <span className={`${prefixCls}-selection-placeholder`} style={hiddenStyle}>
+      <span
+        className={clsx(
+          `${prefixCls}-selection-placeholder`,
+          'pointer-events-none truncate pe-4 text-neutral-text-quaternary',
+        )}
+        style={hiddenStyle}
+      >
         {placeholder}
       </span>
     );
@@ -111,7 +117,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       {!combobox && item ? (
         <span
           className={clsx(
-            `${prefixCls}-selection-item relative flex-1 select-none truncate pe-5 text-sm`,
+            `${prefixCls}-selection-item relative flex flex-1 select-none items-center truncate pe-6 text-sm`,
           )}
           title={selectionTitle}
           // 当 Select 已经选中选项时，还需 selection 隐藏但留在原地占位
