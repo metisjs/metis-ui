@@ -222,12 +222,15 @@ export function waitForTransition(node: HTMLElement, done: () => void) {
         // transitioning.
         d.addEventListener(node, 'transitionrun', (event: any) => {
           if (event.target !== event.currentTarget) return;
+          console.log('transitionrun');
           d.dispose();
         });
       });
 
+      console.log('add transitionend listener');
       let dispose = d.addEventListener(node, 'transitionend', (event) => {
         if (event.target !== event.currentTarget) return;
+        console.log('transitionend', event.propertyName, event.elapsedTime);
         done();
         dispose();
       });
