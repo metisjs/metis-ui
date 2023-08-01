@@ -4,6 +4,13 @@ export enum TransitionStatus {
   Leave = 'leave',
 }
 
+export enum TransitionStep {
+  Prepare = 'prepare',
+  Start = 'start',
+  Active = 'active',
+  End = 'end',
+}
+
 export type TransitionEventHandler = () => void;
 export type TransitionBeforeEventHandler = () => Promise<any> | void;
 

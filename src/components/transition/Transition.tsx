@@ -1,9 +1,11 @@
+import findDOMNode from 'rc-util/lib/Dom/findDOMNode';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import useLatestValue from '../_util/hooks/useLatestValue';
+import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
 import {
   TransitionBeforeEventHandler,
@@ -78,6 +80,24 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   // Ref to the react node, it may be a HTMLElement
   const nodeRef = useRef<any>();
+  // Ref to the dom wrapper in case ref can not pass to HTMLElement
+  const wrapperNodeRef = useRef<any>();
+
+  function getDomElement() {
+    try {
+      // Here we're avoiding call for findDOMNode since it's deprecated
+      // in strict mode. We're calling it only when node ref is not
+      // an instance of DOM HTMLElement. Otherwise use
+      // findDOMNode as a final resort
+      return nodeRef.current instanceof HTMLElement
+        ? nodeRef.current
+        : // eslint-disable-next-line react/no-find-dom-node
+          findDOMNode<HTMLElement>(wrapperNodeRef.current);
+    } catch (e) {
+      // Only happen when `motionDeadline` trigger but element removed.
+      return null;
+    }
+  }
 
   const initial = useRef(true);
   const changes = useRef([visible]);
@@ -109,10 +129,10 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   });
 
   const [status] = useStatus({
-    container: nodeRef,
     skip: initial.current && !appear,
     visible,
     styles,
+    getElement: getDomElement,
     onStart: () => (visible ? beforeEnter?.() : beforeLeave?.()),
     onStop: () => {
       onVisibleChanged?.(visible);
@@ -168,14 +188,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     }
   }
 
-  console.log(
-    status,
-    nodeRef.current?.className.replace(
-      'meta-popover visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-elevated))] placement-top',
-      '',
-    ),
-  );
-
   // Auto inject ref if child node not have `ref` props
   if (React.isValidElement(transitionChildren) && supportRef(transitionChildren)) {
     const { ref: originNodeRef } = transitionChildren as any;
@@ -187,7 +199,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     }
   }
 
-  return transitionChildren;
+  return <DomWrapper ref={wrapperNodeRef}>{transitionChildren}</DomWrapper>;
 });
 
 if (process.env.NODE_ENV !== 'production') {

@@ -15,7 +15,6 @@ import {
 } from '../util/style';
 
 interface StatusArgs {
-  container: MutableRefObject<HTMLElement | null>;
   skip: boolean;
   visible: boolean;
   styles: MutableRefObject<{
@@ -27,6 +26,7 @@ interface StatusArgs {
     leaveTo: TransitionStyleType;
     entered: TransitionStyleType;
   }>;
+  getElement: () => HTMLElement | null;
   onStart: () => Promise<any> | void;
   onStop: () => void;
 }
@@ -65,7 +65,7 @@ function clearStyles(
 }
 
 function transition(
-  node: HTMLElement,
+  getElement: () => HTMLElement | null,
   styles: {
     enter: TransitionStyleType;
     enterFrom: TransitionStyleType;
@@ -78,6 +78,7 @@ function transition(
   status: TransitionStatus.Enter | TransitionStatus.Leave,
   done?: () => void,
 ) {
+  const node = getElement()!;
   let d = disposables();
   let _done = done !== undefined ? once(done) : () => {};
 
@@ -96,24 +97,14 @@ function transition(
 
   addClasses(node, ...baseCls, ...fromCls);
   addStyles(node, { ...baseStyle, ...fromStyle });
-  console.log('add base from');
 
   d.nextFrame(() => {
     removeClasses(node, ...fromCls);
     removeStyles(node, fromStyle);
     addClasses(node, ...toCls);
     addStyles(node, toStyle);
-    console.log(
-      'add to',
-      node.className.replace(
-        'meta-popover visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--meta-arrow-background-color:hsla(var(--neutral-bg-elevated))] placement-top',
-        '',
-      ),
-    );
-    console.time('transitionend');
 
     waitForTransition(node, () => {
-      console.timeEnd('transitionend');
       removeClasses(node, ...baseCls);
       removeStyles(node, baseStyle);
       addClasses(node, ...styles.entered.className);
@@ -127,10 +118,10 @@ function transition(
 }
 
 export default function useStatus({
-  container,
   skip,
   visible,
   styles,
+  getElement,
   onStart,
   onStop,
 }: StatusArgs) {
@@ -153,21 +144,19 @@ export default function useStatus({
   useLayoutEffect(() => {
     const dd = disposables();
 
-    const node = container.current;
-    if (!node) return; // We don't have a DOM node (yet)
+    if (!getElement()) return; // We don't have a DOM node (yet)
     if (status === TransitionStatus.None) return; // We don't need to transition
     if (!mounted.current) return;
 
     dd.dispose();
 
-    clearStyles(node, styles.current);
-    console.log('clear styles');
+    clearStyles(getElement()!, styles.current);
 
     const result = onStartRef.current();
 
     Promise.resolve(result).then(() => {
       dd.add(
-        transition(node, styles.current, status, () => {
+        transition(getElement, styles.current, status, () => {
           dd.dispose();
           setStatus(TransitionStatus.None);
           onStopRef.current();
