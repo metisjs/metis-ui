@@ -1,5 +1,4 @@
 import findDOMNode from 'rc-util/lib/Dom/findDOMNode';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
@@ -99,25 +98,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     }
   }
 
-  const initial = useRef(true);
-  const changes = useRef([visible]);
-  useLayoutEffect(() => {
-    if (!initial.current) {
-      return;
-    }
-
-    if (changes.current[changes.current.length - 1] !== visible) {
-      changes.current.push(visible);
-      initial.current = false;
-    }
-  }, [visible]);
-
-  useLayoutEffect(() => {
-    if (!appear) {
-      initial.current = false;
-    }
-  }, [appear]);
-
   const styles = useLatestValue({
     enter: splitStyle(enter),
     enterFrom: splitStyle(enterFrom),
@@ -129,17 +109,15 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   });
 
   const [status] = useStatus({
-    skip: initial.current && !appear,
+    appear,
     visible,
     styles,
     getElement: getDomElement,
-    onStart: () => (visible ? beforeEnter?.() : beforeLeave?.()),
-    onStop: () => {
-      onVisibleChanged?.(visible);
-      if (initial.current) initial.current = false;
-      if (visible) afterEnter?.();
-      else afterLeave?.();
-    },
+    beforeEnter,
+    beforeLeave,
+    afterEnter,
+    afterLeave,
+    onVisibleChanged,
   });
 
   // Record whether content has rendered
@@ -163,7 +141,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const mergedProps: Record<string, any> = { ...eventProps, visible };
 
   if (children) {
-    if (appear && visible && initial.current && status === TransitionStatus.None) {
+    if (appear && visible && status === TransitionStatus.None) {
       mergedProps.className = clsx(
         ...styles.current.enter.className,
         ...styles.current.enterFrom.className,

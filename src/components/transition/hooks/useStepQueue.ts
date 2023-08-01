@@ -47,12 +47,7 @@ export default (
             setStep(nextStep, true);
           }
 
-          if (result === true) {
-            doNext();
-          } else {
-            // Only promise should be async
-            Promise.resolve(result).then(doNext);
-          }
+          Promise.resolve(result).then(doNext);
         });
       }
     }

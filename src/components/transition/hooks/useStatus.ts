@@ -1,21 +1,19 @@
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { MutableRefObject, useState } from 'react';
-import useIsMounted from '../../_util/hooks/useIsMounted';
+import useState from 'rc-util/lib/hooks/useState';
+import { MutableRefObject, useEffect, useRef } from 'react';
 import useLatestValue from '../../_util/hooks/useLatestValue';
-import usePrevious from '../../_util/hooks/usePrevious';
-import { once } from '../../_util/once';
-import { TransitionStatus, TransitionStyleType } from '../interface';
-import disposables from '../util/disposables';
 import {
-  addClasses,
-  addStyles,
-  removeClasses,
-  removeStyles,
-  waitForTransition,
-} from '../util/style';
+  TransitionBeforeEventHandler,
+  TransitionEventHandler,
+  TransitionStatus,
+  TransitionStep,
+  TransitionStyleType,
+} from '../interface';
+import useDomEvents from './useDomEvents';
+import useStepQueue, { isActive } from './useStepQueue';
 
 interface StatusArgs {
-  skip: boolean;
+  appear?: boolean;
   visible: boolean;
   styles: MutableRefObject<{
     enter: TransitionStyleType;
@@ -26,146 +24,147 @@ interface StatusArgs {
     leaveTo: TransitionStyleType;
     entered: TransitionStyleType;
   }>;
+  deadline?: number;
   getElement: () => HTMLElement | null;
-  onStart: () => Promise<any> | void;
-  onStop: () => void;
-}
-
-function clearStyles(
-  node: HTMLElement,
-  styles: {
-    enter: TransitionStyleType;
-    enterFrom: TransitionStyleType;
-    enterTo: TransitionStyleType;
-    leave: TransitionStyleType;
-    leaveFrom: TransitionStyleType;
-    leaveTo: TransitionStyleType;
-    entered: TransitionStyleType;
-  },
-) {
-  removeClasses(
-    node,
-    ...styles.enter.className,
-    ...styles.enterTo.className,
-    ...styles.enterFrom.className,
-    ...styles.leave.className,
-    ...styles.leaveTo.className,
-    ...styles.leaveFrom.className,
-    ...styles.entered.className,
-  );
-  removeStyles(node, {
-    ...styles.enter.style,
-    ...styles.enterTo.style,
-    ...styles.enterFrom.style,
-    ...styles.leave.style,
-    ...styles.leaveFrom.style,
-    ...styles.leaveTo.style,
-    ...styles.entered.style,
-  });
-}
-
-function transition(
-  getElement: () => HTMLElement | null,
-  styles: {
-    enter: TransitionStyleType;
-    enterFrom: TransitionStyleType;
-    enterTo: TransitionStyleType;
-    leave: TransitionStyleType;
-    leaveFrom: TransitionStyleType;
-    leaveTo: TransitionStyleType;
-    entered: TransitionStyleType;
-  },
-  status: TransitionStatus.Enter | TransitionStatus.Leave,
-  done?: () => void,
-) {
-  const node = getElement()!;
-  let d = disposables();
-  let _done = done !== undefined ? once(done) : () => {};
-
-  if (status === TransitionStatus.Enter) {
-    node.removeAttribute('hidden');
-    node.style.display = '';
-  }
-
-  const baseCls = styles[status].className;
-  const toCls = styles[`${status}To`].className;
-  const fromCls = styles[`${status}From`].className;
-
-  const baseStyle = styles[status].style;
-  const toStyle = styles[`${status}To`].style;
-  const fromStyle = styles[`${status}From`].style;
-
-  addClasses(node, ...baseCls, ...fromCls);
-  addStyles(node, { ...baseStyle, ...fromStyle });
-
-  d.nextFrame(() => {
-    removeClasses(node, ...fromCls);
-    removeStyles(node, fromStyle);
-    addClasses(node, ...toCls);
-    addStyles(node, toStyle);
-
-    waitForTransition(node, () => {
-      removeClasses(node, ...baseCls);
-      removeStyles(node, baseStyle);
-      addClasses(node, ...styles.entered.className);
-      addStyles(node, styles.entered.style);
-
-      return _done();
-    });
-  });
-
-  return d.dispose;
+  beforeEnter?: TransitionBeforeEventHandler;
+  afterEnter?: TransitionEventHandler;
+  beforeLeave?: TransitionBeforeEventHandler;
+  afterLeave?: TransitionEventHandler;
+  onVisibleChanged?: (visible: boolean) => void;
 }
 
 export default function useStatus({
-  skip,
+  appear,
   visible,
-  styles,
+  deadline = 0,
   getElement,
-  onStart,
-  onStop,
+  beforeEnter,
+  afterEnter,
+  beforeLeave,
+  afterLeave,
+  onVisibleChanged,
 }: StatusArgs) {
-  const mounted = useIsMounted();
-
+  // Used for outer render usage to avoid `visible: false & status: none` to render nothing
+  const [asyncVisible, setAsyncVisible] = useState<boolean>();
   const [status, setStatus] = useState(TransitionStatus.None);
 
-  const onStartRef = useLatestValue(onStart);
-  const onStopRef = useLatestValue(onStop);
+  const mountedRef = useRef(false);
+  const deadlineRef = useRef<NodeJS.Timeout>();
+  const activeRef = useRef(false);
 
-  const prevVisible = usePrevious(visible);
+  const beforeEnterRef = useLatestValue(beforeEnter);
+  const afterEnterRef = useLatestValue(afterEnter);
+  const beforeLeaveRef = useLatestValue(beforeLeave);
+  const afterLeaveRef = useLatestValue(afterLeave);
+
+  const handleBefore = visible ? beforeEnterRef : beforeLeaveRef;
+  const handleAfter = visible ? afterEnterRef : afterLeaveRef;
+
+  function onInternalMotionEnd(event: TransitionEvent & { deadline?: boolean }) {
+    const element = getElement();
+    if (event && !event.deadline && event.target !== element) {
+      return;
+    }
+
+    const currentActive = activeRef.current;
+
+    if (status !== TransitionStatus.None && currentActive) {
+      setStatus(TransitionStatus.None, true);
+      handleAfter.current?.();
+    }
+  }
+
+  const [patchMotionEvents] = useDomEvents(onInternalMotionEnd);
+
+  // ============================= Step =============================
+
+  const [startStep, step] = useStepQueue(status, (oldStep) => {
+    if (oldStep === TransitionStep.Prepare) {
+      return handleBefore.current?.();
+    }
+
+    if (oldStep === TransitionStep.Active) {
+      // Patch events when transition needed
+      patchMotionEvents(getElement()!);
+
+      if (deadline > 0) {
+        clearTimeout(deadlineRef.current);
+        deadlineRef.current = setTimeout(() => {
+          onInternalMotionEnd({
+            deadline: true,
+          } as TransitionEvent & { deadline?: boolean });
+        }, deadline);
+      }
+    }
+  });
+
+  const active = isActive(step);
+  activeRef.current = active;
+
   useLayoutEffect(() => {
-    setStatus(() => {
-      if (skip) return TransitionStatus.None;
-      if (prevVisible === visible) return TransitionStatus.None;
-      return visible ? TransitionStatus.Enter : TransitionStatus.Leave;
-    });
-  }, [skip, visible]);
+    setAsyncVisible(visible);
 
-  useLayoutEffect(() => {
-    const dd = disposables();
+    const isMounted = mountedRef.current;
+    mountedRef.current = true;
 
-    if (!getElement()) return; // We don't have a DOM node (yet)
-    if (status === TransitionStatus.None) return; // We don't need to transition
-    if (!mounted.current) return;
+    let nextStatus: TransitionStatus = TransitionStatus.None;
 
-    dd.dispose();
+    // Appear
+    if (!isMounted && visible && appear) {
+      nextStatus = TransitionStatus.Enter;
+    }
 
-    clearStyles(getElement()!, styles.current);
+    // Enter
+    if (isMounted && visible) {
+      nextStatus = TransitionStatus.Enter;
+    }
 
-    const result = onStartRef.current();
+    // Leave
+    if (isMounted && !visible) {
+      nextStatus = TransitionStatus.Leave;
+    }
 
-    Promise.resolve(result).then(() => {
-      dd.add(
-        transition(getElement, styles.current, status, () => {
-          dd.dispose();
-          setStatus(TransitionStatus.None);
-          onStopRef.current();
-        }),
-      );
-    });
+    setStatus(nextStatus);
 
-    return dd.dispose;
-  }, [status]);
+    if (nextStatus !== TransitionStatus.None) {
+      startStep();
+    }
+  }, [visible]);
 
-  return [status];
+  useEffect(() => {
+    if (
+      // Cancel appear
+      status === TransitionStatus.Enter &&
+      !appear
+    ) {
+      setStatus(TransitionStatus.None);
+    }
+  }, [appear]);
+
+  useEffect(
+    () => () => {
+      mountedRef.current = false;
+      clearTimeout(deadlineRef.current);
+    },
+    [],
+  );
+
+  // Trigger `onVisibleChanged`
+  const firstMountChangeRef = useRef(false);
+  useEffect(() => {
+    // [visible & motion not end] => [!visible & motion end] still need trigger onVisibleChanged
+    if (asyncVisible) {
+      firstMountChangeRef.current = true;
+    }
+
+    if (asyncVisible !== undefined && status === TransitionStatus.None) {
+      // Skip first render is invisible since it's nothing changed
+      if (firstMountChangeRef.current || asyncVisible) {
+        onVisibleChanged?.(asyncVisible);
+      }
+      firstMountChangeRef.current = true;
+    }
+  }, [asyncVisible, status]);
+
+  return [status, asyncVisible ?? visible];
 }
