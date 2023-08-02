@@ -2,7 +2,6 @@ import findDOMNode from 'rc-util/lib/Dom/findDOMNode';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
-import { clsx } from '../_util/classNameUtils';
 import useLatestValue from '../_util/hooks/useLatestValue';
 import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
@@ -26,6 +25,7 @@ export interface TransitionProps {
    * Remove element when transition end. This will not work when `forceRender` is set.
    */
   removeOnLeave?: boolean;
+  deadline?: number;
   /** @private Used by CSSMotionList. Do not use in your production. */
   eventProps?: object;
 
@@ -35,7 +35,6 @@ export interface TransitionProps {
   leave?: TransitionStyle;
   leaveFrom?: TransitionStyle;
   leaveTo?: TransitionStyle;
-  entered?: TransitionStyle;
 
   beforeEnter?: TransitionBeforeEventHandler;
   afterEnter?: TransitionEventHandler;
@@ -68,8 +67,8 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     leave,
     leaveFrom,
     leaveTo,
-    entered,
     eventProps,
+    deadline,
     beforeEnter,
     beforeLeave,
     afterEnter,
@@ -105,13 +104,13 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     leave: splitStyle(leave),
     leaveFrom: splitStyle(leaveFrom),
     leaveTo: splitStyle(leaveTo),
-    entered: splitStyle(entered),
   });
 
-  const [status] = useStatus({
+  const [status, step, statusStyle, statusClassName, mergedVisible] = useStatus({
     appear,
     visible,
     styles,
+    deadline,
     getElement: getDomElement,
     beforeEnter,
     beforeLeave,
@@ -122,8 +121,8 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   // Record whether content has rendered
   // Will return null for un-rendered even when `removeOnLeave={false}`
-  const renderedRef = React.useRef(visible);
-  if (visible) {
+  const renderedRef = React.useRef(mergedVisible);
+  if (mergedVisible) {
     renderedRef.current = true;
   }
 
@@ -138,32 +137,29 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   // ===================== Render =====================
   let transitionChildren: React.ReactElement | null = null;
-  const mergedProps: Record<string, any> = { ...eventProps, visible };
+  const mergedProps = { ...eventProps, visible };
 
-  if (children) {
-    if (appear && visible && status === TransitionStatus.None) {
-      mergedProps.className = clsx(
-        ...styles.current.enter.className,
-        ...styles.current.enterFrom.className,
-      );
-      mergedProps.style = { ...styles.current.enter.style, ...styles.current.enterFrom.style };
+  if (!children) {
+    // No children
+    transitionChildren = null;
+  } else if (status === TransitionStatus.None) {
+    // Stable children
+    if (mergedVisible) {
+      transitionChildren = children({ ...mergedProps }, setNodeRef);
+    } else if (forceRender || !removeOnLeave) {
+      transitionChildren = children({ ...mergedProps, style: { display: 'none' } }, setNodeRef);
+    } else {
+      transitionChildren = null;
     }
-
-    if (status !== TransitionStatus.None || visible) {
-      transitionChildren = children(mergedProps, setNodeRef);
-    } else if (
-      status === TransitionStatus.None &&
-      !visible &&
-      (forceRender || (!removeOnLeave && renderedRef.current))
-    ) {
-      transitionChildren = children(
-        {
-          ...mergedProps,
-          style: { display: 'none' },
-        },
-        setNodeRef,
-      );
-    }
+  } else {
+    transitionChildren = children(
+      {
+        ...mergedProps,
+        className: statusClassName,
+        style: statusStyle,
+      },
+      setNodeRef,
+    );
   }
 
   // Auto inject ref if child node not have `ref` props
@@ -176,6 +172,8 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
       });
     }
   }
+
+  console.log(status, step, statusClassName, statusStyle);
 
   return <DomWrapper ref={wrapperNodeRef}>{transitionChildren}</DomWrapper>;
 });

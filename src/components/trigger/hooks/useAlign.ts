@@ -232,6 +232,7 @@ export default function useAlign(
       const scaleX = toNum(Math.round((popupWidth / parseFloat(width)) * 1000) / 1000);
       const scaleY = toNum(Math.round((popupHeight / parseFloat(height)) * 1000) / 1000);
 
+      console.log('onAlign return ', popupWidth, width);
       // No need to align since it's not visible in view
       if (scaleX === 0 || scaleY === 0 || (isDOM(target) && !isVisible(target))) {
         return;
@@ -551,6 +552,8 @@ export default function useAlign(
       const nextArrowY = yCenter - popupTop;
 
       onPopupAlign?.(popupEle, nextAlignInfo);
+
+      console.log('offsetX====', nextOffsetX / scaleX);
 
       setOffsetInfo({
         ready: true,

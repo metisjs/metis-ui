@@ -26,7 +26,6 @@ group:
 | enter | `enter`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | enterFrom | `enter`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | enterTo | `enter`阶段开始后立即添加到元素`class`或`style` | string \| CSSProperties | - |  |
-| entered | 动画完成后要添加到元素的`class`或`style`,并在之后持续存在，直到离开 | string \| CSSProperties | - |  |
 | leave | `leave`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | leaveFrom | `leave`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | leaveTo | `leave`阶段开始后立即添加到元素`class`或`style` | string \| CSSProperties | - |  |

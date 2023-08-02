@@ -9,6 +9,7 @@ import {
   TransitionStep,
   TransitionStyleType,
 } from '../interface';
+import { getStylesByStatusAndStep } from '../util/style';
 import useDomEvents from './useDomEvents';
 import useStepQueue, { isActive } from './useStepQueue';
 
@@ -22,7 +23,6 @@ interface StatusArgs {
     leave: TransitionStyleType;
     leaveFrom: TransitionStyleType;
     leaveTo: TransitionStyleType;
-    entered: TransitionStyleType;
   }>;
   deadline?: number;
   getElement: () => HTMLElement | null;
@@ -37,13 +37,20 @@ export default function useStatus({
   appear,
   visible,
   deadline = 0,
+  styles,
   getElement,
   beforeEnter,
   afterEnter,
   beforeLeave,
   afterLeave,
   onVisibleChanged,
-}: StatusArgs) {
+}: StatusArgs): [
+  TransitionStatus,
+  TransitionStep,
+  React.CSSProperties | undefined,
+  string | undefined,
+  boolean,
+] {
   // Used for outer render usage to avoid `visible: false & status: none` to render nothing
   const [asyncVisible, setAsyncVisible] = useState<boolean>();
   const [status, setStatus] = useState(TransitionStatus.None);
@@ -74,7 +81,7 @@ export default function useStatus({
     }
   }
 
-  const [patchMotionEvents] = useDomEvents(onInternalMotionEnd);
+  const [patchTransitionEvents] = useDomEvents(onInternalMotionEnd);
 
   // ============================= Step =============================
 
@@ -85,7 +92,7 @@ export default function useStatus({
 
     if (oldStep === TransitionStep.Active) {
       // Patch events when transition needed
-      patchMotionEvents(getElement()!);
+      patchTransitionEvents(getElement()!);
 
       if (deadline > 0) {
         clearTimeout(deadlineRef.current);
@@ -166,5 +173,15 @@ export default function useStatus({
     }
   }, [asyncVisible, status]);
 
-  return [status, asyncVisible ?? visible];
+  // ============================ Styles ============================
+  const [style, className] = getStylesByStatusAndStep(styles.current, status, step);
+  let mergedStyle = style;
+  if (step === TransitionStep.Start) {
+    mergedStyle = {
+      transition: 'none',
+      ...mergedStyle,
+    };
+  }
+
+  return [status, step, mergedStyle, className, asyncVisible ?? visible];
 }
