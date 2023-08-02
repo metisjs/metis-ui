@@ -106,7 +106,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     leaveTo: splitStyle(leaveTo),
   });
 
-  const [status, step, statusStyle, statusClassName, mergedVisible] = useStatus({
+  const [status, , statusStyle, statusClassName, mergedVisible] = useStatus({
     appear,
     visible,
     styles,
@@ -172,8 +172,6 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
       });
     }
   }
-
-  console.log(status, step, statusClassName, statusStyle);
 
   return <DomWrapper ref={wrapperNodeRef}>{transitionChildren}</DomWrapper>;
 });

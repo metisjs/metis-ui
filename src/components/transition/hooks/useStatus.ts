@@ -176,9 +176,16 @@ export default function useStatus({
   // ============================ Styles ============================
   const [style, className] = getStylesByStatusAndStep(styles.current, status, step);
   let mergedStyle = style;
-  if (step === TransitionStep.Start) {
+  if (step !== TransitionStep.Active) {
     mergedStyle = {
       transition: 'none',
+      ...mergedStyle,
+    };
+  }
+
+  if (status === TransitionStatus.Enter && step === TransitionStep.Prepare) {
+    mergedStyle = {
+      opacity: 0,
       ...mergedStyle,
     };
   }
