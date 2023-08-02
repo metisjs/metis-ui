@@ -3,6 +3,7 @@
  */
 import range from 'lodash/range';
 import { Button, Checkbox, Space, Transition } from 'meta-ui';
+import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
 import React, { useState } from 'react';
 
@@ -51,7 +52,7 @@ export default () => {
         {({ key, background, className, style }, ref) => (
           <div
             ref={ref}
-            className={`${className} relative flex h-20 w-20 overflow-hidden bg-red-400`}
+            className={clsx(`relative flex h-20 w-20 overflow-hidden bg-red-400`, className)}
             style={{
               background,
               ...style,
