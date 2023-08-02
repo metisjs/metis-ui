@@ -11,7 +11,7 @@ import {
 } from '../interface';
 import { getStylesByStatusAndStep } from '../util/style';
 import useDomEvents from './useDomEvents';
-import useStepQueue, { isActive } from './useStepQueue';
+import useStepQueue, { DoStep, SkipStep, isActive } from './useStepQueue';
 
 interface StatusArgs {
   appear?: boolean;
@@ -87,7 +87,11 @@ export default function useStatus({
 
   const [startStep, step] = useStepQueue(status, (oldStep) => {
     if (oldStep === TransitionStep.Prepare) {
-      return handleBefore.current?.();
+      if (!handleBefore.current) {
+        return SkipStep;
+      }
+
+      return handleBefore.current();
     }
 
     if (oldStep === TransitionStep.Active) {
@@ -103,6 +107,8 @@ export default function useStatus({
         }, deadline);
       }
     }
+
+    return DoStep;
   });
 
   const active = isActive(step);

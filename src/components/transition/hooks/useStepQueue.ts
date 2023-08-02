@@ -10,13 +10,18 @@ const STEP_QUEUE: TransitionStep[] = [
   TransitionStep.Active,
 ];
 
+/** Skip current step */
+export const SkipStep = false as const;
+/** Current step should be update in */
+export const DoStep = true as const;
+
 export function isActive(step: TransitionStep) {
   return step === TransitionStep.Active;
 }
 
 export default (
   status: TransitionStatus,
-  callback: (step: TransitionStep) => Promise<void> | void,
+  callback: (step: TransitionStep) => Promise<void> | void | typeof SkipStep | typeof DoStep,
 ): [() => void, TransitionStep] => {
   const [step, setStep] = useState<TransitionStep>(TransitionStep.None);
 
@@ -33,7 +38,10 @@ export default (
 
       const result = callback(step);
 
-      if (nextStep) {
+      if (result === SkipStep) {
+        // Skip when no needed
+        setStep(nextStep, true);
+      } else if (nextStep) {
         // Do as frame for step update
         nextFrame((info) => {
           function doNext() {
@@ -46,7 +54,12 @@ export default (
             setStep(nextStep, true);
           }
 
-          Promise.resolve(result).then(doNext);
+          if (result === DoStep) {
+            doNext();
+          } else {
+            // Only promise should be async
+            Promise.resolve(result).then(doNext);
+          }
         });
       }
     }
