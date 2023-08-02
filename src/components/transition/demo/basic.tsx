@@ -25,10 +25,11 @@ export default () => {
           beforeLeave={() => console.log('beforeLeave')}
           afterLeave={() => console.log('afterLeave')}
         >
-          {({ className }, ref) => (
+          {({ className, style }, ref) => (
             <div
               ref={ref}
               className={`${className} h-full w-full rounded-md bg-red-400 shadow-lg`}
+              style={style}
             />
           )}
         </Transition>

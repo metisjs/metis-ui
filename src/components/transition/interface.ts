@@ -5,10 +5,10 @@ export enum TransitionStatus {
 }
 
 export enum TransitionStep {
+  None = 'none',
   Prepare = 'prepare',
   Start = 'start',
   Active = 'active',
-  End = 'end',
 }
 
 export type TransitionEventHandler = () => void;

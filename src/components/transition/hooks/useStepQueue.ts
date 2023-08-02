@@ -8,18 +8,17 @@ const STEP_QUEUE: TransitionStep[] = [
   TransitionStep.Prepare,
   TransitionStep.Start,
   TransitionStep.Active,
-  TransitionStep.End,
 ];
 
 export function isActive(step: TransitionStep) {
-  return step === TransitionStep.Active || step === TransitionStep.End;
+  return step === TransitionStep.Active;
 }
 
 export default (
   status: TransitionStatus,
   callback: (step: TransitionStep) => Promise<void> | void,
 ): [() => void, TransitionStep] => {
-  const [step, setStep] = useState<TransitionStep>();
+  const [step, setStep] = useState<TransitionStep>(TransitionStep.None);
 
   const [nextFrame, cancelNextFrame] = useNextFrame();
 
@@ -28,7 +27,7 @@ export default (
   }
 
   useLayoutEffect(() => {
-    if (step !== TransitionStep.End) {
+    if (step !== TransitionStep.None) {
       const index = STEP_QUEUE.indexOf(step);
       const nextStep = STEP_QUEUE[index + 1];
 
