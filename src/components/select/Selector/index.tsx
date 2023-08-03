@@ -12,7 +12,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import type { ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useRef } from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../../_util/classNameUtils';
 import useLock from '../../_util/hooks/useLock';
 import type { CustomTagProps, DisplayValueType, Mode, RenderNode } from '../BaseSelect';
 import { isValidateOpenKey } from '../utils/keyUtil';
@@ -21,6 +21,7 @@ import SingleSelector from './SingleSelector';
 
 export interface InnerSelectorProps {
   prefixCls: string;
+  className?: ComplexClassName<'search' | 'item' | 'placeholder'>;
   id: string;
   mode: Mode;
   title?: string;
@@ -56,7 +57,7 @@ export interface RefSelectorProps {
 export interface SelectorProps {
   id: string;
   prefixCls: string;
-  className?: string;
+  className?: ComplexClassName<'search' | 'item'>;
   showSearch?: boolean;
   open: boolean;
   /** Display in the Selector value, it's not same as `value` prop */
@@ -109,6 +110,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
     mode,
     showSearch,
     tokenWithEnter,
+    disabled,
 
     autoClearSearchValue,
 
@@ -119,6 +121,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
 
     domRef,
   } = props;
+  const complexCls = getComplexCls(className);
 
   // ======================= Ref =======================
   React.useImperativeHandle(ref, () => ({
@@ -265,9 +268,14 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
     <div
       ref={domRef}
       className={clsx(
-        `${prefixCls}-selector relative flex h-9 w-full truncate rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
-        { 'flex flex-wrap items-center pe-9': mode === 'multiple' || mode === 'tags' },
-        className,
+        `${prefixCls}-selector relative flex h-9 w-full items-center truncate rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
+        {
+          'flex flex-wrap items-center py-0.5 pe-8 ps-1': mode === 'multiple' || mode === 'tags',
+          'text-neutral-text-quaternary': open && showSearch,
+          'cursor-text': showSearch,
+          'cursor-not-allowed': disabled,
+        },
+        complexCls.root,
       )}
       onClick={onClick}
       onMouseDown={onMouseDown}

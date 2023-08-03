@@ -1,7 +1,7 @@
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import type { InnerSelectorProps } from '.';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, getComplexCls } from '../../_util/classNameUtils';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 
@@ -14,6 +14,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
   const {
     inputElement,
     prefixCls,
+    className,
     id,
     inputRef,
     disabled,
@@ -39,6 +40,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
     onInputCompositionEnd,
     title,
   } = props;
+  const complexCls = getComplexCls(className);
 
   const [inputChanged, setInputChanged] = React.useState(false);
 
@@ -74,7 +76,8 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${prefixCls}-selection-placeholder`,
-          'pointer-events-none truncate pe-4 text-neutral-text-quaternary',
+          'pointer-events-none flex-1 truncate text-neutral-text-quaternary',
+          complexCls.placeholder,
         )}
         style={hiddenStyle}
       >
@@ -85,7 +88,12 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
 
   return (
     <>
-      <span className={clsx(`${prefixCls}-selection-search absolute bottom-0 end-3 start-3 top-0`)}>
+      <span
+        className={clsx(
+          `${prefixCls}-selection-search absolute bottom-0 end-3 start-3 top-0`,
+          complexCls.search,
+        )}
+      >
         <Input
           ref={inputRef}
           prefixCls={prefixCls}
@@ -117,7 +125,8 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       {!combobox && item ? (
         <span
           className={clsx(
-            `${prefixCls}-selection-item relative flex flex-1 select-none items-center truncate pe-6 text-sm`,
+            `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm`,
+            complexCls.item,
           )}
           title={selectionTitle}
           // 当 Select 已经选中选项时，还需 selection 隐藏但留在原地占位

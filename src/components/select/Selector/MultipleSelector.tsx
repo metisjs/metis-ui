@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import { useState } from 'react';
 import type { InnerSelectorProps } from '.';
+import { clsx, getComplexCls } from '../../_util/classNameUtils';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
 import TransBtn from '../TransBtn';
 import { getTitle } from '../utils/commonUtil';
@@ -38,6 +38,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   const {
     id,
     prefixCls,
+    className,
 
     values,
     open,
@@ -69,6 +70,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
     onInputCompositionStart,
     onInputCompositionEnd,
   } = props;
+  const complexCls = getComplexCls(className);
 
   const measureRef = React.useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
@@ -102,19 +104,30 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   ) {
     return (
       <span
-        className={classNames(
+        className={clsx(
           `${selectionPrefixCls}-item`,
-          'inline-flex max-w-full flex-none self-center',
+          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-neutral-fill-secondary pe-1 ps-2 leading-7',
           {
-            [`${selectionPrefixCls}-item-disabled`]: itemDisabled,
+            [`${selectionPrefixCls}-item-disabled cursor-not-allowed`]: itemDisabled,
           },
+          complexCls.item,
         )}
         title={getTitle(item)}
       >
-        <span className={`${selectionPrefixCls}-item-content`}>{content}</span>
+        <span
+          className={clsx(
+            `${selectionPrefixCls}-item-content`,
+            'me-1 inline-block overflow-hidden text-ellipsis whitespace-pre',
+          )}
+        >
+          {content}
+        </span>
         {closable && (
           <TransBtn
-            className={`${selectionPrefixCls}-item-remove`}
+            className={clsx(
+              `${selectionPrefixCls}-item-remove`,
+              'inline-flex cursor-pointer items-center font-bold text-neutral-text-secondary hover:text-neutral-text',
+            )}
             onMouseDown={onPreventMouseDown}
             onClick={onClose}
             customizeIcon={removeIcon}
@@ -189,7 +202,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   // >>> Input Node
   const inputNode = (
     <div
-      className={`${selectionPrefixCls}-search`}
+      className={clsx(`${selectionPrefixCls}-search`, complexCls.search)}
       style={{ width: inputWidth }}
       onFocus={() => {
         setFocused(true);
@@ -231,7 +244,8 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   const selectionNode = (
     <Overflow
       prefixCls={`${selectionPrefixCls}-overflow`}
-      className="relative flex max-w-full flex-auto flex-wrap"
+      className="relative flex h-full max-w-full flex-auto flex-wrap"
+      itemClassName="inline-flex max-w-full flex-none self-center"
       data={values}
       renderItem={renderItem}
       renderRest={renderRest}
@@ -247,7 +261,10 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
 
       {!values.length && !inputValue && (
         <span
-          className={`${selectionPrefixCls}-placeholder pointer-events-none truncate pe-6 text-neutral-text-quaternary`}
+          className={clsx(
+            `${selectionPrefixCls}-placeholder pointer-events-none truncate text-neutral-text-quaternary`,
+            complexCls.placeholder,
+          )}
         >
           {placeholder}
         </span>
