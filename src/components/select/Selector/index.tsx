@@ -271,7 +271,8 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
       className={clsx(
         `${prefixCls}-selector relative flex w-full items-center truncate rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
         {
-          'flex flex-wrap items-center py-0.5 pe-8 ps-1': isMultiple,
+          'flex flex-wrap items-center py-0.5 pe-8 ps-1 leading-7 after:invisible after:my-0.5 after:inline-block after:w-0 after:content-["a0"]':
+            isMultiple,
           'text-neutral-text-quaternary': open && showSearch && !isMultiple,
           'cursor-text': showSearch,
           'cursor-not-allowed': disabled,
