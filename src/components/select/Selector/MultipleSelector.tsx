@@ -108,6 +108,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
           `${selectionPrefixCls}-item`,
           'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-neutral-fill-secondary pe-1 ps-2 leading-7',
           {
+            'cursor-not-allowed': disabled,
             [`${selectionPrefixCls}-item-disabled cursor-not-allowed`]: itemDisabled,
           },
           complexCls.item,
@@ -202,7 +203,14 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
   // >>> Input Node
   const inputNode = (
     <div
-      className={clsx(`${selectionPrefixCls}-search`, complexCls.search)}
+      className={clsx(
+        `${selectionPrefixCls}-search`,
+        'relative inline-flex h-full max-w-full items-center',
+        {
+          'ms-2': !values.length,
+        },
+        complexCls.search,
+      )}
       style={{ width: inputWidth }}
       onFocus={() => {
         setFocused(true);
@@ -215,6 +223,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         ref={inputRef}
         open={open}
         prefixCls={prefixCls}
+        className="h-8 w-full min-w-[5.1px]"
         id={id}
         inputElement={null}
         disabled={!!disabled}
@@ -234,7 +243,14 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       />
 
       {/* Measure Node */}
-      <span ref={measureRef} className={`${selectionPrefixCls}-search-mirror`} aria-hidden>
+      <span
+        ref={measureRef}
+        className={clsx(
+          `${selectionPrefixCls}-search-mirror`,
+          'invisible absolute end-auto start-0 top-0 z-[999] h-8 whitespace-pre',
+        )}
+        aria-hidden
+      >
         {inputValue}&nbsp;
       </span>
     </div>
@@ -262,7 +278,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       {!values.length && !inputValue && (
         <span
           className={clsx(
-            `${selectionPrefixCls}-placeholder pointer-events-none truncate text-neutral-text-quaternary`,
+            `${selectionPrefixCls}-placeholder pointer-events-none absolute end-3 start-3 top-1/2 -translate-y-1/2 truncate text-neutral-text-quaternary`,
             complexCls.placeholder,
           )}
         >

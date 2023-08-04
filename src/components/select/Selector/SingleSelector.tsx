@@ -125,7 +125,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       {!combobox && item ? (
         <span
           className={clsx(
-            `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm`,
+            `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm/6`,
             complexCls.item,
           )}
           title={selectionTitle}

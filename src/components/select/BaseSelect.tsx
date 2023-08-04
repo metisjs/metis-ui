@@ -746,7 +746,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       },
       complexCls.selector,
     ),
-    search: clsx({ 'pe-[1.125rem]': showSuffixIcon }),
+    search: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }),
     item: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }),
     placeholder: clsx({ 'pe-[1.125rem]': showSuffixIcon }),
   };

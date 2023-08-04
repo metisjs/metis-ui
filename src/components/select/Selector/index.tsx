@@ -257,21 +257,22 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
     onInputCompositionEnd,
   };
 
-  const selectNode =
-    mode === 'multiple' || mode === 'tags' ? (
-      <MultipleSelector mode={mode} {...props} {...sharedProps} />
-    ) : (
-      <SingleSelector mode={mode!} {...props} {...sharedProps} />
-    );
+  const isMultiple = mode === 'multiple' || mode === 'tags';
+
+  const selectNode = isMultiple ? (
+    <MultipleSelector mode={mode} {...props} {...sharedProps} />
+  ) : (
+    <SingleSelector mode={mode!} {...props} {...sharedProps} />
+  );
 
   return (
     <div
       ref={domRef}
       className={clsx(
-        `${prefixCls}-selector relative flex h-9 w-full items-center truncate rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
+        `${prefixCls}-selector relative flex w-full items-center truncate rounded-md px-3 py-1.5 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border`,
         {
-          'flex flex-wrap items-center py-0.5 pe-8 ps-1': mode === 'multiple' || mode === 'tags',
-          'text-neutral-text-quaternary': open && showSearch,
+          'flex flex-wrap items-center py-0.5 pe-8 ps-1': isMultiple,
+          'text-neutral-text-quaternary': open && showSearch && !isMultiple,
           'cursor-text': showSearch,
           'cursor-not-allowed': disabled,
         },
