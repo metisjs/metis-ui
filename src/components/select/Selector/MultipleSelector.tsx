@@ -106,7 +106,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${selectionPrefixCls}-item`,
-          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-neutral-fill-secondary pe-1 ps-2 leading-7',
+          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-neutral-fill-secondary pe-1.5 ps-2.5 leading-7',
           {
             'cursor-not-allowed': disabled,
             [`${selectionPrefixCls}-item-disabled cursor-not-allowed`]: itemDisabled,
