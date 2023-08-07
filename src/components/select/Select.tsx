@@ -650,6 +650,8 @@ const Select = React.forwardRef(
       {
         'px-2 after:leading-6': mergedSize === 'small',
         'after:leading-8': mergedSize === 'large' && multiple,
+        'shadow-none ring-0': !bordered,
+        'bg-neutral-bg-container': !bordered && mergedDisabled,
       },
       complexCls.selector,
     );
