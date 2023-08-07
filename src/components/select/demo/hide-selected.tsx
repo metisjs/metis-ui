@@ -1,5 +1,8 @@
+/**
+ * description: 隐藏下拉列表中已选择的选项。
+ */
+import { Select } from 'meta-ui';
 import React, { useState } from 'react';
-import { Select } from 'antd';
 
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
 

@@ -19,9 +19,6 @@ group:
 <code src="./demo/basic.tsx">基本使用</code>
 <code src="./demo/search.tsx">带搜索框</code>
 <code src="./demo/multiple.tsx">多选</code>
-
-<!--
-
 <code src="./demo/size.tsx">三种大小</code>
 <code src="./demo/option-label-prop.tsx">定制回填内容</code>
 <code src="./demo/search-sort.tsx">带排序的搜索</code>
@@ -36,14 +33,14 @@ group:
 <code src="./demo/custom-dropdown-menu.tsx">扩展菜单</code>
 <code src="./demo/hide-selected.tsx">隐藏已选择选项</code>
 <code src="./demo/bordered.tsx">无边框</code>
+
+<!--
+
 <code src="./demo/custom-tag-render.tsx">自定义选择标签</code>
 <code src="./demo/responsive.tsx">响应式 maxTagCount</code>
 <code src="./demo/big-data.tsx">大数据</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/placement.tsx">弹出位置</code>
-<code src="./demo/placement-debug.tsx" debug>动态高度</code>
-<code src="./demo/debug.tsx" debug>4.0 Debug</code>
-<code src="./demo/render-panel.tsx" debug>\_InternalPanelDoNotUseOrYouWillBeFired</code>
 <code src="./demo/option-label-center.tsx" debug>选项文本居中</code>
 <code src="./demo/debug-flip-shift.tsx" iframe="200" debug>翻转+偏移</code> -->
 
@@ -87,7 +84,6 @@ group:
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
 | removeIcon | 自定义的多选框清除图标 | ReactNode | - |  |
 | searchValue | 控制搜索文本 | string | - |  |
-| showArrow | 是否显示下拉小箭头 | boolean | `true` |  |
 | showSearch | 配置是否可搜索 | boolean | 单选为 false，多选为 true |  |
 | size | 选择框大小 | `large` \| `middle` \| `small` | `middle` |  |
 | status | 设置校验状态 | 'error' \| 'warning' | - |  |

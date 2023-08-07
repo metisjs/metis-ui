@@ -1,6 +1,9 @@
+/**
+ * description: 试下复制 `露西,杰克` 并粘贴到输入框里。只在 tags 和 multiple 模式下可用。
+ */
+import type { SelectProps } from 'meta-ui';
+import { Select } from 'meta-ui';
 import React from 'react';
-import { Select } from 'antd';
-import type { SelectProps } from 'antd';
 
 const options: SelectProps['options'] = [];
 

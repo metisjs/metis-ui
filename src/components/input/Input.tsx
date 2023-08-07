@@ -315,7 +315,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           mergedDisabled && 'text-neutral-text-quaternary',
           complexCls.count,
         ),
-        clear: 'flex items-center text-neutral-text-quaternary hover:text-neutral-text-tertiary',
+        clear: 'flex items-center text-neutral-text-tertiary hover:text-neutral-text-secondary',
       }}
       classes={{
         affixWrapper: affixWrapperVariantStyles(

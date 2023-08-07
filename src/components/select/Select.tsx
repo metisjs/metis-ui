@@ -636,7 +636,7 @@ const Select = React.forwardRef(
     const rootClassName = clsx(
       'group/select relative cursor-pointer',
       {
-        [`${prefixCls}-lg`]: mergedSize === 'large',
+        [`${prefixCls}-lg text-base`]: mergedSize === 'large',
         [`${prefixCls}-sm`]: mergedSize === 'small',
         [`${prefixCls}-borderless`]: !bordered,
         [`${prefixCls}-in-form-item`]: isFormItemInput,
@@ -646,7 +646,31 @@ const Select = React.forwardRef(
       complexCls.root,
     );
 
-    const selectorClassName = clsx('', {}, complexCls.selector);
+    const selectorClassName = clsx(
+      {
+        'px-2 after:leading-6': mergedSize === 'small',
+        'after:leading-8': mergedSize === 'large' && multiple,
+        'shadow-none ring-0': !bordered,
+        'bg-neutral-bg-container': !bordered && mergedDisabled,
+      },
+      complexCls.selector,
+    );
+
+    const selectorSearchClassName = clsx({
+      'end-2 start-2': mergedSize === 'small' && !multiple,
+      'ms-0.5 h-7': mergedSize === 'small' && multiple,
+    });
+
+    const selectorPlaceholderClassName = clsx({
+      'end-2 start-2': mergedSize === 'small' && multiple,
+    });
+
+    const selectorItemClassName = clsx({
+      'text-base/7': mergedSize === 'large',
+      'text-sm/5': mergedSize === 'small',
+      'leading-8': mergedSize === 'large' && multiple,
+      'pe-1 ps-2 leading-6': mergedSize === 'small' && multiple,
+    });
 
     const popupClassName = clsx(
       'absolute z-[1050] rounded-md bg-neutral-bg-container py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
@@ -718,6 +742,9 @@ const Select = React.forwardRef(
             root: rootClassName,
             popup: popupClassName,
             selector: selectorClassName,
+            selectorSearch: selectorSearchClassName,
+            selectorItem: selectorItemClassName,
+            selectorPlaceholder: selectorPlaceholderClassName,
           }}
           transition={{
             leave: 'transition ease-in duration-100',

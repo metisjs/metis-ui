@@ -158,7 +158,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
             complexCls.count,
           ),
           clear: clsx(
-            'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',
+            'absolute right-2 top-1 text-neutral-text-tertiary hover:text-neutral-text-secondary',
           ),
         }}
         suffix={

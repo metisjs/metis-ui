@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { Select } from 'antd';
+/**
+ * description: 搜索和远程数据结合。
+ */
 import jsonp from 'fetch-jsonp';
+import type { SelectProps } from 'meta-ui';
+import { Select } from 'meta-ui';
 import qs from 'qs';
-import type { SelectProps } from 'antd';
+import React, { useState } from 'react';
 
 let timeout: ReturnType<typeof setTimeout> | null;
 let currentValue: string;
 
-const fetch = (value: string, callback: Function) => {
+const fetch = (value: string, callback: (data: any) => void) => {
   if (timeout) {
     clearTimeout(timeout);
     timeout = null;
@@ -58,7 +61,7 @@ const SearchInput: React.FC<{ placeholder: string; style: React.CSSProperties }>
       placeholder={props.placeholder}
       style={props.style}
       defaultActiveFirstOption={false}
-      showArrow={false}
+      suffixIcon={null}
       filterOption={false}
       onSearch={handleSearch}
       onChange={handleChange}

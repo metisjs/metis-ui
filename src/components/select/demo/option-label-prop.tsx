@@ -1,5 +1,8 @@
+/**
+ * description: 使用 `optionLabelProp` 指定回填到选择框的 `Option` 属性。
+ */
+import { Select, Space } from 'meta-ui';
 import React from 'react';
-import { Select, Space } from 'antd';
 
 const { Option } = Select;
 
@@ -11,7 +14,7 @@ const App: React.FC = () => (
   <Select
     mode="multiple"
     style={{ width: '100%' }}
-    placeholder="select one country"
+    placeholder="Select one country"
     defaultValue={['china']}
     onChange={handleChange}
     optionLabelProp="label"

@@ -1,6 +1,9 @@
+/**
+ * description: tags select，随意输入的内容（scroll the menu）。
+ */
+import type { SelectProps } from 'meta-ui';
+import { Select } from 'meta-ui';
 import React from 'react';
-import { Select } from 'antd';
-import type { SelectProps } from 'antd';
 
 const options: SelectProps['options'] = [];
 

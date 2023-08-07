@@ -123,7 +123,9 @@ export interface BaseSelectPrivateProps {
 export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSelectPrivateProps>;
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
-  className?: ComplexClassName<'popup' | 'selector'>;
+  className?: ComplexClassName<
+    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
+  >;
   style?: React.CSSProperties;
   title?: string;
   showSearch?: boolean;
@@ -680,7 +682,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-quaternary opacity-0 transition-all hover:text-neutral-text-tertiary',
+          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-tertiary opacity-0 transition-all hover:text-neutral-text-secondary',
           'group-hover/select:opacity-100',
         )}
         onMouseDown={onClearMouseDown}
@@ -729,7 +731,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-single`]: !multiple,
       [`${prefixCls}-allow-clear`]: allowClear,
       [`${prefixCls}-show-arrow`]: showSuffixIcon,
-      [`${prefixCls}-disabled bg-neutral-fill-tertiary text-neutral-text-quaternary`]: disabled,
+      [`${prefixCls}-disabled not-allowed bg-neutral-fill-tertiary text-neutral-text-quaternary`]:
+        disabled,
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
@@ -738,14 +741,17 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     complexCls.root,
   );
 
-  const mergedSelectorClassName = clsx(
-    {
-      'ring-2 ring-primary': mockFocused,
-      'text-neutral-text-quaternary': mergedOpen && mergedShowSearch,
-      'cursor-text': mergedShowSearch,
-    },
-    complexCls.selector,
-  );
+  const mergedSelectorClassName = {
+    root: clsx(
+      {
+        'ring-2 ring-primary': mockFocused || mergedOpen,
+      },
+      complexCls.selector,
+    ),
+    search: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }, complexCls.selectorSearch),
+    item: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }, complexCls.selectorItem),
+    placeholder: clsx({ 'pe-[1.125rem]': showSuffixIcon }, complexCls.selectorPlaceholder),
+  };
 
   // ============================= Select =============================
   // >>> Selector

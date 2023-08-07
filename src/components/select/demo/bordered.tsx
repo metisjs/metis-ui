@@ -1,4 +1,7 @@
-import { Select, Space } from 'antd';
+/**
+ * description: 无边框样式。
+ */
+import { Select, Space } from 'meta-ui';
 import React from 'react';
 
 const App: React.FC = () => (

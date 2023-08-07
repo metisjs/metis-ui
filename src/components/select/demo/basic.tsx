@@ -16,7 +16,7 @@ const App: React.FC = () => (
       onChange={handleChange}
       options={[
         { value: 'jack', label: 'Jack' },
-        { value: 'lucy', label: 'LucyLucyLucyLucyLucy' },
+        { value: 'lucy', label: 'Lucy' },
         { value: 'Yiminghe', label: 'yiminghe' },
         { value: 'disabled', label: 'Disabled', disabled: true },
       ]}
