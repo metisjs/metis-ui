@@ -311,7 +311,13 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             const groupTitle = data.title ?? (isTitleType(label) ? label!.toString() : undefined);
 
             return (
-              <div className={clsx(itemPrefixCls, `${itemPrefixCls}-group`)} title={groupTitle}>
+              <div
+                className={clsx(
+                  itemPrefixCls,
+                  `${itemPrefixCls}-group cursor-auto px-3 py-2 text-xs text-neutral-text-tertiary`,
+                )}
+                title={groupTitle}
+              >
                 {label !== undefined ? label : key}
               </div>
             );
@@ -330,7 +336,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             optionPrefixCls,
             'relative flex cursor-default select-none items-center py-2 pl-3 pr-9 text-sm',
             {
-              [`${optionPrefixCls}-grouped`]: groupOption,
+              [`${optionPrefixCls}-grouped pl-6`]: groupOption,
               [`${optionPrefixCls}-active bg-primary text-white`]:
                 activeIndex === itemIndex && !disabled,
               [`${optionPrefixCls}-disabled text-neutral-text-quaternary`]: disabled,

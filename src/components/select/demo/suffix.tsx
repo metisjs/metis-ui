@@ -1,9 +1,12 @@
+/**
+ * description: 后缀图标。
+ */
+import { FaceFrownOutline, FaceSmileOutline } from '@metaoa/icons';
+import { Select, Space } from 'meta-ui';
 import React from 'react';
-import { MehOutlined, SmileOutlined } from '@ant-design/icons';
-import { Select, Space } from 'antd';
 
-const smileIcon = <SmileOutlined />;
-const mehIcon = <MehOutlined />;
+const smileIcon = <FaceSmileOutline className="h-4 w-4" />;
+const mehIcon = <FaceFrownOutline className="h-4 w-4" />;
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);

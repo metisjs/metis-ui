@@ -1,5 +1,8 @@
+/**
+ * description: 在搜索模式下对过滤结果项进行排序。
+ */
+import { Select } from 'meta-ui';
 import React from 'react';
-import { Select } from 'antd';
 
 const App: React.FC = () => (
   <Select

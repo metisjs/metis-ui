@@ -21,7 +21,7 @@ import SingleSelector from './SingleSelector';
 
 export interface InnerSelectorProps {
   prefixCls: string;
-  className?: ComplexClassName<'search' | 'item' | 'placeholder'>;
+  className?: ComplexClassName<'search' | 'item' | 'placeholder' | 'input'>;
   id: string;
   mode: Mode;
   title?: string;

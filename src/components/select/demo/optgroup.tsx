@@ -1,5 +1,8 @@
+/**
+ * description: 用 `OptGroup` 进行选项分组。
+ */
+import { Select } from 'meta-ui';
 import React from 'react';
-import { Select } from 'antd';
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);

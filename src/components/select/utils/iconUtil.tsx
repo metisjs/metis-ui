@@ -35,12 +35,17 @@ export default function getIcons({
   const mergedClearIcon = clearIcon ?? <XCircleSolid className="h-4 w-4" />;
 
   // Validation Feedback Icon
-  const getSuffixIconNode = (arrowIcon?: ReactNode) => (
-    <>
-      {arrowIcon}
-      {hasFeedback && feedbackIcon}
-    </>
-  );
+  const getSuffixIconNode = (arrowIcon?: ReactNode) => {
+    if (suffixIcon === null && !hasFeedback) {
+      return null;
+    }
+    return (
+      <>
+        {suffixIcon !== null && arrowIcon}
+        {hasFeedback && feedbackIcon}
+      </>
+    );
+  };
 
   // Arrow item icon
   let mergedSuffixIcon = null;

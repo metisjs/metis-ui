@@ -1,7 +1,10 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { Select, Spin } from 'antd';
-import type { SelectProps } from 'antd/es/select';
+/**
+ * description: 一个带有远程搜索，防抖控制，请求时序控制，加载状态的多选示例。
+ */
 import debounce from 'lodash/debounce';
+import { Select } from 'meta-ui';
+import type { SelectProps } from 'meta-ui/es/select';
+import React, { useMemo, useRef, useState } from 'react';
 
 export interface DebounceSelectProps<ValueType = any>
   extends Omit<SelectProps<ValueType | ValueType[]>, 'options' | 'children'> {
@@ -42,7 +45,7 @@ function DebounceSelect<
       labelInValue
       filterOption={false}
       onSearch={debounceFetcher}
-      notFoundContent={fetching ? <Spin size="small" /> : null}
+      notFoundContent={fetching ? 'Loading' : null}
       {...props}
       options={options}
     />

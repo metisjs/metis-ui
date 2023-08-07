@@ -1,7 +1,10 @@
+/**
+ * description: 三种大小的选择框，当 size 分别为 `large` 和 `small` 时，输入框高度为 `40px` 和 `32px` ，默认高度为 `36px`。
+ */
+import type { SelectProps } from 'meta-ui';
+import { Segmented, Select, Space } from 'meta-ui';
+import { SizeType } from 'meta-ui/es/config-provider/SizeContext';
 import React, { useState } from 'react';
-import { Radio, Select, Space } from 'antd';
-import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import type { SelectProps, RadioChangeEvent } from 'antd';
 
 const options: SelectProps['options'] = [];
 
@@ -19,17 +22,21 @@ const handleChange = (value: string | string[]) => {
 const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>('middle');
 
-  const handleSizeChange = (e: RadioChangeEvent) => {
-    setSize(e.target.value);
+  const handleSizeChange = (val: string) => {
+    setSize(val as SizeType);
   };
 
   return (
     <>
-      <Radio.Group value={size} onChange={handleSizeChange}>
-        <Radio.Button value="large">Large</Radio.Button>
-        <Radio.Button value="middle">Default</Radio.Button>
-        <Radio.Button value="small">Small</Radio.Button>
-      </Radio.Group>
+      <Segmented
+        value={size}
+        options={[
+          { label: 'Large', value: 'large' },
+          { label: 'Default', value: 'middle' },
+          { label: 'Small', value: 'small' },
+        ]}
+        onChange={handleSizeChange}
+      />
       <br />
       <br />
       <Space direction="vertical" style={{ width: '100%' }}>
@@ -39,6 +46,7 @@ const App: React.FC = () => {
           onChange={handleChange}
           style={{ width: 200 }}
           options={options}
+          showSearch
         />
         <Select
           mode="multiple"

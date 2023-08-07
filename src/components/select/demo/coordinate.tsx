@@ -1,5 +1,8 @@
+/**
+ * description: 省市联动是典型的例子。<br/>推荐使用 [Cascader](/components/cascader/) 组件。
+ */
+import { Select, Space } from 'meta-ui';
 import React, { useState } from 'react';
-import { Select, Space } from 'antd';
 
 const provinceData = ['Zhejiang', 'Jiangsu'];
 

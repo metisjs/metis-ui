@@ -91,7 +91,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     autoFocus,
     className: clsx(
       `${prefixCls}-selection-search-input`,
-      'search h-full w-full border-0 bg-transparent p-0 text-sm text-neutral-text outline-0 focus:outline-0 focus:ring-0',
+      'search h-full w-full border-0 bg-transparent p-0 text-neutral-text outline-0 focus:outline-0 focus:ring-0',
       className,
       inputNode?.props?.className,
     ),
@@ -109,7 +109,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     readOnly: !editable,
     unselectable: !editable ? 'on' : null,
 
-    style: { ...style, display: editable ? 'inline-block' : 'none' },
+    style: { ...style, fontSize: 'inherit', lineHeight: 'inherit', opacity: editable ? 1 : 0 },
 
     onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => {
       onKeyDown(event);

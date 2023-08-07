@@ -123,7 +123,9 @@ export interface BaseSelectPrivateProps {
 export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSelectPrivateProps>;
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
-  className?: ComplexClassName<'popup' | 'selector'>;
+  className?: ComplexClassName<
+    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
+  >;
   style?: React.CSSProperties;
   title?: string;
   showSearch?: boolean;
@@ -742,13 +744,13 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   const mergedSelectorClassName = {
     root: clsx(
       {
-        'ring-2 ring-primary': mockFocused,
+        'ring-2 ring-primary': mockFocused || mergedOpen,
       },
       complexCls.selector,
     ),
-    search: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }),
-    item: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }),
-    placeholder: clsx({ 'pe-[1.125rem]': showSuffixIcon }),
+    search: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }, complexCls.selectorSearch),
+    item: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }, complexCls.selectorItem),
+    placeholder: clsx({ 'pe-[1.125rem]': showSuffixIcon }, complexCls.selectorPlaceholder),
   };
 
   // ============================= Select =============================

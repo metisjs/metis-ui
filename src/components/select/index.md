@@ -19,9 +19,6 @@ group:
 <code src="./demo/basic.tsx">基本使用</code>
 <code src="./demo/search.tsx">带搜索框</code>
 <code src="./demo/multiple.tsx">多选</code>
-
-<!--
-
 <code src="./demo/size.tsx">三种大小</code>
 <code src="./demo/option-label-prop.tsx">定制回填内容</code>
 <code src="./demo/search-sort.tsx">带排序的搜索</code>
@@ -35,6 +32,8 @@ group:
 <code src="./demo/suffix.tsx" debug>后缀图标</code>
 <code src="./demo/custom-dropdown-menu.tsx">扩展菜单</code>
 <code src="./demo/hide-selected.tsx">隐藏已选择选项</code>
+
+<!--
 <code src="./demo/bordered.tsx">无边框</code>
 <code src="./demo/custom-tag-render.tsx">自定义选择标签</code>
 <code src="./demo/responsive.tsx">响应式 maxTagCount</code>
@@ -87,7 +86,6 @@ group:
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
 | removeIcon | 自定义的多选框清除图标 | ReactNode | - |  |
 | searchValue | 控制搜索文本 | string | - |  |
-| showArrow | 是否显示下拉小箭头 | boolean | `true` |  |
 | showSearch | 配置是否可搜索 | boolean | 单选为 false，多选为 true |  |
 | size | 选择框大小 | `large` \| `middle` \| `small` | `middle` |  |
 | status | 设置校验状态 | 'error' \| 'warning' | - |  |

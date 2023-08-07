@@ -97,6 +97,11 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
         <Input
           ref={inputRef}
           prefixCls={prefixCls}
+          className={clsx(
+            !showSearch && 'cursor-pointer',
+            disabled && 'cursor-not-allowed',
+            complexCls.input,
+          )}
           id={id}
           open={open}
           inputElement={inputElement}

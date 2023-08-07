@@ -205,7 +205,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
     <div
       className={clsx(
         `${selectionPrefixCls}-search`,
-        'relative inline-flex h-full max-w-full items-center',
+        'relative inline-flex h-8 max-w-full items-center',
         {
           'ms-2': !values.length,
         },
@@ -223,7 +223,12 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         ref={inputRef}
         open={open}
         prefixCls={prefixCls}
-        className="h-8 w-full min-w-[5.1px]"
+        className={clsx(
+          'w-full min-w-[5.1px]',
+          !showSearch && 'cursor-pointer',
+          disabled && 'cursor-not-allowed',
+          complexCls.input,
+        )}
         id={id}
         inputElement={null}
         disabled={!!disabled}
