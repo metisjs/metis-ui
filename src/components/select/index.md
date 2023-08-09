@@ -33,11 +33,11 @@ group:
 <code src="./demo/custom-dropdown-menu.tsx">扩展菜单</code>
 <code src="./demo/hide-selected.tsx">隐藏已选择选项</code>
 <code src="./demo/bordered.tsx">无边框</code>
+<code src="./demo/responsive.tsx">响应式 maxTagCount</code>
 
 <!--
-
 <code src="./demo/custom-tag-render.tsx">自定义选择标签</code>
-<code src="./demo/responsive.tsx">响应式 maxTagCount</code>
+
 <code src="./demo/big-data.tsx">大数据</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/placement.tsx">弹出位置</code>

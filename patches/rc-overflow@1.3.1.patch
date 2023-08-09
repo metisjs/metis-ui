@@ -11,7 +11,7 @@ index 39927d018e8e54d2ec0d8fd2919109a479532269..9ee58a1848b9abd37f688211d2e94382
      data?: ItemType[];
      itemKey?: React.Key | ((item: ItemType) => React.Key);
 diff --git a/es/Overflow.js b/es/Overflow.js
-index 2766e4ff7d2049b0d985a4ba2ca0c0bb9b7af50f..d1c955558b3a60191a7416fa205a5d3f41e037d3 100644
+index 2766e4ff7d2049b0d985a4ba2ca0c0bb9b7af50f..61f269a3faa3fbf725544d371037f80958e840cb 100644
 --- a/es/Overflow.js
 +++ b/es/Overflow.js
 @@ -2,7 +2,7 @@ import _extends from "@babel/runtime/helpers/esm/extends";
@@ -39,6 +39,15 @@ index 2766e4ff7d2049b0d985a4ba2ca0c0bb9b7af50f..d1c955558b3a60191a7416fa205a5d3f
      responsive: shouldResponsive,
      component: itemComponent,
      invalidate: invalidate
+@@ -271,7 +273,7 @@ function Overflow(props, ref) {
+     responsive: isResponsive,
+     responsiveDisabled: !shouldResponsive,
+     order: mergedDisplayCount,
+-    className: "".concat(itemPrefixCls, "-suffix"),
++    className: "".concat(itemPrefixCls, "-suffix ").concat(itemClassName),
+     registerSize: registerSuffixSize,
+     display: true,
+     style: suffixStyle
 diff --git a/lib/Overflow.d.ts b/lib/Overflow.d.ts
 index 39927d018e8e54d2ec0d8fd2919109a479532269..9ee58a1848b9abd37f688211d2e943821cf53528 100644
 --- a/lib/Overflow.d.ts
@@ -52,7 +61,7 @@ index 39927d018e8e54d2ec0d8fd2919109a479532269..9ee58a1848b9abd37f688211d2e94382
      data?: ItemType[];
      itemKey?: React.Key | ((item: ItemType) => React.Key);
 diff --git a/lib/Overflow.js b/lib/Overflow.js
-index 4edba69210dee17e36dab6755866496e75a2d79f..d1ca5b71782adcbcf5aae9a9c50db96bf74a7751 100644
+index 4edba69210dee17e36dab6755866496e75a2d79f..df120de2fba35ff0565ea8a83ff817c003d98627 100644
 --- a/lib/Overflow.js
 +++ b/lib/Overflow.js
 @@ -24,7 +24,7 @@ var _Item = _interopRequireDefault(require("./Item"));
@@ -80,3 +89,21 @@ index 4edba69210dee17e36dab6755866496e75a2d79f..d1ca5b71782adcbcf5aae9a9c50db96b
      responsive: shouldResponsive,
      component: itemComponent,
      invalidate: invalidate
+@@ -265,7 +267,7 @@ function Overflow(props, ref) {
+   var restNode;
+   var restContextProps = {
+     order: displayRest ? mergedDisplayCount : Number.MAX_SAFE_INTEGER,
+-    className: "".concat(itemPrefixCls, "-rest"),
++    className: "".concat(itemPrefixCls, "-rest ").concat(itemSharedProps.className),
+     registerSize: registerOverflowSize,
+     display: displayRest
+   };
+@@ -285,7 +287,7 @@ function Overflow(props, ref) {
+     responsive: isResponsive,
+     responsiveDisabled: !shouldResponsive,
+     order: mergedDisplayCount,
+-    className: "".concat(itemPrefixCls, "-suffix"),
++    className: "".concat(itemPrefixCls, "-suffix ").concat(itemSharedProps.className),
+     registerSize: registerSuffixSize,
+     display: true,
+     style: suffixStyle

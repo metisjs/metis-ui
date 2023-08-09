@@ -1,6 +1,9 @@
+/**
+ * description: 允许自定义选择标签的样式。
+ */
+import { Select, Tag } from 'meta-ui';
+import { CustomTagProps } from 'meta-ui/es/select';
 import React from 'react';
-import { Select, Tag } from 'antd';
-import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
 const options = [{ value: 'gold' }, { value: 'lime' }, { value: 'green' }, { value: 'cyan' }];
 
@@ -26,7 +29,6 @@ const tagRender = (props: CustomTagProps) => {
 const App: React.FC = () => (
   <Select
     mode="multiple"
-    showArrow
     tagRender={tagRender}
     defaultValue={['gold', 'cyan']}
     style={{ width: '100%' }}
