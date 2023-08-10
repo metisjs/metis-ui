@@ -74,7 +74,7 @@ group:
 | notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `Not Found` |  |
 | open | 是否展开下拉菜单 | boolean | - |  |
 | optionFilterProp | 搜索时过滤对应的 `option` 属性，如设置为 `children` 表示对内嵌内容进行搜索。若通过 `options` 属性配置选项内容，建议设置 `optionFilterProp="label"` 来对内容进行搜索。 | string | `value` |  |
-| optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。[示例](https://codesandbox.io/s/antd-reproduction-template-tk678) | string | `children` |  |
+| optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。 | string | `children` |  |
 | options | 数据化配置选项内容，相比 jsx 定义会获得更好的渲染性能 | { label, value }\[] | - |  |
 | placeholder | 选择框默认文本 | string | - |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
@@ -134,7 +134,7 @@ group:
 
 ### 点击 `popupRender` 里的元素，下拉菜单不会自动消失？
 
-你可以使用受控模式，手动设置 `open` 属性：[codesandbox](https://codesandbox.io/s/ji-ben-shi-yong-antd-4-21-7-forked-gnp4cy?file=/demo.js)。
+你可以使用受控模式，手动设置 `open` 属性。
 
 ### 反过来希望点击 `popupRender` 里元素不消失该怎么办？
 
