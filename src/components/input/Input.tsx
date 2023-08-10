@@ -246,7 +246,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       prefix={prefix}
       suffix={suffixNode}
       allowClear={mergedAllowClear}
-      className={clsx(complexCls.root, compactItemClassnames)}
+      className={clsx(compactItemClassnames, complexCls.root)}
       onChange={handleChange}
       addonAfter={
         addonAfter && (

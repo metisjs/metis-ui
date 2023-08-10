@@ -1,5 +1,8 @@
+/**
+ * description: 使用 `status` 为 Select 添加状态，可选 `error` 或者 `warning`。
+ */
+import { Select, Space } from 'meta-ui';
 import React from 'react';
-import { Select, Space } from 'antd';
 
 const App: React.FC = () => (
   <Space direction="vertical" style={{ width: '100%' }}>

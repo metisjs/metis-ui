@@ -1,23 +1,29 @@
-import type { RadioChangeEvent } from 'antd';
-import { Radio, Select } from 'antd';
-import type { SelectCommonPlacement } from 'antd/es/_util/motion';
+/**
+ * description: 可以通过 `placement` 手动指定弹出的位置。
+ */
+import { Segmented, Select } from 'meta-ui';
+import { SelectCommonPlacement } from 'meta-ui/es/select/Select';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [placement, SetPlacement] = useState<SelectCommonPlacement>('topLeft');
 
-  const placementChange = (e: RadioChangeEvent) => {
-    SetPlacement(e.target.value);
+  const placementChange = (value: string) => {
+    SetPlacement(value as SelectCommonPlacement);
   };
 
   return (
     <>
-      <Radio.Group value={placement} onChange={placementChange}>
-        <Radio.Button value="topLeft">topLeft</Radio.Button>
-        <Radio.Button value="topRight">topRight</Radio.Button>
-        <Radio.Button value="bottomLeft">bottomLeft</Radio.Button>
-        <Radio.Button value="bottomRight">bottomRight</Radio.Button>
-      </Radio.Group>
+      <Segmented
+        value={placement}
+        options={[
+          { label: 'topLeft', value: 'topLeft' },
+          { label: 'topRight', value: 'topRight' },
+          { label: 'bottomLeft', value: 'bottomLeft' },
+          { label: 'bottomRight', value: 'bottomRight' },
+        ]}
+        onChange={placementChange}
+      />
       <br />
       <br />
       <Select

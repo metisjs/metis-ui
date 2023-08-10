@@ -22,6 +22,8 @@ export { default as Space } from './space';
 export type { SpaceProps } from './space';
 export { default as Switch } from './switch';
 export type { SwitchProps } from './switch';
+export { default as Tag } from './tag';
+export type { TagProps, TagType } from './tag';
 export { default as Tooltip } from './tooltip';
 export type { TooltipProps } from './tooltip';
 export { default as Transition } from './transition';

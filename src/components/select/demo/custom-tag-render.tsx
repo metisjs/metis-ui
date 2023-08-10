@@ -5,7 +5,12 @@ import { Select, Tag } from 'meta-ui';
 import { CustomTagProps } from 'meta-ui/es/select';
 import React from 'react';
 
-const options = [{ value: 'gold' }, { value: 'lime' }, { value: 'green' }, { value: 'cyan' }];
+const options = [
+  { value: '#f50' },
+  { value: '#2db7f5' },
+  { value: '#87d068' },
+  { value: '#108ee9' },
+];
 
 const tagRender = (props: CustomTagProps) => {
   const { label, value, closable, onClose } = props;
@@ -30,7 +35,7 @@ const App: React.FC = () => (
   <Select
     mode="multiple"
     tagRender={tagRender}
-    defaultValue={['gold', 'cyan']}
+    defaultValue={['#f50', '#2db7f5']}
     style={{ width: '100%' }}
     options={options}
   />

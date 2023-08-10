@@ -641,7 +641,6 @@ const Select = React.forwardRef(
         [`${prefixCls}-borderless`]: !bordered,
         [`${prefixCls}-in-form-item`]: isFormItemInput,
       },
-      getStatusClassNames(mergedStatus, hasFeedback),
       compactItemClassnames,
       complexCls.root,
     );
@@ -649,10 +648,11 @@ const Select = React.forwardRef(
     const selectorClassName = clsx(
       {
         'px-2 after:leading-6': mergedSize === 'small',
-        'after:leading-8': mergedSize === 'large' && multiple,
+        'after:leading-8': mergedSize === 'large',
         'shadow-none ring-0': !bordered,
         'bg-neutral-bg-container': !bordered && mergedDisabled,
       },
+      getStatusClassNames(mergedStatus, hasFeedback),
       complexCls.selector,
     );
 
