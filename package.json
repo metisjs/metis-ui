@@ -56,6 +56,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/sortable": "^7.0.2",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.38",
     "@types/react-dom": "^18.0.11",
