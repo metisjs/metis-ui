@@ -1,7 +1,6 @@
-import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
-
+import { clsx } from '../_util/classNameUtils';
 import type { SizeType } from '../config-provider/SizeContext';
 
 export interface SpaceCompactItemContextType {
@@ -24,7 +23,7 @@ export const useCompactItemContext = (prefixCls: string) => {
     const { compactDirection, isFirstItem, isLastItem } = compactItemContext;
     const separator = compactDirection === 'vertical' ? '-vertical-' : '-';
 
-    return classNames({
+    return clsx({
       [`${prefixCls}-compact${separator}item`]: true,
       [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
       [`${prefixCls}-compact${separator}last-item`]: isLastItem,
@@ -58,7 +57,7 @@ const CompactItem: React.FC<React.PropsWithChildren<SpaceCompactItemContextType>
 const Compact: React.FC<SpaceCompactProps> = (props) => {
   const { size = 'middle', direction, block, className, children, ...restProps } = props;
 
-  const clx = classNames(
+  const clx = clsx(
     {
       'flex w-full': block,
       'flex-col': direction === 'vertical',

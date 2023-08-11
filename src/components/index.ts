@@ -10,6 +10,8 @@ export { default as Empty } from './empty';
 export type { EmptyProps } from './empty';
 export { default as Input } from './input';
 export type { InputProps, InputRef } from './input';
+export { default as Layout } from './layout';
+export type { LayoutProps, SiderProps } from './layout';
 export { default as Popover } from './popover';
 export type { PopoverProps } from './popover';
 export { default as Radio } from './radio';
