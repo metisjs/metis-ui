@@ -1,28 +1,24 @@
 import classNames from 'classnames';
-import { Divider } from 'rc-menu';
 import * as React from 'react';
-import { ConfigContext } from '../config-provider';
+import { MenuContext } from './context/MenuContext';
+import { useMeasure } from './context/PathContext';
+import type { MenuDividerType } from './interface';
 
-export interface MenuDividerProps extends React.HTMLAttributes<HTMLLIElement> {
-  className?: string;
-  prefixCls?: string;
-  style?: React.CSSProperties;
-  dashed?: boolean;
-}
+export type MenuDividerProps = Omit<MenuDividerType, 'type'>;
 
-const MenuDivider: React.FC<MenuDividerProps> = (props) => {
-  const { prefixCls: customizePrefixCls, className, dashed, ...restProps } = props;
-  const { getPrefixCls } = React.useContext(ConfigContext);
+export default function MenuDivider({ className, style }: MenuDividerProps) {
+  const { prefixCls } = React.useContext(MenuContext);
+  const measure = useMeasure();
 
-  const prefixCls = getPrefixCls('menu', customizePrefixCls);
-  const classString = classNames(
-    {
-      [`${prefixCls}-item-divider-dashed`]: !!dashed,
-    },
-    className,
+  if (measure) {
+    return null;
+  }
+
+  return (
+    <li
+      role="separator"
+      className={classNames(`${prefixCls}-item-divider`, className)}
+      style={style}
+    />
   );
-
-  return <Divider className={classString} {...restProps} />;
-};
-
-export default MenuDivider;
+}

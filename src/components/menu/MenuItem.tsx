@@ -1,116 +1,271 @@
 import classNames from 'classnames';
-import type { MenuItemProps as RcMenuItemProps } from 'rc-menu';
-import { Item } from 'rc-menu';
-import toArray from 'rc-util/lib/Children/toArray';
+import Overflow from 'rc-overflow';
+import KeyCode from 'rc-util/lib/KeyCode';
 import omit from 'rc-util/lib/omit';
+import { useComposeRef } from 'rc-util/lib/ref';
+import warning from 'rc-util/lib/warning';
 import * as React from 'react';
-import type { SiderContextProps } from '../layout/Sider';
-import { SiderContext } from '../layout/Sider';
-import type { TooltipProps } from '../tooltip';
-import Tooltip from '../tooltip';
-import { cloneElement, isValidElement } from '../_util/reactNode';
-import type { MenuContextProps } from './MenuContext';
-import MenuContext from './MenuContext';
+import Icon from './Icon';
+import { useMenuId } from './context/IdContext';
+import { MenuContext } from './context/MenuContext';
+import { useFullPath, useMeasure } from './context/PathContext';
+import useActive from './hooks/useActive';
+import useDirectionStyle from './hooks/useDirectionStyle';
+import type { MenuInfo, MenuItemType } from './interface';
+import { warnItemProp } from './utils/warnUtil';
 
-export interface MenuItemProps extends Omit<RcMenuItemProps, 'title'> {
-  icon?: React.ReactNode;
-  danger?: boolean;
-  title?: React.ReactNode;
+export interface MenuItemProps
+  extends Omit<MenuItemType, 'label' | 'key'>,
+    Omit<
+      React.HTMLAttributes<HTMLLIElement>,
+      'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
+    > {
+  children?: React.ReactNode;
+
+  /** @private Internal filled key. Do not set it directly */
+  eventKey?: string;
+
+  /** @private Do not use. Private warning empty usage */
+  warnKey?: boolean;
+
+  /** @deprecated No place to use this. Should remove */
+  attribute?: Record<string, string>;
 }
 
-type MenuItemComponent = React.FC<MenuItemProps>;
+// Since Menu event provide the `info.item` which point to the MenuItem node instance.
+// We have to use class component here.
+// This should be removed from doc & api in future.
+class LegacyMenuItem extends React.Component<any> {
+  render() {
+    const { title, attribute, elementRef, ...restProps } = this.props;
 
-type RestArgs<T> = T extends (arg: any, ...args: infer P) => any ? P : never;
+    // Here the props are eventually passed to the DOM element.
+    // React does not recognize non-standard attributes.
+    // Therefore, remove the props that is not used here.
+    // ref: https://github.com/ant-design/ant-design/issues/41395
+    const passedProps = omit(restProps, [
+      'eventKey',
+      'popupClassName',
+      'popupOffset',
+      'onTitleClick',
+    ]);
+    warning(!attribute, '`attribute` of Menu.Item is deprecated. Please pass attribute directly.');
 
-type GenericProps<T = unknown> = T extends infer U extends MenuItemProps
-  ? unknown extends U
-    ? MenuItemProps
-    : U
-  : MenuItemProps;
+    return (
+      <Overflow.Item
+        {...attribute}
+        title={typeof title === 'string' ? title : undefined}
+        {...passedProps}
+        ref={elementRef}
+      />
+    );
+  }
+}
 
-type GenericComponent = Omit<MenuItemComponent, ''> & {
-  <T extends MenuItemProps>(
-    props: GenericProps<T>,
-    ...args: RestArgs<MenuItemComponent>
-  ): ReturnType<MenuItemComponent>;
-};
+/**
+ * Real Menu Item component
+ */
+const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<HTMLElement>) => {
+  const {
+    style,
+    className,
 
-const MenuItem: GenericComponent = (props) => {
-  const { className, children, icon, title, danger } = props;
+    eventKey,
+    warnKey,
+    disabled,
+    itemIcon,
+    children,
+
+    // Aria
+    role,
+
+    // Active
+    onMouseEnter,
+    onMouseLeave,
+
+    onClick,
+    onKeyDown,
+
+    onFocus,
+
+    ...restProps
+  } = props;
+
+  const domDataId = useMenuId(eventKey);
+
   const {
     prefixCls,
-    firstLevel,
-    direction,
-    disableMenuItemTitleTooltip,
-    inlineCollapsed: isInlineCollapsed,
-  } = React.useContext<MenuContextProps>(MenuContext);
-  const renderItemChildren = (inlineCollapsed: boolean) => {
-    const wrapNode = <span className={`${prefixCls}-title-content`}>{children}</span>;
-    // inline-collapsed.md demo 依赖 span 来隐藏文字,有 icon 属性，则内部包裹一个 span
-    // ref: https://github.com/ant-design/ant-design/pull/23456
-    if (!icon || (isValidElement(children) && children.type === 'span')) {
-      if (children && inlineCollapsed && firstLevel && typeof children === 'string') {
-        return <div className={`${prefixCls}-inline-collapsed-noicon`}>{children.charAt(0)}</div>;
-      }
-    }
-    return wrapNode;
+    onItemClick,
+
+    disabled: contextDisabled,
+    overflowDisabled,
+
+    // Icon
+    itemIcon: contextItemIcon,
+
+    // Select
+    selectedKeys,
+
+    // Active
+    onActive,
+  } = React.useContext(MenuContext);
+
+  const itemCls = `${prefixCls}-item`;
+
+  const legacyMenuItemRef = React.useRef<any>();
+  const elementRef = React.useRef<HTMLLIElement>();
+  const mergedDisabled = contextDisabled || disabled;
+
+  const mergedEleRef = useComposeRef(ref, elementRef);
+
+  const connectedKeys = useFullPath(eventKey);
+
+  // ================================ Warn ================================
+  if (process.env.NODE_ENV !== 'production' && warnKey) {
+    warning(false, 'MenuItem should not leave undefined `key`.');
+  }
+
+  // ============================= Info =============================
+  const getEventInfo = (
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+  ): MenuInfo => {
+    return {
+      key: eventKey,
+      // Note: For legacy code is reversed which not like other antd component
+      keyPath: [...connectedKeys].reverse(),
+      item: legacyMenuItemRef.current,
+      domEvent: e,
+    };
   };
 
-  const { siderCollapsed } = React.useContext<SiderContextProps>(SiderContext);
+  // ============================= Icon =============================
+  const mergedItemIcon = itemIcon || contextItemIcon;
 
-  let tooltipTitle = title;
+  // ============================ Active ============================
+  const { active, ...activeProps } = useActive(
+    eventKey,
+    mergedDisabled,
+    onMouseEnter,
+    onMouseLeave,
+  );
 
-  if (typeof title === 'undefined') {
-    tooltipTitle = firstLevel ? children : '';
-  } else if (title === false) {
-    tooltipTitle = '';
+  // ============================ Select ============================
+  const selected = selectedKeys.includes(eventKey);
+
+  // ======================== DirectionStyle ========================
+  const directionStyle = useDirectionStyle(connectedKeys.length);
+
+  // ============================ Events ============================
+  const onInternalClick: React.MouseEventHandler<HTMLLIElement> = (e) => {
+    if (mergedDisabled) {
+      return;
+    }
+
+    const info = getEventInfo(e);
+
+    onClick?.(warnItemProp(info));
+    onItemClick(info);
+  };
+
+  const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = (e) => {
+    onKeyDown?.(e);
+
+    if (e.which === KeyCode.ENTER) {
+      const info = getEventInfo(e);
+
+      // Legacy. Key will also trigger click event
+      onClick?.(warnItemProp(info));
+      onItemClick(info);
+    }
+  };
+
+  /**
+   * Used for accessibility. Helper will focus element without key board.
+   * We should manually trigger an active
+   */
+  const onInternalFocus: React.FocusEventHandler<HTMLLIElement> = (e) => {
+    onActive(eventKey);
+    onFocus?.(e);
+  };
+
+  // ============================ Render ============================
+  const optionRoleProps: React.HTMLAttributes<HTMLDivElement> = {};
+
+  if (props.role === 'option') {
+    optionRoleProps['aria-selected'] = selected;
   }
 
-  const tooltipProps: TooltipProps = { title: tooltipTitle };
-
-  if (!siderCollapsed && !isInlineCollapsed) {
-    tooltipProps.title = null;
-    // Reset `open` to fix control mode tooltip display not correct
-    // ref: https://github.com/ant-design/ant-design/issues/16742
-    tooltipProps.open = false;
-  }
-
-  const childrenLength = toArray(children).length;
-
-  let returnNode = (
-    <Item
-      {...omit(props, ['title', 'icon', 'danger'])}
+  let renderNode = (
+    <LegacyMenuItem
+      ref={legacyMenuItemRef}
+      elementRef={mergedEleRef}
+      role={role === null ? 'none' : role || 'menuitem'}
+      tabIndex={disabled ? null : -1}
+      data-menu-id={overflowDisabled && domDataId ? null : domDataId}
+      {...restProps}
+      {...activeProps}
+      {...optionRoleProps}
+      component="li"
+      aria-disabled={disabled}
+      style={{
+        ...directionStyle,
+        ...style,
+      }}
       className={classNames(
+        itemCls,
         {
-          [`${prefixCls}-item-danger`]: danger,
-          [`${prefixCls}-item-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
+          [`${itemCls}-active`]: active,
+          [`${itemCls}-selected`]: selected,
+          [`${itemCls}-disabled`]: mergedDisabled,
         },
         className,
       )}
-      title={typeof title === 'string' ? title : undefined}
+      onClick={onInternalClick}
+      onKeyDown={onInternalKeyDown}
+      onFocus={onInternalFocus}
     >
-      {cloneElement(icon, {
-        className: classNames(
-          isValidElement(icon) ? icon.props?.className : '',
-          `${prefixCls}-item-icon`,
-        ),
-      })}
-      {renderItemChildren(isInlineCollapsed)}
-    </Item>
+      {children}
+      <Icon
+        props={{
+          ...props,
+          isSelected: selected,
+        }}
+        icon={mergedItemIcon}
+      />
+    </LegacyMenuItem>
   );
 
-  if (!disableMenuItemTitleTooltip) {
-    returnNode = (
-      <Tooltip
-        {...tooltipProps}
-        placement={direction === 'rtl' ? 'left' : 'right'}
-        overlayClassName={`${prefixCls}-inline-collapsed-tooltip`}
-      >
-        {returnNode}
-      </Tooltip>
-    );
+  if (_internalRenderMenuItem) {
+    renderNode = _internalRenderMenuItem(renderNode, props, { selected });
   }
-  return returnNode;
-};
 
-export default MenuItem;
+  return renderNode;
+});
+
+function MenuItem(props: MenuItemProps, ref: React.Ref<HTMLElement>): React.ReactElement {
+  const { eventKey } = props;
+
+  // ==================== Record KeyPath ====================
+  const measure = useMeasure();
+  const connectedKeyPath = useFullPath(eventKey);
+
+  // eslint-disable-next-line consistent-return
+  React.useEffect(() => {
+    if (measure) {
+      measure.registerPath(eventKey, connectedKeyPath);
+
+      return () => {
+        measure.unregisterPath(eventKey, connectedKeyPath);
+      };
+    }
+  }, [connectedKeyPath]);
+
+  if (measure) {
+    return null;
+  }
+
+  // ======================== Render ========================
+  return <InternalMenuItem {...props} ref={ref} />;
+}
+
+export default React.forwardRef(MenuItem);
