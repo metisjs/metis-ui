@@ -8,10 +8,7 @@ export interface PathRegisterContextProps {
   unregisterPath: (key: string, keyPath: string[]) => void;
 }
 
-export const PathRegisterContext = React.createContext<PathRegisterContextProps>({
-  registerPath: () => {},
-  unregisterPath: () => {},
-});
+export const PathRegisterContext = React.createContext<PathRegisterContextProps | null>(null);
 
 export function useMeasure() {
   return React.useContext(PathRegisterContext);

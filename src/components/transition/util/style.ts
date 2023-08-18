@@ -1,5 +1,5 @@
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import { CSSProperties } from 'react';
+import { clsx } from '../../_util/classNameUtils';
 import {
   TransitionStatus,
   TransitionStep,

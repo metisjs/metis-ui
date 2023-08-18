@@ -1,4 +1,4 @@
-import { TransitionProps } from 'meta-ui/es/transition';
+import { TransitionProps } from '../../transition';
 
 export function getTransition(
   mode: string,

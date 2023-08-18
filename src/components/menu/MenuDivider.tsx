@@ -1,12 +1,12 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import { MenuContext } from './context/MenuContext';
 import { useMeasure } from './context/PathContext';
 import type { MenuDividerType } from './interface';
 
 export type MenuDividerProps = Omit<MenuDividerType, 'type'>;
 
-export default function MenuDivider({ className, style }: MenuDividerProps) {
+export default function MenuDivider({ className, style, dashed }: MenuDividerProps) {
   const { prefixCls } = React.useContext(MenuContext);
   const measure = useMeasure();
 
@@ -17,7 +17,13 @@ export default function MenuDivider({ className, style }: MenuDividerProps) {
   return (
     <li
       role="separator"
-      className={classNames(`${prefixCls}-item-divider`, className)}
+      className={clsx(
+        `${prefixCls}-item-divider`,
+        {
+          [`${prefixCls}-item-divider-dashed`]: !!dashed,
+        },
+        className,
+      )}
       style={style}
     />
   );

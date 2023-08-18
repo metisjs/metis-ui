@@ -1,13 +1,14 @@
 import classNames from 'classnames';
+import Trigger from '../../trigger';
 import raf from 'rc-util/lib/raf';
 import * as React from 'react';
-import Transition, { TransitionProps } from '../../transition';
+import { TransitionProps } from '../../transition';
 import { MenuContext } from '../context/MenuContext';
 import type { MenuMode } from '../interface';
 import { placements } from '../placements';
 import { getTransition } from '../utils/transitionUtil';
 
-const popupPlacementMap = {
+const popupPlacementMap: Record<string, string> = {
   horizontal: 'bottomLeft',
   vertical: 'rightTop',
   'vertical-left': 'rightTop',
@@ -59,19 +60,19 @@ export default function PopupTrigger({
 
   const popupPlacement = popupPlacementMap[mode];
 
-  const targetMotion = getTransition(mode, transition, defaultTransitions);
-  const targetMotionRef = React.useRef(targetMotion);
+  const targetTransition = getTransition(mode, transition, defaultTransitions);
+  const targetTransitionRef = React.useRef(targetTransition);
 
   if (mode !== 'inline') {
     /**
      * PopupTrigger is only used for vertical and horizontal types.
      * When collapsed is unfolded, the inline animation will destroy the vertical animation.
      */
-    targetMotionRef.current = targetMotion;
+    targetTransitionRef.current = targetTransition;
   }
 
-  const mergedMotion: TransitionProps = {
-    ...targetMotionRef.current,
+  const mergedTransition: TransitionProps = {
+    ...targetTransitionRef.current,
     removeOnLeave: false,
     appear: true,
   };
@@ -89,25 +90,27 @@ export default function PopupTrigger({
   }, [visible]);
 
   return (
-    <Transition
+    <Trigger
       prefixCls={prefixCls}
-      popupClassName={classNames(`${prefixCls}-popup`, popupClassName, className)}
-      stretch={mode === 'horizontal' ? 'minWidth' : null}
+      className={{
+        popup: classNames(`${prefixCls}-popup`, popupClassName, className),
+      }}
+      stretch={mode === 'horizontal' ? 'minWidth' : undefined}
       getPopupContainer={getPopupContainer}
       builtinPlacements={placement}
       popupPlacement={popupPlacement}
-      popupVisible={innerVisible}
+      popupOpen={innerVisible}
       popup={popup}
       popupStyle={popupStyle}
       popupAlign={popupOffset && { offset: popupOffset }}
-      action={disabled ? [] : [triggerSubMenuAction]}
+      action={disabled ? [] : triggerSubMenuAction}
       mouseEnterDelay={subMenuOpenDelay}
       mouseLeaveDelay={subMenuCloseDelay}
-      onPopupVisibleChange={onVisibleChange}
+      onPopupOpenChange={onVisibleChange}
       forceRender={forceSubMenuRender}
-      popupMotion={mergedMotion}
+      popupTransition={mergedTransition}
     >
       {children}
-    </Transition>
+    </Trigger>
   );
 }

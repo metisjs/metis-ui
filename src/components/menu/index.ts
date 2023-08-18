@@ -1,5 +1,6 @@
 import type { MenuProps } from './Menu';
-import Menu from './Menu';
+import InternalMenu from './Menu';
+import type { MenuDividerProps } from './MenuDivider';
 import MenuDivider from './MenuDivider';
 import type { MenuItemProps } from './MenuItem';
 import MenuItem from './MenuItem';
@@ -7,34 +8,49 @@ import type { MenuItemGroupProps } from './MenuItemGroup';
 import MenuItemGroup from './MenuItemGroup';
 import type { SubMenuProps } from './SubMenu';
 import SubMenu from './SubMenu';
-import { useFullPath } from './context/PathContext';
-import type { MenuRef } from './interface';
+import type { ItemType, MenuItemType, MenuRef } from './interface';
 
-export {
-  MenuDivider as Divider,
-  MenuItem as Item,
-  MenuItemGroup as ItemGroup,
-  MenuItem,
-  MenuItemGroup,
-  SubMenu,
-  /** @private Only used for antd internal. Do not use in your production. */
-  useFullPath,
+export type {
+  MenuDividerProps,
+  MenuItemGroupProps,
+  MenuItemProps,
+  MenuProps,
+  MenuRef,
+  SubMenuProps,
 };
 
-export type { MenuItemGroupProps, MenuItemProps, MenuProps, MenuRef, SubMenuProps };
+type ComponentProps = MenuProps & React.RefAttributes<MenuRef>;
 
-type MenuType = typeof Menu & {
+type GenericItemType<T = unknown> = T extends infer U extends MenuItemType
+  ? unknown extends U
+    ? ItemType
+    : ItemType<U>
+  : ItemType;
+
+type GenericComponentProps<T = unknown> = Omit<ComponentProps, 'items'> & {
+  items?: GenericItemType<T>[];
+};
+
+type CompoundedComponent = React.ForwardRefExoticComponent<GenericComponentProps> & {
   Item: typeof MenuItem;
   SubMenu: typeof SubMenu;
-  ItemGroup: typeof MenuItemGroup;
   Divider: typeof MenuDivider;
+  ItemGroup: typeof MenuItemGroup;
 };
 
-const ExportMenu = Menu as MenuType;
+interface GenericComponent extends Omit<CompoundedComponent, ''> {
+  <T extends MenuItemType>(props: GenericComponentProps<T>): ReturnType<CompoundedComponent>;
+}
 
-ExportMenu.Item = MenuItem;
-ExportMenu.SubMenu = SubMenu;
-ExportMenu.ItemGroup = MenuItemGroup;
-ExportMenu.Divider = MenuDivider;
+const Menu = InternalMenu as GenericComponent;
 
-export default ExportMenu;
+Menu.Item = MenuItem;
+Menu.SubMenu = SubMenu;
+Menu.Divider = MenuDivider;
+Menu.ItemGroup = MenuItemGroup;
+
+if (process.env.NODE_ENV !== 'production') {
+  Menu.displayName = 'Menu';
+}
+
+export default Menu;

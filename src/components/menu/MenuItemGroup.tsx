@@ -1,13 +1,12 @@
-import classNames from 'classnames';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
 import { parseChildren } from './utils/commonUtil';
 
-export interface MenuItemGroupProps
-  extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
+export interface MenuItemGroupProps extends Omit<MenuItemGroupType, 'type' | 'children' | 'label'> {
   title?: React.ReactNode;
 
   children?: React.ReactNode;
@@ -22,6 +21,7 @@ export interface MenuItemGroupProps
 const InternalMenuItemGroup = ({
   className,
   title,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   eventKey,
   children,
   ...restProps
@@ -34,8 +34,8 @@ const InternalMenuItemGroup = ({
     <li
       role="presentation"
       {...restProps}
-      onClick={e => e.stopPropagation()}
-      className={classNames(groupPrefixCls, className)}
+      onClick={(e) => e.stopPropagation()}
+      className={clsx(groupPrefixCls, className)}
     >
       <div
         role="presentation"
@@ -56,19 +56,12 @@ export default function MenuItemGroup({
   ...props
 }: MenuItemGroupProps): React.ReactElement {
   const connectedKeyPath = useFullPath(props.eventKey);
-  const childList: React.ReactElement[] = parseChildren(
-    children,
-    connectedKeyPath,
-  );
+  const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
 
   const measure = useMeasure();
   if (measure) {
-    return (childList as any) as React.ReactElement;
+    return childList as any as React.ReactElement;
   }
 
-  return (
-    <InternalMenuItemGroup {...omit(props, ['warnKey'])}>
-      {childList}
-    </InternalMenuItemGroup>
-  );
+  return <InternalMenuItemGroup {...omit(props, ['warnKey'])}>{childList}</InternalMenuItemGroup>;
 }

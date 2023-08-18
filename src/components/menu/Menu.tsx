@@ -1,14 +1,21 @@
-import classNames from 'classnames';
 import Overflow from 'rc-overflow';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isEqual from 'rc-util/lib/isEqual';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
+import { clsx } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
+import { cloneElement, isValidElement } from '../_util/reactNode';
+import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
+import { SiderContextProps } from '../layout/Sider';
 import { TransitionProps } from '../transition';
-import { getMenuId, IdContext } from './context/IdContext';
-import MenuContextProvider from './context/MenuContext';
+import MenuItem from './MenuItem';
+import SubMenu from './SubMenu';
+import { IdContext, getMenuId } from './context/IdContext';
+import MenuContextProvider, { MenuTheme } from './context/MenuContext';
+import OverrideContext from './context/OverrideContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useAccessibility from './hooks/useAccessibility';
 import useKeyRecords, { OVERFLOW_KEY } from './hooks/useKeyRecords';
@@ -25,8 +32,6 @@ import type {
   SelectInfo,
   TriggerSubMenuAction,
 } from './interface';
-import MenuItem from './MenuItem';
-import SubMenu from './SubMenu';
 import { parseItems } from './utils/nodeUtil';
 
 // optimize for render
@@ -34,11 +39,13 @@ const EMPTY_LIST: string[] = [];
 
 export interface MenuProps
   extends Omit<
-    React.HTMLAttributes<HTMLUListElement>,
-    'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
-  > {
+      React.HTMLAttributes<HTMLUListElement>,
+      'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
+    >,
+    SiderContextProps {
   prefixCls?: string;
   className?: string;
+  theme?: MenuTheme;
   items: ItemType[];
 
   disabled?: boolean;
@@ -95,12 +102,16 @@ export interface MenuProps
   // >>>>> Events
   onClick?: MenuClickEventHandler;
   onOpenChange?: (openKeys: string[]) => void;
+
+  // >>>>> Sider
+  collapsedWidth?: string | number;
 }
 
 const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const {
-    prefixCls,
+    prefixCls: customizePrefixCls,
     style,
+    theme = 'light',
     className,
     tabIndex = 0,
     items,
@@ -152,7 +163,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     overflowedIndicatorPopupClassName,
 
     // Function
-    getPopupContainer,
+    getPopupContainer: customizeGetPopupContainer,
 
     // Events
     onClick,
@@ -161,6 +172,28 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     ...restProps
   } = props;
+
+  // ======================== Warning ==========================
+  warning(
+    !('inlineCollapsed' in props && mode !== 'inline'),
+    'Menu',
+    '`inlineCollapsed` should only be used when `mode` is inline.',
+  );
+
+  warning(
+    !(props.siderCollapsed !== undefined && 'inlineCollapsed' in props),
+    'Menu',
+    '`inlineCollapsed` not control Menu under Sider. Should set `collapsed` on Sider instead.',
+  );
+
+  const override = React.useContext(OverrideContext);
+  const overrideObj = override || {};
+
+  const { getPrefixCls, getPopupContainer: globalGetPopupContainer } =
+    React.useContext(ConfigContext);
+  const getPopupContainer = customizeGetPopupContainer ?? globalGetPopupContainer;
+
+  const prefixCls = getPrefixCls('menu', customizePrefixCls || overrideObj.prefixCls);
 
   const childList: React.ReactElement[] = React.useMemo(
     () => parseItems(items, EMPTY_LIST),
@@ -199,11 +232,12 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   // ========================= Mode =========================
   const [mergedMode, mergedInlineCollapsed] = React.useMemo<[MenuMode, boolean]>(() => {
-    if ((mode === 'inline' || mode === 'vertical') && inlineCollapsed) {
+    const _mode = overrideObj.mode || mode;
+    if ((_mode === 'inline' || _mode === 'vertical') && inlineCollapsed) {
       return ['vertical', inlineCollapsed];
     }
-    return [mode, false];
-  }, [mode, inlineCollapsed]);
+    return [_mode, false];
+  }, [overrideObj.mode, mode, inlineCollapsed]);
 
   const isInlineMode = mergedMode === 'inline';
 
@@ -323,9 +357,26 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     },
   });
 
+  // ======================= Selectable ========================
+  const mergedSelectable = selectable ?? overrideObj.selectable;
+
+  // ====================== Expand Icon ========================
+  let mergedExpandIcon: MenuProps['expandIcon'];
+  if (typeof expandIcon === 'function') {
+    mergedExpandIcon = expandIcon;
+  } else {
+    const beClone: React.ReactNode = expandIcon || overrideObj.expandIcon;
+    mergedExpandIcon = cloneElement(beClone, {
+      className: clsx(
+        `${prefixCls}-submenu-expand-icon`,
+        isValidElement(beClone) ? beClone.props?.className : '',
+      ),
+    });
+  }
+
   // >>>>> Trigger select
   const triggerSelection = (info: MenuInfo) => {
-    if (selectable) {
+    if (mergedSelectable) {
       // Insert or Remove
       const { key: targetKey } = info;
       const exist = mergedSelectKeys.includes(targetKey);
@@ -368,6 +419,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
    */
   const onInternalClick = useMemoizedFn((info: MenuInfo) => {
     onClick?.(info);
+    overrideObj.onClick?.();
     triggerSelection(info);
   });
 
@@ -436,14 +488,15 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
-      className={classNames(
+      className={clsx(
         prefixCls,
-        `${prefixCls}-root`,
         `${prefixCls}-${internalMode}`,
-        className,
+        'flex transition-width',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
+          'leading-12 border-b border-neutral-border-secondary': mergedMode === 'horizontal',
         },
+        className,
       )}
       style={style}
       role="menu"
@@ -485,49 +538,53 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   // >>>>> Render
   return (
-    <IdContext.Provider value={uuid}>
-      <MenuContextProvider
-        prefixCls={prefixCls}
-        className={className}
-        mode={internalMode}
-        openKeys={mergedOpenKeys}
-        // Disabled
-        disabled={disabled}
-        // Transition
-        transition={mounted ? transition : undefined}
-        defaultTransitions={mounted ? defaultTransitions : undefined}
-        // Active
-        activeKey={mergedActiveKey}
-        onActive={onActive}
-        onInactive={onInactive}
-        // Selection
-        selectedKeys={mergedSelectKeys}
-        // Level
-        inlineIndent={inlineIndent}
-        // Popup
-        subMenuOpenDelay={subMenuOpenDelay}
-        subMenuCloseDelay={subMenuCloseDelay}
-        forceSubMenuRender={forceSubMenuRender}
-        builtinPlacements={builtinPlacements}
-        triggerSubMenuAction={triggerSubMenuAction}
-        getPopupContainer={getPopupContainer}
-        // Icon
-        itemIcon={itemIcon}
-        expandIcon={expandIcon}
-        // Events
-        onItemClick={onInternalClick}
-        onOpenChange={onInternalOpenChange}
-      >
-        <PathUserContext.Provider value={pathUserContext}>{container}</PathUserContext.Provider>
+    <OverrideContext.Provider value={null}>
+      <IdContext.Provider value={uuid}>
+        <MenuContextProvider
+          prefixCls={prefixCls}
+          className={className}
+          inlineCollapsed={mergedInlineCollapsed || false}
+          theme={theme}
+          mode={internalMode}
+          openKeys={mergedOpenKeys}
+          // Disabled
+          disabled={disabled}
+          // Transition
+          transition={mounted ? transition : undefined}
+          defaultTransitions={mounted ? defaultTransitions : undefined}
+          // Active
+          activeKey={mergedActiveKey}
+          onActive={onActive}
+          onInactive={onInactive}
+          // Selection
+          selectedKeys={mergedSelectKeys}
+          // Level
+          inlineIndent={inlineIndent}
+          // Popup
+          subMenuOpenDelay={subMenuOpenDelay}
+          subMenuCloseDelay={subMenuCloseDelay}
+          forceSubMenuRender={forceSubMenuRender}
+          builtinPlacements={builtinPlacements}
+          triggerSubMenuAction={triggerSubMenuAction}
+          getPopupContainer={getPopupContainer}
+          // Icon
+          itemIcon={itemIcon}
+          expandIcon={mergedExpandIcon}
+          // Events
+          onItemClick={onInternalClick}
+          onOpenChange={onInternalOpenChange}
+        >
+          <PathUserContext.Provider value={pathUserContext}>{container}</PathUserContext.Provider>
 
-        {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
-        <div style={{ display: 'none' }} aria-hidden>
-          <PathRegisterContext.Provider value={registerPathContext}>
-            {childList}
-          </PathRegisterContext.Provider>
-        </div>
-      </MenuContextProvider>
-    </IdContext.Provider>
+          {/* Measure menu keys. Add `display: none` to avoid some developer miss use the Menu */}
+          <div style={{ display: 'none' }} aria-hidden>
+            <PathRegisterContext.Provider value={registerPathContext}>
+              {childList}
+            </PathRegisterContext.Provider>
+          </div>
+        </MenuContextProvider>
+      </IdContext.Provider>
+    </OverrideContext.Provider>
   );
 });
 

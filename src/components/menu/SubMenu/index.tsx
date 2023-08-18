@@ -1,7 +1,7 @@
-import useMemoizedFn from 'meta-ui/es/_util/hooks/useMemoizedFn';
 import Overflow from 'rc-overflow';
 import * as React from 'react';
 import { clsx } from '../../_util/classNameUtils';
+import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
 import warning from '../../_util/warning';
 import Icon from '../Icon';
 import { useMenuId } from '../context/IdContext';

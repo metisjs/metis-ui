@@ -12,15 +12,10 @@ group:
 
 导航菜单是一个网站的灵魂，用户依赖导航在各个页面中进行跳转。一般分为顶部导航和侧边导航，顶部导航提供全局性的类目和功能，侧边导航提供多级结构来收纳和排列网站架构。
 
-## 开发者注意事项
-
-- Menu 元素为 `ul`，因而仅支持 [`li` 以及 `script-supporting` 子元素](https://html.spec.whatwg.org/multipage/grouping-content.html#the-ul-element)。因而你的子节点元素应该都在 `Menu.Item` 内使用。
-- Menu 需要计算节点结构，因而其子元素仅支持 `Menu.*` 以及对此进行封装的 HOC 组件。
-
 ## 代码演示
 
 <!-- prettier-ignore -->
-<!-- <code src="./demo/horizontal.tsx">顶部导航</code> -->
+<code src="./demo/horizontal.tsx">顶部导航</code>
 
 <!-- <code src="./demo/horizontal-dark.tsx" debug>顶部导航（dark）</code>
 <code src="./demo/inline.tsx">内嵌菜单</code>

@@ -1,24 +1,31 @@
+/**
+ * description: 水平的顶部导航菜单。
+ */
+import {
+  AdjustmentsHorizontalOutline,
+  ChatBubbleBottomCenterOutline,
+  ComputerDesktopOutline,
+} from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Menu } from 'meta-ui';
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
 
 const items: MenuProps['items'] = [
   {
     label: 'Navigation One',
-    key: 'mail',
-    icon: <MailOutlined />,
+    key: 'computer',
+    icon: <ComputerDesktopOutline />,
   },
   {
     label: 'Navigation Two',
-    key: 'app',
-    icon: <AppstoreOutlined />,
+    key: 'chat',
+    icon: <ChatBubbleBottomCenterOutline />,
     disabled: true,
   },
   {
     label: 'Navigation Three - Submenu',
     key: 'SubMenu',
-    icon: <SettingOutlined />,
+    icon: <AdjustmentsHorizontalOutline />,
     children: [
       {
         type: 'group',
@@ -52,11 +59,11 @@ const items: MenuProps['items'] = [
   },
   {
     label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/meta-oa/meta-ui" target="_blank" rel="noopener noreferrer">
         Navigation Four - Link
       </a>
     ),
-    key: 'alipay',
+    key: 'github',
   },
 ];
 

@@ -1,7 +1,7 @@
-import { TransitionProps } from 'meta-ui/es/transition';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import * as React from 'react';
+import { TransitionProps } from '../../transition';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
@@ -12,10 +12,15 @@ import type {
 
 const noop = () => {};
 
+export type MenuTheme = 'light' | 'dark';
+
 export interface MenuContextProps {
   prefixCls: string;
   className?: string;
   openKeys: string[];
+
+  inlineCollapsed: boolean;
+  theme?: MenuTheme;
 
   // Mode
   mode: MenuMode;
@@ -71,6 +76,8 @@ export const MenuContext = React.createContext<MenuContextProps>({
   onItemClick: noop,
   onOpenChange: noop,
   getPopupContainer: (node) => node,
+  inlineCollapsed: false,
+  firstLevel: true,
 });
 
 function mergeProps(origin: MenuContextProps, target: Partial<MenuContextProps>): MenuContextProps {
