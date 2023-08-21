@@ -16,7 +16,6 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> extends Item
   theme?: 'dark' | 'light';
 
   // >>>>> Icon
-  itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
 
   // >>>>> Active

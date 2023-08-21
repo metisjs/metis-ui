@@ -2,6 +2,7 @@ import Overflow from 'rc-overflow';
 import * as React from 'react';
 import { clsx } from '../../_util/classNameUtils';
 import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
+import { cloneElement, isValidElement } from '../../_util/reactNode';
 import warning from '../../_util/warning';
 import Icon from '../Icon';
 import { useMenuId } from '../context/IdContext';
@@ -42,6 +43,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     style,
     className,
 
+    icon,
     title,
     eventKey,
     warnKey,
@@ -52,7 +54,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     children,
 
     // Icons
-    itemIcon,
     expandIcon,
 
     // Popup
@@ -88,8 +89,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     // SelectKey
     selectedKeys,
 
-    // Icon
-    itemIcon: contextItemIcon,
     expandIcon: contextExpandIcon,
 
     // Events
@@ -113,7 +112,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
   }
 
   // ================================ Icon ================================
-  const mergedItemIcon = itemIcon || contextItemIcon;
   const mergedExpandIcon = expandIcon || contextExpandIcon;
 
   // ================================ Open ================================
@@ -230,6 +228,14 @@ const InternalSubMenu = (props: SubMenuProps) => {
       onFocus={onInternalFocus}
       {...activeProps}
     >
+      {cloneElement(icon, {
+        className: clsx(
+          `${prefixCls}-item-icon`,
+          'mr-2 text-base',
+          isValidElement(icon) ? icon.props?.className : '',
+        ),
+      })}
+
       {title}
 
       {/* Only non-horizontal mode shows the icon */}
@@ -264,7 +270,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       <PopupTrigger
         mode={triggerMode}
         prefixCls={subMenuPrefixCls}
-        visible={!internalPopupClose && open && mode !== 'inline'}
+        open={!internalPopupClose && open && mode !== 'inline'}
         popupClassName={popupClassName}
         popupOffset={popupOffset}
         popupStyle={popupStyle}
@@ -279,7 +285,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
           </MenuContextProvider>
         }
         disabled={!!mergedDisabled}
-        onVisibleChange={onPopupVisibleChange}
+        onOpenChange={onPopupVisibleChange}
       >
         {titleNode}
       </PopupTrigger>
@@ -293,12 +299,22 @@ const InternalSubMenu = (props: SubMenuProps) => {
       {...restProps}
       component="li"
       style={style}
-      className={clsx(subMenuPrefixCls, `${subMenuPrefixCls}-${mode}`, className, {
-        [`${subMenuPrefixCls}-open`]: open,
-        [`${subMenuPrefixCls}-active`]: mergedActive,
-        [`${subMenuPrefixCls}-selected`]: childrenSelected,
-        [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
-      })}
+      className={clsx(
+        subMenuPrefixCls,
+        `${subMenuPrefixCls}-${mode}`,
+        'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
+        {
+          [`${subMenuPrefixCls}-open`]: open,
+          [`${subMenuPrefixCls}-active`]: mergedActive,
+          [`${subMenuPrefixCls}-selected`]: childrenSelected,
+          [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
+          'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-4 after:start-4 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+            mode === 'horizontal',
+          'hover:after:border-primary': mode === 'horizontal' && !mergedDisabled,
+          'after:border-primary': mode === 'horizontal' && childrenSelected,
+        },
+        className,
+      )}
       onMouseEnter={onInternalMouseEnter}
       onMouseLeave={onInternalMouseLeave}
     >
@@ -318,7 +334,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     <MenuContextProvider
       onItemClick={onMergedItemClick}
       mode={mode === 'horizontal' ? 'vertical' : mode}
-      itemIcon={mergedItemIcon}
       expandIcon={mergedExpandIcon}
     >
       {listNode}

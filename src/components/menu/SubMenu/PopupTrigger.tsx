@@ -1,8 +1,8 @@
-import classNames from 'classnames';
-import Trigger from '../../trigger';
 import raf from 'rc-util/lib/raf';
 import * as React from 'react';
+import { clsx } from '../../_util/classNameUtils';
 import { TransitionProps } from '../../transition';
+import Trigger from '../../trigger';
 import { MenuContext } from '../context/MenuContext';
 import type { MenuMode } from '../interface';
 import { placements } from '../placements';
@@ -18,19 +18,19 @@ const popupPlacementMap: Record<string, string> = {
 export interface PopupTriggerProps {
   prefixCls: string;
   mode: MenuMode;
-  visible: boolean;
+  open: boolean;
   children: React.ReactElement;
   popup: React.ReactNode;
   popupStyle?: React.CSSProperties;
   popupClassName?: string;
   popupOffset?: number[];
   disabled: boolean;
-  onVisibleChange: (visible: boolean) => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 export default function PopupTrigger({
   prefixCls,
-  visible,
+  open,
   children,
   popup,
   popupStyle,
@@ -38,7 +38,7 @@ export default function PopupTrigger({
   popupOffset,
   disabled,
   mode,
-  onVisibleChange,
+  onOpenChange,
 }: PopupTriggerProps) {
   const {
     getPopupContainer,
@@ -54,7 +54,7 @@ export default function PopupTrigger({
     defaultTransitions,
   } = React.useContext(MenuContext);
 
-  const [innerVisible, setInnerVisible] = React.useState(false);
+  const [innerOpen, setInnerOpen] = React.useState(false);
 
   const placement = { ...placements, ...builtinPlacements };
 
@@ -78,35 +78,35 @@ export default function PopupTrigger({
   };
 
   // Delay to change visible
-  const visibleRef = React.useRef<number>();
+  const openRef = React.useRef<number>();
   React.useEffect(() => {
-    visibleRef.current = raf(() => {
-      setInnerVisible(visible);
+    openRef.current = raf(() => {
+      setInnerOpen(open);
     });
 
     return () => {
-      raf.cancel(visibleRef.current!);
+      raf.cancel(openRef.current!);
     };
-  }, [visible]);
+  }, [open]);
 
   return (
     <Trigger
       prefixCls={prefixCls}
       className={{
-        popup: classNames(`${prefixCls}-popup`, popupClassName, className),
+        popup: clsx(`${prefixCls}-popup`, 'absolute z-[1050] pt-1', popupClassName, className),
       }}
       stretch={mode === 'horizontal' ? 'minWidth' : undefined}
       getPopupContainer={getPopupContainer}
       builtinPlacements={placement}
       popupPlacement={popupPlacement}
-      popupOpen={innerVisible}
+      popupOpen={innerOpen}
       popup={popup}
       popupStyle={popupStyle}
       popupAlign={popupOffset && { offset: popupOffset }}
       action={disabled ? [] : triggerSubMenuAction}
       mouseEnterDelay={subMenuOpenDelay}
       mouseLeaveDelay={subMenuCloseDelay}
-      onPopupOpenChange={onVisibleChange}
+      onPopupOpenChange={onOpenChange}
       forceRender={forceSubMenuRender}
       popupTransition={mergedTransition}
     >

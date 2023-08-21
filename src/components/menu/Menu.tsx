@@ -1,3 +1,4 @@
+import { EllipsisHorizontalOutline } from '@metaoa/icons';
 import Overflow from 'rc-overflow';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isEqual from 'rc-util/lib/isEqual';
@@ -90,7 +91,6 @@ export interface MenuProps
   builtinPlacements?: BuiltinPlacements;
 
   // Icon
-  itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
   overflowedIndicator?: React.ReactNode;
   /** @private Internal usage. Do not use in your production. */
@@ -157,9 +157,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     builtinPlacements,
 
     // Icon
-    itemIcon,
     expandIcon,
-    overflowedIndicator = '...',
+    overflowedIndicator = <EllipsisHorizontalOutline />,
     overflowedIndicatorPopupClassName,
 
     // Function
@@ -491,10 +490,12 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       className={clsx(
         prefixCls,
         `${prefixCls}-${internalMode}`,
-        'flex transition-width',
+        'flex text-sm transition-width',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
-          'leading-12 border-b border-neutral-border-secondary': mergedMode === 'horizontal',
+          // prettier-ignore
+          'border-b border-neutral-border-secondary leading-[3rem] after:clear-both after:block after:h-0 after:content-["\\20"]':
+            mergedMode === 'horizontal',
         },
         className,
       )}
@@ -568,7 +569,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
           triggerSubMenuAction={triggerSubMenuAction}
           getPopupContainer={getPopupContainer}
           // Icon
-          itemIcon={itemIcon}
           expandIcon={mergedExpandIcon}
           // Events
           onItemClick={onInternalClick}

@@ -4,10 +4,10 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
+import { cloneElement, isValidElement } from '../_util/reactNode';
 import warning from '../_util/warning';
 import { SiderContext, SiderContextProps } from '../layout/Sider';
 import Tooltip, { TooltipProps } from '../tooltip';
-import Icon from './Icon';
 import { useMenuId } from './context/IdContext';
 import { MenuContext } from './context/MenuContext';
 import { PathTrackerContext, useFullPath, useMeasure } from './context/PathContext';
@@ -39,11 +39,11 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     style,
     className,
     danger,
+    icon,
 
     eventKey,
     warnKey,
     disabled,
-    itemIcon,
     children,
 
     // Aria
@@ -65,14 +65,12 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const {
     prefixCls,
+    mode,
     onItemClick,
 
     disabled: contextDisabled,
     overflowDisabled,
     inlineCollapsed: isInlineCollapsed,
-
-    // Icon
-    itemIcon: contextItemIcon,
 
     // Select
     selectedKeys,
@@ -124,9 +122,6 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     tooltipProps.title = null;
     tooltipProps.open = false;
   }
-
-  // ============================= Icon =============================
-  const mergedItemIcon = itemIcon || contextItemIcon;
 
   // ============================ Active ============================
   const { active, ...activeProps } = useActive(
@@ -201,12 +196,17 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         style={style}
         className={clsx(
           itemCls,
+          'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
           {
             [`${itemCls}-active`]: active,
-            [`${itemCls}-selected`]: selected,
-            [`${itemCls}-disabled`]: mergedDisabled,
+            [`${itemCls}-selected text-primary`]: selected,
+            [`${itemCls}-disabled cursor-not-allowed text-neutral-text-quaternary`]: mergedDisabled,
             [`${itemCls}-danger`]: danger,
-            [`${itemCls}-only-child`]: (mergedItemIcon ? childrenLength + 1 : childrenLength) === 1,
+            [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
+            'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-4 after:start-4 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+              mode === 'horizontal',
+            'hover:after:border-primary': mode === 'horizontal' && !mergedDisabled,
+            'after:border-primary': mode === 'horizontal' && selected,
           },
           className,
         )}
@@ -214,14 +214,14 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         onKeyDown={onInternalKeyDown}
         onFocus={onInternalFocus}
       >
+        {cloneElement(icon, {
+          className: clsx(
+            `${prefixCls}-item-icon`,
+            'mr-2 text-base',
+            isValidElement(icon) ? icon.props?.className : '',
+          ),
+        })}
         {children}
-        <Icon
-          props={{
-            ...props,
-            isSelected: selected,
-          }}
-          icon={mergedItemIcon}
-        />
       </Overflow.Item>
     </Tooltip>
   );

@@ -53,13 +53,12 @@ export interface MenuContextProps {
   triggerSubMenuAction?: TriggerSubMenuAction;
 
   // Icon
-  itemIcon?: RenderIconType;
   expandIcon?: RenderIconType;
 
   // Function
   onItemClick: MenuClickEventHandler;
   onOpenChange: (key: string, open: boolean) => void;
-  getPopupContainer: (node: HTMLElement) => HTMLElement;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
 }
 
 export const MenuContext = React.createContext<MenuContextProps>({
@@ -75,9 +74,7 @@ export const MenuContext = React.createContext<MenuContextProps>({
   subMenuCloseDelay: 0,
   onItemClick: noop,
   onOpenChange: noop,
-  getPopupContainer: (node) => node,
   inlineCollapsed: false,
-  firstLevel: true,
 });
 
 function mergeProps(origin: MenuContextProps, target: Partial<MenuContextProps>): MenuContextProps {
