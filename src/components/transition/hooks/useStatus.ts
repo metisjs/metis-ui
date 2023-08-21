@@ -67,7 +67,7 @@ export default function useStatus({
   const handleBefore = visible ? beforeEnterRef : beforeLeaveRef;
   const handleAfter = visible ? afterEnterRef : afterLeaveRef;
 
-  function onInternalMotionEnd(event: TransitionEvent & { deadline?: boolean }) {
+  function onInternalMotionEnd(event?: TransitionEvent & { deadline?: boolean }) {
     const element = getElement();
     if (event && !event.deadline && event.target !== element) {
       return;
