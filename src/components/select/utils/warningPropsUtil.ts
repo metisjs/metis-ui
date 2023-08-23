@@ -57,12 +57,12 @@ function warningProps(props: SelectProps) {
 
   // `combobox` should not use `optionLabelProp`
   warning(
-    combobox || !optionLabelProp,
+    !combobox || !optionLabelProp,
     '`combobox` mode not support `optionLabelProp`. Please set `value` on Option directly.',
   );
 
   // `onSearch` should use in `combobox` or `showSearch`
-  if (onSearch && !mergedShowSearch && combobox && mode !== 'tags') {
+  if (onSearch && !mergedShowSearch && !combobox && mode !== 'tags') {
     warning(false, '`onSearch` should work with `showSearch` instead of use alone.');
   }
 
