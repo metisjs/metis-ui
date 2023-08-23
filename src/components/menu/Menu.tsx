@@ -80,8 +80,6 @@ export interface MenuProps
 
   // Transition
   transition?: TransitionProps;
-  /** Default menu transition of each mode */
-  defaultTransitions?: Partial<{ [key in MenuMode | 'other']: TransitionProps }>;
 
   // Popup
   subMenuOpenDelay?: number;
@@ -150,7 +148,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     // Transition
     transition,
-    defaultTransitions,
 
     // Popup
     triggerSubMenuAction = 'hover',
@@ -158,7 +155,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     // Icon
     expandIcon,
-    overflowedIndicator = <EllipsisHorizontalOutline />,
+    overflowedIndicator = <EllipsisHorizontalOutline className="h-5 w-5" />,
     overflowedIndicatorPopupClassName,
 
     // Function
@@ -237,6 +234,20 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     }
     return [_mode, false];
   }, [overrideObj.mode, mode, inlineCollapsed]);
+
+  const defaultTransitions: Partial<{ [key in MenuMode | 'other']: TransitionProps }> =
+    React.useMemo(
+      () => ({
+        horizontal: {
+          leave: 'transition ease-in duration-150',
+          leaveFrom: 'opacity-100',
+          leaveTo: 'opacity-0',
+        },
+        inline: {},
+        other: {},
+      }),
+      [],
+    );
 
   const isInlineMode = mergedMode === 'inline';
 
@@ -493,9 +504,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         'flex text-sm transition-width',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
-          // prettier-ignore
-          'border-b border-neutral-border-secondary leading-[3rem] after:clear-both after:block after:h-0 after:content-["\\20"]':
-            mergedMode === 'horizontal',
+          'leading-[4rem]': mergedMode === 'horizontal',
         },
         className,
       )}

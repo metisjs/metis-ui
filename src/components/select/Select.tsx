@@ -747,7 +747,7 @@ const Select = React.forwardRef(
             selectorPlaceholder: selectorPlaceholderClassName,
           }}
           transition={{
-            leave: 'transition ease-in duration-100',
+            leave: 'transition ease-in duration-150',
             leaveFrom: 'opacity-100',
             leaveTo: 'opacity-0',
           }}

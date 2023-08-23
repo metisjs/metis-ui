@@ -215,7 +215,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   let titleNode: React.ReactElement = (
     <div
       role="menuitem"
-      className={`${subMenuPrefixCls}-title`}
+      className={clsx(`${subMenuPrefixCls}-title`, { 'text-primary': childrenSelected })}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : undefined}
@@ -231,7 +231,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       {cloneElement(icon, {
         className: clsx(
           `${prefixCls}-item-icon`,
-          'mr-2 text-base',
+          'mr-2 h-5 w-5',
           isValidElement(icon) ? icon.props?.className : '',
         ),
       })}
@@ -308,10 +308,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
           [`${subMenuPrefixCls}-active`]: mergedActive,
           [`${subMenuPrefixCls}-selected`]: childrenSelected,
           [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
-          'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-4 after:start-4 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+          'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
             mode === 'horizontal',
           'hover:after:border-primary': mode === 'horizontal' && !mergedDisabled,
-          'after:border-primary': mode === 'horizontal' && childrenSelected,
+          'after:border-primary': mode === 'horizontal' && (childrenSelected || mergedActive),
         },
         className,
       )}

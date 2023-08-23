@@ -26,7 +26,7 @@ const InternalMenuItemGroup = ({
   children,
   ...restProps
 }: MenuItemGroupProps) => {
-  const { prefixCls } = React.useContext(MenuContext);
+  const { prefixCls, theme } = React.useContext(MenuContext);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
@@ -39,12 +39,14 @@ const InternalMenuItemGroup = ({
     >
       <div
         role="presentation"
-        className={`${groupPrefixCls}-title`}
+        className={clsx(`${groupPrefixCls}-title`, {
+          'px-3 py-1 text-neutral-text-tertiary': theme === 'light',
+        })}
         title={typeof title === 'string' ? title : undefined}
       >
         {title}
       </div>
-      <ul role="group" className={`${groupPrefixCls}-list`}>
+      <ul role="group" className={clsx(`${groupPrefixCls}-list`, 'flex flex-col gap-1')}>
         {children}
       </ul>
     </li>

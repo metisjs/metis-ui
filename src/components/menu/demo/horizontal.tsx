@@ -75,7 +75,15 @@ const App: React.FC = () => {
     setCurrent(e.key);
   };
 
-  return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return (
+    <Menu
+      className="shadow"
+      onClick={onClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+      items={items}
+    />
+  );
 };
 
 export default App;

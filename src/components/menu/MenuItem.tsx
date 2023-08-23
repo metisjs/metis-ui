@@ -79,7 +79,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     onActive,
   } = React.useContext(MenuContext);
   const { siderCollapsed } = React.useContext<SiderContextProps>(SiderContext);
-  const firstLevel = React.useContext(PathTrackerContext).length === 1;
+  const firstLevel = React.useContext(PathTrackerContext).length === 0;
 
   const itemCls = `${prefixCls}-item`;
 
@@ -203,10 +203,15 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             [`${itemCls}-disabled cursor-not-allowed text-neutral-text-quaternary`]: mergedDisabled,
             [`${itemCls}-danger`]: danger,
             [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
-            'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-4 after:start-4 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+            // >>> Horizontal
+            'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
               mode === 'horizontal',
             'hover:after:border-primary': mode === 'horizontal' && !mergedDisabled,
             'after:border-primary': mode === 'horizontal' && selected,
+            // >>> In submenu
+            'h-10 truncate rounded pe-4 ps-7 leading-10 hover:bg-neutral-fill-quaternary':
+              !firstLevel,
+            'bg-primary-bg hover:bg-primary-bg': !firstLevel && selected,
           },
           className,
         )}
@@ -217,7 +222,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         {cloneElement(icon, {
           className: clsx(
             `${prefixCls}-item-icon`,
-            'mr-2 text-base',
+            'mr-2 h-5 w-5',
             isValidElement(icon) ? icon.props?.className : '',
           ),
         })}

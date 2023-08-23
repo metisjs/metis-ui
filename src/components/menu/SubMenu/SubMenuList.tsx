@@ -18,7 +18,7 @@ const InternalSubMenuList = (
         prefixCls,
         `${prefixCls}-sub`,
         `${prefixCls}-${mode === 'inline' ? 'inline' : 'vertical'}`,
-        'rounded-md bg-neutral-bg-container text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+        'flex flex-col gap-1 rounded-md bg-neutral-bg-container p-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
         className,
       )}
       role="menu"
