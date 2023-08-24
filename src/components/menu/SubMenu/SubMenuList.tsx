@@ -19,6 +19,7 @@ const InternalSubMenuList = (
         `${prefixCls}-sub`,
         `${prefixCls}-${mode === 'inline' ? 'inline' : 'vertical'}`,
         'flex flex-col gap-1 rounded-md bg-neutral-bg-container p-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+        '[.submenu-popup_&]:max-h-[calc(100vh-6.25rem)] [.submenu-popup_&]:min-w-[10rem]',
         className,
       )}
       role="menu"

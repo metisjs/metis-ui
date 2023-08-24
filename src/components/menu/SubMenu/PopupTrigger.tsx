@@ -93,7 +93,12 @@ export default function PopupTrigger({
     <Trigger
       prefixCls={prefixCls}
       className={{
-        popup: clsx(`${prefixCls}-popup`, 'absolute z-[1050] pt-1', popupClassName, className),
+        popup: clsx(
+          `${prefixCls}-popup`,
+          'submenu-popup absolute z-[1050] pt-1',
+          popupClassName,
+          className,
+        ),
       }}
       stretch={mode === 'horizontal' ? 'minWidth' : undefined}
       getPopupContainer={getPopupContainer}

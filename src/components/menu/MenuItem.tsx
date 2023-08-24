@@ -196,23 +196,31 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         style={style}
         className={clsx(
           itemCls,
-          'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
           {
             [`${itemCls}-active`]: active,
-            [`${itemCls}-selected text-primary`]: selected,
-            [`${itemCls}-disabled cursor-not-allowed text-neutral-text-quaternary`]: mergedDisabled,
+            [`${itemCls}-selected`]: selected,
+            [`${itemCls}-disabled`]: mergedDisabled,
             [`${itemCls}-danger`]: danger,
             [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
-            // >>> Horizontal
-            'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
-              mode === 'horizontal',
-            'hover:after:border-primary': mode === 'horizontal' && !mergedDisabled,
-            'after:border-primary': mode === 'horizontal' && selected,
-            // >>> In submenu
-            'h-10 truncate rounded pe-4 ps-7 leading-10 hover:bg-neutral-fill-quaternary':
-              !firstLevel,
-            'bg-primary-bg hover:bg-primary-bg': !firstLevel && selected,
           },
+          'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
+          // >>> Horizontal
+          mode === 'horizontal' && {
+            '-mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom font-medium  first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+              true,
+            'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
+              !mergedDisabled,
+            'text-neutral-text after:border-primary hover:after:border-primary': selected,
+          },
+          // >>> Vertical
+          mode === 'vertical' && {
+            '': true,
+            'h-10 truncate rounded pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
+              !firstLevel,
+            'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
+          },
+          // >>> Disabled
+          mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
           className,
         )}
         onClick={onInternalClick}

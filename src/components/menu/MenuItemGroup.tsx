@@ -35,7 +35,7 @@ const InternalMenuItemGroup = ({
       role="presentation"
       {...restProps}
       onClick={(e) => e.stopPropagation()}
-      className={clsx(groupPrefixCls, className)}
+      className={clsx(groupPrefixCls, 'item-group', className)}
     >
       <div
         role="presentation"

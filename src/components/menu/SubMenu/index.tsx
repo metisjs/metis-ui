@@ -215,7 +215,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   let titleNode: React.ReactElement = (
     <div
       role="menuitem"
-      className={clsx(`${subMenuPrefixCls}-title`, { 'text-primary': childrenSelected })}
+      className={`${subMenuPrefixCls}-title`}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : undefined}
@@ -302,17 +302,27 @@ const InternalSubMenu = (props: SubMenuProps) => {
       className={clsx(
         subMenuPrefixCls,
         `${subMenuPrefixCls}-${mode}`,
-        'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
         {
           [`${subMenuPrefixCls}-open`]: open,
           [`${subMenuPrefixCls}-active`]: mergedActive,
           [`${subMenuPrefixCls}-selected`]: childrenSelected,
           [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
-          'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
-            mode === 'horizontal',
-          'hover:after:border-primary': mode === 'horizontal' && !mergedDisabled,
-          'after:border-primary': mode === 'horizontal' && (childrenSelected || mergedActive),
         },
+        'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
+        // >>> Horizontal
+        mode === 'horizontal' && {
+          'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom font-medium text-neutral-text-secondary after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+            true,
+          'hover:after:border-neutral-border': !mergedDisabled,
+          'text-neutral-text after:border-neutral-border': mergedActive,
+          'text-neutral-text after:border-primary hover:after:border-primary': childrenSelected,
+        },
+        // >>> Vertical
+        mode === 'vertical' && {
+          '': true,
+        },
+        // >>> Disabled
+        mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
         className,
       )}
       onMouseEnter={onInternalMouseEnter}
