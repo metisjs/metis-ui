@@ -66,6 +66,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const {
     prefixCls,
     mode,
+    theme,
     onItemClick,
 
     disabled: contextDisabled,
@@ -204,21 +205,40 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
           },
           'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
-          // >>> Horizontal
-          mode === 'horizontal' && {
-            '-mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom font-medium  first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
-              true,
-            'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
-              !mergedDisabled,
-            'text-neutral-text after:border-primary hover:after:border-primary': selected,
-          },
-          // >>> Vertical
-          mode === 'vertical' && {
-            '': true,
-            'h-10 truncate rounded pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
-              !firstLevel,
-            'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
-          },
+          {
+            // >>> Light
+            light: {
+              // >>> Light Horizontal
+              horizontal: {
+                '-mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom font-medium  first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+                  true,
+                'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
+                  !mergedDisabled,
+                'text-neutral-text after:border-primary hover:after:border-primary': selected,
+              },
+              // >>> Light Vertical
+              vertical: {
+                'h-10 truncate rounded pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
+                  !firstLevel,
+                'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
+              },
+              // >>> Light Inline
+              inline: {},
+            },
+            // >>> Dark
+            dark: {
+              // >>> Dark Horizontal
+              horizontal: {
+                'pe-2 ps-2 first:ps-4 last:pe-4': true,
+              },
+              // >>> Dark Vertical
+              vertical: {
+                'h-10 truncate rounded pe-4 ps-4 leading-10 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
+                  !firstLevel,
+                'bg-gray-900 text-white hover:bg-gray-900': !firstLevel && selected,
+              },
+            },
+          }[theme][mode],
           // >>> Disabled
           mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
           className,
@@ -227,14 +247,27 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         onKeyDown={onInternalKeyDown}
         onFocus={onInternalFocus}
       >
-        {cloneElement(icon, {
-          className: clsx(
-            `${prefixCls}-item-icon`,
-            'mr-2 h-5 w-5',
-            isValidElement(icon) ? icon.props?.className : '',
-          ),
-        })}
-        {children}
+        <span
+          className={clsx(
+            // >>> Dark Horizontal
+            theme === 'dark' &&
+              mode === 'horizontal' && {
+                'h-9 rounded-md px-3 py-2 text-sm font-medium': true,
+                'text-gray-300 hover:bg-gray-700 hover:text-white': !mergedDisabled && !selected,
+                'bg-gray-900 text-white': selected,
+              },
+            theme === 'dark' && mode === 'horizontal' && mergedDisabled && 'text-gray-500',
+          )}
+        >
+          {cloneElement(icon, {
+            className: clsx(
+              `${prefixCls}-item-icon`,
+              'mr-2 h-5 w-5',
+              isValidElement(icon) ? icon.props?.className : '',
+            ),
+          })}
+          {children}
+        </span>
       </Overflow.Item>
     </Tooltip>
   );

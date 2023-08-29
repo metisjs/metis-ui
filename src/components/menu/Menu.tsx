@@ -504,7 +504,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         'flex text-sm transition-width',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
-          'leading-[4rem]': mergedMode === 'horizontal',
+          'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
+        },
+        // >>> Dark
+        theme === 'dark' && {
+          'items-center bg-gray-800': true,
         },
         className,
       )}
@@ -552,7 +556,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       <IdContext.Provider value={uuid}>
         <MenuContextProvider
           prefixCls={prefixCls}
-          className={className}
           inlineCollapsed={mergedInlineCollapsed || false}
           theme={theme}
           mode={internalMode}

@@ -58,12 +58,8 @@ const items: MenuProps['items'] = [
     ],
   },
   {
-    label: (
-      <a href="https://github.com/meta-oa/meta-ui" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-    ),
-    key: 'github',
+    label: 'Navigation Four',
+    key: 'four',
   },
 ];
 

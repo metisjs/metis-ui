@@ -77,6 +77,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const {
     prefixCls,
     mode,
+    theme,
     openKeys,
 
     // Disabled
@@ -100,6 +101,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const { isSubPathKey } = React.useContext(PathUserContext);
   const connectedPath = useFullPath();
+  const firstLevel = React.useContext(PathTrackerContext).length === 1;
 
   const subMenuPrefixCls = `${prefixCls}-submenu`;
   const mergedDisabled = contextDisabled || disabled;
@@ -215,7 +217,39 @@ const InternalSubMenu = (props: SubMenuProps) => {
   let titleNode: React.ReactElement = (
     <div
       role="menuitem"
-      className={`${subMenuPrefixCls}-title`}
+      className={clsx(
+        `${subMenuPrefixCls}-title`,
+        {
+          // >>> Light
+          light: {
+            // >>> Light Horizontal
+            horizontal: {
+              'pe-1 ps-1': true,
+            },
+            // >>> Light Vertical
+            vertical: {
+              'h-10 truncate rounded pe-9 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
+                !firstLevel,
+              'text-primary': !firstLevel && childrenSelected,
+            },
+            // >>> Light Inline
+            inline: {},
+          },
+          // >>> Dark
+          dark: {
+            // >>> Dark Horizontal
+            horizontal: {
+              'relative flex h-[4rem] items-center px-3': true,
+            },
+            // >>> Dark Vertical
+            vertical: {
+              'h-10 truncate rounded pe-9 ps-4 leading-10 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
+                !firstLevel,
+              'text-white': !firstLevel && childrenSelected,
+            },
+          },
+        }[theme][mode],
+      )}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : undefined}
@@ -248,7 +282,25 @@ const InternalSubMenu = (props: SubMenuProps) => {
           isSubMenu: true,
         }}
       >
-        <i className={`${subMenuPrefixCls}-arrow`} />
+        {mode !== 'horizontal' ? (
+          <svg
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+            className={clsx(
+              `${subMenuPrefixCls}-arrow`,
+              'absolute end-3 top-1/2 h-5 w-5 -translate-y-1/2',
+              childrenSelected && 'text-primary',
+              theme === 'dark' && childrenSelected && 'text-white',
+            )}
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        ) : null}
       </Icon>
     </div>
   );
@@ -278,6 +330,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
           <MenuContextProvider
             // Special handle of horizontal mode
             mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
+            theme={theme}
           >
             <SubMenuList id={popupId} ref={popupRef}>
               {children}
@@ -309,18 +362,29 @@ const InternalSubMenu = (props: SubMenuProps) => {
           [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
         },
         'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
-        // >>> Horizontal
-        mode === 'horizontal' && {
-          'top-[1px] -mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom font-medium text-neutral-text-secondary after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
-            true,
-          'hover:after:border-neutral-border': !mergedDisabled,
-          'text-neutral-text after:border-neutral-border': mergedActive,
-          'text-neutral-text after:border-primary hover:after:border-primary': childrenSelected,
-        },
-        // >>> Vertical
-        mode === 'vertical' && {
-          '': true,
-        },
+        {
+          // >>> Theme light
+          light: {
+            // >>> Horizontal
+            horizontal: {
+              'top-[1px] -mt-[1px] mb-0 inline-block pe-3 ps-3 align-bottom font-medium text-neutral-text-secondary after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+                true,
+              'hover:after:border-neutral-border': !mergedDisabled,
+              'text-neutral-text after:border-neutral-border': mergedActive,
+              'text-neutral-text after:border-primary hover:after:border-primary': childrenSelected,
+            },
+            // >>> Vertical
+            vertical: {},
+            // >>> Inline
+            inline: {},
+          },
+          dark: {
+            // >>> Horizontal
+            horizontal: {
+              'pe-2 ps-2 first:ps-4 last:pe-4': true,
+            },
+          },
+        }[theme][mode],
         // >>> Disabled
         mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
         className,
@@ -328,14 +392,29 @@ const InternalSubMenu = (props: SubMenuProps) => {
       onMouseEnter={onInternalMouseEnter}
       onMouseLeave={onInternalMouseLeave}
     >
-      {titleNode}
+      <span
+        className={clsx(
+          // >>> Dark Horizontal
+          theme === 'dark' &&
+            mode === 'horizontal' && {
+              'flex h-9 items-center rounded-md text-sm font-medium': true,
+              'text-gray-300 hover:bg-gray-700 hover:text-white':
+                !mergedDisabled && !childrenSelected,
+              'bg-gray-700 text-white': mergedActive,
+              'bg-gray-900 text-white': childrenSelected,
+            },
+          theme === 'dark' && mode === 'horizontal' && mergedDisabled && 'text-gray-500',
+        )}
+      >
+        {titleNode}
 
-      {/* Inline mode */}
-      {!overflowDisabled && (
-        <InlineSubMenuList id={popupId} open={open} keyPath={connectedPath}>
-          {children}
-        </InlineSubMenuList>
-      )}
+        {/* Inline mode */}
+        {!overflowDisabled && (
+          <InlineSubMenuList id={popupId} open={open} keyPath={connectedPath}>
+            {children}
+          </InlineSubMenuList>
+        )}
+      </span>
     </Overflow.Item>
   );
 

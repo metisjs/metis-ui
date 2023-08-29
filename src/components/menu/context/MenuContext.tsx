@@ -20,7 +20,7 @@ export interface MenuContextProps {
   openKeys: string[];
 
   inlineCollapsed: boolean;
-  theme?: MenuTheme;
+  theme: MenuTheme;
 
   // Mode
   mode: MenuMode;
@@ -75,6 +75,7 @@ export const MenuContext = React.createContext<MenuContextProps>({
   onItemClick: noop,
   onOpenChange: noop,
   inlineCollapsed: false,
+  theme: 'light',
 });
 
 function mergeProps(origin: MenuContextProps, target: Partial<MenuContextProps>): MenuContextProps {

@@ -24,31 +24,31 @@ export default (
 
   // Patch events
   function patchTransitionEvents(element: HTMLElement) {
-    const { transitionDuration, transitionDelay } = getComputedStyle(element);
-
-    const [durationMs, delayMs] = [transitionDuration, transitionDelay].map((value) => {
-      let [resolvedValue = 0] = value
-        .split(',')
-        // Remove falsy we can't work with
-        .filter(Boolean)
-        // Values are returned as `0.3s` or `75ms`
-        .map((v) => (v.includes('ms') ? parseFloat(v) : parseFloat(v) * 1000))
-        .sort((a, z) => z - a);
-
-      return resolvedValue;
-    });
-
-    const totalDuration = durationMs + delayMs;
-    if (totalDuration === 0) {
-      onInternalTransitionEnd();
-      return;
-    }
-
     if (cacheElementRef.current && cacheElementRef.current !== element) {
       removeTransitionEvents(cacheElementRef.current);
     }
 
     if (element && element !== cacheElementRef.current) {
+      const { transitionDuration, transitionDelay } = getComputedStyle(element);
+
+      const [durationMs, delayMs] = [transitionDuration, transitionDelay].map((value) => {
+        let [resolvedValue = 0] = value
+          .split(',')
+          // Remove falsy we can't work with
+          .filter(Boolean)
+          // Values are returned as `0.3s` or `75ms`
+          .map((v) => (v.includes('ms') ? parseFloat(v) : parseFloat(v) * 1000))
+          .sort((a, z) => z - a);
+
+        return resolvedValue;
+      });
+
+      const totalDuration = durationMs + delayMs;
+      if (totalDuration === 0) {
+        onInternalTransitionEnd();
+        return;
+      }
+
       element.addEventListener('transitionend', onInternalTransitionEnd);
 
       // Save as cache in case dom removed trigger by `deadline`

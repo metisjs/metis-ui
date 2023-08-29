@@ -5,7 +5,7 @@ export interface IconProps {
   icon?: RenderIconType;
   props: RenderIconInfo;
   /** Fallback of icon if provided */
-  children?: React.ReactElement;
+  children?: React.ReactNode;
 }
 
 export default function Icon({ icon, props, children }: IconProps) {
