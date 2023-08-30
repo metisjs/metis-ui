@@ -239,7 +239,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     React.useMemo(
       () => ({
         horizontal: {
-          leave: 'transition ease-in duration-150',
+          leave: 'transition ease-in duration-1500',
           leaveFrom: 'opacity-100',
           leaveTo: 'opacity-0',
         },
@@ -501,10 +501,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       className={clsx(
         prefixCls,
         `${prefixCls}-${internalMode}`,
-        'flex text-sm transition-width',
+        'text-sm text-neutral-text transition-width',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
-          'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
+          'flex h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
+          'px-6': mergedMode === 'inline',
         },
         // >>> Dark
         theme === 'dark' && {

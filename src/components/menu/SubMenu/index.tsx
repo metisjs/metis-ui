@@ -249,6 +249,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
             },
           },
         }[theme][mode],
+        // >>> Inline
+        mode === 'inline' && 'flex items-center p-2 font-medium leading-6',
       )}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
@@ -266,6 +268,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
         className: clsx(
           `${prefixCls}-item-icon`,
           'mr-2 h-5 w-5',
+          firstLevel && 'mr-3 h-6 w-6',
+          mode === 'inline' && firstLevel && 'text-neutral-text-tertiary',
           isValidElement(icon) ? icon.props?.className : '',
         ),
       })}
@@ -397,7 +401,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
           // >>> Dark Horizontal
           theme === 'dark' &&
             mode === 'horizontal' && {
-              'flex h-9 items-center rounded-md text-sm font-medium': true,
+              'flex h-9 items-center rounded-md text-sm font-medium leading-7': true,
               'text-gray-300 hover:bg-gray-700 hover:text-white':
                 !mergedDisabled && !childrenSelected,
               'bg-gray-700 text-white': mergedActive,

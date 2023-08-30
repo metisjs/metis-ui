@@ -239,6 +239,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
               },
             },
           }[theme][mode],
+          // >>> Inline
+          mode === 'inline' && 'p-2',
           // >>> Disabled
           mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
           className,
@@ -252,7 +254,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             // >>> Dark Horizontal
             theme === 'dark' &&
               mode === 'horizontal' && {
-                'h-9 rounded-md px-3 py-2 text-sm font-medium': true,
+                'block h-9 rounded-md px-3 py-2 text-sm font-medium': true,
                 'text-gray-300 hover:bg-gray-700 hover:text-white': !mergedDisabled && !selected,
                 'bg-gray-900 text-white': selected,
               },
@@ -263,6 +265,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             className: clsx(
               `${prefixCls}-item-icon`,
               'mr-2 h-5 w-5',
+              firstLevel && 'mr-3 h-6 w-6',
               isValidElement(icon) ? icon.props?.className : '',
             ),
           })}
