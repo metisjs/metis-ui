@@ -7,7 +7,7 @@ import type { MenuDividerType } from './interface';
 export type MenuDividerProps = Omit<MenuDividerType, 'type'>;
 
 export default function MenuDivider({ className, style, dashed }: MenuDividerProps) {
-  const { prefixCls } = React.useContext(MenuContext);
+  const { prefixCls, theme } = React.useContext(MenuContext);
   const measure = useMeasure();
 
   if (measure) {
@@ -19,8 +19,10 @@ export default function MenuDivider({ className, style, dashed }: MenuDividerPro
       role="separator"
       className={clsx(
         `${prefixCls}-item-divider`,
+        'my-1 overflow-hidden border-t border-neutral-border-secondary leading-[0]',
         {
-          [`${prefixCls}-item-divider-dashed`]: !!dashed,
+          [`${prefixCls}-item-divider-dashed border-dashed`]: !!dashed,
+          'border-gray-500': theme === 'dark',
         },
         className,
       )}

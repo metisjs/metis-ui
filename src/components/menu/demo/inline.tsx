@@ -1,7 +1,13 @@
 /**
  * description: 垂直菜单，子菜单内嵌在菜单区域。
  */
-import { FolderOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import {
+  CalendarOutline,
+  DocumentDuplicateOutline,
+  FolderOutline,
+  HomeOutline,
+  UsersOutline,
+} from '@metaoa/icons';
 import type { MenuProps } from 'meta-ui';
 import { Menu } from 'meta-ui';
 import React from 'react';
@@ -25,27 +31,17 @@ function getItem(
 }
 
 const items: MenuProps['items'] = [
-  getItem('Navigation One', 'sub1', <HomeOutline />, [
-    getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
-    getItem('Item 2', 'g2', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
+  getItem('Dashboard', 'dashboard', <HomeOutline />),
+
+  getItem('Teams', 'teams', <UsersOutline />, [getItem('Option 1', '1'), getItem('Option 2', '2')]),
+
+  getItem('Projects', 'projects', <FolderOutline />, [
+    getItem('Item 1', 'g1', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
+    getItem('Item 2', 'g2', null, [getItem('Option 5', '5'), getItem('Option 6', '6')], 'group'),
   ]),
 
-  getItem('Navigation Two', 'sub2', <UsersOutline />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  ]),
-
-  { type: 'divider' },
-
-  getItem('Navigation Three', 'sub4', <FolderOutline />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
-
-  getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
+  getItem('Calendar', '7', <CalendarOutline />),
+  getItem('Documents', '8', <DocumentDuplicateOutline />),
 ];
 
 const App: React.FC = () => {
@@ -57,8 +53,8 @@ const App: React.FC = () => {
     <Menu
       onClick={onClick}
       style={{ width: 288 }}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
+      defaultSelectedKeys={['dashboard']}
+      defaultOpenKeys={['teams', 'projects']}
       mode="inline"
       items={items}
       className="border-e border-e-neutral-border"

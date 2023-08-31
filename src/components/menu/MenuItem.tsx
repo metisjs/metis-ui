@@ -80,7 +80,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     onActive,
   } = React.useContext(MenuContext);
   const { siderCollapsed } = React.useContext<SiderContextProps>(SiderContext);
-  const firstLevel = React.useContext(PathTrackerContext).length === 0;
+  const level = React.useContext(PathTrackerContext).length;
+  const firstLevel = level === 0;
 
   const itemCls = `${prefixCls}-item`;
 
@@ -177,6 +178,14 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const childrenLength = toArray(children).length;
 
+  const inlineStyle = React.useMemo(() => {
+    const mergedStyle: React.CSSProperties = {};
+    if (mode === 'inline' && !firstLevel) {
+      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 36 : 28)}px`;
+    }
+    return mergedStyle;
+  }, []);
+
   return (
     <Tooltip
       {...tooltipProps}
@@ -194,7 +203,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         {...optionRoleProps}
         component="li"
         aria-disabled={disabled}
-        style={style}
+        style={{ ...inlineStyle, ...style }}
         className={clsx(
           itemCls,
           {
@@ -205,12 +214,13 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
           },
           'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
+          firstLevel && 'font-medium',
           {
             // >>> Light
             light: {
               // >>> Light Horizontal
               horizontal: {
-                '-mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom font-medium  first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+                '-mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
                   true,
                 'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
                   !mergedDisabled,
@@ -218,12 +228,16 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
               },
               // >>> Light Vertical
               vertical: {
-                'h-10 truncate rounded pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
+                'h-10 truncate rounded-md pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
                   !firstLevel,
                 'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
               },
               // >>> Light Inline
-              inline: {},
+              inline: {
+                'h-10 rounded-md p-2': true,
+                'bg-neutral-fill-quaternary text-primary': selected,
+                'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
+              },
             },
             // >>> Dark
             dark: {
@@ -233,14 +247,22 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
               },
               // >>> Dark Vertical
               vertical: {
-                'h-10 truncate rounded pe-4 ps-4 leading-10 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
+                'h-10 truncate rounded-md pe-4 ps-4 leading-10 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
                   !firstLevel,
-                'bg-gray-900 text-white hover:bg-gray-900': !firstLevel && selected,
+                'bg-gray-700 text-white hover:bg-gray-700': !firstLevel && selected,
+                'h-10 rounded-md p-2 text-neutral-text-tertiary': isInlineCollapsed,
+                'bg-gray-700 text-white': isInlineCollapsed && selected,
+                'hover:bg-gray-700 hover:text-white':
+                  isInlineCollapsed && !selected && !mergedDisabled,
+              },
+              // >>> Dark Inline
+              inline: {
+                'h-10 rounded-md p-2 text-neutral-text-tertiary': true,
+                'bg-gray-700 text-white': selected,
+                'hover:bg-gray-700 hover:text-white': !selected && !mergedDisabled,
               },
             },
           }[theme][mode],
-          // >>> Inline
-          mode === 'inline' && 'p-2',
           // >>> Disabled
           mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
           className,
@@ -250,26 +272,47 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         onFocus={onInternalFocus}
       >
         <span
-          className={clsx(
-            // >>> Dark Horizontal
-            theme === 'dark' &&
-              mode === 'horizontal' && {
-                'block h-9 rounded-md px-3 py-2 text-sm font-medium': true,
-                'text-gray-300 hover:bg-gray-700 hover:text-white': !mergedDisabled && !selected,
-                'bg-gray-900 text-white': selected,
-              },
-            theme === 'dark' && mode === 'horizontal' && mergedDisabled && 'text-gray-500',
-          )}
+          className={
+            !isInlineCollapsed
+              ? clsx(
+                  'flex items-center gap-2',
+                  firstLevel && 'gap-3',
+                  // >>> Dark Horizontal
+                  theme === 'dark' &&
+                    mode === 'horizontal' && {
+                      'h-9 rounded-md px-3 py-2 text-sm': true,
+                      'text-gray-300 hover:bg-gray-700 hover:text-white':
+                        !mergedDisabled && !selected,
+                      'bg-gray-900 text-white': selected,
+                      'text-gray-500': mergedDisabled,
+                    },
+                  mode !== 'horizontal' && {
+                    'pe-8': firstLevel,
+                    'pe-7': !firstLevel,
+                  },
+                )
+              : undefined
+          }
         >
           {cloneElement(icon, {
             className: clsx(
               `${prefixCls}-item-icon`,
-              'mr-2 h-5 w-5',
-              firstLevel && 'mr-3 h-6 w-6',
+              'h-5 w-5',
+              firstLevel && 'h-6 w-6',
+              mode !== 'horizontal' && {
+                'text-neutral-text-tertiary': firstLevel && theme !== 'dark',
+                'text-primary': selected && theme !== 'dark',
+              },
               isValidElement(icon) ? icon.props?.className : '',
             ),
           })}
-          {children}
+          <span
+            className={clsx(`${prefixCls}-title-content`, 'flex-auto truncate', {
+              'opacity-0': isInlineCollapsed,
+            })}
+          >
+            {children}
+          </span>
         </span>
       </Overflow.Item>
     </Tooltip>

@@ -18,10 +18,11 @@ group:
 <code src="./demo/horizontal.tsx">顶部导航</code>
 <code src="./demo/horizontal-dark.tsx" debug>顶部导航（dark）</code>
 <code src="./demo/inline.tsx">内嵌菜单</code>
+<code src="./demo/inline-collapsed.tsx">缩起内嵌菜单</code>
 
 <!--
 
-<code src="./demo/inline-collapsed.tsx">缩起内嵌菜单</code>
+
 <code src="./demo/sider-current.tsx">只展开当前父级菜单</code>
 <code src="./demo/vertical.tsx">垂直菜单</code>
 <code src="./demo/theme.tsx">主题</code>

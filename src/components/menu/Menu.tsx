@@ -501,16 +501,15 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       className={clsx(
         prefixCls,
         `${prefixCls}-${internalMode}`,
-        'text-sm text-neutral-text transition-width',
+        'flex w-full text-sm text-neutral-text transition-width duration-300',
         {
-          [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
-          'flex h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
-          'px-6': mergedMode === 'inline',
+          [`${prefixCls}-inline-collapsed w-[72px]`]: internalInlineCollapsed,
+          'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
+          'flex-col gap-1 px-4 py-2': mergedMode !== 'horizontal',
         },
         // >>> Dark
-        theme === 'dark' && {
-          'items-center bg-gray-800': true,
-        },
+        theme === 'dark' && 'bg-gray-800',
+        theme === 'dark' && internalMode === 'horizontal' && 'items-center',
         className,
       )}
       style={style}
