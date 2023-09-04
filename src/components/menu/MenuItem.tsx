@@ -181,7 +181,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const inlineStyle = React.useMemo(() => {
     const mergedStyle: React.CSSProperties = {};
     if (mode === 'inline' && !firstLevel) {
-      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 36 : 28)}px`;
+      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 44 : 36)}px`;
     }
     return mergedStyle;
   }, []);
@@ -203,7 +203,6 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         {...optionRoleProps}
         component="li"
         aria-disabled={disabled}
-        style={{ ...inlineStyle, ...style }}
         className={clsx(
           itemCls,
           {
@@ -213,58 +212,10 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             [`${itemCls}-danger`]: danger,
             [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
           },
-          'relative block flex-none cursor-pointer whitespace-nowrap transition-colors',
-          firstLevel && 'font-medium',
-          {
-            // >>> Light
-            light: {
-              // >>> Light Horizontal
-              horizontal: {
-                '-mt-[1px] mb-0 inline-block pe-4 ps-4 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
-                  true,
-                'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
-                  !mergedDisabled,
-                'text-neutral-text after:border-primary hover:after:border-primary': selected,
-              },
-              // >>> Light Vertical
-              vertical: {
-                'h-10 truncate rounded-md pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
-                  !firstLevel,
-                'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
-              },
-              // >>> Light Inline
-              inline: {
-                'h-10 rounded-md p-2': true,
-                'bg-neutral-fill-quaternary text-primary': selected,
-                'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
-              },
-            },
-            // >>> Dark
-            dark: {
-              // >>> Dark Horizontal
-              horizontal: {
-                'pe-2 ps-2 first:ps-4 last:pe-4': true,
-              },
-              // >>> Dark Vertical
-              vertical: {
-                'h-10 truncate rounded-md pe-4 ps-4 leading-10 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
-                  !firstLevel,
-                'bg-gray-700 text-white hover:bg-gray-700': !firstLevel && selected,
-                'h-10 rounded-md p-2 text-neutral-text-tertiary': isInlineCollapsed,
-                'bg-gray-700 text-white': isInlineCollapsed && selected,
-                'hover:bg-gray-700 hover:text-white':
-                  isInlineCollapsed && !selected && !mergedDisabled,
-              },
-              // >>> Dark Inline
-              inline: {
-                'h-10 rounded-md p-2 text-neutral-text-tertiary': true,
-                'bg-gray-700 text-white': selected,
-                'hover:bg-gray-700 hover:text-white': !selected && !mergedDisabled,
-              },
-            },
-          }[theme][mode],
-          // >>> Disabled
-          mergedDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
+          'relative block flex-none cursor-pointer [.submenu-popup_&]:px-1',
+          mode === 'horizontal' && theme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
+          isInlineCollapsed && firstLevel && 'px-4',
+          mergedDisabled && 'cursor-not-allowed',
           className,
         )}
         onClick={onInternalClick}
@@ -272,43 +223,90 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         onFocus={onInternalFocus}
       >
         <span
-          className={
-            !isInlineCollapsed
-              ? clsx(
-                  'flex items-center gap-2',
-                  firstLevel && 'gap-3',
-                  // >>> Dark Horizontal
-                  theme === 'dark' &&
-                    mode === 'horizontal' && {
-                      'h-9 rounded-md px-3 py-2 text-sm': true,
-                      'text-gray-300 hover:bg-gray-700 hover:text-white':
-                        !mergedDisabled && !selected,
-                      'bg-gray-900 text-white': selected,
-                      'text-gray-500': mergedDisabled,
-                    },
-                  mode !== 'horizontal' && {
-                    'pe-8': firstLevel,
-                    'pe-7': !firstLevel,
-                  },
-                )
-              : undefined
-          }
+          style={{ ...inlineStyle, ...style }}
+          className={clsx(
+            'flex items-center gap-2 transition-colors',
+            firstLevel && 'gap-3',
+            firstLevel && isInlineCollapsed && 'block',
+            {
+              // >>> Light
+              light: {
+                // >>> Light Horizontal
+                horizontal: {
+                  '-mt-[1px] mb-0 pe-4 ps-4 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+                    true,
+                  'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
+                    !mergedDisabled,
+                  'text-neutral-text after:border-primary hover:after:border-primary': selected,
+                  'text-neutral-text-quaternary': mergedDisabled,
+                },
+                // >>> Light Vertical
+                vertical: {
+                  'h-10 truncate rounded-md': true,
+                  'pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
+                    !firstLevel,
+                  'pe-8': firstLevel,
+                  'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
+                  'bg-neutral-fill-quaternary text-primary': selected,
+                  'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
+                  'text-neutral-text-quaternary': mergedDisabled,
+                },
+                // >>> Light Inline
+                inline: {
+                  'h-10 rounded-md p-2 pe-8': true,
+                  'pe-7': !firstLevel,
+                  'bg-neutral-fill-quaternary text-primary': selected,
+                  'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
+                  'text-neutral-text-quaternary': mergedDisabled,
+                },
+              },
+              // >>> Dark
+              dark: {
+                // >>> Dark Horizontal
+                horizontal: {
+                  'h-9 rounded-md px-3 py-2 text-sm': true,
+                  'text-gray-300 hover:bg-gray-700 hover:text-white': !mergedDisabled && !selected,
+                  'bg-gray-900 text-white': selected,
+                  'text-gray-500': mergedDisabled,
+                },
+                // >>> Dark Vertical
+                vertical: {
+                  'h-10 truncate rounded-md p-2 leading-10 text-neutral-text-tertiary': true,
+                  'pe-4 ps-4 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
+                    !firstLevel,
+                  'pe-8': firstLevel && !isInlineCollapsed,
+                  'bg-gray-700 text-white': selected,
+                  'hover:bg-gray-700 hover:text-white': !selected && !mergedDisabled,
+                  'text-gray-500': mergedDisabled,
+                },
+                // >>> Dark Inline
+                inline: {
+                  'h-10 rounded-md p-2 pe-8 text-neutral-text-tertiary': true,
+                  'pe-7': !firstLevel,
+                  'bg-gray-700 text-white': selected,
+                  'hover:bg-gray-700 hover:text-white': !selected && !mergedDisabled,
+                  'text-gray-500': mergedDisabled,
+                },
+              },
+            }[theme][mode],
+          )}
         >
           {cloneElement(icon, {
             className: clsx(
               `${prefixCls}-item-icon`,
               'h-5 w-5',
               firstLevel && 'h-6 w-6',
-              mode !== 'horizontal' && {
-                'text-neutral-text-tertiary': firstLevel && theme !== 'dark',
-                'text-primary': selected && theme !== 'dark',
-              },
+              mode !== 'horizontal' &&
+                !mergedDisabled && {
+                  'text-neutral-text-tertiary': firstLevel && theme !== 'dark',
+                  'text-primary': selected && theme !== 'dark',
+                },
               isValidElement(icon) ? icon.props?.className : '',
             ),
           })}
           <span
             className={clsx(`${prefixCls}-title-content`, 'flex-auto truncate', {
-              'opacity-0': isInlineCollapsed,
+              'opacity-0': firstLevel && isInlineCollapsed,
             })}
           >
             {children}

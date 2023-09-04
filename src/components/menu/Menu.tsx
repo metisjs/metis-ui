@@ -155,7 +155,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     // Icon
     expandIcon,
-    overflowedIndicator = <EllipsisHorizontalOutline className="h-5 w-5" />,
+    overflowedIndicator = <EllipsisHorizontalOutline className="h-5 w-5 align-middle" />,
     overflowedIndicatorPopupClassName,
 
     // Function
@@ -503,9 +503,10 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         `${prefixCls}-${internalMode}`,
         'flex w-full text-sm text-neutral-text transition-width duration-300',
         {
-          [`${prefixCls}-inline-collapsed w-[72px]`]: internalInlineCollapsed,
+          [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
           'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
           'flex-col gap-1 px-4 py-2': mergedMode !== 'horizontal',
+          'w-[72px] px-0': internalInlineCollapsed,
         },
         // >>> Dark
         theme === 'dark' && 'bg-gray-800',

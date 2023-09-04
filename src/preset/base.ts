@@ -1,6 +1,6 @@
 export default {
   html: { WebkitTapHighlightColor: 'transparent' },
-  svg: { display: 'inline-block' },
+  svg: { display: 'inline-block', verticalAlign: 'unset' },
   "[type='search']::-webkit-search-cancel-button, [type='search']::-webkit-search-decoration": {
     display: 'none',
     appearance: 'none',
