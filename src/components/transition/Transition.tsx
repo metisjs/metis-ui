@@ -11,7 +11,6 @@ import {
   TransitionStatus,
   TransitionStyle,
 } from './interface';
-import { splitStyle } from './util/style';
 
 export interface TransitionProps {
   visible?: boolean;
@@ -98,12 +97,12 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   }
 
   const styles = useLatestValue({
-    enter: splitStyle(enter),
-    enterFrom: splitStyle(enterFrom),
-    enterTo: splitStyle(enterTo),
-    leave: splitStyle(leave),
-    leaveFrom: splitStyle(leaveFrom),
-    leaveTo: splitStyle(leaveTo),
+    enter,
+    enterFrom,
+    enterTo,
+    leave,
+    leaveFrom,
+    leaveTo,
   });
 
   const [status, , statusStyle, statusClassName, mergedVisible] = useStatus({
