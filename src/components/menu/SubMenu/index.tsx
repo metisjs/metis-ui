@@ -43,6 +43,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
     style,
     className,
 
+    theme: customTheme,
+
     icon,
     title,
     eventKey,
@@ -77,7 +79,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const {
     prefixCls,
     mode,
-    theme,
+    theme: contextTheme,
     openKeys,
 
     // Disabled
@@ -100,6 +102,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
     onActive,
   } = React.useContext(MenuContext);
+
+  const mergedTheme = customTheme || contextTheme;
 
   const { isSubPathKey } = React.useContext(PathUserContext);
   const connectedPath = useFullPath();
@@ -230,9 +234,9 @@ const InternalSubMenu = (props: SubMenuProps) => {
       role="menuitem"
       className={clsx(
         `${subMenuPrefixCls}-title`,
-        ' [.submenu-popup_&]:px-1',
         mode === 'horizontal' && 'flex h-[4rem] items-center',
-        isInlineCollapsed && 'px-4',
+        mode !== 'horizontal' && 'px-4',
+        '[.submenu-popup_&]:px-1',
       )}
       style={inlineStyle}
       tabIndex={mergedDisabled ? undefined : -1}
@@ -252,7 +256,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
           `${subMenuPrefixCls}-inner`,
           'flex items-center gap-2 whitespace-nowrap transition-colors',
           firstLevel && 'gap-3 font-medium',
-          firstLevel && isInlineCollapsed && 'block',
           {
             // >>> Light
             light: {
@@ -268,14 +271,15 @@ const InternalSubMenu = (props: SubMenuProps) => {
               },
               // >>> Light Vertical
               vertical: {
-                'h-10 truncate rounded-md px-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
-                  !firstLevel,
-                'text-primary': !firstLevel && childrenSelected,
+                'h-10 truncate rounded-md p-2': true,
+                'px-4 leading-10 [.item-group_&]:ps-7': !firstLevel,
+                'text-primary': childrenSelected,
+                'hover:bg-neutral-fill-quaternary': !mergedDisabled,
                 'text-neutral-text-quaternary': mergedDisabled,
               },
               // >>> Light Inline
               inline: {
-                'rounded-md p-2 leading-6': true,
+                'h-10 rounded-md p-2': true,
                 'text-primary': childrenSelected,
                 'hover:bg-neutral-fill-quaternary': !mergedDisabled,
                 'text-neutral-text-quaternary': mergedDisabled,
@@ -295,10 +299,9 @@ const InternalSubMenu = (props: SubMenuProps) => {
               // >>> Dark Vertical
               vertical: {
                 'h-10 truncate rounded-md p-2 text-neutral-text-tertiary': true,
-                'px-4 leading-10 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
-                  !firstLevel,
+                'px-4 leading-10 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
                 'text-white': childrenSelected,
-                'hover:bg-gray-700 hover:text-white': !mergedDisabled,
+                'hover:bg-gray-700': !mergedDisabled,
                 'text-gray-500': mergedDisabled,
               },
               // >>> Dark Inline
@@ -309,17 +312,17 @@ const InternalSubMenu = (props: SubMenuProps) => {
                 'text-gray-500': mergedDisabled,
               },
             },
-          }[theme][mode],
+          }[contextTheme][mode],
         )}
       >
         {cloneElement(icon, {
           className: clsx(
             `${prefixCls}-item-icon`,
-            'h-5 w-5',
+            'h-5 w-5 flex-shrink-0 flex-grow-0',
             firstLevel && 'h-6 w-6',
             mode !== 'horizontal' && {
-              'text-neutral-text-tertiary': firstLevel && theme !== 'dark',
-              'text-primary': childrenSelected && theme !== 'dark',
+              'text-neutral-text-tertiary': firstLevel && contextTheme !== 'dark',
+              'text-primary': childrenSelected && contextTheme !== 'dark',
             },
             isValidElement(icon) ? icon.props?.className : '',
           ),
@@ -328,7 +331,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         <span
           className={clsx(
             `${prefixCls}-title-content`,
-            'flex-auto truncate',
+            'flex-1 truncate',
             firstLevel && isInlineCollapsed && 'opacity-0',
           )}
         >
@@ -355,15 +358,15 @@ const InternalSubMenu = (props: SubMenuProps) => {
                 // >>> In Popup
                 {
                   '[.submenu-popup_&]:text-primary': childrenSelected,
-                  '[.submenu-popup_&]:text-white': theme === 'dark' && childrenSelected,
+                  '[.submenu-popup_&]:text-white': contextTheme === 'dark' && childrenSelected,
                 },
-                theme !== 'dark' && 'text-neutral-text-tertiary',
-                theme !== 'dark' && childrenSelected && 'text-primary',
+                contextTheme !== 'dark' && 'text-neutral-text-tertiary',
+                contextTheme !== 'dark' && childrenSelected && 'text-primary',
                 open && mode === 'inline' && 'rotate-90',
                 firstLevel && isInlineCollapsed && 'opacity-0',
                 mergedDisabled && {
-                  'text-neutral-text-quaternary': theme === 'light',
-                  'text-gray-500': theme === 'dark',
+                  'text-neutral-text-quaternary': contextTheme === 'light',
+                  'text-gray-500': contextTheme === 'dark',
                 },
               )}
               fill="currentColor"
@@ -405,7 +408,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
           <MenuContextProvider
             // Special handle of horizontal mode
             mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
-            theme={theme}
+            theme={mergedTheme}
           >
             <SubMenuList id={popupId} ref={popupRef}>
               {children}
@@ -437,8 +440,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
           [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
         },
         'relative block flex-none cursor-pointer',
-        mode === 'horizontal' && theme === 'light' && 'pe-4 ps-4',
-        mode === 'horizontal' && theme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
+        mode === 'horizontal' && mergedTheme === 'light' && 'pe-4 ps-4',
+        mode === 'horizontal' && mergedTheme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
         mergedDisabled && 'cursor-not-allowed',
         className,
       )}

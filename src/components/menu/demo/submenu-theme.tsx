@@ -1,7 +1,10 @@
-import { MailOutlined } from '@ant-design/icons';
+/**
+ * description: 你可以通过 `theme` 属性来设置 SubMenu 的主题从而达到不同目录树下不同主题色的效果。该例子默认为根目录深色，子目录浅色效果。
+ */
+import { HomeOutline } from '@metaoa/icons';
+import type { MenuProps, MenuTheme } from 'meta-ui';
+import { Menu, Switch } from 'meta-ui';
 import React, { useState } from 'react';
-import type { MenuProps, MenuTheme } from 'antd';
-import { Menu, Switch } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -37,7 +40,7 @@ const App: React.FC = () => {
     getItem(
       'Navigation One',
       'sub1',
-      <MailOutlined />,
+      <HomeOutline />,
       [getItem('Option 1', '1'), getItem('Option 2', '2'), getItem('Option 3', '3')],
       theme,
     ),

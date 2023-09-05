@@ -8,6 +8,7 @@ import { flushSync } from 'react-dom';
 import { clsx } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../_util/reactNode';
+import { collapseTransition } from '../_util/transition';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import { SiderContextProps } from '../layout/Sider';
@@ -239,11 +240,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     React.useMemo(
       () => ({
         horizontal: {
-          leave: 'transition ease-in duration-1500',
+          leave: 'transition ease-in',
           leaveFrom: 'opacity-100',
           leaveTo: 'opacity-0',
         },
-        inline: {},
+        inline: collapseTransition,
         other: {},
       }),
       [],
@@ -505,7 +506,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
           'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
-          'flex-col gap-1 px-4 py-2': mergedMode !== 'horizontal',
+          'flex-col gap-1 py-2': mergedMode !== 'horizontal',
           'w-[72px] px-0': internalInlineCollapsed,
         },
         // >>> Dark

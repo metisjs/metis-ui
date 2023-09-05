@@ -212,9 +212,10 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             [`${itemCls}-danger`]: danger,
             [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
           },
-          'relative block flex-none cursor-pointer [.submenu-popup_&]:px-1',
+          'relative block flex-none cursor-pointer',
           mode === 'horizontal' && theme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
-          isInlineCollapsed && firstLevel && 'px-4',
+          mode !== 'horizontal' && 'px-4',
+          '[.submenu-popup_&]:px-1',
           mergedDisabled && 'cursor-not-allowed',
           className,
         )}
@@ -227,7 +228,6 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
           className={clsx(
             'flex items-center gap-2 transition-colors',
             firstLevel && 'gap-3',
-            firstLevel && isInlineCollapsed && 'block',
             {
               // >>> Light
               light: {
@@ -242,12 +242,10 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                 },
                 // >>> Light Vertical
                 vertical: {
-                  'h-10 truncate rounded-md': true,
-                  'pe-4 ps-4 leading-10 hover:bg-neutral-fill-quaternary [.item-group_&]:ps-7':
-                    !firstLevel,
-                  'pe-8': firstLevel,
-                  'bg-primary-bg text-primary hover:bg-primary-bg': !firstLevel && selected,
-                  'bg-neutral-fill-quaternary text-primary': selected,
+                  'h-10 truncate rounded-md p-2 leading-10': true,
+                  'pe-4 ps-4 [.item-group_&]:ps-7': !firstLevel,
+                  'pe-8': firstLevel && !isInlineCollapsed,
+                  'bg-neutral-fill-quaternary text-primary ': selected,
                   'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
                   'text-neutral-text-quaternary': mergedDisabled,
                 },
@@ -272,11 +270,10 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                 // >>> Dark Vertical
                 vertical: {
                   'h-10 truncate rounded-md p-2 leading-10 text-neutral-text-tertiary': true,
-                  'pe-4 ps-4 text-gray-300 hover:bg-gray-700 hover:text-white [.item-group_&]:ps-7':
-                    !firstLevel,
+                  'pe-4 ps-4 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
                   'pe-8': firstLevel && !isInlineCollapsed,
                   'bg-gray-700 text-white': selected,
-                  'hover:bg-gray-700 hover:text-white': !selected && !mergedDisabled,
+                  'hover:bg-gray-700': !selected && !mergedDisabled,
                   'text-gray-500': mergedDisabled,
                 },
                 // >>> Dark Inline
@@ -294,7 +291,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
           {cloneElement(icon, {
             className: clsx(
               `${prefixCls}-item-icon`,
-              'h-5 w-5',
+              'h-5 w-5 flex-shrink-0 flex-grow-0',
               firstLevel && 'h-6 w-6',
               mode !== 'horizontal' &&
                 !mergedDisabled && {
@@ -305,7 +302,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             ),
           })}
           <span
-            className={clsx(`${prefixCls}-title-content`, 'flex-auto truncate', {
+            className={clsx(`${prefixCls}-title-content`, 'flex-1 truncate', {
               'opacity-0': firstLevel && isInlineCollapsed,
             })}
           >

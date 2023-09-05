@@ -8,6 +8,7 @@ import type { MenuItemGroupProps } from './MenuItemGroup';
 import MenuItemGroup from './MenuItemGroup';
 import type { SubMenuProps } from './SubMenu';
 import SubMenu from './SubMenu';
+import type { MenuTheme } from './context/MenuContext';
 import type { ItemType, MenuItemType, MenuRef } from './interface';
 
 export type {
@@ -16,6 +17,7 @@ export type {
   MenuItemProps,
   MenuProps,
   MenuRef,
+  MenuTheme,
   SubMenuProps,
 };
 

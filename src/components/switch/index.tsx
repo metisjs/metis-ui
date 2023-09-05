@@ -103,7 +103,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     }
 
     const rootCls = clsx(
-      'relative inline-block h-6 min-w-[2.75rem] cursor-pointer select-none rounded-full bg-neutral-fill-secondary text-xs transition-colors duration-200 ease-in-out',
+      'relative inline-block h-6 min-w-[2.75rem] cursor-pointer select-none rounded-full bg-neutral-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
       'focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary',
       'disabled:cursor-not-allowed disabled:opacity-disabled',
       {

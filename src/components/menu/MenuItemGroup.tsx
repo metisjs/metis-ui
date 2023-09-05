@@ -39,10 +39,14 @@ const InternalMenuItemGroup = ({
     >
       <div
         role="presentation"
-        className={clsx(`${groupPrefixCls}-title`, 'px-3 py-2 ', {
-          'text-neutral-text-tertiary': theme === 'light',
-          'text-white/[0.65]': theme === 'dark',
-        })}
+        className={clsx(
+          `${groupPrefixCls}-title`,
+          'py-2 pe-4 ps-7 [.submenu-popup_&]:pe-3 [.submenu-popup_&]:ps-3',
+          {
+            'text-neutral-text-tertiary': theme === 'light',
+            'text-white/[0.65]': theme === 'dark',
+          },
+        )}
         title={typeof title === 'string' ? title : undefined}
       >
         {title}

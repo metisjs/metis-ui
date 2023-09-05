@@ -1,7 +1,10 @@
+/**
+ * description: 点击菜单，收起其他展开的所有菜单，保持菜单聚焦简洁。
+ */
+import { FolderOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Menu } from 'meta-ui';
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -22,18 +25,18 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Navigation One', 'sub1', <MailOutlined />, [
+  getItem('Navigation One', 'sub1', <HomeOutline />, [
     getItem('Option 1', '1'),
     getItem('Option 2', '2'),
     getItem('Option 3', '3'),
     getItem('Option 4', '4'),
   ]),
-  getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
+  getItem('Navigation Two', 'sub2', <FolderOutline />, [
     getItem('Option 5', '5'),
     getItem('Option 6', '6'),
     getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
-  getItem('Navigation Three', 'sub4', <SettingOutlined />, [
+  getItem('Navigation Three', 'sub4', <UsersOutline />, [
     getItem('Option 9', '9'),
     getItem('Option 10', '10'),
     getItem('Option 11', '11'),
@@ -61,8 +64,9 @@ const App: React.FC = () => {
       mode="inline"
       openKeys={openKeys}
       onOpenChange={onOpenChange}
-      style={{ width: 256 }}
+      style={{ width: 288 }}
       items={items}
+      className="border-e border-e-neutral-border"
     />
   );
 };
