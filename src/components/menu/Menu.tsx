@@ -11,7 +11,7 @@ import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
-import { SiderContextProps } from '../layout/Sider';
+import { SiderContext } from '../layout/Sider';
 import { TransitionProps } from '../transition';
 import MenuItem from './MenuItem';
 import SubMenu from './SubMenu';
@@ -41,10 +41,9 @@ const EMPTY_LIST: string[] = [];
 
 export interface MenuProps
   extends Omit<
-      React.HTMLAttributes<HTMLUListElement>,
-      'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
-    >,
-    SiderContextProps {
+    React.HTMLAttributes<HTMLUListElement>,
+    'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
+  > {
   prefixCls?: string;
   className?: string;
   theme?: MenuTheme;
@@ -170,6 +169,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     ...restProps
   } = props;
 
+  const { siderCollapsed } = React.useContext(SiderContext);
+
   // ======================== Warning ==========================
   warning(
     !('inlineCollapsed' in props && mode !== 'inline'),
@@ -178,7 +179,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   );
 
   warning(
-    !(props.siderCollapsed !== undefined && 'inlineCollapsed' in props),
+    !(siderCollapsed !== undefined && 'inlineCollapsed' in props),
     'Menu',
     '`inlineCollapsed` not control Menu under Sider. Should set `collapsed` on Sider instead.',
   );
@@ -229,12 +230,13 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   // ========================= Mode =========================
   const [mergedMode, mergedInlineCollapsed] = React.useMemo<[MenuMode, boolean]>(() => {
+    const collapsed = siderCollapsed ?? inlineCollapsed;
     const _mode = overrideObj.mode || mode;
-    if ((_mode === 'inline' || _mode === 'vertical') && inlineCollapsed) {
-      return ['vertical', inlineCollapsed];
+    if ((_mode === 'inline' || _mode === 'vertical') && collapsed) {
+      return ['vertical', collapsed];
     }
     return [_mode, false];
-  }, [overrideObj.mode, mode, inlineCollapsed]);
+  }, [overrideObj.mode, mode, siderCollapsed, inlineCollapsed]);
 
   const defaultTransitions: Partial<{ [key in MenuMode | 'other']: TransitionProps }> =
     React.useMemo(
@@ -502,7 +504,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       className={clsx(
         prefixCls,
         `${prefixCls}-${internalMode}`,
-        'flex w-full text-sm text-neutral-text transition-width duration-300',
+        'flex w-full text-sm text-neutral-text transition-width',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
           'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',

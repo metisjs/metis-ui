@@ -1,28 +1,32 @@
-import React from 'react';
+/**
+ * description: 当内容较长时，使用固定侧边栏可以提供更好的体验。
+ */
+
 import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
+  BookmarkOutline,
+  BugAntOutline,
+  CalendarOutline,
+  DocumentDuplicateOutline,
+  FilmOutline,
+  FolderOutline,
+  HomeOutline,
+  UsersOutline,
+} from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Layout, Menu } from 'meta-ui';
+import React from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const items: MenuProps['items'] = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
+  HomeOutline,
+  CalendarOutline,
+  BookmarkOutline,
+  DocumentDuplicateOutline,
+  FolderOutline,
+  UsersOutline,
+  BugAntOutline,
+  FilmOutline,
 ].map((icon, index) => ({
   key: String(index + 1),
   icon: React.createElement(icon),
@@ -30,10 +34,6 @@ const items: MenuProps['items'] = [
 }));
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <Layout hasSider>
       <Sider
@@ -50,9 +50,9 @@ const App: React.FC = () => {
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header className="bg-neutral-bg-container p-0" />
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div style={{ padding: 24, textAlign: 'center', background: colorBgContainer }}>
+          <div className="bg-neutral-bg-container p-6 text-center">
             <p>long content</p>
             {
               // indicates very long content
@@ -65,7 +65,7 @@ const App: React.FC = () => {
             }
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
       </Layout>
     </Layout>
   );

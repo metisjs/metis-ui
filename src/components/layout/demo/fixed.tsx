@@ -1,13 +1,12 @@
+/**
+ * description: 一般用于固定顶部导航，方便页面切换。
+ */
+import { Layout, Menu } from 'meta-ui';
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <Layout>
       <Header
@@ -31,15 +30,10 @@ const App: React.FC = () => {
           }))}
         />
       </Header>
-      <Content className="site-layout" style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <div style={{ padding: 24, minHeight: 380, background: colorBgContainer }}>Content</div>
+      <Content className="site-layout px-12 py-6">
+        <div className="min-h-[380px] bg-neutral-bg-container p-6">Content</div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+      <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
     </Layout>
   );
 };

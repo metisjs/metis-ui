@@ -1,7 +1,10 @@
+/**
+ * description: 拥有顶部导航及侧边栏的页面，多用于展示类网站。
+ */
+import { CalendarOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Layout, Menu } from 'meta-ui';
 import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -10,7 +13,7 @@ const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
   label: `nav ${key}`,
 }));
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+const items2: MenuProps['items'] = [HomeOutline, CalendarOutline, UsersOutline].map(
   (icon, index) => {
     const key = String(index + 1);
 
@@ -31,36 +34,28 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
 );
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Header className="flex items-center">
         <div className="demo-logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
       </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
-          <Sider style={{ background: colorBgContainer }} width={200}>
+      <Content className="px-12 py-6">
+        <Layout className="bg-neutral-bg-container py-6">
+          <Sider width={200} theme="light">
             <Menu
               mode="inline"
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%' }}
               items={items2}
+              className="border-e border-e-neutral-border"
             />
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
         </Layout>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+      <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
     </Layout>
   );
 };

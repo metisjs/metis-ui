@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+/**
+ * description: 要使用自定义触发器，可以设置 `trigger={null}` 来隐藏默认设定。
+ */
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu, Button, theme } from 'antd';
+  CalendarOutline,
+  ChevronLeftOutline,
+  ChevronRightOutline,
+  HomeOutline,
+  UsersOutline,
+} from '@metaoa/icons';
+import { Button, Layout, Menu } from 'meta-ui';
+import React, { useState } from 'react';
 
 const { Header, Sider, Content } = Layout;
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return (
     <Layout>
@@ -27,27 +27,27 @@ const App: React.FC = () => {
           items={[
             {
               key: '1',
-              icon: <UserOutlined />,
+              icon: <HomeOutline />,
               label: 'nav 1',
             },
             {
               key: '2',
-              icon: <VideoCameraOutlined />,
+              icon: <CalendarOutline />,
               label: 'nav 2',
             },
             {
               key: '3',
-              icon: <UploadOutlined />,
+              icon: <UsersOutline />,
               label: 'nav 3',
             },
           ]}
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header className="bg-neutral-bg-container p-0">
           <Button
             type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={collapsed ? <ChevronRightOutline /> : <ChevronLeftOutline />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: '16px',
@@ -56,16 +56,7 @@ const App: React.FC = () => {
             }}
           />
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
-        >
-          Content
-        </Content>
+        <Content className="mx-4 my-6 min-h-[280px] bg-neutral-bg-container p-6">Content</Content>
       </Layout>
     </Layout>
   );

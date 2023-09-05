@@ -1,7 +1,11 @@
+/**
+ * description: 同样拥有顶部导航及侧边栏，区别是两边未留边距，多用于应用型的网站。
+ */
 import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+
+import { CalendarOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Layout, Menu } from 'meta-ui';
 
 const { Header, Content, Sider } = Layout;
 
@@ -10,7 +14,7 @@ const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
   label: `nav ${key}`,
 }));
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+const items2: MenuProps['items'] = [HomeOutline, CalendarOutline, UsersOutline].map(
   (icon, index) => {
     const key = String(index + 1);
 
@@ -31,10 +35,6 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
 );
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
@@ -42,7 +42,7 @@ const App: React.FC = () => {
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
       </Header>
       <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
+        <Sider width={288} theme="light">
           <Menu
             mode="inline"
             defaultSelectedKeys={['1']}
@@ -51,22 +51,8 @@ const App: React.FC = () => {
             items={items2}
           />
         </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-            }}
-          >
-            Content
-          </Content>
+        <Layout className="p-6">
+          <Content className="m-0 min-h-[280px] bg-neutral-bg-container p-6">Content</Content>
         </Layout>
       </Layout>
     </Layout>

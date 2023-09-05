@@ -1,4 +1,4 @@
-import { ArrowLeftOutline, ArrowRightOutline, ListBulletOutline } from '@metaoa/icons';
+import { ChevronLeftOutline, ChevronRightOutline } from '@metaoa/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -32,10 +32,8 @@ export interface SiderProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultCollapsed?: boolean;
   reverseArrow?: boolean;
   onCollapse?: (collapsed: boolean, type: CollapseType) => void;
-  zeroWidthTriggerStyle?: React.CSSProperties;
   trigger?: React.ReactNode;
   width?: number | string;
-  collapsedWidth?: number | string;
   breakpoint?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   theme?: SiderTheme;
   onBreakpoint?: (broken: boolean) => void;
@@ -54,6 +52,8 @@ const generateId = (() => {
   };
 })();
 
+const COLLAPSED_WIDTH = 72;
+
 const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
@@ -65,9 +65,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     style = {},
     collapsible = false,
     reverseArrow = false,
-    width = 200,
-    collapsedWidth = 80,
-    zeroWidthTriggerStyle,
+    width = 288,
     breakpoint,
     onCollapse,
     onBreakpoint,
@@ -146,45 +144,37 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
   const renderSider = () => {
     const prefixCls = getPrefixCls('layout-sider', customizePrefixCls);
     const divProps = omit(otherProps, ['collapsed']);
-    const rawWidth = collapsed ? collapsedWidth : width;
+    const rawWidth = collapsed ? COLLAPSED_WIDTH : width;
     // use "px" as fallback unit for width
     const siderWidth = isNumeric(rawWidth) ? `${rawWidth}px` : String(rawWidth);
-    // special trigger when collapsedWidth == 0
-    const zeroWidthTrigger =
-      parseFloat(String(collapsedWidth || 0)) === 0 ? (
-        <span
-          onClick={toggle}
-          className={clsx(
-            `${prefixCls}-zero-width-trigger`,
-            `${prefixCls}-zero-width-trigger-${reverseArrow ? 'right' : 'left'}`,
-            reverseArrow && 'order-1',
-          )}
-          style={zeroWidthTriggerStyle}
-        >
-          {trigger || <ListBulletOutline />}
-        </span>
-      ) : null;
     const iconObj = {
-      expanded: reverseArrow ? <ArrowRightOutline /> : <ArrowLeftOutline />,
-      collapsed: reverseArrow ? <ArrowLeftOutline /> : <ArrowRightOutline />,
+      expanded: reverseArrow ? (
+        <ChevronRightOutline className="h-5 w-5" />
+      ) : (
+        <ChevronLeftOutline className="h-5 w-5" />
+      ),
+      collapsed: reverseArrow ? (
+        <ChevronLeftOutline className="h-5 w-5" />
+      ) : (
+        <ChevronRightOutline className="h-5 w-5" />
+      ),
     };
     const status = collapsed ? 'collapsed' : 'expanded';
     const defaultTrigger = iconObj[status];
     const triggerDom =
-      trigger !== null
-        ? zeroWidthTrigger || (
-            <div
-              className={clsx(
-                `${prefixCls}-trigger`,
-                'fixed bottom-0 z-[1] flex h-12 cursor-pointer items-center justify-center bg-slate-800 text-center leading-[3rem] text-white transition-all duration-200',
-              )}
-              onClick={toggle}
-              style={{ width: siderWidth }}
-            >
-              {trigger || defaultTrigger}
-            </div>
-          )
-        : null;
+      trigger !== null ? (
+        <div
+          className={clsx(
+            `${prefixCls}-trigger`,
+            'fixed bottom-0 z-[1] flex h-12 cursor-pointer items-center justify-center bg-gray-700 text-center leading-[3rem] text-white transition-width',
+            theme === 'light' && 'bg-neutral-fill-quaternary',
+          )}
+          onClick={toggle}
+          style={{ width: siderWidth }}
+        >
+          {trigger || defaultTrigger}
+        </div>
+      ) : null;
 
     const divStyle: React.CSSProperties = {
       ...style,
@@ -197,19 +187,22 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     const siderCls = clsx(
       prefixCls,
       `${prefixCls}-${theme}`,
-      'relative min-w-0 bg-slate-900 transition-all duration-200',
+      'relative min-w-0 bg-gray-800 transition-all',
       {
         [`${prefixCls}-collapsed`]: !!collapsed,
-        [`${prefixCls}-has-trigger pb-12`]: collapsible && trigger !== null && !zeroWidthTrigger,
+        [`${prefixCls}-has-trigger pb-12`]: collapsible && trigger !== null,
         [`${prefixCls}-below`]: !!below,
         [`${prefixCls}-zero-width`]: parseFloat(siderWidth) === 0,
       },
+      theme === 'light' && 'bg-neutral-bg-container',
       className,
     );
     return (
       <aside className={siderCls} {...divProps} style={divStyle} ref={ref}>
-        <div className={clsx(`${prefixCls}-children`, '-mt-[0.1] h-full pt-[0.1]')}>{children}</div>
-        {collapsible || (below && zeroWidthTrigger) ? triggerDom : null}
+        <div className={clsx(`${prefixCls}-children`, '-mt-[0.1px] h-full pt-[0.1px]')}>
+          {children}
+        </div>
+        {collapsible || below ? triggerDom : null}
       </aside>
     );
   };

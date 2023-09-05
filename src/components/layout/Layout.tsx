@@ -138,7 +138,7 @@ const Header = generator({
   tagName: 'header',
   displayName: 'Header',
   innerClassName: clsx(
-    'h-12 flex-shrink-0 flex-grow-0 basis-auto bg-slate-800 px-[3.125rem] leading-[3rem]',
+    'h-16 flex-shrink-0 flex-grow-0 basis-auto bg-slate-800 px-[3.125rem] leading-[3rem]',
   ),
 })(Basic);
 
