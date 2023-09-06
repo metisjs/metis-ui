@@ -2,6 +2,7 @@ import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import * as React from 'react';
 import { TransitionProps } from '../../transition';
+import { MenuClassNameType } from '../Menu';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
@@ -16,7 +17,9 @@ export type MenuTheme = 'light' | 'dark';
 
 export interface MenuContextProps {
   prefixCls: string;
-  className?: string;
+  className?: {
+    [P in MenuClassNameType]?: string;
+  } & { root?: string };
   openKeys: string[];
 
   inlineCollapsed: boolean;

@@ -3,7 +3,7 @@ import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getComplexCls } from '../_util/classNameUtils';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import warning from '../_util/warning';
 import { SiderContext, SiderContextProps } from '../layout/Sider';
@@ -18,7 +18,7 @@ export interface MenuItemProps
   extends Omit<MenuItemType, 'label' | 'key' | 'title'>,
     Omit<
       React.HTMLAttributes<HTMLLIElement>,
-      'title' | 'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect'
+      'title' | 'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'onSelect' | 'className'
     > {
   title?: React.ReactNode;
   children?: React.ReactNode;
@@ -63,10 +63,13 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const domDataId = useMenuId(eventKey);
 
+  const complexCls = getComplexCls(className);
+
   const {
     prefixCls,
     mode,
     theme,
+    className: contextClassName,
     onItemClick,
 
     disabled: contextDisabled,
@@ -79,6 +82,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     // Active
     onActive,
   } = React.useContext(MenuContext);
+
   const { siderCollapsed } = React.useContext<SiderContextProps>(SiderContext);
   const level = React.useContext(PathTrackerContext).length;
   const firstLevel = level === 0;
@@ -217,7 +221,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
           mode !== 'horizontal' && 'px-4',
           '[.submenu-popup_&]:px-1',
           mergedDisabled && 'cursor-not-allowed',
-          className,
+          contextClassName?.item,
+          complexCls.root,
         )}
         onClick={onInternalClick}
         onKeyDown={onInternalKeyDown}
@@ -286,6 +291,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                 },
               },
             }[theme][mode],
+            contextClassName?.itemInner,
+            complexCls.inner,
           )}
         >
           {cloneElement(icon, {

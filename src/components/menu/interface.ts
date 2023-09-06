@@ -1,12 +1,8 @@
 import type * as React from 'react';
+import { ComplexClassName } from '../_util/classNameUtils';
 
 // ========================= Options =========================
-interface ItemSharedProps {
-  style?: React.CSSProperties;
-  className?: string;
-}
-
-export interface SubMenuType<T extends MenuItemType = MenuItemType> extends ItemSharedProps {
+export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   label?: React.ReactNode;
   children: ItemType<T>[];
   disabled?: boolean;
@@ -34,7 +30,7 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> extends Item
   onTitleMouseLeave?: MenuHoverEventHandler;
 }
 
-export interface MenuItemType extends ItemSharedProps {
+export interface MenuItemType {
   label?: React.ReactNode;
   disabled?: boolean;
   itemIcon?: RenderIconType;
@@ -42,6 +38,7 @@ export interface MenuItemType extends ItemSharedProps {
   danger?: boolean;
   icon?: React.ReactNode;
   title?: string;
+  className?: ComplexClassName<'inner'>;
 
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
@@ -51,17 +48,19 @@ export interface MenuItemType extends ItemSharedProps {
   onClick?: MenuClickEventHandler;
 }
 
-export interface MenuItemGroupType<T extends MenuItemType = MenuItemType> extends ItemSharedProps {
+export interface MenuItemGroupType<T extends MenuItemType = MenuItemType> {
   type: 'group';
   label?: React.ReactNode;
   children?: ItemType<T>[];
   key?: React.Key;
+  className?: ComplexClassName<'title' | 'list'>;
 }
 
-export interface MenuDividerType extends ItemSharedProps {
+export interface MenuDividerType {
   type: 'divider';
   dashed?: boolean;
   key?: React.Key;
+  className?: string;
 }
 
 export type ItemType<T extends MenuItemType = MenuItemType> =

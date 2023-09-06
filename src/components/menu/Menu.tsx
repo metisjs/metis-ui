@@ -5,7 +5,7 @@ import isEqual from 'rc-util/lib/isEqual';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
-import { clsx } from '../_util/classNameUtils';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
@@ -39,13 +39,15 @@ import { parseItems } from './utils/nodeUtil';
 // optimize for render
 const EMPTY_LIST: string[] = [];
 
+export type MenuClassNameType = 'item' | 'itemInner';
+
 export interface MenuProps
   extends Omit<
     React.HTMLAttributes<HTMLUListElement>,
     'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
   > {
   prefixCls?: string;
-  className?: string;
+  className?: ComplexClassName<MenuClassNameType>;
   theme?: MenuTheme;
   items: ItemType[];
 
@@ -170,6 +172,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   } = props;
 
   const { siderCollapsed } = React.useContext(SiderContext);
+  const complexCls = getComplexCls(className);
 
   // ======================== Warning ==========================
   warning(
@@ -514,7 +517,8 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         // >>> Dark
         theme === 'dark' && 'bg-gray-800',
         theme === 'dark' && internalMode === 'horizontal' && 'items-center',
-        className,
+        complexCls.root,
+        overrideObj.className?.root,
       )}
       style={style}
       role="menu"
@@ -560,6 +564,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       <IdContext.Provider value={uuid}>
         <MenuContextProvider
           prefixCls={prefixCls}
+          className={{ ...overrideObj.className, ...complexCls }}
           inlineCollapsed={mergedInlineCollapsed || false}
           theme={theme}
           mode={internalMode}

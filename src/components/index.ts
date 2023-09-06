@@ -6,6 +6,8 @@ export { default as Checkbox } from './checkbox';
 export type { CheckboxOptionType, CheckboxProps, CheckboxRef } from './checkbox';
 export { default as Divider } from './divider';
 export type { DividerProps } from './divider';
+export { default as Dropdown } from './dropdown';
+export type { DropdownProps as DropDownProps, DropdownProps } from './dropdown';
 export { default as Empty } from './empty';
 export type { EmptyProps } from './empty';
 export { default as Input } from './input';

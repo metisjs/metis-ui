@@ -8,6 +8,7 @@ export interface OverrideContextProps {
   expandIcon?: React.ReactNode;
   mode?: MenuProps['mode'];
   selectable?: boolean;
+  className?: { root?: string; item?: string; itemInner?: string };
   validator?: (menuProps: Pick<MenuProps, 'mode'>) => void;
   onClick?: () => void;
 }
@@ -24,14 +25,7 @@ export const OverrideProvider = React.forwardRef<
 
   const context = React.useMemo<OverrideContextProps>(
     () => ({ ...override, ...restProps }),
-    [
-      override,
-      restProps.prefixCls,
-      // restProps.expandIcon, Not mark as deps since this is a ReactNode
-      restProps.mode,
-      restProps.selectable,
-      // restProps.validator, Not mark as deps since this is a function
-    ],
+    [override, restProps.prefixCls, restProps.mode, restProps.selectable, restProps.className],
   );
 
   return (

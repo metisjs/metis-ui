@@ -6,7 +6,7 @@ import type { MenuDividerType } from './interface';
 
 export type MenuDividerProps = Omit<MenuDividerType, 'type'>;
 
-export default function MenuDivider({ className, style, dashed }: MenuDividerProps) {
+export default function MenuDivider({ className, dashed }: MenuDividerProps) {
   const { prefixCls, theme } = React.useContext(MenuContext);
   const measure = useMeasure();
 
@@ -26,7 +26,6 @@ export default function MenuDivider({ className, style, dashed }: MenuDividerPro
         },
         className,
       )}
-      style={style}
     />
   );
 }
