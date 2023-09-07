@@ -1,6 +1,6 @@
 import * as MetaIcons from '@metaoa/icons';
-import classNames from 'classnames';
 import { Transition } from 'meta-ui';
+import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import * as React from 'react';
 
 const allIcons: {
@@ -78,7 +78,7 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({ name }) => {
           onClick={copy}
         >
           <span
-            className={classNames(
+            className={clsx(
               'text-2xl transition-transform',
               state === 'copied'
                 ? '-translate-y-3 duration-200 ease-out'
@@ -97,9 +97,18 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({ name }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <p className="absolute inset-x-0 bottom-10 text-center text-[0.8125rem] font-semibold leading-6 text-violet-500">
-            Copied!
-          </p>
+          {({ className, style }, ref) => (
+            <p
+              className={clsx(
+                'absolute inset-x-0 bottom-10 text-center text-[0.8125rem] font-semibold leading-6 text-violet-500',
+                className,
+              )}
+              style={style}
+              ref={ref}
+            >
+              Copied!
+            </p>
+          )}
         </Transition>
       </div>
       <div

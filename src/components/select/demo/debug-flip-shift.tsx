@@ -1,10 +1,12 @@
-import { Select } from 'antd';
+/**
+ * description: 翻转后如果不够则偏移以供完全的展示。
+ */
+import { Select } from 'meta-ui';
 import React from 'react';
 
 const App: React.FC = () => (
   <Select
     style={{ width: 120, marginTop: '50vh' }}
-    open
     options={new Array(100).fill(null).map((_, index) => ({
       value: index,
     }))}

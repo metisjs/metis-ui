@@ -246,7 +246,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       prefix={prefix}
       suffix={suffixNode}
       allowClear={mergedAllowClear}
-      className={clsx(complexCls.root, compactItemClassnames)}
+      className={clsx(compactItemClassnames, complexCls.root)}
       onChange={handleChange}
       addonAfter={
         addonAfter && (
@@ -301,13 +301,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         prefix: clsx(
           'flex flex-none items-center text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
-          mergedSize === 'small' && `${prefixCls}-prefix-small`,
+          mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
           complexCls.prefix,
         ),
         suffix: clsx(
           'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
           mergedDisabled && 'text-neutral-text-quaternary',
-          mergedSize === 'small' && `${prefixCls}-suffix-small`,
+          mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
           complexCls.suffix,
         ),
         count: clsx(

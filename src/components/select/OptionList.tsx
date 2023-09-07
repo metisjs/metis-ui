@@ -334,7 +334,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
           const optionClassName = clsx(
             itemPrefixCls,
             optionPrefixCls,
-            'relative flex cursor-default select-none items-center py-2 pl-3 pr-9 text-sm',
+            'relative flex cursor-default select-none items-center py-2 pl-3 pr-14 text-sm',
             {
               [`${optionPrefixCls}-grouped pl-6`]: groupOption,
               [`${optionPrefixCls}-active bg-primary text-white`]:

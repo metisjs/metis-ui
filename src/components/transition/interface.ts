@@ -15,7 +15,9 @@ export type TransitionEventHandler = () => void;
 export type TransitionBeforeEventHandler = () => Promise<any> | void;
 
 export type TransitionStyleType = { className: string[]; style: React.CSSProperties };
-export type TransitionStyle =
+export type TransitionBaseStyle =
   | string
   | React.CSSProperties
   | { className: string; style: React.CSSProperties };
+export type TransitionStyleFn = (node: HTMLElement | null) => TransitionStyle;
+export type TransitionStyle = TransitionBaseStyle | TransitionStyleFn;

@@ -641,7 +641,6 @@ const Select = React.forwardRef(
         [`${prefixCls}-borderless`]: !bordered,
         [`${prefixCls}-in-form-item`]: isFormItemInput,
       },
-      getStatusClassNames(mergedStatus, hasFeedback),
       compactItemClassnames,
       complexCls.root,
     );
@@ -649,10 +648,11 @@ const Select = React.forwardRef(
     const selectorClassName = clsx(
       {
         'px-2 after:leading-6': mergedSize === 'small',
-        'after:leading-8': mergedSize === 'large' && multiple,
+        'after:leading-8': mergedSize === 'large',
         'shadow-none ring-0': !bordered,
         'bg-neutral-bg-container': !bordered && mergedDisabled,
       },
+      getStatusClassNames(mergedStatus, hasFeedback),
       complexCls.selector,
     );
 
@@ -673,7 +673,7 @@ const Select = React.forwardRef(
     });
 
     const popupClassName = clsx(
-      'absolute z-[1050] rounded-md bg-neutral-bg-container py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+      'absolute z-[1050] rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
       complexCls.popup,
     );
 
@@ -747,7 +747,7 @@ const Select = React.forwardRef(
             selectorPlaceholder: selectorPlaceholderClassName,
           }}
           transition={{
-            leave: 'transition ease-in duration-100',
+            leave: 'transition ease-in duration-150',
             leaveFrom: 'opacity-100',
             leaveTo: 'opacity-0',
           }}

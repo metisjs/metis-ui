@@ -7,7 +7,7 @@ import {
   TransitionEventHandler,
   TransitionStatus,
   TransitionStep,
-  TransitionStyleType,
+  TransitionStyle,
 } from '../interface';
 import { getStylesByStatusAndStep } from '../util/style';
 import useDomEvents from './useDomEvents';
@@ -17,12 +17,12 @@ interface StatusArgs {
   appear?: boolean;
   visible: boolean;
   styles: MutableRefObject<{
-    enter: TransitionStyleType;
-    enterFrom: TransitionStyleType;
-    enterTo: TransitionStyleType;
-    leave: TransitionStyleType;
-    leaveFrom: TransitionStyleType;
-    leaveTo: TransitionStyleType;
+    enter?: TransitionStyle;
+    enterFrom?: TransitionStyle;
+    enterTo?: TransitionStyle;
+    leave?: TransitionStyle;
+    leaveFrom?: TransitionStyle;
+    leaveTo?: TransitionStyle;
   }>;
   deadline?: number;
   getElement: () => HTMLElement | null;
@@ -67,7 +67,7 @@ export default function useStatus({
   const handleBefore = visible ? beforeEnterRef : beforeLeaveRef;
   const handleAfter = visible ? afterEnterRef : afterLeaveRef;
 
-  function onInternalMotionEnd(event: TransitionEvent & { deadline?: boolean }) {
+  function onInternalMotionEnd(event?: TransitionEvent & { deadline?: boolean }) {
     const element = getElement();
     if (event && !event.deadline && event.target !== element) {
       return;
@@ -180,7 +180,7 @@ export default function useStatus({
   }, [asyncVisible, status]);
 
   // ============================ Styles ============================
-  const [style, className] = getStylesByStatusAndStep(styles.current, status, step);
+  const [style, className] = getStylesByStatusAndStep(styles.current, status, step, getElement);
   let mergedStyle = style;
   if (step !== TransitionStep.Active) {
     mergedStyle = {

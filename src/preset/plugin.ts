@@ -32,6 +32,10 @@ export default tailwindPlugin(mainFunction, {
       opacity: {
         disabled: '0.6',
       },
+      transitionProperty: {
+        height: 'height',
+        width: 'width',
+      },
     },
   },
 });

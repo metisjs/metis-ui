@@ -1,13 +1,18 @@
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import { CSSProperties } from 'react';
+import { clsx } from '../../_util/classNameUtils';
 import {
   TransitionStatus,
   TransitionStep,
   TransitionStyle,
+  TransitionStyleFn,
   TransitionStyleType,
 } from '../interface';
 
-export function splitStyle(style?: TransitionStyle) {
+export function splitStyle(node: HTMLElement | null, style?: TransitionStyle | TransitionStyleFn) {
+  if (typeof style === 'function') {
+    return splitStyle(node, style(node));
+  }
+
   let result: any = {};
   if (typeof style === 'string') {
     result.className = style;
@@ -29,56 +34,66 @@ export function splitStyle(style?: TransitionStyle) {
 
 export function getStylesByStatusAndStep(
   styles: {
-    enter: TransitionStyleType;
-    enterFrom: TransitionStyleType;
-    enterTo: TransitionStyleType;
-    leave: TransitionStyleType;
-    leaveFrom: TransitionStyleType;
-    leaveTo: TransitionStyleType;
+    enter?: TransitionStyle;
+    enterFrom?: TransitionStyle;
+    enterTo?: TransitionStyle;
+    leave?: TransitionStyle;
+    leaveFrom?: TransitionStyle;
+    leaveTo?: TransitionStyle;
   },
   status: TransitionStatus,
   step: TransitionStep,
+  getElement: () => HTMLElement | null,
 ): [CSSProperties, string] | [] {
   if (status === TransitionStatus.None || step === TransitionStep.None) return [];
+
+  const node = getElement();
+
+  const enter = splitStyle(node, styles.enter);
+  const enterFrom = splitStyle(node, styles.enterFrom);
+  const enterTo = splitStyle(node, styles.enterTo);
+  const leave = splitStyle(node, styles.leave);
+  const leaveFrom = splitStyle(node, styles.leaveFrom);
+  const leaveTo = splitStyle(node, styles.leaveTo);
 
   const mergedStyle = {
     [TransitionStatus.Enter]: {
       [TransitionStep.Prepare]: {
-        ...styles.enter.style,
+        ...enter.style,
       },
       [TransitionStep.Start]: {
-        ...styles.enter.style,
-        ...styles.enterFrom.style,
+        ...enter.style,
+        ...enterFrom.style,
       },
       [TransitionStep.Active]: {
-        ...styles.enter.style,
-        ...styles.enterTo.style,
+        ...enter.style,
+        ...enterTo.style,
       },
     },
     [TransitionStatus.Leave]: {
       [TransitionStep.Prepare]: {
-        ...styles.leave.style,
+        ...leave.style,
       },
       [TransitionStep.Start]: {
-        ...styles.leave.style,
-        ...styles.leaveFrom.style,
+        ...leave.style,
+        ...leaveFrom.style,
       },
       [TransitionStep.Active]: {
-        ...styles.leave.style,
-        ...styles.leaveTo.style,
+        ...leave.style,
+        ...leaveTo.style,
       },
     },
   };
   const mergedCls = {
     [TransitionStatus.Enter]: {
-      [TransitionStep.Prepare]: clsx(styles.enter.className),
-      [TransitionStep.Start]: clsx(styles.enter.className, styles.enterFrom.className),
-      [TransitionStep.Active]: clsx(styles.enter.className, styles.enterTo.className),
+      [TransitionStep.Prepare]: clsx(enter.className),
+      [TransitionStep.Start]: clsx(enter.className, enterFrom.className),
+      [TransitionStep.Active]: clsx(enter.className, enterTo.className),
     },
     [TransitionStatus.Leave]: {
-      [TransitionStep.Prepare]: clsx(styles.leave.className),
-      [TransitionStep.Start]: clsx(styles.leave.className, styles.leaveFrom.className),
-      [TransitionStep.Active]: clsx(styles.leave.className, styles.leaveTo.className),
+      [TransitionStep.Prepare]: clsx(leave.className),
+      [TransitionStep.Start]: clsx(leave.className, leaveFrom.className),
+      [TransitionStep.Active]: clsx(leave.className, leaveTo.className),
     },
   };
 
