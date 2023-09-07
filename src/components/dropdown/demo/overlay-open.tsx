@@ -1,7 +1,10 @@
+/**
+ * description: 默认是点击关闭菜单，可以关闭此功能。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Dropdown, Space } from 'meta-ui';
 import React, { useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -43,7 +46,7 @@ const App: React.FC = () => {
       <a onClick={(e) => e.preventDefault()}>
         <Space>
           Hover me
-          <DownOutlined />
+          <ChevronDownOutline className="h-5 w-5" />
         </Space>
       </a>
     </Dropdown>

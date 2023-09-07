@@ -7,7 +7,7 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   children: ItemType<T>[];
   disabled?: boolean;
   key: string;
-  className?: string;
+  className?: ComplexClassName<'title' | 'inner' | 'icon' | 'content'>;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
 
@@ -38,7 +38,7 @@ export interface MenuItemType {
   danger?: boolean;
   icon?: React.ReactNode;
   title?: string;
-  className?: ComplexClassName<'inner'>;
+  className?: ComplexClassName<'inner' | 'icon'>;
 
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;

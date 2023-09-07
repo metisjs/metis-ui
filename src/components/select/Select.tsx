@@ -673,7 +673,7 @@ const Select = React.forwardRef(
     });
 
     const popupClassName = clsx(
-      'absolute z-[1050] rounded-md bg-neutral-bg-container py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+      'absolute z-[1050] rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
       complexCls.popup,
     );
 

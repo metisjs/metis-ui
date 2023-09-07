@@ -26,7 +26,7 @@ const InternalMenuItemGroup = ({
   children,
   ...restProps
 }: MenuItemGroupProps) => {
-  const { prefixCls, theme } = React.useContext(MenuContext);
+  const { prefixCls, theme, className: contextClassName } = React.useContext(MenuContext);
   const complexCls = getComplexCls(className);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
@@ -36,7 +36,7 @@ const InternalMenuItemGroup = ({
       role="presentation"
       {...restProps}
       onClick={(e) => e.stopPropagation()}
-      className={clsx(groupPrefixCls, 'item-group', complexCls.root)}
+      className={clsx(groupPrefixCls, 'item-group', contextClassName?.group, complexCls.root)}
     >
       <div
         role="presentation"
@@ -47,6 +47,7 @@ const InternalMenuItemGroup = ({
             'text-neutral-text-tertiary': theme === 'light',
             'text-white/[0.65]': theme === 'dark',
           },
+          contextClassName?.groupTitle,
           complexCls.title,
         )}
         title={typeof title === 'string' ? title : undefined}
@@ -55,7 +56,12 @@ const InternalMenuItemGroup = ({
       </div>
       <ul
         role="group"
-        className={clsx(`${groupPrefixCls}-list`, 'flex flex-col gap-1', complexCls.list)}
+        className={clsx(
+          `${groupPrefixCls}-list`,
+          'flex flex-col gap-1',
+          contextClassName?.groupList,
+          complexCls.list,
+        )}
       >
         {children}
       </ul>

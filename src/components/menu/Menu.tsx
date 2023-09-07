@@ -39,7 +39,13 @@ import { parseItems } from './utils/nodeUtil';
 // optimize for render
 const EMPTY_LIST: string[] = [];
 
-export type MenuClassNameType = 'item' | 'itemInner';
+export type MenuClassNameType =
+  | 'item'
+  | 'itemInner'
+  | 'itemIcon'
+  | 'group'
+  | 'groupTitle'
+  | 'groupList';
 
 export interface MenuProps
   extends Omit<
@@ -138,7 +144,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     defaultActiveFirst,
 
     // Selection
-    selectable = true,
+    selectable,
     multiple = false,
     defaultSelectedKeys,
     selectedKeys,
@@ -374,7 +380,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   });
 
   // ======================= Selectable ========================
-  const mergedSelectable = selectable ?? overrideObj.selectable;
+  const mergedSelectable = selectable ?? overrideObj.selectable ?? true;
 
   // ====================== Expand Icon ========================
   let mergedExpandIcon: MenuProps['expandIcon'];

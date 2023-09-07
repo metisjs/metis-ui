@@ -1,7 +1,10 @@
+/**
+ * description: 传入的菜单里有多个层级。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
 
 const items: MenuProps['items'] = [
   {
@@ -55,7 +58,7 @@ const App: React.FC = () => (
     <a onClick={(e) => e.preventDefault()}>
       <Space>
         Cascading menu
-        <DownOutlined />
+        <ChevronDownOutline className="h-5 w-5" />
       </Space>
     </a>
   </Dropdown>

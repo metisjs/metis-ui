@@ -1,15 +1,16 @@
+/**
+ * description: 左边是按钮，右边是额外的相关功能菜单。可设置 `icon` 属性来修改右边的图标。
+ */
+import { ChevronDownOutline, UserOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Button, Dropdown, Space, Tooltip } from 'meta-ui';
 import React from 'react';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 
 const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-  message.info('Click on left button.');
   console.log('click left button', e);
 };
 
 const handleMenuClick: MenuProps['onClick'] = (e) => {
-  message.info('Click on menu item.');
   console.log('click', e);
 };
 
@@ -17,23 +18,23 @@ const items: MenuProps['items'] = [
   {
     label: '1st menu item',
     key: '1',
-    icon: <UserOutlined />,
+    icon: <UserOutline />,
   },
   {
     label: '2nd menu item',
     key: '2',
-    icon: <UserOutlined />,
+    icon: <UserOutline />,
   },
   {
     label: '3rd menu item',
     key: '3',
-    icon: <UserOutlined />,
+    icon: <UserOutline />,
     danger: true,
   },
   {
     label: '4rd menu item',
     key: '4',
-    icon: <UserOutlined />,
+    icon: <UserOutline />,
     danger: true,
     disabled: true,
   },
@@ -49,7 +50,7 @@ const App: React.FC = () => (
     <Dropdown.Button menu={menuProps} onClick={handleButtonClick}>
       Dropdown
     </Dropdown.Button>
-    <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined />}>
+    <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutline />}>
       Dropdown
     </Dropdown.Button>
     <Dropdown.Button menu={menuProps} onClick={handleButtonClick} disabled>
@@ -70,7 +71,7 @@ const App: React.FC = () => (
       <Button>
         <Space>
           Button
-          <DownOutlined />
+          <ChevronDownOutline className="h-5 w-5" />
         </Space>
       </Button>
     </Dropdown>

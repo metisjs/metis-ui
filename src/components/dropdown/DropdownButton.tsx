@@ -1,20 +1,21 @@
-import EllipsisOutlined from '@ant-design/icons/EllipsisOutlined';
-import classNames from 'classnames';
 import * as React from 'react';
 import Button from '../button';
 import { ConfigContext } from '../config-provider';
 import Space from '../space';
 import { useCompactItemContext } from '../space/Compact';
 import Dropdown from './Dropdown';
-import useStyle from './style';
 
-import type { ButtonHTMLType, ButtonProps } from '../button';
-import type { ButtonGroupProps } from '../button/button-group';
+import { EllipsisHorizontalOutline } from '@metaoa/icons';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import type { ButtonProps } from '../button';
+import { ButtonHTMLType } from '../button/Button';
+import { SizeType } from '../config-provider/SizeContext';
 import type { DropdownProps } from './Dropdown';
 
-export type DropdownButtonType = 'default' | 'primary' | 'dashed' | 'link' | 'text';
+export type DropdownButtonType = 'default' | 'primary' | 'link' | 'text';
 
-export interface DropdownButtonProps extends ButtonGroupProps, DropdownProps {
+export interface DropdownButtonProps extends DropdownProps {
+  className?: ComplexClassName<'overlay' | 'open' | 'button'>;
   type?: DropdownButtonType;
   htmlType?: ButtonHTMLType;
   danger?: boolean;
@@ -23,22 +24,22 @@ export interface DropdownButtonProps extends ButtonGroupProps, DropdownProps {
   onClick?: React.MouseEventHandler<HTMLElement>;
   icon?: React.ReactNode;
   href?: string;
-  children?: React.ReactNode;
   title?: string;
   buttonsRender?: (buttons: React.ReactNode[]) => React.ReactNode[];
+  size?: SizeType;
+  style?: React.CSSProperties;
+  prefixCls?: string;
+  children?: React.ReactNode;
 }
 
 type CompoundedComponent = React.FC<DropdownButtonProps> & {
   /** @internal */
-  __ANT_BUTTON: boolean;
+  __META_BUTTON: boolean;
 };
 
 const DropdownButton: CompoundedComponent = (props) => {
-  const {
-    getPopupContainer: getContextPopupContainer,
-    getPrefixCls,
-    direction,
-  } = React.useContext(ConfigContext);
+  const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
+    React.useContext(ConfigContext);
 
   const {
     prefixCls: customizePrefixCls,
@@ -53,7 +54,6 @@ const DropdownButton: CompoundedComponent = (props) => {
     menu,
     arrow,
     autoFocus,
-    overlay,
     trigger,
     align,
     open,
@@ -61,21 +61,19 @@ const DropdownButton: CompoundedComponent = (props) => {
     placement,
     getPopupContainer,
     href,
-    icon = <EllipsisOutlined />,
+    icon = <EllipsisHorizontalOutline />,
     title,
     buttonsRender = (buttons: React.ReactNode[]) => buttons,
     mouseEnterDelay,
     mouseLeaveDelay,
-    overlayClassName,
-    overlayStyle,
     destroyPopupOnHide,
     dropdownRender,
     ...restProps
   } = props;
 
+  const complexCls = getComplexCls(className);
   const prefixCls = getPrefixCls('dropdown', customizePrefixCls);
   const buttonPrefixCls = `${prefixCls}-button`;
-  const [wrapSSR, hashId] = useStyle(prefixCls);
 
   const dropdownProps: DropdownProps = {
     menu,
@@ -88,19 +86,14 @@ const DropdownButton: CompoundedComponent = (props) => {
     getPopupContainer: getPopupContainer || getContextPopupContainer,
     mouseEnterDelay,
     mouseLeaveDelay,
-    overlayClassName,
-    overlayStyle,
     destroyPopupOnHide,
     dropdownRender,
+    className: { overlay: complexCls.overlay, open: complexCls.open },
   };
 
-  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls, direction);
+  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
-  const classes = classNames(buttonPrefixCls, compactItemClassnames, className, hashId);
-
-  if ('overlay' in props) {
-    dropdownProps.overlay = overlay;
-  }
+  const classes = clsx(buttonPrefixCls, compactItemClassnames, complexCls.root);
 
   if ('open' in props) {
     dropdownProps.open = open;
@@ -109,7 +102,7 @@ const DropdownButton: CompoundedComponent = (props) => {
   if ('placement' in props) {
     dropdownProps.placement = placement;
   } else {
-    dropdownProps.placement = direction === 'rtl' ? 'bottomLeft' : 'bottomRight';
+    dropdownProps.placement = 'bottomRight';
   }
 
   const leftButton = (
@@ -122,23 +115,26 @@ const DropdownButton: CompoundedComponent = (props) => {
       htmlType={htmlType}
       href={href}
       title={title}
+      className={complexCls.button}
     >
       {children}
     </Button>
   );
 
-  const rightButton = <Button type={type} danger={danger} icon={icon} />;
+  const rightButton = (
+    <Button type={type} danger={danger} icon={icon} className={complexCls.button} />
+  );
 
   const [leftButtonToRender, rightButtonToRender] = buttonsRender([leftButton, rightButton]);
 
-  return wrapSSR(
+  return (
     <Space.Compact className={classes} size={compactSize} block {...restProps}>
       {leftButtonToRender}
       <Dropdown {...dropdownProps}>{rightButtonToRender}</Dropdown>
-    </Space.Compact>,
+    </Space.Compact>
   );
 };
 
-DropdownButton.__ANT_BUTTON = true;
+DropdownButton.__META_BUTTON = true;
 
 export default DropdownButton;

@@ -1,6 +1,6 @@
 import Overflow from 'rc-overflow';
 import * as React from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, getComplexCls } from '../../_util/classNameUtils';
 import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
 import warning from '../../_util/warning';
@@ -40,7 +40,6 @@ export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'la
 
 const InternalSubMenu = (props: SubMenuProps) => {
   const {
-    style,
     className,
 
     theme: customTheme,
@@ -76,10 +75,13 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const domDataId = useMenuId(eventKey);
 
+  const complexCls = getComplexCls(className);
+
   const {
     prefixCls,
     mode,
     theme: contextTheme,
+    className: contextClassName,
     openKeys,
 
     // Disabled
@@ -237,6 +239,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
         mode === 'horizontal' && 'flex h-[4rem] items-center',
         mode !== 'horizontal' && 'px-4',
         '[.submenu-popup_&]:px-1',
+        contextClassName?.item,
+        complexCls.title,
       )}
       style={inlineStyle}
       tabIndex={mergedDisabled ? undefined : -1}
@@ -265,6 +269,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
                   true,
                 'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
                   !mergedDisabled,
+                'text-neutral-text after:border-neutral-border': open,
                 'text-neutral-text after:border-primary hover:after:border-primary':
                   childrenSelected,
                 'text-neutral-text-quaternary': mergedDisabled,
@@ -313,6 +318,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
               },
             },
           }[contextTheme][mode],
+          contextClassName?.itemInner,
+          complexCls.inner,
         )}
       >
         {cloneElement(icon, {
@@ -324,6 +331,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
               'text-neutral-text-tertiary': firstLevel && contextTheme !== 'dark',
               'text-primary': childrenSelected && contextTheme !== 'dark',
             },
+            contextClassName?.itemIcon,
+            complexCls.icon,
             isValidElement(icon) ? icon.props?.className : '',
           ),
         })}
@@ -333,6 +342,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
             `${prefixCls}-title-content`,
             'flex-1 truncate',
             firstLevel && isInlineCollapsed && 'opacity-0',
+            complexCls.content,
           )}
         >
           {title}
@@ -429,7 +439,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
       role="none"
       {...restProps}
       component="li"
-      style={style}
       className={clsx(
         subMenuPrefixCls,
         `${subMenuPrefixCls}-${mode}`,
@@ -443,7 +452,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         mode === 'horizontal' && mergedTheme === 'light' && 'pe-4 ps-4',
         mode === 'horizontal' && mergedTheme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
         mergedDisabled && 'cursor-not-allowed',
-        className,
+        complexCls.root,
       )}
       onMouseEnter={onInternalMouseEnter}
       onMouseLeave={onInternalMouseLeave}

@@ -1,6 +1,7 @@
-import { ArrowRightOutline } from '@metaoa/icons';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
 import React, { ReactElement, forwardRef } from 'react';
+import { clsx } from '../_util/classNameUtils';
+import getArrowClassName from '../_util/placementArrow';
 import { cloneElement } from '../_util/reactNode';
 import warning from '../_util/warning';
 import { OverrideProvider } from '../menu/context/OverrideContext';
@@ -11,7 +12,14 @@ export type OverlayProps = Pick<DropdownProps, 'arrow' | 'prefixCls'> & {
   onClick: () => void;
 };
 
-const overrideCls = { root: 'p-1', item: 'p-0', itemInner: 'py-2 px-3 h-9 leading-9 gap-2' };
+const overrideCls = {
+  root: 'py-1',
+  item: 'px-1',
+  itemInner: 'py-2 px-3 ps-3 pe-3 h-9 leading-9 gap-2 font-normal',
+  itemIcon: 'w-5 h-5',
+  groupTitle: 'ps-3 pe-3',
+  groupList: 'px-2',
+};
 
 const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
   const { arrow, prefixCls, children, onClick } = props;
@@ -23,14 +31,19 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
 
   return (
     <>
-      {arrow && <div className={`${prefixCls}-arrow`} />}
+      {arrow && (
+        <div
+          className={clsx(
+            `${prefixCls}-arrow`,
+            getArrowClassName({
+              limitVerticalRadius: true,
+              custom: 'after:ring-1 after:ring-neutral-border-secondary',
+            }),
+          )}
+        />
+      )}
       <OverrideProvider
         prefixCls={`${prefixCls}-menu`}
-        expandIcon={
-          <span className={`${prefixCls}-menu-submenu-arrow`}>
-            <ArrowRightOutline className={`${prefixCls}-menu-submenu-arrow-icon h-4 w-4`} />
-          </span>
-        }
         mode="vertical"
         selectable={false}
         onClick={onClick}

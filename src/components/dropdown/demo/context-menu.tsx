@@ -1,6 +1,9 @@
+/**
+ * description: 默认是移入触发菜单，可以点击鼠标右键触发。
+ */
+import type { MenuProps } from 'meta-ui';
+import { Dropdown } from 'meta-ui';
 import React from 'react';
-import type { MenuProps } from 'antd';
-import { Dropdown, theme } from 'antd';
 
 const items: MenuProps['items'] = [
   {
@@ -18,21 +21,9 @@ const items: MenuProps['items'] = [
 ];
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgLayout, colorTextTertiary },
-  } = theme.useToken();
-
   return (
     <Dropdown menu={{ items }} trigger={['contextMenu']}>
-      <div
-        style={{
-          color: colorTextTertiary,
-          background: colorBgLayout,
-          height: 200,
-          textAlign: 'center',
-          lineHeight: '200px',
-        }}
-      >
+      <div className="h-[200px] bg-neutral-bg-layout text-center leading-[200px] text-neutral-text-tertiary">
         Right Click on here
       </div>
     </Dropdown>

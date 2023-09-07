@@ -1,10 +1,13 @@
-import { DownOutlined } from '@ant-design/icons';
+/**
+ * description: 特殊处理 Down icon。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import { Dropdown, Space } from 'antd';
 
 const App: React.FC = () => (
   <Space>
-    <Dropdown.Button icon={<DownOutlined />} menu={{ items: [] }}>
+    <Dropdown.Button icon={<ChevronDownOutline />} menu={{ items: [] }}>
       Submit
     </Dropdown.Button>
   </Space>

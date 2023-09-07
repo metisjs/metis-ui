@@ -1,15 +1,18 @@
+/**
+ * description: 默认是移入触发菜单，可以点击触发。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
 
 const items: MenuProps['items'] = [
   {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
+    label: '1st menu item',
     key: '0',
   },
   {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
+    label: '2nd menu item',
     key: '1',
   },
   {
@@ -26,7 +29,7 @@ const App: React.FC = () => (
     <a onClick={(e) => e.preventDefault()}>
       <Space>
         Click me
-        <DownOutlined />
+        <ChevronDownOutline className="h-5 w-5" />
       </Space>
     </a>
   </Dropdown>

@@ -9,6 +9,7 @@ import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
+import useSize from '../config-provider/hooks/useSize';
 import { useCompactItemContext } from '../space/Compact';
 
 function isUnBorderedButtonType(type: ButtonType | undefined) {
@@ -161,11 +162,12 @@ const btnVariantStyles = cva(
 
 const iconVariantStyles = cva('', {
   variants: {
-    size: { small: 'h-4 w-4', middle: 'h-5 w-5', large: 'h-5 w-5' },
+    size: { small: 'h-4 w-4', middle: 'h-4 w-4', large: 'h-5 w-5' },
     iconOnly: { true: '' },
   },
   compoundVariants: [
     { size: 'small', iconOnly: true, className: 'h-5 w-5' },
+    { size: 'middle', iconOnly: true, className: 'h-5 w-5' },
     { size: 'large', iconOnly: true, className: 'h-6 w-6' },
   ],
   defaultVariants: {
@@ -243,6 +245,12 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
+  const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined };
+
+  const sizeFullName = useSize((ctxSize) => customizeSize ?? compactSize ?? ctxSize);
+
+  const sizeCls = sizeFullName ? sizeClassNameMap[sizeFullName] || '' : '';
+
   const mergedSize = compactSize || customizeSize || size;
 
   const iconType = innerLoading ? 'loading' : icon;
@@ -272,7 +280,20 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     ghost: type !== 'text' && type !== 'link' && ghost,
     loading: !!innerLoading,
   };
-  const classes = btnVariantStyles(variants, [prefixCls, compactItemClassnames, className]);
+  const classes = btnVariantStyles(variants, [
+    prefixCls,
+    {
+      [`${prefixCls}-${shape}`]: shape !== 'default' && shape,
+      [`${prefixCls}-${type}`]: type,
+      [`${prefixCls}-${sizeCls}`]: sizeCls,
+      [`${prefixCls}-icon-only`]: !children && children !== 0 && !!iconType,
+      [`${prefixCls}-background-ghost`]: ghost && !isUnBorderedButtonType(type),
+      [`${prefixCls}-loading`]: innerLoading,
+      [`${prefixCls}-dangerous`]: !!danger,
+    },
+    compactItemClassnames,
+    className,
+  ]);
 
   if (linkButtonRestProps.href !== undefined) {
     return (

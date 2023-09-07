@@ -23,11 +23,20 @@ export const useCompactItemContext = (prefixCls: string) => {
     const { compactDirection, isFirstItem, isLastItem } = compactItemContext;
     const separator = compactDirection === 'vertical' ? '-vertical-' : '-';
 
-    return clsx({
-      [`${prefixCls}-compact${separator}item`]: true,
-      [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
-      [`${prefixCls}-compact${separator}last-item`]: isLastItem,
-    });
+    return clsx(
+      {
+        [`${prefixCls}-compact${separator}item`]: true,
+        [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
+        [`${prefixCls}-compact${separator}last-item`]: isLastItem,
+      },
+      'hover:z-[2]',
+      {
+        'rounded-r-none': isFirstItem,
+        'rounded-l-none': isLastItem,
+        '-me-[1px]': !isLastItem,
+        'rounded-none': !isFirstItem && !isLastItem,
+      },
+    );
   }, [compactItemContext]);
 
   return {

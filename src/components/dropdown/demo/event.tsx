@@ -1,10 +1,13 @@
+/**
+ * description: 点击菜单项后会触发事件，用户可以通过相应的菜单项 key 进行不同的操作。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, message, Space } from 'antd';
 
 const onClick: MenuProps['onClick'] = ({ key }) => {
-  message.info(`Click on item ${key}`);
+  console.log(`Click on item ${key}`);
 };
 
 const items: MenuProps['items'] = [
@@ -27,7 +30,7 @@ const App: React.FC = () => (
     <a onClick={(e) => e.preventDefault()}>
       <Space>
         Hover me, Click menu item
-        <DownOutlined />
+        <ChevronDownOutline className="h-5 w-5" />
       </Space>
     </a>
   </Dropdown>

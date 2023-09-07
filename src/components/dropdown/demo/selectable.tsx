@@ -1,7 +1,10 @@
+/**
+ * description: 添加 `menu` 中的 `selectable` 属性可以开启选择能力。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space, Typography } from 'antd';
 
 const items: MenuProps['items'] = [
   {
@@ -26,12 +29,10 @@ const App: React.FC = () => (
       defaultSelectedKeys: ['3'],
     }}
   >
-    <Typography.Link>
-      <Space>
-        Selectable
-        <DownOutlined />
-      </Space>
-    </Typography.Link>
+    <Space>
+      Selectable
+      <ChevronDownOutline className="h-5 w-5" />
+    </Space>
   </Dropdown>
 );
 

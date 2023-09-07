@@ -1,56 +1,50 @@
+/**
+ * description: 设置 `arrow` 为 `{ pointAtCenter: true }` 后，箭头将指向目标元素的中心。
+ */
+import type { MenuProps } from 'meta-ui';
+import { Button, Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import type { MenuProps } from 'antd';
-import { Button, Dropdown } from 'antd';
 
 const items: MenuProps['items'] = [
   {
     key: '1',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        1st menu item
-      </a>
-    ),
+    label: '1st menu item',
   },
   {
     key: '2',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        2nd menu item
-      </a>
-    ),
+    label: '2nd menu item',
   },
   {
     key: '3',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        3rd menu item
-      </a>
-    ),
+    label: '3rd menu item',
   },
 ];
 
 const App: React.FC = () => (
-  <>
-    <Dropdown menu={{ items }} placement="bottomLeft" arrow={{ pointAtCenter: true }}>
-      <Button>bottomLeft</Button>
-    </Dropdown>
-    <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
-      <Button>bottom</Button>
-    </Dropdown>
-    <Dropdown menu={{ items }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
-      <Button>bottomRight</Button>
-    </Dropdown>
-    <br />
-    <Dropdown menu={{ items }} placement="topLeft" arrow={{ pointAtCenter: true }}>
-      <Button>topLeft</Button>
-    </Dropdown>
-    <Dropdown menu={{ items }} placement="top" arrow={{ pointAtCenter: true }}>
-      <Button>top</Button>
-    </Dropdown>
-    <Dropdown menu={{ items }} placement="topRight" arrow={{ pointAtCenter: true }}>
-      <Button>topRight</Button>
-    </Dropdown>
-  </>
+  <Space direction="vertical">
+    <Space wrap>
+      <Dropdown menu={{ items }} placement="bottomLeft" arrow={{ pointAtCenter: true }}>
+        <Button>bottomLeft</Button>
+      </Dropdown>
+      <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
+        <Button>bottom</Button>
+      </Dropdown>
+      <Dropdown menu={{ items }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
+        <Button>bottomRight</Button>
+      </Dropdown>
+    </Space>
+    <Space wrap>
+      <Dropdown menu={{ items }} placement="topLeft" arrow={{ pointAtCenter: true }}>
+        <Button>topLeft</Button>
+      </Dropdown>
+      <Dropdown menu={{ items }} placement="top" arrow={{ pointAtCenter: true }}>
+        <Button>top</Button>
+      </Dropdown>
+      <Dropdown menu={{ items }} placement="topRight" arrow={{ pointAtCenter: true }}>
+        <Button>topRight</Button>
+      </Dropdown>
+    </Space>
+  </Space>
 );
 
 export default App;

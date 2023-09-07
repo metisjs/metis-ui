@@ -231,6 +231,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         <span
           style={{ ...inlineStyle, ...style }}
           className={clsx(
+            `${itemCls}-inner`,
             'flex items-center gap-2 transition-colors',
             firstLevel && 'gap-3',
             {
@@ -305,6 +306,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                   'text-neutral-text-tertiary': firstLevel && theme !== 'dark',
                   'text-primary': selected && theme !== 'dark',
                 },
+              contextClassName?.itemIcon,
+              complexCls.icon,
               isValidElement(icon) ? icon.props?.className : '',
             ),
           })}

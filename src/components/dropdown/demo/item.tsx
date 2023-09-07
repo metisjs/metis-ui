@@ -1,23 +1,18 @@
+/**
+ * description: 分割线和不可用菜单项。
+ */
+import { ChevronDownOutline } from '@metaoa/icons';
+import type { MenuProps } from 'meta-ui';
+import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
 
 const items: MenuProps['items'] = [
   {
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        1st menu item
-      </a>
-    ),
+    label: '1st menu item',
     key: '0',
   },
   {
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        2nd menu item
-      </a>
-    ),
+    label: '2nd menu item',
     key: '1',
   },
   {
@@ -35,7 +30,7 @@ const App: React.FC = () => (
     <a onClick={(e) => e.preventDefault()}>
       <Space>
         Hover me
-        <DownOutlined />
+        <ChevronDownOutline className="h-5 w-5" />
       </Space>
     </a>
   </Dropdown>

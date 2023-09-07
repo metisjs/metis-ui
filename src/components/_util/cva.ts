@@ -25,6 +25,6 @@ type Config<T> = T extends ConfigSchema
 type Props<T> = T extends ConfigSchema ? ConfigVariants<T> & ClassProp : ClassProp;
 
 export default function cva<T>(base?: ClassValue, config?: Config<T> | undefined) {
-  return (props: Props<T>, extra: (string | undefined | boolean)[] = []) =>
+  return (props: Props<T>, extra: (string | undefined | boolean | Record<string, any>)[] = []) =>
     twMerge(classNames(originCVA(base, config)(props), ...extra));
 }

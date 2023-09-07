@@ -19,8 +19,7 @@ group:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
-
-<!-- <code src="./demo/placement.tsx">弹出位置</code>
+<code src="./demo/placement.tsx">弹出位置</code>
 <code src="./demo/arrow.tsx">箭头</code>
 <code src="./demo/item.tsx">其他元素</code>
 <code src="./demo/arrow-center.tsx">箭头指向</code>
@@ -34,8 +33,7 @@ group:
 <code src="./demo/loading.tsx">加载中状态</code>
 <code src="./demo/selectable.tsx">菜单可选选择</code>
 <code src="./demo/menu-full.tsx" debug>Menu 完整样式</code>
-<code src="./demo/render-panel.tsx" debug>\_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/icon-debug.tsx" debug>Icon debug</code> -->
+<code src="./demo/icon-debug.tsx" debug>Icon debug</code>
 
 ## API
 
