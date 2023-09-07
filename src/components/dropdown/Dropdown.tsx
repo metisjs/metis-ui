@@ -179,6 +179,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       autoDestroy={destroyPopupOnHide}
       mouseEnterDelay={mouseEnterDelay}
       mouseLeaveDelay={mouseLeaveDelay}
+      alignPoint={alignPoint}
       builtinPlacements={builtinPlacements}
       prefixCls={prefixCls}
       ref={triggerRef}

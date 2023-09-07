@@ -80,7 +80,7 @@ export interface TriggerProps {
   getPopupClassNameFromAlign?: (align: AlignType) => string;
   onPopupClick?: React.MouseEventHandler<HTMLDivElement>;
 
-  alignPoint?: boolean; // Maybe we can support user pass position in the future
+  alignPoint?: boolean;
 
   // ==================== Arrow ====================
   arrow?: boolean | ArrowTypeOuter;
