@@ -1,5 +1,5 @@
 import { GlobeAsiaAustraliaOutline } from '@metisjs/icons';
-import { Button, Input, Select, Space } from 'meta-ui';
+import { Button, Input, Select, Space } from 'metis-ui';
 import React from 'react';
 
 const options = [

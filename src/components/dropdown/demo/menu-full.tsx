@@ -2,8 +2,8 @@
  * description: 此演示需要注意去掉 Reset 样式后查看 Dropdown 内 Menu 的样式是否正常。
  */
 import { CalculatorOutline, ChevronDownOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Dropdown, Space } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Dropdown, Space } from 'metis-ui';
 import React from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];

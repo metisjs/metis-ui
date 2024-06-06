@@ -1,7 +1,7 @@
 /**
  * description: 危险成为一种按钮属性而不是按钮类型。
  */
-import { Button, Space } from 'meta-ui';
+import { Button, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

@@ -2,9 +2,9 @@
  * description: 一组动画列表
  */
 import range from 'lodash/range';
-import { Button, Checkbox, Space, Transition } from 'meta-ui';
-import { clsx } from 'meta-ui/es/_util/classNameUtils';
-import { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
+import { Button, Checkbox, Space, Transition } from 'metis-ui';
+import { clsx } from 'metis-ui/es/_util/classNameUtils';
+import { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
 import React, { useState } from 'react';
 
 const keys = range(10).map((key) => key);

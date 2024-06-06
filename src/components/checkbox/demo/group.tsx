@@ -1,8 +1,8 @@
 /**
  * description: 方便的从数组生成 Checkbox 组。
  */
-import { Checkbox, Space } from 'meta-ui';
-import type { CheckboxValueType } from 'meta-ui/es/checkbox/Group';
+import { Checkbox, Space } from 'metis-ui';
+import type { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
 import React from 'react';
 
 const onChange = (checkedValues: CheckboxValueType[]) => {

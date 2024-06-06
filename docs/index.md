@@ -6,7 +6,7 @@ hero:
     - text: 开始使用
       link: /guide
     - text: Github
-      link: https://github.com/meta-oa/meta-ui
+      link: https://github.com/metis-oa/metis-ui
 features:
   - title: Hello
     emoji: 💎

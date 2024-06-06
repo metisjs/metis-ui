@@ -1,7 +1,7 @@
 /**
  * description: checkbox 不可用。
  */
-import { Checkbox } from 'meta-ui';
+import { Checkbox } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

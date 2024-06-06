@@ -1,7 +1,7 @@
 /**
  * description: 用于多行输入。
  */
-import { Input, Space } from 'meta-ui';
+import { Input, Space } from 'metis-ui';
 import React from 'react';
 
 const { TextArea } = Input;

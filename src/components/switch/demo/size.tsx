@@ -1,7 +1,7 @@
 /**
  * description: `size="small"` 表示小号开关。
  */
-import { Switch } from 'meta-ui';
+import { Switch } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

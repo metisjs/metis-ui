@@ -1,7 +1,7 @@
 /**
  * description: `autoSize` 属性适用于 `textarea` 节点，并且只有高度会自动变化。另外 `autoSize` 可以设定为一个对象，指定最小行数和最大行数。
  */
-import { Input, Space } from 'meta-ui';
+import { Input, Space } from 'metis-ui';
 import React, { useState } from 'react';
 
 const { TextArea } = Input;

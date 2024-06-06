@@ -7,7 +7,7 @@ export function parseColor(color?: string) {
   if (color) {
     overlayStyle.background = color;
     // @ts-ignore
-    arrowStyle['--meta-arrow-background-color'] = color;
+    arrowStyle['--metis-arrow-background-color'] = color;
   }
 
   return { overlayStyle, arrowStyle };

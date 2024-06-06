@@ -1,10 +1,10 @@
 /**
  * description: 聚焦额外配置属性。
  */
-import type { InputRef } from 'meta-ui';
+import type { InputRef } from 'metis-ui';
 import React, { useRef, useState } from 'react';
 
-import { Button, Input, Space } from 'meta-ui';
+import { Button, Input, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);

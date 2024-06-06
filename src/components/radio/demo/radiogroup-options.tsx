@@ -1,8 +1,8 @@
 /**
  * description: 通过配置 `options` 参数来渲染单选框。
  */
-import type { RadioChangeEvent } from 'meta-ui';
-import { Radio } from 'meta-ui';
+import type { RadioChangeEvent } from 'metis-ui';
+import { Radio } from 'metis-ui';
 import React, { useState } from 'react';
 
 const plainOptions = ['Apple', 'Pear', 'Orange'];

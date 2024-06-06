@@ -1,8 +1,8 @@
 import { List } from 'rc-field-form';
 import type { StoreValue, ValidatorRule } from 'rc-field-form/lib/interface';
 import * as React from 'react';
-import { ConfigContext } from '../config-provider';
 import warning from '../_util/warning';
+import { ConfigContext } from '../config-provider';
 import { FormItemPrefixContext } from './context';
 
 export interface FormListFieldData {
@@ -26,7 +26,7 @@ export interface FormListProps {
   children: (
     fields: FormListFieldData[],
     operation: FormListOperation,
-    meta: { errors: React.ReactNode[]; warnings: React.ReactNode[] },
+    metis: { errors: React.ReactNode[]; warnings: React.ReactNode[] },
   ) => React.ReactNode;
 }
 
@@ -49,14 +49,14 @@ const FormList: React.FC<FormListProps> = ({
 
   return (
     <List {...props}>
-      {(fields, operation, meta) => (
+      {(fields, operation, metis) => (
         <FormItemPrefixContext.Provider value={contextValue}>
           {children(
-            fields.map(field => ({ ...field, fieldKey: field.key })),
+            fields.map((field) => ({ ...field, fieldKey: field.key })),
             operation,
             {
-              errors: meta.errors,
-              warnings: meta.warnings,
+              errors: metis.errors,
+              warnings: metis.warnings,
             },
           )}
         </FormItemPrefixContext.Provider>

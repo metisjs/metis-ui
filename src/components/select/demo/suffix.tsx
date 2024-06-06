@@ -2,7 +2,7 @@
  * description: 后缀图标。
  */
 import { FaceFrownOutline, FaceSmileOutline } from '@metisjs/icons';
-import { Select, Space } from 'meta-ui';
+import { Select, Space } from 'metis-ui';
 import React from 'react';
 
 const smileIcon = <FaceSmileOutline className="h-4 w-4" />;

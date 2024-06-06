@@ -28,7 +28,7 @@ export interface ItemHolderProps extends FormItemProps {
   style?: React.CSSProperties;
   errors: React.ReactNode[];
   warnings: React.ReactNode[];
-  meta: Metis;
+  metis: Metis;
   children?: React.ReactNode;
   fieldId?: string;
   isRequired?: boolean;
@@ -44,7 +44,7 @@ export default function ItemHolder(props: ItemHolderProps) {
     errors,
     warnings,
     validateStatus,
-    meta,
+    metis,
     hasFeedback,
     hidden,
     children,
@@ -82,13 +82,13 @@ export default function ItemHolder(props: ItemHolderProps) {
   let mergedValidateStatus: ValidateStatus = '';
   if (validateStatus !== undefined) {
     mergedValidateStatus = validateStatus;
-  } else if (meta.validating) {
+  } else if (metis.validating) {
     mergedValidateStatus = 'validating';
   } else if (debounceErrors.length) {
     mergedValidateStatus = 'error';
   } else if (debounceWarnings.length) {
     mergedValidateStatus = 'warning';
-  } else if (meta.touched) {
+  } else if (metis.touched) {
     mergedValidateStatus = 'success';
   }
 
@@ -179,7 +179,7 @@ export default function ItemHolder(props: ItemHolderProps) {
         {/* Input Group */}
         <FormItemInput
           {...props}
-          {...meta}
+          {...metis}
           errors={debounceErrors}
           warnings={debounceWarnings}
           prefixCls={prefixCls}

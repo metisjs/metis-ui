@@ -1,7 +1,7 @@
 /**
  * description: 用 `OptGroup` 进行选项分组。
  */
-import { Select } from 'meta-ui';
+import { Select } from 'metis-ui';
 import React from 'react';
 
 const handleChange = (value: string) => {

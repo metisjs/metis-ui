@@ -10,8 +10,8 @@ import {
   HomeOutline,
   UsersOutline,
 } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Button, Menu } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Button, Menu } from 'metis-ui';
 import React, { useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];

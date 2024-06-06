@@ -1,8 +1,8 @@
 /**
  * description: 虚拟滚动
  */
-import type { SelectProps } from 'meta-ui';
-import { Select } from 'meta-ui';
+import type { SelectProps } from 'metis-ui';
+import { Select } from 'metis-ui';
 import React from 'react';
 
 const options: SelectProps['options'] = [];

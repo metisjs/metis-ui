@@ -2,8 +2,8 @@
  * description: 点击菜单，收起其他展开的所有菜单，保持菜单聚焦简洁。
  */
 import { FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Menu } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Menu } from 'metis-ui';
 import React, { useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];

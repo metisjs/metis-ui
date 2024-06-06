@@ -90,8 +90,8 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
   });
 
   // add custom themes
-  if (Array.isArray(config('metaui.themes'))) {
-    config('metaui.themes').forEach((item: { [key: string]: any }) => {
+  if (Array.isArray(config('metisui.themes'))) {
+    config('metisui.themes').forEach((item: { [key: string]: any }) => {
       if (typeof item === 'object' && item !== null) {
         Object.entries(item).forEach(([name, value]) => {
           includedThemesObj['[data-prefers-color=' + name + ']'] = convertToHsl(value);
@@ -99,9 +99,9 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
         });
       }
     });
-  } else if (config<boolean>('metaui.themes') !== false) {
+  } else if (config<boolean>('metisui.themes') !== false) {
     themeOrder = ['light', 'dark'];
-  } else if (config<boolean>('metaui.themes') === false) {
+  } else if (config<boolean>('metisui.themes') === false) {
     themeOrder.push('light');
   }
 
@@ -119,8 +119,8 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
         includedThemesObj['[data-prefers-color=' + themeName + ']'],
     });
   });
-  if (config('metaui.themeWithSystem')) {
-    const themeWithSystem = config<boolean | string>('metaui.themeWithSystem');
+  if (config('metisui.themeWithSystem')) {
+    const themeWithSystem = config<boolean | string>('metisui.themeWithSystem');
     const darkTheme = typeof themeWithSystem === 'string' ? themeWithSystem : 'dark';
 
     if (themeWithSystem && themeOrder.includes(darkTheme)) {

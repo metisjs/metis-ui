@@ -1,7 +1,7 @@
 /**
  * description: 通过 `destroyTooltipOnHide` 控制提示关闭时是否销毁 dom 节点。
  */
-import { Tooltip } from 'meta-ui';
+import { Tooltip } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

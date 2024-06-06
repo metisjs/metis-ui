@@ -2,7 +2,7 @@
  * description: Layout.Sider 支持响应式布局。<br/> 说明：配置 `breakpoint` 属性即生效，视窗宽度小于 `breakpoint` 时 Sider 缩小。
  */
 import { CalendarOutline, FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
-import { Layout, Menu } from 'meta-ui';
+import { Layout, Menu } from 'metis-ui';
 import React from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;

@@ -1,9 +1,9 @@
 /**
  * description: 三种大小的选择框，当 size 分别为 `large` 和 `small` 时，输入框高度为 `40px` 和 `32px` ，默认高度为 `36px`。
  */
-import type { SelectProps } from 'meta-ui';
-import { Segmented, Select, Space } from 'meta-ui';
-import { SizeType } from 'meta-ui/es/config-provider/SizeContext';
+import type { SelectProps } from 'metis-ui';
+import { Segmented, Select, Space } from 'metis-ui';
+import { SizeType } from 'metis-ui/es/config-provider/SizeContext';
 import React, { useState } from 'react';
 
 const options: SelectProps['options'] = [];

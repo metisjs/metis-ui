@@ -2,8 +2,8 @@
  * description: 你可以通过 `theme` 属性来设置 SubMenu 的主题从而达到不同目录树下不同主题色的效果。该例子默认为根目录深色，子目录浅色效果。
  */
 import { HomeOutline } from '@metisjs/icons';
-import type { MenuProps, MenuTheme } from 'meta-ui';
-import { Menu, Switch } from 'meta-ui';
+import type { MenuProps, MenuTheme } from 'metis-ui';
+import { Menu, Switch } from 'metis-ui';
 import React, { useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];

@@ -1,7 +1,7 @@
 /**
  * description: 一般用于固定顶部导航，方便页面切换。
  */
-import { Layout, Menu } from 'meta-ui';
+import { Layout, Menu } from 'metis-ui';
 import React from 'react';
 
 const { Header, Content, Footer } = Layout;

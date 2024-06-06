@@ -1,7 +1,7 @@
 /**
  * description: 无边框样式。
  */
-import { Select, Space } from 'meta-ui';
+import { Select, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

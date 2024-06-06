@@ -16,7 +16,7 @@ function getKey(data: BaseOptionType, index: number) {
   if (value !== undefined) {
     return value;
   }
-  return `meta-index-key-${index}`;
+  return `metis-index-key-${index}`;
 }
 
 export function fillFieldNames(fieldNames: FieldNames | undefined, childrenAsData: boolean) {

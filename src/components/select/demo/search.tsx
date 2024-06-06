@@ -1,7 +1,7 @@
 /**
  * description: 展开后可对选项进行搜索。
  */
-import { Select } from 'meta-ui';
+import { Select } from 'metis-ui';
 import React from 'react';
 
 const onChange = (value: string) => {

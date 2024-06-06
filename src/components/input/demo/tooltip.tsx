@@ -1,4 +1,4 @@
-import { Input, Tooltip } from 'meta-ui';
+import { Input, Tooltip } from 'metis-ui';
 import React, { useState } from 'react';
 
 interface NumericInputProps {

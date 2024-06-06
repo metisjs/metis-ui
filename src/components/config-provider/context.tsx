@@ -51,7 +51,7 @@ const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
   if (customizePrefixCls) {
     return customizePrefixCls;
   }
-  return suffixCls ? `meta-${suffixCls}` : 'meta';
+  return suffixCls ? `metis-${suffixCls}` : 'metis';
 };
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({

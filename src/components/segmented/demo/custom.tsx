@@ -1,5 +1,5 @@
 // import { UserOutlined } from '@ant-design/icons';
-// import { Avatar, Segmented, Space } from 'meta-ui';
+// import { Avatar, Segmented, Space } from 'metis-ui';
 // import React from 'react';
 
 // const App: React.FC = () => (

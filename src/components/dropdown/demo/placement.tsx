@@ -1,8 +1,8 @@
 /**
  * description: 支持 6 个弹出位置。
  */
-import type { MenuProps } from 'meta-ui';
-import { Button, Dropdown, Space } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Button, Dropdown, Space } from 'metis-ui';
 import React from 'react';
 
 const items: MenuProps['items'] = [

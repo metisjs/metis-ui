@@ -1,8 +1,8 @@
 /**
  * description: 联动 checkbox。
  */
-import { Button, Checkbox } from 'meta-ui';
-import type { CheckboxChangeEvent } from 'meta-ui/es/checkbox';
+import { Button, Checkbox } from 'metis-ui';
+import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

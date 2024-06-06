@@ -20,7 +20,7 @@ export default function Popup(props: PopupProps) {
       <div
         className={clsx(
           `${prefixCls}-inner`,
-          'box-border min-h-[32px] min-w-[32px] break-words rounded-md bg-[--meta-arrow-background-color] px-1.5 py-2 text-start text-sm text-white shadow-sm',
+          'box-border min-h-[32px] min-w-[32px] break-words rounded-md bg-[--metis-arrow-background-color] px-1.5 py-2 text-start text-sm text-white shadow-sm',
           complexCls.inner,
         )}
         id={id}

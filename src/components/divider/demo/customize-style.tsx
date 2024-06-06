@@ -1,7 +1,7 @@
 /**
  * description: 测试一些 `style` 修改样式的行为。
  */
-import { Divider } from 'meta-ui';
+import { Divider } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

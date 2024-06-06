@@ -14,7 +14,7 @@ import {
   TimePicker,
   TreeSelect,
   Typography,
-} from 'meta-ui';
+} from 'metis-ui';
 import React from 'react';
 
 const { Text } = Typography;

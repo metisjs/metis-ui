@@ -1,7 +1,6 @@
-# meta-design
+# metis-design
 
-[![NPM version](https://img.shields.io/npm/v/meta-design.svg?style=flat)](https://npmjs.org/package/meta-design)
-[![NPM downloads](http://img.shields.io/npm/dm/meta-design.svg?style=flat)](https://npmjs.org/package/meta-design)
+[![NPM version](https://img.shields.io/npm/v/metis-design.svg?style=flat)](https://npmjs.org/package/metis-design) [![NPM downloads](http://img.shields.io/npm/dm/metis-design.svg?style=flat)](https://npmjs.org/package/metis-design)
 
 A react library developed with dumi
 

@@ -1,5 +1,5 @@
-import { Segmented } from 'meta-ui';
-import React, { useEffect, useRef, useState } from 'react';
+import { Segmented } from 'metis-ui';
+import { useEffect, useRef, useState } from 'react';
 import Icons from './Icons';
 
 export default function IconSearch() {
@@ -10,7 +10,7 @@ export default function IconSearch() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
+      if (event.key === 'k' && (event.metisKey || event.ctrlKey)) {
         event.preventDefault();
         searchInputRef.current?.focus();
       }

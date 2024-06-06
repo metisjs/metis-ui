@@ -9,7 +9,7 @@ import {
   MinusCircleOutline,
   XCircleOutline,
 } from '@metisjs/icons';
-import { Divider, Space, Tag } from 'meta-ui';
+import { Divider, Space, Tag } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

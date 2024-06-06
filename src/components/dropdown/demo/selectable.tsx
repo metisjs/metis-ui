@@ -2,8 +2,8 @@
  * description: 添加 `menu` 中的 `selectable` 属性可以开启选择能力。
  */
 import { ChevronDownOutline } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Dropdown, Space } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Dropdown, Space } from 'metis-ui';
 import React from 'react';
 
 const items: MenuProps['items'] = [

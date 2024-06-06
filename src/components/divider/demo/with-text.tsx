@@ -1,7 +1,7 @@
 /**
  * description: 分割线中带有文字，可以用 `orientation` 指定文字位置。
  */
-import { Divider } from 'meta-ui';
+import { Divider } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

@@ -1,7 +1,7 @@
 /**
  * description: 使用 `optionLabelProp` 指定回填到选择框的 `Option` 属性。
  */
-import { Select, Space } from 'meta-ui';
+import { Select, Space } from 'metis-ui';
 import React from 'react';
 
 const { Option } = Select;

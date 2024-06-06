@@ -9,7 +9,7 @@ import {
   horizontalListSortingStrategy,
   useSortable,
 } from '@dnd-kit/sortable';
-import { Tag } from 'meta-ui';
+import { Tag } from 'metis-ui';
 import type { FC } from 'react';
 import React, { useState } from 'react';
 

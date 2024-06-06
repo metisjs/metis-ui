@@ -1,8 +1,8 @@
 /**
  * description: 允许自定义选择标签的样式。
  */
-import { Select, Tag } from 'meta-ui';
-import { CustomTagProps } from 'meta-ui/es/select';
+import { Select, Tag } from 'metis-ui';
+import { CustomTagProps } from 'metis-ui/es/select';
 import React from 'react';
 
 const options = [

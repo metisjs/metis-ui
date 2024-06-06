@@ -8,7 +8,7 @@ const PATH_SPLIT = '__META_UTIL_PATH_SPLIT__';
 const getPathStr = (keyPath: string[]) => keyPath.join(PATH_SPLIT);
 const getPathKeys = (keyPathStr: string) => keyPathStr.split(PATH_SPLIT);
 
-export const OVERFLOW_KEY = 'meta-menu-more';
+export const OVERFLOW_KEY = 'metis-menu-more';
 
 export default function useKeyRecords() {
   const [, internalForceUpdate] = React.useState({});

@@ -1,7 +1,7 @@
 /**
  * description: Switch 失效状态。
  */
-import { Button, Space, Switch } from 'meta-ui';
+import { Button, Space, Switch } from 'metis-ui';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

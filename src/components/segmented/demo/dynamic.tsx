@@ -1,4 +1,4 @@
-import { Button, Segmented, Space } from 'meta-ui';
+import { Button, Segmented, Space } from 'metis-ui';
 import React, { useState } from 'react';
 
 const Demo: React.FC = () => {

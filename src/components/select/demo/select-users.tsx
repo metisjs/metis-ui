@@ -2,8 +2,8 @@
  * description: 一个带有远程搜索，防抖控制，请求时序控制，加载状态的多选示例。
  */
 import debounce from 'lodash/debounce';
-import { Select } from 'meta-ui';
-import type { SelectProps } from 'meta-ui/es/select';
+import { Select } from 'metis-ui';
+import type { SelectProps } from 'metis-ui/es/select';
 import React, { useMemo, useRef, useState } from 'react';
 
 export interface DebounceSelectProps<ValueType = any>

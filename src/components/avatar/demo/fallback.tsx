@@ -1,4 +1,4 @@
-import { Avatar, Space } from 'meta-ui';
+import { Avatar, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

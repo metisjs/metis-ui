@@ -2,8 +2,8 @@
  * description: 内建了两套主题 `light` 和 `dark`，默认 `light`。
  */
 import { FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
-import type { MenuProps, MenuTheme } from 'meta-ui';
-import { Menu, Switch } from 'meta-ui';
+import type { MenuProps, MenuTheme } from 'metis-ui';
+import { Menu, Switch } from 'metis-ui';
 import React, { useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];

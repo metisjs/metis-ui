@@ -1,8 +1,8 @@
 /**
  * description: 垂直的 Radio.Group，配合更多输入框选项。
  */
-import type { RadioChangeEvent } from 'meta-ui';
-import { Input, Radio, Space } from 'meta-ui';
+import type { RadioChangeEvent } from 'metis-ui';
+import { Input, Radio, Space } from 'metis-ui';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

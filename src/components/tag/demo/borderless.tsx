@@ -1,7 +1,7 @@
 /**
  * description: 无边框模式。
  */
-import { Divider, Space, Tag } from 'meta-ui';
+import { Divider, Space, Tag } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

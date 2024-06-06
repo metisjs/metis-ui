@@ -1,7 +1,7 @@
 /**
  * description: 自定义背景颜色。
  */
-import { Button, Space, Tooltip } from 'meta-ui';
+import { Button, Space, Tooltip } from 'metis-ui';
 import React from 'react';
 
 const customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9'];

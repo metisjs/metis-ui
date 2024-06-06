@@ -1,7 +1,7 @@
 /**
  * description: 自定义图片链接、图片大小、描述、附属内容。
  */
-import { Button, Empty } from 'meta-ui';
+import { Button, Empty } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

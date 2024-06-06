@@ -98,7 +98,7 @@ export interface TriggerProps {
 export function generateTrigger(PortalComponent: React.ComponentType<any> = Portal) {
   const Trigger = React.forwardRef<TriggerRef, TriggerProps>((props, ref) => {
     const {
-      prefixCls = 'meta-trigger-popup',
+      prefixCls = 'metis-trigger-popup',
       children,
 
       // Action

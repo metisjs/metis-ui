@@ -1,7 +1,7 @@
 /**
  * description: 位置有十二个方向。
  */
-import { Button, Popover } from 'meta-ui';
+import { Button, Popover } from 'metis-ui';
 import React from 'react';
 
 const text = <span>Title</span>;

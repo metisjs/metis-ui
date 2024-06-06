@@ -1,7 +1,7 @@
 /**
  * description: 使用 `open` 属性控制浮层显示。
  */
-import { Button, Popover } from 'meta-ui';
+import { Button, Popover } from 'metis-ui';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

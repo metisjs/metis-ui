@@ -1,7 +1,7 @@
 /**
  * description: Radio 不可用。
  */
-import { Button, Radio } from 'meta-ui';
+import { Button, Radio } from 'metis-ui';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

@@ -1,4 +1,4 @@
-import { Segmented, Space } from 'meta-ui';
+import { Segmented, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

@@ -1,7 +1,7 @@
 /**
  * description: 展示字数提示。
  */
-import { Input, Space } from 'meta-ui';
+import { Input, Space } from 'metis-ui';
 import React from 'react';
 
 const { TextArea } = Input;

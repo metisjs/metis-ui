@@ -126,7 +126,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   const [subFieldErrors, setSubFieldErrors] = useFrameState<Record<string, FieldError>>({});
 
   // >>>>> Current field errors
-  const [meta, setMetis] = useState<Metis>(() => genEmptyMetis());
+  const [metis, setMetis] = useState<Metis>(() => genEmptyMetis());
 
   const onMetisChange = (nextMetis: Metis & { destroy?: boolean }) => {
     // This keyInfo is not correct when field is removed
@@ -134,7 +134,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
     // Which means we need cache origin one and reuse when removed
     const keyInfo = listContext?.getKey(nextMetis.name);
 
-    // Destroy will reset all the meta
+    // Destroy will reset all the metis
     setMetis(nextMetis.destroy ? genEmptyMetis() : nextMetis, true);
 
     // Bump to parent since noStyle
@@ -184,8 +184,8 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
 
   // >>>>> Get merged errors
   const [mergedErrors, mergedWarnings] = React.useMemo(() => {
-    const errorList: string[] = [...meta.errors];
-    const warningList: string[] = [...meta.warnings];
+    const errorList: string[] = [...metis.errors];
+    const warningList: string[] = [...metis.warnings];
 
     Object.values(subFieldErrors).forEach((subFieldError) => {
       errorList.push(...(subFieldError.errors || []));
@@ -193,7 +193,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
     });
 
     return [errorList, warningList];
-  }, [subFieldErrors, meta.errors, meta.warnings]);
+  }, [subFieldErrors, metis.errors, metis.warnings]);
 
   // ===================== Children Ref =====================
   const getItemRef = useItemRef();
@@ -217,7 +217,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
         isRequired={isRequired}
         errors={mergedErrors}
         warnings={mergedWarnings}
-        meta={meta}
+        metis={metis}
         onSubItemMetisChange={onSubItemMetisChange}
       >
         {baseChildren}

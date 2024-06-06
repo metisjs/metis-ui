@@ -24,7 +24,7 @@ export default function getArrowClassName(options: {
 
   return clsx(
     'pointer-events-none absolute z-[1] block h-4 w-4 overflow-hidden',
-    'before:absolute before:bottom-0 before:start-0 before:h-2 before:w-4 before:bg-[--meta-arrow-background-color] before:content-[""]',
+    'before:absolute before:bottom-0 before:start-0 before:h-2 before:w-4 before:bg-[--metis-arrow-background-color] before:content-[""]',
     'after:shadow-opacity-5 after:absolute after:bottom-0 after:end-0 after:start-0 after:z-0 after:m-auto after:h-[8.970562748477143px] after:w-[8.970562748477143px] after:translate-y-1/2 after:rotate-[-135deg] after:rounded-br-[2px] after:bg-transparent after:shadow-sm after:content-[""]',
     arrowPlacement.top &&
       '[.placement-top_&]:bottom-0 [.placement-top_&]:left-1/2 [.placement-top_&]:-translate-x-1/2 [.placement-top_&]:translate-y-full [.placement-top_&]:rotate-180',

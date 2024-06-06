@@ -1,8 +1,8 @@
 /**
  * description: 默认是移入触发菜单，可以点击鼠标右键触发。
  */
-import type { MenuProps } from 'meta-ui';
-import { Dropdown } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Dropdown } from 'metis-ui';
 import React from 'react';
 
 const items: MenuProps['items'] = [

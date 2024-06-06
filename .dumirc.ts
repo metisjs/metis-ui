@@ -11,7 +11,7 @@ export default defineConfig({
     name: 'Metis UI',
     prefersColor: { default: 'auto' },
     socialLinks: {
-      github: 'https://github.com/meta-oa/meta-ui',
+      github: 'https://github.com/metisjs/metis-ui',
     },
   },
   theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
@@ -20,9 +20,9 @@ export default defineConfig({
     codeBlockMode: 'passive',
   },
   alias: {
-    'meta-ui/lib': path.join(__dirname, 'src/components'),
-    'meta-ui/es': path.join(__dirname, 'src/components'),
-    'meta-ui': path.join(__dirname, 'src/components'),
+    'metis-ui/lib': path.join(__dirname, 'src/components'),
+    'metis-ui/es': path.join(__dirname, 'src/components'),
+    'metis-ui': path.join(__dirname, 'src/components'),
   },
   tailwindcss: {},
   plugins: ['@umijs/plugins/dist/tailwindcss'],

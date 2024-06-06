@@ -1,7 +1,7 @@
 /**
  * description: 鼠标移入、聚集、点击。
  */
-import { Button, Popover, Space } from 'meta-ui';
+import { Button, Popover, Space } from 'metis-ui';
 import React from 'react';
 
 const content = (

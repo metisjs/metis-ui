@@ -2,8 +2,8 @@
  * description: 搜索和远程数据结合。
  */
 import jsonp from 'fetch-jsonp';
-import type { SelectProps } from 'meta-ui';
-import { Select } from 'meta-ui';
+import type { SelectProps } from 'metis-ui';
+import { Select } from 'metis-ui';
 import qs from 'qs';
 import React, { useState } from 'react';
 

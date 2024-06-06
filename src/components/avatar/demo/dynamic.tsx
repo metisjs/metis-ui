@@ -1,4 +1,4 @@
-import { Avatar, Button } from 'meta-ui';
+import { Avatar, Button } from 'metis-ui';
 import React, { useState } from 'react';
 
 const UserList = ['U', 'Lucy', 'Tom', 'Edward'];

@@ -7,7 +7,7 @@ import {
   DeviceTabletOutline,
   ShareOutline,
 } from '@metisjs/icons';
-import { Space, Tag } from 'meta-ui';
+import { Space, Tag } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

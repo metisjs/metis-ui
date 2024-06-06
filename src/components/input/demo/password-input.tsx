@@ -2,7 +2,7 @@
  * description: 密码框。
  */
 import { LockClosedOutline, LockOpenOutline } from '@metisjs/icons';
-import { Button, Input, Space } from 'meta-ui';
+import { Button, Input, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => {

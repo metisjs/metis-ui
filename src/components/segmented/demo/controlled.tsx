@@ -1,4 +1,4 @@
-import { Segmented } from 'meta-ui';
+import { Segmented } from 'metis-ui';
 import React, { useState } from 'react';
 
 const Demo: React.FC = () => {

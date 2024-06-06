@@ -1,7 +1,7 @@
 /**
  * 位置有 12 个方向。
  */
-import { Button, Tooltip } from 'meta-ui';
+import { Button, Tooltip } from 'metis-ui';
 import React from 'react';
 
 const text = <span>prompt text</span>;

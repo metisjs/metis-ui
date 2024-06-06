@@ -1,6 +1,6 @@
-import metaUIPreset from './src/preset';
+import metisUIPreset from './src/preset';
 
 export default {
-  presets: [metaUIPreset],
+  presets: [metisUIPreset],
   content: ['./src/components/**/*.{ts,tsx,js,jsx}', './.dumi/**/*.{ts,tsx,js,jsx}'],
 };

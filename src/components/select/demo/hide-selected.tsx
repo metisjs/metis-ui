@@ -1,7 +1,7 @@
 /**
  * description: 隐藏下拉列表中已选择的选项。
  */
-import { Select } from 'meta-ui';
+import { Select } from 'metis-ui';
 import React, { useState } from 'react';
 
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];

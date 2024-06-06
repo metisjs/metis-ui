@@ -6,8 +6,8 @@ import {
   ChatBubbleBottomCenterOutline,
   ComputerDesktopOutline,
 } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Menu } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Menu } from 'metis-ui';
 import React, { useState } from 'react';
 
 const items: MenuProps['items'] = [

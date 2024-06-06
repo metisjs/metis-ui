@@ -9,8 +9,8 @@ import {
   HomeOutline,
   UsersOutline,
 } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Layout, Menu } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Layout, Menu } from 'metis-ui';
 import React, { useState } from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;

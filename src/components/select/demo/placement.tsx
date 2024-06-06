@@ -1,8 +1,8 @@
 /**
  * description: 可以通过 `placement` 手动指定弹出的位置。
  */
-import { Segmented, Select } from 'meta-ui';
-import { SelectCommonPlacement } from 'meta-ui/es/select/Select';
+import { Segmented, Select } from 'metis-ui';
+import { SelectCommonPlacement } from 'metis-ui/es/select/Select';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

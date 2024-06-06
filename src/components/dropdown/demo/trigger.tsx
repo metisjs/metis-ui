@@ -2,8 +2,8 @@
  * description: 默认是移入触发菜单，可以点击触发。
  */
 import { ChevronDownOutline } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Dropdown, Space } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Dropdown, Space } from 'metis-ui';
 import React from 'react';
 
 const items: MenuProps['items'] = [

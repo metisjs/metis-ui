@@ -13,7 +13,7 @@ export default function useUUID(id?: string) {
   React.useEffect(() => {
     internalId += 1;
     const newId = process.env.NODE_ENV === 'test' ? 'test' : `${uniquePrefix}-${internalId}`;
-    setUUID(`meta-menu-uuid-${newId}`);
+    setUUID(`metis-menu-uuid-${newId}`);
   }, []);
 
   return uuid;

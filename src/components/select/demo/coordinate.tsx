@@ -1,7 +1,7 @@
 /**
  * description: 省市联动是典型的例子。<br/>推荐使用 [Cascader](/components/cascader/) 组件。
  */
-import { Select, Space } from 'meta-ui';
+import { Select, Space } from 'metis-ui';
 import React, { useState } from 'react';
 
 const provinceData = ['Zhejiang', 'Jiangsu'];

@@ -1,5 +1,5 @@
 import { PuzzlePieceOutline, QueueListOutline } from '@metisjs/icons';
-import { Segmented } from 'meta-ui';
+import { Segmented } from 'metis-ui';
 import React from 'react';
 
 export default () => (

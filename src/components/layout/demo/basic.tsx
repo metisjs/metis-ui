@@ -1,7 +1,7 @@
 /**
  * description: 典型的页面布局。
  */
-import { Layout, Space } from 'meta-ui';
+import { Layout, Space } from 'metis-ui';
 import React from 'react';
 
 const { Header, Footer, Sider, Content } = Layout;

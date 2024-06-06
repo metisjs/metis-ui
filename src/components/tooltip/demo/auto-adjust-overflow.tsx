@@ -1,8 +1,8 @@
 /**
  * description: 气泡框不可见时自动调整位置。
  */
-import type { TooltipProps } from 'meta-ui';
-import { Button, Tooltip } from 'meta-ui';
+import type { TooltipProps } from 'metis-ui';
+import { Button, Tooltip } from 'metis-ui';
 import React from 'react';
 
 const Block = React.forwardRef<HTMLDivElement, Partial<TooltipProps>>((props, ref) => (

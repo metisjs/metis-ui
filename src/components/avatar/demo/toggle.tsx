@@ -1,4 +1,4 @@
-import { Avatar, Button, Space } from 'meta-ui';
+import { Avatar, Button, Space } from 'metis-ui';
 import React, { useState } from 'react';
 
 type SizeType = 'large' | 'small' | 'default' | number;

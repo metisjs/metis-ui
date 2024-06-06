@@ -2,8 +2,8 @@
  * description: 展示动态切换模式。
  */
 import { CalendarOutline, FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
-import { Divider, Menu, Switch } from 'meta-ui';
-import type { MenuProps, MenuTheme } from 'meta-ui/es/menu';
+import { Divider, Menu, Switch } from 'metis-ui';
+import type { MenuProps, MenuTheme } from 'metis-ui/es/menu';
 import React, { useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];

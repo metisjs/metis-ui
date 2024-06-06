@@ -2,8 +2,8 @@
  * description: 点击菜单项后会触发事件，用户可以通过相应的菜单项 key 进行不同的操作。
  */
 import { ChevronDownOutline } from '@metisjs/icons';
-import type { MenuProps } from 'meta-ui';
-import { Dropdown, Space } from 'meta-ui';
+import type { MenuProps } from 'metis-ui';
+import { Dropdown, Space } from 'metis-ui';
 import React from 'react';
 
 const onClick: MenuProps['onClick'] = ({ key }) => {

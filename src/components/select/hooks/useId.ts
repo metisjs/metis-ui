@@ -24,6 +24,6 @@ export function getUUID(): number | string {
 
 export default function useId(id?: string) {
   // Inner id for accessibility usage. Only work in client side
-  const [innerId] = React.useState<string>(() => id ?? `meta_select_${getUUID()}`);
+  const [innerId] = React.useState<string>(() => id ?? `metis_select_${getUUID()}`);
   return innerId;
 }

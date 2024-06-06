@@ -1,7 +1,7 @@
 /**
  * description: 使用 `type="vertical"` 设置为行内的垂直分割线。
  */
-import { Divider } from 'meta-ui';
+import { Divider } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

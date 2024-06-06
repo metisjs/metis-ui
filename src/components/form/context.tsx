@@ -31,7 +31,7 @@ export const FormContext = React.createContext<FormContextProps>({
 });
 
 /** `noStyle` Form Item Context. Used for error collection */
-export type ReportMetisChange = (meta: Metis, uniqueKeys: React.Key[]) => void;
+export type ReportMetisChange = (metis: Metis, uniqueKeys: React.Key[]) => void;
 export const NoStyleItemContext = React.createContext<ReportMetisChange | null>(null);
 
 /** Form Provider */
