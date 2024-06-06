@@ -1,7 +1,7 @@
 /**
  * description: 用数组生成一组标签，可以动态添加和删除。
  */
-import { PlusOutline } from '@metaoa/icons';
+import { PlusOutline } from '@metisjs/icons';
 import type { InputRef } from 'meta-ui';
 import { Input, Space, Tag, Tooltip } from 'meta-ui';
 import useTheme from 'meta-ui/es/theme/useTheme';

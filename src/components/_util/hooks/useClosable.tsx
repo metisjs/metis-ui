@@ -1,4 +1,4 @@
-import { XMarkOutline } from '@metaoa/icons';
+import { XMarkOutline } from '@metisjs/icons';
 import type { ReactNode } from 'react';
 import React from 'react';
 

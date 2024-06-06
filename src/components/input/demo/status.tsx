@@ -1,7 +1,7 @@
 /**
  * description: 使用 `status` 为 Input 添加状态，可选 `error` 或者 `warning`。
  */
-import { ClockOutline } from '@metaoa/icons';
+import { ClockOutline } from '@metisjs/icons';
 import { Input, Space } from 'meta-ui';
 import React from 'react';
 

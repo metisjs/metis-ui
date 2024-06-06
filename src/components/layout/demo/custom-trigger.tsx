@@ -7,7 +7,7 @@ import {
   ChevronRightOutline,
   HomeOutline,
   UsersOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import { Button, Layout, Menu } from 'meta-ui';
 import React, { useState } from 'react';
 

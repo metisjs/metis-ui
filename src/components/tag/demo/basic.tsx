@@ -1,7 +1,7 @@
 /**
  * description: 基本标签的用法，可以通过设置 `closeIcon` 变为可关闭标签并自定义关闭按钮，设置为 `true` 时将使用默认关闭按钮。可关闭标签具有 `onClose` 事件。
  */
-import { XCircleOutline } from '@metaoa/icons';
+import { XCircleOutline } from '@metisjs/icons';
 import { Space, Tag } from 'meta-ui';
 import React from 'react';
 

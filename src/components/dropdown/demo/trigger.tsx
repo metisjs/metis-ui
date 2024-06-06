@@ -1,7 +1,7 @@
 /**
  * description: 默认是移入触发菜单，可以点击触发。
  */
-import { ChevronDownOutline } from '@metaoa/icons';
+import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React from 'react';

@@ -1,4 +1,4 @@
-import { PaperAirplaneOutline, UserOutline } from '@metaoa/icons';
+import { PaperAirplaneOutline, UserOutline } from '@metisjs/icons';
 import { Avatar, Space } from 'meta-ui';
 import React from 'react';
 

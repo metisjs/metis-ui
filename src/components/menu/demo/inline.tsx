@@ -7,7 +7,7 @@ import {
   FolderOutline,
   HomeOutline,
   UsersOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Menu } from 'meta-ui';
 import React from 'react';

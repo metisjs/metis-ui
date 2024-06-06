@@ -1,7 +1,7 @@
 /**
  * description: 添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。
  */
-import { PowerOutline } from '@metaoa/icons';
+import { PowerOutline } from '@metisjs/icons';
 import { Button, Space } from 'meta-ui';
 import React, { useState } from 'react';
 

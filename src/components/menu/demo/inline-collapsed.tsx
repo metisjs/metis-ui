@@ -9,7 +9,7 @@ import {
   FolderOutline,
   HomeOutline,
   UsersOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Button, Menu } from 'meta-ui';
 import React, { useState } from 'react';

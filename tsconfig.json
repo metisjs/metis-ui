@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "meta-ui": ["src/components/index.ts"],
-      "meta-ui/es/*": ["src/components/*"],
-      "meta-ui/lib/*": ["src/components/*"],
-      "meta-ui/locale/*": ["src/components/locale/*"]
+      "metis-ui": ["src/components/index.ts"],
+      "metis-ui/es/*": ["src/components/*"],
+      "metis-ui/lib/*": ["src/components/*"],
+      "metis-ui/locale/*": ["src/components/locale/*"]
     },
     "strictNullChecks": true,
     "module": "esnext",

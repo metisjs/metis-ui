@@ -1,4 +1,4 @@
-import { EyeOutline, EyeSlashOutline } from '@metaoa/icons';
+import { EyeOutline, EyeSlashOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';

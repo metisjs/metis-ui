@@ -1,7 +1,7 @@
 /**
  * description: 特殊处理 Down icon。
  */
-import { ChevronDownOutline } from '@metaoa/icons';
+import { ChevronDownOutline } from '@metisjs/icons';
 import { Dropdown, Space } from 'meta-ui';
 import React from 'react';
 

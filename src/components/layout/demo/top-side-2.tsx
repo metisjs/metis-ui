@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { CalendarOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import { CalendarOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Layout, Menu } from 'meta-ui';
 

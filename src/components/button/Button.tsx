@@ -1,4 +1,4 @@
-import { LoadingOutline } from '@metaoa/icons';
+import { LoadingOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import cva from '../_util/cva';

@@ -1,4 +1,4 @@
-import { EllipsisHorizontalOutline } from '@metaoa/icons';
+import { EllipsisHorizontalOutline } from '@metisjs/icons';
 import Overflow from 'rc-overflow';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isEqual from 'rc-util/lib/isEqual';

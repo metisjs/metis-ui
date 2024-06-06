@@ -1,7 +1,7 @@
 /**
  * description: 默认是点击关闭菜单，可以关闭此功能。
  */
-import { ChevronDownOutline } from '@metaoa/icons';
+import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React, { useState } from 'react';

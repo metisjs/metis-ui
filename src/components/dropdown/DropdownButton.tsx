@@ -5,7 +5,7 @@ import Space from '../space';
 import { useCompactItemContext } from '../space/Compact';
 import Dropdown from './Dropdown';
 
-import { EllipsisHorizontalOutline } from '@metaoa/icons';
+import { EllipsisHorizontalOutline } from '@metisjs/icons';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import type { ButtonProps } from '../button';
 import { ButtonHTMLType } from '../button/Button';

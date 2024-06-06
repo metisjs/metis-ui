@@ -8,7 +8,7 @@ import {
   ExclamationCircleOutline,
   MinusCircleOutline,
   XCircleOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import { Divider, Space, Tag } from 'meta-ui';
 import React from 'react';
 

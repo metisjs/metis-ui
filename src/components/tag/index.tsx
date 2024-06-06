@@ -1,6 +1,6 @@
 'use client';
 
-import { XMarkOutline } from '@metaoa/icons';
+import { XMarkOutline } from '@metisjs/icons';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import {

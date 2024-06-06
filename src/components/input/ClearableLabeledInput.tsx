@@ -1,4 +1,4 @@
-import { XCircleSolid } from '@metaoa/icons';
+import { XCircleSolid } from '@metisjs/icons';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';

@@ -1,7 +1,7 @@
 /**
  * description: 密码框。
  */
-import { LockClosedOutline, LockOpenOutline } from '@metaoa/icons';
+import { LockClosedOutline, LockOpenOutline } from '@metisjs/icons';
 import { Button, Input, Space } from 'meta-ui';
 import React from 'react';
 

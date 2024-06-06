@@ -8,7 +8,7 @@ export default defineConfig({
   favicons: ['/favicon.ico'],
   themeConfig: {
     logo: '/logo.svg',
-    name: 'Mate UI',
+    name: 'Metis UI',
     prefersColor: { default: 'auto' },
     socialLinks: {
       github: 'https://github.com/meta-oa/meta-ui',

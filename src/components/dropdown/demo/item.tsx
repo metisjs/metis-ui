@@ -1,7 +1,7 @@
 /**
  * description: 分割线和不可用菜单项。
  */
-import { ChevronDownOutline } from '@metaoa/icons';
+import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React from 'react';

@@ -1,6 +1,6 @@
 import { FormProvider as RcFormProvider } from 'rc-field-form';
 import type { FormProviderProps as RcFormProviderProps } from 'rc-field-form/lib/FormContext';
-import type { Meta } from 'rc-field-form/lib/interface';
+import type { Metis } from 'rc-field-form/lib/interface';
 import omit from 'rc-util/lib/omit';
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 import * as React from 'react';
@@ -31,15 +31,15 @@ export const FormContext = React.createContext<FormContextProps>({
 });
 
 /** `noStyle` Form Item Context. Used for error collection */
-export type ReportMetaChange = (meta: Meta, uniqueKeys: React.Key[]) => void;
-export const NoStyleItemContext = React.createContext<ReportMetaChange | null>(null);
+export type ReportMetisChange = (meta: Metis, uniqueKeys: React.Key[]) => void;
+export const NoStyleItemContext = React.createContext<ReportMetisChange | null>(null);
 
 /** Form Provider */
 export interface FormProviderProps extends Omit<RcFormProviderProps, 'validateMessages'> {
   prefixCls?: string;
 }
 
-export const FormProvider: React.FC<FormProviderProps> = props => {
+export const FormProvider: React.FC<FormProviderProps> = (props) => {
   const providerProps = omit(props, ['prefixCls']);
   return <RcFormProvider {...providerProps} />;
 };

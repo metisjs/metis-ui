@@ -1,7 +1,7 @@
 /**
  * description: 添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。
  */
-import { ChevronDownOutline } from '@metaoa/icons';
+import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React, { useState } from 'react';

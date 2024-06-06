@@ -1,4 +1,4 @@
-import { PuzzlePieceOutline, QueueListOutline } from '@metaoa/icons';
+import { PuzzlePieceOutline, QueueListOutline } from '@metisjs/icons';
 import { Segmented } from 'meta-ui';
 import React from 'react';
 

@@ -1,7 +1,7 @@
 /**
  * description: 拥有顶部导航及侧边栏的页面，多用于展示类网站。
  */
-import { CalendarOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import { CalendarOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Layout, Menu } from 'meta-ui';
 import React from 'react';
@@ -55,7 +55,7 @@ const App: React.FC = () => {
           <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
         </Layout>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
+      <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
     </Layout>
   );
 };

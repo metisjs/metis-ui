@@ -6,7 +6,7 @@ import {
   BuildingOffice2Outline,
   DeviceTabletOutline,
   ShareOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import { Space, Tag } from 'meta-ui';
 import React from 'react';
 

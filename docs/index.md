@@ -1,6 +1,6 @@
 ---
 hero:
-  title: Meta UI
+  title: Metis UI
   description: A react library developed with dumi
   actions:
     - text: 开始使用

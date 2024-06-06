@@ -1,11 +1,11 @@
-import * as MetaIcons from '@metaoa/icons';
+import * as MetisIcons from '@metisjs/icons';
 import { Transition } from 'meta-ui';
 import { clsx } from 'meta-ui/es/_util/classNameUtils';
 import * as React from 'react';
 
 const allIcons: {
   [key: string]: any;
-} = MetaIcons;
+} = MetisIcons;
 
 export interface CopyableIconProps {
   name: string;

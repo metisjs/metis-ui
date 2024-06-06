@@ -11,7 +11,7 @@ import {
   FolderOutline,
   HomeOutline,
   UsersOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Layout, Menu } from 'meta-ui';
 import React from 'react';
@@ -65,7 +65,7 @@ const App: React.FC = () => {
             }
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
+        <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
       </Layout>
     </Layout>
   );

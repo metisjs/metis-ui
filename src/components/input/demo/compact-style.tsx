@@ -1,4 +1,4 @@
-import { GlobeAsiaAustraliaOutline } from '@metaoa/icons';
+import { GlobeAsiaAustraliaOutline } from '@metisjs/icons';
 import { Button, Input, Select, Space } from 'meta-ui';
 import React from 'react';
 

@@ -1,4 +1,4 @@
-import { XCircleSolid } from '@metaoa/icons';
+import { XCircleSolid } from '@metisjs/icons';
 import type { InputRef, InputProps as RcInputProps } from 'rc-input';
 import RcInput from 'rc-input';
 import type { BaseInputProps } from 'rc-input/lib/interface';

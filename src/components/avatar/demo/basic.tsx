@@ -1,7 +1,7 @@
 /**
  * description: 头像有三种尺寸，两种形状可选。
  */
-import { UserOutline } from '@metaoa/icons';
+import { UserOutline } from '@metisjs/icons';
 import { Avatar, Space } from 'meta-ui';
 import React from 'react';
 

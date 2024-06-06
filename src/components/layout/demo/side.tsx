@@ -8,7 +8,7 @@ import {
   FolderOutline,
   HomeOutline,
   UsersOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Layout, Menu } from 'meta-ui';
 import React, { useState } from 'react';
@@ -57,7 +57,7 @@ const App: React.FC = () => {
         <Content className="m-4">
           <div className="min-h-[360px] bg-neutral-bg-container p-6">Bill is a cat.</div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
+        <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
       </Layout>
     </Layout>
   );

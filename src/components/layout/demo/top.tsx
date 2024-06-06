@@ -27,7 +27,7 @@ const App: React.FC = () => {
       <Content className="px-12 py-6">
         <div className="bg-neutral-bg-container">Content</div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Meta UI ©2023 Created by Meta</Footer>
+      <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
     </Layout>
   );
 };

@@ -1,4 +1,4 @@
-import { XCircleSolid } from '@metaoa/icons';
+import { XCircleSolid } from '@metisjs/icons';
 import type { BaseInputProps } from 'rc-input/lib/interface';
 import type { TextAreaRef as RcTextAreaRef } from 'rc-textarea';
 import RcTextArea from 'rc-textarea';

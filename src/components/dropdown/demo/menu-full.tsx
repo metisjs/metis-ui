@@ -1,7 +1,7 @@
 /**
  * description: 此演示需要注意去掉 Reset 样式后查看 Dropdown 内 Menu 的样式是否正常。
  */
-import { CalculatorOutline, ChevronDownOutline, HomeOutline, UsersOutline } from '@metaoa/icons';
+import { CalculatorOutline, ChevronDownOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React from 'react';

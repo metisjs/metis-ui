@@ -1,7 +1,7 @@
 /**
  * description: 传入的菜单里有多个层级。
  */
-import { ChevronDownOutline } from '@metaoa/icons';
+import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React from 'react';

@@ -1,7 +1,7 @@
 /**
  * description: 左边是按钮，右边是额外的相关功能菜单。可设置 `icon` 属性来修改右边的图标。
  */
-import { ChevronDownOutline, UserOutline } from '@metaoa/icons';
+import { ChevronDownOutline, UserOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Button, Dropdown, Space, Tooltip } from 'meta-ui';
 import React from 'react';

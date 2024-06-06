@@ -1,4 +1,4 @@
-import { UserOutline } from '@metaoa/icons';
+import { UserOutline } from '@metisjs/icons';
 import { Avatar, Space } from 'meta-ui';
 import React from 'react';
 

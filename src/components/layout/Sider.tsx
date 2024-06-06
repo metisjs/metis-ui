@@ -1,4 +1,4 @@
-import { ChevronLeftOutline, ChevronRightOutline } from '@metaoa/icons';
+import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';

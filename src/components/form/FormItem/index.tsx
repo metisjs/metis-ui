@@ -1,19 +1,19 @@
 import type { FormInstance } from 'rc-field-form';
 import { Field, FieldContext, ListContext } from 'rc-field-form';
 import type { FieldProps } from 'rc-field-form/lib/Field';
-import type { Meta, NamePath } from 'rc-field-form/lib/interface';
+import type { Metis, NamePath } from 'rc-field-form/lib/interface';
 import useState from 'rc-util/lib/hooks/useState';
 import { supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useContext } from 'react';
-import useFormItemStatus from '../hooks/useFormItemStatus';
-import { ConfigContext } from '../../config-provider';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
 import { tuple } from '../../_util/type';
 import warning from '../../_util/warning';
-import { FormContext, NoStyleItemContext } from '../context';
+import { ConfigContext } from '../../config-provider';
 import type { FormItemInputProps } from '../FormItemInput';
 import type { FormItemLabelProps, LabelTooltipType } from '../FormItemLabel';
+import { FormContext, NoStyleItemContext } from '../context';
+import useFormItemStatus from '../hooks/useFormItemStatus';
 import useFrameState from '../hooks/useFrameState';
 import useItemRef from '../hooks/useItemRef';
 import { getFieldId, toArray } from '../util';
@@ -27,7 +27,7 @@ interface FieldError {
 }
 
 const ValidateStatuses = tuple('success', 'warning', 'error', 'validating', '');
-export type ValidateStatus = typeof ValidateStatuses[number];
+export type ValidateStatus = (typeof ValidateStatuses)[number];
 
 type RenderChildren<Values = any> = (form: FormInstance<Values>) => React.ReactNode;
 type RcFieldProps<Values = any> = Omit<FieldProps<Values>, 'children'>;
@@ -70,14 +70,14 @@ export interface FormItemProps<Values = any>
   fieldKey?: React.Key | React.Key[];
 }
 
-function hasValidName(name?: NamePath): Boolean {
+function hasValidName(name?: NamePath): boolean {
   if (name === null) {
     warning(false, 'Form.Item', '`null` is passed as `name` property');
   }
   return !(name === undefined || name === null);
 }
 
-function genEmptyMeta(): Meta {
+function genEmptyMetis(): Metis {
   return {
     errors: [],
     warnings: [],
@@ -106,7 +106,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   const { getPrefixCls } = useContext(ConfigContext);
   const { name: formName } = useContext(FormContext);
   const isRenderProps = typeof children === 'function';
-  const notifyParentMetaChange = useContext(NoStyleItemContext);
+  const notifyParentMetisChange = useContext(NoStyleItemContext);
 
   const { validateTrigger: contextValidateTrigger } = useContext(FieldContext);
   const mergedValidateTrigger =
@@ -126,22 +126,22 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   const [subFieldErrors, setSubFieldErrors] = useFrameState<Record<string, FieldError>>({});
 
   // >>>>> Current field errors
-  const [meta, setMeta] = useState<Meta>(() => genEmptyMeta());
+  const [meta, setMetis] = useState<Metis>(() => genEmptyMetis());
 
-  const onMetaChange = (nextMeta: Meta & { destroy?: boolean }) => {
+  const onMetisChange = (nextMetis: Metis & { destroy?: boolean }) => {
     // This keyInfo is not correct when field is removed
     // Since origin keyManager no longer keep the origin key anymore
     // Which means we need cache origin one and reuse when removed
-    const keyInfo = listContext?.getKey(nextMeta.name);
+    const keyInfo = listContext?.getKey(nextMetis.name);
 
     // Destroy will reset all the meta
-    setMeta(nextMeta.destroy ? genEmptyMeta() : nextMeta, true);
+    setMetis(nextMetis.destroy ? genEmptyMetis() : nextMetis, true);
 
     // Bump to parent since noStyle
-    if (noStyle && notifyParentMetaChange) {
-      let namePath = nextMeta.name;
+    if (noStyle && notifyParentMetisChange) {
+      let namePath = nextMetis.name;
 
-      if (!nextMeta.destroy) {
+      if (!nextMetis.destroy) {
         if (keyInfo !== undefined) {
           const [fieldKey, restPath] = keyInfo;
           namePath = [fieldKey, ...restPath];
@@ -151,28 +151,31 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
         // Use origin cache data
         namePath = fieldKeyPathRef.current || namePath;
       }
-      notifyParentMetaChange(nextMeta, namePath);
+      notifyParentMetisChange(nextMetis, namePath);
     }
   };
 
   // >>>>> Collect noStyle Field error to the top FormItem
-  const onSubItemMetaChange = (subMeta: Meta & { destroy: boolean }, uniqueKeys: React.Key[]) => {
+  const onSubItemMetisChange = (
+    subMetis: Metis & { destroy: boolean },
+    uniqueKeys: React.Key[],
+  ) => {
     // Only `noStyle` sub item will trigger
-    setSubFieldErrors(prevSubFieldErrors => {
+    setSubFieldErrors((prevSubFieldErrors) => {
       const clone = {
         ...prevSubFieldErrors,
       };
 
       // name: ['user', 1] + key: [4] = ['user', 4]
-      const mergedNamePath = [...subMeta.name.slice(0, -1), ...uniqueKeys];
+      const mergedNamePath = [...subMetis.name.slice(0, -1), ...uniqueKeys];
       const mergedNameKey = mergedNamePath.join(NAME_SPLIT);
 
-      if (subMeta.destroy) {
+      if (subMetis.destroy) {
         // Remove
         delete clone[mergedNameKey];
       } else {
         // Update
-        clone[mergedNameKey] = subMeta;
+        clone[mergedNameKey] = subMetis;
       }
 
       return clone;
@@ -184,7 +187,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
     const errorList: string[] = [...meta.errors];
     const warningList: string[] = [...meta.warnings];
 
-    Object.values(subFieldErrors).forEach(subFieldError => {
+    Object.values(subFieldErrors).forEach((subFieldError) => {
       errorList.push(...(subFieldError.errors || []));
       warningList.push(...(subFieldError.warnings || []));
     });
@@ -215,7 +218,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
         errors={mergedErrors}
         warnings={mergedWarnings}
         meta={meta}
-        onSubItemMetaChange={onSubItemMetaChange}
+        onSubItemMetisChange={onSubItemMetisChange}
       >
         {baseChildren}
       </ItemHolder>
@@ -243,10 +246,10 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
       messageVariables={variables}
       trigger={trigger}
       validateTrigger={mergedValidateTrigger}
-      onMetaChange={onMetaChange}
+      onMetisChange={onMetisChange}
     >
-      {(control, renderMeta, context) => {
-        const mergedName = toArray(name).length && renderMeta ? renderMeta.name : [];
+      {(control, renderMetis, context) => {
+        const mergedName = toArray(name).length && renderMetis ? renderMetis.name : [];
         const fieldId = getFieldId(mergedName, formName);
 
         const isRequired =
@@ -254,7 +257,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
             ? required
             : !!(
                 rules &&
-                rules.some(rule => {
+                rules.some((rule) => {
                   if (rule && typeof rule === 'object' && rule.required && !rule.warningOnly) {
                     return true;
                   }
@@ -294,7 +297,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
           warning(
             !hasName,
             'Form.Item',
-            "A `Form.Item` with a render function cannot be a field, and thus cannot have a `name` prop.",
+            'A `Form.Item` with a render function cannot be a field, and thus cannot have a `name` prop.',
           );
         } else if (dependencies && !isRenderProps && !hasName) {
           warning(
@@ -343,7 +346,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
             ...toArray(mergedValidateTrigger),
           ]);
 
-          triggers.forEach(eventName => {
+          triggers.forEach((eventName) => {
             childProps[eventName] = (...args: any[]) => {
               mergedControl[eventName]?.(...args);
               children.props[eventName]?.(...args);

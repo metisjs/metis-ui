@@ -2,17 +2,17 @@ import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import ExclamationCircleFilled from '@ant-design/icons/ExclamationCircleFilled';
 import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import classNames from 'classnames';
-import * as React from 'react';
+import type { Metis } from 'rc-field-form/lib/interface';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
-import type { Meta } from 'rc-field-form/lib/interface';
-import { Row } from '../../grid';
-import FormItemLabel from '../FormItemLabel';
-import FormItemInput from '../FormItemInput';
-import type { FormItemStatusContextProps, ReportMetaChange } from '../context';
-import { FormContext, FormItemInputContext, NoStyleItemContext } from '../context';
+import * as React from 'react';
 import type { FormItemProps, ValidateStatus } from '.';
+import { Row } from '../../grid';
+import FormItemInput from '../FormItemInput';
+import FormItemLabel from '../FormItemLabel';
+import type { FormItemStatusContextProps, ReportMetisChange } from '../context';
+import { FormContext, FormItemInputContext, NoStyleItemContext } from '../context';
 import useDebounce from '../hooks/useDebounce';
 
 const iconMap = {
@@ -28,11 +28,11 @@ export interface ItemHolderProps extends FormItemProps {
   style?: React.CSSProperties;
   errors: React.ReactNode[];
   warnings: React.ReactNode[];
-  meta: Meta;
+  meta: Metis;
   children?: React.ReactNode;
   fieldId?: string;
   isRequired?: boolean;
-  onSubItemMetaChange: ReportMetaChange;
+  onSubItemMetisChange: ReportMetisChange;
 }
 
 export default function ItemHolder(props: ItemHolderProps) {
@@ -50,7 +50,7 @@ export default function ItemHolder(props: ItemHolderProps) {
     children,
     fieldId,
     isRequired,
-    onSubItemMetaChange,
+    onSubItemMetisChange,
     ...restProps
   } = props;
 
@@ -188,7 +188,7 @@ export default function ItemHolder(props: ItemHolderProps) {
           marginBottom={marginBottom}
           onErrorVisibleChanged={onErrorVisibleChanged}
         >
-          <NoStyleItemContext.Provider value={onSubItemMetaChange}>
+          <NoStyleItemContext.Provider value={onSubItemMetisChange}>
             <FormItemInputContext.Provider value={formItemStatusContext}>
               {children}
             </FormItemInputContext.Provider>

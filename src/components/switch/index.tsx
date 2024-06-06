@@ -1,4 +1,4 @@
-import { LoadingOutline } from '@metaoa/icons';
+import { LoadingOutline } from '@metisjs/icons';
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';

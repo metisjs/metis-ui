@@ -1,7 +1,7 @@
 /**
  * description: 最简单的下拉菜单。
  */
-import { ChevronDownOutline, FaceSmileOutline } from '@metaoa/icons';
+import { ChevronDownOutline, FaceSmileOutline } from '@metisjs/icons';
 import type { MenuProps } from 'meta-ui';
 import { Dropdown, Space } from 'meta-ui';
 import React from 'react';

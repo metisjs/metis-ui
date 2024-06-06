@@ -5,7 +5,7 @@ import {
   MagnifyingGlassOutline,
   XCircleSolid,
   XMarkOutline,
-} from '@metaoa/icons';
+} from '@metisjs/icons';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 
