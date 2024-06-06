@@ -68,7 +68,6 @@ function assert(v, message) {
   // pnpm publish
   logger.event('pnpm publish');
   $.verbose = false;
-  const innerPkgs = pkgs.filter((pkg) => !['poros'].includes(pkg));
 
   // check 2fa config
   let otpArg = [];
