@@ -8,7 +8,7 @@ import {
   getPresetStatusClassName,
   isPresetStatusColor,
 } from '../_util/colors';
-import useClosable from '../_util/hooks/useClosable';
+import useClosable, { pickClosable } from '../_util/hooks/useClosable';
 import { LiteralUnion } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import CheckableTag from './CheckableTag';
@@ -42,10 +42,8 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     icon,
     color,
     onClose,
-    closeIcon,
-    closable,
     bordered = true,
-    ...props
+    ...restProps
   } = tagProps;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const [visible, setVisible] = React.useState(true);
@@ -86,20 +84,17 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     'ms-0.5 cursor-pointer text-neutral-text-tertiary hover:text-neutral-text-secondary',
   );
 
-  const [, mergedCloseIcon] = useClosable(
-    closable,
-    closeIcon,
-    (iconNode: React.ReactNode) =>
+  const [, mergedCloseIcon] = useClosable(pickClosable(tagProps), null, {
+    closable: false,
+    closeIconRender: (iconNode: React.ReactNode) =>
       iconNode === null ? (
         <XMarkOutline className={iconClassName} onClick={handleCloseClick} />
       ) : (
-        <span className={iconClassName} onClick={handleCloseClick}>
+        <span className={clsx(iconClassName, 'flex items-center')} onClick={handleCloseClick}>
           {iconNode}
         </span>
       ),
-    null,
-    false,
-  );
+  });
 
   const iconNode: React.ReactNode = icon ? (
     <span className="mr-1 inline-flex items-center text-sm">{icon}</span>
@@ -115,7 +110,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
   );
 
   const tagNode: React.ReactNode = (
-    <span {...props} ref={ref} className={tagClassName} style={tagStyle}>
+    <span {...restProps} ref={ref} className={tagClassName} style={tagStyle}>
       {kids}
       {mergedCloseIcon}
     </span>

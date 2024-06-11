@@ -36,6 +36,18 @@ export default tailwindPlugin(mainFunction, {
         height: 'height',
         width: 'width',
       },
+      keyframes: {
+        'bounce-spin': {
+          '0%, 100%': {
+            transform: 'scaleY(0.4)',
+            opacity: '0.8',
+          },
+          '50%': {
+            transform: 'scaleY(1)',
+            opacity: '1',
+          },
+        },
+      },
     },
   },
 });

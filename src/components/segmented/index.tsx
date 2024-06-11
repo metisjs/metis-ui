@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
@@ -124,7 +123,7 @@ const InternalSegmentedOption: React.FC<{
         className={clsx('flex w-full justify-center gap-x-2', `${prefixCls}-label`)}
         title={title}
       >
-        {icon && <span className={classNames('text-xl/[1.25rem]')}>{icon}</span>}
+        {icon && <span className={clsx('text-xl/[1.25rem]')}>{icon}</span>}
         {label && <span className="truncate">{label}</span>}
       </div>
     </label>
@@ -184,7 +183,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
   return (
     <div
       {...divProps}
-      className={classNames(
+      className={clsx(
         'inline-block rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text transition-all duration-300',
         { 'block-segmented flex': block },
         prefixCls,

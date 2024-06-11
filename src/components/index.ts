@@ -1,3 +1,5 @@
+export { default as Alert } from './alert';
+export type { AlertProps } from './alert';
 export { default as Avatar } from './avatar';
 export type { AvatarProps } from './avatar';
 export { default as Button } from './button';
@@ -26,6 +28,8 @@ export { default as Select } from './select';
 export type { RefSelectProps, SelectProps } from './select';
 export { default as Space } from './space';
 export type { SpaceProps } from './space';
+export { default as Spin } from './spin';
+export type { SpinProps } from './spin';
 export { default as Switch } from './switch';
 export type { SwitchProps } from './switch';
 export { default as Tag } from './tag';

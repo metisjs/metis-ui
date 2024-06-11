@@ -25,8 +25,6 @@ group:
 <code src="./demo/with-icon.tsx">设置图标</code>
 <code src="./demo/icon-only.tsx">只设置图标</code>
 
-<!-- <code src="./demo/custom.tsx">自定义渲染</code> -->
-
 ## API
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
