@@ -1,4 +1,7 @@
-import { Alert, Space, Switch } from 'antd';
+/**
+ * description: 平滑、自然的卸载提示。
+ */
+import { Alert, Space, Switch } from 'metis-ui';
 import React, { useState } from 'react';
 
 const App: React.FC = () => {

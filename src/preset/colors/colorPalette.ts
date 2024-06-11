@@ -1,6 +1,6 @@
 const lightBase = {
-  bg: -4,
-  'bg-hover': -3,
+  bg: -5,
+  'bg-hover': -4,
   hover: -1,
   active: 1,
   'text-hover': 1,

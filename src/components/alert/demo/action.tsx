@@ -1,4 +1,7 @@
-import { Alert, Button, Space } from 'antd';
+/**
+ * description: 可以在右上角自定义操作项。
+ */
+import { Alert, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
@@ -8,11 +11,10 @@ const App: React.FC = () => (
       type="success"
       showIcon
       action={
-        <Button size="small" type="text">
-          UNDO
-        </Button>
+        <a href="#" className="!text-success-text-active hover:!text-success-text-hover">
+          Details →
+        </a>
       }
-      closable
     />
     <Alert
       message="Error Text"
@@ -20,38 +22,10 @@ const App: React.FC = () => (
       description="Error Description Error Description Error Description Error Description"
       type="error"
       action={
-        <Button size="small" danger>
-          Detail
-        </Button>
+        <a href="#" className="!text-error-text-active hover:!text-error-text-hover">
+          Details →
+        </a>
       }
-    />
-    <Alert
-      message="Warning Text"
-      type="warning"
-      action={
-        <Space>
-          <Button type="text" size="small" ghost>
-            Done
-          </Button>
-        </Space>
-      }
-      closable
-    />
-    <Alert
-      message="Info Text"
-      description="Info Description Info Description Info Description Info Description"
-      type="info"
-      action={
-        <Space direction="vertical">
-          <Button size="small" type="primary">
-            Accept
-          </Button>
-          <Button size="small" danger ghost>
-            Decline
-          </Button>
-        </Space>
-      }
-      closable
     />
   </Space>
 );

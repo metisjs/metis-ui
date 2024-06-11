@@ -42,7 +42,7 @@ const colorObject = {
   error: {
     DEFAULT: 'hsla(var(--error))',
     bg: 'hsla(var(--error-bg))',
-    'bg-hover': 'hsla(var(--info-bg-hover))',
+    'bg-hover': 'hsla(var(--error-bg-hover))',
     hover: 'hsla(var(--error-hover))',
     active: 'hsla(var(--error-active))',
     'text-hover': 'hsla(var(--error-text-hover))',

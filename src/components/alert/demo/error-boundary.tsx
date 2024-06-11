@@ -1,4 +1,7 @@
-import { Alert, Button } from 'antd';
+/**
+ * description: 友好的 [React 错误处理](https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html) 包裹组件。
+ */
+import { Alert, Button } from 'metis-ui';
 import React, { useState } from 'react';
 
 const { ErrorBoundary } = Alert;

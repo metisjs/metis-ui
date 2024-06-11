@@ -17,8 +17,7 @@ group:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
-
-<!-- <code src="./demo/style.tsx">四种样式</code>
+<code src="./demo/style.tsx">四种样式</code>
 <code src="./demo/closable.tsx">可关闭的警告提示</code>
 <code src="./demo/description.tsx">含有辅助性文字介绍</code>
 <code src="./demo/icon.tsx">图标</code>
@@ -27,7 +26,7 @@ group:
 <code src="./demo/smooth-closed.tsx">平滑地卸载</code>
 <code src="./demo/error-boundary.tsx">React 错误处理</code>
 <code src="./demo/custom-icon.tsx" debug>自定义图标</code>
-<code src="./demo/action.tsx">操作</code> -->
+<code src="./demo/action.tsx">操作</code>
 
 ## API
 
@@ -36,7 +35,8 @@ group:
 | action | 自定义操作项 | ReactNode | - |  |
 | afterClose | 关闭动画结束后触发的回调函数 | () => void | - |  |
 | banner | 是否用作顶部公告 | boolean | false |  |
-| closable | 可关闭配置，>=5.15.0: 支持 `aria-*` | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
+| className | 语义化结构 class | string \| Record<'root' \| 'content' \| 'message' \| 'description' \| 'action' \| 'close' \| 'icon', string> | - |  |
+| closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | 警告提示的辅助性文字介绍 | ReactNode | - |  |
 | icon | 自定义图标，`showIcon` 为 true 时有效 | ReactNode | - |  |
 | message | 警告提示内容 | ReactNode | - |  |

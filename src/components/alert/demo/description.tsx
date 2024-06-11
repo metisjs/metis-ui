@@ -1,4 +1,7 @@
-import { Alert, Space } from 'antd';
+/**
+ * description: 含有辅助性文字介绍的警告提示。
+ */
+import { Alert, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

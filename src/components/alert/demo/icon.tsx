@@ -1,4 +1,7 @@
-import { Alert, Space } from 'antd';
+/**
+ * description: 可口的图标让信息类型更加醒目。
+ */
+import { Alert, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (

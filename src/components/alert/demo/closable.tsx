@@ -1,5 +1,8 @@
-import { CloseSquareFilled } from '@ant-design/icons';
-import { Alert, Space } from 'antd';
+/**
+ * description: 显示关闭按钮，点击可关闭警告提示。
+ */
+import { XMarkSolid } from '@metisjs/icons';
+import { Alert, Space } from 'metis-ui';
 import React from 'react';
 
 const onClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -27,7 +30,7 @@ const App: React.FC = () => (
       type="error"
       closable={{
         'aria-label': 'close',
-        closeIcon: <CloseSquareFilled />,
+        closeIcon: <XMarkSolid />,
       }}
       onClose={onClose}
     />
