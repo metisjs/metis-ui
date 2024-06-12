@@ -24,11 +24,11 @@ group:
 
 ## API
 
-| 参数       | 说明                                         | 类型          | 默认值    | 版本 |
-| ---------- | -------------------------------------------- | ------------- | --------- | ---- |
-| delay      | 延迟显示加载效果的时间（防止闪烁）           | number (毫秒) | -         |      |
-| fullscreen | 显示带有 `Spin` 组件的背景                   | boolean       | false     |      |
-| size       | 组件大小，可选值为 `small` `default` `large` | string        | `default` |      |
-| spinning   | 是否为加载中状态                             | boolean       | true      |      |
-| tip        | 当作为包裹元素时，可以自定义描述文案         | ReactNode     | -         |      |
-| className  | 包装器的类属性                               | string        | -         |      |
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| className | 语义化结构 class | string \| Record<'root' \| 'wrapper' \| 'fullscreen' \| 'indicator' \| 'tip', string> | - |  |
+| delay | 延迟显示加载效果的时间（防止闪烁） | number (毫秒) | - |  |
+| fullscreen | 显示带有 `Spin` 组件的背景 | boolean | false |  |
+| size | 组件大小，可选值为 `small` `default` `large` | string | `default` |  |
+| spinning | 是否为加载中状态 | boolean | true |  |
+| tip | 当作为包裹元素时，可以自定义描述文案 | ReactNode | - |  |
