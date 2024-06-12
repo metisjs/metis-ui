@@ -301,6 +301,10 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         onScroll={onPopupScroll}
         virtual={virtual}
         innerProps={virtual ? undefined : a11yProps}
+        styles={{
+          horizontalScrollBar: { height: 6 },
+          verticalScrollBar: { width: 6 },
+        }}
       >
         {(item, itemIndex) => {
           const { group, groupOption, data, label, value } = item;
