@@ -1,7 +1,6 @@
 import type { ScrollValues, ScrollbarsProps } from 'rc-scrollbars';
 import { Scrollbars } from 'rc-scrollbars';
-import type { MutableRefObject } from 'react';
-import React, { forwardRef, memo } from 'react';
+import React, { MutableRefObject, forwardRef, memo } from 'react';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 
@@ -25,7 +24,24 @@ export interface ScrollbarProps
   onScroll?: (values: ScrollValues) => void;
 }
 
-const Scrollbar = forwardRef<HTMLElement, ScrollbarProps>(
+export interface ScrollbarRef {
+  view?: HTMLElement;
+  getScrollLeft(): number;
+  getScrollTop(): number;
+  getScrollWidth(): number;
+  getScrollHeight(): number;
+  getClientWidth(): number;
+  getClientHeight(): number;
+  getValues(): ScrollValues;
+  scrollLeft(left?: number): void;
+  scrollTop(top?: number): void;
+  scrollToLeft(): void;
+  scrollToTop(): void;
+  scrollToRight(): void;
+  scrollToBottom(): void;
+}
+
+const Scrollbar = forwardRef<ScrollbarRef, ScrollbarProps>(
   (
     {
       prefixCls: customizePrefixCls,
@@ -53,14 +69,14 @@ const Scrollbar = forwardRef<HTMLElement, ScrollbarProps>(
         classes={{
           view: clsx(`${prefixCls}-view`, complexCls.view),
         }}
-        ref={(sRef): void => {
+        ref={(sRef) => {
           if (ref && sRef) {
             if (typeof ref === 'function') {
-              ref(sRef.view ?? null);
+              ref(sRef);
               return;
             }
 
-            (ref as MutableRefObject<HTMLElement | undefined>).current = sRef.view;
+            (ref as MutableRefObject<ScrollbarRef | null>).current = sRef;
           }
         }}
         {...restProps}
