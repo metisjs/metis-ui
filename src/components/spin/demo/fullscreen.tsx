@@ -1,9 +1,11 @@
-import { Button, Spin } from 'antd';
+/**
+ * description: `fullscreen` 属性非常适合创建流畅的页面加载器。它添加了半透明覆盖层，并在其中心放置了一个旋转加载符号。
+ */
+import { Button, Spin } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => {
   const [spinning, setSpinning] = React.useState(false);
-  const [percent, setPercent] = React.useState(0);
 
   const showLoader = () => {
     setSpinning(true);
@@ -11,12 +13,10 @@ const App: React.FC = () => {
 
     const interval = setInterval(() => {
       ptg += 5;
-      setPercent(ptg);
 
       if (ptg > 120) {
         clearInterval(interval);
         setSpinning(false);
-        setPercent(0);
       }
     }, 100);
   };
@@ -24,7 +24,7 @@ const App: React.FC = () => {
   return (
     <>
       <Button onClick={showLoader}>Show fullscreen</Button>
-      <Spin spinning={spinning} percent={percent} fullscreen />
+      <Spin spinning={spinning} fullscreen size="large" />
     </>
   );
 };

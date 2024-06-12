@@ -1,4 +1,7 @@
-import { Alert, Flex, Spin } from 'antd';
+/**
+ * description: 自定义描述文案。
+ */
+import { Alert, Space, Spin } from 'metis-ui';
 import React from 'react';
 
 const contentStyle: React.CSSProperties = {
@@ -10,8 +13,8 @@ const contentStyle: React.CSSProperties = {
 const content = <div style={contentStyle} />;
 
 const App: React.FC = () => (
-  <Flex gap="small" vertical>
-    <Flex gap="small">
+  <Space direction="vertical">
+    <Space>
       <Spin tip="Loading" size="small">
         {content}
       </Spin>
@@ -19,7 +22,7 @@ const App: React.FC = () => (
       <Spin tip="Loading" size="large">
         {content}
       </Spin>
-    </Flex>
+    </Space>
     <Spin tip="Loading...">
       <Alert
         message="Alert message title"
@@ -27,7 +30,7 @@ const App: React.FC = () => (
         type="info"
       />
     </Spin>
-  </Flex>
+  </Space>
 );
 
 export default App;

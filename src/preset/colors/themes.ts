@@ -18,8 +18,8 @@ export default {
     'neutral-bg-container': 'gray-900',
     'neutral-bg-elevated': 'gray-800',
     'neutral-bg-layout': 'gray-700',
-    'neutral-bg-spotlight': 'gray-700/88',
-    'neutral-bg-mask': 'gray-900',
+    'neutral-bg-spotlight': 'gray-700/85',
+    'neutral-bg-mask': 'gray-900/45',
   },
   '[data-prefers-color=light]': {
     'color-scheme': 'light',
@@ -34,7 +34,7 @@ export default {
     'neutral-bg-container': 'white',
     'neutral-bg-elevated': 'white',
     'neutral-bg-layout': 'slate-100',
-    'neutral-bg-spotlight': 'gray-900/88',
-    'neutral-bg-mask': 'gray-900',
+    'neutral-bg-spotlight': 'gray-900/85',
+    'neutral-bg-mask': 'gray-900/45',
   },
 } as const;

@@ -13,7 +13,7 @@ export interface SpinProps {
   /** Customize prefix class name */
   prefixCls?: string;
   /** Additional class name of Spin */
-  className?: ComplexClassName<'wrapper' | 'fullscreen' | 'item'>;
+  className?: ComplexClassName<'wrapper' | 'fullscreen' | 'indicator' | 'tip'>;
   /** Whether Spin is spinning */
   spinning?: boolean;
   /** Style of Spin */
@@ -87,7 +87,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     );
   }
 
-  const spinClassName = clsx(
+  const spinCls = clsx(
     prefixCls,
     'hidden transition-transform',
     {
@@ -96,33 +96,49 @@ const Spin: React.FC<SpinProps> = (props) => {
       [`${prefixCls}-spinning inline-block`]: spinning,
       [`${prefixCls}-show-text`]: !!tip,
     },
+    isNestedPattern &&
+      'absolute z-[4] flex h-full max-h-[25rem] w-full flex-col items-center justify-center',
     complexCls.root,
   );
-
-  const containerClassName = clsx(`${prefixCls}-container`, {
-    [`${prefixCls}-blur`]: spinning,
-  });
+  const nestedCls = clsx(`${prefixCls}-nested-loading`, 'relative', complexCls.wrapper);
+  const containerCls = clsx(
+    `${prefixCls}-container`,
+    {
+      [`${prefixCls}-blur pointer-events-none select-none opacity-50`]: spinning,
+    },
+    'relative transition-opacity',
+  );
+  const tipCls = clsx(
+    `${prefixCls}-text`,
+    'mt-2 text-neutral-text-tertiary',
+    {
+      'mt-1': size === 'small',
+      'mt-3': size === 'large',
+    },
+    complexCls.tip,
+  );
+  const fullscreenCls = clsx(
+    `${prefixCls}-fullscreen`,
+    {
+      [`${prefixCls}-fullscreen-show`]: spinning,
+    },
+    'invisible fixed inset-0 z-[1000] flex h-screen w-screen flex-col items-center justify-center bg-neutral-bg-mask opacity-0 transition-all',
+    spinning && 'visible opacity-100',
+    complexCls.fullscreen,
+  );
 
   const spinElement: React.ReactNode = (
-    <div
-      {...restProps}
-      style={style}
-      className={spinClassName}
-      aria-live="polite"
-      aria-busy={spinning}
-    >
-      <Indicator prefixCls={prefixCls} size={size} className={complexCls.item} />
-      {tip && (isNestedPattern || fullscreen) ? (
-        <div className={`${prefixCls}-text`}>{tip}</div>
-      ) : null}
+    <div {...restProps} style={style} className={spinCls} aria-live="polite" aria-busy={spinning}>
+      <Indicator prefixCls={prefixCls} size={size} className={complexCls.indicator} />
+      {tip && (isNestedPattern || fullscreen) ? <div className={tipCls}>{tip}</div> : null}
     </div>
   );
 
   if (isNestedPattern) {
     return (
-      <div {...restProps} className={clsx(`${prefixCls}-nested-loading`, complexCls.wrapper)}>
+      <div {...restProps} className={nestedCls}>
         {spinning && <div key="loading">{spinElement}</div>}
-        <div className={containerClassName} key="container">
+        <div className={containerCls} key="container">
           {children}
         </div>
       </div>
@@ -130,19 +146,7 @@ const Spin: React.FC<SpinProps> = (props) => {
   }
 
   if (fullscreen) {
-    return (
-      <div
-        className={clsx(
-          `${prefixCls}-fullscreen`,
-          {
-            [`${prefixCls}-fullscreen-show`]: spinning,
-          },
-          complexCls.fullscreen,
-        )}
-      >
-        {spinElement}
-      </div>
-    );
+    return <div className={fullscreenCls}>{spinElement}</div>;
   }
 
   return spinElement;
