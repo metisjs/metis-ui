@@ -22,6 +22,8 @@ export { default as Popover } from './popover';
 export type { PopoverProps } from './popover';
 export { default as Radio } from './radio';
 export type { RadioChangeEvent, RadioGroupProps, RadioProps } from './radio';
+export { default as Scrollbar } from './scrollbar';
+export type { ScrollValues, ScrollbarProps } from './scrollbar';
 export { default as Segmented } from './segmented';
 export type { SegmentedProps } from './segmented';
 export { default as Select } from './select';

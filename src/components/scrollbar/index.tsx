@@ -4,9 +4,11 @@ import React, { MutableRefObject, forwardRef, memo } from 'react';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 
+export { ScrollValues };
+
 export interface ScrollbarProps
   extends Omit<
-    ScrollbarsProps,
+    Partial<ScrollbarsProps>,
     | 'className'
     | 'autoHide'
     | 'onScrollFrame'
@@ -18,7 +20,6 @@ export interface ScrollbarProps
   > {
   prefixCls?: string;
   className?: ComplexClassName<'view'>;
-  overflowX?: boolean;
   autoHide?: boolean;
   autoHeight?: [number, number];
   onScroll?: (values: ScrollValues) => void;
@@ -50,6 +51,7 @@ const Scrollbar = forwardRef<ScrollbarRef, ScrollbarProps>(
       children,
       onScroll,
       autoHide = true,
+      style,
       ...restProps
     },
     ref,
@@ -60,7 +62,7 @@ const Scrollbar = forwardRef<ScrollbarRef, ScrollbarProps>(
 
     return (
       <Scrollbars
-        className={clsx(prefixCls, complexCls.root)}
+        className={clsx(prefixCls, 'h-full, w-full', complexCls.root)}
         autoHide={autoHide}
         onScrollFrame={onScroll}
         autoHeight={!!autoHeight}
@@ -69,6 +71,7 @@ const Scrollbar = forwardRef<ScrollbarRef, ScrollbarProps>(
         classes={{
           view: clsx(`${prefixCls}-view`, complexCls.view),
         }}
+        style={{ width: '', height: '', ...style }}
         ref={(sRef) => {
           if (ref && sRef) {
             if (typeof ref === 'function') {
