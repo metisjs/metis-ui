@@ -1,6 +1,3 @@
-/**
- * description: 翻转后如果不够则偏移以供完全的展示。
- */
 import { Select } from 'metis-ui';
 import React from 'react';
 

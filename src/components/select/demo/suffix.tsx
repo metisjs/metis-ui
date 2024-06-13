@@ -1,6 +1,3 @@
-/**
- * description: 后缀图标。
- */
 import { FaceFrownOutline, FaceSmileOutline } from '@metisjs/icons';
 import { Select, Space } from 'metis-ui';
 import React from 'react';

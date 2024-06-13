@@ -1,6 +1,3 @@
-/**
- * description: 使用 `status` 为 Select 添加状态，可选 `error` 或者 `warning`。
- */
 import { Select, Space } from 'metis-ui';
 import React from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: Buggy! 测试一些踩过的样式坑。
- */
 import { Input, Space } from 'metis-ui';
 import React from 'react';
 

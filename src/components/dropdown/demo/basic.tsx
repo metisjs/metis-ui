@@ -1,6 +1,3 @@
-/**
- * description: 最简单的下拉菜单。
- */
 import { ChevronDownOutline, FaceSmileOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Dropdown, Space } from 'metis-ui';

@@ -1,6 +1,3 @@
-/**
- * description: 显示关闭按钮，点击可关闭警告提示。
- */
 import { XMarkSolid } from '@metisjs/icons';
 import { Alert, Space } from 'metis-ui';
 import React from 'react';

@@ -1,6 +1,3 @@
-/**
- * description: 多选下通过响应式布局让选项自动收缩。该功能对性能有所消耗，不推荐在大表单场景下使用。
- */
 import type { SelectProps } from 'metis-ui';
 import { Select, Space } from 'metis-ui';
 import React, { useState } from 'react';

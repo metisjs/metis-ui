@@ -1,6 +1,3 @@
-/**
- * description: Radio 不可用。
- */
 import { Button, Radio } from 'metis-ui';
 import React, { useState } from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: 基本使用。
- */
 import { Select, Space } from 'metis-ui';
 import React from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: 用 `OptGroup` 进行选项分组。
- */
 import { Select } from 'metis-ui';
 import React from 'react';
 

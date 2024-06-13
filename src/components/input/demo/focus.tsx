@@ -1,6 +1,3 @@
-/**
- * description: 聚焦额外配置属性。
- */
 import type { InputRef } from 'metis-ui';
 import React, { useRef, useState } from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: 一组互斥的 Radio 配合使用。
- */
 import type { RadioChangeEvent } from 'metis-ui';
 import { Radio } from 'metis-ui';
 import React, { useState } from 'react';

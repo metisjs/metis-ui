@@ -1,6 +1,3 @@
-/**
- * description: 特殊处理 Down icon。
- */
 import { ChevronDownOutline } from '@metisjs/icons';
 import { Dropdown, Space } from 'metis-ui';
 import React from 'react';

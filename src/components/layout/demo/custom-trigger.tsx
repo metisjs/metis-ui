@@ -1,6 +1,3 @@
-/**
- * description: 要使用自定义触发器，可以设置 `trigger={null}` 来隐藏默认设定。
- */
 import {
   CalendarOutline,
   ChevronLeftOutline,

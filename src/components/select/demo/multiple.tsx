@@ -1,6 +1,3 @@
-/**
- * description:多选，从已有条目中选择。
- */
 import type { SelectProps } from 'metis-ui';
 import { Select, Space } from 'metis-ui';
 import React from 'react';

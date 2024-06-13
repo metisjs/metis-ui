@@ -1,6 +1,3 @@
-/**
- * description: tags select，随意输入的内容（scroll the menu）。
- */
 import type { SelectProps } from 'metis-ui';
 import { Select } from 'metis-ui';
 import React from 'react';

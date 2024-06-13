@@ -1,6 +1,3 @@
-/**
- * description: 预设五种状态颜色，可以通过设置 `color` 为 `success`、 `processing`、`error`、`default`、`warning` 来代表不同的状态。
- */
 import {
   ArrowPathOutline,
   CheckCircleOutline,

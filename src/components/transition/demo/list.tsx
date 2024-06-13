@@ -1,6 +1,3 @@
-/**
- * description: 一组动画列表
- */
 import range from 'lodash/range';
 import { Button, Checkbox, Space, Transition } from 'metis-ui';
 import { clsx } from 'metis-ui/es/_util/classNameUtils';

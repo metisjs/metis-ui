@@ -1,6 +1,3 @@
-/**
- * description: 使用 `popupRender` 对下拉菜单进行自由扩展。如果希望点击自定义内容后关闭浮层，你需要使用受控模式自行控制
- */
 import { PlusOutline } from '@metisjs/icons';
 import type { InputRef } from 'metis-ui';
 import { Button, Divider, Input, Select, Space } from 'metis-ui';

@@ -1,6 +1,3 @@
-/**
- * description: 拥有顶部导航及侧边栏的页面，多用于展示类网站。
- */
 import { CalendarOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Layout, Menu } from 'metis-ui';

@@ -1,6 +1,3 @@
-/**
- * description: 带移除图标的输入框，点击图标删除所有内容。
- */
 import { EyeDropperSolid } from '@metisjs/icons';
 import { Input, Space } from 'metis-ui';
 import React from 'react';

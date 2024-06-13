@@ -1,6 +1,3 @@
-/**
- * description: 使用 `plain` 可以设置为更轻量的分割文字样式。
- */
 import { Divider } from 'metis-ui';
 import React from 'react';
 

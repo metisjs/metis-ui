@@ -1,6 +1,3 @@
-/**
- * description: 最简单的用法。
- */
 import { Tooltip } from 'metis-ui';
 import React from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: 自定义描述文案。
- */
 import { Alert, Space, Spin } from 'metis-ui';
 import React from 'react';
 

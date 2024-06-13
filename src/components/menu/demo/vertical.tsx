@@ -1,6 +1,3 @@
-/**
- * description: 子菜单是弹出的形式。
- */
 import { FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Menu } from 'metis-ui';

@@ -1,6 +1,3 @@
-/**
- * description: checkbox 不可用。
- */
 import { Checkbox } from 'metis-ui';
 import React from 'react';
 

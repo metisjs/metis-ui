@@ -1,6 +1,3 @@
-/**
- * description: 使用 [dnd kit](https://dndkit.com) 实现的可拖拽标签。
- */
 import { DndContext, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core/dist/types/index';
 import {

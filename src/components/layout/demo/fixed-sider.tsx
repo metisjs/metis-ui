@@ -1,7 +1,3 @@
-/**
- * description: 当内容较长时，使用固定侧边栏可以提供更好的体验。
- */
-
 import {
   BookmarkOutline,
   BugAntOutline,

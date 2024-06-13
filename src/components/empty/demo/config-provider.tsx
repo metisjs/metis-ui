@@ -1,6 +1,3 @@
-/**
- * description: 自定义全局组件的 Empty 样式。
- */
 import { SmileOutlined } from '@ant-design/icons';
 import {
   Cascader,

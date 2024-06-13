@@ -18,9 +18,9 @@ group:
 ## 代码演示
 
 <!-- prettier-ignore -->
-<code src="./demo/vertical.tsx" description="Basic vertical scrolling.">Vertical Scrolling</code>
-<code src="./demo/horizontal.tsx" description="Basic vertical and horizontal scrolling.">Horizontal Scrolling</code>
-<code src="./demo/customization.tsx" description="Custom scrollbars and views.">Customization</code>
+<code src="./demo/vertical.tsx">Vertical Scrolling</code>
+<code src="./demo/horizontal.tsx">Horizontal Scrolling</code>
+<code src="./demo/customization.tsx">Customization</code>
 
 ## API
 

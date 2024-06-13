@@ -1,6 +1,3 @@
-/**
- * description: 内嵌菜单可以被缩起/展开。<br/>你可以在 [Layout](/components/layout/#components-layout-demo-side) 里查看侧边布局结合的完整示例。
- */
 import {
   CalendarOutline,
   ChevronDoubleLeftOutline,

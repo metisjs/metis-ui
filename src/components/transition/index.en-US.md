@@ -11,8 +11,8 @@ Allows you to add enter/leave transitions to conditionally rendered elements usi
 ## Code Demonstration
 
 <!-- prettier-ignore -->
-<code src="./demo/basic.tsx" description="Transition accepts a `visible` prop to control whether it should show or hide, along with a set of lifecycle props (e.g., enterFrom and leaveTo) that allow you to add CSS classes at specific stages of the transition.">Show/Hide</code>
-<code src="./demo/list.tsx" description="A set of animated lists">List</code>
+<code src="./demo/basic.tsx">Show/Hide</code>
+<code src="./demo/list.tsx">List</code>
 
 ## API
 

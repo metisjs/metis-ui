@@ -1,6 +1,3 @@
-/**
- * description: 内建了两套主题 `light` 和 `dark`，默认 `light`。
- */
 import { FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps, MenuTheme } from 'metis-ui';
 import { Menu, Switch } from 'metis-ui';

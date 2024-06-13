@@ -19,7 +19,7 @@ group:
 ## 代码演示
 
 <!-- prettier-ignore -->
-<!-- <code src="./demo/align.tsx" description="设置对齐模式">对齐</code> -->
+<!-- <code src="./demo/align.tsx">对齐</code> -->
 
 ## API
 

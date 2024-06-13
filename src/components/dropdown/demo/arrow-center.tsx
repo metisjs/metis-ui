@@ -1,6 +1,3 @@
-/**
- * description: 设置 `arrow` 为 `{ pointAtCenter: true }` 后，箭头将指向目标元素的中心。
- */
 import type { MenuProps } from 'metis-ui';
 import { Button, Dropdown, Space } from 'metis-ui';
 import React from 'react';

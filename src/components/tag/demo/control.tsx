@@ -1,6 +1,3 @@
-/**
- * description: 用数组生成一组标签，可以动态添加和删除。
- */
 import { PlusOutline } from '@metisjs/icons';
 import type { InputRef } from 'metis-ui';
 import { Input, Space, Tag, Tooltip } from 'metis-ui';

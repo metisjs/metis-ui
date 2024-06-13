@@ -1,6 +1,3 @@
-/**
- * description: 共有四种样式 `success`、`info`、`warning`、`error`。
- */
 import { Alert, Space } from 'metis-ui';
 import React from 'react';
 

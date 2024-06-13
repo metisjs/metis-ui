@@ -1,6 +1,3 @@
-/**
- * description: Transition 接受一个 `visible` 属性来控制是否应该显示或隐藏，以及一组生命周期属性（如 enterFrom 和 leaveTo），让您在转换的特定阶段添加 CSS 类。
- */
 import { ArrowPathOutline } from '@metisjs/icons';
 import { Button, Transition } from 'metis-ui';
 import React, { useState } from 'react';

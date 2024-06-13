@@ -1,6 +1,3 @@
-/**
- * description: 页面顶部通告形式，默认有图标且 `type` 为 'warning'。
- */
 import { Alert, Space } from 'metis-ui';
 import React from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: `size="small"` 表示小号开关。
- */
 import { Switch } from 'metis-ui';
 import React from 'react';
 

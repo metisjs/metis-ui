@@ -1,6 +1,3 @@
-/**
- * description: 虚拟滚动
- */
 import type { SelectProps } from 'metis-ui';
 import { Select } from 'metis-ui';
 import React from 'react';

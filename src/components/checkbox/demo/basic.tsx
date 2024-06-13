@@ -1,6 +1,3 @@
-/**
- * description: 简单的 checkbox。
- */
 import { Checkbox } from 'metis-ui';
 import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
 import React from 'react';

@@ -1,6 +1,3 @@
-/**
- * description: 带有文字和图标。
- */
 import { Space, Switch } from 'metis-ui';
 import React from 'react';
 

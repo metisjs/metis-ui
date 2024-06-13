@@ -1,6 +1,3 @@
-/**
- * description: 使用 `dropdownRender` 对下拉菜单进行自由扩展。如果你并不需要 Menu 内容，请直接使用 Popover 组件。
- */
 import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Button, Divider, Dropdown, Space } from 'metis-ui';

@@ -1,6 +1,3 @@
-/**
- * description: 通过 `arrow` 属性隐藏箭头。
- */
 import { Button, Divider, Popover, Segmented } from 'metis-ui';
 import React, { useMemo, useState } from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: 当 Tooltip 贴边时，自动偏移并且调整箭头位置。当超出过多时，则一同滚出屏幕。
- */
 import { Button, Tooltip } from 'metis-ui';
 import React from 'react';
 

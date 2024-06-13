@@ -1,6 +1,3 @@
-/**
- * description: 无边框模式。
- */
 import { Divider, Space, Tag } from 'metis-ui';
 import React from 'react';
 

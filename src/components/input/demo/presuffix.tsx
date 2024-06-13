@@ -1,6 +1,3 @@
-/**
- * description: 在输入框上添加前缀或后缀图标。
- */
 import { InformationCircleOutline, UsersSolid } from '@metisjs/icons';
 import { Input, Space } from 'metis-ui';
 import React from 'react';

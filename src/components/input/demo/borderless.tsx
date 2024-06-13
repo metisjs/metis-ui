@@ -1,6 +1,3 @@
-/**
- * description: 没有边框。
- */
 import { Input } from 'metis-ui';
 import React from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: `fullscreen` 属性非常适合创建流畅的页面加载器。它添加了半透明覆盖层，并在其中心放置了一个旋转加载符号。
- */
 import { Button, Spin } from 'metis-ui';
 import React from 'react';
 

@@ -1,6 +1,3 @@
-/**
- * description: 自定义滚动条和视图
- */
 import { ScrollValues, Scrollbar } from 'metis-ui';
 import React, { HTMLAttributes, useState } from 'react';
 import { Lorem } from './vertical';

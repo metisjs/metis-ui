@@ -1,6 +1,3 @@
-/**
- * description: 基础竖向滚动。
- */
 import { Scrollbar } from 'metis-ui';
 import React from 'react';
 

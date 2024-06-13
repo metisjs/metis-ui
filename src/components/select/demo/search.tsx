@@ -1,6 +1,3 @@
-/**
- * description: 展开后可对选项进行搜索。
- */
 import { Select } from 'metis-ui';
 import React from 'react';
 

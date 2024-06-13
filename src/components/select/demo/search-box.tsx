@@ -1,6 +1,3 @@
-/**
- * description: 搜索和远程数据结合。
- */
 import jsonp from 'fetch-jsonp';
 import type { SelectProps } from 'metis-ui';
 import { Select } from 'metis-ui';

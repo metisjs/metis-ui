@@ -1,6 +1,3 @@
-/**
- * description: 展示字数提示。
- */
 import { Input, Space } from 'metis-ui';
 import React from 'react';
 

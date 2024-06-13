@@ -1,6 +1,3 @@
-/**
- * description: 用于配置一些固定组合。
- */
 import { Cog6ToothOutline } from '@metisjs/icons';
 import { Input, Space } from 'metis-ui';
 import React from 'react';

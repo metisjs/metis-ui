@@ -1,6 +1,3 @@
-/**
- * description: 可以展示一个箭头。
- */
 import type { MenuProps } from 'metis-ui';
 import { Button, Dropdown, Space } from 'metis-ui';
 import React from 'react';

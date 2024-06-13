@@ -1,6 +1,3 @@
-/**
- * description: 默认为水平分割线，可在中间加入文字。
- */
 import { Divider } from 'metis-ui';
 import React from 'react';
 

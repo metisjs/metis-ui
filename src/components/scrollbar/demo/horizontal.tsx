@@ -1,6 +1,3 @@
-/**
- * description: 基础竖向和横向滚动。
- */
 import { Scrollbar } from 'metis-ui';
 import React from 'react';
 import { Lorem } from './vertical';

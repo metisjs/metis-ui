@@ -1,6 +1,3 @@
-/**
- * description: 可口的图标让信息类型更加醒目。
- */
 import { FaceSmileOutline } from '@metisjs/icons';
 import { Alert, Space } from 'metis-ui';
 import React from 'react';

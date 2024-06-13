@@ -1,6 +1,3 @@
-/**
- * description: 展示动态切换模式。
- */
 import { CalendarOutline, FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import { Divider, Menu, Switch } from 'metis-ui';
 import type { MenuProps, MenuTheme } from 'metis-ui/es/menu';

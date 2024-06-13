@@ -1,6 +1,3 @@
-/**
- * description: 用于多行输入。
- */
 import { Input, Space } from 'metis-ui';
 import React from 'react';
 

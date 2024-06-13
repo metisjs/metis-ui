@@ -1,6 +1,3 @@
-/**
- * description: 可通过 `CheckableTag` 实现类似 Checkbox 的效果，点击切换选中效果。
- */
 import { Space, Tag } from 'metis-ui';
 import React, { useState } from 'react';
 

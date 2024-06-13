@@ -1,6 +1,3 @@
-/**
- * description: 自定义背景颜色。
- */
 import { Button, Space, Tooltip } from 'metis-ui';
 import React from 'react';
 

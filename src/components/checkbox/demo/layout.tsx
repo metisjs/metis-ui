@@ -1,6 +1,3 @@
-/**
- * description: Checkbox.Group 内嵌 Checkbox，可以实现灵活的布局。
- */
 import { Checkbox } from 'metis-ui';
 import type { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
 import React from 'react';

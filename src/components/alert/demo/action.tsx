@@ -1,6 +1,3 @@
-/**
- * description: 可以在右上角自定义操作项。
- */
 import { Alert, Space } from 'metis-ui';
 import React from 'react';
 

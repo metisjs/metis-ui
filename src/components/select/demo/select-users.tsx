@@ -1,6 +1,3 @@
-/**
- * description: 一个带有远程搜索，防抖控制，请求时序控制，加载状态的多选示例。
- */
 import debounce from 'lodash/debounce';
 import { Select } from 'metis-ui';
 import type { SelectProps } from 'metis-ui/es/select';

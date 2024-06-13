@@ -1,6 +1,3 @@
-/**
- * description: 延迟显示 loading 效果。当 spinning 状态在 `delay` 时间内结束，则不显示 loading 状态。
- */
 import { Alert, Spin, Switch } from 'metis-ui';
 import React from 'react';
 

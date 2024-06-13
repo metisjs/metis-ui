@@ -1,6 +1,3 @@
-/**
- * description: 传入的菜单里有多个层级。
- */
 import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Dropdown, Space } from 'metis-ui';

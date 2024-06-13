@@ -1,6 +1,3 @@
-/**
- * description: 水平的顶部导航菜单。
- */
 import {
   AdjustmentsHorizontalOutline,
   ChatBubbleBottomCenterOutline,
