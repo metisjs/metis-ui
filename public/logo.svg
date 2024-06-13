@@ -1,47 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
-  <defs/>
-  <g id="Canvas_1" stroke-opacity="1" stroke-dasharray="none" fill="none" fill-opacity="1" stroke="none">
-    <title>Canvas 1</title>
-    <g id="Canvas_1_Layer_1">
-      <title>Layer 1</title>
-      <g id="Group_2">
-        <title>Canvas_1</title>
-        <g id="Group_3">
-          <title>Canvas_1_Layer_1</title>
-          <g id="Group_12">
-            <title>Graphic_23</title>
-            <g id="Graphic_13">
-              <path d="M 360 25 C 382.0914 25 400 44.58754 400 68.75 L 400 331.25 C 400 355.41246 382.0914 375 360 375 C 337.9086 375 320 355.41246 320 331.25 L 320 68.75 C 320 44.58754 337.9086 25 360 25 Z" fill="#6466f2"/>
-            </g>
-          </g>
-          <g id="Group_10">
-            <title>Graphic_24</title>
-            <g id="Graphic_11">
-              <path d="M 200 25 C 222.0914 25 240 44.58754 240 68.75 L 240 243.75 C 240 267.91246 222.0914 287.5 200 287.5 C 177.9086 287.5 160 267.91246 160 243.75 L 160 68.75 C 160 44.58754 177.9086 25 200 25 Z" fill="#818df9"/>
-            </g>
-          </g>
-          <g id="Group_8">
-            <title>Graphic_25</title>
-            <g id="Graphic_9">
-              <path d="M 40 25 C 62.09139 25 80 44.58754 80 68.75 L 80 331.25 C 80 355.41246 62.09139 375 40 375 C 17.90861 375 7105427e-21 355.41246 0 331.25 L 14210855e-21 68.75 C 14210855e-21 44.58754 17.90861 25 40 25 Z" fill="#a6b5fc"/>
-            </g>
-          </g>
-          <g id="Group_6">
-            <title>Graphic_26</title>
-            <g id="Graphic_7">
-              <path d="M 120 112.5 C 142.0914 112.5 160 132.08754 160 156.25 L 160 331.25 C 160 355.41246 142.0914 375 120 375 C 97.90861 375 80 355.41246 80 331.25 L 80 156.25 C 80 132.08754 97.90861 112.5 120 112.5 Z" fill="#7cd4fd"/>
-            </g>
-          </g>
-          <g id="Group_4">
-            <title>Graphic_27</title>
-            <g id="Graphic_5">
-              <path d="M 280 112.5 C 302.0914 112.5 320 132.08754 320 156.25 L 320 331.25 C 320 355.41246 302.0914 375 280 375 C 257.9086 375 240 355.41246 240 331.25 L 240 156.25 C 240 132.08754 257.9086 112.5 280 112.5 Z" fill="#39bdf9"/>
-            </g>
-          </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="24px" viewBox="0 0 28 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo</title>
+    <defs>
+        <linearGradient x1="20.435%" y1="45.479%" x2="78.694%" y2="53.36%" id="linearGradient-1">
+            <stop stop-color="#93C5FD" offset="0%"></stop>
+            <stop stop-color="#6366F1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="9.224%" x2="50%" y2="87.44%" id="linearGradient-2">
+            <stop stop-color="#4F46E5" offset="0%"></stop>
+            <stop stop-color="#6366F1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="15.51%" y1="0%" x2="92.185%" y2="85.993%" id="linearGradient-3">
+            <stop stop-color="#1E40AF" offset="0%"></stop>
+            <stop stop-color="#4338CA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="16.3420352%" y1="0.933149018%" x2="92.185%" y2="85.993%" id="linearGradient-4">
+            <stop stop-color="#1E40AF" offset="0%"></stop>
+            <stop stop-color="#4338CA" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo" fill-rule="nonzero">
+            <polygon id="路径" fill="url(#linearGradient-1)" points="13.998 11.975 7.007 7.988 0.011 3.988 7.002 0 14.002 3.987 20.995 0 27.995 3.987 21 7.987"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-2)" points="0 4 6.996 8.009 6.996 24 0 20"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-2)" transform="translate(24.502000, 14.000000) scale(-1, 1) translate(-24.502000, -14.000000) " points="21.004 4 28 8.009 28 24 21.004 20"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-3)" points="0.01 4 7.007 11.616 7.007 7.988"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-4)" transform="translate(24.501000, 7.808000) scale(-1, 1) translate(-24.501000, -7.808000) " points="21.003 4 27.999 11.616 27.999 7.988"></polygon>
         </g>
-      </g>
     </g>
-  </g>
 </svg>
