@@ -36,7 +36,7 @@ group:
 
 ### TransitionList
 
-extends all the props from [Transition](#Transition)
+继承 [Transition](#Transition) 的所有属性。
 
 | 参数      | 说明                 | 类型                          | 默认值 | 版本 |
 | --------- | -------------------- | ----------------------------- | ------ | ---- |
