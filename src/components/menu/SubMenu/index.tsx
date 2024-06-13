@@ -58,7 +58,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
     expandIcon,
 
     // Popup
-    popupClassName,
     popupOffset,
     popupStyle,
 
@@ -411,7 +410,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         mode={triggerMode}
         prefixCls={subMenuPrefixCls}
         open={!internalPopupClose && open && mode !== 'inline'}
-        popupClassName={popupClassName}
+        popupClassName={complexCls.popup}
         popupOffset={popupOffset}
         popupStyle={popupStyle}
         popup={

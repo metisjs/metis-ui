@@ -1,6 +1,7 @@
 import { LoadingOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
+import { ComplexClassName, getComplexCls } from '../_util/classNameUtils';
 import cva from '../_util/cva';
 import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
@@ -31,7 +32,7 @@ export interface BaseButtonProps {
   disabled?: boolean;
   loading?: boolean | { delay?: number };
   prefixCls?: string;
-  className?: string;
+  className?: ComplexClassName<'icon'>;
   ghost?: boolean;
   danger?: boolean;
   children?: React.ReactNode;
@@ -192,6 +193,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     ...rest
   } = props;
 
+  const complexCls = getComplexCls(className);
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('btn', customizePrefixCls);
 
@@ -261,11 +263,14 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const iconNode = innerLoading ? (
     <LoadingOutline
-      className={iconVariantStyles({ size: mergedSize, iconOnly }, ['animate-spin'])}
+      className={iconVariantStyles({ size: mergedSize, iconOnly }, [
+        'animate-spin',
+        complexCls.icon,
+      ])}
     />
   ) : (
     cloneElement(icon, ({ className: originCls }) => ({
-      className: iconVariantStyles({ size: mergedSize, iconOnly }, [originCls]),
+      className: iconVariantStyles({ size: mergedSize, iconOnly }, [originCls, complexCls.icon]),
     }))
   );
 
@@ -292,7 +297,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-dangerous`]: !!danger,
     },
     compactItemClassnames,
-    className,
+    complexCls.root,
   ]);
 
   if (linkButtonRestProps.href !== undefined) {

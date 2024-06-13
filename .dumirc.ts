@@ -6,6 +6,14 @@ export default defineConfig({
   hash: true,
   outputPath: '_site',
   favicons: ['/favicon.ico'],
+  resolve: {
+    atomDirs: [{ type: 'component', dir: 'src/components' }],
+    codeBlockMode: 'passive',
+  },
+  locales: [
+    { id: 'en-US', name: 'English', suffix: '' },
+    { id: 'zh-CN', name: '中文', suffix: '-cn' },
+  ],
   themeConfig: {
     logo: '/logo.svg',
     name: 'Metis UI',
@@ -15,10 +23,6 @@ export default defineConfig({
     },
   },
   theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
-  resolve: {
-    atomDirs: [{ type: 'component', dir: 'src/components' }],
-    codeBlockMode: 'passive',
-  },
   alias: {
     'metis-ui/lib': path.join(__dirname, 'src/components'),
     'metis-ui/es': path.join(__dirname, 'src/components'),
@@ -26,14 +30,4 @@ export default defineConfig({
   },
   tailwindcss: {},
   plugins: ['@umijs/plugins/dist/tailwindcss'],
-  extraBabelPlugins: [
-    [
-      'import',
-      {
-        libraryName: '@icon-park/react',
-        libraryDirectory: 'es/icons',
-        camel2DashComponentName: false,
-      },
-    ],
-  ],
 });

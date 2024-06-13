@@ -7,7 +7,7 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   children: ItemType<T>[];
   disabled?: boolean;
   key: string;
-  className?: ComplexClassName<'title' | 'inner' | 'icon' | 'content'>;
+  className?: ComplexClassName<'title' | 'inner' | 'icon' | 'content' | 'popup'>;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
 
@@ -19,7 +19,6 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   onMouseLeave?: MenuHoverEventHandler;
 
   // >>>>> Popup
-  popupClassName?: string;
   popupOffset?: number[];
   popupStyle?: React.CSSProperties;
 
