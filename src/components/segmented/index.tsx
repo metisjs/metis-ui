@@ -120,10 +120,10 @@ const InternalSegmentedOption: React.FC<{
         onChange={handleChange}
       />
       <div
-        className={clsx('flex w-full justify-center gap-x-2', `${prefixCls}-label`)}
+        className={clsx('flex w-full items-center justify-center gap-x-2', `${prefixCls}-label`)}
         title={title}
       >
-        {icon && <span className={clsx('text-xl/[1.25rem]')}>{icon}</span>}
+        {icon && <span className={clsx('flex items-center text-xl/[1.25rem]')}>{icon}</span>}
         {label && <span className="truncate">{label}</span>}
       </div>
     </label>
