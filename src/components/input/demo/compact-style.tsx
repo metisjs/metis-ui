@@ -1,4 +1,4 @@
-import { GlobeAsiaAustraliaOutline } from '@metisjs/icons';
+import { MagnifyingGlassOutline } from '@metisjs/icons';
 import { Button, Input, Select, Space } from 'metis-ui';
 import React from 'react';
 
@@ -27,12 +27,12 @@ const App: React.FC = () => (
       <Button type="primary">Submit</Button>
     </Space.Compact>
     <Space.Compact>
-      <Select defaultValue="Zhejiang" options={options} />
+      <Select defaultValue="zhejiang" options={options} className="w-40" />
       <Input defaultValue="Xihu District, Hangzhou" />
     </Space.Compact>
     <Space.Compact size="large">
       <Input
-        addonBefore={<GlobeAsiaAustraliaOutline className="h-5 w-5" />}
+        addonBefore={<MagnifyingGlassOutline className="h-5 w-5" />}
         placeholder="large size"
       />
       <Input placeholder="another input" />

@@ -21,22 +21,29 @@ export const useCompactItemContext = (prefixCls: string) => {
     if (!compactItemContext) return '';
 
     const { compactDirection, isFirstItem, isLastItem } = compactItemContext;
-    const separator = compactDirection === 'vertical' ? '-vertical-' : '-';
+    const isVertical = compactDirection === 'vertical';
+    const separator = isVertical ? '-vertical-' : '-';
 
-    return clsx(
-      {
-        [`${prefixCls}-compact${separator}item`]: true,
-        [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
-        [`${prefixCls}-compact${separator}last-item`]: isLastItem,
-      },
-      'hover:z-[2]',
-      {
-        'rounded-r-none': isFirstItem,
-        'rounded-l-none': isLastItem,
-        '-me-[1px]': !isLastItem,
-        'rounded-none': !isFirstItem && !isLastItem,
-      },
-    );
+    return [
+      clsx(
+        {
+          [`${prefixCls}-compact${separator}item`]: true,
+          [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
+          [`${prefixCls}-compact${separator}last-item`]: isLastItem,
+        },
+        !isVertical && {
+          '-me-[1px]': !isLastItem,
+        },
+      ),
+      clsx(
+        'focus:z-[2]',
+        !isVertical && {
+          'rounded-r-none': isFirstItem && !isLastItem,
+          'rounded-l-none': isLastItem && !isFirstItem,
+          'rounded-none': !isFirstItem && !isLastItem,
+        },
+      ),
+    ];
   }, [compactItemContext]);
 
   return {

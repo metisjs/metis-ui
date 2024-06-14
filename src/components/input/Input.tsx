@@ -246,7 +246,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       prefix={prefix}
       suffix={suffixNode}
       allowClear={mergedAllowClear}
-      className={clsx(compactItemClassnames, complexCls.root)}
+      className={clsx('rounded-md shadow-sm', complexCls.root)}
       onChange={handleChange}
       addonAfter={
         addonAfter && (
@@ -295,6 +295,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           [
             mergedSize,
             !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
+            compactItemClassnames,
             complexCls.input,
           ],
         ),

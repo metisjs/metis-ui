@@ -641,7 +641,7 @@ const Select = React.forwardRef(
         [`${prefixCls}-borderless`]: !bordered,
         [`${prefixCls}-in-form-item`]: isFormItemInput,
       },
-      compactItemClassnames,
+      compactItemClassnames[0],
       complexCls.root,
     );
 
@@ -653,6 +653,7 @@ const Select = React.forwardRef(
         'bg-neutral-bg-container': !bordered && mergedDisabled,
       },
       getStatusClassNames(mergedStatus, hasFeedback),
+      compactItemClassnames[1],
       complexCls.selector,
     );
 

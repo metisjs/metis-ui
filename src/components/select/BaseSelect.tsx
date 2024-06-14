@@ -748,9 +748,9 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       },
       complexCls.selector,
     ),
-    search: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }, complexCls.selectorSearch),
-    item: clsx({ 'pe-[1.125rem]': showSuffixIcon && !multiple }, complexCls.selectorItem),
-    placeholder: clsx({ 'pe-[1.125rem]': showSuffixIcon }, complexCls.selectorPlaceholder),
+    search: clsx({ 'pe-6': showSuffixIcon && !multiple }, complexCls.selectorSearch),
+    item: clsx({ 'pe-6': showSuffixIcon && !multiple }, complexCls.selectorItem),
+    placeholder: clsx({ 'pe-6': showSuffixIcon }, complexCls.selectorPlaceholder),
   };
 
   // ============================= Select =============================
