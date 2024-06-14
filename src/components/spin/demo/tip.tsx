@@ -10,7 +10,7 @@ const contentStyle: React.CSSProperties = {
 const content = <div style={contentStyle} />;
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space direction="vertical" className="w-full">
     <Space>
       <Spin tip="Loading" size="small">
         {content}
