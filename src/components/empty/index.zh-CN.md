@@ -17,7 +17,6 @@ group:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
-<code src="./demo/simple.tsx">选择图片</code>
 <code src="./demo/customize.tsx">自定义</code>
 
 <!-- <code src="./demo/config-provider.tsx">全局化配置</code> -->
@@ -30,31 +29,4 @@ group:
 | --- | --- | --- | --- | --- |
 | className | 语义化结构 class | string \| Record<'root' \| 'image' \| 'description' \| 'footer', string> | - |  |
 | description | 自定义描述内容 | ReactNode | - |  |
-| image | 设置显示图片，为 string 时表示自定义图片地址。 | ReactNode | `Empty.PRESENTED_IMAGE_DEFAULT` |  |
-
-## 内置图片
-
-- Empty.PRESENTED_IMAGE_SIMPLE
-
-  <div class="site-empty-buildIn-img site-empty-buildIn-simple"><div>
-
-- Empty.PRESENTED_IMAGE_DEFAULT
-
-  <div class="site-empty-buildIn-img site-empty-buildIn-default"></div>
-
-<style>
-  .site-empty-buildIn-img {
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-  .site-empty-buildIn-simple {
-    width: 55px;
-    height: 35px;
-    background-image: url("https://user-images.githubusercontent.com/507615/54591679-b0ceb580-4a65-11e9-925c-ad15b4eae93d.png");
-  }
-  .site-empty-buildIn-default {
-    width: 121px;
-    height: 116px;
-    background-image: url("https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png");
-  }
-</style>
+| image | 设置显示图片，为 string 时表示自定义图片地址。 | ReactNode | - |  |

@@ -165,23 +165,17 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     'flex gap-3 rounded-md p-4 text-sm',
     !!banner && 'rounded-none',
     {
-      'bg-success-bg text-success-text': type === 'success',
-      'bg-info-bg text-info-text': type === 'info',
-      'bg-warning-bg text-warning-text': type === 'warning',
-      'bg-error-bg text-error-text': type === 'error',
+      'bg-success-bg text-success-active': type === 'success',
+      'bg-info-bg text-info-active': type === 'info',
+      'bg-warning-bg text-warning-active': type === 'warning',
+      'bg-error-bg text-error-active': type === 'error',
     },
     complexCls.root,
   );
   const alertContentCls = clsx(`${prefixCls}-content`, 'min-w-0 flex-1', complexCls.content);
   const alertMessageCls = clsx(
     `${prefixCls}-message`,
-    description && 'font-medium',
-    description && {
-      'text-success-text-active': type === 'success',
-      'text-info-text-active': type === 'info',
-      'text-warning-text-active': type === 'warning',
-      'text-error-text-active': type === 'error',
-    },
+    description && 'text-base font-medium',
     complexCls.message,
   );
   const alertDescriptionCls = clsx(`${prefixCls}-description`, 'mt-2', complexCls.description);
@@ -200,6 +194,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
   const alertIconCls = clsx(
     `${prefixCls}-icon`,
     'text-xl',
+    description && 'text-2xl',
     {
       'text-success-hover': type === 'success',
       'text-info-hover': type === 'info',

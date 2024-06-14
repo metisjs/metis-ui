@@ -4,11 +4,9 @@ import * as React from 'react';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
-import DefaultEmptyImg from './empty';
-import SimpleEmptyImg from './simple';
+import DefaultEmptyImg from './EmptyImage';
 
 const defaultEmptyImg = <DefaultEmptyImg />;
-const simpleEmptyImg = <SimpleEmptyImg />;
 
 export interface EmptyLocale {
   description: string;
@@ -24,10 +22,7 @@ export interface EmptyProps {
   children?: React.ReactNode;
 }
 
-type CompoundedComponent = React.FC<EmptyProps> & {
-  PRESENTED_IMAGE_DEFAULT: React.ReactNode;
-  PRESENTED_IMAGE_SIMPLE: React.ReactNode;
-};
+type CompoundedComponent = React.FC<EmptyProps>;
 
 const Empty: CompoundedComponent = ({
   className,
@@ -59,25 +54,12 @@ const Empty: CompoundedComponent = ({
 
   return (
     <div
-      className={clsx(
-        prefixCls,
-        'mx-2 text-center text-sm',
-        {
-          'my-8': image === simpleEmptyImg,
-        },
-        complexCls.root,
-      )}
+      className={clsx(prefixCls, 'mx-2 my-8 text-center text-sm', complexCls.root)}
       style={style}
       {...restProps}
     >
       <div
-        className={clsx(
-          `${prefixCls}-image mb-2 flex h-[100px] justify-center`,
-          {
-            'h-10': image === simpleEmptyImg,
-          },
-          complexCls.image,
-        )}
+        className={clsx(`${prefixCls}-image mb-2 flex h-10 justify-center`, complexCls.image)}
         style={imageStyle}
       >
         {imageNode}
@@ -86,9 +68,7 @@ const Empty: CompoundedComponent = ({
         <div
           className={clsx(
             `${prefixCls}-description`,
-            {
-              'text-neutral-text-quaternary': image === simpleEmptyImg,
-            },
+            'text-neutral-text-quaternary',
             complexCls.description,
           )}
         >
@@ -101,9 +81,6 @@ const Empty: CompoundedComponent = ({
     </div>
   );
 };
-
-Empty.PRESENTED_IMAGE_DEFAULT = defaultEmptyImg;
-Empty.PRESENTED_IMAGE_SIMPLE = simpleEmptyImg;
 
 if (process.env.NODE_ENV !== 'production') {
   Empty.displayName = 'Empty';

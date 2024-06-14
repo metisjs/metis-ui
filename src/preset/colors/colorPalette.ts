@@ -3,9 +3,6 @@ const lightBase = {
   'bg-hover': -4,
   hover: -1,
   active: 1,
-  'text-hover': 1,
-  text: 2,
-  'text-active': 3,
 };
 
 const darkBase = {
@@ -13,9 +10,6 @@ const darkBase = {
   'bg-hover': 4,
   hover: -1,
   active: 1,
-  'text-hover': 1,
-  text: -2,
-  'text-active': -3,
 };
 
 export default {
@@ -25,9 +19,6 @@ export default {
       'bg-hover': -5,
       hover: -1,
       active: 1,
-      'text-hover': -1,
-      text: 0,
-      'text-active': 1,
     },
     success: lightBase,
     warning: lightBase,
@@ -43,13 +34,10 @@ export default {
   },
   dark: {
     primary: {
-      bg: -6,
+      bg: 6,
       'bg-hover': -5,
       hover: -1,
       active: 1,
-      'text-hover': -1,
-      text: 0,
-      'text-active': 1,
     },
     success: darkBase,
     warning: darkBase,

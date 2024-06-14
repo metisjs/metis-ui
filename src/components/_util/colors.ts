@@ -16,9 +16,9 @@ export function isPresetStatusColor(color?: any): color is PresetStatusColorType
 
 export function getPresetStatusClassName(status: PresetStatusColorType) {
   return clsx({
-    'bg-success-bg text-success-text outline-success': status === 'success',
-    'bg-warning-bg text-warning-text outline-warning': status === 'warning',
-    'bg-error-bg text-error-text outline-error': status === 'error',
-    'bg-primary-bg text-primary-text outline-primary': status === 'processing',
+    'bg-success-bg text-success outline-success': status === 'success',
+    'bg-warning-bg text-warning outline-warning': status === 'warning',
+    'bg-error-bg text-error outline-error': status === 'error',
+    'bg-primary-bg text-primary outline-primary': status === 'processing',
   });
 }

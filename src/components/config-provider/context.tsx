@@ -4,15 +4,6 @@ import * as React from 'react';
 import type { SizeType } from './SizeContext';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 
-export interface Theme {
-  primaryColor?: string;
-  infoColor?: string;
-  successColor?: string;
-  processingColor?: string;
-  errorColor?: string;
-  warningColor?: string;
-}
-
 export interface CSPConfig {
   nonce?: string;
 }

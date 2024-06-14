@@ -1,11 +1,9 @@
 import { PlusOutline } from '@metisjs/icons';
 import type { InputRef } from 'metis-ui';
 import { Input, Space, Tag, Tooltip } from 'metis-ui';
-import useTheme from 'metis-ui/es/theme/useTheme';
 import React, { useEffect, useRef, useState } from 'react';
 
 const App: React.FC = () => {
-  const theme = useTheme();
   const [tags, setTags] = useState(['Unremovable', 'Tag 2', 'Tag 3']);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -62,10 +60,6 @@ const App: React.FC = () => {
     width: 64,
     height: 24,
     marginInlineEnd: 8,
-  };
-
-  const tagPlusStyle: React.CSSProperties = {
-    background: theme.neutralBgContainer,
   };
 
   return (
@@ -129,7 +123,10 @@ const App: React.FC = () => {
             onPressEnter={handleInputConfirm}
           />
         ) : (
-          <Tag style={tagPlusStyle} className="outline-dashed" onClick={showInput}>
+          <Tag
+            className="cursor-pointer bg-neutral-bg-container outline-dashed"
+            onClick={showInput}
+          >
             <PlusOutline /> New Tag
           </Tag>
         )}

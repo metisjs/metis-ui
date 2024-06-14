@@ -1,5 +1,5 @@
 export default {
-  '[data-prefers-color=dark]': {
+  dark: {
     'color-scheme': 'dark',
     primary: 'indigo-500',
     success: 'green-500',
@@ -10,18 +10,18 @@ export default {
     'neutral-text-secondary': 'white/65',
     'neutral-text-tertiary': 'white/45',
     'neutral-text-quaternary': 'white/25',
-    'neutral-border': 'gray-700',
+    'neutral-border': 'slate-50/6',
     'neutral-fill': 'white/18',
     'neutral-fill-secondary': 'white/12',
     'neutral-fill-tertiary': 'white/8',
     'neutral-fill-quaternary': 'white/4',
-    'neutral-bg-container': 'gray-900',
-    'neutral-bg-elevated': 'gray-800',
-    'neutral-bg-layout': 'gray-700',
-    'neutral-bg-spotlight': 'gray-700/85',
-    'neutral-bg-mask': 'gray-900/45',
+    'neutral-bg-container': 'slate-900',
+    'neutral-bg-elevated': 'slate-800',
+    'neutral-bg-layout': 'slate-950',
+    'neutral-bg-spotlight': 'slate-700/85',
+    'neutral-bg-mask': 'slate-900/45',
   },
-  '[data-prefers-color=light]': {
+  light: {
     'color-scheme': 'light',
     primary: 'indigo-600',
     success: 'green-500',

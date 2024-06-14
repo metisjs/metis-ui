@@ -19,7 +19,7 @@ function getWeightByOffset(base: number, offset: number) {
 }
 
 function generateColorPaletteFrom(
-  scheme: ColorScheme,
+  scheme: ColorScheme = 'light',
   base: string,
   color: string,
   skip: string[],
@@ -27,7 +27,6 @@ function generateColorPaletteFrom(
   const [colorType, colorWeight] = color.split('-') as [keyof DefaultColors, string | undefined];
 
   const baseColor: string = get(twColors, [colorType, colorWeight].filter(Boolean) as string[]);
-
   if (!baseColor) {
     return { [base]: color };
   }
@@ -94,9 +93,11 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     config('metisui.themes').forEach((item: { [key: string]: any }) => {
       if (typeof item === 'object' && item !== null) {
         Object.entries(item).forEach(([name, value]) => {
-          includedThemesObj['[data-prefers-color=' + name + ']'] = convertToHsl(value);
+          includedThemesObj[name] = convertToHsl(value);
           themeOrder.push(name);
         });
+      } else if (typeof item === 'string' && includedThemesObj.hasOwnProperty(item)) {
+        themeOrder.push(item);
       }
     });
   } else if (config<boolean>('metisui.themes') !== false) {
@@ -110,30 +111,24 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     if (index === 0) {
       // first theme as root
       addBase({
-        [':root']: includedThemesObj['[data-prefers-color=' + themeName + ']'],
+        [':root']: includedThemesObj[themeName],
       });
     }
 
     addBase({
-      ['[data-prefers-color=' + themeName + ']']:
-        includedThemesObj['[data-prefers-color=' + themeName + ']'],
+      ['[data-prefers-color=' + themeName + ']']: includedThemesObj[themeName],
     });
   });
-  if (config('metisui.themeWithSystem')) {
-    const themeWithSystem = config<boolean | string>('metisui.themeWithSystem');
-    const darkTheme = typeof themeWithSystem === 'string' ? themeWithSystem : 'dark';
+  if (config('metisui.darkTheme')) {
+    const darkTheme = config<boolean | string>('metisui.darkTheme');
+    const theme = typeof darkTheme === 'string' ? darkTheme : 'dark';
 
-    if (themeWithSystem && themeOrder.includes(darkTheme)) {
+    if (themeOrder.includes(theme)) {
       addBase({
         ['@media (prefers-color-scheme: dark)']: {
-          [':root']: includedThemesObj[`[data-prefers-color=${darkTheme}]`],
+          [':root']: includedThemesObj[theme],
         },
       });
     }
   }
-
-  return {
-    includedThemesObj,
-    themeOrder: themeOrder,
-  };
 }
