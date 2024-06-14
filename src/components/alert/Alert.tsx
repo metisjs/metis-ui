@@ -178,7 +178,17 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     description && 'text-base font-medium',
     complexCls.message,
   );
-  const alertDescriptionCls = clsx(`${prefixCls}-description`, 'mt-2', complexCls.description);
+  const alertDescriptionCls = clsx(
+    `${prefixCls}-description`,
+    'mt-2',
+    {
+      'text-success-text': type === 'success',
+      'text-info-text': type === 'info',
+      'text-warning-text': type === 'warning',
+      'text-error-text': type === 'error',
+    },
+    complexCls.description,
+  );
   const alertActionCls = clsx(`${prefixCls}-action`, complexCls.action);
   const alertCloseCls = clsx(
     `${prefixCls}-close-icon`,

@@ -8,8 +8,8 @@ const lightBase = {
 const darkBase = {
   bg: 5,
   'bg-hover': 4,
-  hover: -1,
-  active: 1,
+  hover: 1,
+  active: -1,
 };
 
 export default {
