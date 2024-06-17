@@ -17,11 +17,10 @@ export interface SelectContextProps {
   onSelect: OnInternalSelect;
   menuItemSelectedIcon?: RenderNode;
   rawValues: Set<RawValueType>;
-  fieldNames?: FieldNames;
+  fieldNames?: FieldNames<BaseOptionType>;
   virtual?: boolean;
   listHeight?: number;
   listItemHeight?: number;
-  childrenAsData?: boolean;
 }
 
 const noop = () => {};

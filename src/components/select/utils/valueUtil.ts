@@ -1,4 +1,3 @@
-import warning from '../../_util/warning';
 import type {
   BaseOptionType,
   DefaultOptionType,
@@ -24,15 +23,14 @@ function getKey(data: BaseOptionType, index: number) {
   return `metis-index-key-${index}`;
 }
 
-export function fillFieldNames(fieldNames: FieldNames | undefined, childrenAsData: boolean) {
+export function fillFieldNames(fieldNames: FieldNames<BaseOptionType> | undefined) {
   const { label, value, options, groupLabel } = fieldNames || {};
-  const mergedLabel = label || (childrenAsData ? 'children' : 'label');
 
   return {
-    label: mergedLabel,
-    value: value || 'value',
-    options: options || 'options',
-    groupLabel: groupLabel || mergedLabel,
+    label: label ?? 'label',
+    value: value ?? 'value',
+    options: options ?? 'options',
+    groupLabel: groupLabel ?? label ?? 'label',
   };
 }
 
@@ -43,7 +41,7 @@ export function fillFieldNames(fieldNames: FieldNames | undefined, childrenAsDat
  */
 export function flattenOptions<OptionType extends BaseOptionType = DefaultOptionType>(
   options: OptionType[],
-  { fieldNames, childrenAsData }: { fieldNames?: FieldNames; childrenAsData?: boolean } = {},
+  fieldNames?: FieldNames<OptionType>,
 ): FlattenOptionData<OptionType>[] {
   const flattenList: FlattenOptionData<OptionType>[] = [];
 
@@ -52,7 +50,7 @@ export function flattenOptions<OptionType extends BaseOptionType = DefaultOption
     value: fieldValue,
     options: fieldOptions,
     groupLabel,
-  } = fillFieldNames(fieldNames, false);
+  } = fillFieldNames(fieldNames);
 
   function dig(list: OptionType[], isGroupOption: boolean) {
     list.forEach((data) => {
@@ -89,26 +87,6 @@ export function flattenOptions<OptionType extends BaseOptionType = DefaultOption
   dig(options, false);
 
   return flattenList;
-}
-
-/**
- * Inject `props` into `option` for legacy usage
- */
-export function injectPropsWithOption<T extends object>(option: T): T {
-  const newOption = { ...option };
-  if (!('props' in newOption)) {
-    Object.defineProperty(newOption, 'props', {
-      get() {
-        warning(
-          false,
-          'Return type is option instead of Option instance. Please read value directly instead of reading from `props`.',
-        );
-        return newOption;
-      },
-    });
-  }
-
-  return newOption;
 }
 
 export function getSeparatedContent(text: string, tokens?: string[]) {

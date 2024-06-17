@@ -4,10 +4,6 @@ import * as React from 'react';
 import type { SizeType } from './SizeContext';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 
-export interface CSPConfig {
-  nonce?: string;
-}
-
 export type PopupOverflow = 'viewport' | 'scroll';
 
 export interface RequestConfig {
@@ -20,7 +16,6 @@ export interface ConfigConsumerProps {
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
   renderEmpty?: RenderEmptyHandler;
-  csp?: CSPConfig;
   input?: {
     autoComplete?: string;
   };
@@ -28,9 +23,6 @@ export interface ConfigConsumerProps {
     showSizeChanger?: boolean;
   };
   // locale?: Locale;
-  pageHeader?: {
-    ghost: boolean;
-  };
   space?: {
     size?: SizeType | number;
   };

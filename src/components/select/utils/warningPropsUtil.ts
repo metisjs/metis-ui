@@ -1,5 +1,3 @@
-import toNodeArray from 'rc-util/lib/Children/toArray';
-import * as React from 'react';
 import warning, { noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
 import type { BaseSelectProps } from '../Select';
@@ -11,14 +9,12 @@ import type {
   RawValueType,
 } from '../interface';
 import { toArray } from './commonUtil';
-import { convertChildrenToData } from './legacyUtil';
 
 function warningProps(props: BaseSelectProps) {
   const {
     mode,
     combobox,
     options,
-    children,
     showSearch,
     onSearch,
     defaultOpen,
@@ -29,18 +25,16 @@ function warningProps(props: BaseSelectProps) {
   } = props;
 
   const multiple = isMultiple(mode);
-  const mergedShowSearch = showSearch !== undefined ? showSearch : multiple || combobox;
-  const mergedOptions = options || convertChildrenToData(children);
 
   // `tags` should not set option as disabled
   warning(
-    mode !== 'tags' || mergedOptions.every((opt: { disabled?: boolean }) => !opt.disabled),
+    mode !== 'tags' || options.every((opt: { disabled?: boolean }) => !opt.disabled),
     'Please avoid setting option to disabled in tags mode since user can always type text as tag.',
   );
 
   // `combobox` & `tags` should option be `string` type
   if (mode === 'tags' || combobox) {
-    const hasNumberValue = mergedOptions.some((item) => {
+    const hasNumberValue = options.some((item) => {
       if (item.options) {
         return item.options.some(
           (opt: BaseOptionType) => typeof ('value' in opt ? opt.value : opt.key) === 'number',
@@ -49,10 +43,7 @@ function warningProps(props: BaseSelectProps) {
       return typeof ('value' in item ? item.value : item.key) === 'number';
     });
 
-    warning(
-      !hasNumberValue,
-      '`value` of Option should not use number type when `mode` is `tags` or `combobox`.',
-    );
+    warning(!hasNumberValue, '`value` of Option should not use number type when `mode` is `tags`');
   }
 
   // `combobox` should not use `optionLabelProp`
@@ -62,7 +53,7 @@ function warningProps(props: BaseSelectProps) {
   );
 
   // `onSearch` should use in `combobox` or `showSearch`
-  if (onSearch && !mergedShowSearch && !combobox && mode !== 'tags') {
+  if (onSearch && !showSearch && !combobox && mode !== 'tags') {
     warning(false, '`onSearch` should work with `showSearch` instead of use alone.');
   }
 
@@ -83,53 +74,6 @@ function warningProps(props: BaseSelectProps) {
       !multiple || Array.isArray(value),
       '`value` should be array when `mode` is `multiple` or `tags`',
     );
-  }
-
-  // Syntactic sugar should use correct children type
-  if (children) {
-    let invalidateChildType: any = null;
-    toNodeArray(children).some((node: React.ReactNode) => {
-      if (!React.isValidElement(node) || !node.type) {
-        return false;
-      }
-
-      const { type } = node as { type: { isSelectOption?: boolean; isSelectOptGroup?: boolean } };
-
-      if (type.isSelectOption) {
-        return false;
-      }
-      if (type.isSelectOptGroup) {
-        const allChildrenValid = toNodeArray(node.props.children).every(
-          (subNode: React.ReactElement) => {
-            if (
-              !React.isValidElement(subNode) ||
-              !node.type ||
-              (subNode.type as { isSelectOption?: boolean }).isSelectOption
-            ) {
-              return true;
-            }
-            invalidateChildType = subNode.type;
-            return false;
-          },
-        );
-
-        if (allChildrenValid) {
-          return false;
-        }
-        return true;
-      }
-      invalidateChildType = type;
-      return true;
-    });
-
-    if (invalidateChildType) {
-      warning(
-        false,
-        `\`children\` should be \`Select.Option\` or \`Select.OptGroup\` instead of \`${
-          invalidateChildType.displayName || invalidateChildType.name || invalidateChildType
-        }\`.`,
-      );
-    }
   }
 }
 

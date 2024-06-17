@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../interface';
-import { convertChildrenToData } from '../utils/legacyUtil';
 
 /**
  * Parse `children` to `options` if `options` is not provided.
@@ -8,19 +7,11 @@ import { convertChildrenToData } from '../utils/legacyUtil';
  */
 export default function useOptions<OptionType extends BaseOptionType = DefaultOptionType>(
   options: OptionType[] | undefined,
-  children: React.ReactNode,
-  fieldNames: FieldNames,
+  fieldNames: FieldNames<OptionType>,
   optionFilterProp?: string,
   optionLabelProp?: string,
 ) {
   return React.useMemo(() => {
-    let mergedOptions = options;
-    const childrenAsData = !options;
-
-    if (childrenAsData) {
-      mergedOptions = convertChildrenToData<OptionType>(children);
-    }
-
     const valueOptions = new Map<RawValueType, OptionType>();
     const labelOptions = new Map<React.ReactNode, OptionType>();
 
@@ -48,12 +39,12 @@ export default function useOptions<OptionType extends BaseOptionType = DefaultOp
         }
       }
     }
-    dig(mergedOptions!);
+    dig(options!);
 
     return {
-      options: mergedOptions!,
+      options: options!,
       valueOptions,
       labelOptions,
     };
-  }, [options, children, fieldNames, optionFilterProp, optionLabelProp]);
+  }, [options, fieldNames, optionFilterProp, optionLabelProp]);
 }

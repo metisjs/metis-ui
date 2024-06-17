@@ -1,8 +1,11 @@
 import * as React from 'react';
-import type { BaseSelectProps } from '../Select';
-import type { DefaultOptionType, FieldNames } from '../interface';
+import type {
+  BaseOptionType,
+  DefaultOptionType,
+  FieldNames,
+  SelectPropsWithOptions,
+} from '../interface';
 import { toArray } from '../utils/commonUtil';
-import { injectPropsWithOption } from '../utils/valueUtil';
 
 function includes(test: React.ReactNode, search: string) {
   return toArray(test).join('').toUpperCase().includes(search);
@@ -10,9 +13,9 @@ function includes(test: React.ReactNode, search: string) {
 
 export default (
   options: DefaultOptionType[] = [],
-  fieldNames: FieldNames,
+  fieldNames: FieldNames<BaseOptionType>,
   searchValue?: string,
-  filterOption?: BaseSelectProps['filterOption'],
+  filterOption?: SelectPropsWithOptions['filterOption'],
   optionFilterProp?: string,
 ) =>
   React.useMemo(() => {
@@ -47,21 +50,17 @@ export default (
           return includes(option[fieldValue], upperSearch);
         };
 
-    const wrapOption: (opt: DefaultOptionType) => DefaultOptionType = customizeFilter
-      ? (opt) => injectPropsWithOption(opt)
-      : (opt) => opt;
-
     options.forEach((item) => {
       // Group should check child options
       if (item[fieldOptions]) {
         // Check group first
-        const matchGroup = filterFunc(searchValue, wrapOption(item));
+        const matchGroup = filterFunc(searchValue, item);
         if (matchGroup) {
           filteredOptions.push(item);
         } else {
           // Check option
           const subOptions = item[fieldOptions].filter((subItem: DefaultOptionType) =>
-            filterFunc(searchValue, wrapOption(subItem)),
+            filterFunc(searchValue, subItem),
           );
           if (subOptions.length) {
             filteredOptions.push({
@@ -74,7 +73,7 @@ export default (
         return;
       }
 
-      if (filterFunc(searchValue, wrapOption(item))) {
+      if (filterFunc(searchValue, item)) {
         filteredOptions.push(item);
       }
     });

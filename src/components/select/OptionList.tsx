@@ -14,7 +14,6 @@ import TransBtn from './TransBtn';
 import useBaseProps from './hooks/useBaseProps';
 import type { BaseOptionType, FlattenOptionData, RawValueType } from './interface';
 
-// export interface OptionListProps<OptionsType extends object[]> {
 export type OptionListProps = Record<string, never>;
 
 export interface RefOptionListProps {
