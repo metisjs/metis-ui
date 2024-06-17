@@ -1,6 +1,11 @@
 import warning from '../../_util/warning';
-import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../Select';
-import type { FlattenOptionData } from '../interface';
+import type {
+  BaseOptionType,
+  DefaultOptionType,
+  FieldNames,
+  FlattenOptionData,
+  RawValueType,
+} from '../interface';
 
 function getKey(data: BaseOptionType, index: number) {
   const { key } = data;

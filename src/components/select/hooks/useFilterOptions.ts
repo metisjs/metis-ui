@@ -1,5 +1,6 @@
 import * as React from 'react';
-import type { DefaultOptionType, FieldNames, SelectProps } from '../Select';
+import type { BaseSelectProps } from '../Select';
+import type { DefaultOptionType, FieldNames } from '../interface';
 import { toArray } from '../utils/commonUtil';
 import { injectPropsWithOption } from '../utils/valueUtil';
 
@@ -11,7 +12,7 @@ export default (
   options: DefaultOptionType[] = [],
   fieldNames: FieldNames,
   searchValue?: string,
-  filterOption?: SelectProps['filterOption'],
+  filterOption?: BaseSelectProps['filterOption'],
   optionFilterProp?: string,
 ) =>
   React.useMemo(() => {

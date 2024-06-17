@@ -1,6 +1,6 @@
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
-import type { BaseOptionType, DefaultOptionType } from '../Select';
+import type { BaseOptionType, DefaultOptionType } from '../interface';
 
 function convertNodeToOption<OptionType extends BaseOptionType = DefaultOptionType>(
   node: React.ReactElement,

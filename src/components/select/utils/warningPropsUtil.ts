@@ -2,18 +2,18 @@ import toNodeArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
 import warning, { noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
+import type { BaseSelectProps } from '../Select';
 import type {
   BaseOptionType,
   DefaultOptionType,
   FieldNames,
   LabelInValueType,
   RawValueType,
-  SelectProps,
-} from '../Select';
+} from '../interface';
 import { toArray } from './commonUtil';
 import { convertChildrenToData } from './legacyUtil';
 
-function warningProps(props: SelectProps) {
+function warningProps(props: BaseSelectProps) {
   const {
     mode,
     combobox,

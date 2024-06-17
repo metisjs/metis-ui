@@ -1,7 +1,12 @@
 import * as React from 'react';
 import type { RawValueType, RenderNode } from './BaseSelect';
-import type { BaseOptionType, FieldNames, OnActiveValue, OnInternalSelect } from './Select';
-import type { FlattenOptionData } from './interface';
+import type {
+  BaseOptionType,
+  FieldNames,
+  FlattenOptionData,
+  OnActiveValue,
+  OnInternalSelect,
+} from './interface';
 
 // Use any here since we do not get the type during compilation
 export interface SelectContextProps {

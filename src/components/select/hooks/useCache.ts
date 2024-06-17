@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { RawValueType } from '../BaseSelect';
-import type { DefaultOptionType, LabelInValueType } from '../Select';
+import type { DefaultOptionType, LabelInValueType } from '../interface';
 
 /**
  * Cache `value` related LabeledValue & options.

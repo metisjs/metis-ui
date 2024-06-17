@@ -278,8 +278,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ============================== MISC ==============================
   const complexCls = getComplexCls(className);
   const multiple = isMultiple(mode);
-  const mergedShowSearch =
-    (showSearch !== undefined ? showSearch : multiple) || mode === 'combobox';
 
   const domProps = {
     ...restProps,
@@ -647,11 +645,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       open: mergedOpen,
       triggerOpen,
       id,
-      showSearch: mergedShowSearch,
+      showSearch,
       multiple,
       toggleOpen: onToggleOpen,
     }),
-    [props, notFoundContent, triggerOpen, mergedOpen, id, mergedShowSearch, multiple, onToggleOpen],
+    [props, notFoundContent, triggerOpen, mergedOpen, id, showSearch, multiple, onToggleOpen],
   );
 
   // ==================================================================
@@ -712,7 +710,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
           searchValue: mergedSearchValue,
           open: mergedOpen,
           focused: mockFocused,
-          showSearch: mergedShowSearch,
+          showSearch,
         }}
       />
     );
@@ -736,7 +734,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
-      [`${prefixCls}-show-search`]: mergedShowSearch,
+      [`${prefixCls}-show-search`]: showSearch,
     },
     complexCls.root,
   );
@@ -789,7 +787,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
           inputElement={customizeInputElement}
           ref={selectorRef}
           id={id}
-          showSearch={mergedShowSearch}
+          showSearch={showSearch}
           autoClearSearchValue={!!autoClearSearchValue}
           mode={mode}
           activeDescendantId={activeDescendantId}

@@ -1,23 +1,20 @@
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getComplexCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
-import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
+import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import { SizeType } from '../config-provider/SizeContext';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import { useCompactItemContext } from '../space/Compact';
 import type {
   BaseSelectProps,
-  BaseSelectPropsWithoutPrivate,
   BaseSelectRef,
   DisplayInfoType,
   DisplayValueType,
-  RenderNode,
 } from './BaseSelect';
 import BaseSelect, { isMultiple } from './BaseSelect';
 import OptGroup from './OptGroup';
@@ -29,6 +26,17 @@ import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
+import {
+  BaseOptionType,
+  DefaultOptionType,
+  DraftValueType,
+  LabelInValueType,
+  OnActiveValue,
+  OnInternalSelect,
+  RawValueType,
+  SelectCommonPlacement,
+  SelectPropsWithoutRequest,
+} from './interface';
 import { hasValue, toArray } from './utils/commonUtil';
 import getIcons from './utils/iconUtil';
 import { fillFieldNames, flattenOptions, injectPropsWithOption } from './utils/valueUtil';
@@ -36,124 +44,14 @@ import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
 const OMIT_DOM_PROPS = ['inputValue'];
 
-const SelectPlacements = ['bottomLeft', 'bottomRight', 'topLeft', 'topRight'] as const;
-
-export type SelectCommonPlacement = (typeof SelectPlacements)[number];
-
-export type OnActiveValue = (
-  active: RawValueType | null,
-  index: number,
-  info?: { source?: 'keyboard' | 'mouse' },
-) => void;
-
-export type OnInternalSelect = (value: RawValueType, info: { selected: boolean }) => void;
-
-export type RawValueType = string | number;
-export interface LabelInValueType {
-  label: React.ReactNode;
-  value: RawValueType;
-}
-
-export type DraftValueType =
-  | RawValueType
-  | LabelInValueType
-  | DisplayValueType
-  | (RawValueType | LabelInValueType | DisplayValueType)[];
-
-export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
-
-export interface FieldNames {
-  value?: string;
-  label?: string;
-  groupLabel?: string;
-  options?: string;
-}
-
-export interface BaseOptionType {
-  disabled?: boolean;
-  [name: string]: any;
-}
-
-export interface DefaultOptionType extends BaseOptionType {
-  label: React.ReactNode;
-  value?: string | number | null;
-  children?: Omit<DefaultOptionType, 'children'>[];
-}
-
-export type SelectHandler<ValueType, OptionType extends BaseOptionType = DefaultOptionType> = (
-  value: ValueType,
-  option: OptionType,
-) => void;
-
-type ArrayElementType<T> = T extends (infer E)[] ? E : T;
-
-export interface SelectProps<ValueType = any, OptionType extends BaseOptionType = DefaultOptionType>
-  extends Omit<
-    BaseSelectPropsWithoutPrivate,
-    'mode' | 'getInputElement' | 'getRawInputElement' | 'backfill' | 'placement' | 'className'
-  > {
-  prefixCls?: string;
-  id?: string;
-  className?: ComplexClassName<'popup' | 'selector'>;
-
-  bordered?: boolean;
-  disabled?: boolean;
-
-  // >>> Size
-  size?: SizeType;
-
-  // >>> Field Names
-  fieldNames?: FieldNames;
-
-  // >>> Search
-  searchValue?: string;
-  onSearch?: (value: string) => void;
-  autoClearSearchValue?: boolean;
-
-  // >>> Select
-  onSelect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
-  onDeselect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
-
-  // >>> Options
-  /**
-   * In Select, `false` means do nothing.
-   * In TreeSelect, `false` will highlight match item.
-   * It's by design.
-   */
-  filterOption?: boolean | FilterFunc<OptionType>;
-  filterSort?: (optionA: OptionType, optionB: OptionType) => number;
-  optionFilterProp?: string;
-  optionLabelProp?: string;
-  children?: React.ReactNode;
-  options?: OptionType[];
-  defaultActiveFirstOption?: boolean;
-  virtual?: boolean;
-  listHeight?: number;
-  listItemHeight?: number;
-
-  // >>> Icon
-  menuItemSelectedIcon?: RenderNode;
-  suffixIcon?: React.ReactNode;
-
-  mode?: 'multiple' | 'tags';
-  /** @private Internal usage. Do not use in your production. */
-  combobox?: boolean;
-
-  labelInValue?: boolean;
-  value?: ValueType | null;
-  defaultValue?: ValueType | null;
-  onChange?: (value: ValueType, option: OptionType | OptionType[]) => void;
-
-  placement?: SelectCommonPlacement;
-  status?: InputStatus;
-}
+export const SelectPlacements = ['bottomLeft', 'bottomRight', 'topLeft', 'topRight'] as const;
 
 function isRawValue(value: DraftValueType): value is RawValueType {
   return !value || typeof value !== 'object';
 }
 
 const Select = React.forwardRef(
-  (props: SelectProps<any, DefaultOptionType>, ref: React.Ref<BaseSelectRef>) => {
+  (props: SelectPropsWithoutRequest<any, DefaultOptionType>, ref: React.Ref<BaseSelectRef>) => {
     const {
       id,
       mode,
@@ -780,7 +678,7 @@ const TypedSelect = Select as unknown as (<
   ValueType = any,
   OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
 >(
-  props: React.PropsWithChildren<SelectProps<ValueType, OptionType>> & {
+  props: React.PropsWithChildren<SelectPropsWithoutRequest<ValueType, OptionType>> & {
     ref?: React.Ref<BaseSelectRef>;
   },
 ) => React.ReactElement) & {

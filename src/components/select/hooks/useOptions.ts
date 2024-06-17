@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../Select';
+import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../interface';
 import { convertChildrenToData } from '../utils/legacyUtil';
 
 /**

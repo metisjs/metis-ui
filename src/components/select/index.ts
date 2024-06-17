@@ -7,9 +7,9 @@ import type {
 import BaseSelect from './BaseSelect';
 import OptGroup from './OptGroup';
 import Option from './Option';
-import type { SelectProps } from './Select';
 import Select from './Select';
 import useBaseProps from './hooks/useBaseProps';
+import type { SelectPropsWithoutRequest } from './interface';
 
 export { BaseSelect, OptGroup, Option, useBaseProps };
 export type {
@@ -17,7 +17,7 @@ export type {
   BaseSelectPropsWithoutPrivate,
   CustomTagProps,
   BaseSelectRef as RefSelectProps,
-  SelectProps,
+  SelectPropsWithoutRequest as SelectProps,
 };
 
 export default Select;

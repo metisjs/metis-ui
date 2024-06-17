@@ -9,11 +9,10 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
-import type { BaseOptionType, RawValueType } from './Select';
 import SelectContext from './SelectContext';
 import TransBtn from './TransBtn';
 import useBaseProps from './hooks/useBaseProps';
-import type { FlattenOptionData } from './interface';
+import type { BaseOptionType, FlattenOptionData, RawValueType } from './interface';
 
 // export interface OptionListProps<OptionsType extends object[]> {
 export type OptionListProps = Record<string, never>;
