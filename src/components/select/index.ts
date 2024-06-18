@@ -5,8 +5,6 @@ import type {
   CustomTagProps,
 } from './BaseSelect';
 import BaseSelect from './BaseSelect';
-import OptGroup from './OptGroup';
-import Option from './Option';
 import Select from './Select';
 import useBaseProps from './hooks/useBaseProps';
 
@@ -19,7 +17,7 @@ export type {
   SelectPropsWithRequestSearchPagination,
 } from './interface';
 
-export { BaseSelect, OptGroup, Option, useBaseProps };
+export { BaseSelect, useBaseProps };
 export type {
   BaseSelectProps,
   BaseSelectPropsWithoutPrivate,

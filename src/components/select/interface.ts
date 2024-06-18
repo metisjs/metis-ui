@@ -20,16 +20,20 @@ export type OnActiveValue = (
 export type OnInternalSelect = (value: RawValueType, info: { selected: boolean }) => void;
 
 export type RawValueType = string | number;
-export interface LabelInValueType {
+export type LabeledValueType = {
   label: React.ReactNode;
   value: RawValueType;
-}
+  key: React.Key;
+  disabled: boolean | undefined;
+  title: string;
+};
+export type OptionInValueType = BaseOptionType;
 
 export type DraftValueType =
   | RawValueType
-  | LabelInValueType
+  | OptionInValueType
   | DisplayValueType
-  | (RawValueType | LabelInValueType | DisplayValueType)[];
+  | (RawValueType | OptionInValueType | DisplayValueType)[];
 
 export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
 

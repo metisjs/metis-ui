@@ -11,7 +11,7 @@ import * as React from 'react';
 
 type RenderNode = React.ReactNode | ((props: any) => React.ReactNode);
 
-export default function getIcons({
+export default function useIcons({
   suffixIcon,
   clearIcon,
   menuItemSelectedIcon,

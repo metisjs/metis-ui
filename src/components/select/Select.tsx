@@ -22,21 +22,22 @@ import SelectContext, { SelectContextProps } from './SelectContext';
 import useBuiltinPlacements from './hooks/useBuiltinPlacements';
 import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
+import useIcons from './hooks/useIcons';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
 import {
   BaseOptionType,
   DraftValueType,
-  LabelInValueType,
+  LabeledValueType,
   OnActiveValue,
   OnInternalSelect,
+  OptionInValueType,
   RawValueType,
   SelectCommonPlacement,
   SelectProps,
   SelectPropsWithOptions,
 } from './interface';
 import { hasValue, toArray } from './utils/commonUtil';
-import getIcons from './utils/iconUtil';
 import { fillFieldNames, flattenOptions, getFieldValue } from './utils/valueUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
@@ -145,7 +146,7 @@ const Select = React.forwardRef(
     }
 
     // ===================== Icons =====================
-    const { suffixIcon, itemIcon, removeIcon, clearIcon } = getIcons({
+    const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
       ...props,
       multiple,
       hasFeedback,
@@ -174,6 +175,7 @@ const Select = React.forwardRef(
     // ========================= FieldNames =========================
     const mergedFieldNames = React.useMemo(
       () => fillFieldNames(fieldNames),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [JSON.stringify(fieldNames)],
     );
 
@@ -189,7 +191,7 @@ const Select = React.forwardRef(
 
     // ========================= Wrap Value =========================
     const convert2LabelValues = React.useCallback(
-      (draftValues: DraftValueType) => {
+      (draftValues: DraftValueType): LabeledValueType[] => {
         // Convert to array
         const valueList = toArray(draftValues);
 
@@ -205,8 +207,8 @@ const Select = React.forwardRef(
           if (isRawValue(val)) {
             rawValue = val;
           } else {
-            rawLabel = val.label;
-            rawValue = val.value!;
+            rawLabel = getFieldValue(val, mergedFieldNames.label) ?? val.label;
+            rawValue = getFieldValue(val, mergedFieldNames.value) ?? val.value;
           }
 
           const option = valueOptions.get(rawValue);
@@ -240,6 +242,7 @@ const Select = React.forwardRef(
             key: rawKey,
             disabled: rawDisabled,
             title: rawTitle,
+            option,
           };
         });
       },
@@ -295,7 +298,7 @@ const Select = React.forwardRef(
         const strValue = mergedValues[0]?.value;
         setSearchValue(hasValue(strValue) ? String(strValue) : '');
       }
-    }, [mergedValues]);
+    }, [mergedMode, mergedValues, setSearchValue]);
 
     // ======================= Display Option =======================
     // Create a placeholder item if not exist in `options`
@@ -386,8 +389,8 @@ const Select = React.forwardRef(
         (labeledValues.length !== mergedValues.length ||
           labeledValues.some((newVal, index) => mergedValues[index]?.value !== newVal?.value))
       ) {
-        const returnValues = optionInValue ? labeledValues : labeledValues.map((v) => v.value);
         const returnOptions = labeledValues.map((v) => getMixedOption(v.value));
+        const returnValues = optionInValue ? returnOptions : labeledValues.map((v) => v.value);
 
         onChange(
           // Value
@@ -408,22 +411,15 @@ const Select = React.forwardRef(
       (_, index) => {
         setAccessibilityIndex(index);
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [mergedMode],
     );
 
     // ========================= OptionList =========================
     const triggerSelect = (val: RawValueType, selected: boolean, type?: DisplayInfoType) => {
-      const getSelectEnt = (): [RawValueType | LabelInValueType, BaseOptionType] => {
+      const getSelectEnt = (): [RawValueType | OptionInValueType, BaseOptionType] => {
         const option = getMixedOption(val);
-        return [
-          optionInValue
-            ? {
-                label: getFieldValue(option, mergedFieldNames.label),
-                value: val,
-              }
-            : val,
-          option,
-        ];
+        return [optionInValue ? option : val, option];
       };
 
       if (selected && onSelect) {
@@ -584,6 +580,7 @@ const Select = React.forwardRef(
         listItemHeight,
       };
     }, [
+      mergedVirtual,
       parsedOptions,
       displayOptions,
       onActiveValue,
@@ -592,7 +589,6 @@ const Select = React.forwardRef(
       itemIcon,
       rawValues,
       mergedFieldNames,
-      virtual,
       popupMatchSelectWidth,
       listHeight,
       listItemHeight,

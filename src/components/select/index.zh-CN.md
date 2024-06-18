@@ -26,7 +26,7 @@ group:
 <code src="./demo/optgroup.tsx">分组</code>
 <code src="./demo/coordinate.tsx">联动</code>
 <code src="./demo/search-box.tsx">搜索框</code>
-<code src="./demo/option-in-value.tsx">获得选项的文本</code>
+<code src="./demo/option-in-value.tsx">获得选项的值</code>
 <code src="./demo/automatic-tokenization.tsx">自动分词</code>
 <code src="./demo/select-users.tsx">搜索用户</code>
 <code src="./demo/suffix.tsx" debug>后缀图标</code>
@@ -38,7 +38,7 @@ group:
 <code src="./demo/big-data.tsx">大数据</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/placement.tsx">弹出位置</code>
-<code src="./demo/debug-flip-shift.tsx" iframe="200" debug>翻转+偏移</code> -->
+<code src="./demo/debug-flip-shift.tsx" iframe="200" debug>翻转+偏移</code>
 
 ## API
 

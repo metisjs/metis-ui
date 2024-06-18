@@ -3,7 +3,7 @@ import { isMultiple } from '../BaseSelect';
 import type {
   BaseOptionType,
   FieldNames,
-  LabelInValueType,
+  OptionInValueType,
   RawValueType,
   SelectProps,
 } from '../interface';
@@ -63,7 +63,7 @@ function warningProps(props: SelectProps) {
   );
 
   if (value !== undefined && value !== null) {
-    const values = toArray<RawValueType | LabelInValueType>(value);
+    const values = toArray<RawValueType | OptionInValueType>(value);
     warning(
       !optionInValue || values.every((val) => typeof val === 'object'),
       '`value` should in shape of `OptionType` when you set `optionInValue` to `true`',
