@@ -1,16 +1,16 @@
 import warning, { noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
-import type { BaseSelectProps } from '../Select';
 import type {
   BaseOptionType,
-  DefaultOptionType,
   FieldNames,
   LabelInValueType,
   RawValueType,
+  SelectProps,
 } from '../interface';
 import { toArray } from './commonUtil';
+import { fillFieldNames, getFieldValue } from './valueUtil';
 
-function warningProps(props: BaseSelectProps) {
+function warningProps(props: SelectProps) {
   const {
     mode,
     combobox,
@@ -19,7 +19,7 @@ function warningProps(props: BaseSelectProps) {
     onSearch,
     defaultOpen,
     autoFocus,
-    labelInValue,
+    optionInValue,
     value,
     optionLabelProp,
   } = props;
@@ -28,7 +28,7 @@ function warningProps(props: BaseSelectProps) {
 
   // `tags` should not set option as disabled
   warning(
-    mode !== 'tags' || options.every((opt: { disabled?: boolean }) => !opt.disabled),
+    mode !== 'tags' || options.every((opt) => !opt.disabled),
     'Please avoid setting option to disabled in tags mode since user can always type text as tag.',
   );
 
@@ -65,9 +65,8 @@ function warningProps(props: BaseSelectProps) {
   if (value !== undefined && value !== null) {
     const values = toArray<RawValueType | LabelInValueType>(value);
     warning(
-      !labelInValue ||
-        values.every((val) => typeof val === 'object' && ('key' in val || 'value' in val)),
-      '`value` should in shape of `{ value: string | number, label?: ReactNode }` when you set `labelInValue` to `true`',
+      !optionInValue || values.every((val) => typeof val === 'object'),
+      '`value` should in shape of `OptionType` when you set `optionInValue` to `true`',
     );
 
     warning(
@@ -77,23 +76,26 @@ function warningProps(props: BaseSelectProps) {
   }
 }
 
-// value in Select option should not be null
-// note: OptGroup has options too
-export function warningNullOptions(options?: DefaultOptionType[], fieldNames?: FieldNames) {
+export function warningNullOptions(
+  options?: BaseOptionType[],
+  fieldNames?: FieldNames<BaseOptionType>,
+) {
   if (options) {
-    const recursiveOptions = (optionsList: DefaultOptionType[], inGroup: boolean = false) => {
+    const { value: fieldValue, options: fieldOptions } = fillFieldNames(fieldNames);
+
+    const recursiveOptions = (optionsList: BaseOptionType[], inGroup: boolean = false) => {
       for (let i = 0; i < optionsList.length; i++) {
         const option = optionsList[i];
 
-        if (option[fieldNames?.value ?? ''] === null) {
+        if (getFieldValue(option, fieldValue) === null) {
           warning(false, '`value` in Select options should not be `null`.');
           return true;
         }
 
         if (
           !inGroup &&
-          Array.isArray(option[fieldNames?.options ?? '']) &&
-          recursiveOptions(option[fieldNames?.options ?? ''], true)
+          Array.isArray(getFieldValue(option, fieldOptions)) &&
+          recursiveOptions(getFieldValue(option, fieldOptions), true)
         ) {
           break;
         }

@@ -11,7 +11,7 @@ group:
 ## 何时使用
 
 - 弹出一个下拉菜单给用户选择操作，用于代替原生的选择器，或者需要一个更优雅的多选器时。
-- 当选项少时（少于 5 项），建议直接将选项平铺，使用 [Radio](/components/radio/) 是更好的选择。
+- 当选项少时（少于 5 项），建议直接将选项平铺，使用 [Radio](/components/radio-cn/) 是更好的选择。
 
 ## 代码演示
 
@@ -26,7 +26,7 @@ group:
 <code src="./demo/optgroup.tsx">分组</code>
 <code src="./demo/coordinate.tsx">联动</code>
 <code src="./demo/search-box.tsx">搜索框</code>
-<code src="./demo/label-in-value.tsx">获得选项的文本</code>
+<code src="./demo/option-in-value.tsx">获得选项的文本</code>
 <code src="./demo/automatic-tokenization.tsx">自动分词</code>
 <code src="./demo/select-users.tsx">搜索用户</code>
 <code src="./demo/suffix.tsx" debug>后缀图标</code>
@@ -38,7 +38,7 @@ group:
 <code src="./demo/big-data.tsx">大数据</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/placement.tsx">弹出位置</code>
-<code src="./demo/debug-flip-shift.tsx" iframe="200" debug>翻转+偏移</code>
+<code src="./demo/debug-flip-shift.tsx" iframe="200" debug>翻转+偏移</code> -->
 
 ## API
 
@@ -62,8 +62,7 @@ group:
 | fieldNames | 自定义节点 label、value、options、groupLabel 的字段 | object | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
 | filterOption | 是否根据输入项进行筛选。当其为一个函数时，会接收 `inputValue` `option` 两个参数，当 `option` 符合筛选条件时，应返回 true，反之则返回 false | boolean \| function(inputValue, option) | true |  |
 | filterSort | 搜索时对筛选结果项的排序函数, 类似[Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)里的 compareFunction | (optionA: Option, optionB: Option) => number | - |  |
-| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。[示例](https://codesandbox.io/s/4j168r7jw0) | function(triggerNode) | () => document.body |  |
-| labelInValue | 是否把每个选项的 label 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 { value: string, label: ReactNode } 的格式 | boolean | false |  |
+| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | function(triggerNode) | () => document.body |  |
 | listHeight | 设置弹窗滚动高度 | number | 256 |  |
 | loading | 加载中状态 | boolean | false |  |
 | maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - |  |
@@ -74,6 +73,7 @@ group:
 | notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `Not Found` |  |
 | open | 是否展开下拉菜单 | boolean | - |  |
 | optionFilterProp | 搜索时过滤对应的 `option` 属性，如设置为 `children` 表示对内嵌内容进行搜索。若通过 `options` 属性配置选项内容，建议设置 `optionFilterProp="label"` 来对内容进行搜索。 | string | `value` |  |
+| optionInValue | 是否把每个选项的 option 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 OptionType 的格式 | boolean | false |  |
 | optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。 | string | `children` |  |
 | options | 数据化配置选项内容，相比 jsx 定义会获得更好的渲染性能 | { label, value }\[] | - |  |
 | placeholder | 选择框默认文本 | string | - |  |
@@ -109,22 +109,6 @@ group:
 | ------- | -------- | ---- |
 | blur()  | 取消焦点 |      |
 | focus() | 获取焦点 |      |
-
-### Option props
-
-| 参数      | 说明                     | 类型             | 默认值 | 版本 |
-| --------- | ------------------------ | ---------------- | ------ | ---- |
-| className | Option 器类名            | string           | -      |      |
-| disabled  | 是否禁用                 | boolean          | false  |      |
-| title     | 选项上的原生 title 提示  | string           | -      |      |
-| value     | 默认根据此属性值进行筛选 | string \| number | -      |      |
-
-### OptGroup props
-
-| 参数  | 说明 | 类型                    | 默认值 | 版本 |
-| ----- | ---- | ----------------------- | ------ | ---- |
-| key   | Key  | string                  | -      |      |
-| label | 组名 | string \| React.Element | -      |      |
 
 ## FAQ
 

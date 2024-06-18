@@ -1,11 +1,8 @@
 import * as React from 'react';
-import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../interface';
+import type { BaseOptionType, FieldNames, RawValueType } from '../interface';
+import { getFieldValue } from '../utils/valueUtil';
 
-/**
- * Parse `children` to `options` if `options` is not provided.
- * Then flatten the `options`.
- */
-export default function useOptions<OptionType extends BaseOptionType = DefaultOptionType>(
+export default function useOptions<OptionType extends BaseOptionType = BaseOptionType>(
   options: OptionType[] | undefined,
   fieldNames: FieldNames<OptionType>,
   optionFilterProp?: string,
@@ -30,8 +27,8 @@ export default function useOptions<OptionType extends BaseOptionType = DefaultOp
       for (let i = 0; i < optionList.length; i += 1) {
         const option = optionList[i];
         if (!option[fieldNames.options!] || isChildren) {
-          valueOptions.set(option[fieldNames.value!], option);
-          setLabelOptions(labelOptions, option, fieldNames.label!);
+          valueOptions.set(getFieldValue(option, fieldNames.value), option);
+          labelOptions.set(getFieldValue(option, fieldNames.label), option);
           setLabelOptions(labelOptions, option, optionFilterProp);
           setLabelOptions(labelOptions, option, optionLabelProp);
         } else {

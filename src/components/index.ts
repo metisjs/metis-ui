@@ -27,7 +27,15 @@ export type { ScrollValues, ScrollbarProps } from './scrollbar';
 export { default as Segmented } from './segmented';
 export type { SegmentedProps } from './segmented';
 export { default as Select } from './select';
-export type { RefSelectProps, SelectProps } from './select';
+export type {
+  RefSelectProps,
+  SelectProps,
+  SelectPropsWithOptions,
+  SelectPropsWithRequest,
+  SelectPropsWithRequestPagination,
+  SelectPropsWithRequestSearch,
+  SelectPropsWithRequestSearchPagination,
+} from './select';
 export { default as Space } from './space';
 export type { SpaceProps } from './space';
 export { default as Spin } from './spin';

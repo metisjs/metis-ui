@@ -1,10 +1,10 @@
 import debounce from 'lodash/debounce';
 import { Select } from 'metis-ui';
-import type { SelectProps } from 'metis-ui/es/select';
+import type { SelectPropsWithOptions } from 'metis-ui/es/select';
 import React, { useMemo, useRef, useState } from 'react';
 
 export interface DebounceSelectProps<ValueType = any>
-  extends Omit<SelectProps<ValueType | ValueType[]>, 'options' | 'children'> {
+  extends Omit<SelectPropsWithOptions<ValueType | ValueType[]>, 'options' | 'children'> {
   fetchOptions: (search: string) => Promise<ValueType[]>;
   debounceTimeout?: number;
 }
@@ -39,7 +39,7 @@ function DebounceSelect<
 
   return (
     <Select
-      labelInValue
+      optionInValue
       filterOption={false}
       onSearch={debounceFetcher}
       notFoundContent={fetching ? 'Loading' : null}
@@ -75,6 +75,7 @@ const App: React.FC = () => {
 
   return (
     <DebounceSelect
+      showSearch
       mode="multiple"
       value={value}
       placeholder="Select users"

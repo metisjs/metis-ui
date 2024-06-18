@@ -25,7 +25,7 @@ Select component to select value from options.
 <code src="./demo/optgroup.tsx">Option Group</code>
 <code src="./demo/coordinate.tsx">coordinate</code>
 <code src="./demo/search-box.tsx">Search Box</code>
-<code src="./demo/label-in-value.tsx">Get value of selected item</code>
+<code src="./demo/option-in-value.tsx">Get value of selected item</code>
 <code src="./demo/automatic-tokenization.tsx">Automatic tokenization</code>
 <code src="./demo/select-users.tsx">Search and Select Users</code>
 <code src="./demo/suffix.tsx" debug>Suffix</code>
@@ -61,8 +61,7 @@ Select component to select value from options.
 | fieldNames | Customize node label, value, options，groupLabel field name | object | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
 | filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns `true`, the option will be included in the filtered set; Otherwise, it will be excluded | boolean \| function(inputValue, option) | true |  |
 | filterSort | Sort function for search options sorting, see [Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)'s compareFunction | (optionA: Option, optionB: Option) => number | - |  |
-| getPopupContainer | Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. [Example](https://codesandbox.io/s/4j168r7jw0) | function(triggerNode) | () => document.body |  |
-| labelInValue | Whether to embed label in value, turn the format of value from `string` to { value: string, label: ReactNode } | boolean | false |  |
+| getPopupContainer | Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. | function(triggerNode) | () => document.body |  |
 | listHeight | Config popup height | number | 256 |  |
 | loading | Indicate loading state | boolean | false |  |
 | maxTagCount | Max tag count to show. `responsive` will cost render performance | number \| `responsive` | - | responsive: 4.10 |
@@ -73,7 +72,8 @@ Select component to select value from options.
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
 | optionFilterProp | Which prop value of option will be used for filter if filterOption is true. If `options` is set, it should be set to `label` | string | `value` |  |
-| optionLabelProp | Which prop value of option will render as content of select. [Example](https://codesandbox.io/s/antd-reproduction-template-tk678) | string | `children` |  |
+| optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
+| optionLabelProp | Which prop value of option will render as content of select. | string | `children` |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
 | placeholder | Placeholder of select | ReactNode | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
@@ -82,7 +82,7 @@ Select component to select value from options.
 | showSearch | Whether select is searchable | boolean | single: false, multiple: true |  |
 | size | Size of Select input | `large` \| `middle` \| `small` | `middle` |  |
 | status | Set validation status | 'error' \| 'warning' | - |  |
-| suffixIcon | The custom suffix icon. Customize icon will not response click open to avoid icon designed to do other interactive. You can use `pointer-events: none` style to bypass | ReactNode | `<DownOutlined />` |  |
+| suffixIcon | The custom suffix icon. Customize icon will not response click open to avoid icon designed to do other interactive. You can use `pointer-events: none` style to bypass | ReactNode |  |  |
 | tagRender | Customize tag render, only applies when `mode` is set to `multiple` or `tags` | (props) => ReactNode | - |  |
 | tokenSeparators | Separator used to tokenize, only applies when `mode="tags"` | string\[] | - |  |
 | value | Current selected option (considered as a immutable array) | string \| string\[] \| <br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
@@ -108,22 +108,6 @@ Select component to select value from options.
 | ------- | ------------ | ------- |
 | blur()  | Remove focus |         |
 | focus() | Get focus    |         |
-
-### Option props
-
-| Property  | Description                          | Type             | Default | Version |
-| --------- | ------------------------------------ | ---------------- | ------- | ------- |
-| className | The additional class to option       | string           | -       |         |
-| disabled  | Disable this option                  | boolean          | false   |         |
-| title     | `title` attribute of Select Option   | string           | -       |         |
-| value     | Default to filter with this property | string \| number | -       |         |
-
-### OptGroup props
-
-| Property | Description | Type                    | Default | Version |
-| -------- | ----------- | ----------------------- | ------- | ------- |
-| key      | Group key   | string                  | -       |         |
-| label    | Group label | string \| React.Element | -       |         |
 
 ## FAQ
 

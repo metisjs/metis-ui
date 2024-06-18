@@ -6,11 +6,6 @@ import type { RenderEmptyHandler } from './defaultRenderEmpty';
 
 export type PopupOverflow = 'viewport' | 'scroll';
 
-export interface RequestConfig {
-  dataField?: string;
-  paginationField?: { total: string; list: string };
-}
-
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
@@ -33,7 +28,6 @@ export interface ConfigConsumerProps {
     // requiredMark?: RequiredMark;
     colon?: boolean;
   };
-  request?: RequestConfig;
 }
 
 const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {

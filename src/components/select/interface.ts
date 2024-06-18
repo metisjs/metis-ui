@@ -37,7 +37,7 @@ export interface FieldNames<OptionType> {
   value?: string | ((option: OptionType) => RawValueType);
   label?: string | ((option: OptionType) => React.ReactNode);
   groupLabel?: string | ((option: OptionType) => React.ReactNode);
-  options?: string | ((option: OptionType) => OptionType[]);
+  options?: string;
   disabled?: string | ((option: OptionType) => boolean);
 }
 
@@ -54,13 +54,7 @@ export interface BaseOptionType {
   [name: string]: any;
 }
 
-export interface DefaultOptionType extends BaseOptionType {
-  label: React.ReactNode;
-  value?: string | number | null;
-  children?: Omit<DefaultOptionType, 'children'>[];
-}
-
-export type SelectHandler<ValueType, OptionType extends BaseOptionType = DefaultOptionType> = (
+export type SelectHandler<ValueType, OptionType extends BaseOptionType> = (
   value: ValueType,
   option: OptionType,
 ) => void;
@@ -68,7 +62,7 @@ type ArrayElementType<T> = T extends (infer E)[] ? E : T;
 
 export interface SelectPropsWithOptions<
   ValueType = any,
-  OptionType extends BaseOptionType = DefaultOptionType,
+  OptionType extends BaseOptionType = BaseOptionType,
 > extends Omit<
     BaseSelectPropsWithoutPrivate,
     'mode' | 'getInputElement' | 'getRawInputElement' | 'backfill' | 'placement' | 'className'
@@ -119,7 +113,7 @@ export interface SelectPropsWithOptions<
   /** @private Internal usage. Do not use in your production. */
   combobox?: boolean;
 
-  labelInValue?: boolean;
+  optionInValue?: boolean;
   value?: ValueType | null;
   defaultValue?: ValueType | null;
   onChange?: (value: ValueType, option: OptionType | OptionType[]) => void;
@@ -129,15 +123,18 @@ export interface SelectPropsWithOptions<
 }
 
 type RequestConfig<TData, TParams extends any[]> =
-  | RequestService<TData, TParams>
+  | RequestService<{ data: TData[]; total?: number }, TParams>
   | {
-      service: RequestService<TData, TParams>;
-      options?: Omit<RequestOptions<TData, TParams>, 'manual'>;
+      service: RequestService<{ data: TData[]; total?: number }, TParams>;
+      options?: Omit<RequestOptions<{ data: TData[]; total?: number }, TParams>, 'manual'>;
     };
 
-export interface SelectPropsWithRequest<TData extends BaseOptionType, TParams extends any[]>
-  extends Omit<
-    SelectPropsWithOptions<any, TData>,
+export interface SelectPropsWithRequest<
+  ValueType,
+  TData extends BaseOptionType,
+  TParams extends any[],
+> extends Omit<
+    SelectPropsWithOptions<ValueType, TData>,
     'showSearch' | 'options' | 'filterOption' | 'filterSort'
   > {
   request: RequestConfig<TData, TParams>;
@@ -146,21 +143,26 @@ export interface SelectPropsWithRequest<TData extends BaseOptionType, TParams ex
 }
 
 export interface SelectPropsWithRequestSearch<
-  TData,
+  ValueType,
+  TData extends BaseOptionType,
   TParams extends [
     {
-      filters: { keyword?: string };
+      filters: { [key: string]: string };
     },
     ...any[],
   ],
-> extends Omit<SelectPropsWithOptions, 'showSearch' | 'options' | 'filterOption' | 'filterSort'> {
+> extends Omit<
+    SelectPropsWithOptions<ValueType, TData>,
+    'showSearch' | 'options' | 'filterOption' | 'filterSort'
+  > {
   request: RequestConfig<TData, TParams>;
   showSearch: true;
   pagination?: false;
 }
 
 export interface SelectPropsWithRequestPagination<
-  TData,
+  ValueType,
+  TData extends BaseOptionType,
   TParams extends [
     {
       current: number;
@@ -168,14 +170,18 @@ export interface SelectPropsWithRequestPagination<
     },
     ...any[],
   ],
-> extends Omit<SelectPropsWithOptions, 'showSearch' | 'options' | 'filterOption' | 'filterSort'> {
+> extends Omit<
+    SelectPropsWithOptions<ValueType, TData>,
+    'showSearch' | 'options' | 'filterOption' | 'filterSort'
+  > {
   request: RequestConfig<TData, TParams>;
   showSearch?: false;
   pagination: true;
 }
 
 export interface SelectPropsWithRequestSearchPagination<
-  TData,
+  ValueType,
+  TData extends BaseOptionType,
   TParams extends [
     {
       current: number;
@@ -184,42 +190,19 @@ export interface SelectPropsWithRequestSearchPagination<
     },
     ...any[],
   ],
-> extends Omit<SelectPropsWithOptions, 'showSearch' | 'options' | 'filterOption' | 'filterSort'> {
+> extends Omit<
+    SelectPropsWithOptions<ValueType, TData>,
+    'showSearch' | 'options' | 'filterOption' | 'filterSort'
+  > {
   request: RequestConfig<TData, TParams>;
   showSearch: true;
   pagination: true;
 }
 
-export type SelectProps<TData extends BaseOptionType, TParams extends any[]> =
-  | SelectPropsWithOptions<any, DefaultOptionType>
-  | SelectPropsWithRequest<TData, TParams>
-  | SelectPropsWithRequestSearch<
-      TData,
-      [
-        {
-          filter: { keyword?: string };
-        },
-        ...any[],
-      ]
-    >
-  | SelectPropsWithRequestPagination<
-      TData,
-      [
-        {
-          current: number;
-          pageSize: number;
-        },
-        ...any[],
-      ]
-    >
-  | SelectPropsWithRequestSearchPagination<
-      TData,
-      [
-        {
-          current: number;
-          pageSize: number;
-          filter: { keyword?: string };
-        },
-        ...any[],
-      ]
-    >;
+export type SelectProps<
+  ValueType = any,
+  OptionType extends BaseOptionType = BaseOptionType,
+  TParams extends any[] = any[],
+> =
+  | SelectPropsWithOptions<ValueType, BaseOptionType> &
+      SelectPropsWithRequest<ValueType, OptionType, TParams>;

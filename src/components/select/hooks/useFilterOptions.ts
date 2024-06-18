@@ -1,19 +1,15 @@
 import * as React from 'react';
-import type {
-  BaseOptionType,
-  DefaultOptionType,
-  FieldNames,
-  SelectPropsWithOptions,
-} from '../interface';
+import type { BaseOptionType, FieldNames, SelectPropsWithOptions } from '../interface';
 import { toArray } from '../utils/commonUtil';
+import { getFieldValue } from '../utils/valueUtil';
 
 function includes(test: React.ReactNode, search: string) {
   return toArray(test).join('').toUpperCase().includes(search);
 }
 
 export default (
-  options: DefaultOptionType[] = [],
-  fieldNames: FieldNames<BaseOptionType>,
+  options: BaseOptionType[] = [],
+  fieldNames: Required<FieldNames<BaseOptionType>>,
   searchValue?: string,
   filterOption?: SelectPropsWithOptions['filterOption'],
   optionFilterProp?: string,
@@ -23,19 +19,15 @@ export default (
       return options;
     }
 
-    const {
-      options: fieldOptions = '',
-      label: fieldLabel = '',
-      value: fieldValue = '',
-    } = fieldNames;
-    const filteredOptions: DefaultOptionType[] = [];
+    const { options: fieldOptions, value: fieldValue, groupLabel: fieldGrpLabel } = fieldNames;
+    const filteredOptions: BaseOptionType[] = [];
 
     const customizeFilter = typeof filterOption === 'function';
 
     const upperSearch = searchValue.toUpperCase();
     const filterFunc = customizeFilter
       ? filterOption
-      : (_: string, option: DefaultOptionType) => {
+      : (_: string, option: BaseOptionType) => {
           // Use provided `optionFilterProp`
           if (optionFilterProp) {
             return includes(option[optionFilterProp], upperSearch);
@@ -44,22 +36,23 @@ export default (
           // Auto select `label` or `value` by option type
           if (option[fieldOptions]) {
             // hack `fieldLabel` since `OptionGroup` children is not `label`
-            return includes(option[fieldLabel !== 'children' ? fieldLabel : 'label'], upperSearch);
+            return includes(getFieldValue(option, fieldGrpLabel), upperSearch);
           }
 
-          return includes(option[fieldValue], upperSearch);
+          return includes(getFieldValue(option, fieldValue), upperSearch);
         };
 
     options.forEach((item) => {
       // Group should check child options
-      if (item[fieldOptions]) {
+      const itemOptions = item[fieldOptions];
+      if (itemOptions) {
         // Check group first
         const matchGroup = filterFunc(searchValue, item);
         if (matchGroup) {
           filteredOptions.push(item);
         } else {
           // Check option
-          const subOptions = item[fieldOptions].filter((subItem: DefaultOptionType) =>
+          const subOptions = itemOptions.filter((subItem: BaseOptionType) =>
             filterFunc(searchValue, subItem),
           );
           if (subOptions.length) {

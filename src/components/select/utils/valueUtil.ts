@@ -1,10 +1,4 @@
-import type {
-  BaseOptionType,
-  DefaultOptionType,
-  FieldNames,
-  FlattenOptionData,
-  RawValueType,
-} from '../interface';
+import type { BaseOptionType, FieldNames, FlattenOptionData, RawValueType } from '../interface';
 
 function getKey(data: BaseOptionType, index: number) {
   const { key } = data;
@@ -24,14 +18,30 @@ function getKey(data: BaseOptionType, index: number) {
 }
 
 export function fillFieldNames(fieldNames: FieldNames<BaseOptionType> | undefined) {
-  const { label, value, options, groupLabel } = fieldNames || {};
+  const { label, value, options, groupLabel, disabled } = fieldNames || {};
 
   return {
     label: label ?? 'label',
     value: value ?? 'value',
     options: options ?? 'options',
     groupLabel: groupLabel ?? label ?? 'label',
+    disabled: disabled ?? 'disabled',
   };
+}
+
+export function getFieldValue(
+  option: BaseOptionType,
+  fieldName: FieldNames<BaseOptionType>['label' | 'value' | 'groupLabel' | 'disabled'],
+) {
+  if (typeof fieldName === 'string') {
+    return option[fieldName];
+  }
+
+  if (typeof fieldName === 'function') {
+    return fieldName(option);
+  }
+
+  return null;
 }
 
 /**
@@ -39,7 +49,7 @@ export function fillFieldNames(fieldNames: FieldNames<BaseOptionType> | undefine
  * We use `optionOnly` here is aim to avoid user use nested option group.
  * Here is simply set `key` to the index if not provided.
  */
-export function flattenOptions<OptionType extends BaseOptionType = DefaultOptionType>(
+export function flattenOptions<OptionType extends BaseOptionType = BaseOptionType>(
   options: OptionType[],
   fieldNames?: FieldNames<OptionType>,
 ): FlattenOptionData<OptionType>[] {
@@ -55,21 +65,18 @@ export function flattenOptions<OptionType extends BaseOptionType = DefaultOption
   function dig(list: OptionType[], isGroupOption: boolean) {
     list.forEach((data) => {
       if (isGroupOption || !(fieldOptions in data)) {
-        const value = data[fieldValue];
+        const value = getFieldValue(data, fieldValue);
 
         // Option
         flattenList.push({
           key: getKey(data, flattenList.length),
           groupOption: isGroupOption,
           data,
-          label: data[fieldLabel],
+          label: getFieldValue(data, fieldLabel),
           value,
         });
       } else {
-        let grpLabel = data[groupLabel];
-        if (grpLabel === undefined && childrenAsData) {
-          grpLabel = data.label;
-        }
+        const grpLabel = getFieldValue(data, groupLabel);
 
         // Option Group
         flattenList.push({

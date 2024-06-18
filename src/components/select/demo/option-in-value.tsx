@@ -2,12 +2,12 @@ import { Select } from 'metis-ui';
 import React from 'react';
 
 const handleChange = (value: { value: string; label: React.ReactNode }) => {
-  console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+  console.log(value); // { value: "lucy", label: "Lucy (101)" }
 };
 
 const App: React.FC = () => (
   <Select
-    labelInValue
+    optionInValue
     defaultValue={{ value: 'lucy', label: 'Lucy (101)' }}
     style={{ width: 160 }}
     onChange={handleChange}
