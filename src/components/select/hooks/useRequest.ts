@@ -19,7 +19,7 @@ export default function <TData extends BaseOptionType>(
     requestService = request.service;
     requestOptions = request.options;
   }
-  const { refreshDeps = [], ...restOptions } = requestOptions ?? {};
+  const { defaultParams = [], refreshDeps = [], ...restOptions } = requestOptions ?? {};
 
   const [current, setCurrent] = useState(1);
 
@@ -42,10 +42,11 @@ export default function <TData extends BaseOptionType>(
       return await requestService(...[firstParam, ...params].filter(Boolean));
     },
     {
+      defaultParams,
       refreshDeps: [searchValue, current, ...refreshDeps],
       refreshDepsAction: () => {
         setCurrent(1);
-        run();
+        run(...defaultParams);
       },
       ...restOptions,
     },
