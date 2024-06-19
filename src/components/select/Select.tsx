@@ -25,6 +25,7 @@ import useFilterOptions from './hooks/useFilterOptions';
 import useIcons from './hooks/useIcons';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
+import useRequest from './hooks/useRequest';
 import {
   BaseOptionType,
   DraftValueType,
@@ -61,7 +62,7 @@ const Select = React.forwardRef(
       bordered = true,
 
       // Request
-      // request,
+      request,
       // pagination,
 
       // Search
@@ -99,6 +100,9 @@ const Select = React.forwardRef(
       builtinPlacements,
       getPopupContainer,
 
+      loading,
+      showSearch,
+
       ...restProps
     } = props;
 
@@ -135,9 +139,26 @@ const Select = React.forwardRef(
     } = React.useContext(FormItemInputContext);
     const mergedStatus = getMergedStatus(contextStatus, customStatus);
 
+    // =========================== Search ===========================
+    const [mergedSearchValue, setSearchValue] = useMergedState('', {
+      value: searchValue,
+      postState: (search) => search || '',
+    });
+
+    // ===================== Request =====================
+    const [requestedOptions, requestLoading] = useRequest(
+      request,
+      showSearch,
+      mergedSearchValue,
+      optionFilterProp,
+    );
+    const mergedLoading = loading || requestLoading;
+
     // ===================== Empty =====================
     let mergedNotFound: React.ReactNode;
-    if (notFoundContent !== undefined) {
+    if (requestLoading) {
+      mergedNotFound = null;
+    } else if (notFoundContent !== undefined) {
       mergedNotFound = notFoundContent;
     } else if (mergedMode === 'combobox') {
       mergedNotFound = null;
@@ -148,6 +169,7 @@ const Select = React.forwardRef(
     // ===================== Icons =====================
     const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
       ...props,
+      loading: mergedLoading,
       multiple,
       hasFeedback,
       feedbackIcon,
@@ -179,14 +201,13 @@ const Select = React.forwardRef(
       [JSON.stringify(fieldNames)],
     );
 
-    // =========================== Search ===========================
-    const [mergedSearchValue, setSearchValue] = useMergedState('', {
-      value: searchValue,
-      postState: (search) => search || '',
-    });
-
     // =========================== Option ===========================
-    const parsedOptions = useOptions(options, mergedFieldNames, optionFilterProp, optionLabelProp);
+    const parsedOptions = useOptions(
+      request ? requestedOptions : options,
+      mergedFieldNames,
+      optionFilterProp,
+      optionLabelProp,
+    );
     const { valueOptions, labelOptions, options: mergedOptions } = parsedOptions;
 
     // ========================= Wrap Value =========================
@@ -349,6 +370,7 @@ const Select = React.forwardRef(
       mergedSearchValue,
       mergedFilterOption,
       optionFilterProp,
+      !!request,
     );
 
     // Fill options with search value if needed
@@ -366,7 +388,7 @@ const Select = React.forwardRef(
     }, [createTagOption, optionFilterProp, mergedMode, filteredOptions, mergedSearchValue]);
 
     const orderedFilteredOptions = React.useMemo(() => {
-      if (!filterSort) {
+      if (!filterSort || request) {
         return filledSearchOptions;
       }
 
@@ -635,6 +657,8 @@ const Select = React.forwardRef(
             leaveFrom: 'opacity-100',
             leaveTo: 'opacity-0',
           }}
+          loading={mergedLoading}
+          showSearch={showSearch}
           // >>> Values
           displayValues={displayValues}
           onDisplayValuesChange={onDisplayValuesChange}

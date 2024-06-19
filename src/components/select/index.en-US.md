@@ -27,7 +27,7 @@ Select component to select value from options.
 <code src="./demo/search-box.tsx">Search Box</code>
 <code src="./demo/option-in-value.tsx">Get value of selected item</code>
 <code src="./demo/automatic-tokenization.tsx">Automatic tokenization</code>
-<code src="./demo/select-users.tsx">Search and Select Users</code>
+<code src="./demo/request.tsx">Remote request</code>
 <code src="./demo/suffix.tsx" debug>Suffix</code>
 <code src="./demo/custom-dropdown-menu.tsx">Custom dropdown</code>
 <code src="./demo/hide-selected.tsx">Hide Already Selected</code>

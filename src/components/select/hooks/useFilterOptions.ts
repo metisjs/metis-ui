@@ -13,9 +13,10 @@ export default (
   searchValue?: string,
   filterOption?: SelectPropsWithOptions['filterOption'],
   optionFilterProp?: string,
+  useRequest: boolean,
 ) =>
   React.useMemo(() => {
-    if (!searchValue || filterOption === false) {
+    if (!searchValue || filterOption === false || useRequest) {
       return options;
     }
 

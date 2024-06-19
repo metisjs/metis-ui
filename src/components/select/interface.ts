@@ -126,7 +126,7 @@ export interface SelectPropsWithOptions<
   status?: InputStatus;
 }
 
-type RequestConfig<TData, TParams extends any[]> =
+export type RequestConfig<TData, TParams extends any[]> =
   | RequestService<{ data: TData[]; total?: number }, TParams>
   | {
       service: RequestService<{ data: TData[]; total?: number }, TParams>;

@@ -10,20 +10,19 @@ import * as React from 'react';
 // import message from '../message';
 // import notification from '../notification';
 // import type { Theme } from './context';
-import type { CSPConfig, ConfigConsumerProps } from './context';
-import { ConfigConsumer, ConfigContext } from './context';
-// import { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
 import type { SizeType } from './SizeContext';
 import SizeContext, { SizeContextProvider } from './SizeContext';
+import type { ConfigConsumerProps } from './context';
+import { ConfigConsumer, ConfigContext } from './context';
+import { RenderEmptyHandler } from './defaultRenderEmpty';
 
-export { CSPConfig, ConfigConsumer, ConfigConsumerProps, ConfigContext };
+export { ConfigConsumer, ConfigConsumerProps, ConfigContext };
 
 export const configConsumerProps = [
   'getTargetContainer',
   'getPopupContainer',
-  // 'renderEmpty',
-  'csp',
+  'renderEmpty',
   'locale',
   'pageHeader',
 ];
@@ -32,8 +31,7 @@ export const configConsumerProps = [
 const PASSED_PROPS: (keyof ConfigConsumerProps)[] = [
   'getTargetContainer',
   'getPopupContainer',
-  // 'renderEmpty',
-  'pageHeader',
+  'renderEmpty',
   'input',
   'pagination',
   'form',
@@ -43,8 +41,7 @@ export interface ConfigProviderProps {
   getTargetContainer?: () => HTMLElement | Window;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
   children?: React.ReactNode;
-  // renderEmpty?: RenderEmptyHandler;
-  csp?: CSPConfig;
+  renderEmpty?: RenderEmptyHandler;
   form?: {
     // validateMessages?: ValidateMessages;
     // requiredMark?: RequiredMark;
@@ -77,11 +74,9 @@ interface ProviderChildrenProps extends ConfigProviderProps {
 const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const {
     children,
-    csp,
     // form,
     // locale,
     componentSize,
-    direction,
     space,
     virtual,
     popupMatchSelectWidth,
@@ -92,9 +87,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   const config = {
     ...parentContext,
-    csp,
     // locale: locale || legacyLocale,
-    direction,
     space,
     virtual,
     popupMatchSelectWidth,

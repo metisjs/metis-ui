@@ -8,14 +8,7 @@ import BaseSelect from './BaseSelect';
 import Select from './Select';
 import useBaseProps from './hooks/useBaseProps';
 
-export type {
-  SelectProps,
-  SelectPropsWithOptions,
-  SelectPropsWithRequest,
-  SelectPropsWithRequestPagination,
-  SelectPropsWithRequestSearch,
-  SelectPropsWithRequestSearchPagination,
-} from './interface';
+export type { SelectProps } from './interface';
 
 export { BaseSelect, useBaseProps };
 export type {
