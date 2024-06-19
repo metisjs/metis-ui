@@ -9,26 +9,13 @@ import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import type { MenuProps } from '../menu';
 import Menu from '../menu';
-import Trigger, { ActionType } from '../trigger';
+import Trigger, { ActionType, AlignType } from '../trigger';
 import Overlay from './Overlay';
 import useAccessibility from './hooks/useAccessibility';
 
 const Placements = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'top', 'bottom'] as const;
 
 type Placement = (typeof Placements)[number];
-
-type Align = {
-  points?: [string, string];
-  offset?: [number, number];
-  targetOffset?: [number, number];
-  overflow?: {
-    adjustX?: boolean;
-    adjustY?: boolean;
-  };
-  useCssRight?: boolean;
-  useCssBottom?: boolean;
-  useCssTransform?: boolean;
-};
 
 export type DropdownArrowOptions = {
   pointAtCenter?: boolean;
@@ -44,7 +31,7 @@ export interface DropdownProps {
   open?: boolean;
   disabled?: boolean;
   destroyPopupOnHide?: boolean;
-  align?: Align;
+  align?: AlignType;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   prefixCls?: string;
   className?: ComplexClassName<'overlay' | 'open'>;

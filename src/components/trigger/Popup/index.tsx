@@ -6,7 +6,7 @@ import type { TriggerProps } from '../';
 import { ComplexClassName, clsx, getComplexCls } from '../../_util/classNameUtils';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
-import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
+import type { AlignPoint, AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
 import Arrow from './Arrow';
 import Mask from './Mask';
 import PopupContent from './PopupContent';
@@ -25,7 +25,7 @@ export interface PopupProps {
   onOpenChanged: (open: boolean) => void;
 
   // Arrow
-  align?: AlignType;
+  align: AlignType & { points: (string | AlignPoint)[] };
   arrow?: ArrowTypeOuter;
   arrowPos: ArrowPos;
 
@@ -51,6 +51,8 @@ export interface PopupProps {
   ready: boolean;
   offsetX: number;
   offsetY: number;
+  offsetR: number;
+  offsetB: number;
   onAlign: VoidFunction;
   onPrepare: () => Promise<void>;
 
@@ -103,6 +105,8 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     ready,
     offsetX,
     offsetY,
+    offsetR,
+    offsetB,
     onAlign,
     onPrepare,
 
@@ -136,16 +140,38 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
   }
 
   // >>>>> Offset
-  const offsetStyle: React.CSSProperties =
-    ready || !open
-      ? {
-          left: offsetX,
-          top: offsetY,
-        }
-      : {
-          left: '-1000vw',
-          top: '-1000vh',
-        };
+  const AUTO = 'auto' as const;
+
+  const offsetStyle: React.CSSProperties = {
+    left: '-1000vw',
+    top: '-1000vh',
+    right: AUTO,
+    bottom: AUTO,
+  };
+
+  // Set align style
+  if (ready || !open) {
+    const { points } = align;
+    const dynamicInset = align.dynamicInset;
+    const alignRight = dynamicInset && points[0][1] === 'r';
+    const alignBottom = dynamicInset && points[0][0] === 'b';
+
+    if (alignRight) {
+      offsetStyle.right = offsetR;
+      offsetStyle.left = AUTO;
+    } else {
+      offsetStyle.left = offsetX;
+      offsetStyle.right = AUTO;
+    }
+
+    if (alignBottom) {
+      offsetStyle.bottom = offsetB;
+      offsetStyle.top = AUTO;
+    } else {
+      offsetStyle.top = offsetY;
+      offsetStyle.bottom = AUTO;
+    }
+  }
 
   // >>>>> Misc
   const miscStyle: React.CSSProperties = {};

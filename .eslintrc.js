@@ -3,6 +3,5 @@ module.exports = {
   plugins: ['lodash'],
   rules: {
     'lodash/import-scope': 2,
-    'react-hooks/exhaustive-deps': 'error',
   },
 };

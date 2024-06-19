@@ -290,7 +290,19 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       setMousePos([event.clientX, event.clientY]);
     };
 
-    const [ready, offsetX, offsetY, arrowX, arrowY, scaleX, scaleY, alignInfo, onAlign] = useAlign(
+    const [
+      ready,
+      offsetX,
+      offsetY,
+      offsetR,
+      offsetB,
+      arrowX,
+      arrowY,
+      scaleX,
+      scaleY,
+      alignInfo,
+      onAlign,
+    ] = useAlign(
       mergedOpen,
       popupEle,
       alignPoint ? mousePos : targetEle,
@@ -558,6 +570,8 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
             ready={ready}
             offsetX={offsetX}
             offsetY={offsetY}
+            offsetR={offsetR}
+            offsetB={offsetB}
             onAlign={triggerAlign}
             // Stretch
             stretch={stretch}

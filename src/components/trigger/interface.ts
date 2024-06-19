@@ -62,6 +62,10 @@ export interface AlignType {
    */
   htmlRegion?: 'visible' | 'scroll' | 'visibleFirst';
   /**
+   * Auto chose position with `top` or `bottom` by the align result
+   */
+  dynamicInset?: boolean;
+  /**
    * Whether use css right instead of left to position
    */
   useCssRight?: boolean;
