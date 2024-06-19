@@ -1,5 +1,5 @@
-import { useRequest, useUpdateEffect } from 'ahooks';
-import { useMemo, useState } from 'react';
+import { useRequest } from 'ahooks';
+import { useState } from 'react';
 import { BaseOptionType, RequestConfig } from '../interface';
 
 const PAGE_SIZE = 30;
@@ -20,38 +20,39 @@ export default function <TData extends BaseOptionType>(
     requestOptions = request.options;
   }
 
-  const { defaultParams = [], ...restOptions } = requestOptions ?? {};
+  const { refreshDeps = [], refreshDepsAction, ...restOptions } = requestOptions ?? {};
 
-  const [current] = useState(1);
+  const [current, setCurrent] = useState(1);
 
-  const params = useMemo(() => {
-    let firstParam: Record<string, any> | undefined = undefined;
-    if (showSearch) {
-      firstParam = {
-        filters: { [optionFilterProp ?? 'keyword']: searchValue?.trim() || undefined },
-      };
-    }
+  const { data, loading } = useRequest(
+    async (...params) => {
+      let firstParam: Record<string, any> | undefined = undefined;
+      if (showSearch) {
+        firstParam = {
+          filters: { [optionFilterProp ?? 'keyword']: searchValue?.trim() || undefined },
+        };
+      }
 
-    if (pagination) {
-      firstParam = {
-        ...firstParam,
-        current,
-        pageSize: PAGE_SIZE,
-      };
-    }
+      if (pagination) {
+        firstParam = {
+          ...firstParam,
+          current,
+          pageSize: PAGE_SIZE,
+        };
+      }
 
-    return [firstParam, ...defaultParams].filter(Boolean);
-  }, [searchValue, current]);
-
-  const { data, loading, runAsync } = useRequest(requestService, {
-    defaultParams: params,
-    ...restOptions,
-  });
+      return await requestService(...[firstParam, ...params].filter(Boolean));
+    },
+    {
+      refreshDeps: [searchValue, current, ...refreshDeps],
+      refreshDepsAction: () => {
+        refreshDepsAction?.();
+        setCurrent(1);
+      },
+      ...restOptions,
+    },
+  );
   const { data: options = [] } = data || {};
-
-  useUpdateEffect(() => {
-    runAsync(...params);
-  }, [params]);
 
   return [options, loading];
 }
