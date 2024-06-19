@@ -19,7 +19,6 @@ export default function <TData extends BaseOptionType>(
     requestService = request.service;
     requestOptions = request.options;
   }
-
   const { refreshDeps = [], refreshDepsAction, ...restOptions } = requestOptions ?? {};
 
   const [current, setCurrent] = useState(1);
