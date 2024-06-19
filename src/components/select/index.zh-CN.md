@@ -28,7 +28,8 @@ group:
 <code src="./demo/search-box.tsx">搜索框</code>
 <code src="./demo/option-in-value.tsx">获得选项的值</code>
 <code src="./demo/automatic-tokenization.tsx">自动分词</code>
-<code src="./demo/request.tsx">远程请求数据</code>
+<code src="./demo/request.tsx">请求远程数据</code>
+<code src="./demo/request-pagination.tsx">分页请求远程数据</code>
 <code src="./demo/suffix.tsx" debug>后缀图标</code>
 <code src="./demo/custom-dropdown-menu.tsx">扩展菜单</code>
 <code src="./demo/hide-selected.tsx">隐藏已选择选项</code>

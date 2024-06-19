@@ -63,7 +63,7 @@ const Select = React.forwardRef(
 
       // Request
       request,
-      // pagination,
+      pagination,
 
       // Search
       searchValue,
@@ -102,6 +102,8 @@ const Select = React.forwardRef(
 
       loading,
       showSearch,
+
+      onPopupScroll,
 
       ...restProps
     } = props;
@@ -146,11 +148,18 @@ const Select = React.forwardRef(
     });
 
     // ===================== Request =====================
-    const [requestedOptions, requestLoading] = useRequest(
+    const {
+      options: requestedOptions,
+      loading: requestLoading,
+      onScroll: onInternalPopupScroll,
+      // loadingMore: requestLoadingMore,
+    } = useRequest(
       request,
       showSearch,
       mergedSearchValue,
       optionFilterProp,
+      pagination,
+      onPopupScroll,
     );
     const mergedLoading = loading || requestLoading;
 
@@ -659,6 +668,7 @@ const Select = React.forwardRef(
           }}
           loading={mergedLoading}
           showSearch={showSearch}
+          onPopupScroll={onInternalPopupScroll}
           // >>> Values
           displayValues={displayValues}
           onDisplayValuesChange={onDisplayValuesChange}

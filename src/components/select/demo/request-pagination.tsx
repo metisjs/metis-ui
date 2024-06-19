@@ -1,14 +1,15 @@
 import { Select } from 'metis-ui';
 import React from 'react';
-import { fetchData } from './services';
+import { fetchDataWithPagination } from './services';
 
 export default () => (
   <Select
     showSearch
     placeholder="Search to Select"
-    request={fetchData}
+    request={fetchDataWithPagination}
     fieldNames={{ label: 'name', value: 'id' }}
     optionFilterProp="name"
+    pagination
     onChange={(...arg) => console.log(...arg)}
     className="w-[320px]"
   />

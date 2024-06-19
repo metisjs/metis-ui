@@ -15,10 +15,11 @@ for (let i = 0; i < 300; i += 1) {
 }
 
 export async function fetchDataWithPagination(params: {
-  [key: string]: any;
+  filters?: { name?: string };
   current: number;
   pageSize: number;
 }): Promise<{ data: DataItem[]; total: number }> {
+  console.log('fetchDataWithPagination', params);
   const { current, pageSize } = params;
   return new Promise((resolve) => {
     setTimeout(() => {
