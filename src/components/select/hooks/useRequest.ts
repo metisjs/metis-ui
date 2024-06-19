@@ -19,11 +19,11 @@ export default function <TData extends BaseOptionType>(
     requestService = request.service;
     requestOptions = request.options;
   }
-  const { refreshDeps = [], refreshDepsAction, ...restOptions } = requestOptions ?? {};
+  const { refreshDeps = [], ...restOptions } = requestOptions ?? {};
 
   const [current, setCurrent] = useState(1);
 
-  const { data, loading } = useRequest(
+  const { data, loading, run } = useRequest(
     async (...params) => {
       let firstParam: Record<string, any> | undefined = undefined;
       if (showSearch) {
@@ -39,14 +39,13 @@ export default function <TData extends BaseOptionType>(
           pageSize: PAGE_SIZE,
         };
       }
-
       return await requestService(...[firstParam, ...params].filter(Boolean));
     },
     {
       refreshDeps: [searchValue, current, ...refreshDeps],
       refreshDepsAction: () => {
-        refreshDepsAction?.();
         setCurrent(1);
+        run();
       },
       ...restOptions,
     },

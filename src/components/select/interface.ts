@@ -130,7 +130,10 @@ export type RequestConfig<TData, TParams extends any[]> =
   | RequestService<{ data: TData[]; total?: number }, TParams>
   | {
       service: RequestService<{ data: TData[]; total?: number }, TParams>;
-      options?: Omit<RequestOptions<{ data: TData[]; total?: number }, TParams>, 'manual'>;
+      options?: Omit<
+        RequestOptions<{ data: TData[]; total?: number }, TParams>,
+        'manual' | 'refreshDepsAction'
+      >;
     };
 
 export interface SelectPropsWithRequest<
