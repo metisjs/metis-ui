@@ -110,7 +110,6 @@ group:
 
 ```ts
 interface FileNames {
-  export interface FieldNames<OptionType> {
   value?: string | ((option: OptionType) => RawValueType);
   label?: string | ((option: OptionType) => React.ReactNode);
   groupLabel?: string | ((option: OptionType) => React.ReactNode);
