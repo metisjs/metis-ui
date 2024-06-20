@@ -36,7 +36,7 @@ import {
   RawValueType,
   SelectCommonPlacement,
   SelectProps,
-  SelectPropsWithOptions,
+  TypedSelectComponent,
 } from './interface';
 import { hasValue, toArray } from './utils/commonUtil';
 import { fillFieldNames, flattenOptions, getFieldValue } from './utils/valueUtil';
@@ -51,7 +51,7 @@ function isRawValue(value: DraftValueType): value is RawValueType {
 }
 
 const Select = React.forwardRef(
-  (props: SelectProps<any, BaseOptionType, any[]>, ref: React.Ref<BaseSelectRef>) => {
+  (props: SelectProps<BaseOptionType>, ref: React.Ref<BaseSelectRef>) => {
     const {
       id,
       mode,
@@ -693,13 +693,8 @@ if (process.env.NODE_ENV !== 'production') {
   Select.displayName = 'Select';
 }
 
-const TypedSelect = Select as unknown as <
-  ValueType = any,
-  OptionType extends BaseOptionType = BaseOptionType,
->(
-  props: SelectPropsWithOptions<ValueType, OptionType> & {
-    ref?: React.Ref<BaseSelectRef>;
-  },
-) => React.ReactElement;
+const TypedSelect: TypedSelectComponent = (props: any) => {
+  return <Select {...props} />;
+};
 
 export default TypedSelect;

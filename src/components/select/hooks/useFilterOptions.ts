@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { BaseOptionType, FieldNames, SelectPropsWithOptions } from '../interface';
+import type { BaseOptionType, FieldNames, SelectProps } from '../interface';
 import { toArray } from '../utils/commonUtil';
 import { getFieldValue } from '../utils/valueUtil';
 
@@ -11,9 +11,9 @@ export default (
   options: BaseOptionType[] = [],
   fieldNames: Required<FieldNames<BaseOptionType>>,
   searchValue?: string,
-  filterOption?: SelectPropsWithOptions['filterOption'],
+  filterOption?: SelectProps['filterOption'],
   optionFilterProp?: string,
-  useRequest: boolean,
+  useRequest?: boolean,
 ) =>
   React.useMemo(() => {
     if (!searchValue || filterOption === false || useRequest) {
