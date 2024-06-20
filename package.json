@@ -23,7 +23,8 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install && dumi setup",
     "release": "node ./scripts/release",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "sort:api-table": "node ./scripts/sort-api-table"
   },
   "commitlint": {
     "extends": [
@@ -74,6 +75,7 @@
     "git-repo-info": "^2.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
+    "majo": "^0.9.1",
     "prettier": "^2.8.8",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-packagejson": "^2.4.3",
@@ -82,9 +84,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.4",
+    "remark-frontmatter": "^2.0.0",
+    "remark-parse": "^8.0.0",
+    "remark-stringify": "^8.0.0",
+    "remark-yaml-config": "^4.1.0",
     "rimraf": "^5.0.7",
     "stylelint": "^15.6.0",
     "tailwindcss": "^3.4.4",
+    "unified": "^8.0.0",
     "zx": "^8.1.2"
   },
   "peerDependencies": {
