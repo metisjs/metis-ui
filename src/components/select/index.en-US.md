@@ -23,11 +23,12 @@ Select component to select value from options.
 <code src="./demo/search-sort.tsx">Search with sort</code>
 <code src="./demo/tags.tsx">Tags</code>
 <code src="./demo/optgroup.tsx">Option Group</code>
-<code src="./demo/coordinate.tsx">coordinate</code>
+<code src="./demo/coordinate.tsx">Coordinate</code>
 <code src="./demo/search-box.tsx">Search Box</code>
 <code src="./demo/option-in-value.tsx">Get value of selected item</code>
 <code src="./demo/automatic-tokenization.tsx">Automatic tokenization</code>
-<code src="./demo/request.tsx">Remote request</code>
+<code src="./demo/request.tsx">Remote fetch</code>
+<code src="./demo/request-pagination.tsx">Remote fetch with pagination</code>
 <code src="./demo/suffix.tsx" debug>Suffix</code>
 <code src="./demo/custom-dropdown-menu.tsx">Custom dropdown</code>
 <code src="./demo/hide-selected.tsx">Hide Already Selected</code>
@@ -58,7 +59,7 @@ Select component to select value from options.
 | popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
 | dropdownRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
 | dropdownStyle | The style of dropdown menu | CSSProperties | - |  |
-| fieldNames | Customize node label, value, options，groupLabel field name | object | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
+| fieldNames | Customize node label, value, options，groupLabel field name | [FileNames](#filenames) | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
 | filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns `true`, the option will be included in the filtered set; Otherwise, it will be excluded | boolean \| function(inputValue, option) | true |  |
 | filterSort | Sort function for search options sorting, see [Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)'s compareFunction | (optionA: Option, optionB: Option) => number | - |  |
 | getPopupContainer | Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. | function(triggerNode) | () => document.body |  |
@@ -71,7 +72,7 @@ Select component to select value from options.
 | mode | Set mode of Select | `multiple` \| `tags` | - |  |
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
-| optionFilterProp | Which prop value of option will be used for filter if filterOption is true. If `options` is set, it should be set to `label` | string | `value` |  |
+| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`value` \| request: `keyword` |  |
 | optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
 | optionLabelProp | Which prop value of option will render as content of select. | string | `children` |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
@@ -99,8 +100,39 @@ Select component to select value from options.
 | onPopupScroll | Called when dropdown scrolls | function | - |  |
 | onSearch | Callback function that is fired when input changed | function(value: string) | - |  |
 | onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string \| number \| LabeledValue, option: Option) | - |  |
+| request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
+| pagination | Remote pagination request, effective only when using the `request` configuration | boolean | false |  |
 
 > Note, if you find that the drop-down menu scrolls with the page, or you need to trigger Select in other popup layers, please try to use `getPopupContainer={triggerNode => triggerNode.parentElement}` to fix the drop-down popup rendering node in the parent element of the trigger .
+
+#### FileNames
+
+```ts
+interface FileNames {
+  export interface FieldNames<OptionType> {
+  value?: string | ((option: OptionType) => RawValueType);
+  label?: string | ((option: OptionType) => React.ReactNode);
+  groupLabel?: string | ((option: OptionType) => React.ReactNode);
+  options?: string;
+  disabled?: string | ((option: OptionType) => boolean);
+}
+```
+
+#### RequestConfig
+
+> The request property uses the useRequest hook from ahooks, so it supports all the parameters that useRequest does. For more information, you can refer to the [useRequest documentation](https://ahooks.js.org/hooks/use-request).
+
+```ts
+export type RequestConfig<TData, ParamsType extends any[]> =
+  | RequestService<{ data: TData[]; total?: number }, ParamsType>
+  | {
+      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
+      options?: Omit<
+        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
+        'manual' | 'refreshDepsAction'
+      >;
+    };
+```
 
 ### Select Methods
 
