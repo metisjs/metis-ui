@@ -21,11 +21,14 @@ export async function fetchDataWithPagination(params: {
 }): Promise<{ data: DataItem[]; total: number }> {
   console.log('fetchDataWithPagination', params);
   const { current, pageSize } = params;
+  const d = dataSource.filter((item) =>
+    params?.filters?.name ? item.name.includes(params?.filters?.name) : true,
+  );
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        data: dataSource.slice((current - 1) * pageSize, current * pageSize),
-        total: dataSource.length,
+        data: d.slice((current - 1) * pageSize, current * pageSize),
+        total: d.length,
       });
     }, 700);
   });

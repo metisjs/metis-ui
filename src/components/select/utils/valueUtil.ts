@@ -59,6 +59,7 @@ export function flattenOptions<OptionType extends BaseOptionType = BaseOptionTyp
     label: fieldLabel,
     value: fieldValue,
     options: fieldOptions,
+    disabled: fieldDisabled,
     groupLabel,
   } = fillFieldNames(fieldNames);
 
@@ -74,6 +75,7 @@ export function flattenOptions<OptionType extends BaseOptionType = BaseOptionTyp
           data,
           label: getFieldValue(data, fieldLabel),
           value,
+          disabled: getFieldValue(data, fieldDisabled),
         });
       } else {
         const grpLabel = getFieldValue(data, groupLabel);

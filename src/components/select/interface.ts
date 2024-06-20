@@ -52,6 +52,7 @@ export interface FlattenOptionData<OptionType> {
   value?: RawValueType;
   groupOption?: boolean;
   group?: boolean;
+  disabled?: boolean;
 }
 
 export interface BaseOptionType {

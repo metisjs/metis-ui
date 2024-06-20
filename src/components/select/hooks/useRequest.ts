@@ -1,7 +1,7 @@
 import { useMemoizedFn, useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { getClientHeight, getScrollHeight, getScrollTop } from 'metis-ui/es/_util/rect';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { BaseOptionType, RequestConfig } from '../interface';
 
 const PAGE_SIZE = 30;
@@ -15,8 +15,10 @@ export default function <TData extends BaseOptionType>(
   pagination?: boolean,
   onScroll?: React.UIEventHandler<HTMLDivElement>,
 ) {
-  const [current, setCurrent] = useState(1);
+  const current = useRef(1);
+  const target = useRef<HTMLDivElement>();
   const [loadingMore, setLoadingMore] = useState(false);
+  const [finalData, setFinalData] = useState<{ data: TData[]; total?: number }>();
 
   let requestService: Service<{ data: TData[]; total?: number }, any[]> | undefined = undefined;
   let requestOptions: Options<{ data: TData[]; total?: number }, any[]> | undefined = undefined;
@@ -26,10 +28,10 @@ export default function <TData extends BaseOptionType>(
     requestService = request.service;
     requestOptions = request.options;
   }
-  const { defaultParams = [], refreshDeps = [], onFinally, ...restOptions } = requestOptions ?? {};
+  const { refreshDeps = [], onFinally, onSuccess, ready, ...restOptions } = requestOptions ?? {};
 
-  const { data, loading, run } = useRequest(
-    async () => {
+  const { loading, run, params, cancel } = useRequest(
+    async (defaultParams: any[] = []) => {
       let firstParam: Record<string, any> | undefined = undefined;
       if (showSearch) {
         firstParam = {
@@ -40,17 +42,36 @@ export default function <TData extends BaseOptionType>(
       if (pagination) {
         firstParam = {
           ...firstParam,
-          current,
+          current: current.current,
           pageSize: PAGE_SIZE,
         };
       }
-      return await requestService?.(...[firstParam, ...defaultParams].filter(Boolean));
+      return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
     },
     {
+      ready: !!requestService && ready,
       refreshDeps: [showSearch, searchValue, pagination, optionFilterProp, ...refreshDeps],
       refreshDepsAction: () => {
-        setCurrent(1);
-        run(...defaultParams);
+        cancel();
+        current.current = 1;
+        target.current?.scrollTo({ top: 0 });
+        run(params);
+      },
+      onSuccess: (d, params) => {
+        if (current.current === 1) {
+          setFinalData(d);
+        } else {
+          setFinalData((prev) => {
+            if (prev) {
+              return {
+                ...prev,
+                data: [...prev.data, ...d.data],
+              };
+            }
+            return d;
+          });
+        }
+        onSuccess?.(d, params);
       },
       onFinally: (...params) => {
         setLoadingMore(false);
@@ -59,28 +80,46 @@ export default function <TData extends BaseOptionType>(
       ...restOptions,
     },
   );
-  const { data: options = [], total = 0 } = data || {};
+  const { data: options = [], total = 0 } = finalData || {};
 
   const noMore = useMemo(() => options.length >= total, [options, total]);
 
+  const loadMore = useMemoizedFn((c: number) => {
+    setLoadingMore(true);
+
+    let toCurrent = c <= 0 ? 1 : c;
+    const tempTotalPage = Math.ceil(total / PAGE_SIZE);
+    if (toCurrent > tempTotalPage) {
+      toCurrent = Math.max(1, tempTotalPage);
+    }
+
+    current.current = toCurrent;
+    run(params);
+  });
+
   const onInternalScroll: React.UIEventHandler<HTMLDivElement> = useMemoizedFn((e) => {
+    target.current = e.target as HTMLDivElement;
     if (pagination && !noMore && !loadingMore) {
-      const el = e.target as HTMLDivElement;
-      const scrollTop = getScrollTop(el);
-      const scrollHeight = getScrollHeight(el);
-      const clientHeight = getClientHeight(el);
+      const scrollTop = getScrollTop(target.current);
+      const scrollHeight = getScrollHeight(target.current);
+      const clientHeight = getClientHeight(target.current);
 
       if (scrollHeight - scrollTop <= clientHeight + THRESHOLD) {
-        setLoadingMore(true);
-        setCurrent((c) => c + 1);
-        // run();
+        loadMore(current.current + 1);
       }
     }
     onScroll?.(e);
   });
 
+  const mergedOptions = useMemo(() => {
+    if (pagination && !noMore && loadingMore) {
+      return [...options, { __loading__: true }];
+    }
+    return options;
+  }, [options, loadingMore, noMore, pagination]);
+
   return {
-    options,
+    options: mergedOptions,
     loading: !loadingMore && loading,
     onScroll: onInternalScroll,
     loadingMore,
