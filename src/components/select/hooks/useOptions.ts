@@ -1,26 +1,14 @@
 import * as React from 'react';
-import type { BaseOptionType, DefaultOptionType, FieldNames, RawValueType } from '../Select';
-import { convertChildrenToData } from '../utils/legacyUtil';
+import type { BaseOptionType, FieldNames, RawValueType } from '../interface';
+import { getFieldValue } from '../utils/valueUtil';
 
-/**
- * Parse `children` to `options` if `options` is not provided.
- * Then flatten the `options`.
- */
-export default function useOptions<OptionType extends BaseOptionType = DefaultOptionType>(
+export default function useOptions<OptionType extends BaseOptionType = BaseOptionType>(
   options: OptionType[] | undefined,
-  children: React.ReactNode,
-  fieldNames: FieldNames,
+  fieldNames: FieldNames<OptionType>,
   optionFilterProp?: string,
   optionLabelProp?: string,
 ) {
   return React.useMemo(() => {
-    let mergedOptions = options;
-    const childrenAsData = !options;
-
-    if (childrenAsData) {
-      mergedOptions = convertChildrenToData<OptionType>(children);
-    }
-
     const valueOptions = new Map<RawValueType, OptionType>();
     const labelOptions = new Map<React.ReactNode, OptionType>();
 
@@ -39,8 +27,8 @@ export default function useOptions<OptionType extends BaseOptionType = DefaultOp
       for (let i = 0; i < optionList.length; i += 1) {
         const option = optionList[i];
         if (!option[fieldNames.options!] || isChildren) {
-          valueOptions.set(option[fieldNames.value!], option);
-          setLabelOptions(labelOptions, option, fieldNames.label!);
+          valueOptions.set(getFieldValue(option, fieldNames.value), option);
+          labelOptions.set(getFieldValue(option, fieldNames.label), option);
           setLabelOptions(labelOptions, option, optionFilterProp);
           setLabelOptions(labelOptions, option, optionLabelProp);
         } else {
@@ -48,12 +36,12 @@ export default function useOptions<OptionType extends BaseOptionType = DefaultOp
         }
       }
     }
-    dig(mergedOptions!);
+    dig(options!);
 
     return {
-      options: mergedOptions!,
+      options: options!,
       valueOptions,
       labelOptions,
     };
-  }, [options, children, fieldNames, optionFilterProp, optionLabelProp]);
+  }, [options, fieldNames, optionFilterProp, optionLabelProp]);
 }

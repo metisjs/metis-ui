@@ -1,6 +1,7 @@
 'use client';
 
 import { XMarkOutline } from '@metisjs/icons';
+import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import {
@@ -47,6 +48,8 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
   } = tagProps;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const [visible, setVisible] = React.useState(true);
+
+  const domProps = omit(restProps, ['closeIcon', 'closable']);
 
   const isInternalColor = isPresetStatusColor(color);
 
@@ -110,7 +113,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
   );
 
   const tagNode: React.ReactNode = (
-    <span {...restProps} ref={ref} className={tagClassName} style={tagStyle}>
+    <span {...domProps} ref={ref} className={tagClassName} style={tagStyle}>
       {kids}
       {mergedCloseIcon}
     </span>

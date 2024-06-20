@@ -1,6 +1,6 @@
 import { Segmented, Select } from 'metis-ui';
-import { SelectCommonPlacement } from 'metis-ui/es/select/Select';
 import React, { useState } from 'react';
+import { SelectCommonPlacement } from '../interface';
 
 const App: React.FC = () => {
   const [placement, SetPlacement] = useState<SelectCommonPlacement>('topLeft');

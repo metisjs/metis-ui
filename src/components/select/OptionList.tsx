@@ -1,6 +1,5 @@
 import KeyCode from 'rc-util/lib/KeyCode';
 import useMemo from 'rc-util/lib/hooks/useMemo';
-import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { ListRef } from 'rc-virtual-list';
 import List from 'rc-virtual-list';
@@ -9,13 +8,12 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
-import type { BaseOptionType, RawValueType } from './Select';
+import Spin from '../spin';
 import SelectContext from './SelectContext';
 import TransBtn from './TransBtn';
 import useBaseProps from './hooks/useBaseProps';
-import type { FlattenOptionData } from './interface';
+import type { BaseOptionType, FlattenOptionData, RawValueType } from './interface';
 
-// export interface OptionListProps<OptionsType extends object[]> {
 export type OptionListProps = Record<string, never>;
 
 export interface RefOptionListProps {
@@ -54,7 +52,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     onSelect,
     menuItemSelectedIcon,
     rawValues,
-    fieldNames = {},
     virtual,
     listHeight,
     listItemHeight,
@@ -241,8 +238,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     );
   }
 
-  const omitFieldNameList = Object.keys(fieldNames);
-
   const getLabel = (item: Record<string, any>) => item.label;
 
   function getItemAriaProps(item: FlattenOptionData<BaseOptionType>, index: number) {
@@ -307,8 +302,22 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         }}
       >
         {(item, itemIndex) => {
-          const { group, groupOption, data, label, value } = item;
-          const { key } = data;
+          const { group, groupOption, data, label, value, disabled } = item;
+
+          // 远程分页请求 Loading
+          if (data.__loading__) {
+            return (
+              <div
+                className={clsx(
+                  itemPrefixCls,
+                  `${itemPrefixCls}-loading`,
+                  'relative flex cursor-default select-none items-center justify-center px-3 py-1',
+                )}
+              >
+                <Spin size="small" />
+              </div>
+            );
+          }
 
           // Group
           if (group) {
@@ -322,14 +331,12 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
                 )}
                 title={groupTitle}
               >
-                {label !== undefined ? label : key}
+                {label}
               </div>
             );
           }
 
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { disabled, title, children, style, className, ...otherProps } = data;
-          const passedProps = omit(otherProps, omitFieldNameList);
+          const { title, style, className } = data;
 
           // Option
           const selected = isSelected(value!);
@@ -362,7 +369,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
 
           return (
             <div
-              {...pickAttrs(passedProps)}
               {...(!virtual ? getItemAriaProps(item, itemIndex) : {})}
               aria-selected={selected}
               className={optionClassName}

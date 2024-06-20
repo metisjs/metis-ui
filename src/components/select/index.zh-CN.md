@@ -11,7 +11,7 @@ group:
 ## 何时使用
 
 - 弹出一个下拉菜单给用户选择操作，用于代替原生的选择器，或者需要一个更优雅的多选器时。
-- 当选项少时（少于 5 项），建议直接将选项平铺，使用 [Radio](/components/radio/) 是更好的选择。
+- 当选项少时（少于 5 项），建议直接将选项平铺，使用 [Radio](/components/radio-cn/) 是更好的选择。
 
 ## 代码演示
 
@@ -26,9 +26,10 @@ group:
 <code src="./demo/optgroup.tsx">分组</code>
 <code src="./demo/coordinate.tsx">联动</code>
 <code src="./demo/search-box.tsx">搜索框</code>
-<code src="./demo/label-in-value.tsx">获得选项的文本</code>
+<code src="./demo/option-in-value.tsx">获得选项的值</code>
 <code src="./demo/automatic-tokenization.tsx">自动分词</code>
-<code src="./demo/select-users.tsx">搜索用户</code>
+<code src="./demo/request.tsx">请求远程数据</code>
+<code src="./demo/request-pagination.tsx">分页请求远程数据</code>
 <code src="./demo/suffix.tsx" debug>后缀图标</code>
 <code src="./demo/custom-dropdown-menu.tsx">扩展菜单</code>
 <code src="./demo/hide-selected.tsx">隐藏已选择选项</code>
@@ -59,11 +60,10 @@ group:
 | popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。false 时会关闭虚拟滚动 | boolean \| number | true |  |
 | popupRender | 自定义下拉框内容 | (originNode: ReactNode) => ReactNode | - |  |
 | dropdownStyle | 下拉菜单的 style 属性 | CSSProperties | - |  |
-| fieldNames | 自定义节点 label、value、options、groupLabel 的字段 | object | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
+| fieldNames | 自定义节点 label、value、options、groupLabel 的字段 | [FileNames](#filenames) | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
 | filterOption | 是否根据输入项进行筛选。当其为一个函数时，会接收 `inputValue` `option` 两个参数，当 `option` 符合筛选条件时，应返回 true，反之则返回 false | boolean \| function(inputValue, option) | true |  |
 | filterSort | 搜索时对筛选结果项的排序函数, 类似[Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)里的 compareFunction | (optionA: Option, optionB: Option) => number | - |  |
-| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。[示例](https://codesandbox.io/s/4j168r7jw0) | function(triggerNode) | () => document.body |  |
-| labelInValue | 是否把每个选项的 label 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 { value: string, label: ReactNode } 的格式 | boolean | false |  |
+| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | function(triggerNode) | () => document.body |  |
 | listHeight | 设置弹窗滚动高度 | number | 256 |  |
 | loading | 加载中状态 | boolean | false |  |
 | maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - |  |
@@ -73,14 +73,15 @@ group:
 | mode | 设置 Select 的模式为多选或标签 | `multiple` \| `tags` | - |  |
 | notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `Not Found` |  |
 | open | 是否展开下拉菜单 | boolean | - |  |
-| optionFilterProp | 搜索时过滤对应的 `option` 属性，如设置为 `children` 表示对内嵌内容进行搜索。若通过 `options` 属性配置选项内容，建议设置 `optionFilterProp="label"` 来对内容进行搜索。 | string | `value` |  |
+| optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容，建议设置 `optionFilterProp="label"` 来对内容进行搜索。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | option:`value` \| request: `keyword` |  |
+| optionInValue | 是否把每个选项的 option 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 OptionType 的格式 | boolean | false |  |
 | optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。 | string | `children` |  |
 | options | 数据化配置选项内容，相比 jsx 定义会获得更好的渲染性能 | { label, value }\[] | - |  |
 | placeholder | 选择框默认文本 | string | - |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
 | removeIcon | 自定义的多选框清除图标 | ReactNode | - |  |
 | searchValue | 控制搜索文本 | string | - |  |
-| showSearch | 配置是否可搜索 | boolean | 单选为 false，多选为 true |  |
+| showSearch | 配置是否可搜索 | boolean | false |  |
 | size | 选择框大小 | `large` \| `middle` \| `small` | `middle` |  |
 | status | 设置校验状态 | 'error' \| 'warning' | - |  |
 | suffixIcon | 自定义的选择框后缀图标。以防止图标被用于其他交互，替换的图标默认不会响应展开、收缩事件，可以通过添加 `pointer-events: none` 样式透传。 | ReactNode | - |  |
@@ -100,8 +101,39 @@ group:
 | onPopupScroll | 下拉列表滚动时的回调 | function | - |  |
 | onSearch | 文本框值变化时回调 | function(value: string) | - |  |
 | onSelect | 被选中时调用，参数为选中项的 value (或 key) 值 | function(value: string \| number \| LabeledValue, option: Option) | - |  |
+| request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
+| pagination | 远程分页请求，仅使用 `request` 配置时有效 | boolean | false |  |
 
 > 注意，如果发现下拉菜单跟随页面滚动，或者需要在其他弹层中触发 Select，请尝试使用 `getPopupContainer={triggerNode => triggerNode.parentElement}` 将下拉弹层渲染节点固定在触发器的父元素中。
+
+#### FileNames
+
+```ts
+interface FileNames {
+  export interface FieldNames<OptionType> {
+  value?: string | ((option: OptionType) => RawValueType);
+  label?: string | ((option: OptionType) => React.ReactNode);
+  groupLabel?: string | ((option: OptionType) => React.ReactNode);
+  options?: string;
+  disabled?: string | ((option: OptionType) => boolean);
+}
+```
+
+#### RequestConfig
+
+> request 使用 ahooks 的 [useRequest](https://ahooks.js.org/hooks/use-request)，因此支持所有 [useRequest](https://ahooks.js.org/hooks/use-request) 的参数。
+
+```ts
+export type RequestConfig<TData, ParamsType extends any[]> =
+  | RequestService<{ data: TData[]; total?: number }, ParamsType>
+  | {
+      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
+      options?: Omit<
+        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
+        'manual' | 'refreshDepsAction'
+      >;
+    };
+```
 
 ### Select Methods
 
@@ -109,22 +141,6 @@ group:
 | ------- | -------- | ---- |
 | blur()  | 取消焦点 |      |
 | focus() | 获取焦点 |      |
-
-### Option props
-
-| 参数      | 说明                     | 类型             | 默认值 | 版本 |
-| --------- | ------------------------ | ---------------- | ------ | ---- |
-| className | Option 器类名            | string           | -      |      |
-| disabled  | 是否禁用                 | boolean          | false  |      |
-| title     | 选项上的原生 title 提示  | string           | -      |      |
-| value     | 默认根据此属性值进行筛选 | string \| number | -      |      |
-
-### OptGroup props
-
-| 参数  | 说明 | 类型                    | 默认值 | 版本 |
-| ----- | ---- | ----------------------- | ------ | ---- |
-| key   | Key  | string                  | -      |      |
-| label | 组名 | string \| React.Element | -      |      |
 
 ## FAQ
 

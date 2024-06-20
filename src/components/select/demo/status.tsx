@@ -3,8 +3,8 @@ import React from 'react';
 
 const App: React.FC = () => (
   <Space direction="vertical" style={{ width: '100%' }}>
-    <Select status="error" style={{ width: '100%' }} />
-    <Select status="warning" style={{ width: '100%' }} />
+    <Select options={[]} status="error" style={{ width: '100%' }} />
+    <Select options={[]} status="warning" style={{ width: '100%' }} />
   </Space>
 );
 

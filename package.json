@@ -23,7 +23,8 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install && dumi setup",
     "release": "node ./scripts/release",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "sort:api-table": "node ./scripts/sort-api-table"
   },
   "commitlint": {
     "extends": [
@@ -59,6 +60,7 @@
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "@types/node": "^20.0.0",
+    "@types/qs": "^6.9.15",
     "@types/react": "^18.0.38",
     "@types/react-dom": "^18.0.11",
     "@types/throttle-debounce": "^5.0.2",
@@ -67,11 +69,13 @@
     "@umijs/utils": "4.2.10",
     "dumi": "2.3.8",
     "eslint": "^8.39.0",
+    "eslint-plugin-lodash": "^8.0.0",
     "father": "^4.1.9",
     "fetch-jsonp": "^1.3.0",
     "git-repo-info": "^2.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
+    "majo": "^0.9.1",
     "prettier": "^2.8.8",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-packagejson": "^2.4.3",
@@ -80,9 +84,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.4",
+    "remark-frontmatter": "^2.0.0",
+    "remark-parse": "^8.0.0",
+    "remark-stringify": "^8.0.0",
+    "remark-yaml-config": "^4.1.0",
     "rimraf": "^5.0.7",
     "stylelint": "^15.6.0",
     "tailwindcss": "^3.4.4",
+    "unified": "^8.0.0",
     "zx": "^8.1.2"
   },
   "peerDependencies": {
@@ -104,6 +113,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "@types/lodash": "^4.14.194",
+    "ahooks": "^3.8.0",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",

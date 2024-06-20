@@ -88,6 +88,8 @@ export default function useAlign(
   ready: boolean,
   offsetX: number,
   offsetY: number,
+  offsetR: number,
+  offsetB: number,
   arrowX: number,
   arrowY: number,
   scaleX: number,
@@ -99,6 +101,8 @@ export default function useAlign(
     ready: boolean;
     offsetX: number;
     offsetY: number;
+    offsetR: number;
+    offsetB: number;
     arrowX: number;
     arrowY: number;
     scaleX: number;
@@ -108,6 +112,8 @@ export default function useAlign(
     ready: false,
     offsetX: 0,
     offsetY: 0,
+    offsetR: 0,
+    offsetB: 0,
     arrowX: 0,
     arrowY: 0,
     scaleX: 1,
@@ -147,11 +153,16 @@ export default function useAlign(
     if (popupEle && target && open) {
       const popupElement = popupEle;
 
-      const originLeft = popupElement.style.left;
-      const originTop = popupElement.style.top;
-
       const doc = popupElement.ownerDocument;
       const win = getWin(popupElement);
+
+      const { width, height, position: popupPosition } = win.getComputedStyle(popupElement);
+
+      const originLeft = popupElement.style.left;
+      const originTop = popupElement.style.top;
+      const originRight = popupElement.style.right;
+      const originBottom = popupElement.style.bottom;
+      const originOverflow = popupElement.style.overflow;
 
       // Placement
       const placementInfo: AlignType = {
@@ -159,9 +170,21 @@ export default function useAlign(
         ...popupAlign,
       };
 
+      // placeholder element
+      const placeholderElement = doc.createElement('div');
+      popupElement.parentElement?.appendChild(placeholderElement);
+      placeholderElement.style.left = `${popupElement.offsetLeft}px`;
+      placeholderElement.style.top = `${popupElement.offsetTop}px`;
+      placeholderElement.style.position = popupPosition;
+      placeholderElement.style.height = `${popupElement.offsetHeight}px`;
+      placeholderElement.style.width = `${popupElement.offsetWidth}px`;
+
       // Reset first
       popupElement.style.left = '0';
       popupElement.style.top = '0';
+      popupElement.style.right = 'auto';
+      popupElement.style.bottom = 'auto';
+      popupElement.style.overflow = 'hidden';
 
       // Calculate align style, we should consider `transform` case
       let targetRect: Rect;
@@ -182,7 +205,6 @@ export default function useAlign(
         };
       }
       const popupRect = popupElement.getBoundingClientRect();
-      const { width, height } = win.getComputedStyle(popupElement);
       const { clientWidth, clientHeight, scrollWidth, scrollHeight, scrollTop, scrollLeft } =
         doc.documentElement;
 
@@ -224,9 +246,22 @@ export default function useAlign(
       // the check `adjust` logic will use `visibleRegion` for check first.
       const adjustCheckVisibleArea = isVisibleFirst ? visibleRegionArea : visibleArea;
 
+      // Record right & bottom align data
+      popupElement.style.left = 'auto';
+      popupElement.style.top = 'auto';
+      popupElement.style.right = '0';
+      popupElement.style.bottom = '0';
+
+      const popupMirrorRect = popupElement.getBoundingClientRect();
+
       // Reset back
       popupElement.style.left = originLeft;
       popupElement.style.top = originTop;
+      popupElement.style.right = originRight;
+      popupElement.style.bottom = originBottom;
+      popupElement.style.overflow = originOverflow;
+
+      popupElement.parentElement?.removeChild(placeholderElement);
 
       // Calculate scale
       const scaleX = toNum(Math.round((popupWidth / parseFloat(width)) * 1000) / 1000);
@@ -239,7 +274,7 @@ export default function useAlign(
 
       // Offset
       const { offset, targetOffset } = placementInfo;
-      const [popupOffsetX, popupOffsetY] = getNumberOffset(popupRect, offset);
+      let [popupOffsetX, popupOffsetY] = getNumberOffset(popupRect, offset);
       const [targetOffsetX, targetOffsetY] = getNumberOffset(targetRect, targetOffset);
 
       targetRect.x -= targetOffsetX;
@@ -354,6 +389,7 @@ export default function useAlign(
         ) {
           prevFlipRef.current.bt = true;
           nextOffsetY = tmpNextOffsetY;
+          popupOffsetY = -popupOffsetY;
 
           nextAlignInfo.points = [reversePoints(popupPoints, 0), reversePoints(targetPoints, 0)];
         } else {
@@ -392,6 +428,7 @@ export default function useAlign(
         ) {
           prevFlipRef.current.tb = true;
           nextOffsetY = tmpNextOffsetY;
+          popupOffsetY = -popupOffsetY;
 
           nextAlignInfo.points = [reversePoints(popupPoints, 0), reversePoints(targetPoints, 0)];
         } else {
@@ -436,6 +473,7 @@ export default function useAlign(
         ) {
           prevFlipRef.current.rl = true;
           nextOffsetX = tmpNextOffsetX;
+          popupOffsetX = -popupOffsetX;
 
           nextAlignInfo.points = [reversePoints(popupPoints, 1), reversePoints(targetPoints, 1)];
         } else {
@@ -474,6 +512,7 @@ export default function useAlign(
         ) {
           prevFlipRef.current.lr = true;
           nextOffsetX = tmpNextOffsetX;
+          popupOffsetX = -popupOffsetX;
 
           nextAlignInfo.points = [reversePoints(popupPoints, 1), reversePoints(targetPoints, 1)];
         } else {
@@ -488,7 +527,7 @@ export default function useAlign(
       if (typeof numShiftX === 'number') {
         // Left
         if (nextPopupX < visibleRegionArea.left) {
-          nextOffsetX -= nextPopupX - visibleRegionArea.left;
+          nextOffsetX -= nextPopupX - visibleRegionArea.left - popupOffsetX;
 
           if (targetRect.x + targetWidth < visibleRegionArea.left + numShiftX) {
             nextOffsetX += targetRect.x - visibleRegionArea.left + targetWidth - numShiftX;
@@ -497,7 +536,7 @@ export default function useAlign(
 
         // Right
         if (nextPopupRight > visibleRegionArea.right) {
-          nextOffsetX -= nextPopupRight - visibleRegionArea.right;
+          nextOffsetX -= nextPopupRight - visibleRegionArea.right - popupOffsetX;
 
           if (targetRect.x > visibleRegionArea.right - numShiftX) {
             nextOffsetX += targetRect.x - visibleRegionArea.right + numShiftX;
@@ -509,8 +548,10 @@ export default function useAlign(
       if (typeof numShiftY === 'number') {
         // Top
         if (nextPopupY < visibleRegionArea.top) {
-          nextOffsetY -= nextPopupY - visibleRegionArea.top;
+          nextOffsetY -= nextPopupY - visibleRegionArea.top - popupOffsetY;
 
+          // When target if far away from visible area
+          // Stop shift
           if (targetRect.y + targetHeight < visibleRegionArea.top + numShiftY) {
             nextOffsetY += targetRect.y - visibleRegionArea.top + targetHeight - numShiftY;
           }
@@ -518,7 +559,7 @@ export default function useAlign(
 
         // Bottom
         if (nextPopupBottom > visibleRegionArea.bottom) {
-          nextOffsetY -= nextPopupBottom - visibleRegionArea.bottom;
+          nextOffsetY -= nextPopupBottom - visibleRegionArea.bottom - popupOffsetY;
 
           if (targetRect.y > visibleRegionArea.bottom - numShiftY) {
             nextOffsetY += targetRect.y - visibleRegionArea.bottom + numShiftY;
@@ -552,16 +593,34 @@ export default function useAlign(
 
       onPopupAlign?.(popupEle, nextAlignInfo);
 
-      setOffsetInfo({
+      // Additional calculate right & bottom position
+      let offsetX4Right = popupMirrorRect.right - popupRect.x - (nextOffsetX + popupRect.width);
+      let offsetY4Bottom = popupMirrorRect.bottom - popupRect.y - (nextOffsetY + popupRect.height);
+
+      if (scaleX === 1) {
+        nextOffsetX = Math.round(nextOffsetX);
+        offsetX4Right = Math.round(offsetX4Right);
+      }
+
+      if (scaleY === 1) {
+        nextOffsetY = Math.round(nextOffsetY);
+        offsetY4Bottom = Math.round(offsetY4Bottom);
+      }
+
+      const nextOffsetInfo = {
         ready: true,
         offsetX: nextOffsetX / scaleX,
         offsetY: nextOffsetY / scaleY,
+        offsetR: offsetX4Right / scaleX,
+        offsetB: offsetY4Bottom / scaleY,
         arrowX: nextArrowX / scaleX,
         arrowY: nextArrowY / scaleY,
         scaleX,
         scaleY,
         align: nextAlignInfo,
-      });
+      };
+
+      setOffsetInfo(nextOffsetInfo);
     }
   });
 
@@ -597,6 +656,8 @@ export default function useAlign(
     offsetInfo.ready,
     offsetInfo.offsetX,
     offsetInfo.offsetY,
+    offsetInfo.offsetR,
+    offsetInfo.offsetB,
     offsetInfo.arrowX,
     offsetInfo.arrowY,
     offsetInfo.scaleX,

@@ -1,159 +1,57 @@
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getComplexCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
-import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
+import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import { SizeType } from '../config-provider/SizeContext';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import { useCompactItemContext } from '../space/Compact';
 import type {
   BaseSelectProps,
-  BaseSelectPropsWithoutPrivate,
   BaseSelectRef,
   DisplayInfoType,
   DisplayValueType,
-  RenderNode,
 } from './BaseSelect';
 import BaseSelect, { isMultiple } from './BaseSelect';
-import OptGroup from './OptGroup';
-import Option from './Option';
 import OptionList from './OptionList';
 import SelectContext, { SelectContextProps } from './SelectContext';
 import useBuiltinPlacements from './hooks/useBuiltinPlacements';
 import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
+import useIcons from './hooks/useIcons';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
+import useRequest from './hooks/useRequest';
+import {
+  BaseOptionType,
+  DraftValueType,
+  LabeledValueType,
+  OnActiveValue,
+  OnInternalSelect,
+  OptionInValueType,
+  RawValueType,
+  SelectCommonPlacement,
+  SelectProps,
+  TypedSelectComponent,
+} from './interface';
 import { hasValue, toArray } from './utils/commonUtil';
-import getIcons from './utils/iconUtil';
-import { fillFieldNames, flattenOptions, injectPropsWithOption } from './utils/valueUtil';
+import { fillFieldNames, flattenOptions, getFieldValue } from './utils/valueUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
 const OMIT_DOM_PROPS = ['inputValue'];
 
-const SelectPlacements = ['bottomLeft', 'bottomRight', 'topLeft', 'topRight'] as const;
-
-export type SelectCommonPlacement = (typeof SelectPlacements)[number];
-
-export type OnActiveValue = (
-  active: RawValueType | null,
-  index: number,
-  info?: { source?: 'keyboard' | 'mouse' },
-) => void;
-
-export type OnInternalSelect = (value: RawValueType, info: { selected: boolean }) => void;
-
-export type RawValueType = string | number;
-export interface LabelInValueType {
-  label: React.ReactNode;
-  value: RawValueType;
-}
-
-export type DraftValueType =
-  | RawValueType
-  | LabelInValueType
-  | DisplayValueType
-  | (RawValueType | LabelInValueType | DisplayValueType)[];
-
-export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
-
-export interface FieldNames {
-  value?: string;
-  label?: string;
-  groupLabel?: string;
-  options?: string;
-}
-
-export interface BaseOptionType {
-  disabled?: boolean;
-  [name: string]: any;
-}
-
-export interface DefaultOptionType extends BaseOptionType {
-  label: React.ReactNode;
-  value?: string | number | null;
-  children?: Omit<DefaultOptionType, 'children'>[];
-}
-
-export type SelectHandler<ValueType, OptionType extends BaseOptionType = DefaultOptionType> = (
-  value: ValueType,
-  option: OptionType,
-) => void;
-
-type ArrayElementType<T> = T extends (infer E)[] ? E : T;
-
-export interface SelectProps<ValueType = any, OptionType extends BaseOptionType = DefaultOptionType>
-  extends Omit<
-    BaseSelectPropsWithoutPrivate,
-    'mode' | 'getInputElement' | 'getRawInputElement' | 'backfill' | 'placement' | 'className'
-  > {
-  prefixCls?: string;
-  id?: string;
-  className?: ComplexClassName<'popup' | 'selector'>;
-
-  bordered?: boolean;
-  disabled?: boolean;
-
-  // >>> Size
-  size?: SizeType;
-
-  // >>> Field Names
-  fieldNames?: FieldNames;
-
-  // >>> Search
-  searchValue?: string;
-  onSearch?: (value: string) => void;
-  autoClearSearchValue?: boolean;
-
-  // >>> Select
-  onSelect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
-  onDeselect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
-
-  // >>> Options
-  /**
-   * In Select, `false` means do nothing.
-   * In TreeSelect, `false` will highlight match item.
-   * It's by design.
-   */
-  filterOption?: boolean | FilterFunc<OptionType>;
-  filterSort?: (optionA: OptionType, optionB: OptionType) => number;
-  optionFilterProp?: string;
-  optionLabelProp?: string;
-  children?: React.ReactNode;
-  options?: OptionType[];
-  defaultActiveFirstOption?: boolean;
-  virtual?: boolean;
-  listHeight?: number;
-  listItemHeight?: number;
-
-  // >>> Icon
-  menuItemSelectedIcon?: RenderNode;
-  suffixIcon?: React.ReactNode;
-
-  mode?: 'multiple' | 'tags';
-  /** @private Internal usage. Do not use in your production. */
-  combobox?: boolean;
-
-  labelInValue?: boolean;
-  value?: ValueType | null;
-  defaultValue?: ValueType | null;
-  onChange?: (value: ValueType, option: OptionType | OptionType[]) => void;
-
-  placement?: SelectCommonPlacement;
-  status?: InputStatus;
-}
+export const SelectPlacements = ['bottomLeft', 'bottomRight', 'topLeft', 'topRight'] as const;
 
 function isRawValue(value: DraftValueType): value is RawValueType {
   return !value || typeof value !== 'object';
 }
 
 const Select = React.forwardRef(
-  (props: SelectProps<any, DefaultOptionType>, ref: React.Ref<BaseSelectRef>) => {
+  (props: SelectProps<BaseOptionType>, ref: React.Ref<BaseSelectRef>) => {
     const {
       id,
       mode,
@@ -162,6 +60,10 @@ const Select = React.forwardRef(
       prefixCls: customizePrefixCls,
       fieldNames,
       bordered = true,
+
+      // Request
+      request,
+      pagination,
 
       // Search
       searchValue,
@@ -179,7 +81,6 @@ const Select = React.forwardRef(
       optionFilterProp,
       optionLabelProp,
       options,
-      children,
       defaultActiveFirstOption,
       virtual,
       listHeight = 256,
@@ -188,7 +89,7 @@ const Select = React.forwardRef(
       // Value
       value,
       defaultValue,
-      labelInValue,
+      optionInValue,
       onChange,
 
       status: customStatus,
@@ -198,6 +99,11 @@ const Select = React.forwardRef(
       placement,
       builtinPlacements,
       getPopupContainer,
+
+      loading,
+      showSearch,
+
+      onPopupScroll,
 
       ...restProps
     } = props;
@@ -215,7 +121,6 @@ const Select = React.forwardRef(
     const prefixCls = getPrefixCls('select', customizePrefixCls);
     const mergedId = useId(id);
     const multiple = isMultiple(mode);
-    const childrenAsData = !!(!options && children);
     const mergedVirtual = virtual ?? contextVirtual;
     const mergedMode = combobox ? 'combobox' : mode;
     const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? contextPopupMatchSelectWidth;
@@ -236,9 +141,33 @@ const Select = React.forwardRef(
     } = React.useContext(FormItemInputContext);
     const mergedStatus = getMergedStatus(contextStatus, customStatus);
 
+    // =========================== Search ===========================
+    const [mergedSearchValue, setSearchValue] = useMergedState('', {
+      value: searchValue,
+      postState: (search) => search || '',
+    });
+
+    // ===================== Request =====================
+    const {
+      options: requestedOptions,
+      loading: requestLoading,
+      onScroll: onInternalPopupScroll,
+      // loadingMore: requestLoadingMore,
+    } = useRequest(
+      request,
+      showSearch,
+      mergedSearchValue,
+      optionFilterProp,
+      pagination,
+      onPopupScroll,
+    );
+    const mergedLoading = loading || requestLoading;
+
     // ===================== Empty =====================
     let mergedNotFound: React.ReactNode;
-    if (notFoundContent !== undefined) {
+    if (requestLoading) {
+      mergedNotFound = null;
+    } else if (notFoundContent !== undefined) {
       mergedNotFound = notFoundContent;
     } else if (mergedMode === 'combobox') {
       mergedNotFound = null;
@@ -247,8 +176,9 @@ const Select = React.forwardRef(
     }
 
     // ===================== Icons =====================
-    const { suffixIcon, itemIcon, removeIcon, clearIcon } = getIcons({
+    const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
       ...props,
+      loading: mergedLoading,
       multiple,
       hasFeedback,
       feedbackIcon,
@@ -275,26 +205,14 @@ const Select = React.forwardRef(
 
     // ========================= FieldNames =========================
     const mergedFieldNames = React.useMemo(
-      () => fillFieldNames(fieldNames, childrenAsData),
-      /* eslint-disable react-hooks/exhaustive-deps */
-      [
-        // We stringify fieldNames to avoid unnecessary re-renders.
-        JSON.stringify(fieldNames),
-        childrenAsData,
-      ],
-      /* eslint-enable react-hooks/exhaustive-deps */
+      () => fillFieldNames(fieldNames),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [JSON.stringify(fieldNames)],
     );
-
-    // =========================== Search ===========================
-    const [mergedSearchValue, setSearchValue] = useMergedState('', {
-      value: searchValue,
-      postState: (search) => search || '',
-    });
 
     // =========================== Option ===========================
     const parsedOptions = useOptions(
-      options,
-      children,
+      request ? requestedOptions : options,
       mergedFieldNames,
       optionFilterProp,
       optionLabelProp,
@@ -303,11 +221,11 @@ const Select = React.forwardRef(
 
     // ========================= Wrap Value =========================
     const convert2LabelValues = React.useCallback(
-      (draftValues: DraftValueType) => {
+      (draftValues: DraftValueType): LabeledValueType[] => {
         // Convert to array
         const valueList = toArray(draftValues);
 
-        // Convert to labelInValue type
+        // Convert to optionInValue type
         return valueList.map((val) => {
           let rawValue: RawValueType;
           let rawLabel: React.ReactNode;
@@ -319,22 +237,24 @@ const Select = React.forwardRef(
           if (isRawValue(val)) {
             rawValue = val;
           } else {
-            rawLabel = val.label;
-            rawValue = val.value!;
+            rawLabel = getFieldValue(val, mergedFieldNames.label) ?? val.label;
+            rawValue = getFieldValue(val, mergedFieldNames.value) ?? val.value;
           }
 
           const option = valueOptions.get(rawValue);
           if (option) {
             // Fill missing props
             if (rawLabel === undefined)
-              rawLabel = option?.[optionLabelProp || mergedFieldNames.label];
+              rawLabel = optionLabelProp
+                ? option[optionLabelProp]
+                : getFieldValue(option, mergedFieldNames.label);
             rawKey = option?.key ?? rawValue;
-            rawDisabled = option?.disabled;
+            rawDisabled = getFieldValue(option, mergedFieldNames.disabled);
             rawTitle = option?.title;
 
             // Warning if label not same as provided
             if (process.env.NODE_ENV !== 'production' && !optionLabelProp) {
-              const optionLabel = option?.[mergedFieldNames.label];
+              const optionLabel = getFieldValue(option, mergedFieldNames.label);
               if (
                 optionLabel !== undefined &&
                 !React.isValidElement(optionLabel) &&
@@ -352,6 +272,7 @@ const Select = React.forwardRef(
             key: rawKey,
             disabled: rawDisabled,
             title: rawTitle,
+            option,
           };
         });
       },
@@ -407,16 +328,23 @@ const Select = React.forwardRef(
         const strValue = mergedValues[0]?.value;
         setSearchValue(hasValue(strValue) ? String(strValue) : '');
       }
-    }, [mergedValues]);
+    }, [mergedMode, mergedValues, setSearchValue]);
 
     // ======================= Display Option =======================
     // Create a placeholder item if not exist in `options`
     const createTagOption = useMemoizedFn((val: RawValueType, label?: React.ReactNode) => {
       const mergedLabel = label ?? val;
+
+      warning(
+        typeof mergedFieldNames.value === 'string' && typeof mergedFieldNames.label === 'string',
+        '`fieldNames.value` and `fieldNames.label` must be a string in tag mode.',
+      );
+
       return {
-        [mergedFieldNames.value]: val,
-        [mergedFieldNames.label]: mergedLabel,
-      } as DefaultOptionType;
+        [typeof mergedFieldNames.value === 'string' ? mergedFieldNames.value : 'value']: val,
+        [typeof mergedFieldNames.label === 'string' ? mergedFieldNames.label : 'label']:
+          mergedLabel,
+      };
     });
 
     // Fill tag as option if mode is `tags`
@@ -451,6 +379,7 @@ const Select = React.forwardRef(
       mergedSearchValue,
       mergedFilterOption,
       optionFilterProp,
+      !!request,
     );
 
     // Fill options with search value if needed
@@ -468,7 +397,7 @@ const Select = React.forwardRef(
     }, [createTagOption, optionFilterProp, mergedMode, filteredOptions, mergedSearchValue]);
 
     const orderedFilteredOptions = React.useMemo(() => {
-      if (!filterSort) {
+      if (!filterSort || request) {
         return filledSearchOptions;
       }
 
@@ -476,12 +405,8 @@ const Select = React.forwardRef(
     }, [filledSearchOptions, filterSort]);
 
     const displayOptions = React.useMemo(
-      () =>
-        flattenOptions(orderedFilteredOptions, {
-          fieldNames: mergedFieldNames,
-          childrenAsData,
-        }),
-      [orderedFilteredOptions, mergedFieldNames, childrenAsData],
+      () => flattenOptions(orderedFilteredOptions, mergedFieldNames),
+      [orderedFilteredOptions, mergedFieldNames],
     );
 
     // =========================== Change ===========================
@@ -495,10 +420,8 @@ const Select = React.forwardRef(
         (labeledValues.length !== mergedValues.length ||
           labeledValues.some((newVal, index) => mergedValues[index]?.value !== newVal?.value))
       ) {
-        const returnValues = labelInValue ? labeledValues : labeledValues.map((v) => v.value);
-        const returnOptions = labeledValues.map((v) =>
-          injectPropsWithOption(getMixedOption(v.value)),
-        );
+        const returnOptions = labeledValues.map((v) => getMixedOption(v.value));
+        const returnValues = optionInValue ? returnOptions : labeledValues.map((v) => v.value);
 
         onChange(
           // Value
@@ -519,22 +442,15 @@ const Select = React.forwardRef(
       (_, index) => {
         setAccessibilityIndex(index);
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [mergedMode],
     );
 
     // ========================= OptionList =========================
     const triggerSelect = (val: RawValueType, selected: boolean, type?: DisplayInfoType) => {
-      const getSelectEnt = (): [RawValueType | LabelInValueType, DefaultOptionType] => {
+      const getSelectEnt = (): [RawValueType | OptionInValueType, BaseOptionType] => {
         const option = getMixedOption(val);
-        return [
-          labelInValue
-            ? {
-                label: option?.[mergedFieldNames.label],
-                value: val,
-              }
-            : val,
-          injectPropsWithOption(option),
-        ];
+        return [optionInValue ? option : val, option];
       };
 
       if (selected && onSelect) {
@@ -693,9 +609,9 @@ const Select = React.forwardRef(
         virtual: realVirtual,
         listHeight,
         listItemHeight,
-        childrenAsData,
       };
     }, [
+      mergedVirtual,
       parsedOptions,
       displayOptions,
       onActiveValue,
@@ -704,11 +620,9 @@ const Select = React.forwardRef(
       itemIcon,
       rawValues,
       mergedFieldNames,
-      virtual,
       popupMatchSelectWidth,
       listHeight,
       listItemHeight,
-      childrenAsData,
     ]);
 
     // ========================== Warning ===========================
@@ -752,6 +666,9 @@ const Select = React.forwardRef(
             leaveFrom: 'opacity-100',
             leaveTo: 'opacity-0',
           }}
+          loading={mergedLoading}
+          showSearch={showSearch}
+          onPopupScroll={onInternalPopupScroll}
           // >>> Values
           displayValues={displayValues}
           onDisplayValuesChange={onDisplayValuesChange}
@@ -776,19 +693,8 @@ if (process.env.NODE_ENV !== 'production') {
   Select.displayName = 'Select';
 }
 
-const TypedSelect = Select as unknown as (<
-  ValueType = any,
-  OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
->(
-  props: React.PropsWithChildren<SelectProps<ValueType, OptionType>> & {
-    ref?: React.Ref<BaseSelectRef>;
-  },
-) => React.ReactElement) & {
-  Option: typeof Option;
-  OptGroup: typeof OptGroup;
+const TypedSelect: TypedSelectComponent = (props: any) => {
+  return <Select {...props} />;
 };
-
-TypedSelect.Option = Option;
-TypedSelect.OptGroup = OptGroup;
 
 export default TypedSelect;
