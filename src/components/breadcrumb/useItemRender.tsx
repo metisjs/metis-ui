@@ -1,7 +1,7 @@
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
-import type { BreadcrumbProps, InternalRouteType, ItemType } from './Breadcrumb';
+import { clsx, getComplexCls } from '../_util/classNameUtils';
+import type { BreadcrumbProps, ItemType } from './Breadcrumb';
 
 type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (
   ...args: [...Parameters<TFunction>, ...TParameters]
@@ -10,14 +10,14 @@ type AddParameters<TFunction extends (...args: any) => any, TParameters extends 
 type ItemRender = NonNullable<BreadcrumbProps['itemRender']>;
 type InternalItemRenderParams = AddParameters<ItemRender, [href?: string]>;
 
-function getBreadcrumbName(route: InternalRouteType, params: any) {
-  if (route.title === undefined || route.title === null) {
+function getBreadcrumbName(item: ItemType, params: any) {
+  if (item.title === undefined || item.title === null) {
     return null;
   }
   const paramsKeys = Object.keys(params).join('|');
-  return typeof route.title === 'object'
-    ? route.title
-    : String(route.title).replace(
+  return typeof item.title === 'object'
+    ? item.title
+    : String(item.title).replace(
         new RegExp(`:(${paramsKeys})`, 'g'),
         (replacement, key) => params[key] || replacement,
       );
@@ -28,14 +28,15 @@ export function renderItem(
   item: ItemType,
   children: React.ReactNode,
   href?: string,
-  itemClassName?: string,
+  className?: BreadcrumbProps['className'],
   isLastItem?: boolean,
 ) {
-  if (children === null || children === undefined) {
+  if (!children && !item.icon) {
     return null;
   }
 
-  const { className, onClick, ...restItem } = item;
+  const complexCls = getComplexCls(className);
+  const { icon, className: itemClassName, onClick, ...restItem } = item;
 
   const passedProps = {
     ...pickAttrs(restItem, {
@@ -47,15 +48,23 @@ export function renderItem(
 
   const cls = clsx(
     `${prefixCls}-link`,
-    'px-1 !text-neutral-text-secondary',
+    'inline-flex h-full items-center gap-1 px-1 !text-neutral-text-secondary',
     isLastItem && '!text-neutral-text',
+    complexCls.item,
     itemClassName,
-    className,
   );
+
+  let iconNode;
+  if (icon) {
+    iconNode = (
+      <span className={clsx('inline-flex items-center text-base', complexCls.icon)}>{icon}</span>
+    );
+  }
 
   if (href !== undefined) {
     return (
       <a {...passedProps} className={clsx(cls, 'hover:!text-neutral-text')} href={href}>
+        {iconNode}
         {children}
       </a>
     );
@@ -63,6 +72,7 @@ export function renderItem(
 
   return (
     <span {...passedProps} className={cls}>
+      {iconNode}
       {children}
     </span>
   );
@@ -71,7 +81,7 @@ export function renderItem(
 export default function useItemRender(
   prefixCls: string,
   itemRender?: ItemRender,
-  itemClassName?: string,
+  complexCls: BreadcrumbProps['className'],
 ) {
   const mergedItemRender: InternalItemRenderParams = (
     item,
@@ -87,7 +97,7 @@ export default function useItemRender(
 
     const name = getBreadcrumbName(item, params);
 
-    return renderItem(prefixCls, item, name, href, itemClassName, isLastItem);
+    return renderItem(prefixCls, item, name, href, complexCls, isLastItem);
   };
 
   return mergedItemRender;

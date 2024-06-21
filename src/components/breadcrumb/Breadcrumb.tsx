@@ -20,6 +20,7 @@ export interface BreadcrumbItemType {
    */
   path?: string;
   title?: React.ReactNode;
+  icon?: React.ReactNode;
   menu?: BreadcrumbItemProps['menu'];
   className?: string;
   dropdownProps?: DropdownProps;
@@ -33,14 +34,12 @@ export interface BreadcrumbSeparatorType {
 
 export type ItemType = Partial<BreadcrumbItemType & BreadcrumbSeparatorType>;
 
-export type InternalRouteType = Partial<BreadcrumbItemType & BreadcrumbSeparatorType>;
-
 export interface BreadcrumbProps<T extends AnyObject = AnyObject> {
   prefixCls?: string;
   params?: T;
   separator?: React.ReactNode;
   style?: React.CSSProperties;
-  className?: ComplexClassName<'item' | 'separator'>;
+  className?: ComplexClassName<'item' | 'separator' | 'icon'>;
   items?: ItemType[];
   itemRender?: (
     item: ItemType,
@@ -81,7 +80,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
 
   const prefixCls = getPrefixCls('breadcrumb', customizePrefixCls);
 
-  const mergedItemRender = useItemRender(prefixCls, itemRender, complexCls.item);
+  const mergedItemRender = useItemRender(prefixCls, itemRender, complexCls);
 
   if (items && items.length > 0) {
     const paths: string[] = [];

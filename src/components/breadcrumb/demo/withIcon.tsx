@@ -1,5 +1,5 @@
 import { HomeOutline, UserOutline } from '@metisjs/icons';
-import { Breadcrumb, Space } from 'metis-ui';
+import { Breadcrumb } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
@@ -7,16 +7,12 @@ const App: React.FC = () => (
     items={[
       {
         href: '',
-        title: <HomeOutline className="h-4 w-4" />,
+        icon: <HomeOutline />,
       },
       {
         href: '',
-        title: (
-          <Space size={4}>
-            <UserOutline className="h-4 w-4" />
-            <span>Application List</span>
-          </Space>
-        ),
+        icon: <UserOutline />,
+        title: 'Application List',
       },
       {
         title: 'Application',
