@@ -80,7 +80,7 @@ const inputVariantStyles = cva(
       {
         hasPrefixSuffix: false,
         disabled: true,
-        className: 'bg-neutral-fill-tertiary text-neutral-text-quaternary',
+        className: 'bg-neutral-fill-quaternary text-neutral-text-quaternary',
       },
     ],
     defaultVariants: {
@@ -101,7 +101,7 @@ const affixWrapperVariantStyles = cva(
       borderless: { true: 'ring-0 focus:ring-0' },
       addonBefore: { true: 'rounded-s-none' },
       addonAfter: { true: 'rounded-e-none' },
-      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-quaternary' },
+      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
     },
     defaultVariants: {
       size: 'middle',
@@ -119,7 +119,7 @@ const addonBeforeWrapperVariantStyles = cva(
         large: 'h-10 px-3 text-base',
       },
       borderless: { true: 'ring-0' },
-      disabled: { true: 'bg-neutral-fill-tertiary text-neutral-text-quaternary' },
+      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
     },
     defaultVariants: {
       size: 'middle',

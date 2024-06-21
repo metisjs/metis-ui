@@ -729,7 +729,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-single`]: !multiple,
       [`${prefixCls}-allow-clear`]: allowClear,
       [`${prefixCls}-show-arrow`]: showSuffixIcon,
-      [`${prefixCls}-disabled not-allowed bg-neutral-fill-tertiary text-neutral-text-quaternary`]:
+      [`${prefixCls}-disabled not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary`]:
         disabled,
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-open`]: mergedOpen,

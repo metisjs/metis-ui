@@ -167,7 +167,8 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       'after:absolute after:start-1/2 after:top-1/2 after:block after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-sm after:bg-primary after:content-[""]':
         indeterminate,
       'border-primary bg-primary': mergedChecked,
-      'border-neutral-border bg-neutral-fill-tertiary text-neutral-text-quaternary': mergedDisabled,
+      'border-neutral-border bg-neutral-fill-quaternary text-neutral-text-quaternary':
+        mergedDisabled,
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
     `${prefixCls}-inner`,

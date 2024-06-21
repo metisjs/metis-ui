@@ -68,7 +68,7 @@ const btnVariantStyles = cva(
     variants: {
       type: {
         default:
-          'bg-neutral-container enabled:hover:text-primary-text-hover bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:ring-primary-hover',
+          'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover',
         primary:
           'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover',
         text: 'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary',
@@ -109,7 +109,7 @@ const btnVariantStyles = cva(
         type: 'default',
         link: true,
         disabled: false,
-        className: 'hover:text-primary-text-hover hover:ring-primary-hover',
+        className: 'hover:text-primary-hover hover:ring-primary-hover',
       },
       {
         type: 'primary',
@@ -136,9 +136,20 @@ const btnVariantStyles = cva(
         className: 'bg-error text-white enabled:hover:bg-error-hover enabled:hover:text-white',
       },
       {
+        type: 'default',
+        danger: true,
+        className: 'enabled:hover:bg-neutral-bg-container',
+      },
+      {
         type: 'text',
         danger: true,
-        className: 'enabled:hover:bg-error-bg',
+        className: 'enabled:hover:bg-error-bg enabled:hover:text-error',
+      },
+      {
+        type: 'default',
+        ghost: true,
+        danger: false,
+        className: 'enabled:hover:text-primary-hover enabled:hover:ring-primary-hover',
       },
       {
         type: 'primary',

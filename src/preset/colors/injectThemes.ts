@@ -23,27 +23,29 @@ function generateColorPaletteFrom(
   base: string,
   color: string,
   skip: string[],
-) {
+): Record<string, { color: string; alpha?: number }> {
   const [colorType, colorWeight] = color.split('-') as [keyof DefaultColors, string | undefined];
 
   const baseColor: string = get(twColors, [colorType, colorWeight].filter(Boolean) as string[]);
   if (!baseColor) {
-    return { [base]: color };
+    return { [base]: { color } };
   }
 
   const palette = colorPalette[scheme];
 
-  const resultObj = { [base]: baseColor };
+  const resultObj = { [base]: { color: baseColor } };
 
-  if (!colorWeight || !(base in palette)) return resultObj;
+  if (!(base in palette)) return resultObj;
 
   return Object.entries(palette[base as keyof typeof palette]).reduce((perv, [k, v]) => {
     const key = `${base}-${k}`;
-    if (skip.includes(key)) return perv;
-
+    if (skip.includes(key) || (!colorWeight && Number.isInteger(v))) return perv;
     return {
       ...perv,
-      [key]: get(twColors, [colorType, getWeightByOffset(Number(colorWeight), v)]),
+      // 小数表示透明度，整数表示 tailwind 色阶差
+      [key]: Number.isInteger(v)
+        ? { color: get(twColors, [colorType, getWeightByOffset(Number(colorWeight), v)]) }
+        : { color: baseColor, alpha: v * 100 },
     };
   }, resultObj);
 }
@@ -60,7 +62,7 @@ export function convertToHsl(input: ColorParam) {
         Object.keys(input),
       );
       Object.entries(colorPalette).forEach(([k, v]) => {
-        const hsl = new TinyColor(v).toHsl();
+        const hsl = new TinyColor(v.color).toHsl();
 
         resultObj[`--${k}`] =
           hsl.h.toPrecision(5).replace(/\.?0+$/, '') +
@@ -71,7 +73,7 @@ export function convertToHsl(input: ColorParam) {
           (hsl.l * 100).toPrecision(5).replace(/\.?0+$/, '') +
           '%' +
           ' / ' +
-          alpha / 100;
+          (v.alpha ?? alpha) / 100;
       });
     } else {
       resultObj[rule] = value;

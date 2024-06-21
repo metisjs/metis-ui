@@ -550,7 +550,7 @@ const Select = React.forwardRef(
 
     // ========================== Style ===========================
     const rootClassName = clsx(
-      'group/select relative cursor-pointer',
+      'group/select relative cursor-pointer rounded-md',
       {
         [`${prefixCls}-lg text-base`]: mergedSize === 'large',
         [`${prefixCls}-sm`]: mergedSize === 'small',

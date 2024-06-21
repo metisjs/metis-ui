@@ -99,7 +99,8 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
     'peer-focus/radio:outline peer-focus/radio:outline-2 peer-focus/radio:outline-offset-2 peer-focus/radio:outline-primary',
     {
       'border-primary bg-primary': mergedChecked,
-      'border-neutral-border bg-neutral-fill-tertiary text-neutral-text-quaternary': mergedDisabled,
+      'border-neutral-border bg-neutral-fill-quaternary text-neutral-text-quaternary':
+        mergedDisabled,
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
     `${prefixCls}-inner`,

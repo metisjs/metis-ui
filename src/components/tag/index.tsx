@@ -85,6 +85,14 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
   const iconClassName = clsx(
     `${prefixCls}-close-icon`,
     'ms-0.5 cursor-pointer text-neutral-text-tertiary hover:text-neutral-text-secondary',
+    color &&
+      isInternalColor && {
+        'text-success hover:text-success-active': color === 'success',
+        'text-warning hover:text-warning-active': color === 'warning',
+        'text-error hover:text-error-active': color === 'error',
+        'text-primary-hover hover:text-primary': color === 'processing',
+      },
+    color && !isInternalColor && 'text-white/65 hover:text-white',
   );
 
   const [, mergedCloseIcon] = useClosable(pickClosable(tagProps), null, {

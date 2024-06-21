@@ -13,31 +13,49 @@ const App: React.FC = () => (
   <>
     <Divider orientation="left">Without icon</Divider>
     <Space size={[0, 8]} wrap>
-      <Tag color="success">success</Tag>
-      <Tag color="processing">processing</Tag>
-      <Tag color="error">error</Tag>
-      <Tag color="warning">warning</Tag>
-      <Tag color="default">default</Tag>
+      <Tag color="success">Success</Tag>
+      <Tag color="processing">Processing</Tag>
+      <Tag color="error">Error</Tag>
+      <Tag color="warning">Warning</Tag>
+      <Tag color="default">Default</Tag>
     </Space>
     <Divider orientation="left">With icon</Divider>
     <Space size={[0, 8]} wrap>
       <Tag icon={<CheckCircleOutline />} color="success">
-        success
+        Success
       </Tag>
       <Tag icon={<ArrowPathOutline className="animate-spin" />} color="processing">
-        processing
+        Processing
       </Tag>
       <Tag icon={<XCircleOutline />} color="error">
-        error
+        Error
       </Tag>
       <Tag icon={<ExclamationCircleOutline />} color="warning">
-        warning
+        Warning
       </Tag>
       <Tag icon={<ClockOutline />} color="default">
-        waiting
+        Waiting
       </Tag>
       <Tag icon={<MinusCircleOutline />} color="default">
-        stop
+        Stop
+      </Tag>
+    </Space>
+    <Divider orientation="left">Closable</Divider>
+    <Space size={[0, 8]} wrap>
+      <Tag color="success" closable>
+        Success
+      </Tag>
+      <Tag color="processing" closable>
+        Processing
+      </Tag>
+      <Tag color="error" closable>
+        Error
+      </Tag>
+      <Tag color="warning" closable>
+        Warning
+      </Tag>
+      <Tag color="default" closable>
+        Default
       </Tag>
     </Space>
   </>
