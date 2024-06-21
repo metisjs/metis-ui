@@ -62,7 +62,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
 
   const tagClassName = clsx(
     prefixCls,
-    'relative me-2 inline-flex h-auto items-center whitespace-nowrap rounded bg-neutral-fill-quaternary px-2 py-1 text-xs shadow-sm outline outline-1 -outline-offset-1 outline-neutral-border transition-colors',
+    'relative me-2 inline-flex h-auto items-center whitespace-nowrap rounded-md bg-neutral-fill-quaternary px-2 py-1 text-xs font-medium text-neutral-text-secondary outline outline-1 -outline-offset-1 outline-neutral-border-secondary transition-colors',
     {
       [getPresetStatusClassName(color as PresetStatusColorType)]: color && isInternalColor,
       [`${prefixCls}-has-color text-white outline-0`]: color && !isInternalColor,
