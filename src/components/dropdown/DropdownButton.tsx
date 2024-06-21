@@ -34,7 +34,7 @@ export interface DropdownButtonProps extends DropdownProps {
 
 type CompoundedComponent = React.FC<DropdownButtonProps> & {
   /** @internal */
-  __META_BUTTON: boolean;
+  __METIS_BUTTON: boolean;
 };
 
 const DropdownButton: CompoundedComponent = (props) => {
@@ -135,6 +135,6 @@ const DropdownButton: CompoundedComponent = (props) => {
   );
 };
 
-DropdownButton.__META_BUTTON = true;
+DropdownButton.__METIS_BUTTON = true;
 
 export default DropdownButton;

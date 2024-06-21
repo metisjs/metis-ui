@@ -18,10 +18,10 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 > & {
   Group: typeof Group;
   /** @internal */
-  __META_RADIO: boolean;
+  __METIS_RADIO: boolean;
 };
 
 const Radio = InternalRadio as CompoundedComponent;
 Radio.Group = Group;
-Radio.__META_RADIO = true;
+Radio.__METIS_RADIO = true;
 export default Radio;

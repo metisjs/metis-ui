@@ -57,7 +57,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
   ButtonProps & React.RefAttributes<HTMLElement>
 > & {
   /** @internal */
-  __META_BUTTON: boolean;
+  __METIS_BUTTON: boolean;
 };
 
 type Loading = number | boolean;
@@ -68,7 +68,7 @@ const btnVariantStyles = cva(
     variants: {
       type: {
         default:
-          'bg-neutral-container bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:text-primary-text-hover enabled:hover:ring-primary-hover',
+          'bg-neutral-container enabled:hover:text-primary-text-hover bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:ring-primary-hover',
         primary:
           'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover',
         text: 'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary',
@@ -332,6 +332,6 @@ if (process.env.NODE_ENV !== 'production') {
   Button.displayName = 'Button';
 }
 
-Button.__META_BUTTON = true;
+Button.__METIS_BUTTON = true;
 
 export default Button;

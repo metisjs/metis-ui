@@ -11,13 +11,13 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 > & {
   Group: typeof Group;
   /** @internal */
-  __META_CHECKBOX: boolean;
+  __METIS_CHECKBOX: boolean;
 };
 
 const Checkbox = InternalCheckbox as CompoundedComponent;
 
 Checkbox.Group = Group;
-Checkbox.__META_CHECKBOX = true;
+Checkbox.__METIS_CHECKBOX = true;
 
 if (process.env.NODE_ENV !== 'production') {
   Checkbox.displayName = 'Checkbox';

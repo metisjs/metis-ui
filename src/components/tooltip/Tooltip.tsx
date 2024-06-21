@@ -30,9 +30,10 @@ const splitObject = <T extends CSSProperties>(
 function getDisabledCompatibleChildren(element: React.ReactElement<any>, prefixCls: string) {
   const elementType = element.type as any;
   if (
-    ((elementType.__MATE_BUTTON === true || element.type === 'button') && element.props.disabled) ||
-    (elementType.__MATE_SWITCH === true && (element.props.disabled || element.props.loading)) ||
-    (elementType.__MATE_RADIO === true && element.props.disabled)
+    ((elementType.__METIS_BUTTON === true || element.type === 'button') &&
+      element.props.disabled) ||
+    (elementType.__METIS_SWITCH === true && (element.props.disabled || element.props.loading)) ||
+    (elementType.__METIS_RADIO === true && element.props.disabled)
   ) {
     const { picked, omitted } = splitObject(element.props.style, [
       'position',

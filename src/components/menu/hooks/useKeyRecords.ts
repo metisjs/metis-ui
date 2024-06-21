@@ -3,7 +3,7 @@ import { useCallback, useRef } from 'react';
 import warning from '../../_util/warning';
 import { nextSlice } from '../utils/timeUtil';
 
-const PATH_SPLIT = '__META_UTIL_PATH_SPLIT__';
+const PATH_SPLIT = '__METIS_UTIL_PATH_SPLIT__';
 
 const getPathStr = (keyPath: string[]) => keyPath.join(PATH_SPLIT);
 const getPathKeys = (keyPathStr: string) => keyPathStr.split(PATH_SPLIT);

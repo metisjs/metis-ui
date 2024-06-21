@@ -37,7 +37,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
   SwitchProps & React.RefAttributes<HTMLElement>
 > & {
   /** @internal */
-  __META_SWITCH: boolean;
+  __METIS_SWITCH: boolean;
 };
 
 const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
@@ -184,7 +184,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
   },
 ) as CompoundedComponent;
 
-Switch.__META_SWITCH = true;
+Switch.__METIS_SWITCH = true;
 if (process.env.NODE_ENV !== 'production') {
   Switch.displayName = 'Switch';
 }
