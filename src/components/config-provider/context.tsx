@@ -28,6 +28,10 @@ export interface ConfigConsumerProps {
     // requiredMark?: RequiredMark;
     colon?: boolean;
   };
+  route: {
+    history: 'browser' | 'hash';
+    basename: string;
+  };
 }
 
 const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
@@ -38,8 +42,8 @@ const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 };
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
-  // We provide a default function for Context without provider
   getPrefixCls: defaultGetPrefixCls,
+  route: { history: 'hash', basename: '/' },
 });
 
 export const ConfigConsumer = ConfigContext.Consumer;

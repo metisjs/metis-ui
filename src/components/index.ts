@@ -2,6 +2,8 @@ export { default as Alert } from './alert';
 export type { AlertProps } from './alert';
 export { default as Avatar } from './avatar';
 export type { AvatarProps } from './avatar';
+export { default as Breadcrumb } from './breadcrumb';
+export type { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb';
 export { default as Button } from './button';
 export type { ButtonProps } from './button';
 export { default as Checkbox } from './checkbox';
