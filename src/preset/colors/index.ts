@@ -64,6 +64,7 @@ const colorObject = {
     'fill-secondary': 'hsla(var(--neutral-fill-secondary))',
     'fill-tertiary': 'hsla(var(--neutral-fill-tertiary))',
     'fill-quaternary': 'hsla(var(--neutral-fill-quaternary))',
+    'fill-quinary': 'hsla(var(--neutral-fill-quinary))',
     'bg-container': 'hsla(var(--neutral-bg-container))',
     'bg-elevated': 'hsla(var(--neutral-bg-elevated))',
     'bg-layout': 'hsla(var(--neutral-bg-layout))',

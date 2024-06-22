@@ -68,7 +68,7 @@ const btnVariantStyles = cva(
     variants: {
       type: {
         default:
-          'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover',
+          'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:bg-neutral-fill-quinary',
         primary:
           'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover',
         text: 'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary',
@@ -86,13 +86,13 @@ const btnVariantStyles = cva(
       iconOnly: {
         true: 'h-9 w-9 justify-center pe-0 ps-0 text-base',
       },
-      link: { true: '' },
       disabled: { true: 'cursor-not-allowed opacity-disabled focus-visible:ring-0' },
       danger: {
-        true: 'text-error ring-error focus-visible:ring-error enabled:hover:text-error-hover enabled:hover:ring-error-hover',
+        true: 'text-error ring-error-bg-hover focus-visible:ring-error enabled:hover:bg-error-bg',
       },
       ghost: { true: 'bg-transparent text-white ring-white enabled:hover:bg-transparent' },
       loading: { true: 'cursor-not-allowed' },
+      href: { true: '' },
     },
     compoundVariants: [
       {
@@ -107,43 +107,40 @@ const btnVariantStyles = cva(
       },
       {
         type: 'default',
-        link: true,
+        href: true,
         disabled: false,
-        className: 'hover:text-primary-hover hover:ring-primary-hover',
+        className: 'hover:bg-neutral-fill-quinary',
       },
       {
         type: 'primary',
-        link: true,
+        href: true,
         disabled: false,
         className: 'hover:bg-primary-hover',
       },
       {
         type: 'text',
-        link: true,
+        href: true,
         disabled: false,
         className: 'hover:bg-neutral-fill-secondary',
       },
       {
         type: 'link',
-        link: true,
+        href: true,
         disabled: false,
         className: 'hover:text-primary-hover',
+      },
+      {
+        type: 'link',
+        danger: true,
+        disabled: false,
+        className: 'enabled:hover:bg-transparent enabled:hover:text-error-hover',
       },
       {
         type: 'primary',
         danger: true,
         ghost: false,
-        className: 'bg-error text-white enabled:hover:bg-error-hover enabled:hover:text-white',
-      },
-      {
-        type: 'default',
-        danger: true,
-        className: 'enabled:hover:bg-neutral-bg-container',
-      },
-      {
-        type: 'text',
-        danger: true,
-        className: 'enabled:hover:bg-error-bg enabled:hover:text-error',
+        className:
+          'bg-error text-white  focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white',
       },
       {
         type: 'default',
@@ -290,7 +287,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     size: mergedSize,
     shape,
     iconOnly,
-    link: linkButtonRestProps.href !== undefined,
+    href: linkButtonRestProps.href !== undefined,
     disabled: mergedDisabled,
     danger: !!danger,
     ghost: type !== 'text' && type !== 'link' && ghost,

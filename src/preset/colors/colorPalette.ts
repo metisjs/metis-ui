@@ -36,8 +36,7 @@ export default {
       quaternary: 0.25,
     },
     'neutral-border': { secondary: -1 },
-    // 'neutral-fill': { secondary: -1, tertiary: -2, quaternary: -3 },
-    'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04 },
+    'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
   },
   dark: {
     primary: {
@@ -57,6 +56,6 @@ export default {
       quaternary: 0.25,
     },
     'neutral-border': { secondary: 2 },
-    'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04 },
+    'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
   },
 } as const;
