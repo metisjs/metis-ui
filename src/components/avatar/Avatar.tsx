@@ -1,7 +1,7 @@
 import ResizeObserver from 'rc-resize-observer';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
-import cva from '../_util/cva';
+import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { AvatarSize } from './SizeContext';
 import SizeContext from './SizeContext';
@@ -28,38 +28,6 @@ export interface AvatarProps {
   /* return false to prevent Avatar show default fallback behavior, then you can do fallback by your self */
   onError?: () => boolean;
 }
-
-const variantStyles = cva(
-  'relative inline-block overflow-hidden whitespace-nowrap bg-neutral-fill text-center align-middle text-sm text-white [.group_&]:ring-2 [.group_&]:ring-neutral-bg-container',
-  {
-    variants: {
-      size: {
-        large: 'h-10 w-10 leading-10',
-        default: 'h-8 w-8 leading-8',
-        small: 'h-6 w-6 leading-6',
-      },
-      shape: {
-        circle: 'rounded-full',
-        square: 'rounded-md',
-      },
-      image: { true: 'bg-transparent' },
-      icon: { true: '' },
-    },
-    compoundVariants: [
-      {
-        size: 'large',
-        icon: true,
-        className: 'text-2xl',
-      },
-      {
-        size: 'default',
-        icon: true,
-        className: 'text-lg',
-      },
-    ],
-    defaultVariants: {},
-  },
-);
 
 const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProps> = (
   props,
@@ -206,19 +174,32 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   delete others.onError;
   delete others.gap;
 
+  const avatarCls = clsx(
+    prefixCls,
+    'relative inline-block overflow-hidden whitespace-nowrap bg-neutral-fill text-center align-middle text-sm text-white [.group_&]:ring-2 [.group_&]:ring-neutral-bg-container',
+    typeof size === 'string' && {
+      'h-10 w-10 leading-10': size === 'large',
+      'h-8 w-8 leading-8': size === 'default',
+      'h-6 w-6 leading-6': size === 'small',
+    },
+    typeof size === 'string' &&
+      icon && {
+        'text-2xl': size === 'large',
+        'text-lg': size === 'default',
+      },
+    {
+      'rounded-full': shape === 'circle',
+      'rounded-md': shape === 'circle',
+    },
+    (hasImageElement || (!!src && isImgExist)) && 'bg-transparent',
+    className,
+  );
+
   return (
     <span
       {...others}
       style={{ ...sizeStyle, ...others.style }}
-      className={variantStyles(
-        {
-          size: typeof size === 'string' ? size : undefined,
-          shape,
-          image: hasImageElement || (!!src && isImgExist),
-          icon: !!icon,
-        },
-        [prefixCls, className],
-      )}
+      className={avatarCls}
       ref={avatarNodeMergeRef}
     >
       {childrenToRender}

@@ -1,8 +1,7 @@
 import { LoadingOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-import { ComplexClassName, getComplexCls } from '../_util/classNameUtils';
-import cva from '../_util/cva';
+import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
 import warning from '../_util/warning';
@@ -62,128 +61,6 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 
 type Loading = number | boolean;
 
-const btnVariantStyles = cva(
-  'relative inline-flex items-center justify-center gap-x-1.5 text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
-  {
-    variants: {
-      type: {
-        default:
-          'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:bg-neutral-fill-quinary',
-        primary:
-          'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover',
-        text: 'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary',
-        link: 'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover',
-      },
-      size: {
-        small: 'px-2.5 py-1.5',
-        middle: 'px-3 py-2',
-        large: 'gap-x-2 px-4 py-2 text-base',
-      },
-      shape: {
-        default: 'rounded-md',
-        round: 'rounded-full',
-      },
-      iconOnly: {
-        true: 'h-9 w-9 justify-center pe-0 ps-0 text-base',
-      },
-      disabled: { true: 'cursor-not-allowed opacity-disabled focus-visible:ring-0' },
-      danger: {
-        true: 'text-error ring-error-bg-hover focus-visible:ring-error enabled:hover:bg-error-bg',
-      },
-      ghost: { true: 'bg-transparent text-white ring-white enabled:hover:bg-transparent' },
-      loading: { true: 'cursor-not-allowed' },
-      href: { true: '' },
-    },
-    compoundVariants: [
-      {
-        size: 'small',
-        iconOnly: true,
-        className: 'h-8 w-8',
-      },
-      {
-        size: 'large',
-        iconOnly: true,
-        className: 'h-10 w-10',
-      },
-      {
-        type: 'default',
-        href: true,
-        disabled: false,
-        className: 'hover:bg-neutral-fill-quinary',
-      },
-      {
-        type: 'primary',
-        href: true,
-        disabled: false,
-        className: 'hover:bg-primary-hover',
-      },
-      {
-        type: 'text',
-        href: true,
-        disabled: false,
-        className: 'hover:bg-neutral-fill-secondary',
-      },
-      {
-        type: 'link',
-        href: true,
-        disabled: false,
-        className: 'hover:text-primary-hover',
-      },
-      {
-        type: 'link',
-        danger: true,
-        disabled: false,
-        className: 'enabled:hover:bg-transparent enabled:hover:text-error-hover',
-      },
-      {
-        type: 'primary',
-        danger: true,
-        ghost: false,
-        className:
-          'bg-error text-white  focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white',
-      },
-      {
-        type: 'default',
-        ghost: true,
-        danger: false,
-        className: 'enabled:hover:text-primary-hover enabled:hover:ring-primary-hover',
-      },
-      {
-        type: 'primary',
-        ghost: true,
-        danger: false,
-        className:
-          'text-primary ring-1 ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover',
-      },
-      {
-        danger: true,
-        ghost: true,
-        className: 'text-error ring-1 ring-error',
-      },
-    ],
-    defaultVariants: {
-      type: 'default',
-      shape: 'default',
-      size: 'middle',
-    },
-  },
-);
-
-const iconVariantStyles = cva('', {
-  variants: {
-    size: { small: 'h-4 w-4', middle: 'h-4 w-4', large: 'h-5 w-5' },
-    iconOnly: { true: '' },
-  },
-  compoundVariants: [
-    { size: 'small', iconOnly: true, className: 'h-5 w-5' },
-    { size: 'middle', iconOnly: true, className: 'h-5 w-5' },
-    { size: 'large', iconOnly: true, className: 'h-6 w-6' },
-  ],
-  defaultVariants: {
-    size: 'middle',
-  },
-});
-
 const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
   const {
     prefixCls: customizePrefixCls,
@@ -191,7 +68,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     type = 'default',
     danger,
     shape = 'default',
-    size: customizeSize,
+    size: customizeSize = 'middle',
     disabled: customDisabled,
     className,
     children,
@@ -269,31 +146,31 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const iconOnly = !children && children !== 0 && !!iconType;
 
+  const iconCls = clsx(
+    {
+      'h-4 w-4': mergedSize === 'small' || mergedSize === 'middle',
+      'h-5 w-5': mergedSize === 'large',
+    },
+    iconOnly && {
+      'h-5 w-5': mergedSize === 'small' || mergedSize === 'middle',
+      'h-6 w-6': mergedSize === 'large',
+    },
+    complexCls.icon,
+  );
+
   const iconNode = innerLoading ? (
-    <LoadingOutline
-      className={iconVariantStyles({ size: mergedSize, iconOnly }, [
-        'animate-spin',
-        complexCls.icon,
-      ])}
-    />
+    <LoadingOutline className={clsx('animate-spin', iconCls)} />
   ) : (
     cloneElement(icon, ({ className: originCls }) => ({
-      className: iconVariantStyles({ size: mergedSize, iconOnly }, [originCls, complexCls.icon]),
+      className: clsx(iconCls, originCls),
     }))
   );
 
-  const variants = {
-    type,
-    size: mergedSize,
-    shape,
-    iconOnly,
-    href: linkButtonRestProps.href !== undefined,
-    disabled: mergedDisabled,
-    danger: !!danger,
-    ghost: type !== 'text' && type !== 'link' && ghost,
-    loading: !!innerLoading,
-  };
-  const classes = btnVariantStyles(variants, [
+  const isHref = linkButtonRestProps.href !== undefined;
+
+  const mergedGhost = type !== 'text' && type !== 'link' && ghost;
+
+  const classes = clsx(
     prefixCls,
     {
       [`${prefixCls}-${shape}`]: shape !== 'default' && shape,
@@ -304,11 +181,60 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
+    'relative inline-flex items-center justify-center gap-x-1.5 rounded-md text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+    {
+      'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:bg-neutral-fill-quinary':
+        type === 'default',
+      'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover':
+        type === 'primary',
+      'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary':
+        type === 'text',
+      'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover':
+        type === 'link',
+    },
+    {
+      'px-2.5 py-1.5': mergedSize === 'small',
+      'px-3 py-2': mergedSize === 'middle',
+      'gap-x-2 px-4 py-2 text-base': mergedSize === 'large',
+    },
+    iconOnly && {
+      'h-8 w-8': mergedSize === 'small',
+      'h-9 w-9': mergedSize === 'middle',
+      'h-10 w-10': mergedSize === 'large',
+    },
+    {
+      'rounded-full': shape === 'round',
+      'justify-center pe-0 ps-0 text-base': iconOnly,
+      'cursor-not-allowed opacity-disabled focus-visible:ring-0': mergedDisabled,
+      'text-error ring-error-bg-hover focus-visible:ring-error enabled:hover:bg-error-bg': danger,
+      'bg-transparent text-white ring-white enabled:hover:bg-transparent': mergedGhost,
+      'cursor-not-allowed': innerLoading,
+    },
+    isHref &&
+      !mergedDisabled && {
+        'hover:bg-neutral-fill-quinary': type === 'default',
+        'hover:bg-primary-hover': type === 'primary',
+        'hover:bg-neutral-fill-secondary': type === 'text',
+        'hover:text-primary-hover': type === 'link',
+      },
+    danger && {
+      'enabled:hover:bg-transparent enabled:hover:text-error-hover': type === 'link',
+      'bg-error text-white focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white':
+        type === 'primary' && !mergedGhost,
+      'text-error ring-1 ring-error enabled:hover:text-error-hover enabled:hover:ring-error-hover':
+        mergedGhost,
+    },
+    !danger &&
+      mergedGhost && {
+        'enabled:hover:text-primary-hover enabled:hover:ring-primary-hover': type === 'default',
+        'text-primary ring-1 ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover':
+          type === 'primary',
+      },
     compactItemClassnames,
     complexCls.root,
-  ]);
+  );
 
-  if (linkButtonRestProps.href !== undefined) {
+  if (isHref) {
     return (
       <a {...linkButtonRestProps} className={classes} onClick={handleClick} ref={buttonRef}>
         {iconNode}

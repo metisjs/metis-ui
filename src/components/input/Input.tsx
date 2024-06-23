@@ -5,7 +5,6 @@ import type { BaseInputProps } from 'rc-input/lib/interface';
 import { composeRef } from 'rc-util/lib/ref';
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
-import cva from '../_util/cva';
 import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -61,96 +60,12 @@ export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' |
   [key: `data-${string}`]: string | undefined;
 }
 
-const inputVariantStyles = cva(
-  'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
-  {
-    variants: {
-      size: {
-        small: 'px-2 py-1.5',
-        middle: 'px-3 py-1.5 leading-6',
-        large: 'px-3 py-2 text-base',
-      },
-      borderless: { true: 'ring-0 focus:ring-0' },
-      hasPrefixSuffix: { true: 'rounded-none p-0 ring-0 focus:ring-0' },
-      addonBefore: { true: 'rounded-s-none' },
-      addonAfter: { true: 'rounded-e-none' },
-      disabled: { true: 'bg-transparent' },
-    },
-    compoundVariants: [
-      {
-        hasPrefixSuffix: false,
-        disabled: true,
-        className: 'bg-neutral-fill-quaternary text-neutral-text-quaternary',
-      },
-    ],
-    defaultVariants: {
-      size: 'middle',
-    },
-  },
-);
-
-const affixWrapperVariantStyles = cva(
-  'relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
-  {
-    variants: {
-      size: {
-        small: 'gap-x-1 px-2 py-1.5',
-        middle: 'px-3 py-1.5 leading-6',
-        large: 'px-3 py-2 text-base',
-      },
-      borderless: { true: 'ring-0 focus:ring-0' },
-      addonBefore: { true: 'rounded-s-none' },
-      addonAfter: { true: 'rounded-e-none' },
-      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
-    },
-    defaultVariants: {
-      size: 'middle',
-    },
-  },
-);
-
-const addonBeforeWrapperVariantStyles = cva(
-  '-mr-[1px] inline-flex items-center rounded-s-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-1 ring-inset ring-neutral-border',
-  {
-    variants: {
-      size: {
-        small: 'h-8 px-2',
-        middle: 'h-9  px-3',
-        large: 'h-10 px-3 text-base',
-      },
-      borderless: { true: 'ring-0' },
-      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
-    },
-    defaultVariants: {
-      size: 'middle',
-    },
-  },
-);
-
-const addonAfterWrapperVariantStyles = cva(
-  '-ml-[1px] inline-flex items-center rounded-e-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-1 ring-inset ring-neutral-border',
-  {
-    variants: {
-      size: {
-        small: 'h-8 px-2',
-        middle: 'h-9  px-3',
-        large: 'h-10 px-3 text-base',
-      },
-      borderless: { true: 'ring-0' },
-      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
-    },
-    defaultVariants: {
-      size: 'middle',
-    },
-  },
-);
-
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
     bordered = true,
     status: customStatus,
-    size: customSize,
+    size: customSize = 'middle',
     disabled: customDisabled,
     onBlur,
     onFocus,
@@ -233,6 +148,89 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     };
   }
 
+  const wrapperCls = clsx('flex items-center');
+  const inputCls = clsx(
+    'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+    {
+      'px-2 py-1.5': mergedSize === 'small',
+      'px-3 py-1.5 leading-6': mergedSize === 'middle',
+      'px-3 py-2 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-0 focus:ring-0': !bordered,
+      'rounded-none p-0 ring-0 focus:ring-0': inputHasPrefixSuffix,
+      'rounded-s-none': addonBefore,
+      'rounded-e-none': addonAfter,
+      'bg-transparent': mergedDisabled,
+    },
+    !inputHasPrefixSuffix &&
+      mergedDisabled &&
+      'g-neutral-fill-quaternary text-neutral-text-quaternary',
+    !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
+    compactItemClassnames,
+    complexCls.input,
+  );
+  const addonAfterWrapperCls = clsx(
+    '-ml-[1px] inline-flex items-center rounded-e-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-1 ring-inset ring-neutral-border',
+    {
+      'h-8 px-2': mergedSize === 'small',
+      'h-9 px-3': mergedSize === 'middle',
+      'h-10 px-3 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-0': !bordered,
+      'g-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
+    },
+  );
+  const affixWrapperCls = clsx(
+    'relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-1 ring-inset ring-neutral-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
+    {
+      'gap-x-1 px-2 py-1.5': mergedSize === 'small',
+      'px-3 py-1.5 leading-6': mergedSize === 'middle',
+      'px-3 py-2 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-0 focus:ring-0': !bordered,
+      'rounded-s-none': addonBefore,
+      'rounded-e-none': addonAfter,
+      'bg-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
+    },
+    getStatusClassNames(mergedStatus, hasFeedback),
+  );
+  const addonBeforeWrapperCls = clsx(
+    '-mr-[1px] inline-flex items-center rounded-s-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-1 ring-inset ring-neutral-border',
+    {
+      'h-8 px-2': mergedSize === 'small',
+      'h-9 px-3': mergedSize === 'middle',
+      'h-10 px-3 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-0': !bordered,
+      'bg-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
+    },
+  );
+  const _prefixCls = clsx(
+    mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
+    'flex flex-none items-center text-neutral-text-secondary',
+    mergedDisabled && 'text-neutral-text-quaternary',
+    complexCls.prefix,
+  );
+  const suffixCls = clsx(
+    mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
+    'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
+    mergedDisabled && 'text-neutral-text-quaternary',
+    complexCls.suffix,
+  );
+  const countCls = clsx(
+    'text-neutral-text-tertiary',
+    mergedDisabled && 'text-neutral-text-quaternary',
+    complexCls.count,
+  );
+  const clearCls = clsx(
+    'flex items-center text-neutral-text-tertiary hover:text-neutral-text-secondary',
+  );
+  const groupCls = clsx('inline-block w-full text-start align-top');
+
   return (
     <RcInput
       prefixCls={prefixCls}
@@ -252,15 +250,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         addonAfter && (
           <NoCompactStyle>
             <NoFormStyle override status>
-              <span
-                className={addonAfterWrapperVariantStyles({
-                  size: mergedSize,
-                  borderless: !bordered,
-                  disabled: !!mergedDisabled,
-                })}
-              >
-                {addonAfter}
-              </span>
+              <span className={addonAfterWrapperCls}>{addonAfter}</span>
             </NoFormStyle>
           </NoCompactStyle>
         )
@@ -269,68 +259,22 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         addonBefore && (
           <NoCompactStyle>
             <NoFormStyle override status>
-              <span
-                className={addonBeforeWrapperVariantStyles({
-                  size: mergedSize,
-                  borderless: !bordered,
-                  disabled: !!mergedDisabled,
-                })}
-              >
-                {addonBefore}
-              </span>
+              <span className={addonBeforeWrapperCls}>{addonBefore}</span>
             </NoFormStyle>
           </NoCompactStyle>
         )
       }
       classNames={{
-        input: inputVariantStyles(
-          {
-            size: mergedSize,
-            borderless: !bordered,
-            disabled: !!mergedDisabled,
-            hasPrefixSuffix: inputHasPrefixSuffix,
-            addonAfter: !!addonAfter,
-            addonBefore: !!addonBefore,
-          },
-          [
-            mergedSize,
-            !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
-            compactItemClassnames,
-            complexCls.input,
-          ],
-        ),
-        prefix: clsx(
-          'flex flex-none items-center text-neutral-text-secondary',
-          mergedDisabled && 'text-neutral-text-quaternary',
-          mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-          complexCls.prefix,
-        ),
-        suffix: clsx(
-          'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
-          mergedDisabled && 'text-neutral-text-quaternary',
-          mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-          complexCls.suffix,
-        ),
-        count: clsx(
-          'text-neutral-text-tertiary',
-          mergedDisabled && 'text-neutral-text-quaternary',
-          complexCls.count,
-        ),
-        clear: 'flex items-center text-neutral-text-tertiary hover:text-neutral-text-secondary',
+        input: inputCls,
+        prefix: _prefixCls,
+        suffix: suffixCls,
+        count: countCls,
+        clear: clearCls,
       }}
       classes={{
-        affixWrapper: affixWrapperVariantStyles(
-          {
-            size: mergedSize,
-            borderless: !bordered,
-            disabled: !!mergedDisabled,
-            addonAfter: !!addonAfter,
-            addonBefore: !!addonBefore,
-          },
-          [getStatusClassNames(mergedStatus, hasFeedback)],
-        ),
-        group: 'inline-block w-full text-start align-top',
-        wrapper: clsx('flex items-center', mergedSize),
+        affixWrapper: affixWrapperCls,
+        group: groupCls,
+        wrapper: wrapperCls,
       }}
     />
   );

@@ -6,7 +6,6 @@ import type { TextAreaProps as RcTextAreaProps } from 'rc-textarea/lib/interface
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
-import cva from '../_util/cva';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
@@ -30,43 +29,6 @@ export interface TextAreaRef {
   blur: () => void;
   resizableTextArea?: RcTextAreaRef['resizableTextArea'];
 }
-
-const textareaVariantStyles = cva(
-  'relative block h-full w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
-  {
-    variants: {
-      size: {
-        small: 'py- px-2',
-        middle: 'px-3 py-1.5 leading-6',
-        large: 'px-3 py-2 text-base',
-      },
-      borderless: { true: 'ring-0 focus:ring-0' },
-      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
-      allowClear: { true: 'pr-8' },
-    },
-    defaultVariants: {
-      size: 'middle',
-    },
-  },
-);
-
-const affixWrapperVariantStyles = cva(
-  'relative inline-flex w-full min-w-0 border-0 text-sm text-neutral-text',
-  {
-    variants: {
-      size: {
-        small: '',
-        middle: 'leading-6',
-        large: 'text-base',
-      },
-      borderless: { true: 'ring-0 focus:ring-0' },
-      disabled: { true: 'bg-neutral-fill-quaternary text-neutral-text-quaternary' },
-    },
-    defaultVariants: {
-      size: 'middle',
-    },
-  },
-);
 
 const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
@@ -124,6 +86,44 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       };
     }
 
+    const textareaCls = clsx(
+      'relative block h-full w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+      {
+        'px-2 py-1': mergedSize === 'small',
+        'px-3 py-1.5 leading-6': mergedSize === 'middle',
+        'px-3 py-2 text-base': mergedSize === 'large',
+      },
+      {
+        'ring-0 focus:ring-0': !bordered,
+        'bg-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
+        'pr-8': mergedAllowClear,
+      },
+      getStatusClassNames(mergedStatus),
+      complexCls.textarea,
+    );
+    const affixWrapperCls = clsx(
+      'relative inline-flex w-full min-w-0 border-0 text-sm text-neutral-text',
+      {
+        'leading-6': mergedSize === 'middle',
+        'text-base': mergedSize === 'large',
+      },
+      {
+        'ring-0 focus:ring-0': !bordered,
+        'bg-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
+      },
+      getStatusClassNames(mergedStatus),
+    );
+    const countCls = clsx(
+      'absolute bottom-1.5 right-3 bg-neutral-bg-container pl-1 text-neutral-text-tertiary',
+      mergedDisabled && 'text-neutral-text-quaternary',
+      mergedSize === 'small' && 'right-2',
+      mergedSize === 'large' && 'bottom-2',
+      complexCls.count,
+    );
+    const clearCls = clsx(
+      'absolute right-2 top-1 text-neutral-text-tertiary hover:text-neutral-text-secondary',
+    );
+
     return (
       <RcTextArea
         {...rest}
@@ -131,35 +131,12 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         disabled={mergedDisabled}
         allowClear={mergedAllowClear}
         classes={{
-          affixWrapper: affixWrapperVariantStyles(
-            {
-              size: mergedSize,
-              borderless: !bordered,
-              disabled: mergedDisabled,
-            },
-            [getStatusClassNames(mergedStatus)],
-          ),
+          affixWrapper: affixWrapperCls,
         }}
         classNames={{
-          textarea: textareaVariantStyles(
-            {
-              size: mergedSize,
-              borderless: !bordered,
-              disabled: mergedDisabled,
-              allowClear: !!mergedAllowClear,
-            },
-            [mergedSize, getStatusClassNames(mergedStatus), complexCls.textarea],
-          ),
-          count: clsx(
-            'absolute bottom-1.5 right-3 bg-neutral-bg-container pl-1 text-neutral-text-tertiary',
-            mergedDisabled && 'text-neutral-text-quaternary',
-            mergedSize === 'small' && 'right-2',
-            mergedSize === 'large' && 'bottom-2',
-            complexCls.count,
-          ),
-          clear: clsx(
-            'absolute right-2 top-1 text-neutral-text-tertiary hover:text-neutral-text-secondary',
-          ),
+          textarea: textareaCls,
+          count: countCls,
+          clear: clearCls,
         }}
         suffix={
           hasFeedback && <span className={`${prefixCls}-textarea-suffix`}>{feedbackIcon}</span>
