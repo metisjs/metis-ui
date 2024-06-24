@@ -35,6 +35,14 @@ const App: React.FC = () => (
     <Input defaultValue="Borderless Disabled" variant="borderless" disabled />
     <Input placeholder="Borderless AllowClear" variant="borderless" allowClear />
     <Input placeholder="Borderless" variant="borderless" />
+    <Input placeholder="Borderless ShowCount" variant="borderless" showCount maxLength={100} />
+    <Input
+      placeholder="Borderless Disabled ShowCount"
+      variant="borderless"
+      showCount
+      maxLength={100}
+      disabled
+    />
     <Input placeholder="Borderless" prefix="￥" suffix="RMB" variant="borderless" />
     <Input
       prefix="￥"
@@ -69,6 +77,14 @@ const App: React.FC = () => (
       defaultValue="Borderless Disabled"
     />
     <Input defaultValue="Filled" variant="filled" />
+    <Input placeholder="Filled ShowCount" variant="filled" showCount maxLength={100} />
+    <Input
+      placeholder="Filled Disabled ShowCount"
+      variant="filled"
+      showCount
+      maxLength={100}
+      disabled
+    />
     <Input defaultValue="Filled AllowClear" variant="filled" allowClear />
     <Input defaultValue="Filled Disabled" variant="filled" disabled />
     <Input placeholder="Filled" prefix="￥" suffix="RMB" variant="filled" />
@@ -123,8 +139,29 @@ const App: React.FC = () => (
       placeholder="Filled Disabled"
       disabled
     />
-    <TextArea placeholder="Unbordered" bordered={false} />
-    <TextArea placeholder="Unbordered" bordered={false} allowClear />
+    <TextArea placeholder="Outlined Disabled" disabled showCount maxLength={1000} />
+    <TextArea placeholder="Borderless" variant="borderless" />
+    <TextArea placeholder="Borderless AllowClear" variant="borderless" allowClear />
+    <TextArea placeholder="Borderless ShowCount" variant="borderless" showCount maxLength={1000} />
+    <TextArea placeholder="Borderless Disabled" variant="borderless" disabled />
+    <TextArea
+      placeholder="Borderless ShowCount Disabled"
+      variant="borderless"
+      showCount
+      maxLength={1000}
+      disabled
+    />
+    <TextArea placeholder="Filled" variant="filled" />
+    <TextArea placeholder="Filled AllowClear" variant="filled" allowClear />
+    <TextArea placeholder="Filled ShowCount" variant="filled" showCount maxLength={1000} />
+    <TextArea placeholder="Filled Disabled" variant="filled" disabled />
+    <TextArea
+      placeholder="Filled ShowCount Disabled"
+      variant="filled"
+      showCount
+      maxLength={1000}
+      disabled
+    />
   </Space>
 );
 

@@ -13,15 +13,16 @@ import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
+import useVariant, { Variant } from '../form/hooks/useVariants';
 import type { InputFocusOptions } from './Input';
 import { triggerFocus } from './Input';
 
 export interface TextAreaProps
   extends Omit<RcTextAreaProps, 'suffix' | 'className' | 'classNames'> {
-  className?: ComplexClassName<'textarea' | 'count'>;
-  bordered?: boolean;
+  className?: ComplexClassName<'textarea' | 'count' | 'clear'>;
   size?: SizeType;
   status?: InputStatus;
+  variant?: Variant;
 }
 
 export interface TextAreaRef {
@@ -34,13 +35,13 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
     {
       prefixCls: customizePrefixCls,
-      bordered = true,
       size: customizeSize,
       disabled: customDisabled,
       status: customStatus,
       allowClear,
       showCount,
       className,
+      variant: customVariant,
       ...rest
     },
     ref,
@@ -86,47 +87,60 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       };
     }
 
+    const [variant, enableVariantCls] = useVariant(customVariant);
+
     const textareaCls = clsx(
-      'relative block h-full w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-2 focus:ring-inset focus:ring-primary',
+      'relative block h-full w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
       {
         'px-2 py-1': mergedSize === 'small',
         'px-3 py-1.5 leading-6': mergedSize === 'middle',
         'px-3 py-2 text-base': mergedSize === 'large',
       },
       {
-        'ring-0 focus:ring-0': !bordered,
-        'bg-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
+        'ring-1 focus:ring-2': variant === 'outlined',
+        'shadow-none ring-0 focus:ring-0': variant === 'borderless',
+        'bg-neutral-fill-quinary ring-0 focus:bg-neutral-bg-container  focus:ring-2':
+          variant === 'filled',
+      },
+      {
+        'text-neutral-text-quaternary': mergedDisabled,
+        'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
         'pr-8': mergedAllowClear,
       },
       getStatusClassNames(mergedStatus),
       complexCls.textarea,
     );
     const affixWrapperCls = clsx(
+      'group',
       'relative inline-flex w-full min-w-0 border-0 text-sm text-neutral-text',
       {
         'leading-6': mergedSize === 'middle',
         'text-base': mergedSize === 'large',
       },
-      {
-        'ring-0 focus:ring-0': !bordered,
-        'bg-neutral-fill-quaternary text-neutral-text-quaternary': mergedDisabled,
-      },
-      getStatusClassNames(mergedStatus),
     );
     const countCls = clsx(
       'absolute bottom-1.5 right-3 bg-neutral-bg-container pl-1 text-neutral-text-tertiary',
-      mergedDisabled && 'text-neutral-text-quaternary',
+      {
+        'bg-neutral-fill-quinary group-focus-within:bg-neutral-bg-container': variant === 'filled',
+        'text-neutral-text-quaternary': mergedDisabled,
+        'bg-transparent': mergedDisabled && variant !== 'borderless',
+      },
       mergedSize === 'small' && 'right-2',
       mergedSize === 'large' && 'bottom-2',
       complexCls.count,
     );
     const clearCls = clsx(
       'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',
+      complexCls.clear,
     );
+    const variantCls = clsx({
+      [`${prefixCls}-${variant}`]: enableVariantCls,
+    });
 
     return (
       <RcTextArea
         {...rest}
+        prefixCls={prefixCls}
         className={complexCls.root}
         disabled={mergedDisabled}
         allowClear={mergedAllowClear}
@@ -135,6 +149,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
           textarea: textareaCls,
           count: countCls,
           clear: clearCls,
+          variant: variantCls,
         }}
         suffix={
           hasFeedback && <span className={`${prefixCls}-textarea-suffix`}>{feedbackIcon}</span>
