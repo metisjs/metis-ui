@@ -28,9 +28,9 @@ group:
 <code src="./demo/allow-clear.tsx">带移除图标</code>
 <code src="./demo/show-count.tsx">带字数提示</code>
 <code src="./demo/status.tsx">自定义状态</code>
-<code src="./demo/borderless.tsx">无边框</code>
+<code src="./demo/variant.tsx">变体</code>
 <code src="./demo/focus.tsx">聚焦</code>
-<code src="./demo/borderless-debug.tsx" debug>Style Debug</code>
+<code src="./demo/styles-debug.tsx" debug>Style Debug</code>
 <code src="./demo/textarea-resize-debug.tsx" debug>文本域</code>
 
 ## API

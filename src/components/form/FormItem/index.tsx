@@ -1,7 +1,7 @@
 import type { FormInstance } from 'rc-field-form';
 import { Field, FieldContext, ListContext } from 'rc-field-form';
 import type { FieldProps } from 'rc-field-form/lib/Field';
-import type { Metis, NamePath } from 'rc-field-form/lib/interface';
+import type { Meta, NamePath } from 'rc-field-form/lib/interface';
 import useState from 'rc-util/lib/hooks/useState';
 import { supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
@@ -77,7 +77,7 @@ function hasValidName(name?: NamePath): boolean {
   return !(name === undefined || name === null);
 }
 
-function genEmptyMetis(): Metis {
+function genEmptyMeta(): Meta {
   return {
     errors: [],
     warnings: [],
@@ -106,7 +106,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   const { getPrefixCls } = useContext(ConfigContext);
   const { name: formName } = useContext(FormContext);
   const isRenderProps = typeof children === 'function';
-  const notifyParentMetisChange = useContext(NoStyleItemContext);
+  const notifyParentMetaChange = useContext(NoStyleItemContext);
 
   const { validateTrigger: contextValidateTrigger } = useContext(FieldContext);
   const mergedValidateTrigger =
@@ -126,22 +126,22 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   const [subFieldErrors, setSubFieldErrors] = useFrameState<Record<string, FieldError>>({});
 
   // >>>>> Current field errors
-  const [metis, setMetis] = useState<Metis>(() => genEmptyMetis());
+  const [metis, setMeta] = useState<Meta>(() => genEmptyMeta());
 
-  const onMetisChange = (nextMetis: Metis & { destroy?: boolean }) => {
+  const onMetaChange = (nextMeta: Meta & { destroy?: boolean }) => {
     // This keyInfo is not correct when field is removed
     // Since origin keyManager no longer keep the origin key anymore
     // Which means we need cache origin one and reuse when removed
-    const keyInfo = listContext?.getKey(nextMetis.name);
+    const keyInfo = listContext?.getKey(nextMeta.name);
 
     // Destroy will reset all the metis
-    setMetis(nextMetis.destroy ? genEmptyMetis() : nextMetis, true);
+    setMeta(nextMeta.destroy ? genEmptyMeta() : nextMeta, true);
 
     // Bump to parent since noStyle
-    if (noStyle && notifyParentMetisChange) {
-      let namePath = nextMetis.name;
+    if (noStyle && notifyParentMetaChange) {
+      let namePath = nextMeta.name;
 
-      if (!nextMetis.destroy) {
+      if (!nextMeta.destroy) {
         if (keyInfo !== undefined) {
           const [fieldKey, restPath] = keyInfo;
           namePath = [fieldKey, ...restPath];
@@ -151,15 +151,12 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
         // Use origin cache data
         namePath = fieldKeyPathRef.current || namePath;
       }
-      notifyParentMetisChange(nextMetis, namePath);
+      notifyParentMetaChange(nextMeta, namePath);
     }
   };
 
   // >>>>> Collect noStyle Field error to the top FormItem
-  const onSubItemMetisChange = (
-    subMetis: Metis & { destroy: boolean },
-    uniqueKeys: React.Key[],
-  ) => {
+  const onSubItemMetaChange = (subMeta: Meta & { destroy: boolean }, uniqueKeys: React.Key[]) => {
     // Only `noStyle` sub item will trigger
     setSubFieldErrors((prevSubFieldErrors) => {
       const clone = {
@@ -167,15 +164,15 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
       };
 
       // name: ['user', 1] + key: [4] = ['user', 4]
-      const mergedNamePath = [...subMetis.name.slice(0, -1), ...uniqueKeys];
+      const mergedNamePath = [...subMeta.name.slice(0, -1), ...uniqueKeys];
       const mergedNameKey = mergedNamePath.join(NAME_SPLIT);
 
-      if (subMetis.destroy) {
+      if (subMeta.destroy) {
         // Remove
         delete clone[mergedNameKey];
       } else {
         // Update
-        clone[mergedNameKey] = subMetis;
+        clone[mergedNameKey] = subMeta;
       }
 
       return clone;
@@ -218,7 +215,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
         errors={mergedErrors}
         warnings={mergedWarnings}
         metis={metis}
-        onSubItemMetisChange={onSubItemMetisChange}
+        onSubItemMetaChange={onSubItemMetaChange}
       >
         {baseChildren}
       </ItemHolder>
@@ -246,10 +243,10 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
       messageVariables={variables}
       trigger={trigger}
       validateTrigger={mergedValidateTrigger}
-      onMetisChange={onMetisChange}
+      onMetaChange={onMetaChange}
     >
-      {(control, renderMetis, context) => {
-        const mergedName = toArray(name).length && renderMetis ? renderMetis.name : [];
+      {(control, renderMeta, context) => {
+        const mergedName = toArray(name).length && renderMeta ? renderMeta.name : [];
         const fieldId = getFieldId(mergedName, formName);
 
         const isRequired =

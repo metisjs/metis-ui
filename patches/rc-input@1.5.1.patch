@@ -1,0 +1,50 @@
+diff --git a/es/BaseInput.js b/es/BaseInput.js
+index 545232907ab31fa9639953b4787c3484ee246312..d7802640d0a93579752d784be8e7ebfcaddf60f7 100644
+--- a/es/BaseInput.js
++++ b/es/BaseInput.js
+@@ -73,7 +73,7 @@ var BaseInput = /*#__PURE__*/React.forwardRef(function (props, ref) {
+         onMouseDown: function onMouseDown(e) {
+           return e.preventDefault();
+         },
+-        className: clsx(clearIconCls, (_clsx = {}, _defineProperty(_clsx, "".concat(clearIconCls, "-hidden"), !needClear), _defineProperty(_clsx, "".concat(clearIconCls, "-has-suffix"), !!suffix), _clsx)),
++        className: clsx(clearIconCls, (_clsx = {}, _defineProperty(_clsx, "".concat(clearIconCls, "-has-suffix"), !!suffix), _clsx), classNames === null || classNames === void 0 ? void 0 : classNames.clear, !needClear ? 'hidden' : void 0),
+         role: "button",
+         tabIndex: -1
+       }, iconNode);
+diff --git a/es/interface.d.ts b/es/interface.d.ts
+index 0b4ed2033af959e131fe70d23be8fd14520eaa58..c7542537f4c579683b40bead92413eab61db3fb5 100644
+--- a/es/interface.d.ts
++++ b/es/interface.d.ts
+@@ -19,6 +19,7 @@ export interface CommonInputProps {
+         groupWrapper?: string;
+         wrapper?: string;
+         variant?: string;
++        clear?: string;
+     };
+     styles?: {
+         affixWrapper?: CSSProperties;
+diff --git a/lib/BaseInput.js b/lib/BaseInput.js
+index 99c45906d80695ed260579d8434081e65d32f8fd..83467ceb4815a4f2ceb90fbcf474174e7d2031bc 100644
+--- a/lib/BaseInput.js
++++ b/lib/BaseInput.js
+@@ -83,7 +83,7 @@ var BaseInput = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
+         onMouseDown: function onMouseDown(e) {
+           return e.preventDefault();
+         },
+-        className: (0, _classnames.default)(clearIconCls, (_clsx = {}, (0, _defineProperty2.default)(_clsx, "".concat(clearIconCls, "-hidden"), !needClear), (0, _defineProperty2.default)(_clsx, "".concat(clearIconCls, "-has-suffix"), !!suffix), _clsx)),
++        className: (0, _classnames.default)(clearIconCls, (_clsx = {}, (0, _defineProperty2.default)(_clsx, "".concat(clearIconCls, "-has-suffix"), !!suffix), _clsx), classNames === null || classNames === void 0 ? void 0 : classNames.clear, !needClear ? 'hidden': void 0),
+         role: "button",
+         tabIndex: -1
+       }, iconNode);
+diff --git a/lib/interface.d.ts b/lib/interface.d.ts
+index 0b4ed2033af959e131fe70d23be8fd14520eaa58..c7542537f4c579683b40bead92413eab61db3fb5 100644
+--- a/lib/interface.d.ts
++++ b/lib/interface.d.ts
+@@ -19,6 +19,7 @@ export interface CommonInputProps {
+         groupWrapper?: string;
+         wrapper?: string;
+         variant?: string;
++        clear?: string;
+     };
+     styles?: {
+         affixWrapper?: CSSProperties;

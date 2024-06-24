@@ -121,7 +121,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       complexCls.count,
     );
     const clearCls = clsx(
-      'absolute right-2 top-1 text-neutral-text-tertiary hover:text-neutral-text-secondary',
+      'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',
     );
 
     return (
@@ -130,10 +130,8 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         className={complexCls.root}
         disabled={mergedDisabled}
         allowClear={mergedAllowClear}
-        classes={{
-          affixWrapper: affixWrapperCls,
-        }}
         classNames={{
+          affixWrapper: affixWrapperCls,
           textarea: textareaCls,
           count: countCls,
           clear: clearCls,

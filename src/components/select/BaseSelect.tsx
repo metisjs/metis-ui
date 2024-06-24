@@ -680,7 +680,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-tertiary opacity-0 transition-all hover:text-neutral-text-secondary',
+          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-quaternary opacity-0 transition-all hover:text-neutral-text-tertiary',
           'group-hover/select:opacity-100',
         )}
         onMouseDown={onClearMouseDown}
@@ -729,13 +729,13 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-single`]: !multiple,
       [`${prefixCls}-allow-clear`]: allowClear,
       [`${prefixCls}-show-arrow`]: showSuffixIcon,
-      [`${prefixCls}-disabled not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary`]:
-        disabled,
+      [`${prefixCls}-disabled`]: disabled,
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
       [`${prefixCls}-show-search`]: showSearch,
     },
+    disabled && 'not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary',
     complexCls.root,
   );
 

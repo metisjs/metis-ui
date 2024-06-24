@@ -27,9 +27,9 @@ Through mouse or keyboard input content, it is the most basic form field wrapper
 <code src="./demo/allow-clear.tsx">With clear icon</code>
 <code src="./demo/show-count.tsx">With character counting</code>
 <code src="./demo/status.tsx">Status</code>
-<code src="./demo/borderless.tsx">Borderless</code>
+<code src="./demo/variant.tsx">Variants</code>
 <code src="./demo/focus.tsx">Focus</code>
-<code src="./demo/borderless-debug.tsx" debug>Style Debug</code>
+<code src="./demo/styles-debug.tsx" debug>Style Debug</code>
 <code src="./demo/textarea-resize-debug.tsx" debug>TextArea</code>
 
 ## API

@@ -1,0 +1,88 @@
+diff --git a/es/TextArea.d.ts b/es/TextArea.d.ts
+index 8baf0e9471f6dd0401c7e659b2735143ff291f27..7c09f96fafa5d72fd15bfa50936145baacd22bf5 100644
+--- a/es/TextArea.d.ts
++++ b/es/TextArea.d.ts
+@@ -18,6 +18,7 @@ declare const TextArea: React.ForwardRefExoticComponent<Omit<import("./interface
+         groupWrapper?: string;
+         wrapper?: string;
+         variant?: string;
++        clear?: string;
+     } & {
+         textarea?: string;
+         count?: string;
+diff --git a/es/TextArea.js b/es/TextArea.js
+index ce9d338b0383657ce76740da98072a2d6d9a44cf..3b5ced1ec62665892ba01c3da87930c8e5fa50f2 100644
+--- a/es/TextArea.js
++++ b/es/TextArea.js
+@@ -187,7 +187,8 @@ var TextArea = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
+     suffix: suffixNode,
+     prefixCls: prefixCls,
+     classNames: _objectSpread(_objectSpread({}, classNames), {}, {
+-      affixWrapper: clsx(classNames === null || classNames === void 0 ? void 0 : classNames.affixWrapper, _defineProperty(_defineProperty({}, "".concat(prefixCls, "-show-count"), showCount), "".concat(prefixCls, "-textarea-allow-clear"), allowClear))
++      affixWrapper: clsx(classNames === null || classNames === void 0 ? void 0 : classNames.affixWrapper, _defineProperty(_defineProperty({}, "".concat(prefixCls, "-show-count"), showCount), "".concat(prefixCls, "-textarea-allow-clear"), allowClear)),
++      clear: classNames === null || classNames === void 0 ? void 0 : classNames.clear
+     }),
+     disabled: disabled,
+     focused: focused,
+diff --git a/es/interface.d.ts b/es/interface.d.ts
+index ef122c1e6cb4859fb7670b29a4e0ec98eef85383..8d1486537902a4e13a15790d51f8d0de3ac9c817 100644
+--- a/es/interface.d.ts
++++ b/es/interface.d.ts
+@@ -23,6 +23,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
+     classNames?: CommonInputProps['classNames'] & {
+         textarea?: string;
+         count?: string;
++        clear?: string;
+     };
+     styles?: {
+         textarea?: CSSProperties;
+diff --git a/lib/ResizableTextArea.d.ts b/lib/ResizableTextArea.d.ts
+index 0c86b020bb4cbfdeefc489e488064568301bfc23..92d96ebb9c06390e68530655cc734afb8a7d51ae 100644
+--- a/lib/ResizableTextArea.d.ts
++++ b/lib/ResizableTextArea.d.ts
+@@ -18,6 +18,7 @@ declare const ResizableTextArea: React.ForwardRefExoticComponent<Omit<import("./
+         groupWrapper?: string;
+         wrapper?: string;
+         variant?: string;
++        clear?: string;
+     } & {
+         textarea?: string;
+         count?: string;
+diff --git a/lib/TextArea.d.ts b/lib/TextArea.d.ts
+index 8baf0e9471f6dd0401c7e659b2735143ff291f27..7c09f96fafa5d72fd15bfa50936145baacd22bf5 100644
+--- a/lib/TextArea.d.ts
++++ b/lib/TextArea.d.ts
+@@ -18,6 +18,7 @@ declare const TextArea: React.ForwardRefExoticComponent<Omit<import("./interface
+         groupWrapper?: string;
+         wrapper?: string;
+         variant?: string;
++        clear?: string;
+     } & {
+         textarea?: string;
+         count?: string;
+diff --git a/lib/TextArea.js b/lib/TextArea.js
+index 92bebc9c2a992ca17cb192450ff2876945b9e6c0..1195b1fe70a13aa15326f15a78f7f1161b93ddfe 100644
+--- a/lib/TextArea.js
++++ b/lib/TextArea.js
+@@ -197,7 +197,8 @@ var TextArea = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
+     suffix: suffixNode,
+     prefixCls: prefixCls,
+     classNames: (0, _objectSpread2.default)((0, _objectSpread2.default)({}, classNames), {}, {
+-      affixWrapper: (0, _classnames.default)(classNames === null || classNames === void 0 ? void 0 : classNames.affixWrapper, (0, _defineProperty2.default)((0, _defineProperty2.default)({}, "".concat(prefixCls, "-show-count"), showCount), "".concat(prefixCls, "-textarea-allow-clear"), allowClear))
++      affixWrapper: (0, _classnames.default)(classNames === null || classNames === void 0 ? void 0 : classNames.affixWrapper, (0, _defineProperty2.default)((0, _defineProperty2.default)({}, "".concat(prefixCls, "-show-count"), showCount), "".concat(prefixCls, "-textarea-allow-clear"), allowClear)),
++      clear: classNames === null || classNames === void 0 ? void 0 : classNames.clear
+     }),
+     disabled: disabled,
+     focused: focused,
+diff --git a/lib/interface.d.ts b/lib/interface.d.ts
+index ef122c1e6cb4859fb7670b29a4e0ec98eef85383..8d1486537902a4e13a15790d51f8d0de3ac9c817 100644
+--- a/lib/interface.d.ts
++++ b/lib/interface.d.ts
+@@ -23,6 +23,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
+     classNames?: CommonInputProps['classNames'] & {
+         textarea?: string;
+         count?: string;
++        clear?: string;
+     };
+     styles?: {
+         textarea?: CSSProperties;

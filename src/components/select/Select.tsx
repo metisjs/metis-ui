@@ -557,6 +557,7 @@ const Select = React.forwardRef(
         [`${prefixCls}-borderless`]: !bordered,
         [`${prefixCls}-in-form-item`]: isFormItemInput,
       },
+      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent',
       compactItemClassnames[0],
       complexCls.root,
     );
@@ -568,6 +569,7 @@ const Select = React.forwardRef(
         'shadow-none ring-0': !bordered,
         'bg-neutral-bg-container': !bordered && mergedDisabled,
       },
+      '[.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
       getStatusClassNames(mergedStatus, hasFeedback),
       compactItemClassnames[1],
       complexCls.selector,
