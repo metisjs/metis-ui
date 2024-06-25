@@ -41,7 +41,6 @@ Through mouse or keyboard input content, it is the most basic form field wrapper
 | addonAfter | The label text displayed after (on the right side of) the input field | ReactNode | - |  |
 | addonBefore | The label text displayed before (on the left side of) the input field | ReactNode | - |  |
 | allowClear | If allow to remove input content with clear icon | boolean \| { clearIcon: ReactNode } | false |  |
-| bordered | Whether has border style | boolean | true |  |
 | className | Semantic DOM class | string \|Record<'root' \| 'input' \| 'prefix' \| 'suffix' \| 'count', string> | - |  |
 | defaultValue | The initial input content | string | - |  |
 | disabled | Whether the input is disabled | boolean | false |  |
@@ -54,6 +53,7 @@ Through mouse or keyboard input content, it is the most basic form field wrapper
 | suffix | The suffix icon for the Input | ReactNode | - |  |
 | type | The type of input, see: [MDN](https://developer.mozilla.org/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)( use `Input.TextArea` instead of `type="textarea"`) | string | `text` |  |
 | value | The input content value | string | - |  |
+| variant | Variants of Input | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onChange | Callback when user input | function(e) | - |  |
 | onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - |  |
 

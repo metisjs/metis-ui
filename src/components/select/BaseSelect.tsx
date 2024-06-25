@@ -6,6 +6,7 @@ import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import useLock from '../_util/hooks/useLock';
+import useVariants, { Variant } from '../form/hooks/useVariants';
 import { TransitionProps } from '../transition';
 import { AlignType, BuildInPlacements } from '../trigger';
 import type { RefTriggerProps } from './SelectTrigger';
@@ -132,6 +133,8 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   tagRender?: (props: CustomTagProps) => React.ReactElement;
   maxLength?: number;
 
+  variant?: Variant;
+
   // MISC
   tabIndex?: number;
   autoFocus?: boolean;
@@ -210,6 +213,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     showSearch,
     tagRender,
     omitDomProps,
+
+    variant: customizeVariant,
 
     // Value
     displayValues,
@@ -302,6 +307,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   /** Used for component focused management */
   const [mockFocused, setMockFocused, cancelSetMockFocused] = useDelayReset();
+
+  const [variant, enableVariantCls] = useVariants(customizeVariant);
 
   // =========================== Imperative ===========================
   React.useImperativeHandle(ref, () => ({
@@ -734,16 +741,34 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
       [`${prefixCls}-show-search`]: showSearch,
+      [`${prefixCls}-${variant}`]: enableVariantCls,
     },
-    disabled && 'not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary',
+    (mockFocused || mergedOpen) && {
+      'bg-neutral-bg-container': variant === 'filled',
+    },
+    disabled
+      ? {
+          'not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary': true,
+          'bg-neutral-bg-container': variant === 'borderless',
+        }
+      : {
+          'bg-neutral-fill-quinary': variant === 'filled',
+        },
+    '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent',
     semanticCls.root,
   );
 
   const mergedSelectorClassName = {
     root: clsx(
       {
-        'ring-2 ring-primary': mockFocused || mergedOpen,
+        'ring-1': variant === 'outlined',
+        'shadow-none ring-0': variant === 'borderless',
+        'ring-0': variant === 'filled',
       },
+      (mockFocused || mergedOpen) && {
+        'ring-2 ring-primary': variant !== 'borderless',
+      },
+      '[.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
       semanticCls.selector,
     ),
     search: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorSearch),

@@ -92,7 +92,6 @@ export interface SelectProps<
   id?: string;
   className?: SemanticClassName<'popup' | 'selector'>;
 
-  bordered?: boolean;
   disabled?: boolean;
 
   // >>> Size

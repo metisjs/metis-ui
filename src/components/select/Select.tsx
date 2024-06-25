@@ -59,7 +59,6 @@ const Select = React.forwardRef(
       className,
       prefixCls: customizePrefixCls,
       fieldNames,
-      bordered = true,
 
       // Request
       request,
@@ -554,10 +553,8 @@ const Select = React.forwardRef(
       {
         [`${prefixCls}-lg text-base`]: mergedSize === 'large',
         [`${prefixCls}-sm`]: mergedSize === 'small',
-        [`${prefixCls}-borderless`]: !bordered,
         [`${prefixCls}-in-form-item`]: isFormItemInput,
       },
-      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent',
       compactItemClassnames[0],
       semanticCls.root,
     );
@@ -566,10 +563,7 @@ const Select = React.forwardRef(
       {
         'px-2 after:leading-6': mergedSize === 'small',
         'after:leading-8': mergedSize === 'large',
-        'shadow-none ring-0': !bordered,
-        'bg-neutral-bg-container': !bordered && mergedDisabled,
       },
-      '[.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
       getStatusClassNames(mergedStatus, hasFeedback),
       compactItemClassnames[1],
       semanticCls.selector,

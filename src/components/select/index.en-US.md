@@ -32,7 +32,7 @@ Select component to select value from options.
 <code src="./demo/suffix.tsx" debug>Suffix</code>
 <code src="./demo/custom-dropdown-menu.tsx">Custom dropdown</code>
 <code src="./demo/hide-selected.tsx">Hide Already Selected</code>
-<code src="./demo/bordered.tsx">Bordered-less</code>
+<code src="./demo/variant.tsx">Variants</code>
 <code src="./demo/custom-tag-render.tsx">Custom Tag Render</code>
 <code src="./demo/responsive.tsx">Responsive maxTagCount</code>
 <code src="./demo/big-data.tsx">Big Data</code>
@@ -49,7 +49,6 @@ Select component to select value from options.
 | allowClear | Show clear button | boolean | false |  |
 | autoClearSearchValue | Whether the current search will be cleared on selecting an item. Only applies when `mode` is set to `multiple` or `tags` | boolean | true |  |
 | autoFocus | Get focus by default | boolean | false |  |
-| bordered | Whether has border style | boolean | true |  |
 | className | Semantic DOM class | string \| Record<'root' \| 'popup' \| 'selector', string> | - |  |
 | clearIcon | The custom clear icon | ReactNode | - |  |
 | defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
@@ -87,6 +86,7 @@ Select component to select value from options.
 | tagRender | Customize tag render, only applies when `mode` is set to `multiple` or `tags` | (props) => ReactNode | - |  |
 | tokenSeparators | Separator used to tokenize, only applies when `mode="tags"` | string\[] | - |  |
 | value | Current selected option (considered as a immutable array) | string \| string\[] \| <br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
+| variant | Variants of selector | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | virtual | Disable virtual scroll when set to false | boolean | true |  |
 | onBlur | Called when blur | function | - |  |
 | onChange | Called when select an option or input value change | function(value, option:Option \| Array&lt;Option>) | - |  |
