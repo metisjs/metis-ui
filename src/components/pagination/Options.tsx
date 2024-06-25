@@ -1,5 +1,6 @@
 import KEYCODE from 'rc-util/lib/KeyCode';
 import React from 'react';
+import Input from '../input';
 import Select from '../select';
 import type { PaginationLocale } from './interface';
 
@@ -142,14 +143,14 @@ const Options: React.FC<OptionsProps> = (props) => {
     goInput = (
       <div className={`${prefixCls}-quick-jumper`}>
         {locale.jump_to}
-        <input
+        <Input
           disabled={disabled}
-          type="text"
           value={goInputText}
           onChange={handleChange}
           onKeyUp={go}
           onBlur={handleBlur}
           aria-label={locale.page}
+          className="w-12"
         />
         {locale.page}
         {gotoButton}

@@ -14,6 +14,7 @@ import useBreakpoint from '../_util/hooks/useBreakpoint';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
+import Input from '../input';
 import { useLocale } from '../locale';
 import Options from './Options';
 import type { PagerProps } from './Pager';
@@ -372,15 +373,14 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         {isReadOnly ? (
           internalInputVal
         ) : (
-          <input
-            type="text"
+          <Input
             value={internalInputVal}
             disabled={disabled}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
             onChange={handleKeyUp}
             onBlur={handleBlur}
-            size={3}
+            className={clsx('w-12')}
           />
         )}
         <span className={`${prefixCls}-slash`}>/</span>
