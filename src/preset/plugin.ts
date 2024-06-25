@@ -30,7 +30,7 @@ export default tailwindPlugin(mainFunction, {
         'neutral-950': tailwindColors.neutral[950],
       },
       opacity: {
-        disabled: '0.6',
+        disabled: '0.3',
       },
       transitionProperty: {
         height: 'height',
