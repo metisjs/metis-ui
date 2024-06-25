@@ -6,7 +6,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useId from 'rc-util/lib/hooks/useId';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { TransitionProps } from '../transition';
 import type { TriggerContextProps } from './Context';
 import TriggerContext from './Context';
@@ -85,7 +85,7 @@ export interface TriggerProps {
   // ==================== Arrow ====================
   arrow?: boolean | ArrowTypeOuter;
 
-  className?: ComplexClassName<'popup' | 'mask'>;
+  className?: SemanticClassName<'popup' | 'mask'>;
 
   // =================== Private ===================
   /**
@@ -159,7 +159,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       ...restProps
     } = props;
 
-    const complexCls = getComplexCls(className);
+    const semanticCls = getSemanticCls(className);
 
     const mergedAutoDestroy = autoDestroy || false;
 
@@ -478,8 +478,8 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     }
 
     // ========================= ClassName ==========================
-    if (complexCls.root) {
-      cloneProps.className = clsx(originChildProps.className, complexCls.root);
+    if (semanticCls.root) {
+      cloneProps.className = clsx(originChildProps.className, semanticCls.root);
     }
 
     // =========================== Render ===========================
@@ -540,7 +540,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
             ref={setPopupRef}
             prefixCls={prefixCls}
             popup={popup}
-            className={{ root: clsx(complexCls.popup, alignedClassName), mask: complexCls.mask }}
+            className={{ root: clsx(semanticCls.popup, alignedClassName), mask: semanticCls.mask }}
             style={popupStyle}
             target={targetEle}
             onMouseEnter={onPopupMouseEnter}

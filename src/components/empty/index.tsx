@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
 import DefaultEmptyImg from './EmptyImage';
@@ -14,7 +14,7 @@ export interface EmptyLocale {
 
 export interface EmptyProps {
   prefixCls?: string;
-  className?: ComplexClassName<'image' | 'description' | 'footer'>;
+  className?: SemanticClassName<'image' | 'description' | 'footer'>;
   style?: React.CSSProperties;
   imageStyle?: React.CSSProperties;
   image?: React.ReactNode;
@@ -34,7 +34,7 @@ const Empty: CompoundedComponent = ({
   style,
   ...restProps
 }) => {
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const { getPrefixCls } = React.useContext(ConfigContext);
 
   const prefixCls = getPrefixCls('empty', customizePrefixCls);
@@ -54,12 +54,12 @@ const Empty: CompoundedComponent = ({
 
   return (
     <div
-      className={clsx(prefixCls, 'mx-2 my-8 text-center text-sm', complexCls.root)}
+      className={clsx(prefixCls, 'mx-2 my-8 text-center text-sm', semanticCls.root)}
       style={style}
       {...restProps}
     >
       <div
-        className={clsx(`${prefixCls}-image mb-2 flex h-10 justify-center`, complexCls.image)}
+        className={clsx(`${prefixCls}-image mb-2 flex h-10 justify-center`, semanticCls.image)}
         style={imageStyle}
       >
         {imageNode}
@@ -69,14 +69,14 @@ const Empty: CompoundedComponent = ({
           className={clsx(
             `${prefixCls}-description`,
             'text-neutral-text-quaternary',
-            complexCls.description,
+            semanticCls.description,
           )}
         >
           {des}
         </div>
       )}
       {children && (
-        <div className={clsx(`${prefixCls}-footer mt-4`, complexCls.footer)}>{children}</div>
+        <div className={clsx(`${prefixCls}-footer mt-4`, semanticCls.footer)}>{children}</div>
       )}
     </div>
   );

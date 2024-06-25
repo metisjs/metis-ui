@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import { ComplexClassName } from '../_util/classNameUtils';
+import { SemanticClassName } from '../_util/classNameUtils';
 
 // ========================= Options =========================
 export interface SubMenuType<T extends MenuItemType = MenuItemType> {
@@ -7,7 +7,7 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   children: ItemType<T>[];
   disabled?: boolean;
   key: string;
-  className?: ComplexClassName<'title' | 'inner' | 'icon' | 'content' | 'popup'>;
+  className?: SemanticClassName<'title' | 'inner' | 'icon' | 'content' | 'popup'>;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
 
@@ -37,7 +37,7 @@ export interface MenuItemType {
   danger?: boolean;
   icon?: React.ReactNode;
   title?: string;
-  className?: ComplexClassName<'inner' | 'icon'>;
+  className?: SemanticClassName<'inner' | 'icon'>;
 
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
@@ -52,7 +52,7 @@ export interface MenuItemGroupType<T extends MenuItemType = MenuItemType> {
   label?: React.ReactNode;
   children?: ItemType<T>[];
   key?: React.Key;
-  className?: ComplexClassName<'title' | 'list'>;
+  className?: SemanticClassName<'title' | 'list'>;
 }
 
 export interface MenuDividerType {

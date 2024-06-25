@@ -3,7 +3,7 @@ import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import type { TriggerProps } from '../';
-import { ComplexClassName, clsx, getComplexCls } from '../../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../../_util/classNameUtils';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
 import type { AlignPoint, AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
@@ -13,7 +13,7 @@ import PopupContent from './PopupContent';
 
 export interface PopupProps {
   prefixCls: string;
-  className?: ComplexClassName<'mask'>;
+  className?: SemanticClassName<'mask'>;
   style?: React.CSSProperties;
   popup?: TriggerProps['popup'];
   target: HTMLElement | null;
@@ -115,7 +115,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     targetHeight,
   } = props;
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const childNode = typeof popup === 'function' ? popup() : popup;
 
@@ -200,7 +200,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     >
       <Mask
         prefixCls={prefixCls}
-        className={complexCls.mask}
+        className={semanticCls.mask}
         open={open}
         zIndex={zIndex}
         mask={mask}
@@ -225,7 +225,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
             {({ className: transitionClx, style: transitionStyle }, transitionRef) => (
               <div
                 ref={composeRef(resizeObserverRef, ref, transitionRef)}
-                className={clsx(prefixCls, transitionClx, complexCls.root)}
+                className={clsx(prefixCls, transitionClx, semanticCls.root)}
                 style={
                   {
                     '--arrow-x': `${arrowPos.x || 0}px`,

@@ -5,7 +5,7 @@ import isEqual from 'rc-util/lib/isEqual';
 import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
@@ -53,7 +53,7 @@ export interface MenuProps
     'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
   > {
   prefixCls?: string;
-  className?: ComplexClassName<MenuClassNameType>;
+  className?: SemanticClassName<MenuClassNameType>;
   theme?: MenuTheme;
   items: ItemType[];
 
@@ -178,7 +178,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   } = props;
 
   const { siderCollapsed } = React.useContext(SiderContext);
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   // ======================== Warning ==========================
   warning(
@@ -523,7 +523,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
         // >>> Dark
         theme === 'dark' && 'bg-gray-800',
         theme === 'dark' && internalMode === 'horizontal' && 'items-center',
-        complexCls.root,
+        semanticCls.root,
         overrideObj.className?.root,
       )}
       style={style}
@@ -570,7 +570,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       <IdContext.Provider value={uuid}>
         <MenuContextProvider
           prefixCls={prefixCls}
-          className={{ ...overrideObj.className, ...complexCls }}
+          className={{ ...overrideObj.className, ...semanticCls }}
           inlineCollapsed={mergedInlineCollapsed || false}
           theme={theme}
           mode={internalMode}

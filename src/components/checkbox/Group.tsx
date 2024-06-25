@@ -1,6 +1,6 @@
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-import { ComplexClassName, clsx } from '../_util/classNameUtils';
+import { SemanticClassName, clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { CheckboxChangeEvent } from './Checkbox';
 import Checkbox from './Checkbox';
@@ -8,7 +8,7 @@ import Checkbox from './Checkbox';
 export type CheckboxValueType = string | number | boolean;
 
 export interface CheckboxOptionType {
-  className?: ComplexClassName<'checkbox'>;
+  className?: SemanticClassName<'checkbox'>;
   label: React.ReactNode;
   value: CheckboxValueType;
   style?: React.CSSProperties;

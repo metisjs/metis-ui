@@ -6,7 +6,7 @@ import { useCompactItemContext } from '../space/Compact';
 import Dropdown from './Dropdown';
 
 import { EllipsisHorizontalOutline } from '@metisjs/icons';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { ButtonProps } from '../button';
 import { ButtonHTMLType } from '../button/Button';
 import { SizeType } from '../config-provider/SizeContext';
@@ -15,7 +15,7 @@ import type { DropdownProps } from './Dropdown';
 export type DropdownButtonType = 'default' | 'primary' | 'link' | 'text';
 
 export interface DropdownButtonProps extends DropdownProps {
-  className?: ComplexClassName<'overlay' | 'open' | 'button'>;
+  className?: SemanticClassName<'overlay' | 'open' | 'button'>;
   type?: DropdownButtonType;
   htmlType?: ButtonHTMLType;
   danger?: boolean;
@@ -71,7 +71,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     ...restProps
   } = props;
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const prefixCls = getPrefixCls('dropdown', customizePrefixCls);
   const buttonPrefixCls = `${prefixCls}-button`;
 
@@ -88,12 +88,12 @@ const DropdownButton: CompoundedComponent = (props) => {
     mouseLeaveDelay,
     destroyPopupOnHide,
     dropdownRender,
-    className: { overlay: complexCls.overlay, open: complexCls.open },
+    className: { overlay: semanticCls.overlay, open: semanticCls.open },
   };
 
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
-  const classes = clsx(buttonPrefixCls, compactItemClassnames, complexCls.root);
+  const classes = clsx(buttonPrefixCls, compactItemClassnames, semanticCls.root);
 
   if ('open' in props) {
     dropdownProps.open = open;
@@ -115,14 +115,14 @@ const DropdownButton: CompoundedComponent = (props) => {
       htmlType={htmlType}
       href={href}
       title={title}
-      className={complexCls.button}
+      className={semanticCls.button}
     >
       {children}
     </Button>
   );
 
   const rightButton = (
-    <Button type={type} danger={danger} icon={icon} className={complexCls.button} />
+    <Button type={type} danger={danger} icon={icon} className={semanticCls.button} />
   );
 
   const [leftButtonToRender, rightButtonToRender] = buttonsRender([leftButton, rightButton]);

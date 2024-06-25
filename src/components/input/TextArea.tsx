@@ -5,7 +5,7 @@ import RcTextArea from 'rc-textarea';
 import type { TextAreaProps as RcTextAreaProps } from 'rc-textarea/lib/interface';
 import * as React from 'react';
 import { forwardRef } from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
@@ -19,7 +19,7 @@ import { triggerFocus } from './Input';
 
 export interface TextAreaProps
   extends Omit<RcTextAreaProps, 'suffix' | 'className' | 'classNames'> {
-  className?: ComplexClassName<'textarea' | 'count' | 'clear'>;
+  className?: SemanticClassName<'textarea' | 'count' | 'clear'>;
   size?: SizeType;
   status?: InputStatus;
   variant?: Variant;
@@ -46,7 +46,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     },
     ref,
   ) => {
-    const complexCls = getComplexCls(className);
+    const semanticCls = getSemanticCls(className);
     const { getPrefixCls } = React.useContext(ConfigContext);
 
     // ===================== Size =====================
@@ -108,7 +108,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         'pr-8': mergedAllowClear,
       },
       getStatusClassNames(mergedStatus),
-      complexCls.textarea,
+      semanticCls.textarea,
     );
     const affixWrapperCls = clsx(
       'group',
@@ -127,11 +127,11 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       },
       mergedSize === 'small' && 'right-2',
       mergedSize === 'large' && 'bottom-2',
-      complexCls.count,
+      semanticCls.count,
     );
     const clearCls = clsx(
       'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',
-      complexCls.clear,
+      semanticCls.clear,
     );
     const variantCls = clsx({
       [`${prefixCls}-${variant}`]: enableVariantCls,
@@ -141,7 +141,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       <RcTextArea
         {...rest}
         prefixCls={prefixCls}
-        className={complexCls.root}
+        className={semanticCls.root}
         disabled={mergedDisabled}
         allowClear={mergedAllowClear}
         classNames={{

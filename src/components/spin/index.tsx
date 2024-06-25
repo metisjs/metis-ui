@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { debounce } from 'throttle-debounce';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import Indicator from './Indicator';
@@ -13,7 +13,7 @@ export interface SpinProps {
   /** Customize prefix class name */
   prefixCls?: string;
   /** Additional class name of Spin */
-  className?: ComplexClassName<'wrapper' | 'fullscreen' | 'indicator' | 'tip'>;
+  className?: SemanticClassName<'wrapper' | 'fullscreen' | 'indicator' | 'tip'>;
   /** Whether Spin is spinning */
   spinning?: boolean;
   /** Style of Spin */
@@ -49,7 +49,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     fullscreen = false,
     ...restProps
   } = props;
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const { getPrefixCls } = React.useContext(ConfigContext);
 
   const prefixCls = getPrefixCls('spin', customizePrefixCls);
@@ -99,9 +99,9 @@ const Spin: React.FC<SpinProps> = (props) => {
     isNestedPattern &&
       'absolute z-[4] flex h-full max-h-[25rem] w-full flex-col items-center justify-center',
     fullscreen && 'flex flex-col items-center justify-center',
-    complexCls.root,
+    semanticCls.root,
   );
-  const nestedCls = clsx(`${prefixCls}-nested-loading`, 'relative', complexCls.wrapper);
+  const nestedCls = clsx(`${prefixCls}-nested-loading`, 'relative', semanticCls.wrapper);
   const containerCls = clsx(
     `${prefixCls}-container`,
     {
@@ -117,7 +117,7 @@ const Spin: React.FC<SpinProps> = (props) => {
       'mt-3': size === 'large',
     },
     fullscreen && 'text-primary',
-    complexCls.tip,
+    semanticCls.tip,
   );
   const fullscreenCls = clsx(
     `${prefixCls}-fullscreen`,
@@ -126,7 +126,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     },
     'invisible fixed inset-0 z-[1000] flex h-screen w-screen flex-col items-center justify-center bg-neutral-bg-mask opacity-0 transition-all',
     spinning && 'visible opacity-100',
-    complexCls.fullscreen,
+    semanticCls.fullscreen,
   );
 
   const spinElement: React.ReactNode = (
@@ -134,7 +134,7 @@ const Spin: React.FC<SpinProps> = (props) => {
       <Indicator
         prefixCls={prefixCls}
         size={size}
-        className={clsx(fullscreen && 'bg-primary', complexCls.indicator)}
+        className={clsx(fullscreen && 'bg-primary', semanticCls.indicator)}
       />
       {tip && (isNestedPattern || fullscreen) ? <div className={tipCls}>{tip}</div> : null}
     </div>

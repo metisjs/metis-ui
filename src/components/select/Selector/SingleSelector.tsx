@@ -1,7 +1,7 @@
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import type { InnerSelectorProps } from '.';
-import { clsx, getComplexCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 
@@ -40,7 +40,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
     onInputCompositionEnd,
     title,
   } = props;
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const [inputChanged, setInputChanged] = React.useState(false);
 
@@ -77,7 +77,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
         className={clsx(
           `${prefixCls}-selection-placeholder`,
           'pointer-events-none flex-1 truncate text-neutral-text-quaternary',
-          complexCls.placeholder,
+          semanticCls.placeholder,
         )}
         style={hiddenStyle}
       >
@@ -91,7 +91,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${prefixCls}-selection-search absolute bottom-0 end-3 start-3 top-0`,
-          complexCls.search,
+          semanticCls.search,
         )}
       >
         <Input
@@ -100,7 +100,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
           className={clsx(
             !showSearch && 'cursor-pointer',
             disabled && 'cursor-not-allowed',
-            complexCls.input,
+            semanticCls.input,
           )}
           id={id}
           open={open}
@@ -131,7 +131,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
         <span
           className={clsx(
             `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm/6`,
-            complexCls.item,
+            semanticCls.item,
           )}
           title={selectionTitle}
           // 当 Select 已经选中选项时，还需 selection 隐藏但留在原地占位

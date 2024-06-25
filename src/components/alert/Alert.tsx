@@ -9,7 +9,7 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
 import type { ReactElement } from 'react';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { ClosableType } from '../_util/hooks/useClosable';
 import { replaceElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
@@ -38,7 +38,9 @@ export interface AlertProps {
   role?: string;
   style?: React.CSSProperties;
   prefixCls?: string;
-  className?: ComplexClassName<'content' | 'message' | 'description' | 'action' | 'close' | 'icon'>;
+  className?: SemanticClassName<
+    'content' | 'message' | 'description' | 'action' | 'close' | 'icon'
+  >;
   banner?: boolean;
   icon?: React.ReactNode;
   closeIcon?: React.ReactNode;
@@ -124,7 +126,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     nativeElement: internalRef.current!,
   }));
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('alert', customizePrefixCls);
 
@@ -170,13 +172,13 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
       'bg-warning-bg text-warning-active': type === 'warning',
       'bg-error-bg text-error-active': type === 'error',
     },
-    complexCls.root,
+    semanticCls.root,
   );
-  const alertContentCls = clsx(`${prefixCls}-content`, 'min-w-0 flex-1', complexCls.content);
+  const alertContentCls = clsx(`${prefixCls}-content`, 'min-w-0 flex-1', semanticCls.content);
   const alertMessageCls = clsx(
     `${prefixCls}-message`,
     description && 'text-base font-medium',
-    complexCls.message,
+    semanticCls.message,
   );
   const alertDescriptionCls = clsx(
     `${prefixCls}-description`,
@@ -187,9 +189,9 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
       'text-warning-text': type === 'warning',
       'text-error-text': type === 'error',
     },
-    complexCls.description,
+    semanticCls.description,
   );
-  const alertActionCls = clsx(`${prefixCls}-action`, complexCls.action);
+  const alertActionCls = clsx(`${prefixCls}-action`, semanticCls.action);
   const alertCloseCls = clsx(
     `${prefixCls}-close-icon`,
     '-m-1.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-md p-1.5 text-lg leading-5',
@@ -199,7 +201,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
       'hover:bg-warning-bg-hover': type === 'warning',
       'hover:bg-error-bg-hover': type === 'error',
     },
-    complexCls.close,
+    semanticCls.close,
   );
   const alertIconCls = clsx(
     `${prefixCls}-icon`,
@@ -211,7 +213,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
       'text-warning-hover': type === 'warning',
       'text-error-hover': type === 'error',
     },
-    complexCls.icon,
+    semanticCls.icon,
   );
 
   const restProps = pickAttrs(otherProps, { aria: true, data: true });

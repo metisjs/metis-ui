@@ -12,7 +12,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import type { ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useRef } from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../../_util/classNameUtils';
 import useLock from '../../_util/hooks/useLock';
 import type { CustomTagProps, DisplayValueType, Mode, RenderNode } from '../BaseSelect';
 import { isValidateOpenKey } from '../utils/keyUtil';
@@ -21,7 +21,7 @@ import SingleSelector from './SingleSelector';
 
 export interface InnerSelectorProps {
   prefixCls: string;
-  className?: ComplexClassName<'search' | 'item' | 'placeholder' | 'input'>;
+  className?: SemanticClassName<'search' | 'item' | 'placeholder' | 'input'>;
   id: string;
   mode: Mode;
   title?: string;
@@ -57,7 +57,7 @@ export interface RefSelectorProps {
 export interface SelectorProps {
   id: string;
   prefixCls: string;
-  className?: ComplexClassName<'search' | 'item'>;
+  className?: SemanticClassName<'search' | 'item'>;
   showSearch?: boolean;
   open: boolean;
   /** Display in the Selector value, it's not same as `value` prop */
@@ -121,7 +121,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
 
     domRef,
   } = props;
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   // ======================= Ref =======================
   React.useImperativeHandle(ref, () => ({
@@ -278,7 +278,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
           'cursor-text': showSearch,
           'cursor-not-allowed': disabled,
         },
-        complexCls.root,
+        semanticCls.root,
       )}
       onClick={onClick}
       onMouseDown={onMouseDown}

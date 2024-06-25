@@ -3,7 +3,7 @@ import {
   Service as RequestService,
 } from 'ahooks/lib/useRequest/src/types';
 import * as React from 'react';
-import { ComplexClassName } from '../_util/classNameUtils';
+import { SemanticClassName } from '../_util/classNameUtils';
 import { InputStatus } from '../_util/statusUtils';
 import { SizeType } from '../config-provider/SizeContext';
 import type {
@@ -90,7 +90,7 @@ export interface SelectProps<
   > {
   prefixCls?: string;
   id?: string;
-  className?: ComplexClassName<'popup' | 'selector'>;
+  className?: SemanticClassName<'popup' | 'selector'>;
 
   bordered?: boolean;
   disabled?: boolean;

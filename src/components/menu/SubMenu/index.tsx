@@ -1,6 +1,6 @@
 import Overflow from 'rc-overflow';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
 import warning from '../../_util/warning';
@@ -74,7 +74,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const domDataId = useMenuId(eventKey);
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const {
     prefixCls,
@@ -239,7 +239,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         mode !== 'horizontal' && 'px-4',
         '[.submenu-popup_&]:px-1',
         contextClassName?.item,
-        complexCls.title,
+        semanticCls.title,
       )}
       style={inlineStyle}
       tabIndex={mergedDisabled ? undefined : -1}
@@ -318,7 +318,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
             },
           }[contextTheme][mode],
           contextClassName?.itemInner,
-          complexCls.inner,
+          semanticCls.inner,
         )}
       >
         {cloneElement(icon, {
@@ -331,7 +331,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
               'text-primary': childrenSelected && contextTheme !== 'dark',
             },
             contextClassName?.itemIcon,
-            complexCls.icon,
+            semanticCls.icon,
             isValidElement(icon) ? icon.props?.className : '',
           ),
         })}
@@ -341,7 +341,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
             `${prefixCls}-title-content`,
             'flex-1 truncate',
             firstLevel && isInlineCollapsed && 'opacity-0',
-            complexCls.content,
+            semanticCls.content,
           )}
         >
           {title}
@@ -410,7 +410,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         mode={triggerMode}
         prefixCls={subMenuPrefixCls}
         open={!internalPopupClose && open && mode !== 'inline'}
-        popupClassName={complexCls.popup}
+        popupClassName={semanticCls.popup}
         popupOffset={popupOffset}
         popupStyle={popupStyle}
         popup={
@@ -451,7 +451,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         mode === 'horizontal' && mergedTheme === 'light' && 'pe-4 ps-4',
         mode === 'horizontal' && mergedTheme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
         mergedDisabled && 'cursor-not-allowed',
-        complexCls.root,
+        semanticCls.root,
       )}
       onMouseEnter={onInternalMouseEnter}
       onMouseLeave={onInternalMouseLeave}

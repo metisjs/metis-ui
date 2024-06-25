@@ -4,7 +4,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { useComposeRef } from 'rc-util/lib/ref';
 import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import useLock from '../_util/hooks/useLock';
 import { TransitionProps } from '../transition';
 import { AlignType, BuildInPlacements } from '../trigger';
@@ -123,7 +123,7 @@ export interface BaseSelectPrivateProps {
 export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSelectPrivateProps>;
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
-  className?: ComplexClassName<
+  className?: SemanticClassName<
     'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
   >;
   style?: React.CSSProperties;
@@ -276,7 +276,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   } = props;
 
   // ============================== MISC ==============================
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const multiple = isMultiple(mode);
 
   const domProps = {
@@ -736,7 +736,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-show-search`]: showSearch,
     },
     disabled && 'not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary',
-    complexCls.root,
+    semanticCls.root,
   );
 
   const mergedSelectorClassName = {
@@ -744,11 +744,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       {
         'ring-2 ring-primary': mockFocused || mergedOpen,
       },
-      complexCls.selector,
+      semanticCls.selector,
     ),
-    search: clsx({ 'pe-6': showSuffixIcon && !multiple }, complexCls.selectorSearch),
-    item: clsx({ 'pe-6': showSuffixIcon && !multiple }, complexCls.selectorItem),
-    placeholder: clsx({ 'pe-6': showSuffixIcon }, complexCls.selectorPlaceholder),
+    search: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorSearch),
+    item: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorItem),
+    placeholder: clsx({ 'pe-6': showSuffixIcon }, semanticCls.selectorPlaceholder),
   };
 
   // ============================= Select =============================
@@ -762,7 +762,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       popupElement={optionList}
       containerWidth={containerWidth}
       transition={transition}
-      popupClassName={complexCls.popup}
+      popupClassName={semanticCls.popup}
       popupMatchSelectWidth={popupMatchSelectWidth}
       popupRender={popupRender}
       popupAlign={popupAlign}

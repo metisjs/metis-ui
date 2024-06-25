@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import { ComplexClassName } from '../_util/classNameUtils';
+import { SemanticClassName } from '../_util/classNameUtils';
 import type { AbstractCheckboxProps, CheckboxChangeEvent, CheckboxRef } from '../checkbox/Checkbox';
 import type { AbstractCheckboxGroupProps } from '../checkbox/Group';
 import type { DisabledType } from '../config-provider/DisabledContext';
@@ -29,7 +29,7 @@ export interface RadioGroupContextProps {
 
 export interface RadioProps
   extends Omit<AbstractCheckboxProps<RadioChangeEvent>, 'className' | 'skipGroup'> {
-  className?: ComplexClassName<'radio'>;
+  className?: SemanticClassName<'radio'>;
 }
 
 export interface RadioChangeEventTarget extends RadioProps {

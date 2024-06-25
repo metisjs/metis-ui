@@ -4,7 +4,7 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import { useState } from 'react';
 import type { InnerSelectorProps } from '.';
-import { clsx, getComplexCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
 import TransBtn from '../TransBtn';
 import { getTitle } from '../utils/commonUtil';
@@ -70,7 +70,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
     onInputCompositionStart,
     onInputCompositionEnd,
   } = props;
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const measureRef = React.useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
@@ -111,7 +111,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
             'cursor-not-allowed bg-neutral-fill-tertiary': disabled,
             [`${selectionPrefixCls}-item-disabled cursor-not-allowed`]: itemDisabled,
           },
-          complexCls.item,
+          semanticCls.item,
         )}
         title={getTitle(item)}
       >
@@ -209,7 +209,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         {
           'ms-2': !values.length,
         },
-        complexCls.search,
+        semanticCls.search,
       )}
       style={{ width: inputWidth }}
       onFocus={() => {
@@ -227,7 +227,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
           'w-full min-w-[5.1px]',
           !showSearch && 'cursor-pointer',
           disabled && 'cursor-not-allowed',
-          complexCls.input,
+          semanticCls.input,
         )}
         id={id}
         inputElement={null}
@@ -284,7 +284,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         <span
           className={clsx(
             `${selectionPrefixCls}-placeholder pointer-events-none absolute end-3 start-3 top-1/2 -translate-y-1/2 truncate text-neutral-text-quaternary`,
-            complexCls.placeholder,
+            semanticCls.placeholder,
           )}
         >
           {placeholder}

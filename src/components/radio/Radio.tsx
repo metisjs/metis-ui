@@ -1,6 +1,6 @@
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -27,7 +27,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('radio', customizePrefixCls);
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [rawChecked, setRawChecked] = useMergedState(defaultChecked, {
@@ -91,7 +91,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       '': isFormItemInput,
     },
     `${prefixCls}-wrapper`,
-    complexCls.root,
+    semanticCls.root,
   );
 
   const innerClass = clsx(
@@ -104,7 +104,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
     `${prefixCls}-inner`,
-    complexCls.radio,
+    semanticCls.radio,
   );
 
   return (

@@ -1,7 +1,7 @@
 import { LoadingOutline } from '@metisjs/icons';
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
@@ -16,7 +16,7 @@ export type SwitchClickEventHandler = SwitchChangeEventHandler;
 export interface SwitchProps {
   prefixCls?: string;
   size?: SwitchSize;
-  className?: ComplexClassName<'handle'>;
+  className?: SemanticClassName<'handle'>;
   rootClassName?: string;
   checked?: boolean;
   defaultChecked?: boolean;
@@ -69,7 +69,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     const disabled = React.useContext(DisabledContext);
     const mergedDisabled = (customDisabled ?? disabled) || loading;
 
-    const complexCls = getComplexCls(className);
+    const semanticCls = getSemanticCls(className);
 
     const mergedSize = useSize(customizeSize);
 
@@ -111,7 +111,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         'h-5 min-w-[2rem]': mergedSize === 'small',
       },
       prefixCls,
-      complexCls.root,
+      semanticCls.root,
     );
 
     const handleCls = clsx(
@@ -122,7 +122,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         'start-[calc(100%-18px)]': innerChecked && mergedSize === 'small',
       },
       `${prefixCls}-handle`,
-      complexCls.handle,
+      semanticCls.handle,
     );
 
     return (

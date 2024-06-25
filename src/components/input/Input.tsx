@@ -4,7 +4,7 @@ import RcInput from 'rc-input';
 import type { BaseInputProps } from 'rc-input/lib/interface';
 import { composeRef } from 'rc-util/lib/ref';
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -53,7 +53,7 @@ export function triggerFocus(
 }
 
 export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' | 'classNames'> {
-  className?: ComplexClassName<'input' | 'prefix' | 'suffix' | 'count'>;
+  className?: SemanticClassName<'input' | 'prefix' | 'suffix' | 'count'>;
   size?: SizeType;
   disabled?: boolean;
   status?: InputStatus;
@@ -80,7 +80,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     variant: customVariant,
     ...rest
   } = props;
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const { getPrefixCls, input } = React.useContext(ConfigContext);
 
   const prefixCls = getPrefixCls('input', customizePrefixCls);
@@ -189,7 +189,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'bg-neutral-fill-quaternary',
     !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
     compactItemClassnames,
-    complexCls.input,
+    semanticCls.input,
   );
   const affixWrapperCls = clsx(
     'relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
@@ -246,18 +246,18 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
     'flex flex-none items-center text-neutral-text-secondary',
     mergedDisabled && 'text-neutral-text-quaternary',
-    complexCls.prefix,
+    semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
     'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
     mergedDisabled && 'text-neutral-text-quaternary',
-    complexCls.suffix,
+    semanticCls.suffix,
   );
   const countCls = clsx(
     'text-neutral-text-tertiary',
     mergedDisabled && 'text-neutral-text-quaternary',
-    complexCls.count,
+    semanticCls.count,
   );
   const clearCls = clsx(
     'flex items-center text-neutral-text-quaternary hover:text-neutral-text-tertiary',
@@ -282,7 +282,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       className={clsx(
         'rounded-md shadow-sm',
         variant === 'borderless' && 'shadow-none',
-        complexCls.root,
+        semanticCls.root,
       )}
       onChange={handleChange}
       addonAfter={

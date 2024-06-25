@@ -1,6 +1,6 @@
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
@@ -117,7 +117,7 @@ const Select = React.forwardRef(
       popupOverflow,
     } = React.useContext(ConfigContext);
 
-    const complexCls = getComplexCls(className);
+    const semanticCls = getSemanticCls(className);
     const prefixCls = getPrefixCls('select', customizePrefixCls);
     const mergedId = useId(id);
     const multiple = isMultiple(mode);
@@ -559,7 +559,7 @@ const Select = React.forwardRef(
       },
       '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent',
       compactItemClassnames[0],
-      complexCls.root,
+      semanticCls.root,
     );
 
     const selectorClassName = clsx(
@@ -572,7 +572,7 @@ const Select = React.forwardRef(
       '[.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
       getStatusClassNames(mergedStatus, hasFeedback),
       compactItemClassnames[1],
-      complexCls.selector,
+      semanticCls.selector,
     );
 
     const selectorSearchClassName = clsx({
@@ -593,7 +593,7 @@ const Select = React.forwardRef(
 
     const popupClassName = clsx(
       'absolute z-[1050] rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
-      complexCls.popup,
+      semanticCls.popup,
     );
 
     // ========================== Context ===========================

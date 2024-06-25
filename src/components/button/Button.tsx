@@ -1,7 +1,7 @@
 import { LoadingOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
 import warning from '../_util/warning';
@@ -31,7 +31,7 @@ export interface BaseButtonProps {
   disabled?: boolean;
   loading?: boolean | { delay?: number };
   prefixCls?: string;
-  className?: ComplexClassName<'icon'>;
+  className?: SemanticClassName<'icon'>;
   ghost?: boolean;
   danger?: boolean;
   children?: React.ReactNode;
@@ -78,7 +78,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     ...rest
   } = props;
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('btn', customizePrefixCls);
 
@@ -155,7 +155,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       'h-5 w-5': mergedSize === 'small' || mergedSize === 'middle',
       'h-6 w-6': mergedSize === 'large',
     },
-    complexCls.icon,
+    semanticCls.icon,
   );
 
   const iconNode = innerLoading ? (
@@ -231,7 +231,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
           type === 'primary',
       },
     compactItemClassnames,
-    complexCls.root,
+    semanticCls.root,
   );
 
   if (isHref) {

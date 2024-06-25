@@ -1,7 +1,7 @@
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
@@ -99,7 +99,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     ...restProps
   } = props;
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
@@ -178,7 +178,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const childCls =
     !childProps.className || typeof childProps.className === 'string'
       ? clsx(childProps.className, {
-          [complexCls.open || `${prefixCls}-open`]: true,
+          [semanticCls.open || `${prefixCls}-open`]: true,
         })
       : childProps.className;
 
@@ -189,7 +189,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   const customOverlayClassName = clsx(
     'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
-    complexCls.overlay,
+    semanticCls.overlay,
   );
 
   const mergedArrow = React.useMemo(
@@ -198,7 +198,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
         ? {
             className: getArrowClassName({
               limitVerticalRadius: true,
-              custom: complexCls.arrow,
+              custom: semanticCls.arrow,
             }),
           }
         : false,
@@ -211,7 +211,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       prefixCls={prefixCls}
       id={id}
       overlayInnerStyle={formattedOverlayInnerStyle}
-      className={{ root: complexCls.popup, inner: complexCls.popupInner }}
+      className={{ root: semanticCls.popup, inner: semanticCls.popupInner }}
     >
       {memoOverlayWrapper}
     </Popup>

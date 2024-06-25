@@ -1,4 +1,4 @@
-import { ComplexClassName } from '../_util/classNameUtils';
+import { SemanticClassName } from '../_util/classNameUtils';
 import { AdjustOverflow } from '../_util/placements';
 import { TransitionProps } from '../transition';
 import type { ActionType, AlignType, ArrowType, BuildInPlacements, TriggerProps } from '../trigger';
@@ -23,7 +23,7 @@ export interface AbstractTooltipProps
   overlayInnerStyle?: React.CSSProperties;
   zIndex?: number;
   style?: React.CSSProperties;
-  className?: ComplexClassName<'open' | 'overlay' | 'popup' | 'popupInner' | 'arrow'>;
+  className?: SemanticClassName<'open' | 'overlay' | 'popup' | 'popupInner' | 'arrow'>;
   prefixCls?: string;
   color?: string;
   builtinPlacements?: BuildInPlacements;

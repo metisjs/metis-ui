@@ -1,6 +1,6 @@
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -9,7 +9,7 @@ import CheckedIcon from './CheckedIcon';
 import { GroupContext } from './Group';
 
 export interface AbstractCheckboxProps<T> {
-  className?: ComplexClassName<'checkbox'>;
+  className?: SemanticClassName<'checkbox'>;
   defaultChecked?: boolean;
   checked?: boolean;
   style?: React.CSSProperties;
@@ -71,7 +71,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     onChange,
     ...restProps
   } = props;
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const { getPrefixCls } = React.useContext(ConfigContext);
 
@@ -157,7 +157,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       '': isFormItemInput,
     },
     `${prefixCls}-wrapper`,
-    complexCls.root,
+    semanticCls.root,
   );
 
   const innerClass = clsx(
@@ -172,7 +172,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       'after:bg-neutral-text-quaternary': mergedDisabled,
     },
     `${prefixCls}-inner`,
-    complexCls.checkbox,
+    semanticCls.checkbox,
   );
 
   const ariaChecked = indeterminate ? 'mixed' : undefined;

@@ -3,7 +3,7 @@ import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import warning from '../_util/warning';
 import { SiderContext, SiderContextProps } from '../layout/Sider';
@@ -63,7 +63,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const domDataId = useMenuId(eventKey);
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const {
     prefixCls,
@@ -222,7 +222,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
           '[.submenu-popup_&]:px-1',
           mergedDisabled && 'cursor-not-allowed',
           contextClassName?.item,
-          complexCls.root,
+          semanticCls.root,
         )}
         onClick={onInternalClick}
         onKeyDown={onInternalKeyDown}
@@ -293,7 +293,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
               },
             }[theme][mode],
             contextClassName?.itemInner,
-            complexCls.inner,
+            semanticCls.inner,
           )}
         >
           {cloneElement(icon, {
@@ -307,7 +307,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                   'text-primary': selected && theme !== 'dark',
                 },
               contextClassName?.itemIcon,
-              complexCls.icon,
+              semanticCls.icon,
               isValidElement(icon) ? icon.props?.className : '',
             ),
           })}

@@ -1,6 +1,6 @@
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
@@ -27,7 +27,7 @@ const InternalMenuItemGroup = ({
   ...restProps
 }: MenuItemGroupProps) => {
   const { prefixCls, theme, className: contextClassName } = React.useContext(MenuContext);
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
@@ -36,7 +36,7 @@ const InternalMenuItemGroup = ({
       role="presentation"
       {...restProps}
       onClick={(e) => e.stopPropagation()}
-      className={clsx(groupPrefixCls, 'item-group', contextClassName?.group, complexCls.root)}
+      className={clsx(groupPrefixCls, 'item-group', contextClassName?.group, semanticCls.root)}
     >
       <div
         role="presentation"
@@ -48,7 +48,7 @@ const InternalMenuItemGroup = ({
             'text-white/[0.65]': theme === 'dark',
           },
           contextClassName?.groupTitle,
-          complexCls.title,
+          semanticCls.title,
         )}
         title={typeof title === 'string' ? title : undefined}
       >
@@ -60,7 +60,7 @@ const InternalMenuItemGroup = ({
           `${groupPrefixCls}-list`,
           'flex flex-col gap-1',
           contextClassName?.groupList,
-          complexCls.list,
+          semanticCls.list,
         )}
       >
         {children}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { RenderFunction } from '../_util/getRenderPropValue';
 import { getRenderPropValue } from '../_util/getRenderPropValue';
 import { ConfigContext } from '../config-provider';
@@ -42,13 +42,13 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const prefixCls = getPrefixCls('popover');
 
   const overlayCls = clsx(
     'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-elevated))]',
-    complexCls.overlay,
+    semanticCls.overlay,
   );
 
   const popupInnerCls = clsx(

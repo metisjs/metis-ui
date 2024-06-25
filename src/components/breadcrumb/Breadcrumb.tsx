@@ -1,6 +1,6 @@
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { AnyObject } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import type { DropdownProps } from '../dropdown';
@@ -39,7 +39,7 @@ export interface BreadcrumbProps<T extends AnyObject = AnyObject> {
   params?: T;
   separator?: React.ReactNode;
   style?: React.CSSProperties;
-  className?: ComplexClassName<'item' | 'separator' | 'icon'>;
+  className?: SemanticClassName<'item' | 'separator' | 'icon'>;
   items?: ItemType[];
   itemRender?: (
     item: ItemType,
@@ -74,13 +74,13 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
   } = props;
 
   const { getPrefixCls, route } = React.useContext(ConfigContext);
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   let crumbs: React.ReactNode;
 
   const prefixCls = getPrefixCls('breadcrumb', customizePrefixCls);
 
-  const mergedItemRender = useItemRender(prefixCls, itemRender, complexCls);
+  const mergedItemRender = useItemRender(prefixCls, itemRender, semanticCls);
 
   if (items && items.length > 0) {
     const paths: string[] = [];
@@ -109,7 +109,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
           <BreadcrumbSeparator
             key={mergedKey}
             prefixCls={prefixCls}
-            className={complexCls.separator}
+            className={semanticCls.separator}
           >
             {itemSeparator}
           </BreadcrumbSeparator>
@@ -149,7 +149,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
   const breadcrumbClassName = clsx(
     prefixCls,
     'text-md text-neutral-text-secondary',
-    complexCls.root,
+    semanticCls.root,
   );
 
   return (

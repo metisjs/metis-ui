@@ -1,6 +1,6 @@
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
-import { clsx, getComplexCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { BreadcrumbProps, ItemType } from './Breadcrumb';
 
 type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (
@@ -35,7 +35,7 @@ export function renderItem(
     return null;
   }
 
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
   const { icon, className: itemClassName, onClick, ...restItem } = item;
 
   const passedProps = {
@@ -50,14 +50,14 @@ export function renderItem(
     `${prefixCls}-link`,
     'inline-flex h-full items-center gap-1 px-1 !text-neutral-text-secondary',
     isLastItem && '!text-neutral-text',
-    complexCls.item,
+    semanticCls.item,
     itemClassName,
   );
 
   let iconNode;
   if (icon) {
     iconNode = (
-      <span className={clsx('inline-flex items-center text-base', complexCls.icon)}>{icon}</span>
+      <span className={clsx('inline-flex items-center text-base', semanticCls.icon)}>{icon}</span>
     );
   }
 
@@ -81,7 +81,7 @@ export function renderItem(
 export default function useItemRender(
   prefixCls: string,
   itemRender?: ItemRender,
-  complexCls: BreadcrumbProps['className'],
+  semanticCls: BreadcrumbProps['className'],
 ) {
   const mergedItemRender: InternalItemRenderParams = (
     item,
@@ -97,7 +97,7 @@ export default function useItemRender(
 
     const name = getBreadcrumbName(item, params);
 
-    return renderItem(prefixCls, item, name, href, complexCls, isLastItem);
+    return renderItem(prefixCls, item, name, href, semanticCls, isLastItem);
   };
 
   return mergedItemRender;

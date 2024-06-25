@@ -1,7 +1,7 @@
 import type { ScrollValues, ScrollbarsProps } from 'rc-scrollbars';
 import { Scrollbars } from 'rc-scrollbars';
 import React, { MutableRefObject, forwardRef, memo } from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 
 export { ScrollValues };
@@ -19,7 +19,7 @@ export interface ScrollbarProps
     | 'classes'
   > {
   prefixCls?: string;
-  className?: ComplexClassName<'view'>;
+  className?: SemanticClassName<'view'>;
   autoHide?: boolean;
   autoHeight?: [number, number];
   onScroll?: (values: ScrollValues) => void;
@@ -56,20 +56,20 @@ const Scrollbar = forwardRef<ScrollbarRef, ScrollbarProps>(
     },
     ref,
   ) => {
-    const complexCls = getComplexCls(className);
+    const semanticCls = getSemanticCls(className);
     const { getPrefixCls } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('scrollbar', customizePrefixCls);
 
     return (
       <Scrollbars
-        className={clsx(prefixCls, 'h-full, w-full', complexCls.root)}
+        className={clsx(prefixCls, 'h-full, w-full', semanticCls.root)}
         autoHide={autoHide}
         onScrollFrame={onScroll}
         autoHeight={!!autoHeight}
         autoHeightMin={autoHeight ? autoHeight[0] : 0}
         autoHeightMax={autoHeight ? autoHeight[1] : 0}
         classes={{
-          view: clsx(`${prefixCls}-view`, complexCls.view),
+          view: clsx(`${prefixCls}-view`, semanticCls.view),
         }}
         style={{ width: '', height: '', ...style }}
         ref={(sRef) => {

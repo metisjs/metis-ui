@@ -2,7 +2,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
-import { ComplexClassName, clsx, getComplexCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { AdjustOverflow } from '../_util/placements';
 import getPlacements from '../_util/placements';
 import { cloneElement } from '../_util/reactNode';
@@ -34,7 +34,7 @@ export interface DropdownProps {
   align?: AlignType;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   prefixCls?: string;
-  className?: ComplexClassName<'overlay' | 'open'>;
+  className?: SemanticClassName<'overlay' | 'open'>;
   placement?: Placement;
   forceRender?: boolean;
   mouseEnterDelay?: number;
@@ -67,7 +67,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   } = props;
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
-  const complexCls = getComplexCls(className);
+  const semanticCls = getSemanticCls(className);
 
   const triggerRef = React.useRef(null);
   const overlayRef = React.useRef(null);
@@ -104,7 +104,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const dropdownTrigger = cloneElement(child, {
     className: clsx(
       `${prefixCls}-trigger`,
-      mergedOpen && [`${prefixCls}-open`, complexCls.open],
+      mergedOpen && [`${prefixCls}-open`, semanticCls.open],
       child.props.className,
     ),
     ref: supportRef(child)
@@ -118,8 +118,8 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     'absolute z-[1050] rounded-md bg-neutral-bg-elevated text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
     arrow &&
       'origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-elevated))]',
-    complexCls.overlay,
-    complexCls.root,
+    semanticCls.overlay,
+    semanticCls.root,
   );
 
   const builtinPlacements = getPlacements({
