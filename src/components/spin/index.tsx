@@ -98,6 +98,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     },
     isNestedPattern &&
       'absolute z-[4] flex h-full max-h-[25rem] w-full flex-col items-center justify-center',
+    fullscreen && 'flex flex-col items-center justify-center',
     complexCls.root,
   );
   const nestedCls = clsx(`${prefixCls}-nested-loading`, 'relative', complexCls.wrapper);
@@ -115,6 +116,7 @@ const Spin: React.FC<SpinProps> = (props) => {
       'mt-1': size === 'small',
       'mt-3': size === 'large',
     },
+    fullscreen && 'text-primary',
     complexCls.tip,
   );
   const fullscreenCls = clsx(
@@ -129,7 +131,11 @@ const Spin: React.FC<SpinProps> = (props) => {
 
   const spinElement: React.ReactNode = (
     <div {...restProps} style={style} className={spinCls} aria-live="polite" aria-busy={spinning}>
-      <Indicator prefixCls={prefixCls} size={size} className={complexCls.indicator} />
+      <Indicator
+        prefixCls={prefixCls}
+        size={size}
+        className={clsx(fullscreen && 'bg-primary', complexCls.indicator)}
+      />
       {tip && (isNestedPattern || fullscreen) ? <div className={tipCls}>{tip}</div> : null}
     </div>
   );
