@@ -1,12 +1,11 @@
-import { Switch } from 'metis-ui';
+import { Space, Switch } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <>
+  <Space direction="vertical">
     <Switch defaultChecked />
-    <br />
     <Switch size="small" defaultChecked />
-  </>
+  </Space>
 );
 
 export default App;

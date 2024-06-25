@@ -109,6 +109,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       {
         'bg-primary': innerChecked,
         'h-5 min-w-[2rem]': mergedSize === 'small',
+        'disabled:opacity-65': loading,
       },
       prefixCls,
       semanticCls.root,
