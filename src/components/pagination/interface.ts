@@ -42,7 +42,7 @@ export interface PaginationProps extends React.AriaAttributes {
   showLessItems?: boolean;
   showQuickJumper?: boolean | { goButton?: React.ReactNode };
   showTitle?: boolean;
-  simple?: boolean;
+  simple?: boolean | { readOnly?: boolean };
   disabled?: boolean;
   size?: 'default' | 'small';
   responsive?: boolean;

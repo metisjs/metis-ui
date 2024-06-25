@@ -43,7 +43,7 @@ A long list can be divided into several pages, and only one page will be loaded 
 | showSizeChanger | Determine whether to show `pageSize` select | boolean | - |  |
 | showTitle | Show page item's title | boolean | true |  |
 | showTotal | To display the total number and range | function(total, range) | - |  |
-| simple | Whether to use simple mode | boolean | - |  |
+| simple | Whether to use simple mode | boolean \| {readOnly: boolean} | - |  |
 | size | Specify the size of `Pagination`, can be set to `small` | `default` \| `small` | `default` |  |
 | total | Total number of data items | number | 0 |  |
 | onChange | Called when the page number or `pageSize` is changed, and it takes the resulting page number and pageSize as its arguments | function(page, pageSize) | - |  |
