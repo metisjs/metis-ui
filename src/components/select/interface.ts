@@ -146,14 +146,14 @@ export interface SelectProps<
   pagination?: boolean;
 }
 
-interface SelectPropsWithOptions<
+export interface SelectPropsWithOptions<
   OptionType extends BaseOptionType = BaseOptionType,
   ValueType = any,
 > extends Omit<SelectProps<OptionType, ValueType>, 'request' | 'pagination'> {
   options: OptionType[];
 }
 
-interface SelectPropsWithRequest<
+export interface SelectPropsWithRequest<
   OptionType extends BaseOptionType = BaseOptionType,
   ValueType = any,
   ParamsType extends any[] = any[],
@@ -173,7 +173,7 @@ type SearchParamsType = [
   ...any[],
 ];
 
-interface SelectPropsWithRequestSearch<
+export interface SelectPropsWithRequestSearch<
   OptionType extends BaseOptionType = BaseOptionType,
   ValueType = any,
   ParamsType extends SearchParamsType = SearchParamsType,
@@ -194,7 +194,7 @@ type PaginationParamsType = [
   ...any[],
 ];
 
-interface SelectPropsWithRequestPagination<
+export interface SelectPropsWithRequestPagination<
   OptionType extends BaseOptionType = BaseOptionType,
   ValueType = any,
   ParamsType extends PaginationParamsType = PaginationParamsType,
@@ -216,7 +216,7 @@ type SearchAndPaginationParamsType = [
   ...any[],
 ];
 
-interface SelectPropsWithRequestSearchPagination<
+export interface SelectPropsWithRequestSearchPagination<
   OptionType extends BaseOptionType = BaseOptionType,
   ValueType = any,
   ParamsType extends SearchAndPaginationParamsType = SearchAndPaginationParamsType,
