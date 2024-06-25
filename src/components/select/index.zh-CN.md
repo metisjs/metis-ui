@@ -74,7 +74,7 @@ group:
 | open | 是否展开下拉菜单 | boolean | - |  |
 | optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容，建议设置 `optionFilterProp="label"` 来对内容进行搜索。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | option:`value` \| request: `keyword` |  |
 | optionInValue | 是否把每个选项的 option 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 OptionType 的格式 | boolean | false |  |
-| optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。 | string | `children` |  |
+| optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。 | string | `label` |  |
 | options | 数据化配置选项内容，相比 jsx 定义会获得更好的渲染性能 | { label, value }\[] | - |  |
 | placeholder | 选择框默认文本 | string | - |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |

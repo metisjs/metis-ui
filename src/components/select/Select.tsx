@@ -3,7 +3,7 @@ import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
-import warning from '../_util/warning';
+import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
@@ -106,6 +106,8 @@ const Select = React.forwardRef(
 
       ...restProps
     } = props;
+
+    const warning = devUseWarning('Select');
 
     const {
       getPopupContainer: getContextPopupContainer,
@@ -254,14 +256,17 @@ const Select = React.forwardRef(
             // Warning if label not same as provided
             if (process.env.NODE_ENV !== 'production' && !optionLabelProp) {
               const optionLabel = getFieldValue(option, mergedFieldNames.label);
-              if (
-                optionLabel !== undefined &&
-                !React.isValidElement(optionLabel) &&
-                !React.isValidElement(rawLabel) &&
-                optionLabel !== rawLabel
-              ) {
-                warning(false, '`label` of `value` is not same as `label` in Select options.');
-              }
+
+              warning(
+                !(
+                  optionLabel !== undefined &&
+                  !React.isValidElement(optionLabel) &&
+                  !React.isValidElement(rawLabel) &&
+                  optionLabel !== rawLabel
+                ),
+                'usage',
+                '`label` of `value` is not same as `label` in Select options.',
+              );
             }
           }
 
@@ -336,6 +341,7 @@ const Select = React.forwardRef(
 
       warning(
         typeof mergedFieldNames.value === 'string' && typeof mergedFieldNames.label === 'string',
+        'usage',
         '`fieldNames.value` and `fieldNames.label` must be a string in tag mode.',
       );
 

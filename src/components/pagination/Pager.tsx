@@ -32,18 +32,18 @@ const Pager: React.FC<PagerProps> = (props) => {
   );
 
   const handleClick = () => {
-    onClick(page);
+    onClick?.(page);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLLIElement>) => {
-    onKeyPress(e, onClick, page);
+    onKeyPress?.(e, onClick, page);
   };
 
-  const pager = itemRender(page, 'page', <a rel="nofollow">{page}</a>);
+  const pager = itemRender?.(page, 'page', <a rel="nofollow">{page}</a>);
 
   return pager ? (
     <li
-      title={showTitle ? String(page) : null}
+      title={showTitle ? String(page) : undefined}
       className={cls}
       onClick={handleClick}
       onKeyDown={handleKeyPress}

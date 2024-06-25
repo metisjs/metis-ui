@@ -1,4 +1,4 @@
-import Pagination from './Pagination_bak';
+import Pagination from './Pagination';
 
-export type { PaginationConfig, PaginationProps } from './Pagination_bak';
+export type { PaginationConfig, PaginationProps } from './interface';
 export default Pagination;

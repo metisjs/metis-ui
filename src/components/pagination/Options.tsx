@@ -1,30 +1,18 @@
-import type { SelectProps } from 'rc-select';
-import type { OptionProps } from 'rc-select/es/Option';
 import KEYCODE from 'rc-util/lib/KeyCode';
 import React from 'react';
+import Select from '../select';
 import type { PaginationLocale } from './interface';
-
-interface InternalSelectProps extends SelectProps {
-  /**
-   * form antd v5.5.0, popupMatchSelectWidth default is true
-   */
-  popupMatchSelectWidth?: boolean;
-}
 
 interface OptionsProps {
   disabled?: boolean;
   locale: PaginationLocale;
   rootPrefixCls: string;
-  selectPrefixCls?: string;
   pageSize: number;
   pageSizeOptions?: (string | number)[];
   goButton?: boolean | string;
   changeSize?: (size: number) => void;
-  quickGo?: (value: number) => void;
+  quickGo?: (value?: number) => void;
   buildOptionText?: (value: string | number) => string;
-  selectComponentClass: React.ComponentType<Partial<InternalSelectProps>> & {
-    Option?: React.ComponentType<Partial<OptionProps>>;
-  };
 }
 
 const defaultPageSizeOptions = ['10', '20', '50', '100'];
@@ -38,8 +26,6 @@ const Options: React.FC<OptionsProps> = (props) => {
     goButton,
     quickGo,
     rootPrefixCls,
-    selectComponentClass: Select,
-    selectPrefixCls,
     disabled,
     buildOptionText,
   } = props;
@@ -55,7 +41,7 @@ const Options: React.FC<OptionsProps> = (props) => {
       ? buildOptionText
       : (value: string) => `${value} ${locale.items_per_page}`;
 
-  const changeSizeHandle = (value: number) => {
+  const changeSizeHandle = (value: string) => {
     changeSize?.(Number(value));
   };
 
@@ -111,29 +97,25 @@ const Options: React.FC<OptionsProps> = (props) => {
   let goInput: React.ReactNode = null;
   let gotoButton: React.ReactNode = null;
 
-  if (changeSize && Select) {
-    const options = getPageSizeOptions().map<React.ReactNode>((opt, i) => (
-      <Select.Option key={i} value={opt.toString()}>
-        {mergeBuildOptionText(opt)}
-      </Select.Option>
-    ));
+  if (changeSize) {
+    const options = getPageSizeOptions().map((opt) => ({
+      label: mergeBuildOptionText(opt),
+      value: opt.toString(),
+    }));
 
     changeSelect = (
       <Select
+        options={options}
         disabled={disabled}
-        prefixCls={selectPrefixCls}
-        showSearch={false}
-        className={`${prefixCls}-size-changer`}
-        optionLabelProp="children"
+        // showSearch={false}
+        className={`${rootPrefixCls}-size-changer`}
         popupMatchSelectWidth={false}
         value={(pageSize || pageSizeOptions[0]).toString()}
         onChange={changeSizeHandle}
         getPopupContainer={(triggerNode) => triggerNode.parentNode}
         aria-label={locale.page_size}
         defaultOpen={false}
-      >
-        {options}
-      </Select>
+      />
     );
   }
 
@@ -146,7 +128,7 @@ const Options: React.FC<OptionsProps> = (props) => {
             onClick={go}
             onKeyUp={go}
             disabled={disabled}
-            className={`${prefixCls}-quick-jumper-button`}
+            className={`${rootPrefixCls}-quick-jumper-button`}
           >
             {locale.jump_to_confirm}
           </button>
