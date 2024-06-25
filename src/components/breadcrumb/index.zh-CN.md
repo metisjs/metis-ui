@@ -53,7 +53,7 @@ group:
 
 ```jsx
 import React from 'react';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider } from 'metis-ui';
 
 // ...
 const Demo: React.FC = () => (

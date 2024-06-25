@@ -4,7 +4,7 @@ import useMemo from 'rc-util/lib/hooks/useMemo';
 import * as React from 'react';
 // import type { RequiredMark } from '../form/Form';
 // import type { Locale } from '../locale-provider';
-// import LocaleProvider, { ANT_MARK } from '../locale-provider';
+// import LocaleProvider, { METIS_MARK } from '../locale-provider';
 // import LocaleReceiver from '../locale-provider/LocaleReceiver';
 // import defaultLocale from '../locale/default';
 // import message from '../message';
@@ -136,7 +136,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   // if (locale) {
   //   childNode = (
-  //     <LocaleProvider locale={locale} _ANT_MARK__={ANT_MARK}>
+  //     <LocaleProvider locale={locale} _METIS_MARK__={METIS_MARK}>
   //       {childNode}
   //     </LocaleProvider>
   //   );

@@ -52,7 +52,7 @@ The link of Breadcrumb item targets `#` by default, you can use `itemRender` to 
 
 ```jsx
 import React from 'react';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider } from 'metis-ui';
 
 // ...
 const Demo: React.FC = () => (

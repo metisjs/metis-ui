@@ -20,6 +20,8 @@ export { default as Layout } from './layout';
 export type { LayoutProps, SiderProps } from './layout';
 export { default as Menu } from './menu';
 export type { MenuItemProps, MenuProps, MenuRef, MenuTheme, SubMenuProps } from './menu';
+export { default as Pagination } from './pagination';
+export type { PaginationProps } from './pagination';
 export { default as Popover } from './popover';
 export type { PopoverProps } from './popover';
 export { default as Radio } from './radio';

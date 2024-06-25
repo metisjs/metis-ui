@@ -8,11 +8,11 @@ import LocaleContext from './context';
 
 export { default as useLocale } from './useLocale';
 
-export const ANT_MARK = 'internalMark';
+export const METIS_MARK = 'internalMark';
 
 export interface Locale {
   locale: string;
-  // Pagination?: PaginationLocale;
+  Pagination?: Record<string, any>;
   // DatePicker?: DatePickerLocale;
   TimePicker?: Record<string, any>;
   Calendar?: Record<string, any>;
