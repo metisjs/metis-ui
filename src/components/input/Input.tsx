@@ -151,6 +151,11 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
 
   const [variant, enableVariantCls] = useVariant(customVariant);
 
+  const rootCls = clsx(
+    'rounded-md shadow-sm',
+    variant === 'borderless' && 'shadow-none',
+    semanticCls.root,
+  );
   const wrapperCls = clsx('flex items-center');
   const groupWrapperCls = clsx(
     'inline-block w-full bg-neutral-bg-container text-start align-top',
@@ -161,6 +166,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'text-neutral-text-quaternary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
+    rootCls,
   );
   const inputCls = clsx(
     'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
@@ -187,12 +193,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       mergedDisabled &&
       variant !== 'borderless' &&
       'bg-neutral-fill-quaternary',
+    !addonBefore && !addonAfter && !inputHasPrefixSuffix && rootCls,
+    semanticCls.input,
     !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
     compactItemClassnames,
-    semanticCls.input,
   );
   const affixWrapperCls = clsx(
-    'relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
+    'relative inline-flex w-full items-center gap-x-2 border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
     {
       'gap-x-1 px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -210,6 +217,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'text-neutral-text-quaternary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
+    !addonBefore && !addonAfter && rootCls,
     getStatusClassNames(mergedStatus, hasFeedback),
   );
   const addonBeforeWrapperCls = clsx(

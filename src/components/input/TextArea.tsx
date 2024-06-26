@@ -107,8 +107,8 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
         'pr-8': mergedAllowClear,
       },
-      getStatusClassNames(mergedStatus),
       semanticCls.textarea,
+      getStatusClassNames(mergedStatus),
     );
     const affixWrapperCls = clsx(
       'group',

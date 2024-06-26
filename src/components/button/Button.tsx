@@ -230,8 +230,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
         'text-primary ring-1 ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover':
           type === 'primary',
       },
-    compactItemClassnames,
     semanticCls.root,
+    compactItemClassnames,
   );
 
   if (isHref) {
