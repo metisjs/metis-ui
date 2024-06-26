@@ -1,5 +1,5 @@
 import type { PaginationProps } from 'metis-ui';
-import { Pagination } from 'metis-ui';
+import { Pagination, Space } from 'metis-ui';
 import React from 'react';
 
 const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
@@ -7,14 +7,13 @@ const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize
 };
 
 const App: React.FC = () => (
-  <>
+  <Space direction="vertical">
     <Pagination
       showSizeChanger
       onShowSizeChange={onShowSizeChange}
       defaultCurrent={3}
       total={500}
     />
-    <br />
     <Pagination
       showSizeChanger
       onShowSizeChange={onShowSizeChange}
@@ -22,7 +21,7 @@ const App: React.FC = () => (
       total={500}
       disabled
     />
-  </>
+  </Space>
 );
 
 export default App;

@@ -1,16 +1,22 @@
 import KEYCODE from 'rc-util/lib/KeyCode';
 import React from 'react';
-import Input from '../input';
-import Select from '../select';
+import { clsx } from '../_util/classNameUtils';
+import Input, { InputProps } from '../input';
+import Select, { SelectProps } from '../select';
 import type { PaginationLocale } from './interface';
 
 interface OptionsProps {
+  className?: {
+    root?: string;
+    jumper?: InputProps['className'];
+    sizeChanger?: SelectProps['className'];
+  };
   disabled?: boolean;
+  isSmall?: boolean;
   locale: PaginationLocale;
   rootPrefixCls: string;
   pageSize: number;
   pageSizeOptions?: (string | number)[];
-  goButton?: boolean | string;
   changeSize?: (size: number) => void;
   quickGo?: (value?: number) => void;
   buildOptionText?: (value: string | number) => string;
@@ -20,14 +26,15 @@ const defaultPageSizeOptions = ['10', '20', '50', '100'];
 
 const Options: React.FC<OptionsProps> = (props) => {
   const {
+    className,
     pageSizeOptions = defaultPageSizeOptions,
     locale,
     changeSize,
     pageSize,
-    goButton,
     quickGo,
     rootPrefixCls,
     disabled,
+    isSmall,
     buildOptionText,
   } = props;
 
@@ -51,7 +58,7 @@ const Options: React.FC<OptionsProps> = (props) => {
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    if (goButton || goInputText === '') {
+    if (goInputText === '') {
       return;
     }
     setGoInputText('');
@@ -96,7 +103,6 @@ const Options: React.FC<OptionsProps> = (props) => {
 
   let changeSelect: React.ReactNode = null;
   let goInput: React.ReactNode = null;
-  let gotoButton: React.ReactNode = null;
 
   if (changeSize) {
     const options = getPageSizeOptions().map((opt) => ({
@@ -104,44 +110,45 @@ const Options: React.FC<OptionsProps> = (props) => {
       value: opt.toString(),
     }));
 
+    const mergedChangerCls = !className?.sizeChanger
+      ? `${prefixCls}-size-changer`
+      : typeof className.sizeChanger === 'string'
+      ? `${prefixCls}-size-changer ${className?.sizeChanger}`
+      : {
+          ...className.sizeChanger,
+          root: `${prefixCls}-size-changer ${className?.sizeChanger.root}`,
+        };
+
     changeSelect = (
       <Select
         options={options}
         disabled={disabled}
-        // showSearch={false}
-        className={`${rootPrefixCls}-size-changer`}
+        showSearch={false}
+        className={mergedChangerCls}
         popupMatchSelectWidth={false}
         value={(pageSize || pageSizeOptions[0]).toString()}
         onChange={changeSizeHandle}
         getPopupContainer={(triggerNode) => triggerNode.parentNode}
         aria-label={locale.page_size}
         defaultOpen={false}
+        size={isSmall ? 'small' : 'middle'}
       />
     );
   }
 
   if (quickGo) {
-    if (goButton) {
-      gotoButton =
-        typeof goButton === 'boolean' ? (
-          <button
-            type="button"
-            onClick={go}
-            onKeyUp={go}
-            disabled={disabled}
-            className={`${rootPrefixCls}-quick-jumper-button`}
-          >
-            {locale.jump_to_confirm}
-          </button>
-        ) : (
-          <span onClick={go} onKeyUp={go}>
-            {goButton}
-          </span>
-        );
-    }
+    const jumperCls = clsx('w-12');
+    const mergedJumperCls = !className?.jumper
+      ? clsx(`${prefixCls}-quick-jumper`, jumperCls)
+      : typeof className.jumper === 'string'
+      ? clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper)
+      : {
+          ...className.jumper,
+          root: clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper.root),
+        };
 
     goInput = (
-      <div className={`${prefixCls}-quick-jumper`}>
+      <>
         {locale.jump_to}
         <Input
           disabled={disabled}
@@ -150,16 +157,18 @@ const Options: React.FC<OptionsProps> = (props) => {
           onKeyUp={go}
           onBlur={handleBlur}
           aria-label={locale.page}
-          className="w-12"
+          size={isSmall ? 'small' : 'middle'}
+          className={mergedJumperCls}
         />
         {locale.page}
-        {gotoButton}
-      </div>
+      </>
     );
   }
 
+  const rootCls = clsx(prefixCls, 'ms-1 hidden items-center gap-2 sm:inline-flex', className?.root);
+
   return (
-    <li className={prefixCls}>
+    <li className={rootCls}>
       {changeSelect}
       {goInput}
     </li>

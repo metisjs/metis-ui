@@ -9,7 +9,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import React, { useEffect } from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -55,10 +55,11 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     itemRender = defaultItemRender,
   } = props;
 
-  const { sm } = useBreakpoint(responsive);
+  const { xs } = useBreakpoint(responsive);
 
   const { getPrefixCls, pagination = {} } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('pagination', customizePrefixCls);
+  const semanticCls = getSemanticCls(className);
 
   const paginationRef = React.useRef<HTMLUListElement>(null);
 
@@ -86,7 +87,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
   const mergedSize = useSize(customizeSize);
 
-  const isSmall = mergedSize === 'small' || !!(sm && !mergedSize && responsive);
+  const isSmall = mergedSize === 'small' || !!(xs && !customizeSize && responsive);
 
   const hasOnChange = onChange !== undefined;
   const hasCurrent = 'current' in props;
@@ -106,32 +107,40 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     current + (showLessItems ? 3 : 5),
   );
 
-  const ellipsis = <span className={`${prefixCls}-item-ellipsis`}>•••</span>;
-  const prevIcon = (
-    <button className={`${prefixCls}-item-link`} type="button" tabIndex={-1}>
-      <ChevronLeftOutline />
-    </button>
+  const ellipsis = (
+    <span
+      className={clsx(
+        `${prefixCls}-item-ellipsis`,
+        'absolute text-neutral-text-quaternary transition-opacity',
+        !disabled && 'group-hover/jump:opacity-0',
+      )}
+    >
+      •••
+    </span>
   );
-  const nextIcon = (
-    <button className={`${prefixCls}-item-link`} type="button" tabIndex={-1}>
-      <ChevronRightOutline />
-    </button>
-  );
+  const prevIcon = <ChevronLeftOutline className="h-4 w-4" />;
+  const nextIcon = <ChevronRightOutline className="h-4 w-4" />;
   const jumpPrevIcon = (
-    <a className={`${prefixCls}-item-link`}>
-      <div className={`${prefixCls}-item-container`}>
-        <ChevronDoubleLeftOutline className={`${prefixCls}-item-link-icon`} />
-        {ellipsis}
-      </div>
-    </a>
+    <>
+      <ChevronDoubleLeftOutline
+        className={clsx(
+          'h-4 w-4 text-primary opacity-0 transition-opacity',
+          !disabled && 'group-hover/jump:opacity-100',
+        )}
+      />
+      {ellipsis}
+    </>
   );
   const jumpNextIcon = (
-    <a className={`${prefixCls}-item-link`}>
-      <div className={`${prefixCls}-item-container`}>
-        <ChevronDoubleRightOutline />
-        {ellipsis}
-      </div>
-    </a>
+    <>
+      <ChevronDoubleRightOutline
+        className={clsx(
+          'h-4 w-4 text-primary opacity-0 transition-opacity',
+          !disabled && 'group-hover/jump:opacity-100',
+        )}
+      />
+      {ellipsis}
+    </>
   );
 
   const getValidValue = (e: any): number => {
@@ -286,12 +295,6 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       : nextButton;
   };
 
-  const handleGoTO = (event: any) => {
-    if (event.type === 'click' || event.keyCode === KeyCode.ENTER) {
-      handleChange(internalInputVal);
-    }
-  };
-
   let jumpPrev: React.ReactElement | null = null;
 
   const dataOrAriaAttributeProps = pickAttrs(props, {
@@ -300,7 +303,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   });
 
   const totalText = showTotal && (
-    <li className={`${customizePrefixCls}-total-text`}>
+    <li className={clsx(`${prefixCls}-total-text`, 'me-1')}>
       {showTotal(total, [
         total === 0 ? 0 : (current - 1) * pageSize + 1,
         current * pageSize > total ? total : current * pageSize,
@@ -327,48 +330,25 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     showTitle,
     itemRender,
     page: -1,
+    isSmall,
+    disabled,
+    className: semanticCls.item,
   };
 
   const prevPage = current - 1 > 0 ? current - 1 : 0;
   const nextPage = current + 1 < allPages ? current + 1 : allPages;
-  const goButton = showQuickJumper && (showQuickJumper as any).goButton;
 
   // ================== Simple ==================
   const isReadOnly = typeof simple === 'object' ? simple.readOnly : !simple;
-  let gotoButton: any = goButton;
   let simplePager: React.ReactNode = null;
 
   if (simple) {
-    // ====== Simple quick jump ======
-    if (goButton) {
-      if (typeof goButton === 'boolean') {
-        gotoButton = (
-          <button type="button" onClick={handleGoTO} onKeyUp={handleGoTO}>
-            {locale.jump_to_confirm}
-          </button>
-        );
-      } else {
-        gotoButton = (
-          <span onClick={handleGoTO} onKeyUp={handleGoTO}>
-            {goButton}
-          </span>
-        );
-      }
-
-      gotoButton = (
-        <li
-          title={showTitle ? `${locale.jump_to}${current}/${allPages}` : undefined}
-          className={`${prefixCls}-simple-pager`}
-        >
-          {gotoButton}
-        </li>
-      );
-    }
-
     simplePager = (
       <li
         title={showTitle ? `${current}/${allPages}` : undefined}
-        className={`${prefixCls}-simple-pager`}
+        className={clsx(`${prefixCls}-simple-pager`, 'mx-1 inline-flex items-center gap-2', {
+          'text-neutral-text-quaternary': disabled,
+        })}
       >
         {isReadOnly ? (
           internalInputVal
@@ -380,6 +360,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             onKeyUp={handleKeyUp}
             onChange={handleKeyUp}
             onBlur={handleBlur}
+            size="small"
             className={clsx('w-12')}
           />
         )}
@@ -415,7 +396,14 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         onClick={jumpPrevHandle}
         tabIndex={0}
         onKeyDown={runIfEnterJumpPrev}
-        className={clsx(`${prefixCls}-jump-prev`)}
+        className={clsx(
+          `${prefixCls}-jump-prev`,
+          'group/jump flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
+          {
+            'h-8 min-w-8': isSmall,
+            'cursor-not-allowed': disabled,
+          },
+        )}
       >
         {jumpPrevContent}
       </li>
@@ -428,7 +416,14 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         onClick={jumpNextHandle}
         tabIndex={0}
         onKeyDown={runIfEnterJumpNext}
-        className={clsx(`${prefixCls}-jump-next`)}
+        className={clsx(
+          `${prefixCls}-jump-next`,
+          'group/jump flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
+          {
+            'h-8 min-w-8': isSmall,
+            'cursor-not-allowed': disabled,
+          },
+        )}
       >
         {jumpNextContent}
       </li>
@@ -486,9 +481,18 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         onClick={prevHandle}
         tabIndex={prevDisabled ? undefined : 0}
         onKeyDown={runIfEnterPrev}
-        className={clsx(`${prefixCls}-prev`, {
-          [`${prefixCls}-disabled`]: prevDisabled,
-        })}
+        className={clsx(
+          `${prefixCls}-prev`,
+          {
+            [`${prefixCls}-disabled`]: prevDisabled,
+          },
+          'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md px-2',
+          {
+            'cursor-not-allowed text-neutral-text-quaternary': prevDisabled || disabled,
+            'hover:bg-neutral-fill-tertiary': !prevDisabled && !disabled,
+            'h-8 min-w-8': isSmall || simple,
+          },
+        )}
         aria-disabled={prevDisabled}
       >
         {prev}
@@ -514,9 +518,18 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         onClick={nextHandle}
         tabIndex={nextTabIndex}
         onKeyDown={runIfEnterNext}
-        className={clsx(`${prefixCls}-next`, {
-          [`${prefixCls}-disabled`]: nextDisabled,
-        })}
+        className={clsx(
+          `${prefixCls}-next`,
+          {
+            [`${prefixCls}-disabled`]: nextDisabled,
+          },
+          'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md px-2',
+          {
+            'cursor-not-allowed text-neutral-text-quaternary': nextDisabled || disabled,
+            'hover:bg-neutral-fill-tertiary': !nextDisabled && !disabled,
+            'h-8 min-w-8': isSmall || simple,
+          },
+        )}
         aria-disabled={nextDisabled}
       >
         {next}
@@ -524,18 +537,19 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     );
   }
 
-  const cls = clsx(
+  const rootCls = clsx(
     prefixCls,
     {
       [`${prefixCls}-mini`]: isSmall,
       [`${prefixCls}-simple`]: simple,
       [`${prefixCls}-disabled`]: disabled,
     },
-    className,
+    'inline-flex items-center gap-1 text-sm text-neutral-text',
+    semanticCls.root,
   );
 
   return (
-    <ul className={cls} style={style} ref={paginationRef} {...dataOrAriaAttributeProps}>
+    <ul className={rootCls} style={style} ref={paginationRef} {...dataOrAriaAttributeProps}>
       {totalText}
       {prev}
       {simple ? simplePager : pagerList}
@@ -544,11 +558,11 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         locale={locale}
         rootPrefixCls={prefixCls}
         disabled={disabled}
+        isSmall={isSmall}
         changeSize={mergedShowSizeChanger ? changePageSize : undefined}
         pageSize={pageSize}
         pageSizeOptions={pageSizeOptions}
         quickGo={shouldDisplayQuickJumper ? handleChange : undefined}
-        goButton={gotoButton}
       />
     </ul>
   );

@@ -4,10 +4,10 @@ import React from 'react';
 
 const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
   if (type === 'prev') {
-    return <a>Previous</a>;
+    return 'Previous';
   }
   if (type === 'next') {
-    return <a>Next</a>;
+    return 'Next';
   }
   return originalElement;
 };

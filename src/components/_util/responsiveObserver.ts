@@ -1,14 +1,15 @@
 import React from 'react';
 
-export type Breakpoint = '2xl' | 'xl' | 'lg' | 'md' | 'sm';
+export type Breakpoint = '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type BreakpointMap = Record<Breakpoint, string>;
 export type ScreenMap = Partial<Record<Breakpoint, boolean>>;
 export type ScreenSizeMap = Partial<Record<Breakpoint, number>>;
 
-export const responsiveArray: Breakpoint[] = ['2xl', 'xl', 'lg', 'md', 'sm'];
+export const responsiveArray: Breakpoint[] = ['2xl', 'xl', 'lg', 'md', 'sm', 'xs'];
 type SubscribeFunc = (screens: ScreenMap) => void;
 
 const responsiveMap: BreakpointMap = {
+  xs: `(max-width: 639px)`,
   sm: `(min-width: 640px)`,
   md: `(min-width: 768px)`,
   lg: `(min-width: 1024px)`,

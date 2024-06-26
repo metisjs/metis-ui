@@ -40,7 +40,7 @@ group:
 | pageSizeOptions | 指定每页可以显示多少条 | string\[] \| number\[] | \[`10`, `20`, `50`, `100`] |  |
 | responsive | 当 size 未指定时，根据屏幕宽度自动调整尺寸 | boolean | - |  |
 | showLessItems | 是否显示较少页面内容 | boolean | false |  |
-| showQuickJumper | 是否可以快速跳转至某页 | boolean \| { goButton: ReactNode } | false |  |
+| showQuickJumper | 是否可以快速跳转至某页 | boolean | false |  |
 | showSizeChanger | 是否展示 `pageSize` 切换器 | boolean | - |  |
 | showTitle | 是否显示原生 tooltip 页码提示 | boolean | true |  |
 | showTotal | 用于显示数据总量和当前数据顺序 | function(total, range) | - |  |

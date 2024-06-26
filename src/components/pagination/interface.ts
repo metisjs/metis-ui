@@ -1,10 +1,12 @@
 import type React from 'react';
+import { SemanticClassName } from '../_util/classNameUtils';
+import { InputProps } from '../input';
+import { SelectProps } from '../select';
 
 export interface PaginationLocale {
   // Options
   items_per_page?: string;
   jump_to?: string;
-  jump_to_confirm?: string;
   page?: string;
 
   // Pagination
@@ -27,7 +29,10 @@ export interface PaginationConfig extends PaginationProps {
 }
 
 export interface PaginationProps extends React.AriaAttributes {
-  className?: string;
+  className?: SemanticClassName<
+    'options' | 'item' | 'prev' | 'next',
+    { jumper?: InputProps['className']; sizeChanger?: SelectProps['className'] }
+  >;
   prefixCls?: string;
   pageSizeOptions?: string[] | number[];
 
@@ -40,7 +45,7 @@ export interface PaginationProps extends React.AriaAttributes {
   hideOnSinglePage?: boolean;
   showSizeChanger?: boolean;
   showLessItems?: boolean;
-  showQuickJumper?: boolean | { goButton?: React.ReactNode };
+  showQuickJumper?: boolean;
   showTitle?: boolean;
   simple?: boolean | { readOnly?: boolean };
   disabled?: boolean;

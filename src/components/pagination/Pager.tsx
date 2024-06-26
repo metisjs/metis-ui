@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import type { PaginationProps } from './interface';
 
 export interface PagerProps extends Pick<PaginationProps, 'itemRender'> {
@@ -8,6 +8,8 @@ export interface PagerProps extends Pick<PaginationProps, 'itemRender'> {
   active?: boolean;
   className?: string;
   showTitle: boolean;
+  isSmall?: boolean;
+  disabled?: boolean;
   onClick?: (page: number) => void;
   onKeyPress?: (
     e: React.KeyboardEvent<HTMLLIElement>,
@@ -17,16 +19,35 @@ export interface PagerProps extends Pick<PaginationProps, 'itemRender'> {
 }
 
 const Pager: React.FC<PagerProps> = (props) => {
-  const { rootPrefixCls, page, active, className, showTitle, onClick, onKeyPress, itemRender } =
-    props;
+  const {
+    rootPrefixCls,
+    page,
+    active,
+    className,
+    showTitle,
+    isSmall,
+    disabled,
+    onClick,
+    onKeyPress,
+    itemRender,
+  } = props;
   const prefixCls = `${rootPrefixCls}-item`;
 
-  const cls = classNames(
+  const cls = clsx(
     prefixCls,
     `${prefixCls}-${page}`,
     {
       [`${prefixCls}-active`]: active,
-      [`${prefixCls}-disabled`]: !page,
+    },
+    'min-w-9 cursor-pointer rounded-md px-2 text-center leading-9',
+    {
+      'bg-primary-bg font-medium text-primary': active,
+      'hover:bg-neutral-fill-tertiary': !active,
+      'min-w-8 leading-8': isSmall,
+    },
+    disabled && {
+      'cursor-not-allowed opacity-50': active,
+      'cursor-not-allowed text-neutral-text-quaternary hover:bg-transparent': !active,
     },
     className,
   );
@@ -39,7 +60,7 @@ const Pager: React.FC<PagerProps> = (props) => {
     onKeyPress?.(e, onClick, page);
   };
 
-  const pager = itemRender?.(page, 'page', <a rel="nofollow">{page}</a>);
+  const pager = itemRender?.(page, 'page', page);
 
   return pager ? (
     <li

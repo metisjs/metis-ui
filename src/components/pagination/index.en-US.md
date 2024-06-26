@@ -39,7 +39,7 @@ A long list can be divided into several pages, and only one page will be loaded 
 | pageSizeOptions | Specify the sizeChanger options | string\[] \| number\[] | \[`10`, `20`, `50`, `100`] |  |
 | responsive | If `size` is not specified, `Pagination` would resize according to the width of the window | boolean | - |  |
 | showLessItems | Show less page items | boolean | false |  |
-| showQuickJumper | Determine whether you can jump to pages directly | boolean \| { goButton: ReactNode } | false |  |
+| showQuickJumper | Determine whether you can jump to pages directly | boolean | false |  |
 | showSizeChanger | Determine whether to show `pageSize` select | boolean | - |  |
 | showTitle | Show page item's title | boolean | true |  |
 | showTotal | To display the total number and range | function(total, range) | - |  |
