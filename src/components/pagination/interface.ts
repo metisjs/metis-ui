@@ -30,7 +30,7 @@ export interface PaginationConfig extends PaginationProps {
 
 export interface PaginationProps extends React.AriaAttributes {
   className?: SemanticClassName<
-    'options' | 'item' | 'prev' | 'next',
+    'options' | 'item' | 'prev' | 'next' | 'total',
     { jumper?: InputProps['className']; sizeChanger?: SelectProps['className'] }
   >;
   prefixCls?: string;

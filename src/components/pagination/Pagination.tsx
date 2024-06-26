@@ -303,7 +303,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   });
 
   const totalText = showTotal && (
-    <li className={clsx(`${prefixCls}-total-text`, 'me-1')}>
+    <li className={clsx(`${prefixCls}-total-text`, 'me-1', semanticCls.total)}>
       {showTotal(total, [
         total === 0 ? 0 : (current - 1) * pageSize + 1,
         current * pageSize > total ? total : current * pageSize,
@@ -492,6 +492,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             'hover:bg-neutral-fill-tertiary': !prevDisabled && !disabled,
             'h-8 min-w-8': isSmall || simple,
           },
+          semanticCls.prev,
         )}
         aria-disabled={prevDisabled}
       >
@@ -529,6 +530,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             'hover:bg-neutral-fill-tertiary': !nextDisabled && !disabled,
             'h-8 min-w-8': isSmall || simple,
           },
+          semanticCls.next,
         )}
         aria-disabled={nextDisabled}
       >
