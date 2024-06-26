@@ -41,7 +41,7 @@ const Pager: React.FC<PagerProps> = (props) => {
     },
     'min-w-9 cursor-pointer rounded-md px-2 text-center leading-9',
     {
-      'bg-primary-bg font-medium text-primary': active,
+      'bg-primary-bg font-medium text-primary shadow-sm': active,
       'hover:bg-neutral-fill-tertiary': !active,
       'min-w-8 leading-8': isSmall,
     },
