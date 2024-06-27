@@ -271,7 +271,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
                 'text-neutral-text after:border-neutral-border': open,
                 'text-neutral-text after:border-primary hover:after:border-primary':
                   childrenSelected,
-                'text-neutral-text-quaternary': mergedDisabled,
+                'text-neutral-text-tertiary': mergedDisabled,
               },
               // >>> Light Vertical
               vertical: {
@@ -279,14 +279,14 @@ const InternalSubMenu = (props: SubMenuProps) => {
                 'px-4 leading-10 [.item-group_&]:ps-7': !firstLevel,
                 'text-primary': childrenSelected,
                 'hover:bg-neutral-fill-quaternary': !mergedDisabled,
-                'text-neutral-text-quaternary': mergedDisabled,
+                'text-neutral-text-tertiary': mergedDisabled,
               },
               // >>> Light Inline
               inline: {
                 'h-10 rounded-md p-2': true,
                 'text-primary': childrenSelected,
                 'hover:bg-neutral-fill-quaternary': !mergedDisabled,
-                'text-neutral-text-quaternary': mergedDisabled,
+                'text-neutral-text-tertiary': mergedDisabled,
               },
             },
             // >>> Dark
@@ -374,7 +374,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
                 open && mode === 'inline' && 'rotate-90',
                 firstLevel && isInlineCollapsed && 'opacity-0',
                 mergedDisabled && {
-                  'text-neutral-text-quaternary': contextTheme === 'light',
+                  'text-neutral-text-tertiary': contextTheme === 'light',
                   'text-gray-500': contextTheme === 'dark',
                 },
               )}

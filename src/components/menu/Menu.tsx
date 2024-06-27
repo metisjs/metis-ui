@@ -543,7 +543,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
             title={overflowedIndicator}
             disabled={allVisible}
             internalPopupClose={len === 0}
-            popupClassName={overflowedIndicatorPopupClassName}
+            className={{ popup: overflowedIndicatorPopupClassName }}
           >
             {originOmitItems}
           </SubMenu>

@@ -244,7 +244,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                   'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
                     !mergedDisabled,
                   'text-neutral-text after:border-primary hover:after:border-primary': selected,
-                  'text-neutral-text-quaternary': mergedDisabled,
+                  'text-neutral-text-tertiary': mergedDisabled,
                 },
                 // >>> Light Vertical
                 vertical: {
@@ -253,7 +253,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                   'pe-8': firstLevel && !isInlineCollapsed,
                   'bg-neutral-fill-quaternary text-primary ': selected,
                   'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
-                  'text-neutral-text-quaternary': mergedDisabled,
+                  'text-neutral-text-tertiary': mergedDisabled,
                 },
                 // >>> Light Inline
                 inline: {
@@ -261,7 +261,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                   'pe-7': !firstLevel,
                   'bg-neutral-fill-quaternary text-primary': selected,
                   'hover:bg-neutral-fill-quaternary': !selected && !mergedDisabled,
-                  'text-neutral-text-quaternary': mergedDisabled,
+                  'text-neutral-text-tertiary': mergedDisabled,
                 },
               },
               // >>> Dark
