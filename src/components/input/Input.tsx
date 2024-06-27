@@ -163,7 +163,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'bg-neutral-fill-quinary': variant === 'filled',
     },
     {
-      'text-neutral-text-quaternary': mergedDisabled,
+      'text-neutral-text-tertiary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
     rootCls,
@@ -185,7 +185,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'rounded-none p-0 ring-0 focus:ring-0': inputHasPrefixSuffix,
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
-      'bg-transparent text-neutral-text-quaternary': mergedDisabled,
+      'bg-transparent text-neutral-text-tertiary': mergedDisabled,
     },
     !inputHasPrefixSuffix &&
       !addonBefore &&
@@ -214,7 +214,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
-      'text-neutral-text-quaternary': mergedDisabled,
+      'text-neutral-text-tertiary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
     !addonBefore && !addonAfter && rootCls,
@@ -232,7 +232,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'ring-0': variant === 'borderless' || variant === 'filled',
     },
     {
-      'text-neutral-text-quaternary': mergedDisabled,
+      'text-neutral-text-tertiary': mergedDisabled,
     },
   );
   const addonAfterWrapperCls = clsx(
@@ -247,19 +247,19 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'ring-0': variant === 'borderless' || variant === 'filled',
     },
     {
-      'text-neutral-text-quaternary': mergedDisabled,
+      'text-neutral-text-tertiary': mergedDisabled,
     },
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
     'flex flex-none items-center text-neutral-text-secondary',
-    mergedDisabled && 'text-neutral-text-quaternary',
+    mergedDisabled && 'text-neutral-text-tertiary',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
     'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
-    mergedDisabled && 'text-neutral-text-quaternary',
+    mergedDisabled && 'text-neutral-text-tertiary',
     semanticCls.suffix,
   );
   const countCls = clsx(

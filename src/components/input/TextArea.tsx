@@ -103,7 +103,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
           variant === 'filled',
       },
       {
-        'text-neutral-text-quaternary': mergedDisabled,
+        'text-neutral-text-tertiary': mergedDisabled,
         'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
         'pr-8': mergedAllowClear,
       },

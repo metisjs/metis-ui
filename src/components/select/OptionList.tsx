@@ -350,7 +350,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               [`${optionPrefixCls}-grouped pl-6`]: groupOption,
               [`${optionPrefixCls}-active bg-primary text-white`]:
                 activeIndex === itemIndex && !disabled,
-              [`${optionPrefixCls}-disabled text-neutral-text-quaternary`]: disabled,
+              [`${optionPrefixCls}-disabled text-neutral-text-tertiary`]: disabled,
               [`${optionPrefixCls}-selected font-semibold`]: selected,
             },
             className,

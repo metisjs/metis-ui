@@ -748,7 +748,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     },
     disabled
       ? {
-          'not-allowed bg-neutral-fill-quaternary text-neutral-text-quaternary': true,
+          'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary': true,
           'bg-neutral-bg-container': variant === 'borderless',
         }
       : {

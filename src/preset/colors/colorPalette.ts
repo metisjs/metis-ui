@@ -31,9 +31,9 @@ export default {
     error: lightBase,
     info: lightBase,
     'neutral-text': {
-      secondary: 0.65,
-      tertiary: 0.45,
-      quaternary: 0.25,
+      secondary: -4,
+      tertiary: -5,
+      quaternary: -6,
     },
     'neutral-border': { secondary: -1 },
     'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
