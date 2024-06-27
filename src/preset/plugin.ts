@@ -32,10 +32,7 @@ export default tailwindPlugin(mainFunction, {
       opacity: {
         disabled: '0.3',
       },
-      transitionProperty: {
-        height: 'height',
-        width: 'width',
-      },
+      // transitionProperty: {},
       keyframes: {
         'bounce-spin': {
           '0%, 100%': {

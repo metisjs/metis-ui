@@ -513,7 +513,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       className={clsx(
         prefixCls,
         `${prefixCls}-${internalMode}`,
-        'flex w-full text-sm text-neutral-text transition-width',
+        'flex w-full text-sm text-neutral-text transition-[width]',
         {
           [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
           'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
