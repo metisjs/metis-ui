@@ -10,6 +10,7 @@ const colorObject = {
     hover: 'hsla(var(--primary-hover))',
     active: 'hsla(var(--primary-active))',
     border: 'hsla(var(--primary-border))',
+    'border-secondary': 'hsla(var(--primary-border-secondary))',
   },
 
   /** 成功色 */
@@ -20,6 +21,7 @@ const colorObject = {
     hover: 'hsla(var(--success-hover))',
     active: 'hsla(var(--success-active))',
     border: 'hsla(var(--success-border))',
+    'border-secondary': 'hsla(var(--success-border-secondary))',
   },
 
   /** 警戒色 */
@@ -30,6 +32,7 @@ const colorObject = {
     hover: 'hsla(var(--warning-hover))',
     active: 'hsla(var(--warning-active))',
     border: 'hsla(var(--warning-border))',
+    'border-secondary': 'hsla(var(--warning-border-secondary))',
   },
 
   /** 错误色 */
@@ -40,6 +43,7 @@ const colorObject = {
     hover: 'hsla(var(--error-hover))',
     active: 'hsla(var(--error-active))',
     border: 'hsla(var(--error-border))',
+    'border-secondary': 'hsla(var(--error-border-secondary))',
   },
 
   /** 信息色 */
@@ -50,6 +54,7 @@ const colorObject = {
     hover: 'hsla(var(--info-hover))',
     active: 'hsla(var(--info-active))',
     border: 'hsla(var(--info-border))',
+    'border-secondary': 'hsla(var(--info-border-secondary))',
   },
 
   /** 中性色 */

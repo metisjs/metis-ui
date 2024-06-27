@@ -8,8 +8,8 @@ export type InputStatus = (typeof InputStatuses)[number];
 export function getStatusClassNames(status?: ValidateStatus, hasFeedback?: boolean) {
   return clsx({
     '1': status === 'success',
-    'ring-warning focus-within:ring-warning focus:ring-warning': status === 'warning',
-    'ring-error focus-within:ring-error focus:ring-error': status === 'error',
+    'ring-warning-border focus-within:ring-warning focus:ring-warning': status === 'warning',
+    'ring-error-border focus-within:ring-error focus:ring-error': status === 'error',
     '4': status === 'validating',
     '5': hasFeedback,
   });

@@ -3,7 +3,8 @@ const lightBase = {
   'bg-hover': -4,
   hover: -1,
   active: 1,
-  border: 0.2,
+  border: -2,
+  'border-secondary': 0.2,
 };
 
 const darkBase = {
@@ -11,7 +12,8 @@ const darkBase = {
   'bg-hover': 4,
   hover: 1,
   active: -1,
-  border: 0.2,
+  border: 2,
+  'border-secondary': 0.2,
 };
 
 /**
@@ -24,7 +26,8 @@ export default {
       'bg-hover': -5,
       hover: -1,
       active: 1,
-      border: 0.1,
+      border: -3,
+      'border-secondary': 0.1,
     },
     success: lightBase,
     warning: lightBase,
@@ -44,7 +47,8 @@ export default {
       'bg-hover': -5,
       hover: -1,
       active: 1,
-      border: 0.1,
+      border: -3,
+      'border-secondary': 0.1,
     },
     success: darkBase,
     warning: darkBase,
