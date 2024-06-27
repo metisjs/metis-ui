@@ -4,17 +4,12 @@ import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
-import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import useSize from '../config-provider/hooks/useSize';
 import { useCompactItemContext } from '../space/Compact';
-
-function isUnBorderedButtonType(type: ButtonType | undefined) {
-  return type === 'text' || type === 'link';
-}
 
 const ButtonTypes = tuple('default', 'primary', 'text', 'link');
 export type ButtonType = (typeof ButtonTypes)[number];
@@ -32,7 +27,6 @@ export interface BaseButtonProps {
   loading?: boolean | { delay?: number };
   prefixCls?: string;
   className?: SemanticClassName<'icon'>;
-  ghost?: boolean;
   danger?: boolean;
   children?: React.ReactNode;
 }
@@ -73,7 +67,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     className,
     children,
     icon,
-    ghost = false,
     htmlType = 'button',
     ...rest
   } = props;
@@ -124,12 +117,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)?.(e);
   };
 
-  warning(
-    !(ghost && isUnBorderedButtonType(type)),
-    'Button',
-    "`link` or `text` button can't be a `ghost` button.",
-  );
-
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
   const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined };
@@ -168,8 +155,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const isHref = linkButtonRestProps.href !== undefined;
 
-  const mergedGhost = type !== 'text' && type !== 'link' && ghost;
-
   const classes = clsx(
     prefixCls,
     {
@@ -177,7 +162,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-${type}`]: type,
       [`${prefixCls}-${sizeCls}`]: sizeCls,
       [`${prefixCls}-icon-only`]: !children && children !== 0 && !!iconType,
-      [`${prefixCls}-background-ghost`]: ghost && !isUnBorderedButtonType(type),
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
@@ -207,7 +191,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       'justify-center pe-0 ps-0 text-base': iconOnly,
       'cursor-not-allowed opacity-disabled focus-visible:ring-0': mergedDisabled,
       'text-error ring-error-bg-hover focus-visible:ring-error enabled:hover:bg-error-bg': danger,
-      'bg-transparent text-white ring-white enabled:hover:bg-transparent': mergedGhost,
       'cursor-not-allowed': innerLoading,
     },
     isHref &&
@@ -220,16 +203,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     danger && {
       'enabled:hover:bg-transparent enabled:hover:text-error-hover': type === 'link',
       'bg-error text-white focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white':
-        type === 'primary' && !mergedGhost,
-      'text-error ring-1 ring-error enabled:hover:text-error-hover enabled:hover:ring-error-hover':
-        mergedGhost,
+        type === 'primary',
     },
-    !danger &&
-      mergedGhost && {
-        'enabled:hover:text-primary-hover enabled:hover:ring-primary-hover': type === 'default',
-        'text-primary ring-1 ring-primary enabled:hover:text-primary-hover enabled:hover:ring-primary-hover':
-          type === 'primary',
-      },
     semanticCls.root,
     compactItemClassnames,
   );

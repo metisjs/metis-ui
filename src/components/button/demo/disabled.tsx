@@ -63,12 +63,6 @@ const App: React.FC = () => (
         Danger Link(disabled)
       </Button>
     </Space>
-    <Space className="bg-slate-400 p-2">
-      <Button ghost>Ghost</Button>
-      <Button ghost disabled>
-        Ghost(disabled)
-      </Button>
-    </Space>
   </Space>
 );
 
