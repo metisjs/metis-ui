@@ -1,5 +1,9 @@
+export { default as Affix } from './affix';
+export type { AffixProps, AffixRef } from './affix';
 export { default as Alert } from './alert';
 export type { AlertProps } from './alert';
+export { default as Anchor } from './anchor';
+export type { AnchorLinkProps, AnchorProps } from './anchor';
 export { default as Avatar } from './avatar';
 export type { AvatarProps } from './avatar';
 export { default as Breadcrumb } from './breadcrumb';
