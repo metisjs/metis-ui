@@ -36,6 +36,8 @@ export { default as Segmented } from './segmented';
 export type { SegmentedProps } from './segmented';
 export { default as Select } from './select';
 export type { RefSelectProps, SelectProps } from './select';
+export { default as Skeleton } from './skeleton';
+export type { SkeletonProps } from './skeleton';
 export { default as Space } from './space';
 export type { SpaceProps } from './space';
 export { default as Spin } from './spin';
