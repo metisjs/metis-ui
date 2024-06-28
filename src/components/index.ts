@@ -10,6 +10,8 @@ export { default as Breadcrumb } from './breadcrumb';
 export type { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb';
 export { default as Button } from './button';
 export type { ButtonProps } from './button';
+export { default as Card } from './card';
+export type { CardProps } from './card';
 export { default as Checkbox } from './checkbox';
 export type { CheckboxOptionType, CheckboxProps, CheckboxRef } from './checkbox';
 export { default as Divider } from './divider';
