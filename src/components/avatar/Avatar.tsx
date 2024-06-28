@@ -178,9 +178,9 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
     prefixCls,
     'relative inline-block overflow-hidden whitespace-nowrap bg-neutral-fill text-center align-middle text-sm text-white [.group_&]:ring-2 [.group_&]:ring-neutral-bg-container',
     typeof size === 'string' && {
-      'h-10 w-10 leading-10': size === 'large',
-      'h-8 w-8 leading-8': size === 'default',
-      'h-6 w-6 leading-6': size === 'small',
+      'h-12 w-12 leading-[3rem]': size === 'large',
+      'h-10 w-10 leading-10': size === 'default',
+      'h-8 w-8 leading-8': size === 'small',
     },
     typeof size === 'string' &&
       icon && {
@@ -189,7 +189,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
       },
     {
       'rounded-full': shape === 'circle',
-      'rounded-md': shape === 'circle',
+      'rounded-md': shape === 'square',
     },
     (hasImageElement || (!!src && isImgExist)) && 'bg-transparent',
     className,

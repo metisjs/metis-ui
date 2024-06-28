@@ -1,6 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
+import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { AvatarProps } from './Avatar';
 import SkeletonAvatar from './Avatar';
@@ -9,9 +8,9 @@ import Element from './Element';
 import SkeletonImage from './Image';
 import SkeletonInput from './Input';
 import type { SkeletonParagraphProps } from './Paragraph';
-import Paragraph from './Paragraph';
+import SkeletonParagraph from './Paragraph';
 import type { SkeletonTitleProps } from './Title';
-import Title from './Title';
+import SkeletonTitle from './Title';
 
 /* This only for skeleton internal. */
 type SkeletonAvatarProps = Omit<AvatarProps, 'active'>;
@@ -39,10 +38,10 @@ function getComponentProps<T>(prop?: T | boolean): T | Record<string, string> {
 function getAvatarBasicProps(hasTitle: boolean, hasParagraph: boolean): SkeletonAvatarProps {
   if (hasTitle && !hasParagraph) {
     // Square avatar
-    return { size: 'large', shape: 'square' };
+    return { shape: 'square' };
   }
 
-  return { size: 'large', shape: 'circle' };
+  return { shape: 'circle' };
 }
 
 function getTitleBasicProps(hasAvatar: boolean, hasParagraph: boolean): SkeletonTitleProps {
@@ -60,10 +59,7 @@ function getTitleBasicProps(hasAvatar: boolean, hasParagraph: boolean): Skeleton
 function getParagraphBasicProps(hasAvatar: boolean, hasTitle: boolean): SkeletonParagraphProps {
   const basicProps: SkeletonParagraphProps = {};
 
-  // Width
-  if (!hasAvatar || !hasTitle) {
-    basicProps.width = '61%';
-  }
+  basicProps.width = '61%';
 
   // Rows
   if (!hasAvatar && hasTitle) {
@@ -107,31 +103,34 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
     // Avatar
     let avatarNode: React.ReactNode;
     if (hasAvatar) {
+      const customizeProps = getComponentProps(avatar);
+      const sizeCls = clsx('h-10 w-10 leading-10', {
+        'h-12 w-12 leading-10': customizeProps.size === 'large',
+        'h-8 w-8 leading-8': customizeProps.size === 'small',
+      });
       const avatarProps: SkeletonAvatarProps = {
         prefixCls: `${prefixCls}-avatar`,
         ...getAvatarBasicProps(hasTitle, hasParagraph),
-        ...getComponentProps(avatar),
+        ...customizeProps,
+        className: clsx(sizeCls, customizeProps.className),
       };
-      // We direct use SkeletonElement as avatar in skeleton internal.
-      avatarNode = (
-        <div className={`${prefixCls}-header`}>
-          <Element {...avatarProps} />
-        </div>
-      );
+      avatarNode = <Element {...avatarProps} />;
     }
 
     let contentNode: React.ReactNode;
     if (hasTitle || hasParagraph) {
       // Title
-      let $title: React.ReactNode;
+      let titleNode: React.ReactNode;
       if (hasTitle) {
+        const customizeProps = getComponentProps(title);
         const titleProps: SkeletonTitleProps = {
           prefixCls: `${prefixCls}-title`,
           ...getTitleBasicProps(hasAvatar, hasParagraph),
-          ...getComponentProps(title),
+          ...customizeProps,
+          className: clsx(hasAvatar && 'mt-3', customizeProps.className),
         };
 
-        $title = <Title {...titleProps} />;
+        titleNode = <SkeletonTitle {...titleProps} />;
       }
 
       // Paragraph
@@ -143,24 +142,26 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
           ...getComponentProps(paragraph),
         };
 
-        paragraphNode = <Paragraph {...paragraphProps} />;
+        paragraphNode = <SkeletonParagraph {...paragraphProps} />;
       }
 
       contentNode = (
-        <div className={`${prefixCls}-content`}>
-          {$title}
+        <div className={clsx(`${prefixCls}-content`, 'flex flex-1 flex-col gap-4')}>
+          {titleNode}
           {paragraphNode}
         </div>
       );
     }
 
-    const cls = classNames(
+    const cls = clsx(
       prefixCls,
       {
         [`${prefixCls}-with-avatar`]: hasAvatar,
         [`${prefixCls}-active`]: active,
         [`${prefixCls}-round`]: round,
       },
+      'flex gap-4',
+      active && 'animate-pulse',
       className,
     );
 
@@ -171,7 +172,7 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
       </div>
     );
   }
-  return children ?? null;
+  return <>{children}</> ?? null;
 };
 
 Skeleton.Button = SkeletonButton;

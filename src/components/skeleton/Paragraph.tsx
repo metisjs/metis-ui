@@ -26,11 +26,14 @@ const getWidth = (index: number, props: SkeletonParagraphProps) => {
 const Paragraph: React.FC<SkeletonParagraphProps> = (props) => {
   const { prefixCls, className, style, rows } = props;
   const rowList = [...Array(rows)].map((_, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <li key={index} style={{ width: getWidth(index, props) }} />
+    <li
+      key={index}
+      className={clsx('h-4 w-full rounded bg-neutral-fill-tertiary')}
+      style={{ width: getWidth(index, props) }}
+    />
   ));
   return (
-    <ul className={clsx(prefixCls, className)} style={style}>
+    <ul className={clsx(prefixCls, 'flex flex-col gap-2', className)} style={style}>
       {rowList}
     </ul>
   );

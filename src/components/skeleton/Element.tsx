@@ -11,18 +11,27 @@ export interface SkeletonElementProps {
 }
 
 const Element: React.FC<SkeletonElementProps> = (props) => {
-  const { prefixCls, className, style, size, shape } = props;
+  const { prefixCls, className, style, size = 'default', shape = 'default', active } = props;
 
-  const sizeCls = clsx({
-    [`${prefixCls}-lg`]: size === 'large',
-    [`${prefixCls}-sm`]: size === 'small',
-  });
-
-  const shapeCls = clsx({
-    [`${prefixCls}-circle`]: shape === 'circle',
-    [`${prefixCls}-square`]: shape === 'square',
-    [`${prefixCls}-round`]: shape === 'round',
-  });
+  const cls = clsx(
+    prefixCls,
+    {
+      [`${prefixCls}-lg`]: size === 'large',
+      [`${prefixCls}-sm`]: size === 'small',
+    },
+    {
+      [`${prefixCls}-circle`]: shape === 'circle',
+      [`${prefixCls}-square`]: shape === 'square',
+      [`${prefixCls}-round`]: shape === 'round',
+    },
+    'inline-block rounded bg-neutral-fill-tertiary',
+    {
+      'rounded-full': shape === 'circle' || shape === 'round',
+      'rounded-md': shape === 'square' || shape === 'default',
+    },
+    active && 'animate-pulse',
+    className,
+  );
 
   const sizeStyle = React.useMemo<React.CSSProperties>(
     () =>
@@ -36,12 +45,7 @@ const Element: React.FC<SkeletonElementProps> = (props) => {
     [size],
   );
 
-  return (
-    <span
-      className={clsx(prefixCls, sizeCls, shapeCls, className)}
-      style={{ ...sizeStyle, ...style }}
-    />
-  );
+  return <div className={cls} style={{ ...sizeStyle, ...style }} />;
 };
 
 export default Element;

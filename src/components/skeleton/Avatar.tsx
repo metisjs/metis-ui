@@ -1,4 +1,3 @@
-import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
@@ -16,24 +15,33 @@ const SkeletonAvatar: React.FC<AvatarProps> = (props) => {
     active,
     shape = 'circle',
     size = 'default',
+    ...restProps
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('skeleton', customizePrefixCls);
 
-  const otherProps = omit(props, ['prefixCls', 'className']);
   const cls = clsx(
     prefixCls,
-    `${prefixCls}-element`,
     {
       [`${prefixCls}-active`]: active,
+    },
+    {
+      'h-12 w-12 leading-[3rem]': size === 'large',
+      'h-10 w-10 leading-10': size === 'default',
+      'h-8 w-8 leading-8': size === 'small',
     },
     className,
   );
 
   return (
-    <div className={cls}>
-      <Element prefixCls={`${prefixCls}-avatar`} shape={shape} size={size} {...otherProps} />
-    </div>
+    <Element
+      prefixCls={`${prefixCls}-avatar`}
+      className={cls}
+      active={active}
+      shape={shape}
+      size={size}
+      {...restProps}
+    />
   );
 };
 

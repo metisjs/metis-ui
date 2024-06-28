@@ -35,17 +35,27 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Space>
-        <Skeleton.Button active={active} size={size} shape={buttonShape} block={block} />
+      <Space align="center">
         <Skeleton.Avatar active={active} size={size} shape={avatarShape} />
+        <Skeleton.Button
+          active={active}
+          size={size}
+          shape={buttonShape}
+          className={block ? 'w-full' : ''}
+        />
         <Skeleton.Input active={active} size={size} />
       </Space>
       <br />
       <br />
-      <Skeleton.Button active={active} size={size} shape={buttonShape} block={block} />
+      <Skeleton.Button
+        active={active}
+        size={size}
+        shape={buttonShape}
+        className={block ? 'w-full' : ''}
+      />
       <br />
       <br />
-      <Skeleton.Input active={active} size={size} block={block} />
+      <Skeleton.Input active={active} size={size} className={block ? 'w-full' : ''} />
       <br />
       <br />
       <Space>
