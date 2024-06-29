@@ -5,8 +5,11 @@ import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import {
+  PresetColorType,
   PresetStatusColorType,
-  getPresetStatusClassName,
+  getPresetColorCls,
+  getPresetStatusCls,
+  isPresetColor,
   isPresetStatusColor,
 } from '../_util/colors';
 import useClosable, { pickClosable } from '../_util/hooks/useClosable';
@@ -19,7 +22,7 @@ export type { CheckableTagProps } from './CheckableTag';
 export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   prefixCls?: string;
   className?: string;
-  color?: LiteralUnion<PresetStatusColorType>;
+  color?: LiteralUnion<PresetColorType | PresetStatusColorType>;
   closable?: boolean;
   /** Advised to use closeIcon instead. */
   closeIcon?: boolean | React.ReactNode;
@@ -51,7 +54,9 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
 
   const domProps = omit(restProps, ['closeIcon', 'closable']);
 
-  const isInternalColor = isPresetStatusColor(color);
+  const isPreset = isPresetColor(color);
+  const isStatus = isPresetStatusColor(color);
+  const isInternalColor = isPreset || isStatus;
 
   const tagStyle: React.CSSProperties = {
     backgroundColor: color && !isInternalColor ? color : undefined,
@@ -64,7 +69,8 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     prefixCls,
     'relative me-2 inline-flex h-auto items-center whitespace-nowrap rounded-md bg-neutral-fill-quaternary px-2 py-1 text-xs font-medium text-neutral-text-secondary outline outline-1 -outline-offset-1 outline-neutral-border-secondary transition-colors',
     {
-      [getPresetStatusClassName(color as PresetStatusColorType)]: color && isInternalColor,
+      [getPresetColorCls(color as PresetColorType)]: color && isPreset,
+      [getPresetStatusCls(color as PresetStatusColorType)]: color && isStatus,
       [`${prefixCls}-has-color text-white outline-0`]: color && !isInternalColor,
       [`${prefixCls}-hidden hidden`]: !visible,
       [`${prefixCls}-borderless outline-0`]: !bordered,
