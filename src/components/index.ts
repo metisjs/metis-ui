@@ -6,6 +6,8 @@ export { default as Anchor } from './anchor';
 export type { AnchorLinkProps, AnchorProps } from './anchor';
 export { default as Avatar } from './avatar';
 export type { AvatarProps } from './avatar';
+export { default as Badge } from './badge';
+export type { BadgeProps } from './badge';
 export { default as Breadcrumb } from './breadcrumb';
 export type { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb';
 export { default as Button } from './button';
