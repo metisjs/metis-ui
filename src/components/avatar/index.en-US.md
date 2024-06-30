@@ -13,11 +13,10 @@ Used to represent users or things, supporting the display of images, icons, or c
 <code src="./demo/basic.tsx">Basic</code>
 <code src="./demo/type.tsx">Type</code>
 <code src="./demo/dynamic.tsx">Autoset Font Size</code>
+<code src="./demo/badge.tsx">With Badge</code>
 <code src="./demo/group.tsx">Avatar.Group</code> 
 <code src="./demo/toggle.tsx" debug>Calculate text style when hiding</code> 
 <code src="./demo/fallback.tsx" debug>Fallback</code>
-
-<!-- <code src="./demo/badge.tsx">With Badge</code> -->
 
 ## API
 
