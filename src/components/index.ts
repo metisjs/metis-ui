@@ -32,6 +32,8 @@ export { default as Pagination } from './pagination';
 export type { PaginationProps } from './pagination';
 export { default as Popover } from './popover';
 export type { PopoverProps } from './popover';
+export { default as Progress } from './progress';
+export type { ProgressProps } from './progress';
 export { default as Radio } from './radio';
 export type { RadioChangeEvent, RadioGroupProps, RadioProps } from './radio';
 export { default as Scrollbar } from './scrollbar';

@@ -44,6 +44,20 @@ export default tailwindPlugin(mainFunction, {
             opacity: '1',
           },
         },
+        'progress-active': {
+          '0%': {
+            transform: `translateX(-100%) scaleX(0)`,
+            opacity: '0.1',
+          },
+          '20%': {
+            transform: `translateX(-100%) scaleX(0)`,
+            opacity: '0.5',
+          },
+          to: {
+            transform: 'translateX(0) scaleX(1)',
+            opacity: '0',
+          },
+        },
       },
     },
   },

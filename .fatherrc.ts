@@ -8,6 +8,15 @@ export default defineConfig({
     [
       'import',
       {
+        libraryName: '@metisjs/icons',
+        libraryDirectory: 'es/icons',
+        camel2DashComponentName: false,
+      },
+      'import-icons',
+    ],
+    [
+      'import',
+      {
         libraryName: 'lodash',
         libraryDirectory: '',
         camel2DashComponentName: false,
