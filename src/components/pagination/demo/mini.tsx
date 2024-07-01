@@ -5,7 +5,7 @@ import React from 'react';
 const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items`;
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space vertical>
     <Pagination size="small" total={50} />
     <Pagination size="small" total={50} showSizeChanger showQuickJumper />
     <Pagination size="small" total={50} showTotal={showTotal} />

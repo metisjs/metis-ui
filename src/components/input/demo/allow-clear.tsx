@@ -9,7 +9,7 @@ const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) 
 };
 
 const App: React.FC = () => (
-  <Space direction="vertical" className="flex">
+  <Space vertical className="flex">
     <Input
       placeholder="input with clear icon"
       allowClear

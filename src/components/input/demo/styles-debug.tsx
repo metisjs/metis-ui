@@ -4,7 +4,7 @@ import React from 'react';
 const { TextArea } = Input;
 
 const App: React.FC = () => (
-  <Space direction="vertical" className="flex">
+  <Space vertical className="flex">
     <Input defaultValue="Outline Disabled" disabled />
     <Input defaultValue="Outline Disabled" addonBefore="http://" addonAfter=".com" disabled />
     <Input placeholder="Outline Disabled" prefix="￥" suffix="RMB" disabled />

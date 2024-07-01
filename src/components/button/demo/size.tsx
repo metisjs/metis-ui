@@ -5,7 +5,7 @@ import React from 'react';
 
 const App: React.FC = () => (
   <>
-    <Space direction="vertical" size={20}>
+    <Space vertical size={20}>
       {(['large', 'middle', 'small'] as SizeType[]).map((size) => (
         <Space wrap key={size}>
           <Button type="primary" size={size}>

@@ -2,7 +2,7 @@ import { Alert, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" style={{ width: '100%' }}>
+  <Space vertical block>
     <Alert message="Success Tips" type="success" showIcon />
     <Alert message="Informational Notes" type="info" showIcon />
     <Alert message="Warning" type="warning" showIcon closable />

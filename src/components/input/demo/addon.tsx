@@ -3,7 +3,7 @@ import { Input, Select, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space vertical>
     <Input addonBefore="http://" addonAfter=".com" defaultValue="mysite" />
     <Input
       addonBefore={

@@ -5,7 +5,7 @@ import type { SizeType } from '../config-provider/SizeContext';
 
 export interface SpaceCompactItemContextType {
   compactSize?: SizeType;
-  compactDirection?: 'horizontal' | 'vertical';
+  vertical?: boolean;
   isFirstItem?: boolean;
   isLastItem?: boolean;
 }
@@ -20,9 +20,8 @@ export const useCompactItemContext = (prefixCls: string) => {
   const compactItemClassnames = React.useMemo(() => {
     if (!compactItemContext) return '';
 
-    const { compactDirection, isFirstItem, isLastItem } = compactItemContext;
-    const isVertical = compactDirection === 'vertical';
-    const separator = isVertical ? '-vertical-' : '-';
+    const { vertical, isFirstItem, isLastItem } = compactItemContext;
+    const separator = vertical ? '-vertical-' : '-';
 
     return [
       clsx(
@@ -31,13 +30,13 @@ export const useCompactItemContext = (prefixCls: string) => {
           [`${prefixCls}-compact${separator}first-item`]: isFirstItem,
           [`${prefixCls}-compact${separator}last-item`]: isLastItem,
         },
-        !isVertical && {
+        !vertical && {
           '-me-[1px]': !isLastItem,
         },
       ),
       clsx(
         'focus:z-[2]',
-        !isVertical && {
+        !vertical && {
           'rounded-r-none': isFirstItem && !isLastItem,
           'rounded-l-none': isLastItem && !isFirstItem,
           'rounded-none': !isFirstItem && !isLastItem,
@@ -48,7 +47,6 @@ export const useCompactItemContext = (prefixCls: string) => {
 
   return {
     compactSize: compactItemContext?.compactSize,
-    compactDirection: compactItemContext?.compactDirection,
     compactItemClassnames,
   };
 };
@@ -59,7 +57,7 @@ export const NoCompactStyle: React.FC<React.PropsWithChildren> = ({ children }) 
 
 export interface SpaceCompactProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: SizeType;
-  direction?: 'horizontal' | 'vertical';
+  vertical?: boolean;
   block?: boolean;
 }
 
@@ -71,14 +69,14 @@ const CompactItem: React.FC<React.PropsWithChildren<SpaceCompactItemContextType>
 );
 
 const Compact: React.FC<SpaceCompactProps> = (props) => {
-  const { size = 'middle', direction, block, className, children, ...restProps } = props;
+  const { size = 'middle', vertical, block, className, children, ...restProps } = props;
 
   const clx = clsx(
-    {
-      'flex w-full': block,
-      'flex-col': direction === 'vertical',
-    },
     'inline-flex',
+    {
+      ['flex']: block,
+      'flex-col': vertical,
+    },
     className,
   );
 
@@ -94,7 +92,7 @@ const Compact: React.FC<SpaceCompactProps> = (props) => {
           <CompactItem
             key={key}
             compactSize={size}
-            compactDirection={direction}
+            vertical={vertical}
             isFirstItem={i === 0 && (!compactItemContext || compactItemContext?.isFirstItem)}
             isLastItem={
               i === childNodes.length - 1 && (!compactItemContext || compactItemContext?.isLastItem)

@@ -3,7 +3,7 @@ import { Avatar, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" size={24}>
+  <Space vertical size={24}>
     <Avatar.Group>
       <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
       <a href="https://ant.design">

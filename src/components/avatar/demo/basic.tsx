@@ -3,7 +3,7 @@ import { Avatar, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" size={16}>
+  <Space vertical size={16}>
     <Space wrap size={16}>
       <Avatar size={64} icon={<UserOutline />} />
       <Avatar size="large" icon={<UserOutline />} />

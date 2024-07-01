@@ -1,32 +1,23 @@
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
-import useFlexGapSupport from '../_util/hooks/useFlexGapSupport';
 import { ConfigContext } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import Compact from './Compact';
-import Item from './Item';
-
-export const SpaceContext = React.createContext({
-  latestIndex: 0,
-  horizontalSize: 0,
-  verticalSize: 0,
-  supportFlexGap: false,
-});
 
 export type SpaceSize = SizeType | number;
 
 export interface SpaceProps extends React.HTMLAttributes<HTMLDivElement> {
   prefixCls?: string;
   className?: string;
-  itemClassName?: string;
   style?: React.CSSProperties;
   size?: SpaceSize | [SpaceSize, SpaceSize];
-  direction?: 'horizontal' | 'vertical';
-  // No `stretch` since many components do not support that.
+  vertical?: boolean;
+  justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
   align?: 'start' | 'end' | 'center' | 'baseline';
   split?: React.ReactNode;
   wrap?: boolean;
+  block?: boolean;
 }
 
 const spaceSize = {
@@ -45,19 +36,18 @@ const Space: React.FC<SpaceProps> = (props) => {
   const {
     prefixCls: customizePrefixCls,
     size = space?.size || 'small',
+    justify = 'start',
     align,
     className,
-    itemClassName,
     children,
-    direction = 'horizontal',
+    vertical,
     split,
     style,
     wrap = false,
+    block = false,
     ...otherProps
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
-
-  const supportFlexGap = useFlexGapSupport();
 
   const [horizontalSize, verticalSize] = React.useMemo(
     () =>
@@ -70,68 +60,52 @@ const Space: React.FC<SpaceProps> = (props) => {
   const childNodes = toArray(children, { keepEmpty: true });
 
   const prefixCls = getPrefixCls('space', customizePrefixCls);
+  const mergedAlign = align === undefined && !vertical ? 'center' : align;
   const clx = clsx(
     prefixCls,
-    {
-      'flex-col': direction === 'vertical',
-    },
     'inline-flex',
-    align === undefined && direction === 'horizontal' && 'items-center',
-    align === 'start' && `items-start`,
-    align === 'end' && `items-end`,
-    align === 'center' && `items-center`,
-    align === 'baseline' && `items-baseline`,
+    {
+      'flex-col': vertical,
+      ['flex']: block,
+      'flex-wrap': wrap,
+    },
+    {
+      'items-start': mergedAlign === 'start',
+      'items-end': mergedAlign === 'end',
+      'items-center': mergedAlign === 'center',
+      'items-baseline': mergedAlign === 'baseline',
+    },
+    {
+      'justify-start': justify === 'start',
+      'justify-end': justify === 'end',
+      'justify-center': justify === 'center',
+      'justify-around': justify === 'space-around',
+      'justify-between': justify === 'space-between',
+    },
     className,
   );
 
   // Calculate latest one
-  let latestIndex = 0;
+  let latestIndex = childNodes.filter((child) => child !== null && child !== undefined).length - 1;
   const nodes = childNodes.map((child, i) => {
-    if (child !== null && child !== undefined) {
-      latestIndex = i;
+    if (child === null || child === undefined) {
+      return null;
     }
 
-    const key = (child && child.key) || `item-${i}`;
-
     return (
-      <Item
-        className={itemClassName}
-        key={key}
-        direction={direction}
-        index={i}
-        split={split}
-        wrap={wrap}
-      >
+      <>
         {child}
-      </Item>
+        {i < latestIndex && split && <span className={`${prefixCls}-split`}>{split}</span>}
+      </>
     );
   });
-
-  const spaceContext = React.useMemo(
-    () => ({ horizontalSize, verticalSize, latestIndex, supportFlexGap }),
-    [horizontalSize, verticalSize, latestIndex, supportFlexGap],
-  );
 
   // =========================== Render ===========================
   if (childNodes.length === 0) {
     return null;
   }
 
-  const gapStyle: React.CSSProperties = {};
-
-  if (wrap) {
-    gapStyle.flexWrap = 'wrap';
-
-    // Patch for gap not support
-    if (!supportFlexGap) {
-      gapStyle.marginBottom = -verticalSize;
-    }
-  }
-
-  if (supportFlexGap) {
-    gapStyle.columnGap = horizontalSize;
-    gapStyle.rowGap = verticalSize;
-  }
+  const gapStyle: React.CSSProperties = { columnGap: horizontalSize, rowGap: verticalSize };
 
   return (
     <div
@@ -142,7 +116,7 @@ const Space: React.FC<SpaceProps> = (props) => {
       }}
       {...otherProps}
     >
-      <SpaceContext.Provider value={spaceContext}>{nodes}</SpaceContext.Provider>
+      {nodes}
     </div>
   );
 };

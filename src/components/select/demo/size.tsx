@@ -36,7 +36,7 @@ const App: React.FC = () => {
       />
       <br />
       <br />
-      <Space direction="vertical" style={{ width: '100%' }}>
+      <Space vertical block>
         <Select
           size={size}
           defaultValue="a1"

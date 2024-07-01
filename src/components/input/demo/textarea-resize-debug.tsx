@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const [autoResize, setAutoResize] = useState(false);
 
   return (
-    <Space direction="vertical" className="flex">
+    <Space vertical className="flex">
       <Button onClick={() => setAutoResize(!autoResize)} style={{ marginBottom: 8 }}>
         Auto Resize: {String(autoResize)}
       </Button>

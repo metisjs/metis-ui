@@ -2,7 +2,7 @@ import { Badge, Card, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+  <Space vertical size="middle" style={{ width: '100%' }}>
     <Badge.Ribbon text="Hippies">
       <Card title="Pushes open the window" size="small">
         and raises the spyglass.

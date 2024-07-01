@@ -2,7 +2,7 @@ import { Select, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" style={{ width: '100%' }}>
+  <Space vertical block>
     <Select options={[]} status="error" style={{ width: '100%' }} />
     <Select options={[]} status="warning" style={{ width: '100%' }} />
   </Space>

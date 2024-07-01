@@ -3,7 +3,7 @@ import { Input, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" style={{ width: '100%' }}>
+  <Space vertical block>
     <Input status="error" placeholder="Error" />
     <Input status="warning" placeholder="Warning" />
     <Input status="error" prefix={<ClockOutline />} placeholder="Error with prefix" />

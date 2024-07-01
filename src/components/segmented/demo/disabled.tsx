@@ -2,7 +2,7 @@ import { Segmented, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space vertical>
     <Segmented options={['Map', 'Transit', 'Satellite']} disabled />
     <Segmented
       options={[

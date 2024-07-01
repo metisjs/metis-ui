@@ -5,7 +5,7 @@ import React from 'react';
 const icon = <FaceSmileOutline />;
 
 const App: React.FC = () => (
-  <Space direction="vertical" style={{ width: '100%' }}>
+  <Space vertical block>
     <Alert icon={icon} message="showIcon = false" type="success" />
     <Alert icon={icon} message="Success Tips" type="success" showIcon />
     <Alert icon={icon} message="Informational Notes" type="info" showIcon />

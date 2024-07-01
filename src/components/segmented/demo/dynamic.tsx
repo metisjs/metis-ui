@@ -11,7 +11,7 @@ const Demo: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical">
+    <Space vertical>
       <Segmented options={options} />
       <Button type="primary" disabled={moreLoaded} onClick={handleLoadOptions}>
         Load more options

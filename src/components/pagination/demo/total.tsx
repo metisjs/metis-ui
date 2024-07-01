@@ -2,7 +2,7 @@ import { Pagination, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space vertical>
     <Pagination
       total={85}
       showTotal={(total) => `Total ${total} items`}

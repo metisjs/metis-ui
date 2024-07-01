@@ -2,7 +2,7 @@ import { Button, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space vertical>
     <Space>
       <Button type="primary">Primary</Button>
       <Button type="primary" disabled>

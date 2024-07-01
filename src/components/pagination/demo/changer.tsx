@@ -7,7 +7,7 @@ const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize
 };
 
 const App: React.FC = () => (
-  <Space direction="vertical">
+  <Space vertical>
     <Pagination
       showSizeChanger
       onShowSizeChange={onShowSizeChange}

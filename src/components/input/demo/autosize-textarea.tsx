@@ -7,7 +7,7 @@ const App: React.FC = () => {
   const [value, setValue] = useState('');
 
   return (
-    <Space direction="vertical" className="flex">
+    <Space vertical className="flex">
       <TextArea placeholder="Autosize height based on content lines" autoSize />
       <TextArea
         placeholder="Autosize height with minimum and maximum number of lines"

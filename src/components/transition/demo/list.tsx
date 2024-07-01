@@ -29,7 +29,7 @@ export default () => {
   };
 
   return (
-    <Space direction="vertical">
+    <Space vertical>
       <Button onClick={onFlush}>Flush</Button>
       <Checkbox.Group options={keys} value={checkedKeys} onChange={setCheckedKeys} />
       <div>key 3 is a different component with others.</div>

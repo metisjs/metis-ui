@@ -3,7 +3,7 @@ import { Input, Space } from 'metis-ui';
 import React from 'react';
 
 const App: React.FC = () => (
-  <Space direction="vertical" className="flex">
+  <Space vertical className="flex">
     <Input
       placeholder="Enter your username"
       prefix={<UsersSolid />}

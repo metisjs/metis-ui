@@ -14,7 +14,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical" style={{ width: '100%' }}>
+    <Space vertical block>
       <Space wrap>
         <Button
           onClick={() => {

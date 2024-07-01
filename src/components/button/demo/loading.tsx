@@ -22,7 +22,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical">
+    <Space vertical>
       <Space>
         <Button type="primary" loading>
           Loading

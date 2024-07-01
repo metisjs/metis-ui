@@ -32,7 +32,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical" style={{ width: '100%' }}>
+    <Space vertical block>
       <Select {...selectProps} />
       <Select {...selectProps} disabled />
     </Space>

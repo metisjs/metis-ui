@@ -9,7 +9,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical" style={{ width: '100%' }}>
+    <Space vertical block>
       {visible && (
         <Alert message="Alert Message Text" type="success" closable afterClose={handleClose} />
       )}

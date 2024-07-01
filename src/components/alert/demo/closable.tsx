@@ -7,7 +7,7 @@ const onClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 };
 
 const App: React.FC = () => (
-  <Space direction="vertical" style={{ width: '100%' }}>
+  <Space vertical block>
     <Alert
       message="Warning Text Warning Text Warning TextW arning Text Warning Text Warning TextWarning Text"
       type="warning"

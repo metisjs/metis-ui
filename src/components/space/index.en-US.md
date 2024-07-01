@@ -31,11 +31,13 @@ group: Layout
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| justify | Justify Content | `start` \| `end` \| `center` \| `space-around` \| `space-between` | `start` |  |
 | align | Align items | `start` \| `end` \|`center` \|`baseline` | - |  |
-| direction | The space direction | `vertical` \| `horizontal` | `horizontal` |  |
+| vertical | vertical space | boolean | false |  |
 | size | The space size | [Size](#size) \| [Size\[\]](#size) | `small` |  |
 | split | Set split | ReactNode | - |  |
 | wrap | Auto wrap line, when `horizontal` effective | boolean | false |  |
+| block | block-level elements, default is inline elements | boolean | false |  |
 
 ### Size
 
@@ -57,5 +59,5 @@ Use Space.Compact when child form components are compactly connected and the bor
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | block | Option to fit width to its parent\'s width | boolean | false |  |
-| direction | Set direction of layout | `vertical` \| `horizontal` | `horizontal` |  |
+| vertical | vertical space | boolean | false |  |
 | size | Set child component size | `large` \| `middle` \| `small` | `middle` |  |
