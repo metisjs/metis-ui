@@ -2,9 +2,12 @@
 title: Radio
 subtitle: 单选框
 description: 单选框。
+<<<<<<< Updated upstream
 group: 数据录入
 demo:
   cols: 2
+=======
+>>>>>>> Stashed changes
 ---
 
 ## 何时使用
