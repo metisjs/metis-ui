@@ -2,9 +2,7 @@
 title: Card
 subtitle: 卡片
 description: 通用卡片容器。
-group:
-  title: 数据展示
-  order: 4
+group: 数据展示
 ---
 
 ## 何时使用

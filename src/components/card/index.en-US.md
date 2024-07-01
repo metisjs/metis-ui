@@ -1,9 +1,7 @@
 ---
 title: Card
 description: A container for displaying information.
-group:
-  title: Data Display
-  order: 4
+group: Data Display
 ---
 
 ## When To Use

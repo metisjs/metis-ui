@@ -2,9 +2,7 @@
 title: Badge
 subtitle: 徽标数
 description: 图标右上角的圆形徽标数字。
-group:
-  title: 数据展示
-  order: 4
+group: 数据展示
 ---
 
 ## 何时使用

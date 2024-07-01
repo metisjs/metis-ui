@@ -3,6 +3,7 @@ title: Divider
 description: A divider line separates different content.
 group:
   title: Layout
+  order: 1
 ---
 
 ## When To Use

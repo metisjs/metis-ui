@@ -2,9 +2,7 @@
 title: Select
 subtitle: 选择器
 description: 下拉选择器。
-group:
-  title: 数据录入
-  order: 3
+group: 数据录入
 ---
 
 ## 何时使用

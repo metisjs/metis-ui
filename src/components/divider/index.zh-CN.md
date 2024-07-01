@@ -4,6 +4,7 @@ subtitle: 分割线
 description: 区隔内容的分割线。
 group:
   title: 布局
+  order: 1
 ---
 
 ## 何时使用

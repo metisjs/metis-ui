@@ -1,9 +1,7 @@
 ---
 title: Tag
 description: Tag for categorizing or markup.
-group:
-  title: Data Display
-  order: 4
+group: Data Display
 ---
 
 ## When To Use

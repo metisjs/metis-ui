@@ -1,9 +1,7 @@
 ---
 title: Breadcrumb
 description: Display the current location within a hierarchy. And allow going back to states higher up in the hierarchy.
-group:
-  title: Navigation
-  order: 2
+group: Navigation
 ---
 
 ## When To Use

@@ -2,9 +2,7 @@
 title: Spin
 subtitle: 加载中
 description: 用于页面和区块的加载中状态。
-group:
-  title: 反馈
-  order: 5
+group: 反馈
 ---
 
 ## 何时使用

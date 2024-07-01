@@ -1,9 +1,7 @@
 ---
 title: Space
 description: Set components spacing.
-group:
-  title: Layout
-  order: 1
+group: Layout
 ---
 
 ## When To Use

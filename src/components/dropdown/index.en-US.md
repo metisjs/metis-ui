@@ -1,9 +1,7 @@
 ---
 title: Dropdown
 description: A dropdown list.
-group:
-  title: Navigation
-  order: 2
+group: Navigation
 ---
 
 ## When To Use

@@ -1,9 +1,7 @@
 ---
 title: Switch
 description: Switching Selector.
-group:
-  title: Data Entry
-  order: 3
+group: Data Entry
 ---
 
 ## When To Use

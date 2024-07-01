@@ -1,9 +1,7 @@
 ---
 title: Checkbox
 description: Collect user's choices.
-group:
-  title: Data Entry
-  order: 3
+group: Data Entry
 ---
 
 ## When To Use

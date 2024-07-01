@@ -1,9 +1,7 @@
 ---
 title: Popover
 description: The floating card popped by clicking or hovering.
-group:
-  title: Data Display
-  order: 4
+group: Data Display
 ---
 
 ## When To Use

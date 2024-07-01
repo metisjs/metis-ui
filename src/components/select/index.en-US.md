@@ -1,9 +1,7 @@
 ---
 title: Select
 description: Select component to select value from options.
-group:
-  title: Data Entry
-  order: 3
+group: Data Entry
 ---
 
 ## When To Use

@@ -2,9 +2,7 @@
 title: Tag
 subtitle: 标签
 description: 进行标记和分类的小标签。
-group:
-  title: 数据展示
-  order: 4
+group: 数据展示
 ---
 
 ## 何时使用

@@ -2,9 +2,7 @@
 title: Transition
 subtitle: 过渡动画
 description: 允许您向有条件呈现的元素添加进入/离开过渡，使用 CSS 类来控制过渡不同阶段的实际过渡样式。
-group:
-  title: 其他
-  order: 6
+group: 其他
 ---
 
 ## 代码演示

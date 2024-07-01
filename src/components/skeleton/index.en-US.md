@@ -1,9 +1,7 @@
 ---
 title: Skeleton
 description: Provide a placeholder while you wait for content to load, or to visualize content that doesn't exist yet.
-group:
-  title: Feedback
-  order: 5
+group: Feedback
 ---
 
 ## When To Use

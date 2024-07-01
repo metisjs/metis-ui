@@ -1,9 +1,7 @@
 ---
 title: Icon
 description: Semantic vector graphics.
-group:
-  title: General
-  order: 0
+group: General
 ---
 
 > Extended from [heroicons](https://heroicons.com/)

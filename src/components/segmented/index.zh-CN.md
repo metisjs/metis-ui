@@ -2,9 +2,7 @@
 title: Segmented
 subtitle: 分段控制器
 description: 分段控制器。
-group:
-  title: 数据展示
-  order: 4
+group: 数据展示
 ---
 
 ## 何时使用

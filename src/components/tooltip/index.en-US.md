@@ -1,9 +1,7 @@
 ---
 title: Tooltip
 description: A simple text popup tip.
-group:
-  title: Data Display
-  order: 4
+group: Data Display
 ---
 
 ## When To Use

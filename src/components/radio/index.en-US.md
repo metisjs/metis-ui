@@ -1,9 +1,7 @@
 ---
 title: Radio
 description: Radio.
-group:
-  title: Data Entry
-  order: 3
+group: Data Entry
 ---
 
 ## When To Use

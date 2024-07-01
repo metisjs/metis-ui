@@ -2,9 +2,7 @@
 title: Icon
 subtitle: 图标
 description: 语义化的矢量图形。
-group:
-  title: 通用
-  order: 0
+group: 通用
 ---
 
 > 由 [heroicons](https://heroicons.com/) 扩展而来

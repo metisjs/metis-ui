@@ -2,9 +2,7 @@
 title: Menu
 subtitle: 导航菜单
 description: 为页面和功能提供导航的菜单列表。
-group:
-  title: 导航
-  order: 2
+group: 导航
 ---
 
 ## 何时使用

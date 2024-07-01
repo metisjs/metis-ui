@@ -2,9 +2,7 @@
 title: Empty
 subtitle: 空状态
 description: 空状态时的展示占位图。
-group:
-  title: 数据展示
-  order: 4
+group: 数据展示
 ---
 
 ## 何时使用

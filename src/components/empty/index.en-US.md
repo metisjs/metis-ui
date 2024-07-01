@@ -1,9 +1,7 @@
 ---
 title: Empty
 description: Empty state placeholder.
-group:
-  title: Data Display
-  order: 4
+group: Data Display
 ---
 
 ## When To Use

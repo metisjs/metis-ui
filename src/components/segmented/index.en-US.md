@@ -1,9 +1,7 @@
 ---
 title: Segmented
 description: Segmented Controls.
-group:
-  title: Data Display
-  order: 4
+group: Data Display
 ---
 
 ## When To Use

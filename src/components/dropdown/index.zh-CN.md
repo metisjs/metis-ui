@@ -2,9 +2,7 @@
 title: Dropdown
 subtitle: 下拉菜单
 description: 向下弹出的列表。
-group:
-  title: 导航
-  order: 2
+group: 导航
 ---
 
 ## 何时使用
