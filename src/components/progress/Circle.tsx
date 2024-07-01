@@ -2,6 +2,7 @@ import type { ProgressProps as RcProgressProps } from 'rc-progress';
 import { Circle as RCCircle } from 'rc-progress';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
+import { cloneElement } from '../_util/reactNode';
 import Tooltip from '../tooltip';
 import type { ProgressGradient, ProgressProps } from './Progress';
 import { getPercentage, getSize, getStrokeColor } from './utils';
@@ -19,7 +20,7 @@ export interface CircleProps extends ProgressProps {
 const Circle: React.FC<CircleProps> = (props) => {
   const {
     prefixCls,
-    trailColor = null as unknown as string,
+    trailColor = 'hsla(var(--neutral-fill-quaternary))',
     strokeLinecap = 'round',
     gapPosition,
     gapDegree,
@@ -52,11 +53,19 @@ const Circle: React.FC<CircleProps> = (props) => {
 
   // using className to style stroke color
   const isGradient = Object.prototype.toString.call(props.strokeColor) === '[object Object]';
-  const strokeColor = getStrokeColor({ success, strokeColor: props.strokeColor });
-
-  const wrapperClassName = clsx(`${prefixCls}-inner`, {
-    [`${prefixCls}-circle-gradient`]: isGradient,
+  const strokeColor = getStrokeColor({
+    success,
+    strokeColor: props.strokeColor,
+    status: props.status,
   });
+
+  const wrapperClassName = clsx(
+    `${prefixCls}-inner`,
+    {
+      [`${prefixCls}-circle-gradient`]: isGradient,
+    },
+    'relative',
+  );
 
   const circleContent = (
     <RCCircle
@@ -73,7 +82,7 @@ const Circle: React.FC<CircleProps> = (props) => {
     />
   );
 
-  const smallCircle = width <= 20;
+  const smallCircle = width <= 25;
   const node = (
     <div className={wrapperClassName} style={circleStyle}>
       {circleContent}
@@ -82,7 +91,15 @@ const Circle: React.FC<CircleProps> = (props) => {
   );
 
   if (smallCircle) {
-    return <Tooltip title={children}>{node}</Tooltip>;
+    return (
+      <Tooltip
+        title={cloneElement(children, (oriProps) => ({
+          className: clsx(oriProps.className, 'static'),
+        }))}
+      >
+        {node}
+      </Tooltip>
+    );
   }
 
   return node;

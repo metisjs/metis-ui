@@ -127,6 +127,7 @@ const Line: React.FC<LineProps> = (props) => {
   const outerCls = clsx(
     `${prefixCls}-outer`,
     'inline-flex w-full items-center gap-2',
+    { 'gap-1': size === 'small' },
     semanticCls.outer,
   );
   const innerCls = clsx(
@@ -152,7 +153,13 @@ const Line: React.FC<LineProps> = (props) => {
         {infoPosition === 'inner' && children}
       </div>
       {successPercent !== undefined && (
-        <div className={`${prefixCls}-success-bg`} style={successPercentStyle} />
+        <div
+          className={clsx(
+            `${prefixCls}-success-bg`,
+            'absolute left-0 top-0 overflow-hidden rounded-full bg-success transition-all duration-300',
+          )}
+          style={successPercentStyle}
+        />
       )}
     </div>
   );

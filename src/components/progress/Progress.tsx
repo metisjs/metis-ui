@@ -120,18 +120,43 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
     ) {
       text = textFormatter(validProgress(percent), validProgress(successPercent));
     } else if (progressStatus === 'exception') {
-      text = isLineType ? <XCircleSolid /> : <XMarkOutline />;
+      text = isLineType ? (
+        <XCircleSolid
+          className={clsx('h-4 w-4', size === 'small' && 'h-[0.875rem] w-[0.875rem]')}
+        />
+      ) : (
+        <XMarkOutline className="text-[1.5em]" />
+      );
     } else if (progressStatus === 'success') {
-      text = isLineType ? <CheckCircleSolid /> : <CheckOutline />;
+      text = isLineType ? (
+        <CheckCircleSolid
+          className={clsx('h-4 w-4', size === 'small' && 'h-[0.875rem] w-[0.875rem]')}
+        />
+      ) : (
+        <CheckOutline className="text-[1.5em]" />
+      );
     }
 
     return (
       <span
-        className={clsx(`${prefixCls}-text`, {
-          [`${prefixCls}-text-bright`]: isBrightInnerColor,
-          [`${prefixCls}-text-${infoAlign}`]: isPureLineType,
-          [`${prefixCls}-text-${infoPosition}`]: isPureLineType,
-        })}
+        className={clsx(
+          `${prefixCls}-text`,
+          {
+            [`${prefixCls}-text-bright`]: isBrightInnerColor,
+            [`${prefixCls}-text-${infoAlign}`]: isPureLineType,
+            [`${prefixCls}-text-${infoPosition}`]: isPureLineType,
+          },
+          {
+            'flex items-center': type === 'line',
+            'absolute left-0 top-1/2 w-full -translate-y-1/2 text-center':
+              type === 'circle' || type === 'dashboard',
+          },
+          {
+            'text-error': progressStatus === 'exception',
+            'text-success': progressStatus === 'success',
+          },
+          semanticCls.text,
+        )}
         title={typeof text === 'string' ? text : undefined}
       >
         {text}
@@ -202,8 +227,9 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
   const classString = clsx(
     prefixCls,
     `${prefixCls}-status-${progressStatus}`,
-    'inline-block text-sm text-neutral-text',
+    'inline-block text-sm leading-[1] text-neutral-text',
     isPureLineType && 'relative w-full',
+    { 'text-xs': size === 'small' },
     {
       [`${prefixCls}-${(type === 'dashboard' && 'circle') || type}`]: type !== 'line',
       [`${prefixCls}-inline-circle`]: type === 'circle' && getSize(size, 'circle')[0] <= 20,

@@ -19,9 +19,24 @@ export const getPercentage = ({ percent, success }: ProgressProps) => {
 export const getStrokeColor = ({
   success = {},
   strokeColor,
+  status,
 }: Partial<CircleProps>): (string | Record<PropertyKey, string>)[] => {
   const { strokeColor: successColor } = success;
-  return [successColor || 'hsla(var(--success))', strokeColor || null!];
+
+  let statusStrokeColor;
+  switch (status) {
+    case 'success':
+      statusStrokeColor = 'hsla(var(--success))';
+      break;
+    case 'exception':
+      statusStrokeColor = 'hsla(var(--error))';
+      break;
+
+    default:
+      statusStrokeColor = 'hsla(var(--primary))';
+      break;
+  }
+  return [successColor || 'hsla(var(--success))', strokeColor || statusStrokeColor];
 };
 
 export const getSize = (
