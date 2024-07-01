@@ -184,10 +184,10 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     `${prefixCls}-description`,
     'mt-2',
     {
-      'text-success-text': type === 'success',
-      'text-info-text': type === 'info',
-      'text-warning-text': type === 'warning',
-      'text-error-text': type === 'error',
+      'text-success': type === 'success',
+      'text-info': type === 'info',
+      'text-warning': type === 'warning',
+      'text-error': type === 'error',
     },
     semanticCls.description,
   );
