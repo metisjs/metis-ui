@@ -92,11 +92,13 @@ const Space: React.FC<SpaceProps> = (props) => {
       return null;
     }
 
+    const key = (child && child.key) || `item-${i}`;
+
     return (
-      <>
+      <React.Fragment key={key}>
         {child}
         {i < latestIndex && split && <span className={`${prefixCls}-split`}>{split}</span>}
-      </>
+      </React.Fragment>
     );
   });
 
