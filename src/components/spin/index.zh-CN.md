@@ -3,6 +3,8 @@ title: Spin
 subtitle: 加载中
 description: 用于页面和区块的加载中状态。
 group: 反馈
+demo:
+  cols: 2
 ---
 
 ## 何时使用

@@ -3,6 +3,8 @@ title: Checkbox
 subtitle: 多选框
 description: 收集用户的多项选择。
 group: 数据录入
+demo:
+  cols: 2
 ---
 
 ## 何时使用

@@ -3,6 +3,8 @@ title: Radio
 subtitle: 单选框
 description: 单选框。
 group: 数据录入
+demo:
+  cols: 2
 ---
 
 ## 何时使用

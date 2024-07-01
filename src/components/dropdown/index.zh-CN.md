@@ -3,6 +3,8 @@ title: Dropdown
 subtitle: 下拉菜单
 description: 向下弹出的列表。
 group: 导航
+demo:
+  cols: 2
 ---
 
 ## 何时使用

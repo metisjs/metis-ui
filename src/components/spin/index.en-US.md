@@ -2,6 +2,8 @@
 title: Spin
 description: A spinner for displaying loading state of a page or a section.
 group: Feedback
+demo:
+  cols: 2
 ---
 
 ## When To Use

@@ -4,6 +4,8 @@ description: Stick an element to the viewport.
 group:
   title: Other
   order: 6
+demo:
+  cols: 2
 ---
 
 ## When To Use

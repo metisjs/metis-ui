@@ -2,6 +2,8 @@
 title: Tooltip
 description: A simple text popup tip.
 group: Data Display
+demo:
+  cols: 2
 ---
 
 ## When To Use

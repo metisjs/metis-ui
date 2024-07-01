@@ -2,6 +2,8 @@
 title: Switch
 description: Switching Selector.
 group: Data Entry
+demo:
+  cols: 2
 ---
 
 ## When To Use

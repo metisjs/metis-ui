@@ -2,6 +2,8 @@
 title: Radio
 description: Radio.
 group: Data Entry
+demo:
+  cols: 2
 ---
 
 ## When To Use

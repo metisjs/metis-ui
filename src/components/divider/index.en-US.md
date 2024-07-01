@@ -4,6 +4,8 @@ description: A divider line separates different content.
 group:
   title: Layout
   order: 1
+demo:
+  cols: 2
 ---
 
 ## When To Use

@@ -7,6 +7,8 @@ description: To trigger an operation.
 group:
   title: General
   order: 0
+demo:
+  cols: 2
 ---
 
 ## When To Use

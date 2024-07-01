@@ -2,6 +2,8 @@
 title: Tag
 description: Tag for categorizing or markup.
 group: Data Display
+demo:
+  cols: 2
 ---
 
 ## When To Use

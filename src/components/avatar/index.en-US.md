@@ -4,6 +4,8 @@ description: Used to represent users or things, supporting the display of images
 group:
   title: Data Display
   order: 4
+demo:
+  cols: 2
 ---
 
 ## Examples

@@ -4,6 +4,8 @@ description: Display warning messages that require attention.
 group:
   title: Feedback
   order: 5
+demo:
+  cols: 2
 ---
 
 ## When to Use

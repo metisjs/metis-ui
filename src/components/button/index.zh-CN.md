@@ -8,6 +8,8 @@ description: 按钮用于开始一个即时操作。
 group:
   title: 通用
   order: 0
+demo:
+  cols: 2
 ---
 
 ## 何时使用

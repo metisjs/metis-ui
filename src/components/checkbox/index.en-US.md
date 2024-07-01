@@ -2,6 +2,8 @@
 title: Checkbox
 description: Collect user's choices.
 group: Data Entry
+demo:
+  cols: 2
 ---
 
 ## When To Use

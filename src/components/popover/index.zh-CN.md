@@ -3,6 +3,8 @@ title: Popover
 subtitle: 气泡卡片
 description: 点击/鼠标移入元素，弹出气泡式的卡片浮层。
 group: 数据展示
+demo:
+  cols: 2
 ---
 
 ## 何时使用

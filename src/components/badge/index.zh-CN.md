@@ -3,6 +3,8 @@ title: Badge
 subtitle: 徽标数
 description: 图标右上角的圆形徽标数字。
 group: 数据展示
+demo:
+  cols: 2
 ---
 
 ## 何时使用

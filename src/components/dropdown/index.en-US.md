@@ -2,6 +2,8 @@
 title: Dropdown
 description: A dropdown list.
 group: Navigation
+demo:
+  cols: 2
 ---
 
 ## When To Use

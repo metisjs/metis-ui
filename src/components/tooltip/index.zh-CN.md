@@ -3,6 +3,8 @@ title: Tooltip
 subtitle: 文字提示
 description: 简单的文字提示气泡框。
 group: 数据展示
+demo:
+  cols: 2
 ---
 
 ## 何时使用

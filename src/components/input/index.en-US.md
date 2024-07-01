@@ -4,6 +4,8 @@ description: Through mouse or keyboard input content, it is the most basic form 
 group:
   title: Data Entry
   order: 3
+demo:
+  cols: 2
 ---
 
 ## When To Use

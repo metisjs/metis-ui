@@ -5,6 +5,8 @@ description: 区隔内容的分割线。
 group:
   title: 布局
   order: 1
+demo:
+  cols: 2
 ---
 
 ## 何时使用

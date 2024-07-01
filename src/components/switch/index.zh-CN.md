@@ -3,6 +3,8 @@ title: Switch
 subtitle: 开关
 description: 开关选择器。
 group: 数据录入
+demo:
+  cols: 2
 ---
 
 ## 何时使用

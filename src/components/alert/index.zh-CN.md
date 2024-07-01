@@ -5,6 +5,8 @@ description: 警告提示，展现需要关注的信息。
 group:
   title: 反馈
   order: 5
+demo:
+  cols: 2
 ---
 
 ## 何时使用

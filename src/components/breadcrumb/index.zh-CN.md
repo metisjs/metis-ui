@@ -3,6 +3,8 @@ title: Breadcrumb
 subtitle: 面包屑
 description: 显示当前页面在系统层级结构中的位置，并能向上返回。
 group: 导航
+demo:
+  cols: 2
 ---
 
 ## 何时使用

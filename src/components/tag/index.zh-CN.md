@@ -3,6 +3,8 @@ title: Tag
 subtitle: 标签
 description: 进行标记和分类的小标签。
 group: 数据展示
+demo:
+  cols: 2
 ---
 
 ## 何时使用

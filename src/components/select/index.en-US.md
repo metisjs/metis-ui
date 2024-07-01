@@ -2,6 +2,8 @@
 title: Select
 description: Select component to select value from options.
 group: Data Entry
+demo:
+  cols: 2
 ---
 
 ## When To Use
