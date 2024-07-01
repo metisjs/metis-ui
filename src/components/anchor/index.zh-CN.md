@@ -1,12 +1,11 @@
 ---
 title: Anchor
 subtitle: 锚点
+description: 用于跳转到页面指定位置。
 group:
   title: 导航
   order: 2
 ---
-
-用于跳转到页面指定位置。
 
 ## 何时使用
 

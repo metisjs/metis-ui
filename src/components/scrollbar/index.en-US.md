@@ -1,11 +1,10 @@
 ---
 title: Scrollbar
+description: A scrollbar that can hide automatically.
 group:
   title: Other
   order: 6
 ---
-
-A scrollbar that can hide automatically.
 
 > Extended from [rc-scrollbars](https://github.com/sakhnyuk/rc-scrollbars)
 

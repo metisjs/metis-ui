@@ -1,11 +1,10 @@
 ---
 title: Checkbox
+description: Collect user's choices.
 group:
   title: Data Entry
   order: 3
 ---
-
-Collect user's choices.
 
 ## When To Use
 

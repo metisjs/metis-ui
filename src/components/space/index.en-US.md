@@ -1,11 +1,10 @@
 ---
 title: Space
+description: Set components spacing.
 group:
   title: Layout
   order: 1
 ---
-
-Set components spacing.
 
 ## When To Use
 

@@ -1,11 +1,10 @@
 ---
 title: Avatar
+description: Used to represent users or things, supporting the display of images, icons, or characters.
 group:
   title: Data Display
   order: 4
 ---
-
-Used to represent users or things, supporting the display of images, icons, or characters.
 
 ## Examples
 

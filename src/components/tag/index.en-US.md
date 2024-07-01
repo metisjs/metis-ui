@@ -1,11 +1,10 @@
 ---
 title: Tag
+description: Tag for categorizing or markup.
 group:
   title: Data Display
   order: 4
 ---
-
-Tag for categorizing or markup.
 
 ## When To Use
 

@@ -1,11 +1,10 @@
 ---
 title: Radio
+description: Radio.
 group:
   title: Data Entry
   order: 3
 ---
-
-Radio.
 
 ## When To Use
 

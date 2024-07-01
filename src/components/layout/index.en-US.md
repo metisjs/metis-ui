@@ -1,11 +1,10 @@
 ---
 title: Layout
+description: Handling the overall layout of a page.
 group:
   title: Layout
   order: 1
 ---
-
-Handling the overall layout of a page.
 
 ## Specification
 

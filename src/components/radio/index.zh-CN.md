@@ -1,12 +1,11 @@
 ---
 title: Radio
 subtitle: 单选框
+description: 单选框。
 group:
   title: 数据录入
   order: 3
 ---
-
-单选框。
 
 ## 何时使用
 

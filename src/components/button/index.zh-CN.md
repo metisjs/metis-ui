@@ -4,12 +4,11 @@ nav:
   order: 1
 title: Button
 subtitle: 按钮
+description: 按钮用于开始一个即时操作。
 group:
   title: 通用
   order: 0
 ---
-
-按钮用于开始一个即时操作。
 
 ## 何时使用
 

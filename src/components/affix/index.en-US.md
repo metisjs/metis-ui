@@ -1,11 +1,10 @@
 ---
 title: Affix
+description: Stick an element to the viewport.
 group:
   title: Other
   order: 6
 ---
-
-Stick an element to the viewport.
 
 ## When To Use
 

@@ -1,12 +1,11 @@
 ---
 title: Avatar
 subtitle: 头像
+description: 用来代表用户或事物，支持图片、图标或字符展示。
 group:
   title: 数据展示
   order: 4
 ---
-
-用来代表用户或事物，支持图片、图标或字符展示。
 
 ## 代码演示
 

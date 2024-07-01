@@ -1,12 +1,11 @@
 ---
 title: Popover
 subtitle: 气泡卡片
+description: 点击/鼠标移入元素，弹出气泡式的卡片浮层。
 group:
   title: 数据展示
   order: 4
 ---
-
-点击/鼠标移入元素，弹出气泡式的卡片浮层。
 
 ## 何时使用
 

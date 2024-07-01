@@ -1,12 +1,11 @@
 ---
 title: Skeleton
 subtitle: 骨架屏
+description: 在需要等待加载内容的位置提供一个占位图形组合。
 group:
   title: 反馈
   order: 5
 ---
-
-在需要等待加载内容的位置提供一个占位图形组合。
 
 ## 何时使用
 

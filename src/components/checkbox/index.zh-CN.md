@@ -1,12 +1,11 @@
 ---
 title: Checkbox
 subtitle: 多选框
+description: 收集用户的多项选择。
 group:
   title: 数据录入
   order: 3
 ---
-
-收集用户的多项选择。
 
 ## 何时使用
 

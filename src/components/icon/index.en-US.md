@@ -1,11 +1,10 @@
 ---
 title: Icon
+description: Semantic vector graphics.
 group:
   title: General
   order: 0
 ---
-
-Semantic vector graphics.
 
 > Extended from [heroicons](https://heroicons.com/)
 

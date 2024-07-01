@@ -1,11 +1,10 @@
 ---
 title: Alert
+description: Display warning messages that require attention.
 group:
   title: Feedback
   order: 5
 ---
-
-Display warning messages that require attention.
 
 ## When to Use
 

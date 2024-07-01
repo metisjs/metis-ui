@@ -1,11 +1,10 @@
 ---
 title: Dropdown
+description: A dropdown list.
 group:
   title: Navigation
   order: 2
 ---
-
-A dropdown list.
 
 ## When To Use
 

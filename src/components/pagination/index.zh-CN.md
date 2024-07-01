@@ -1,11 +1,10 @@
 ---
 title: Pagination
 subtitle: 分页
+description: 分页器用于分隔长列表，每次只加载一个页面。
 group:
   title: 导航
 ---
-
-分页器用于分隔长列表，每次只加载一个页面。
 
 ## 何时使用
 

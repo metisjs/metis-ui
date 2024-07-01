@@ -3,12 +3,11 @@ nav:
   title: Components
   order: 1
 title: Button
+description: To trigger an operation.
 group:
   title: General
   order: 0
 ---
-
-To trigger an operation.
 
 ## When To Use
 

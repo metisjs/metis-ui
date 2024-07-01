@@ -1,12 +1,11 @@
 ---
 title: Space
 subtitle: 间距
+description: 设置组件之间的间距。
 group:
   title: 布局
   order: 1
 ---
-
-设置组件之间的间距。
 
 ## 何时使用
 

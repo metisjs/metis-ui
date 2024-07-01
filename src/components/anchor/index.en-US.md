@@ -1,11 +1,10 @@
 ---
 title: Anchor
+description: Hyperlinks to scroll on one page.
 group:
   title: Navigation
   order: 2
 ---
-
-Hyperlinks to scroll on one page.
 
 ## When To Use
 

@@ -1,12 +1,11 @@
 ---
 title: Affix
 subtitle: 固钉
+description: 将页面元素钉在可视范围。
 group:
   title: 其他
   order: 6
 ---
-
-将页面元素钉在可视范围。
 
 ## 何时使用
 

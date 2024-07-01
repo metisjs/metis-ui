@@ -1,10 +1,9 @@
 ---
 title: Divider
+description: A divider line separates different content.
 group:
   title: Layout
 ---
-
-A divider line separates different content.
 
 ## When To Use
 

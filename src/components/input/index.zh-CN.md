@@ -1,12 +1,11 @@
 ---
 title: Input
 subtitle: 输入框
+description: 通过鼠标或键盘输入内容，是最基础的表单域的包装。
 group:
   title: 数据录入
   order: 3
 ---
-
-通过鼠标或键盘输入内容，是最基础的表单域的包装。
 
 ## 何时使用
 

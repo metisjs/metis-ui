@@ -1,10 +1,9 @@
 ---
 title: Pagination
+description: A long list can be divided into several pages, and only one page will be loaded at a time.
 group:
   title: Navigation
 ---
-
-A long list can be divided into several pages, and only one page will be loaded at a time.
 
 ## When To Use
 

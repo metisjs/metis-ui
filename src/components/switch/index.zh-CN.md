@@ -1,12 +1,11 @@
 ---
 title: Switch
 subtitle: 开关
+description: 开关选择器。
 group:
   title: 数据录入
   order: 3
 ---
-
-开关选择器。
 
 ## 何时使用
 

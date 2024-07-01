@@ -1,12 +1,11 @@
 ---
 title: Layout
 subtitle: 布局
+description: 协助进行页面级整体布局。
 group:
   title: 布局
   order: 1
 ---
-
-协助进行页面级整体布局。
 
 ## 设计规则
 

@@ -1,12 +1,11 @@
 ---
 title: Alert
 subtitle: 警告提示
+description: 警告提示，展现需要关注的信息。
 group:
   title: 反馈
   order: 5
 ---
-
-警告提示，展现需要关注的信息。
 
 ## 何时使用
 

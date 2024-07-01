@@ -1,11 +1,10 @@
 ---
 title: Spin
+description: A spinner for displaying loading state of a page or a section.
 group:
   title: Feedback
   order: 5
 ---
-
-A spinner for displaying loading state of a page or a section.
 
 ## When To Use
 

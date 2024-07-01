@@ -1,12 +1,11 @@
 ---
 title: Badge
 subtitle: 徽标数
+description: 图标右上角的圆形徽标数字。
 group:
   title: 数据展示
   order: 4
 ---
-
-图标右上角的圆形徽标数字。
 
 ## 何时使用
 

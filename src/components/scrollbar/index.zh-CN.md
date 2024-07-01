@@ -1,12 +1,11 @@
 ---
 title: Scrollbar
 subtitle: 滚动条
+description: 可以自动隐藏的滚动条。
 group:
   title: 其他
   order: 6
 ---
-
-可以自动隐藏的滚动条。
 
 > 由 [rc-scrollbars](https://github.com/sakhnyuk/rc-scrollbars) 扩展而来
 

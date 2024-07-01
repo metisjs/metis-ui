@@ -1,12 +1,11 @@
 ---
 title: Transition
 subtitle: Animation Transitions
+description: Allows you to add enter/leave transitions to conditionally rendered elements using CSS classes to control the transition styles at different stages.
 group:
   title: Others
   order: 6
 ---
-
-Allows you to add enter/leave transitions to conditionally rendered elements using CSS classes to control the transition styles at different stages.
 
 ## Code Demonstration
 

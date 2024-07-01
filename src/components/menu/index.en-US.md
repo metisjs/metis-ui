@@ -1,11 +1,10 @@
 ---
 title: Menu
+description: A versatile menu for navigation.
 group:
   title: Navigation
   order: 2
 ---
-
-A versatile menu for navigation.
 
 ## When To Use
 

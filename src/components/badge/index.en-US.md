@@ -1,11 +1,10 @@
 ---
 title: Badge
+description: Small numerical value or status descriptor for UI elements.
 group:
   title:Data Display
   order: 4
 ---
-
-Small numerical value or status descriptor for UI elements.
 
 ## When To Use
 

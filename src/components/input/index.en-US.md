@@ -1,11 +1,10 @@
 ---
 title: Input
+description: Through mouse or keyboard input content, it is the most basic form field wrapper.
 group:
   title: Data Entry
   order: 3
 ---
-
-Through mouse or keyboard input content, it is the most basic form field wrapper.
 
 ## When To Use
 

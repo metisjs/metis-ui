@@ -1,11 +1,10 @@
 ---
 title: Switch
+description: Switching Selector.
 group:
   title: Data Entry
   order: 3
 ---
-
-Switching Selector.
 
 ## When To Use
 
