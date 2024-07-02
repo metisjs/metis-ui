@@ -1,17 +1,17 @@
 import { useContext } from 'react';
 
+import { ConfigContext, Variant, Variants } from 'metis-ui/es/config-provider/context';
 import { VariantContext } from '../context';
 
-export const Variants = ['outlined', 'borderless', 'filled'] as const;
-export type Variant = (typeof Variants)[number];
 const useVariant = (variant: Variant | undefined): [Variant, boolean] => {
+  const { variant: configVariant } = useContext(ConfigContext);
   const ctxVariant = useContext(VariantContext);
 
   let mergedVariant: Variant;
   if (typeof variant !== 'undefined') {
     mergedVariant = variant;
   } else {
-    mergedVariant = ctxVariant ?? 'outlined';
+    mergedVariant = ctxVariant ?? configVariant ?? 'outlined';
   }
 
   const enableVariantCls = Variants.includes(mergedVariant);

@@ -6,6 +6,9 @@ import type { RenderEmptyHandler } from './defaultRenderEmpty';
 
 export type PopupOverflow = 'viewport' | 'scroll';
 
+export const Variants = ['outlined', 'borderless', 'filled'] as const;
+export type Variant = (typeof Variants)[number];
+
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
@@ -22,6 +25,7 @@ export interface ConfigConsumerProps {
     size?: SizeType | number;
   };
   virtual?: boolean;
+  variant?: Variant;
   popupMatchSelectWidth?: boolean;
   popupOverflow?: PopupOverflow;
   form?: {

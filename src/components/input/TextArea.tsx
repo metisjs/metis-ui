@@ -11,9 +11,10 @@ import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
+import { Variant } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
-import useVariant, { Variant } from '../form/hooks/useVariants';
+import useVariant from '../form/hooks/useVariants';
 import type { InputFocusOptions } from './Input';
 import { triggerFocus } from './Input';
 
