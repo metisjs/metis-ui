@@ -32,12 +32,13 @@ export type ProgressAriaProps = Pick<React.AriaAttributes, 'aria-label' | 'aria-
 
 export interface ProgressProps extends ProgressAriaProps {
   prefixCls?: string;
-  className?: SemanticClassName<'outer' | 'inner' | 'text'>;
+  className?: SemanticClassName<'outer' | 'trail' | 'text'>;
   type?: ProgressType;
   percent?: number;
   format?: (percent?: number, successPercent?: number) => React.ReactNode;
   status?: (typeof ProgressStatuses)[number];
   showInfo?: boolean;
+  strokeWidth?: number;
   strokeLinecap?: 'butt' | 'square' | 'round';
   strokeColor?: string | string[] | ProgressGradient;
   trailColor?: string;
@@ -147,14 +148,29 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
             [`${prefixCls}-text-${infoPosition}`]: isPureLineType,
           },
           {
-            'flex items-center': type === 'line',
-            'absolute left-0 top-1/2 w-full -translate-y-1/2 text-center':
-              type === 'circle' || type === 'dashboard',
-          },
-          {
             'text-error': progressStatus === 'exception',
             'text-success': progressStatus === 'success',
           },
+          (type === 'circle' || type === 'dashboard') &&
+            'absolute left-0 top-1/2 w-full -translate-y-1/2 text-center',
+          type === 'line' &&
+            infoPosition === 'outer' && {
+              'flex items-center': true,
+              'ms-2': infoAlign === 'end',
+              'ms-1': infoAlign === 'end' && size === 'small',
+              'me-2': infoAlign === 'start',
+              'me-1': infoAlign === 'start' && size === 'small',
+              'mt-1': infoAlign === 'center',
+              'mt-[0.125rem]': infoAlign === 'center' && size === 'small',
+            },
+          type === 'line' &&
+            infoPosition === 'inner' && {
+              'ms-0 flex h-full w-full items-center px-1 text-white': true,
+              'justify-start': infoAlign === 'start',
+              'justify-center': infoAlign === 'center',
+              'justify-end': infoAlign === 'end',
+              'text-neutral-text-tertiary': isBrightInnerColor,
+            },
           semanticCls.text,
         )}
         title={typeof text === 'string' ? text : undefined}
@@ -252,7 +268,13 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
       aria-valuenow={percentNumber}
       aria-valuemin={0}
       aria-valuemax={100}
-      {...omit(restProps, ['trailColor', 'gapDegree', 'gapPosition', 'strokeLinecap'])}
+      {...omit(restProps, [
+        'trailColor',
+        'strokeWidth',
+        'gapDegree',
+        'gapPosition',
+        'strokeLinecap',
+      ])}
     >
       {progress}
     </div>

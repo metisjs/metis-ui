@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { ProgressProps } from './Progress';
 import { getSize } from './utils';
 
@@ -14,13 +14,20 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
     size,
     steps,
     percent = 0,
+    strokeWidth = 8,
     strokeColor,
     trailColor = null as any,
     prefixCls,
     children,
+    className,
+    status,
   } = props;
+  const semanticCls = getSemanticCls(className);
+
   const current = Math.round(steps * (percent / 100));
-  const [width, height] = getSize(size, 'step', { steps });
+  const stepWidth = size === 'small' ? 2 : 14;
+  const mergedSize = size ?? [stepWidth, strokeWidth];
+  const [width, height] = getSize(mergedSize, 'step', { steps, strokeWidth });
   const unitWidth = width / steps;
   const styledSteps: React.ReactNode[] = new Array(steps);
   for (let i = 0; i < steps; i++) {
@@ -28,9 +35,19 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
     styledSteps[i] = (
       <div
         key={i}
-        className={clsx(`${prefixCls}-steps-item`, {
-          [`${prefixCls}-steps-item-active`]: i <= current - 1,
-        })}
+        className={clsx(
+          `${prefixCls}-steps-item`,
+          {
+            [`${prefixCls}-steps-item-active`]: i <= current - 1,
+          },
+          'me-[0.125rem] bg-neutral-fill-quaternary last-of-type:me-0',
+          i <= current - 1 && {
+            'bg-primary': true,
+            'bg-success': status === 'success',
+            'bg-error': status === 'exception',
+          },
+          semanticCls.trail,
+        )}
         style={{
           backgroundColor: i <= current - 1 ? color : trailColor,
           width: unitWidth,
@@ -40,7 +57,7 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
     );
   }
   return (
-    <div className={`${prefixCls}-steps-outer`}>
+    <div className={clsx(`${prefixCls}-steps-outer`, 'flex items-center', semanticCls.outer)}>
       {styledSteps}
       {children}
     </div>

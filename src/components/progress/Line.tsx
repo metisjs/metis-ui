@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { devUseWarning } from '../_util/warning';
 import type {
   PercentPositionType,
   ProgressGradient,
@@ -76,6 +77,7 @@ const Line: React.FC<LineProps> = (props) => {
     prefixCls,
     percent,
     size,
+    strokeWidth,
     strokeColor,
     strokeLinecap = 'round',
     children,
@@ -96,7 +98,15 @@ const Line: React.FC<LineProps> = (props) => {
 
   const borderRadius = strokeLinecap === 'square' || strokeLinecap === 'butt' ? 0 : undefined;
 
-  const [width, height] = getSize(size, 'line');
+  const mergedSize = size ?? [-1, strokeWidth || (size === 'small' ? 6 : 8)];
+
+  const [width, height] = getSize(mergedSize, 'line', { strokeWidth });
+
+  if (process.env.NODE_ENV !== 'production') {
+    const warning = devUseWarning('Progress');
+
+    warning.deprecated(!('strokeWidth' in props), 'strokeWidth', 'size');
+  }
 
   const trailStyle: React.CSSProperties = {
     backgroundColor: trailColor || undefined,
@@ -124,16 +134,11 @@ const Line: React.FC<LineProps> = (props) => {
     width: width < 0 ? '100%' : width,
   };
 
-  const outerCls = clsx(
-    `${prefixCls}-outer`,
-    'inline-flex w-full items-center gap-2',
-    { 'gap-1': size === 'small' },
-    semanticCls.outer,
-  );
+  const outerCls = clsx(`${prefixCls}-outer`, 'inline-flex w-full items-center', semanticCls.outer);
   const innerCls = clsx(
     `${prefixCls}-inner`,
     'relative inline-block w-full flex-1 overflow-hidden rounded-full bg-neutral-fill-quaternary align-middle',
-    semanticCls.inner,
+    semanticCls.trail,
   );
   const innerBgCls = clsx(
     `${prefixCls}-bg`,
@@ -144,6 +149,9 @@ const Line: React.FC<LineProps> = (props) => {
         status === 'active',
       'bg-success': status === 'success',
       'bg-error': status === 'exception',
+    },
+    {
+      'min-w-max': infoPosition === 'inner',
     },
   );
 
@@ -168,7 +176,9 @@ const Line: React.FC<LineProps> = (props) => {
   const isOuterEnd = infoPosition === 'outer' && infoAlign === 'end';
 
   return infoPosition === 'outer' && infoAlign === 'center' ? (
-    <div className={`${prefixCls}-layout-bottom`}>
+    <div
+      className={clsx(`${prefixCls}-layout-bottom`, 'flex flex-col items-center justify-center')}
+    >
       {lineInner}
       {children}
     </div>

@@ -39,6 +39,7 @@ group: 反馈
 
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化 class | string \| Record<'root' \| 'outer' \| 'trail' \| 'text', string> | - |  |
 | format | 内容的模板函数 | function(percent, successPercent) | (percent) => percent + `%` | - |
 | percent | 百分比 | number | 0 | - |
 | showInfo | 是否显示进度数值或状态图标 | boolean | true | - |
@@ -48,7 +49,7 @@ group: 反馈
 | success | 成功进度条相关配置 | { percent: number, strokeColor: string } | - | - |
 | trailColor | 未完成的分段的颜色 | string | - | - |
 | type | 类型，可选 `line` `circle` `dashboard` | string | `line` | - |
-| size | 进度条的尺寸 | number \| \[number \| string, number] \| { width: number, height: number } \| "small" \| "default" | "default" | , Object: |
+| size | 进度条的尺寸 | number \| \[number \| string, number] \| { width: number, height: number } \| "small" \| "default" | "default" |  |
 
 ### `type="line"`
 
@@ -71,6 +72,6 @@ group: 反馈
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | steps | 进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。 | number \| { count: number, gap: number } | - |  |
-| gapDegree | 仪表盘进度条缺口角度，可取值 0 ~ 295 | number | 75 | - |
-| gapPosition | 仪表盘进度条缺口位置 | `top` \| `bottom` \| `left` \| `right` | `bottom` | - |
-| strokeWidth | 仪表盘进度条线的宽度，单位是进度条画布宽度的百分比 | number | 6 | - |
+| gapDegree | 仪表盘进度条缺口角度，可取值 0 ~ 295 | number | 75 |  |
+| gapPosition | 仪表盘进度条缺口位置 | `top` \| `bottom` \| `left` \| `right` | `bottom` |  |
+| strokeWidth | 仪表盘进度条线的宽度，单位是进度条画布宽度的百分比 | number | 6 |  |

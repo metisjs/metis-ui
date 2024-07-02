@@ -33,7 +33,10 @@ const Circle: React.FC<CircleProps> = (props) => {
 
   const [width, height] = getSize(size, 'circle');
 
-  const strokeWidth = Math.max(getMinPercent(width), 6);
+  let { strokeWidth } = props;
+  if (strokeWidth === undefined) {
+    strokeWidth = Math.max(getMinPercent(width), 6);
+  }
 
   const circleStyle: React.CSSProperties = { width, height, fontSize: width * 0.15 + 6 };
 
