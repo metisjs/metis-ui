@@ -155,16 +155,16 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
     {
       [`${prefixCls}-lock`]: dragging,
     },
-    'group relative cursor-pointer py-1 text-sm text-neutral-text',
-    { '': vertical, 'mx-1 my-3 h-3 py-1': !vertical },
-    !isEmpty(marks) && 'mb-8',
+    'group relative cursor-pointer text-sm text-neutral-text',
+    { 'mx-3 my-1 h-full px-1': vertical, 'mx-1 my-3 h-3 py-1': !vertical },
+    !isEmpty(marks) && { 'mr-8': vertical, 'mb-8': !vertical },
     mergedDisabled && 'cursor-not-allowed opacity-disabled',
     semanticCls.root,
   );
 
   const railCls = clsx(
     'absolute rounded-full bg-neutral-fill-quaternary transition-colors',
-    { '': vertical, 'h-1 w-full': !vertical },
+    { 'h-full w-1': vertical, 'h-1 w-full': !vertical },
     !mergedDisabled && 'group-hover:bg-neutral-fill-tertiary',
     semanticCls.rail,
   );
@@ -188,11 +188,30 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
     semanticCls.handle,
   );
 
+  const marksCls = clsx(
+    'absolute',
+    { 'left-4 top-0 h-full': vertical, 'left-0 top-3 w-full': !vertical },
+    semanticCls.marks,
+  );
+
   const markCls = clsx(
-    'absolute rounded-full bg-primary',
-    { 'w-1': vertical, 'h-1': !vertical },
-    !mergedDisabled && 'group-hover:bg-primary-hover',
-    semanticCls.track,
+    'absolute inline-block cursor-pointer select-none break-keep text-center text-neutral-text-tertiary',
+    mergedDisabled && 'cursor-not-allowed',
+    semanticCls.mark,
+  );
+
+  const activeMarkCls = clsx('text-neutral-text', semanticCls.activeMark);
+
+  const dotCls = clsx(
+    'absolute h-1 w-1 rounded-full bg-neutral-bg-elevated ring-2 ring-neutral-fill-quaternary',
+    !mergedDisabled && 'group-hover:ring-neutral-fill-tertiary',
+    semanticCls.dot,
+  );
+
+  const activeDotCls = clsx(
+    'ring-primary',
+    !mergedDisabled && 'group-hover:ring-primary-hover',
+    semanticCls.activeDot,
   );
 
   // ============================= Multiple =============================
@@ -306,17 +325,29 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       }
     : undefined;
 
-  // ============================== Render ==============================
-
   const classNames = React.useMemo(
     () => ({
       rail: railCls,
       track: trackCls,
       handle: handleCls,
       mark: markCls,
+      activeMark: activeMarkCls,
+      marks: marksCls,
       tracks: semanticCls.tracks,
+      dot: dotCls,
+      activeDot: activeDotCls,
     }),
-    [railCls, trackCls, handleCls, markCls, semanticCls.tracks],
+    [
+      railCls,
+      trackCls,
+      handleCls,
+      marksCls,
+      markCls,
+      activeMarkCls,
+      activeDotCls,
+      dotCls,
+      semanticCls.tracks,
+    ],
   );
 
   return (

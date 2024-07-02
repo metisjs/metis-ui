@@ -33,7 +33,7 @@ To input a value in a range.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |  |
-| classNames | Semantic structure className | [Record<SemanticDOM, string>](#semantic-dom) | - |  |
+| classNames | Semantic structure class | Record<'root' \| 'tracks' \| 'track' \| 'rail' \| 'handle' \| 'marks' \| 'mark' \| 'activeMark' \| 'dot' \| 'activeDot', string> | - |  |
 | defaultValue | The default value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
 | disabled | If true, the slider will not be intractable | boolean | false |  |
 | keyboard | Support using keyboard to move handlers | boolean | true | + |
@@ -45,7 +45,6 @@ To input a value in a range.
 | range | Dual thumb mode | boolean | false |  |
 | reverse | Reverse the component | boolean | false |  |
 | step | The granularity the slider can step through values. Must greater than 0, and be divided by (max - min) . When `step` is `null` but exist `marks`, the valid point will only be the `mark`, `min` and `max` | number \| null | 1 |  |
-| styles | Semantic structure style | [Record<SemanticDOM, React.CSSProperties>](#semantic-dom) | - |  |
 | tooltip | The tooltip relate props | [tooltip](#tooltip) | - |  |
 | value | The value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | - |  |
 | vertical | If true, the slider will be vertical | boolean | false |  |

@@ -15,7 +15,7 @@ patchedDependencies:
     hash: qc2qwrp5o6rwcjcba2vg7y62v4
     path: patches/rc-overflow@1.3.1.patch
   rc-slider@10.6.2:
-    hash: awd4moycge52z6ecohywjuw2qi
+    hash: kkiat36cjavbtnq7lhp77nmlry
     path: patches/rc-slider@10.6.2.patch
   rc-textarea@1.7.0:
     hash: xkdbu5vehnga3y473knshiw57m
@@ -72,7 +72,7 @@ dependencies:
     version: 1.1.6(react-dom@18.2.0)(react@18.2.0)
   rc-slider:
     specifier: 10.6.2
-    version: 10.6.2(patch_hash=awd4moycge52z6ecohywjuw2qi)(react-dom@18.2.0)(react@18.2.0)
+    version: 10.6.2(patch_hash=kkiat36cjavbtnq7lhp77nmlry)(react-dom@18.2.0)(react@18.2.0)
   rc-textarea:
     specifier: 1.7.0
     version: 1.7.0(patch_hash=xkdbu5vehnga3y473knshiw57m)(react-dom@18.2.0)(react@18.2.0)
@@ -5125,7 +5125,7 @@ packages:
       rc-resize-observer: 1.4.0(react-dom@18.2.0)(react@18.2.0)
       rc-segmented: 2.3.0(react-dom@18.2.0)(react@18.2.0)
       rc-select: 14.14.0(react-dom@18.2.0)(react@18.2.0)
-      rc-slider: 10.6.2(patch_hash=awd4moycge52z6ecohywjuw2qi)(react-dom@18.2.0)(react@18.2.0)
+      rc-slider: 10.6.2(patch_hash=kkiat36cjavbtnq7lhp77nmlry)(react-dom@18.2.0)(react@18.2.0)
       rc-steps: 6.0.1(react-dom@18.2.0)(react@18.2.0)
       rc-switch: 4.1.0(react-dom@18.2.0)(react@18.2.0)
       rc-table: 7.45.7(react-dom@18.2.0)(react@18.2.0)
@@ -14329,7 +14329,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: true
 
-  /rc-slider@10.6.2(patch_hash=awd4moycge52z6ecohywjuw2qi)(react-dom@18.2.0)(react@18.2.0):
+  /rc-slider@10.6.2(patch_hash=kkiat36cjavbtnq7lhp77nmlry)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-FjkoFjyvUQWcBo1F3RgSglky3ar0+qHLM41PlFVYB4Bj3RD8E/Mv7kqMouLFBU+3aFglMzzctAIWRwajEuueSw==}
     engines: {node: '>=8.x'}
     peerDependencies:
