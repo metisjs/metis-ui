@@ -11,17 +11,9 @@ index 60f677541ad279caddd71d161bbe6d72c88a7f96..3000801d108395da7ced5f111c8f8afe
      onClick: (value: number) => void;
  }
 diff --git a/es/Marks/Mark.js b/es/Marks/Mark.js
-index e0f8f50be1e25d29f84345b0bf81a5839e074fc0..00f434d52a2caba51cc2bce80bf150bed88eaf6e 100644
+index e0f8f50be1e25d29f84345b0bf81a5839e074fc0..ecac92a4f124a5016ed44640e46b2ce0d7ba93dd 100644
 --- a/es/Marks/Mark.js
 +++ b/es/Marks/Mark.js
-@@ -1,6 +1,6 @@
- import _objectSpread from "@babel/runtime/helpers/esm/objectSpread2";
- import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
--import classNames from 'classnames';
-+import cls from 'classnames';
- import * as React from 'react';
- import SliderContext from "../context";
- import { getDirectionStyle } from "../util";
 @@ -9,6 +9,7 @@ var Mark = function Mark(props) {
      style = props.style,
      children = props.children,
@@ -30,20 +22,12 @@ index e0f8f50be1e25d29f84345b0bf81a5839e074fc0..00f434d52a2caba51cc2bce80bf150be
      _onClick = props.onClick;
    var _React$useContext = React.useContext(SliderContext),
      min = _React$useContext.min,
-@@ -16,13 +17,14 @@ var Mark = function Mark(props) {
-     direction = _React$useContext.direction,
-     includedStart = _React$useContext.includedStart,
-     includedEnd = _React$useContext.includedEnd,
--    included = _React$useContext.included;
-+    included = _React$useContext.included,
-+    classNames = _React$useContext.classNames;
-   var textCls = "".concat(prefixCls, "-text");
- 
+@@ -22,7 +23,7 @@ var Mark = function Mark(props) {
    // ============================ Offset ============================
    var positionStyle = getDirectionStyle(direction, value, min, max);
    return /*#__PURE__*/React.createElement("span", {
 -    className: classNames(textCls, _defineProperty({}, "".concat(textCls, "-active"), included && includedStart <= value && value <= includedEnd)),
-+    className: cls(textCls, _defineProperty({}, "".concat(textCls, "-active"), included && includedStart <= value && value <= includedEnd), classNames.mark, className),
++    className: classNames(textCls, _defineProperty({}, "".concat(textCls, "-active"), included && includedStart <= value && value <= includedEnd), className),
      style: _objectSpread(_objectSpread({}, positionStyle), style),
      onMouseDown: function onMouseDown(e) {
        e.stopPropagation();
@@ -59,7 +43,7 @@ index 5db9b7d0c3295a4b277294b5f1297c835f136fca..ca55fe5d7047ee56d5e18d41e782ecbf
      label?: React.ReactNode;
  }
 diff --git a/es/Marks/index.js b/es/Marks/index.js
-index b40cae73876e366384d94d27f6fafb7214955f11..f7d7f8f7d59e8607b7612754e2ffff6f4a71b5d0 100644
+index b40cae73876e366384d94d27f6fafb7214955f11..3977f7c5dd321bc977b1f5ec5c521e7eb5be8711 100644
 --- a/es/Marks/index.js
 +++ b/es/Marks/index.js
 @@ -1,9 +1,13 @@
@@ -81,7 +65,7 @@ index b40cae73876e366384d94d27f6fafb7214955f11..f7d7f8f7d59e8607b7612754e2ffff6f
    }
    return /*#__PURE__*/React.createElement("div", {
 -    className: markPrefixCls
-+    className: cls(markPrefixCls, classNames.marks)
++    className: cls(markPrefixCls, classNames.mark)
    }, marks.map(function (_ref) {
      var value = _ref.value,
        style = _ref.style,
@@ -97,7 +81,7 @@ index b40cae73876e366384d94d27f6fafb7214955f11..f7d7f8f7d59e8607b7612754e2ffff6f
        onClick: onClick
      }, label);
 diff --git a/es/interface.d.ts b/es/interface.d.ts
-index a662c8c97ed9014afa5156e4684aea4649a90b81..d5a12ee4bd2dbf9b9232474b628952365a7eb784 100644
+index a662c8c97ed9014afa5156e4684aea4649a90b81..16c241db2d804033600db3051391c171c6d45f02 100644
 --- a/es/interface.d.ts
 +++ b/es/interface.d.ts
 @@ -2,6 +2,6 @@ import type React from 'react';
@@ -105,7 +89,7 @@ index a662c8c97ed9014afa5156e4684aea4649a90b81..d5a12ee4bd2dbf9b9232474b62895236
  export type OnStartMove = (e: React.MouseEvent | React.TouchEvent, valueIndex: number, startValues?: number[]) => void;
  export type AriaValueFormat = (value: number) => string;
 -export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle';
-+export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle' | 'marks' | 'mark';
++export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle' | 'mark';
  export type SliderClassNames = Partial<Record<SemanticName, string>>;
  export type SliderStyles = Partial<Record<SemanticName, React.CSSProperties>>;
 diff --git a/lib/Marks/Mark.d.ts b/lib/Marks/Mark.d.ts
@@ -121,7 +105,7 @@ index 60f677541ad279caddd71d161bbe6d72c88a7f96..3000801d108395da7ced5f111c8f8afe
      onClick: (value: number) => void;
  }
 diff --git a/lib/Marks/Mark.js b/lib/Marks/Mark.js
-index 1c454285d5d2a2ed97080d36f15c8ea4fcb3ff8b..0d3684e98db39ff5708012f91ccf59a6085dd3c1 100644
+index 1c454285d5d2a2ed97080d36f15c8ea4fcb3ff8b..0a7e3a20d4830ca4e6c43ba9759709287dfca9c6 100644
 --- a/lib/Marks/Mark.js
 +++ b/lib/Marks/Mark.js
 @@ -19,6 +19,7 @@ var Mark = function Mark(props) {
@@ -132,20 +116,12 @@ index 1c454285d5d2a2ed97080d36f15c8ea4fcb3ff8b..0d3684e98db39ff5708012f91ccf59a6
      _onClick = props.onClick;
    var _React$useContext = React.useContext(_context.default),
      min = _React$useContext.min,
-@@ -26,13 +27,14 @@ var Mark = function Mark(props) {
-     direction = _React$useContext.direction,
-     includedStart = _React$useContext.includedStart,
-     includedEnd = _React$useContext.includedEnd,
--    included = _React$useContext.included;
-+    included = _React$useContext.included,
-+    classNames = _React$useContext.classNames;
-   var textCls = "".concat(prefixCls, "-text");
- 
+@@ -32,7 +33,7 @@ var Mark = function Mark(props) {
    // ============================ Offset ============================
    var positionStyle = (0, _util.getDirectionStyle)(direction, value, min, max);
    return /*#__PURE__*/React.createElement("span", {
 -    className: (0, _classnames.default)(textCls, (0, _defineProperty2.default)({}, "".concat(textCls, "-active"), included && includedStart <= value && value <= includedEnd)),
-+    className: (0, _classnames.default)(textCls, (0, _defineProperty2.default)({}, "".concat(textCls, "-active"), included && includedStart <= value && value <= includedEnd), classNames.mark, className),
++    className: (0, _classnames.default)(textCls, (0, _defineProperty2.default)({}, "".concat(textCls, "-active"), included && includedStart <= value && value <= includedEnd), className),
      style: (0, _objectSpread2.default)((0, _objectSpread2.default)({}, positionStyle), style),
      onMouseDown: function onMouseDown(e) {
        e.stopPropagation();
@@ -161,7 +137,7 @@ index 5db9b7d0c3295a4b277294b5f1297c835f136fca..ca55fe5d7047ee56d5e18d41e782ecbf
      label?: React.ReactNode;
  }
 diff --git a/lib/Marks/index.js b/lib/Marks/index.js
-index 5754e5ce350df09f6506d65ae37363e886d47b20..c701248e4a8316b391f16eecb152f0c2833fbfde 100644
+index 5754e5ce350df09f6506d65ae37363e886d47b20..49bda0e88f93071b8e19108126eca9d455bfff46 100644
 --- a/lib/Marks/index.js
 +++ b/lib/Marks/index.js
 @@ -8,12 +8,16 @@ Object.defineProperty(exports, "__esModule", {
@@ -186,7 +162,7 @@ index 5754e5ce350df09f6506d65ae37363e886d47b20..c701248e4a8316b391f16eecb152f0c2
    }
    return /*#__PURE__*/React.createElement("div", {
 -    className: markPrefixCls
-+    className: (0, _classnames.default)(markPrefixCls, classNames.marks)
++    className: (0, _classnames.default)(markPrefixCls, classNames.mark)
    }, marks.map(function (_ref) {
      var value = _ref.value,
        style = _ref.style,
@@ -202,7 +178,7 @@ index 5754e5ce350df09f6506d65ae37363e886d47b20..c701248e4a8316b391f16eecb152f0c2
        onClick: onClick
      }, label);
 diff --git a/lib/interface.d.ts b/lib/interface.d.ts
-index a662c8c97ed9014afa5156e4684aea4649a90b81..d5a12ee4bd2dbf9b9232474b628952365a7eb784 100644
+index a662c8c97ed9014afa5156e4684aea4649a90b81..16c241db2d804033600db3051391c171c6d45f02 100644
 --- a/lib/interface.d.ts
 +++ b/lib/interface.d.ts
 @@ -2,6 +2,6 @@ import type React from 'react';
@@ -210,6 +186,6 @@ index a662c8c97ed9014afa5156e4684aea4649a90b81..d5a12ee4bd2dbf9b9232474b62895236
  export type OnStartMove = (e: React.MouseEvent | React.TouchEvent, valueIndex: number, startValues?: number[]) => void;
  export type AriaValueFormat = (value: number) => string;
 -export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle';
-+export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle' | 'marks' | 'mark';
++export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle' | 'mark';
  export type SliderClassNames = Partial<Record<SemanticName, string>>;
  export type SliderStyles = Partial<Record<SemanticName, React.CSSProperties>>;

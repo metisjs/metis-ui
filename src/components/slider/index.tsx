@@ -188,7 +188,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
     semanticCls.handle,
   );
 
-  const marksCls = clsx(
+  const markCls = clsx(
     'absolute rounded-full bg-primary',
     { 'w-1': vertical, 'h-1': !vertical },
     !mergedDisabled && 'group-hover:bg-primary-hover',
@@ -313,11 +313,10 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       rail: railCls,
       track: trackCls,
       handle: handleCls,
-      mark: semanticCls.mark,
-      marks: marksCls,
+      mark: markCls,
       tracks: semanticCls.tracks,
     }),
-    [railCls, trackCls, handleCls, marksCls, semanticCls.tracks, semanticCls.mark],
+    [railCls, trackCls, handleCls, markCls, semanticCls.tracks],
   );
 
   return (
