@@ -20,7 +20,7 @@ export default function Popup(props: PopupProps) {
       <div
         className={clsx(
           `${prefixCls}-inner`,
-          'box-border min-h-[32px] min-w-[32px] break-words rounded-md bg-[--metis-arrow-background-color] px-2 py-1.5 text-start text-sm text-white shadow-sm',
+          'box-border min-h-8 break-words rounded-md bg-[--metis-arrow-background-color] px-2 py-1.5 text-start text-sm text-white shadow-sm',
           semanticCls.inner,
         )}
         id={id}
