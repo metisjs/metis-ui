@@ -107,7 +107,11 @@ const Step: React.FC<StepProps> = (props) => {
     size === 'small' && 'h-8 w-8',
   );
 
-  const contentCls = clsx(`${prefixCls}-item-content`, 'mt-[0.125rem] flex-1 overflow-hidden');
+  const contentCls = clsx(
+    `${prefixCls}-item-content`,
+    'mt-[0.125rem] flex-1 overflow-hidden',
+    vertical && 'min-h-14',
+  );
   const tailCls = clsx(`${prefixCls}-item-tail`, 'hidden', vertical && 'block');
   const titleCls = clsx(
     `${prefixCls}-item-title`,
@@ -130,6 +134,7 @@ const Step: React.FC<StepProps> = (props) => {
       'text-primary': status === 'process',
       'text-error': status === 'error',
     },
+    vertical && 'pb-4',
   );
 
   const icons = {
