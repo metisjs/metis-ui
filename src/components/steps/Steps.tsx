@@ -46,8 +46,6 @@ export interface StepsProps {
   className?: SemanticClassName<'item'>;
   current?: number;
   direction?: 'horizontal' | 'vertical';
-  iconPrefix?: string;
-  initial?: number;
   labelPlacement?: 'horizontal' | 'vertical';
   prefixCls?: string;
   progressDot?: boolean | ProgressDotRender;
@@ -72,7 +70,6 @@ const Steps: React.FC<StepsProps> = (props) => {
     size,
     current = 0,
     progressDot = false,
-    initial = 0,
     responsive,
     percent,
     onChange,
@@ -119,9 +116,8 @@ const Steps: React.FC<StepsProps> = (props) => {
     }
   };
 
-  const renderStep = (item: StepProps, index: number) => {
+  const renderStep = (item: StepProps, stepNumber: number) => {
     const mergedItem: StepProps = { ...item };
-    const stepNumber = initial + index;
 
     if (!mergedItem.status) {
       if (stepNumber === current) {
@@ -147,7 +143,7 @@ const Steps: React.FC<StepsProps> = (props) => {
         inline={isInline}
         percent={mergedPercent}
         vertical={mergedDirection === 'vertical'}
-        onStepClick={onStepClick}
+        onStepClick={onChange && onStepClick}
       />
     );
   };

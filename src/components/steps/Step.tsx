@@ -17,7 +17,6 @@ export interface StepProps {
   stepNumber: number;
   status?: StepsStatus;
   title?: React.ReactNode;
-  subTitle?: React.ReactNode;
   description?: React.ReactNode;
   percent?: number;
   size?: 'default' | 'small';
@@ -39,7 +38,6 @@ const Step: React.FC<StepProps> = (props) => {
     disabled,
     description,
     title,
-    subTitle,
     progressDot,
     stepIndex,
     icon,
@@ -52,7 +50,7 @@ const Step: React.FC<StepProps> = (props) => {
   } = props;
 
   // ========================= Click ==========================
-  const clickable = !!onStepClick && !disabled;
+  const clickable = !!onStepClick && !disabled && !active;
 
   const accessibilityProps: {
     role?: string;
@@ -93,26 +91,42 @@ const Step: React.FC<StepProps> = (props) => {
     className,
   );
 
-  const containerCls = clsx(`${prefixCls}-item-container`, 'flex gap-2');
+  const containerCls = clsx(
+    `${prefixCls}-item-container`,
+    'flex gap-3',
+    size === 'small' && 'gap-2',
+  );
+
+  const tailCls = clsx(
+    `${prefixCls}-item-tail`,
+    'hidden',
+    vertical &&
+      'absolute left-[1.125rem] top-0 block h-full w-[1px] pb-2 pt-11 after:inline-block after:h-full after:w-[1px] after:bg-neutral-fill-secondary after:transition-colors group-last-of-type:hidden',
+    vertical && status === 'finish' && 'after:bg-primary',
+    size === 'small' && 'left-[1rem] pb-[0.375rem] pt-[2.375rem]',
+  );
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
     'flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors',
     {
       'border-2 border-primary': status === 'process',
-      'bg-primary-bg': status === 'finish',
+      'bg-primary text-white': status === 'finish',
       'border-2 border-neutral-fill-secondary': status === 'wait',
       'border-2 border-error': status === 'error',
+    },
+    clickable && {
+      'group-hover:bg-primary-hover': status === 'finish',
+      'group-hover:border-neutral-fill group-hover:text-neutral-text': status === 'wait',
     },
     size === 'small' && 'h-8 w-8',
   );
 
   const contentCls = clsx(
     `${prefixCls}-item-content`,
-    'mt-[0.125rem] flex-1 overflow-hidden',
+    'relative mt-[0.125rem] flex-1 overflow-hidden',
     vertical && 'min-h-14',
   );
-  const tailCls = clsx(`${prefixCls}-item-tail`, 'hidden', vertical && 'block');
   const titleCls = clsx(
     `${prefixCls}-item-title`,
     'relative inline-block pe-4 text-base leading-8',
@@ -121,11 +135,10 @@ const Step: React.FC<StepProps> = (props) => {
     {
       'text-neutral-text after:bg-primary': status === 'finish',
     },
+    clickable && {
+      'group-hover:text-neutral-text': status === 'wait',
+    },
     size === 'small' && 'pe-3 text-sm leading-7',
-  );
-  const subTitleCls = clsx(
-    `${prefixCls}-item-subtitle`,
-    'ms-2 inline text-sm leading-8 text-neutral-text-tertiary',
   );
   const descriptionCls = clsx(
     `${prefixCls}-item-description`,
@@ -195,20 +208,10 @@ const Step: React.FC<StepProps> = (props) => {
   let stepNode: React.ReactNode = (
     <div className={rootCls} style={style}>
       <div onClick={onClick} {...accessibilityProps} className={containerCls}>
+        <div className={tailCls}></div>
         <div className={iconCls}>{renderIconNode()}</div>
         <div className={contentCls}>
-          <div className={tailCls}></div>
-          <div className={titleCls}>
-            {title}
-            {!inline && !!subTitle && (
-              <div
-                title={typeof subTitle === 'string' ? subTitle : undefined}
-                className={subTitleCls}
-              >
-                {subTitle}
-              </div>
-            )}
-          </div>
+          <div className={titleCls}>{title}</div>
           {description && <div className={descriptionCls}>{description}</div>}
         </div>
       </div>

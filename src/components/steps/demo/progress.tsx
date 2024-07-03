@@ -13,7 +13,6 @@ const App: React.FC = () => (
       },
       {
         title: 'In Progress',
-        subTitle: 'Left 00:00:08',
         description,
       },
       {

@@ -25,7 +25,7 @@ export default {
     info: 'blue-500',
     'neutral-text': 'gray-900',
     'neutral-border': 'gray-300',
-    'neutral-fill': 'black/18',
+    'neutral-fill': 'black/20',
     'neutral-fill-quinary': 'gray-50',
     'neutral-bg-container': 'white',
     'neutral-bg-elevated': 'white',
