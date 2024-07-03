@@ -1,7 +1,6 @@
 import { isEmpty } from 'lodash';
 import type { SliderProps as RcSliderProps } from 'rc-slider';
 import RcSlider from 'rc-slider';
-import { SemanticName } from 'rc-slider/lib/interface';
 import type { SliderProps, SliderRef } from 'rc-slider/lib/Slider';
 import raf from 'rc-util/lib/raf';
 import React from 'react';
@@ -49,7 +48,7 @@ export interface SliderBaseProps {
   disabled?: boolean;
   keyboard?: boolean;
   vertical?: boolean;
-  className?: SemanticClassName<SemanticName>;
+  className?: SemanticClassName<'tracks' | 'track' | 'rail' | 'handle' | 'mark'>;
   id?: string;
   style?: React.CSSProperties;
   tooltip?: SliderTooltipProps;
@@ -191,28 +190,22 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   const marksCls = clsx(
     'absolute',
     { 'left-4 top-0 h-full': vertical, 'left-0 top-3 w-full': !vertical },
-    semanticCls.marks,
+    semanticCls.mark,
   );
 
   const markCls = clsx(
     'absolute inline-block cursor-pointer select-none break-keep text-center text-neutral-text-tertiary',
     mergedDisabled && 'cursor-not-allowed',
-    semanticCls.mark,
   );
 
-  const activeMarkCls = clsx('text-neutral-text', semanticCls.activeMark);
+  const activeMarkCls = clsx('text-neutral-text');
 
   const dotCls = clsx(
     'absolute h-1 w-1 rounded-full bg-neutral-bg-elevated ring-2 ring-neutral-fill-quaternary',
     !mergedDisabled && 'group-hover:ring-neutral-fill-tertiary',
-    semanticCls.dot,
   );
 
-  const activeDotCls = clsx(
-    'ring-primary',
-    !mergedDisabled && 'group-hover:ring-primary-hover',
-    semanticCls.activeDot,
-  );
+  const activeDotCls = clsx('ring-primary', !mergedDisabled && 'group-hover:ring-primary-hover');
 
   // ============================= Multiple =============================
   // Range config

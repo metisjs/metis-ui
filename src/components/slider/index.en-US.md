@@ -33,7 +33,7 @@ To input a value in a range.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |  |
-| classNames | Semantic structure class | Record<'root' \| 'tracks' \| 'track' \| 'rail' \| 'handle' \| 'marks' \| 'mark' \| 'activeMark' \| 'dot' \| 'activeDot', string> | - |  |
+| classNames | Semantic structure class | Record<'root' \| 'tracks' \| 'track' \| 'rail' \| 'handle' \| 'mark', string> | - |  |
 | defaultValue | The default value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
 | disabled | If true, the slider will not be intractable | boolean | false |  |
 | keyboard | Support using keyboard to move handlers | boolean | true | + |
