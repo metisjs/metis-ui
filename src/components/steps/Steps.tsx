@@ -1,6 +1,6 @@
 /* eslint react/no-did-mount-set-state: 0, react/prop-types: 0 */
 import React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import { SemanticClassName, clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
@@ -17,16 +17,6 @@ export type StepIconRender = (info: {
   node: React.ReactNode;
 }) => React.ReactNode;
 
-export type ProgressDotRender = (
-  iconDot: React.ReactNode,
-  info: {
-    index: number;
-    status: StepsStatus;
-    title: React.ReactNode;
-    description: React.ReactNode;
-  },
-) => React.ReactNode;
-
 export type StepItem = Omit<
   StepProps,
   | 'prefixCls'
@@ -35,20 +25,18 @@ export type StepItem = Omit<
   | 'stepNumber'
   | 'percent'
   | 'size'
-  | 'inline'
   | 'vertical'
-  | 'progressDot'
+  | 'type'
   | 'onStepClick'
 >;
 
 export interface StepsProps {
-  type?: 'default' | 'navigation' | 'inline';
-  className?: SemanticClassName<'item'>;
+  type?: 'default' | 'navigation' | 'inline' | 'dot';
+  className?: SemanticClassName<'item' | 'title' | 'description'>;
   current?: number;
   direction?: 'horizontal' | 'vertical';
-  labelPlacement?: 'horizontal' | 'vertical';
+  initial?: number;
   prefixCls?: string;
-  progressDot?: boolean | ProgressDotRender;
   responsive?: boolean;
   size?: 'default' | 'small';
   status?: StepsStatus;
@@ -65,11 +53,10 @@ const Steps: React.FC<StepsProps> = (props) => {
     className,
     direction = 'horizontal',
     type = 'default',
-    labelPlacement = 'horizontal',
     status = 'process',
     size,
     current = 0,
-    progressDot = false,
+    initial = 0,
     responsive,
     percent,
     onChange,
@@ -84,15 +71,10 @@ const Steps: React.FC<StepsProps> = (props) => {
   const isNav = type === 'navigation';
   const isInline = type === 'inline';
 
-  const mergedProgressDot = isInline || progressDot;
-  const mergedDirection = React.useMemo<StepsProps['direction']>(
-    () => (isInline ? 'horizontal' : responsive && xs ? 'vertical' : direction),
-    [xs, direction, isInline, responsive],
-  );
+  const mergedDirection =
+    isInline || isNav ? 'horizontal' : responsive && xs ? 'vertical' : direction;
   const mergedSize = useSize(size);
   const mergedPercent = isInline ? undefined : percent;
-
-  const adjustedLabelPlacement = mergedProgressDot ? 'vertical' : labelPlacement;
 
   // ===========================Styles=============================
   const classString = clsx(
@@ -100,13 +82,11 @@ const Steps: React.FC<StepsProps> = (props) => {
     `${prefixCls}-${mergedDirection}`,
     {
       [`${prefixCls}-${mergedSize}`]: mergedSize,
-      [`${prefixCls}-label-${adjustedLabelPlacement}`]: mergedDirection === 'horizontal',
-      [`${prefixCls}-dot`]: !!mergedProgressDot,
-      [`${prefixCls}-navigation`]: isNav,
-      [`${prefixCls}-inline`]: isInline,
+      [`${prefixCls}-${type}`]: type !== 'default',
     },
     'flex w-full text-neutral-text',
     mergedDirection === 'vertical' && 'flex-col',
+    isInline && 'inline-flex w-auto',
     semanticCls.root,
   );
 
@@ -116,8 +96,9 @@ const Steps: React.FC<StepsProps> = (props) => {
     }
   };
 
-  const renderStep = (item: StepProps, stepNumber: number) => {
+  const renderStep = (item: StepProps, index: number) => {
     const mergedItem: StepProps = { ...item };
+    const stepNumber = initial + index;
 
     if (!mergedItem.status) {
       if (stepNumber === current) {
@@ -129,20 +110,28 @@ const Steps: React.FC<StepsProps> = (props) => {
       }
     }
 
+    const itemCls = mergeSemanticCls(
+      {
+        root: semanticCls.item,
+        title: semanticCls.title,
+        description: semanticCls.description,
+      },
+      mergedItem.className,
+    );
+
     return (
       <Step
         {...mergedItem}
-        className={clsx(semanticCls.item, mergedItem.className)}
+        className={itemCls}
         active={stepNumber === current}
         stepNumber={stepNumber + 1}
         stepIndex={stepNumber}
         key={stepNumber}
         prefixCls={prefixCls}
-        progressDot={mergedProgressDot}
         size={mergedSize}
-        inline={isInline}
         percent={mergedPercent}
         vertical={mergedDirection === 'vertical'}
+        type={type}
         onStepClick={onChange && onStepClick}
       />
     );

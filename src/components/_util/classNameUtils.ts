@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { mergeWith } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 
 export type SemanticClassName<T extends string, R = void> = R extends void
@@ -22,4 +23,11 @@ export function getSemanticCls(semanticClassName: any = {}): any {
   }
 
   return semanticClassName;
+}
+
+export function mergeSemanticCls<T extends SemanticClassName<any, any>>(c1: T, c2: T): T {
+  const cls1 = getSemanticCls(c1);
+  const cls2 = getSemanticCls(c2);
+
+  return mergeWith(cls1, cls2, (objValue, srcValue) => clsx(objValue, srcValue)) as T;
 }

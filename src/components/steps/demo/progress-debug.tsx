@@ -22,7 +22,7 @@ const App: React.FC = () => {
     },
   ];
   return (
-    <>
+    <Space block vertical size={24}>
       <Space.Compact block>
         <Button onClick={() => setPercentage(undefined)}>Percentage to undefined</Button>
         <Button onClick={() => setPercentage((prev) => ((prev ?? 0) + 10) % 100)}>
@@ -34,7 +34,6 @@ const App: React.FC = () => {
         <Button onClick={() => setStatus('finish')}>Status Finish</Button>
         <Button onClick={() => setStatus('error')}>Status Error</Button>
       </Space.Compact>
-      <br />
       <Steps current={current} percent={percent} status={status} items={items} />
       <Steps current={current} percent={percent} status={status} size="small" items={items} />
       <Steps
@@ -52,7 +51,7 @@ const App: React.FC = () => {
         direction="vertical"
         items={items}
       />
-    </>
+    </Space>
   );
 };
 

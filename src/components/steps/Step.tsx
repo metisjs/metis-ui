@@ -1,14 +1,14 @@
 import { CheckOutline, XMarkOutline } from '@metisjs/icons';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
 import Progress from '../progress';
 import Tooltip from '../tooltip';
-import type { ProgressDotRender, StepsStatus } from './Steps';
+import type { StepsProps, StepsStatus } from './Steps';
 
 export interface StepProps {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<'item' | 'title' | 'description'>;
   style?: React.CSSProperties;
   active?: boolean;
   disabled?: boolean;
@@ -20,12 +20,22 @@ export interface StepProps {
   description?: React.ReactNode;
   percent?: number;
   size?: 'default' | 'small';
-  inline?: boolean;
+  type: StepsProps['type'];
   vertical?: boolean;
-  progressDot?: ProgressDotRender | boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onStepClick?: (index: number) => void;
 }
+
+const NavSplit = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
+    <path
+      d="M0 -2L20 40L0 82"
+      vectorEffect="non-scaling-stroke"
+      stroke="currentcolor"
+      strokeLinejoin="round"
+    ></path>
+  </svg>
+);
 
 const Step: React.FC<StepProps> = (props) => {
   const {
@@ -38,16 +48,20 @@ const Step: React.FC<StepProps> = (props) => {
     disabled,
     description,
     title,
-    progressDot,
     stepIndex,
     icon,
     percent,
     size,
-    inline,
     vertical,
+    type,
     onStepClick,
     onClick,
   } = props;
+
+  const semanticCls = getSemanticCls(className);
+
+  const isNav = type === 'navigation';
+  const isInline = type === 'inline';
 
   // ========================= Click ==========================
   const clickable = !!onStepClick && !disabled && !active;
@@ -86,29 +100,44 @@ const Step: React.FC<StepProps> = (props) => {
       'text-neutral-text-secondary': status === 'wait',
       'text-error': status === 'error',
     },
-    !vertical && 'whitespace-nowrap ps-4 first-of-type:ps-0',
-    size === 'small' && !vertical && 'ps-3',
-    className,
+    !vertical &&
+      !isNav && {
+        'whitespace-nowrap ps-4 first-of-type:ps-0': true,
+        'ps-3': size === 'small',
+      },
+    isNav && 'flex',
+    isInline && 'overflow-visible ps-0',
+    semanticCls.root,
   );
 
   const containerCls = clsx(
     `${prefixCls}-item-container`,
     'flex gap-3',
     size === 'small' && 'gap-2',
+    isNav && {
+      'flex-1 items-center p-4': true,
+      'py-3': description,
+      'p-3': size === 'small',
+      'py-2': description && size === 'small',
+    },
+    isInline &&
+      'mx-[0.125rem] cursor-pointer flex-col gap-1 rounded px-1 pb-1 pt-2 transition-colors group-hover:bg-neutral-fill-quaternary',
   );
 
   const tailCls = clsx(
     `${prefixCls}-item-tail`,
-    'hidden',
+    'absolute hidden',
     vertical &&
-      'absolute left-[1.125rem] top-0 block h-full w-[1px] pb-2 pt-11 after:inline-block after:h-full after:w-[1px] after:bg-neutral-fill-secondary after:transition-colors group-last-of-type:hidden',
+      'left-[1.125rem] top-0 block h-full w-[1px] pb-2 pt-11 after:inline-block after:h-full after:w-[1px] after:bg-neutral-fill-secondary after:transition-colors group-last-of-type:hidden',
     vertical && status === 'finish' && 'after:bg-primary',
     size === 'small' && 'left-[1rem] pb-[0.375rem] pt-[2.375rem]',
+    isInline &&
+      'left-0 top-[0.40625rem] ms-0 inline-block w-full -translate-y-1/2 after:inline-block after:h-[1px] after:w-full after:bg-neutral-border-secondary group-first:ms-[50%] group-first:w-1/2 group-last:w-1/2',
   );
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
-    'flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors',
+    'relative flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors',
     {
       'border-2 border-primary': status === 'process',
       'bg-primary text-white': status === 'finish',
@@ -120,34 +149,46 @@ const Step: React.FC<StepProps> = (props) => {
       'group-hover:border-neutral-fill group-hover:text-neutral-text': status === 'wait',
     },
     size === 'small' && 'h-8 w-8',
+    isInline && {
+      'ms-[calc(50%-0.125rem)] h-[0.375rem] w-[0.375rem] border': true,
+      'bg-primary': status === 'process',
+      'bg-neutral-fill-tertiary': status === 'finish',
+      'border-neutral-fill-tertiary bg-neutral-bg-container': status === 'wait',
+    },
   );
 
   const contentCls = clsx(
     `${prefixCls}-item-content`,
-    'relative mt-[0.125rem] flex-1 overflow-hidden',
+    'relative mt-[0.375rem] flex-1 overflow-hidden',
     vertical && 'min-h-14',
+    isNav && 'mt-0',
+    isInline && 'w-auto overflow-visible text-center',
   );
   const titleCls = clsx(
     `${prefixCls}-item-title`,
-    'relative inline-block pe-4 text-base leading-8',
+    'relative inline-block pe-4 text-base leading-6',
     !vertical &&
-      'after:absolute after:start-full after:top-[0.9375rem] after:h-[1px] after:w-screen after:bg-neutral-fill-secondary group-last-of-type:after:h-0',
+      !isNav &&
+      !isInline &&
+      'after:absolute after:start-full after:top-3 after:h-[1px] after:w-screen after:bg-neutral-fill-secondary group-last-of-type:after:h-0',
     {
       'text-neutral-text after:bg-primary': status === 'finish',
     },
     clickable && {
       'group-hover:text-neutral-text': status === 'wait',
     },
-    size === 'small' && 'pe-3 text-sm leading-7',
+    size === 'small' && 'pe-3 text-sm leading-5',
+    isInline && 'pe-0 text-xs text-neutral-text-quaternary',
+    semanticCls.title,
   );
   const descriptionCls = clsx(
     `${prefixCls}-item-description`,
     'truncate text-sm text-neutral-text-tertiary',
     {
-      'text-primary': status === 'process',
       'text-error': status === 'error',
     },
     vertical && 'pb-4',
+    semanticCls.description,
   );
 
   const icons = {
@@ -158,22 +199,8 @@ const Step: React.FC<StepProps> = (props) => {
   // ========================= Render =========================
   const renderIconNode = () => {
     let iconNode: React.ReactNode;
-    const iconDot = <span className={`${prefixCls}-icon-dot`} />;
-    if (progressDot) {
-      if (typeof progressDot === 'function') {
-        iconNode = (
-          <span className={`${prefixCls}-icon`}>
-            {progressDot(iconDot, {
-              index: stepNumber - 1,
-              status,
-              title,
-              description,
-            })}
-          </span>
-        );
-      } else {
-        iconNode = <span className={`${prefixCls}-icon`}>{iconDot}</span>;
-      }
+    if (type === 'inline') {
+      iconNode = <span className={`${prefixCls}-icon`}></span>;
     } else if (icon) {
       iconNode = (
         <span className={clsx(`${prefixCls}-icon`, 'flex items-center justify-center text-xl')}>
@@ -187,15 +214,16 @@ const Step: React.FC<StepProps> = (props) => {
     }
 
     if (status === 'process' && percent !== undefined) {
-      const progressWidth = size === 'small' ? 32 : 40;
+      const progressWidth = size === 'small' ? 24 : 28;
       return (
         <div className={`${prefixCls}-progress-icon`}>
           <Progress
             type="circle"
             percent={percent}
             size={progressWidth}
-            strokeWidth={4}
+            strokeWidth={6}
             format={() => null}
+            className={clsx('absolute start-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2')}
           />
           {iconNode}
         </div>
@@ -215,10 +243,18 @@ const Step: React.FC<StepProps> = (props) => {
           {description && <div className={descriptionCls}>{description}</div>}
         </div>
       </div>
+      {isNav && (
+        <NavSplit
+          className={clsx(
+            'h-[4.25rem] text-neutral-border-secondary group-last-of-type:hidden',
+            size === 'small' && 'h-14',
+          )}
+        />
+      )}
     </div>
   );
 
-  if (inline && description) {
+  if (isInline && description) {
     stepNode = <Tooltip title={description}>{stepNode}</Tooltip>;
   }
 
