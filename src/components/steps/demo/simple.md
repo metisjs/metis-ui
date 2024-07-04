@@ -1,7 +1,7 @@
 ## zh-CN
 
-简单的步骤条。
+包含步骤点的进度条。
 
 ## en-US
 
-The most basic step bar.
+Steps with progress dot style.

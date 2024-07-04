@@ -23,7 +23,7 @@ export default {
   light: {
     primary: {
       bg: -6,
-      'bg-hover': -5,
+      'bg-hover': -4,
       hover: -1,
       active: 1,
       border: -3,
@@ -44,7 +44,7 @@ export default {
   dark: {
     primary: {
       bg: 6,
-      'bg-hover': -5,
+      'bg-hover': 4,
       hover: -1,
       active: 1,
       border: -3,

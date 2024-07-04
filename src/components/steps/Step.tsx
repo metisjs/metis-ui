@@ -1,4 +1,5 @@
 import { CheckOutline, XMarkOutline } from '@metisjs/icons';
+import { inline } from '@rc-component/portal/es/mock';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
@@ -62,7 +63,7 @@ const Step: React.FC<StepProps> = (props) => {
 
   const isNav = type === 'navigation';
   const isInline = type === 'inline';
-  // const isDot = type === 'dot';
+  const isSimple = type === 'simple';
 
   // ========================= Click ==========================
   const clickable = !!onStepClick && !disabled && !active;
@@ -107,7 +108,7 @@ const Step: React.FC<StepProps> = (props) => {
         'ps-3': size === 'small',
       },
     isNav && 'flex',
-    isInline && 'overflow-visible ps-0',
+    (isInline || isSimple) && 'overflow-visible ps-0',
     semanticCls.root,
   );
 
@@ -142,14 +143,21 @@ const Step: React.FC<StepProps> = (props) => {
     {
       'border-2 border-primary': status === 'process',
       'bg-primary text-white': status === 'finish',
-      'border-2 border-neutral-fill-secondary': status === 'wait',
+      'border-2 border-neutral-border-secondary': status === 'wait',
       'border-2 border-error': status === 'error',
     },
     clickable && {
       'group-hover:bg-primary-hover': status === 'finish',
-      'group-hover:border-neutral-fill group-hover:text-neutral-text': status === 'wait',
+      'group-hover:border-neutral-text-tertiary group-hover:text-neutral-text': status === 'wait',
     },
     size === 'small' && 'h-8 w-8',
+    isSimple && {
+      'h-[0.625rem] w-[0.625rem] border-0': true,
+      'bg-primary ring-4 ring-primary-bg-hover': status === 'process',
+      'bg-neutral-border-secondary': status === 'wait',
+      'bg-error': status === 'error',
+      'group-hover:bg-neutral-text-tertiary': clickable && status === 'wait',
+    },
     isInline && {
       'ms-[calc(50%-0.125rem)] h-[0.375rem] w-[0.375rem] border': true,
       'bg-primary': status === 'process',
@@ -200,7 +208,7 @@ const Step: React.FC<StepProps> = (props) => {
   // ========================= Render =========================
   const renderIconNode = () => {
     let iconNode: React.ReactNode;
-    if (type === 'inline') {
+    if (type === 'inline' || type === 'simple') {
       iconNode = <span className={`${prefixCls}-icon`}></span>;
     } else if (icon) {
       iconNode = (
@@ -237,12 +245,14 @@ const Step: React.FC<StepProps> = (props) => {
   let stepNode: React.ReactNode = (
     <div className={rootCls} style={style}>
       <div onClick={onClick} {...accessibilityProps} className={containerCls}>
-        <div className={tailCls}></div>
+        {!isSimple && <div className={tailCls}></div>}
         <div className={iconCls}>{renderIconNode()}</div>
-        <div className={contentCls}>
-          <div className={titleCls}>{title}</div>
-          {description && <div className={descriptionCls}>{description}</div>}
-        </div>
+        {!isSimple && (
+          <div className={contentCls}>
+            <div className={titleCls}>{title}</div>
+            {description && !inline && <div className={descriptionCls}>{description}</div>}
+          </div>
+        )}
       </div>
       {isNav && (
         <NavSplit
@@ -257,6 +267,10 @@ const Step: React.FC<StepProps> = (props) => {
 
   if (isInline && description) {
     stepNode = <Tooltip title={description}>{stepNode}</Tooltip>;
+  }
+
+  if (isSimple && title) {
+    stepNode = <Tooltip title={title}>{stepNode}</Tooltip>;
   }
 
   return stepNode;

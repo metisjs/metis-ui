@@ -31,7 +31,7 @@ export type StepItem = Omit<
 >;
 
 export interface StepsProps {
-  type?: 'default' | 'navigation' | 'inline' | 'dot';
+  type?: 'default' | 'navigation' | 'inline' | 'simple';
   className?: SemanticClassName<'item' | 'title' | 'description'>;
   current?: number;
   direction?: 'horizontal' | 'vertical';
@@ -70,6 +70,7 @@ const Steps: React.FC<StepsProps> = (props) => {
 
   const isNav = type === 'navigation';
   const isInline = type === 'inline';
+  const isSimple = type === 'simple';
 
   const mergedDirection =
     isInline || isNav ? 'horizontal' : responsive && xs ? 'vertical' : direction;
@@ -86,7 +87,8 @@ const Steps: React.FC<StepsProps> = (props) => {
     },
     'flex w-full text-neutral-text',
     mergedDirection === 'vertical' && 'flex-col',
-    isInline && 'inline-flex w-auto',
+    (isInline || isSimple) && 'inline-flex w-auto',
+    isSimple && 'gap-5',
     semanticCls.root,
   );
 

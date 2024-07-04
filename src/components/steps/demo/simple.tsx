@@ -1,25 +1,29 @@
-import { Steps } from 'metis-ui';
+import { Divider, Steps } from 'metis-ui';
 import React from 'react';
 
-const description = 'This is a description.';
 const App: React.FC = () => (
-  <Steps
-    current={1}
-    items={[
-      {
-        title: 'Finished',
-        description,
-      },
-      {
-        title: 'In Progress',
-        description,
-      },
-      {
-        title: 'Waiting',
-        description,
-      },
-    ]}
-  />
+  <>
+    <Steps
+      type="simple"
+      current={1}
+      items={[
+        {
+          title: 'Finished',
+        },
+        {
+          title: 'In Progress',
+        },
+        {
+          title: 'Waiting',
+        },
+        {
+          title: 'Waiting',
+        },
+      ]}
+    />
+    <Divider />
+    <Steps type="simple" current={1} direction="vertical" items={[{}, {}, {}, {}, {}, {}]} />
+  </>
 );
 
 export default App;
