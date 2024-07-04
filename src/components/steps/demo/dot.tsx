@@ -4,7 +4,7 @@ import React from 'react';
 const App: React.FC = () => (
   <>
     <Steps
-      progressDot
+      type="dot"
       current={1}
       items={[
         {
@@ -23,7 +23,7 @@ const App: React.FC = () => (
     />
     <Divider />
     <Steps
-      progressDot
+      type="dot"
       current={1}
       direction="vertical"
       items={[

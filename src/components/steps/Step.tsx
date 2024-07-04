@@ -62,6 +62,7 @@ const Step: React.FC<StepProps> = (props) => {
 
   const isNav = type === 'navigation';
   const isInline = type === 'inline';
+  // const isDot = type === 'dot';
 
   // ========================= Click ==========================
   const clickable = !!onStepClick && !disabled && !active;
