@@ -11,7 +11,7 @@ When a given task is complicated or has a certain sequence in the series of subt
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/simple.tsx">Basic</code>
+<code src="./demo/basic.tsx">Basic</code>
 <code src="./demo/small-size.tsx">Mini version</code>
 <code src="./demo/icon.tsx">With icon</code>
 <code src="./demo/step-next.tsx">Switch Step</code>

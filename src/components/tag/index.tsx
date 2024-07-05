@@ -1,7 +1,5 @@
 'use client';
 
-import { XMarkOutline } from '@metisjs/icons';
-import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import {
@@ -12,7 +10,7 @@ import {
   isPresetColor,
   isPresetStatusColor,
 } from '../_util/colors';
-import useClosable, { pickClosable } from '../_util/hooks/useClosable';
+import useClosable, { ClosableType } from '../_util/hooks/useClosable';
 import { LiteralUnion } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import CheckableTag from './CheckableTag';
@@ -23,9 +21,7 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   prefixCls?: string;
   className?: string;
   color?: LiteralUnion<PresetColorType | PresetStatusColorType>;
-  closable?: boolean;
-  /** Advised to use closeIcon instead. */
-  closeIcon?: boolean | React.ReactNode;
+  closable?: ClosableType;
   onClose?: (e: React.MouseEvent<HTMLElement>) => void;
   style?: React.CSSProperties;
   icon?: React.ReactElement;
@@ -47,12 +43,11 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     color,
     onClose,
     bordered = true,
+    closable,
     ...restProps
   } = tagProps;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const [visible, setVisible] = React.useState(true);
-
-  const domProps = omit(restProps, ['closeIcon', 'closable']);
 
   const isPreset = isPresetColor(color);
   const isStatus = isPresetStatusColor(color);
@@ -101,16 +96,9 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     color && !isInternalColor && 'text-white/65 hover:text-white',
   );
 
-  const [, mergedCloseIcon] = useClosable(pickClosable(tagProps), null, {
-    closable: false,
-    closeIconRender: (iconNode: React.ReactNode) =>
-      iconNode === null ? (
-        <XMarkOutline className={iconClassName} onClick={handleCloseClick} />
-      ) : (
-        <span className={clsx(iconClassName, 'flex items-center')} onClick={handleCloseClick}>
-          {iconNode}
-        </span>
-      ),
+  const [, closeIcon] = useClosable(closable, {
+    className: iconClassName,
+    onClick: handleCloseClick,
   });
 
   const iconNode: React.ReactNode = icon ? (
@@ -127,9 +115,9 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
   );
 
   const tagNode: React.ReactNode = (
-    <span {...domProps} ref={ref} className={tagClassName} style={tagStyle}>
+    <span {...restProps} ref={ref} className={tagClassName} style={tagStyle}>
       {kids}
-      {mergedCloseIcon}
+      {closeIcon}
     </span>
   );
 

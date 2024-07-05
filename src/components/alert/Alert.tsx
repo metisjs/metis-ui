@@ -3,7 +3,6 @@ import {
   ExclamationTriangleSolid,
   InformationCircleSolid,
   XCircleSolid,
-  XMarkOutline,
 } from '@metisjs/icons';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
@@ -11,6 +10,7 @@ import type { ReactElement } from 'react';
 import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { ClosableType } from '../_util/hooks/useClosable';
+import useClosable from '../_util/hooks/useClosable';
 import { replaceElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import Transition from '../transition';
@@ -43,7 +43,6 @@ export interface AlertProps {
   >;
   banner?: boolean;
   icon?: React.ReactNode;
-  closeIcon?: React.ReactNode;
   action?: React.ReactNode;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
@@ -80,20 +79,18 @@ const IconNode: React.FC<IconNodeProps> = (props) => {
 };
 
 type CloseIconProps = {
-  isClosable: boolean;
+  closable?: ClosableType;
   className: string;
-  closeIcon: AlertProps['closeIcon'];
   handleClose: AlertProps['onClose'];
   ariaProps: React.AriaAttributes;
 };
 
 const CloseIconNode: React.FC<CloseIconProps> = (props) => {
-  const { isClosable, className, closeIcon, handleClose, ariaProps } = props;
-  const mergedCloseIcon =
-    closeIcon === true || closeIcon === undefined ? <XMarkOutline /> : closeIcon;
+  const { closable, className, handleClose, ariaProps } = props;
+  const [isClosable, closeIcon] = useClosable(closable);
   return isClosable ? (
     <button type="button" onClick={handleClose} className={className} tabIndex={0} {...ariaProps}>
-      {mergedCloseIcon}
+      {closeIcon}
     </button>
   ) : null;
 };
@@ -112,7 +109,6 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     afterClose,
     showIcon,
     closable,
-    closeIcon,
     action,
     id,
     ...otherProps
@@ -142,16 +138,6 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     // banner mode defaults to 'warning'
     return banner ? 'warning' : 'info';
   }, [props.type, banner]);
-
-  // closeable when closeText or closeIcon is assigned
-  const isClosable = React.useMemo<boolean>(() => {
-    if (typeof closable === 'object' && closable.closeIcon) return true;
-    if (typeof closable === 'boolean') {
-      return closable;
-    }
-    // should be true when closeIcon is 0 or ''
-    return closeIcon !== false && closeIcon !== null && closeIcon !== undefined;
-  }, [closeIcon, closable]);
 
   // banner mode defaults to Icon
   const isShowIcon = banner && showIcon === undefined ? true : showIcon;
@@ -218,15 +204,6 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
 
   const restProps = pickAttrs(otherProps, { aria: true, data: true });
 
-  const mergedCloseIcon = React.useMemo(() => {
-    if (typeof closable === 'object' && closable.closeIcon) {
-      return closable.closeIcon;
-    }
-    if (closeIcon !== undefined) {
-      return closeIcon;
-    }
-  }, [closeIcon, closable]);
-
   const mergedAriaProps = React.useMemo<React.AriaAttributes>(() => {
     if (typeof closable === 'object') {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -272,9 +249,8 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
           </div>
           {action ? <div className={alertActionCls}>{action}</div> : null}
           <CloseIconNode
-            isClosable={isClosable}
+            closable={closable}
             className={alertCloseCls}
-            closeIcon={mergedCloseIcon}
             handleClose={handleClose}
             ariaProps={mergedAriaProps}
           />
