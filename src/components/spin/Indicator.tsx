@@ -1,6 +1,6 @@
-import { clsx } from 'metis-ui/es/_util/classNameUtils';
 import * as React from 'react';
 import type { SpinSize } from '.';
+import { clsx } from '../_util/classNameUtils';
 
 export interface IndicatorProps {
   prefixCls: string;

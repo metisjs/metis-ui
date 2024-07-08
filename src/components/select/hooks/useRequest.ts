@@ -1,7 +1,7 @@
 import { useMemoizedFn, useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
-import { getClientHeight, getScrollHeight, getScrollTop } from 'metis-ui/es/_util/rect';
 import { useMemo, useRef, useState } from 'react';
+import { getClientHeight, getScrollHeight, getScrollTop } from '../../_util/rect';
 import { BaseOptionType, RequestConfig } from '../interface';
 
 const PAGE_SIZE = 30;
