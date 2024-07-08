@@ -5,11 +5,11 @@ import {
   XCircleSolid,
 } from '@metisjs/icons';
 import classNames from 'classnames';
-import { clsx, mergeSemanticCls } from 'metis-ui/es/_util/classNameUtils';
-import { ConfigContext } from 'metis-ui/es/config-provider';
 import React from 'react';
 import { getGlobalConfig } from '..';
+import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
 import { devUseWarning } from '../../_util/warning';
+import { ConfigContext } from '../../config-provider';
 import type {
   ArgsProps,
   NotificationAPI,
@@ -23,6 +23,28 @@ import { getPlacementStyle } from '../util';
 const DEFAULT_OFFSET = 24;
 const DEFAULT_DURATION = 4.5;
 const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
+
+const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
+  enter: 'transition-all duration-300',
+  enterFrom: clsx('opacity-0', {
+    '!-top-[9rem]': placement === 'top',
+    '!-bottom-[9rem]': placement === 'bottom',
+    '!translate-x-full': placement === 'topRight' || placement === 'bottomRight',
+    '!-translate-x-full': placement === 'topLeft' || placement === 'bottomLeft',
+  }),
+  enterTo: clsx('opacity-100', {
+    '!top-0': placement === 'top',
+    '!bottom-0': placement === 'bottom',
+    '!translate-x-0':
+      placement === 'topRight' ||
+      placement === 'bottomRight' ||
+      placement === 'topLeft' ||
+      placement === 'bottomLeft',
+  }),
+  leave: 'transition-all duration-300',
+  leaveFrom: 'opacity-100 max-h-[9rem] mb-4',
+  leaveTo: 'opacity-0 max-h-0 mb-0',
+});
 
 const typeToIcon = {
   success: CheckCircleSolid,
@@ -42,6 +64,8 @@ export function useInternalNotification(
     top,
     bottom,
     duration = DEFAULT_DURATION,
+    stack = true,
+    transition = DEFAULT_TRANSITION,
     className,
     style,
     ...restProps
@@ -145,7 +169,19 @@ export function useInternalNotification(
     mergeSemanticCls(
       {
         root: clsx('fixed z-[2050] mr-6 text-sm text-neutral-text'),
-        notice: clsx(''),
+        wrapper: clsx(
+          'relative mb-4 ms-auto rounded-lg bg-neutral-bg-elevated shadow-lg',
+          {
+            'absolute transition-transform duration-300': !!stack,
+          },
+          !!stack && {
+            'left-0 top-0': placement === 'top' || placement === 'topLeft',
+            'right-0 top-0': placement === 'topRight',
+            'bottom-0 left-0': placement === 'bottom' || placement === 'bottomLeft',
+            'bottom-0 right-0': placement === 'bottomRight',
+          },
+        ),
+        notice: clsx('w-[24rem] overflow-hidden break-words p-4'),
       },
       className?.(placement),
     );
@@ -157,6 +193,8 @@ export function useInternalNotification(
       key="notification-holder"
       prefixCls={prefixCls}
       duration={duration}
+      stack={stack}
+      transition={transition}
       {...restProps}
       style={getStyle}
       className={getClassName}

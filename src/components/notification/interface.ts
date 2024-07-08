@@ -2,7 +2,7 @@ import type * as React from 'react';
 
 import { SemanticClassName } from '../_util/classNameUtils';
 import type { BaseClosableType, ClosableType } from '../_util/hooks/useClosable';
-import { TransitionListProps } from '../transition';
+import { TransitionProps } from '../transition';
 
 interface DivProps extends React.HTMLProps<HTMLDivElement> {
   'data-testid'?: string;
@@ -68,15 +68,15 @@ export interface NotificationConfig {
   closable?: ClosableType;
   maxCount?: number;
   stack?: StackConfig;
-  transition?: TransitionListProps | ((placement: NotificationPlacement) => TransitionListProps);
+  transition?:
+    | Partial<TransitionProps>
+    | ((placement: NotificationPlacement) => Partial<TransitionProps>);
   props?: DivProps;
   getContainer?: () => HTMLElement | ShadowRoot;
-  className?: (placement: NotificationPlacement) => SemanticClassName<'notice'>;
+  className?: (placement: NotificationPlacement) => SemanticClassName<'notice' | 'wrapper'>;
   style?: (placement: NotificationPlacement) => React.CSSProperties;
   onAllRemoved?: VoidFunction;
 }
-
-type NoticeSemanticProps = 'wrapper';
 
 export interface NoticeConfig {
   content?: React.ReactNode;
@@ -86,12 +86,6 @@ export interface NoticeConfig {
   closable?: BaseClosableType;
   className?: string;
   style?: React.CSSProperties;
-  classNames?: {
-    [key in NoticeSemanticProps]?: string;
-  };
-  styles?: {
-    [key in NoticeSemanticProps]?: React.CSSProperties;
-  };
   /** @private Internal usage. Do not override in your code */
   props?: React.HTMLAttributes<HTMLDivElement> & Record<string, any>;
 

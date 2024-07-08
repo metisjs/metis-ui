@@ -2,7 +2,7 @@ import clsx from 'classnames';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
-import { TransitionList, TransitionListProps } from '../transition';
+import { TransitionList, TransitionProps } from '../transition';
 import useStack from './hooks/useStack';
 import type {
   InnerOpenConfig,
@@ -17,7 +17,9 @@ export interface NoticeListProps {
   configList?: OpenConfig[];
   placement: NotificationPlacement;
   prefixCls: string;
-  transition?: TransitionListProps | ((placement: NotificationPlacement) => TransitionListProps);
+  transition?:
+    | Partial<TransitionProps>
+    | ((placement: NotificationPlacement) => Partial<TransitionProps>);
   stack?: StackConfig;
 
   // Events
@@ -25,7 +27,7 @@ export interface NoticeListProps {
   onNoticeClose?: (key: React.Key) => void;
 
   // Common
-  className?: SemanticClassName<'notice'>;
+  className?: SemanticClassName<'wrapper' | 'notice'>;
   style?: CSSProperties;
 }
 
@@ -105,8 +107,6 @@ const NoticeList: FC<NoticeListProps> = (props) => {
         const {
           className: configClassName,
           style: configStyle,
-          classNames: configClassNames,
-          styles: configStyles,
           ...restConfig
         } = config as NoticeConfig;
         const dataIndex = keys.findIndex((item) => item.key === strKey);
@@ -146,13 +146,12 @@ const NoticeList: FC<NoticeListProps> = (props) => {
             ref={nodeRef}
             className={clsx(
               `${prefixCls}-notice-wrapper`,
+              semanticCls.wrapper,
               transitionClassName,
-              configClassNames?.wrapper,
             )}
             style={{
               ...transitionStyle,
               ...stackStyle,
-              ...configStyles?.wrapper,
             }}
             onMouseEnter={() =>
               setHoverKeys((prev) => (prev.includes(strKey) ? prev : [...prev, strKey]))
@@ -169,8 +168,6 @@ const NoticeList: FC<NoticeListProps> = (props) => {
                 }
               }}
               prefixCls={prefixCls}
-              classNames={configClassNames}
-              styles={configStyles}
               className={clsx(semanticCls.notice, configClassName)}
               style={configStyle}
               times={times}

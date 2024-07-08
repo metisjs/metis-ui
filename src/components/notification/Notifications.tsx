@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { TransitionListProps } from '../transition';
+import { TransitionProps } from '../transition';
 import type {
   InnerOpenConfig,
   NotificationPlacement,
@@ -12,7 +12,9 @@ import NoticeList, { NoticeListProps } from './NoticeList';
 
 export interface NotificationsProps {
   prefixCls: string;
-  transition?: TransitionListProps | ((placement: NotificationPlacement) => TransitionListProps);
+  transition?:
+    | Partial<TransitionProps>
+    | ((placement: NotificationPlacement) => Partial<TransitionProps>);
   container?: HTMLElement | ShadowRoot;
   maxCount?: number;
   className?: (placement: NotificationPlacement) => NoticeListProps['className'];

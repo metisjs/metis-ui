@@ -1,22 +1,19 @@
 import { Button, Divider, notification, Space, Switch } from 'metis-ui';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const App: React.FC = () => {
   const [enabled, setEnabled] = React.useState(true);
   const [threshold] = React.useState(3);
-
-  useEffect(() => {
-    notification.config({
-      stack: enabled
-        ? {
-            threshold,
-          }
-        : false,
-    });
-  }, [enabled, threshold]);
+  const [api, contextHolder] = notification.useNotification({
+    stack: enabled
+      ? {
+          threshold,
+        }
+      : false,
+  });
 
   const openNotification = () => {
-    notification.open({
+    api.open({
       message: 'Notification Title',
       description: `${Array(Math.round(Math.random() * 5) + 1)
         .fill('This is the content of the notification.')
@@ -27,6 +24,7 @@ const App: React.FC = () => {
 
   return (
     <div>
+      {contextHolder}
       <Space size="large">
         <Space style={{ width: '100%' }}>
           <span>Enabled: </span>
