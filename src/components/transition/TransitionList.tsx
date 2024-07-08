@@ -33,6 +33,16 @@ export interface TransitionListProps
   onVisibleChanged?: (visible: boolean, info: { key: React.Key }) => void;
   /** All transition leaves in the screen */
   onAllRemoved?: () => void;
+  children: (
+    props: {
+      visible?: boolean;
+      className?: string;
+      style?: React.CSSProperties;
+      index: number;
+      [key: string]: any;
+    },
+    ref: (node: any) => void,
+  ) => React.ReactElement;
 }
 
 export interface TransitionListState {
@@ -96,7 +106,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
 
     return (
       <Component {...restProps}>
-        {keyEntities.map(({ status, ...eventProps }) => {
+        {keyEntities.map(({ status, ...eventProps }, index) => {
           const visible = status === STATUS_ADD || status === STATUS_KEEP;
           return (
             <Transition
@@ -116,7 +126,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
                 }
               }}
             >
-              {children}
+              {(props, ref) => children({ ...props, index }, ref)}
             </Transition>
           );
         })}

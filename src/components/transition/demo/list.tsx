@@ -30,7 +30,9 @@ export default () => {
 
   return (
     <Space vertical>
-      <Button onClick={onFlush}>Flush</Button>
+      <div>
+        <Button onClick={onFlush}>Flush</Button>
+      </div>
       <Checkbox.Group options={keys} value={checkedKeys} onChange={setCheckedKeys} />
       <div>key 3 is a different component with others.</div>
       <Transition.List
