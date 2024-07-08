@@ -1,19 +1,18 @@
+import { Button, notification } from 'metis-ui';
 import React from 'react';
-import { Button, notification } from 'antd';
 
 const key = 'updatable';
 
 const App: React.FC = () => {
-  const [api, contextHolder] = notification.useNotification();
   const openNotification = () => {
-    api.open({
+    notification.open({
       key,
       message: 'Notification Title',
       description: 'description.',
     });
 
     setTimeout(() => {
-      api.open({
+      notification.open({
         key,
         message: 'New Title',
         description: 'New description.',
@@ -22,12 +21,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
-      {contextHolder}
-      <Button type="primary" onClick={openNotification}>
-        Open the notification box
-      </Button>
-    </>
+    <Button type="primary" onClick={openNotification}>
+      Open the notification box
+    </Button>
   );
 };
 

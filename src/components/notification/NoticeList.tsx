@@ -2,7 +2,7 @@ import clsx from 'classnames';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
-import { TransitionList, TransitionProps } from '../transition';
+import { TransitionList, TransitionListProps } from '../transition';
 import useStack from './hooks/useStack';
 import type {
   InnerOpenConfig,
@@ -17,7 +17,7 @@ export interface NoticeListProps {
   configList?: OpenConfig[];
   placement: NotificationPlacement;
   prefixCls: string;
-  transition?: TransitionProps | ((placement: NotificationPlacement) => TransitionProps);
+  transition?: TransitionListProps | ((placement: NotificationPlacement) => TransitionListProps);
   stack?: StackConfig;
 
   // Events
@@ -97,7 +97,7 @@ const NoticeList: FC<NoticeListProps> = (props) => {
       }}
     >
       {(
-        { config, className: motionClassName, style: motionStyle, index: motionIndex },
+        { config, className: transitionClassName, style: transitionStyle, index: transitionIndex },
         nodeRef,
       ) => {
         const { key, times } = config as InnerOpenConfig;
@@ -112,10 +112,10 @@ const NoticeList: FC<NoticeListProps> = (props) => {
         const dataIndex = keys.findIndex((item) => item.key === strKey);
 
         // If dataIndex is -1, that means this notice has been removed in data, but still in dom
-        // Should minus (motionIndex - 1) to get the correct index because keys.length is not the same as dom length
+        // Should minus (transitionIndex - 1) to get the correct index because keys.length is not the same as dom length
         const stackStyle: CSSProperties = {};
         if (stack) {
-          const index = keys.length - 1 - (dataIndex > -1 ? dataIndex : motionIndex - 1);
+          const index = keys.length - 1 - (dataIndex > -1 ? dataIndex : transitionIndex - 1);
           const transformX = placement === 'top' || placement === 'bottom' ? '-50%' : '0';
           if (index > 0) {
             stackStyle.height = expanded
@@ -146,11 +146,11 @@ const NoticeList: FC<NoticeListProps> = (props) => {
             ref={nodeRef}
             className={clsx(
               `${prefixCls}-notice-wrapper`,
-              motionClassName,
+              transitionClassName,
               configClassNames?.wrapper,
             )}
             style={{
-              ...motionStyle,
+              ...transitionStyle,
               ...stackStyle,
               ...configStyles?.wrapper,
             }}

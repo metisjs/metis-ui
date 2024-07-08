@@ -21,7 +21,7 @@ To display a notification message at any of the four corners of the viewport. Ty
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/hooks.tsx">Hooks usage (recommended)</code>
+<code src="./demo/basic.tsx">Static Method</code>
 <code src="./demo/duration.tsx">Duration after which the notification box is closed</code>
 <code src="./demo/with-icon.tsx">Notification with icon</code>
 <code src="./demo/with-btn.tsx">Custom close button</code>
@@ -29,14 +29,11 @@ To display a notification message at any of the four corners of the viewport. Ty
 <code src="./demo/placement.tsx">Placement</code>
 <code src="./demo/custom-style.tsx">Customized style</code>
 <code src="./demo/update.tsx">Update Message Content</code>
-<code src="./demo/stack.tsx" version="5.10.0">Stack</code>
-<code src="./demo/show-with-progress.tsx" version="5.18.0">Show with progress</code>
-<code src="./demo/basic.tsx">Static Method (deprecated)</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/stack.tsx">Stack</code>
+<code src="./demo/show-with-progress.tsx">Show with progress</code>
+<code src="./demo/hooks.tsx">Hooks usage</code>
 
 ## API
-
-Common props ref：[Common props](/docs/react/common-props)
 
 - `notification.success(config)`
 - `notification.error(config)`
@@ -51,17 +48,17 @@ The properties of config are as follows:
 | --- | --- | --- | --- | --- |
 | btn | Customized close button | ReactNode | - | - |
 | className | Customized CSS class | string | - | - |
-| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
+| closeIcon | Custom close icon | ReactNode | true | : close button will be hidden when setting to null or false |
 | description | The content of notification box (required) | ReactNode | - | - |
 | duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |
-| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
-| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
+| showProgress | Show progress bar for auto-closing notification | boolean |  |  |
+| pauseOnHover | keep the timer running or not on hover | boolean | true |  |
 | icon | Customized icon | ReactNode | - | - |
 | key | The unique identifier of the Notification | string | - | - |
 | message | The title of notification box (required) | ReactNode | - | - |
 | placement | Position of Notification, can be one of `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` | - |
 | style | Customized inline style | [CSSProperties](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/e434515761b36830c3e58a970abf5186f005adac/types/react/index.d.ts#L794) | - | - |
-| role | The semantics of notification content recognized by screen readers. The default value is `alert`. When set as the default value, the screen reader will promptly interrupt any ongoing content reading and prioritize the notification content for immediate attention. | `alert \| status` | `alert` | 5.6.0 |
+| role | The semantics of notification content recognized by screen readers. The default value is `alert`. When set as the default value, the screen reader will promptly interrupt any ongoing content reading and prioritize the notification content for immediate attention. | `alert \| status` | `alert` |  |
 | onClick | Specify a function that will be called when the notification is clicked | function | - | - |
 | onClose | Trigger when notification closed | function | - | - |
 | props | An object that can contain `data-*`, `aria-*`, or `role` props, to be put on the notification `div`. This currently only allows `data-testid` instead of `data-*` in TypeScript. See https://github.com/microsoft/TypeScript/issues/28960. | Object | - | - |
@@ -73,13 +70,13 @@ The properties of config are as follows:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
-| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
+| closeIcon | Custom close icon | ReactNode | true | : close button will be hidden when setting to null or false |
 | getContainer | Return the mount node for Notification | () => HTMLNode | () => document.body |  |
 | placement | Position of Notification, can be one of `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` |  |
 | rtl | Whether to enable RTL mode | boolean | false |  |
-| stack | Notifications will be stacked when amount is over threshold | boolean \| `{ threshold: number }` | `{ threshold: 3 }` | 5.10.0 |
+| stack | Notifications will be stacked when amount is over threshold | boolean \| `{ threshold: number }` | `{ threshold: 3 }` |  |
 | top | Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels) | number | 24 |  |
-| maxCount | Max Notification show, drop oldest if exceed limit | number | - | 4.17.0 |
+| maxCount | Max Notification show, drop oldest if exceed limit | number | - |  |
 
 `notification` also provides a global `config()` method that can be used for specifying the default options. Once this method is used, all the notification boxes will take into account these globally defined options when displaying.
 
@@ -87,7 +84,7 @@ The properties of config are as follows:
 
 `notification.config(options)`
 
-> When you use `ConfigProvider` for global configuration, the system will automatically start RTL mode by default.(4.3.0+)
+> When you use `ConfigProvider` for global configuration, the system will automatically start RTL mode by default.(+)
 >
 > When you want to use it alone, you can start the RTL mode through the following settings.
 
@@ -105,21 +102,17 @@ notification.config({
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
-| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
+| closeIcon | Custom close icon | ReactNode | true | : close button will be hidden when setting to null or false |
 | duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 |  |
 | getContainer | Return the mount node for Notification, but still display at fullScreen | () => HTMLNode | () => document.body |  |
 | placement | Position of Notification, can be one of `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` |  |
 | rtl | Whether to enable RTL mode | boolean | false |  |
 | top | Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels) | number | 24 |  |
-| maxCount | Max Notification show, drop oldest if exceed limit | number | - | 4.17.0 |
-
-## Design Token
-
-<ComponentTokenTable component="Notification"></ComponentTokenTable>
+| maxCount | Max Notification show, drop oldest if exceed limit | number | - |  |
 
 ## FAQ
 
-### Why I can not access context, redux, ConfigProvider `locale/prefixCls/theme` in notification?
+### Why I can not access context, redux, ConfigProvider `locale/prefixCls` in notification?
 
 antd will dynamic create React instance by `ReactDOM.render` when call notification methods. Whose context is different with origin code located context.
 
@@ -129,10 +122,10 @@ When you need context info (like ConfigProvider context), you can use `notificat
 const [api, contextHolder] = notification.useNotification();
 
 return (
-  <Context1.Provider value="Ant">
+  <Context1.Provider value="Metis">
     {/* contextHolder is inside Context1 which means api will get value of Context1 */}
     {contextHolder}
-    <Context2.Provider value="Design">
+    <Context2.Provider value="UI">
       {/* contextHolder is outside Context2 which means api will **not** get value of Context2 */}
     </Context2.Provider>
   </Context1.Provider>
@@ -140,9 +133,3 @@ return (
 ```
 
 **Note:** You must insert `contextHolder` into your children with hooks. You can use origin method if you do not need context connection.
-
-> [App Package Component](/components/app) can be used to simplify the problem of `useNotification` and other methods that need to manually implant contextHolder.
-
-### How to set static methods prefixCls ？
-
-You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)

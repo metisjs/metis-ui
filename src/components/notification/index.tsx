@@ -1,8 +1,7 @@
 import { render } from 'rc-util/lib/React/render';
-import React, { useContext } from 'react';
-import { ConfigContext } from '../config-provider';
-import type { ArgsProps, GlobalConfigProps, NotificationInstance } from './interface';
-import useNotification, { useInternalNotification } from './useNotification';
+import React from 'react';
+import useNotification, { useInternalNotification } from './hooks/useNotification';
+import type { ArgsProps, NotificationConfig, NotificationInstance } from './interface';
 
 export type { ArgsProps };
 
@@ -28,20 +27,10 @@ type Task =
 
 let taskQueue: Task[] = [];
 
-let defaultGlobalConfig: GlobalConfigProps = {};
+let defaultGlobalConfig: NotificationConfig = {};
 
-function getGlobalContext() {
-  const { getContainer, maxCount, top, bottom, showProgress, pauseOnHover } = defaultGlobalConfig;
-  const mergedContainer = getContainer?.() || document.body;
-
-  return {
-    getContainer: () => mergedContainer,
-    maxCount,
-    top,
-    bottom,
-    showProgress,
-    pauseOnHover,
-  };
+export function getGlobalConfig() {
+  return defaultGlobalConfig;
 }
 
 interface GlobalHolderRef {
@@ -51,17 +40,11 @@ interface GlobalHolderRef {
 
 const GlobalHolder = React.forwardRef<
   GlobalHolderRef,
-  { notificationConfig: GlobalConfigProps; sync: () => void }
+  { notificationConfig: NotificationConfig; sync: () => void }
 >((props, ref) => {
   const { notificationConfig, sync } = props;
 
-  const { getPrefixCls } = useContext(ConfigContext);
-  const prefixCls = defaultGlobalConfig.prefixCls || getPrefixCls('notification');
-
-  const [api, holder] = useInternalNotification({
-    ...notificationConfig,
-    prefixCls,
-  });
+  const [api, holder] = useInternalNotification(notificationConfig);
 
   React.useEffect(sync, []);
 
@@ -86,10 +69,10 @@ const GlobalHolder = React.forwardRef<
 
 const GlobalHolderWrapper = React.forwardRef<GlobalHolderRef, unknown>((_, ref) => {
   const [notificationConfig, setNotificationConfig] =
-    React.useState<GlobalConfigProps>(getGlobalContext);
+    React.useState<NotificationConfig>(getGlobalConfig);
 
   const sync = () => {
-    setNotificationConfig(getGlobalContext);
+    setNotificationConfig(getGlobalConfig);
   };
 
   React.useEffect(sync, []);
@@ -141,10 +124,7 @@ function flushNotice() {
     switch (task.type) {
       case 'open': {
         act(() => {
-          notification!.instance!.open({
-            ...defaultGlobalConfig,
-            ...task.config,
-          });
+          notification!.instance!.open(task.config);
         });
         break;
       }
@@ -165,7 +145,7 @@ function flushNotice() {
 // ==                                  Export                                  ==
 // ==============================================================================
 
-function setNotificationGlobalConfig(config: GlobalConfigProps) {
+function setNotificationGlobalConfig(config: NotificationConfig) {
   defaultGlobalConfig = {
     ...defaultGlobalConfig,
     ...config,
@@ -196,7 +176,7 @@ const destroy: BaseMethods['destroy'] = (key) => {
 interface BaseMethods {
   open: (config: ArgsProps) => void;
   destroy: (key?: React.Key) => void;
-  config: (config: GlobalConfigProps) => void;
+  config: (config: NotificationConfig) => void;
   useNotification: typeof useNotification;
 }
 

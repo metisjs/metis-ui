@@ -1,169 +1,172 @@
-import type { CSSMotionProps } from 'rc-motion';
-import * as React from 'react';
-import type { NotificationsProps, NotificationsRef } from '../Notifications';
-import Notifications from '../Notifications';
-import type { OpenConfig, Placement, StackConfig } from '../interface';
+import {
+  CheckCircleSolid,
+  ExclamationTriangleSolid,
+  InformationCircleSolid,
+  XCircleSolid,
+} from '@metisjs/icons';
+import classNames from 'classnames';
+import { clsx, mergeSemanticCls } from 'metis-ui/es/_util/classNameUtils';
+import { ConfigContext } from 'metis-ui/es/config-provider';
+import React from 'react';
+import { getGlobalConfig } from '..';
+import { devUseWarning } from '../../_util/warning';
+import type {
+  ArgsProps,
+  NotificationAPI,
+  NotificationConfig,
+  NotificationInstance,
+  NotificationPlacement,
+} from '../interface';
+import NotificationHolder from '../NotificationHolder';
+import { getPlacementStyle } from '../util';
 
-const defaultGetContainer = () => document.body;
+const DEFAULT_OFFSET = 24;
+const DEFAULT_DURATION = 4.5;
+const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
 
-type OptionalConfig = Partial<OpenConfig>;
+const typeToIcon = {
+  success: CheckCircleSolid,
+  info: InformationCircleSolid,
+  error: XCircleSolid,
+  warning: ExclamationTriangleSolid,
+};
 
-export interface NotificationConfig {
-  prefixCls?: string;
-  /** Customize container. It will repeat call which means you should return same container element. */
-  getContainer?: () => HTMLElement | ShadowRoot;
-  motion?: CSSMotionProps | ((placement: Placement) => CSSMotionProps);
-  closeIcon?: React.ReactNode;
-  closable?: boolean | ({ closeIcon?: React.ReactNode } & React.AriaAttributes);
-  maxCount?: number;
-  duration?: number;
-  showProgress?: boolean;
-  pauseOnHover?: boolean;
-  /** @private. Config for notification holder style. Safe to remove if refactor */
-  className?: (placement: Placement) => string;
-  /** @private. Config for notification holder style. Safe to remove if refactor */
-  style?: (placement: Placement) => React.CSSProperties;
-  /** @private Trigger when all the notification closed. */
-  onAllRemoved?: VoidFunction;
-  stack?: StackConfig;
-  /** @private Slot for style in Notifications */
-  renderNotifications?: NotificationsProps['renderNotifications'];
-}
-
-export interface NotificationAPI {
-  open: (config: OptionalConfig) => void;
-  close: (key: React.Key) => void;
-  destroy: () => void;
-}
-
-interface OpenTask {
-  type: 'open';
-  config: OpenConfig;
-}
-
-interface CloseTask {
-  type: 'close';
-  key: React.Key;
-}
-
-interface DestroyTask {
-  type: 'destroy';
-}
-
-type Task = OpenTask | CloseTask | DestroyTask;
-
-let uniqueKey = 0;
-
-function mergeConfig<T>(...objList: Partial<T>[]): T {
-  const clone: T = {} as T;
-
-  objList.forEach((obj) => {
-    if (obj) {
-      Object.keys(obj).forEach((key) => {
-        const val = obj[key];
-
-        if (val !== undefined) {
-          clone[key] = val;
-        }
-      });
-    }
-  });
-
-  return clone;
-}
-
-export default function useNotification(
-  rootConfig: NotificationConfig = {},
-): [NotificationAPI, React.ReactElement] {
+// ==============================================================================
+// ==                                   Hook                                   ==
+// ==============================================================================
+export function useInternalNotification(
+  notificationConfig?: NotificationConfig,
+): readonly [NotificationInstance, React.ReactElement] {
   const {
-    getContainer = defaultGetContainer,
-    motion,
-    prefixCls,
-    maxCount,
+    prefixCls: customizedPrefix,
+    top,
+    bottom,
+    duration = DEFAULT_DURATION,
     className,
     style,
-    onAllRemoved,
-    stack,
-    renderNotifications,
-    ...shareConfig
-  } = rootConfig;
+    ...restProps
+  } = notificationConfig ?? {};
 
-  const [container, setContainer] = React.useState<HTMLElement | ShadowRoot>();
-  const notificationsRef = React.useRef<NotificationsRef>();
-  const contextHolder = (
-    <Notifications
-      container={container}
-      ref={notificationsRef}
-      prefixCls={prefixCls}
-      transition={motion}
-      maxCount={maxCount}
-      className={className}
-      style={style}
-      onAllRemoved={onAllRemoved}
-      stack={stack}
-      renderNotifications={renderNotifications}
-    />
-  );
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('notification', customizedPrefix);
 
-  const [taskQueue, setTaskQueue] = React.useState<Task[]>([]);
+  const holderRef = React.useRef<NotificationAPI>(null);
 
-  // ========================= Refs =========================
-  const api = React.useMemo<NotificationAPI>(() => {
-    return {
-      open: (config) => {
-        const mergedConfig = mergeConfig(shareConfig, config);
-        if (mergedConfig.key === null || mergedConfig.key === undefined) {
-          mergedConfig.key = `rc-notification-${uniqueKey}`;
-          uniqueKey += 1;
-        }
+  const warning = devUseWarning('Notification');
 
-        setTaskQueue((queue) => [...queue, { type: 'open', config: mergedConfig }]);
-      },
-      close: (key) => {
-        setTaskQueue((queue) => [...queue, { type: 'close', key }]);
-      },
-      destroy: () => {
-        setTaskQueue((queue) => [...queue, { type: 'destroy' }]);
-      },
+  // ================================ API ================================
+  const wrapAPI = React.useMemo<NotificationInstance>(() => {
+    // Wrap with notification content
+
+    // >>> Open
+    const open = (config: ArgsProps) => {
+      if (!holderRef.current) {
+        warning(
+          false,
+          'usage',
+          'You are calling notice in render which will break in React 18 concurrent mode. Please trigger in effect instead.',
+        );
+        return;
+      }
+
+      const { open: originOpen } = holderRef.current;
+
+      const noticePrefixCls = `${prefixCls}-notice`;
+
+      const {
+        message,
+        description,
+        icon,
+        type,
+        btn,
+        className,
+        role = 'alert',
+        ...restConfig
+      } = config;
+
+      let iconNode: React.ReactNode = null;
+      if (icon) {
+        iconNode = <span className={`${prefixCls}-icon`}>{icon}</span>;
+      } else if (type) {
+        iconNode = React.createElement(typeToIcon[type] || null, {
+          className: classNames(`${prefixCls}-icon`, `${prefixCls}-icon-${type}`),
+        });
+      }
+
+      return originOpen({
+        // use placement from props instead of hard-coding "topRight"
+        placement: notificationConfig?.placement ?? DEFAULT_PLACEMENT,
+        ...restConfig,
+        content: (
+          <div className={classNames({ [`${prefixCls}-with-icon`]: iconNode })} role={role}>
+            {iconNode}
+            <div className={`${prefixCls}-message`}>{message}</div>
+            <div className={`${prefixCls}-description`}>{description}</div>
+            {btn && <div className={`${prefixCls}-btn`}>{btn}</div>}
+          </div>
+        ),
+        className: classNames(type && `${noticePrefixCls}-${type}`, className),
+      });
     };
+
+    // >>> destroy
+    const destroy = (key?: React.Key) => {
+      if (key !== undefined) {
+        holderRef.current?.close(key);
+      } else {
+        holderRef.current?.destroy();
+      }
+    };
+
+    const clone = {
+      open,
+      destroy,
+    } as NotificationInstance;
+
+    const keys = ['success', 'info', 'warning', 'error'] as const;
+    keys.forEach((type) => {
+      clone[type] = (config) =>
+        open({
+          ...config,
+          type,
+        });
+    });
+
+    return clone;
   }, []);
 
-  // ======================= Container ======================
-  // React 18 should all in effect that we will check container in each render
-  // Which means getContainer should be stable.
-  React.useEffect(() => {
-    setContainer(getContainer());
+  // =============================== Style ===============================
+  const getStyle = (placement: NotificationPlacement): React.CSSProperties => ({
+    ...getPlacementStyle(placement, top ?? DEFAULT_OFFSET, bottom ?? DEFAULT_OFFSET),
+    ...style?.(placement),
   });
 
-  // ======================== Effect ========================
-  React.useEffect(() => {
-    // Flush task when node ready
-    if (notificationsRef.current && taskQueue.length) {
-      taskQueue.forEach((task) => {
-        switch (task.type) {
-          case 'open':
-            notificationsRef.current.open(task.config);
-            break;
+  const getClassName = (placement: NotificationPlacement) =>
+    mergeSemanticCls(
+      {
+        root: clsx(''),
+        notice: clsx(''),
+      },
+      className?.(placement),
+    );
 
-          case 'close':
-            notificationsRef.current.close(task.key);
-            break;
+  // ============================== Return ===============================
+  return [
+    wrapAPI,
+    <NotificationHolder
+      key="notification-holder"
+      prefixCls={prefixCls}
+      duration={duration}
+      {...restProps}
+      style={getStyle}
+      className={getClassName}
+      ref={holderRef}
+    />,
+  ] as const;
+}
 
-          case 'destroy':
-            notificationsRef.current.destroy();
-            break;
-        }
-      });
-
-      // React 17 will mix order of effect & setState in async
-      // - open: setState[0]
-      // - effect[0]
-      // - open: setState[1]
-      // - effect setState([]) * here will clean up [0, 1] in React 17
-      setTaskQueue((oriQueue) => oriQueue.filter((task) => !taskQueue.includes(task)));
-    }
-  }, [taskQueue]);
-
-  // ======================== Return ========================
-  return [api, contextHolder];
+export default function useNotification(notificationConfig?: NotificationConfig) {
+  const globalConfig = getGlobalConfig();
+  const mergedConfig = { ...globalConfig, ...notificationConfig };
+  return useInternalNotification(mergedConfig);
 }

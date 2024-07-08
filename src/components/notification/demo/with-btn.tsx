@@ -1,5 +1,5 @@
+import { Button, notification, Space } from 'metis-ui';
 import React from 'react';
-import { Button, notification, Space } from 'antd';
 
 const close = () => {
   console.log(
@@ -8,21 +8,19 @@ const close = () => {
 };
 
 const App: React.FC = () => {
-  const [api, contextHolder] = notification.useNotification();
-
   const openNotification = () => {
     const key = `open${Date.now()}`;
     const btn = (
       <Space>
-        <Button type="link" size="small" onClick={() => api.destroy()}>
+        <Button type="link" size="small" onClick={() => notification.destroy()}>
           Destroy All
         </Button>
-        <Button type="primary" size="small" onClick={() => api.destroy(key)}>
+        <Button type="primary" size="small" onClick={() => notification.destroy(key)}>
           Confirm
         </Button>
       </Space>
     );
-    api.open({
+    notification.open({
       message: 'Notification Title',
       description:
         'A function will be be called after the notification is closed (automatically after the "duration" time of manually).',
@@ -33,12 +31,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
-      {contextHolder}
-      <Button type="primary" onClick={openNotification}>
-        Open the notification box
-      </Button>
-    </>
+    <Button type="primary" onClick={openNotification}>
+      Open the notification box
+    </Button>
   );
 };
 

@@ -25,9 +25,17 @@ export function getSemanticCls(semanticClassName: any = {}): any {
   return semanticClassName;
 }
 
-export function mergeSemanticCls<T extends SemanticClassName<any, any>>(c1: T, c2: T): T {
+export function mergeSemanticCls<T extends SemanticClassName<any, any>>(
+  c1: T,
+  ...classes: (T | undefined)[]
+): T {
   const cls1 = getSemanticCls(c1);
-  const cls2 = getSemanticCls(c2);
 
-  return mergeWith(cls1, cls2, (objValue, srcValue) => clsx(objValue, srcValue)) as T;
+  if (!classes || !classes.length) return cls1 as T;
+
+  return classes.reduce((prev, curr) => {
+    if (!curr) return prev;
+    const currCls = getSemanticCls(curr);
+    return mergeWith(prev, currCls, (objValue, srcValue) => clsx(objValue, srcValue));
+  }, cls1) as T;
 }

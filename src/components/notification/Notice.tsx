@@ -15,7 +15,7 @@ export interface NoticeProps extends Omit<NoticeConfig, 'onClose'> {
   hovering?: boolean;
 }
 
-const Notify = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }>((props, ref) => {
+const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }>((props, ref) => {
   const {
     prefixCls,
     style,
@@ -154,4 +154,4 @@ const Notify = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
   );
 });
 
-export default Notify;
+export default Notice;

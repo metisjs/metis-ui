@@ -1,6 +1,8 @@
 import type * as React from 'react';
 
+import { SemanticClassName } from '../_util/classNameUtils';
 import type { BaseClosableType, ClosableType } from '../_util/hooks/useClosable';
+import { TransitionListProps } from '../transition';
 
 interface DivProps extends React.HTMLProps<HTMLDivElement> {
   'data-testid'?: string;
@@ -61,13 +63,17 @@ export interface NotificationConfig {
   duration?: number;
   showProgress?: boolean;
   pauseOnHover?: boolean;
-  prefixCls: string;
-  getContainer?: () => HTMLElement | ShadowRoot;
+  prefixCls?: string;
   placement?: NotificationPlacement;
   closable?: ClosableType;
   maxCount?: number;
   stack?: StackConfig;
+  transition?: TransitionListProps | ((placement: NotificationPlacement) => TransitionListProps);
   props?: DivProps;
+  getContainer?: () => HTMLElement | ShadowRoot;
+  className?: (placement: NotificationPlacement) => SemanticClassName<'notice'>;
+  style?: (placement: NotificationPlacement) => React.CSSProperties;
+  onAllRemoved?: VoidFunction;
 }
 
 type NoticeSemanticProps = 'wrapper';
@@ -94,10 +100,11 @@ export interface NoticeConfig {
 }
 
 export interface OpenConfig extends Omit<ArgsProps, 'type'> {
+  key: React.Key;
   content?: React.ReactNode;
 }
 
-export type InnerOpenConfig = OpenConfig & { key: React.Key; times?: number };
+export type InnerOpenConfig = OpenConfig & { times?: number };
 
 export type StackConfig =
   | boolean

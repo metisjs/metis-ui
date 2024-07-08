@@ -1,11 +1,9 @@
+import { Button, notification, Space } from 'metis-ui';
 import React from 'react';
-import { Button, notification, Space } from 'antd';
 
 const App: React.FC = () => {
-  const [api, contextHolder] = notification.useNotification();
-
   const openNotification = (pauseOnHover: boolean) => () => {
-    api.open({
+    notification.open({
       message: 'Notification Title',
       description:
         'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
@@ -15,17 +13,14 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
-      {contextHolder}
-      <Space>
-        <Button type="primary" onClick={openNotification(true)}>
-          Pause on hover
-        </Button>
-        <Button type="primary" onClick={openNotification(false)}>
-          Don&apos;t pause on hover
-        </Button>
-      </Space>
-    </>
+    <Space>
+      <Button type="primary" onClick={openNotification(true)}>
+        Pause on hover
+      </Button>
+      <Button type="primary" onClick={openNotification(false)}>
+        Don&apos;t pause on hover
+      </Button>
+    </Space>
   );
 };
 

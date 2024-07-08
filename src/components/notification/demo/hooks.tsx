@@ -1,12 +1,6 @@
+import type { NotificationArgsProps } from 'metis-ui';
+import { Button, Divider, notification, Space } from 'metis-ui';
 import React, { useMemo } from 'react';
-import {
-  RadiusBottomleftOutlined,
-  RadiusBottomrightOutlined,
-  RadiusUpleftOutlined,
-  RadiusUprightOutlined,
-} from '@ant-design/icons';
-import { Button, Divider, notification, Space } from 'antd';
-import type { NotificationArgsProps } from 'antd';
 
 type NotificationPlacement = NotificationArgsProps['placement'];
 
@@ -29,35 +23,19 @@ const App: React.FC = () => {
     <Context.Provider value={contextValue}>
       {contextHolder}
       <Space>
-        <Button
-          type="primary"
-          onClick={() => openNotification('topLeft')}
-          icon={<RadiusUpleftOutlined />}
-        >
+        <Button type="primary" onClick={() => openNotification('topLeft')}>
           topLeft
         </Button>
-        <Button
-          type="primary"
-          onClick={() => openNotification('topRight')}
-          icon={<RadiusUprightOutlined />}
-        >
+        <Button type="primary" onClick={() => openNotification('topRight')}>
           topRight
         </Button>
       </Space>
       <Divider />
       <Space>
-        <Button
-          type="primary"
-          onClick={() => openNotification('bottomLeft')}
-          icon={<RadiusBottomleftOutlined />}
-        >
+        <Button type="primary" onClick={() => openNotification('bottomLeft')}>
           bottomLeft
         </Button>
-        <Button
-          type="primary"
-          onClick={() => openNotification('bottomRight')}
-          icon={<RadiusBottomrightOutlined />}
-        >
+        <Button type="primary" onClick={() => openNotification('bottomRight')}>
           bottomRight
         </Button>
       </Space>
