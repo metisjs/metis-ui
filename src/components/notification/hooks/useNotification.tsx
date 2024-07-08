@@ -144,7 +144,7 @@ export function useInternalNotification(
   const getClassName = (placement: NotificationPlacement) =>
     mergeSemanticCls(
       {
-        root: clsx(''),
+        root: clsx('fixed z-[2050] mr-6 text-sm text-neutral-text'),
         notice: clsx(''),
       },
       className?.(placement),

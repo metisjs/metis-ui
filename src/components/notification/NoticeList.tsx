@@ -86,7 +86,7 @@ const NoticeList: FC<NoticeListProps> = (props) => {
           [`${prefixCls}-stack`]: !!stack,
           [`${prefixCls}-stack-expanded`]: expanded,
         },
-        className,
+        semanticCls.root,
       )}
       style={style}
       keys={keys}
@@ -171,7 +171,7 @@ const NoticeList: FC<NoticeListProps> = (props) => {
               prefixCls={prefixCls}
               classNames={configClassNames}
               styles={configStyles}
-              className={clsx(semanticCls, configClassName)}
+              className={clsx(semanticCls.notice, configClassName)}
               style={configStyle}
               times={times}
               key={key}
