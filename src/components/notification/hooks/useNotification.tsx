@@ -114,7 +114,7 @@ export function useInternalNotification(
         ),
         content: clsx('flex gap-3'),
         close: clsx(
-          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-neutral-text-tertiary hover:bg-neutral-fill-tertiary hover:!text-neutral-text',
+          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-neutral-text-tertiary hover:bg-neutral-fill-tertiary hover:!text-neutral-text-secondary',
         ),
       },
       className?.(placement),

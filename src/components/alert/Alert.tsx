@@ -180,7 +180,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
   const alertActionCls = clsx(`${prefixCls}-action`, semanticCls.action);
   const alertCloseCls = clsx(
     `${prefixCls}-close-icon`,
-    '-m-1.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-md p-1.5 text-lg leading-5',
+    '-m-1.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-md p-1.5 text-xl leading-5',
     {
       'hover:bg-success-bg-hover': type === 'success',
       'hover:bg-info-bg-hover': type === 'info',
