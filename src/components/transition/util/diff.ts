@@ -68,7 +68,7 @@ export function diffKeys(prevKeys: KeyObject[] = [], currentKeys: KeyObject[] = 
     if (!hit) {
       list.push({
         ...keyObj,
-        status: STATUS_REMOVE,
+        status: STATUS_REMOVED,
       });
     }
   });
@@ -90,9 +90,6 @@ export function diffKeys(prevKeys: KeyObject[] = [], currentKeys: KeyObject[] = 
   });
   const duplicatedKeys = Object.keys(keys).filter((key) => keys[key] > 1);
   duplicatedKeys.forEach((matchKey) => {
-    // Remove `STATUS_REMOVE` node.
-    list = list.filter(({ key, status }) => key !== matchKey || status !== STATUS_REMOVE);
-
     // Update `STATUS_ADD` to `STATUS_KEEP`
     list.forEach((node) => {
       if (node.key === matchKey) {
