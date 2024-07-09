@@ -1,12 +1,12 @@
-import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
+import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
 import type { NoticeConfig } from './interface';
 
-export interface NoticeProps extends Omit<NoticeConfig, 'onClose'> {
+export interface NoticeProps extends Omit<NoticeConfig, 'onClose' | 'className'> {
   prefixCls: string;
-  className?: string;
+  className?: SemanticClassName<'content' | 'close'>;
   style?: React.CSSProperties;
   eventKey: React.Key;
 
@@ -34,6 +34,9 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
     times,
     hovering: forcedHovering,
   } = props;
+
+  const semanticCls = getSemanticCls(className);
+
   const [hovering, setHovering] = React.useState(false);
   const [percent, setPercent] = React.useState(0);
   const [spentTime, setSpentTime] = React.useState(0);
@@ -110,9 +113,13 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
     <div
       {...divProps}
       ref={ref}
-      className={classNames(noticePrefixCls, className, {
-        [`${noticePrefixCls}-closable`]: mergedClosable,
-      })}
+      className={clsx(
+        noticePrefixCls,
+        {
+          [`${noticePrefixCls}-closable`]: mergedClosable,
+        },
+        semanticCls.root,
+      )}
       style={style}
       onMouseEnter={(e) => {
         setHovering(true);
@@ -125,24 +132,25 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
       onClick={onClick}
     >
       {/* Content */}
-      <div className={`${noticePrefixCls}-content`}>{content}</div>
-
-      {/* Close Icon */}
-      {mergedClosable && (
-        <a
-          tabIndex={0}
-          className={`${noticePrefixCls}-close`}
-          onKeyDown={onCloseKeyDown}
-          aria-label="Close"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onInternalClose();
-          }}
-        >
-          {closeIcon}
-        </a>
-      )}
+      <div className={clsx(`${noticePrefixCls}-content`, semanticCls.content)}>
+        {content}
+        {/* Close Icon */}
+        {mergedClosable && (
+          <a
+            tabIndex={0}
+            className={clsx(`${noticePrefixCls}-close`, semanticCls.close)}
+            onKeyDown={onCloseKeyDown}
+            aria-label="Close"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onInternalClose();
+            }}
+          >
+            {closeIcon}
+          </a>
+        )}
+      </div>
 
       {/* Progress Bar */}
       {mergedShowProgress && (

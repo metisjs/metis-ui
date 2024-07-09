@@ -1,13 +1,13 @@
 import {
-  CheckCircleSolid,
-  ExclamationTriangleSolid,
-  InformationCircleSolid,
-  XCircleSolid,
+  CheckCircleOutline,
+  ExclamationTriangleOutline,
+  InformationCircleOutline,
+  XCircleOutline,
 } from '@metisjs/icons';
-import classNames from 'classnames';
 import React from 'react';
 import { getGlobalConfig } from '..';
-import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
+import { cloneElement } from '../../_util/reactNode';
 import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
 import type {
@@ -25,7 +25,7 @@ const DEFAULT_DURATION = 4.5;
 const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
 
 const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
-  enter: 'transition-all duration-300',
+  enter: 'transition-[transform,opacity,top,bottom] duration-300',
   enterFrom: clsx('opacity-0', {
     '!-top-[9rem]': placement === 'top',
     '!-bottom-[9rem]': placement === 'bottom',
@@ -41,16 +41,16 @@ const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
       placement === 'topLeft' ||
       placement === 'bottomLeft',
   }),
-  leave: 'transition-all duration-300',
+  leave: 'transition-[transform,opacity,margin,max-height] duration-300',
   leaveFrom: 'opacity-100 max-h-[9rem] mb-4',
   leaveTo: 'opacity-0 max-h-0 mb-0',
 });
 
-const typeToIcon = {
-  success: CheckCircleSolid,
-  info: InformationCircleSolid,
-  error: XCircleSolid,
-  warning: ExclamationTriangleSolid,
+const typeToIcon: Record<string, React.ReactElement> = {
+  success: <CheckCircleOutline />,
+  info: <InformationCircleOutline />,
+  error: <XCircleOutline />,
+  warning: <ExclamationTriangleOutline />,
 };
 
 // ==============================================================================
@@ -66,6 +66,7 @@ export function useInternalNotification(
     duration = DEFAULT_DURATION,
     stack = true,
     transition = DEFAULT_TRANSITION,
+    closable = true,
     className,
     style,
     ...restProps
@@ -77,6 +78,47 @@ export function useInternalNotification(
   const holderRef = React.useRef<NotificationAPI>(null);
 
   const warning = devUseWarning('Notification');
+
+  // =============================== Style ===============================
+  const getStyle = (placement: NotificationPlacement): React.CSSProperties => ({
+    ...getPlacementStyle(placement, top ?? DEFAULT_OFFSET, bottom ?? DEFAULT_OFFSET),
+    ...style?.(placement),
+  });
+
+  const getClassName = (placement: NotificationPlacement) =>
+    mergeSemanticCls(
+      {
+        root: clsx('fixed z-[2050] text-sm text-neutral-text', {
+          'ml-6': placement === 'topLeft' || placement === 'bottomLeft',
+          'mr-6': placement === 'topRight' || placement === 'bottomRight',
+        }),
+        wrapper: clsx(
+          'relative mb-4 ms-auto rounded-lg bg-neutral-bg-elevated shadow-lg ring-1 ring-inset ring-neutral-border-secondary',
+          {
+            'absolute transition-transform duration-300 after:pointer-events-auto after:absolute after:-bottom-4 after:h-4 after:w-full after:bg-transparent':
+              !!stack,
+          },
+          !!stack && {
+            'left-0 top-0': placement === 'top' || placement === 'topLeft',
+            'right-0 top-0': placement === 'topRight',
+            'bottom-0 left-0': placement === 'bottom' || placement === 'bottomLeft',
+            'bottom-0 right-0': placement === 'bottomRight',
+          },
+        ),
+        collapsedWrapper: clsx(
+          'collapsed-wrapper after:hidden [&:not(:nth-last-child(-n+3))]:pointer-events-none [&:not(:nth-last-child(-n+3))]:overflow-hidden [&:not(:nth-last-child(-n+3))]:text-transparent [&:not(:nth-last-child(-n+3))]:opacity-0 [&:nth-last-child(2)]:bg-transparent [&:nth-last-child(2)]:backdrop-blur-md [&:nth-last-child(3)]:bg-transparent [&:nth-last-child(3)]:backdrop-blur-md',
+        ),
+        notice: clsx(
+          'w-[24rem] overflow-hidden break-words p-4 duration-300 ',
+          '[.collapsed-wrapper:nth-last-child(2)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(2)_&]:transition-opacity [.collapsed-wrapper:nth-last-child(3)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(3)_&]:transition-opacity',
+        ),
+        content: clsx('flex gap-3'),
+        close: clsx(
+          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-neutral-text-tertiary hover:bg-neutral-fill-tertiary hover:!text-neutral-text',
+        ),
+      },
+      className?.(placement),
+    );
 
   // ================================ API ================================
   const wrapAPI = React.useMemo<NotificationInstance>(() => {
@@ -107,14 +149,33 @@ export function useInternalNotification(
         role = 'alert',
         ...restConfig
       } = config;
+      const semanticCls = getSemanticCls(className);
+
+      const messageCls = clsx(`${prefixCls}-message`, 'truncate font-medium', semanticCls.message);
+      const descriptionCls = clsx(
+        `${prefixCls}-description`,
+        'mt-1 text-neutral-text-secondary',
+        semanticCls.message,
+      );
+      const iconCls = clsx(
+        `${prefixCls}-icon`,
+        !!type && `${prefixCls}-icon-${type}`,
+        'text-2xl',
+        {
+          'text-primary': type === 'info',
+          'text-success': type === 'success',
+          'text-warning': type === 'warning',
+          'text-error': type === 'error',
+        },
+        semanticCls.icon,
+      );
+      const btnCls = clsx(`${prefixCls}-btn`, semanticCls.btn);
 
       let iconNode: React.ReactNode = null;
-      if (icon) {
-        iconNode = <span className={`${prefixCls}-icon`}>{icon}</span>;
-      } else if (type) {
-        iconNode = React.createElement(typeToIcon[type] || null, {
-          className: classNames(`${prefixCls}-icon`, `${prefixCls}-icon-${type}`),
-        });
+      if (icon || type) {
+        iconNode = cloneElement(icon ?? typeToIcon[type!] ?? null, (originProps) => ({
+          className: clsx(iconCls, originProps.className),
+        }));
       }
 
       return originOpen({
@@ -122,14 +183,16 @@ export function useInternalNotification(
         placement: notificationConfig?.placement ?? DEFAULT_PLACEMENT,
         ...restConfig,
         content: (
-          <div className={classNames({ [`${prefixCls}-with-icon`]: iconNode })} role={role}>
+          <>
             {iconNode}
-            <div className={`${prefixCls}-message`}>{message}</div>
-            <div className={`${prefixCls}-description`}>{description}</div>
-            {btn && <div className={`${prefixCls}-btn`}>{btn}</div>}
-          </div>
+            <div className={clsx({ [`${prefixCls}-with-icon`]: iconNode }, 'flex-1')} role={role}>
+              <div className={messageCls}>{message}</div>
+              <div className={descriptionCls}>{description}</div>
+              {btn && <div className={btnCls}>{btn}</div>}
+            </div>
+          </>
         ),
-        className: classNames(type && `${noticePrefixCls}-${type}`, className),
+        className: clsx(type && `${noticePrefixCls}-${type}`, semanticCls.root),
       });
     };
 
@@ -159,33 +222,6 @@ export function useInternalNotification(
     return clone;
   }, []);
 
-  // =============================== Style ===============================
-  const getStyle = (placement: NotificationPlacement): React.CSSProperties => ({
-    ...getPlacementStyle(placement, top ?? DEFAULT_OFFSET, bottom ?? DEFAULT_OFFSET),
-    ...style?.(placement),
-  });
-
-  const getClassName = (placement: NotificationPlacement) =>
-    mergeSemanticCls(
-      {
-        root: clsx('fixed z-[2050] mr-6 text-sm text-neutral-text'),
-        wrapper: clsx(
-          'relative mb-4 ms-auto rounded-lg bg-neutral-bg-elevated shadow-lg',
-          {
-            'absolute transition-transform duration-300': !!stack,
-          },
-          !!stack && {
-            'left-0 top-0': placement === 'top' || placement === 'topLeft',
-            'right-0 top-0': placement === 'topRight',
-            'bottom-0 left-0': placement === 'bottom' || placement === 'bottomLeft',
-            'bottom-0 right-0': placement === 'bottomRight',
-          },
-        ),
-        notice: clsx('w-[24rem] overflow-hidden break-words p-4'),
-      },
-      className?.(placement),
-    );
-
   // ============================== Return ===============================
   return [
     wrapAPI,
@@ -195,6 +231,7 @@ export function useInternalNotification(
       duration={duration}
       stack={stack}
       transition={transition}
+      closable={closable}
       {...restProps}
       style={getStyle}
       className={getClassName}

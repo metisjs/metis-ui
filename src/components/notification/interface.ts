@@ -33,7 +33,7 @@ export interface ArgsProps {
   icon?: React.ReactNode;
   placement?: NotificationPlacement;
   style?: React.CSSProperties;
-  className?: string;
+  className?: SemanticClassName<'message' | 'icon' | 'description' | 'btn'>;
   readonly type?: IconType;
   onClick?: () => void;
   closable?: ClosableType;

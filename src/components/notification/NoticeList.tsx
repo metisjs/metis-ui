@@ -27,7 +27,7 @@ export interface NoticeListProps {
   onNoticeClose?: (key: React.Key) => void;
 
   // Common
-  className?: SemanticClassName<'wrapper' | 'notice'>;
+  className?: SemanticClassName<'wrapper' | 'collapsedWrapper' | 'notice' | 'content' | 'close'>;
   style?: CSSProperties;
 }
 
@@ -147,6 +147,7 @@ const NoticeList: FC<NoticeListProps> = (props) => {
             className={clsx(
               `${prefixCls}-notice-wrapper`,
               semanticCls.wrapper,
+              !expanded && semanticCls.collapsedWrapper,
               transitionClassName,
             )}
             style={{
@@ -168,7 +169,11 @@ const NoticeList: FC<NoticeListProps> = (props) => {
                 }
               }}
               prefixCls={prefixCls}
-              className={clsx(semanticCls.notice, configClassName)}
+              className={{
+                root: clsx(semanticCls.notice, configClassName),
+                content: semanticCls.content,
+                close: semanticCls.close,
+              }}
               style={configStyle}
               times={times}
               key={key}
