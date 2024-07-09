@@ -3,6 +3,7 @@ import type * as React from 'react';
 import { SemanticClassName } from '../_util/classNameUtils';
 import type { BaseClosableType, ClosableType } from '../_util/hooks/useClosable';
 import { TransitionProps } from '../transition';
+import { NotificationsProps } from './Notifications';
 
 interface DivProps extends React.HTMLProps<HTMLDivElement> {
   'data-testid'?: string;
@@ -73,7 +74,7 @@ export interface NotificationConfig {
     | ((placement: NotificationPlacement) => Partial<TransitionProps>);
   props?: DivProps;
   getContainer?: () => HTMLElement | ShadowRoot;
-  className?: (placement: NotificationPlacement) => SemanticClassName<'notice' | 'wrapper'>;
+  className?: NotificationsProps['className'];
   style?: (placement: NotificationPlacement) => React.CSSProperties;
   onAllRemoved?: VoidFunction;
 }

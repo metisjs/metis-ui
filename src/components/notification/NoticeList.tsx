@@ -1,7 +1,6 @@
-import clsx from 'classnames';
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
 import { TransitionList, TransitionProps } from '../transition';
 import useStack from './hooks/useStack';
 import type {
@@ -27,7 +26,9 @@ export interface NoticeListProps {
   onNoticeClose?: (key: React.Key) => void;
 
   // Common
-  className?: SemanticClassName<'wrapper' | 'collapsedWrapper' | 'notice' | 'content' | 'close'>;
+  className?: SemanticClassName<
+    'wrapper' | 'collapsedWrapper' | 'notice' | 'content' | 'close' | 'progress'
+  >;
   style?: CSSProperties;
 }
 
@@ -147,7 +148,7 @@ const NoticeList: FC<NoticeListProps> = (props) => {
             className={clsx(
               `${prefixCls}-notice-wrapper`,
               semanticCls.wrapper,
-              !expanded && semanticCls.collapsedWrapper,
+              !!stack && !expanded && semanticCls.collapsedWrapper,
               transitionClassName,
             )}
             style={{
@@ -173,6 +174,7 @@ const NoticeList: FC<NoticeListProps> = (props) => {
                 root: clsx(semanticCls.notice, configClassName),
                 content: semanticCls.content,
                 close: semanticCls.close,
+                progress: semanticCls.progress,
               }}
               style={configStyle}
               times={times}

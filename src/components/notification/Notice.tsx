@@ -6,7 +6,7 @@ import type { NoticeConfig } from './interface';
 
 export interface NoticeProps extends Omit<NoticeConfig, 'onClose' | 'className'> {
   prefixCls: string;
-  className?: SemanticClassName<'content' | 'close'>;
+  className?: SemanticClassName<'content' | 'close' | 'progress'>;
   style?: React.CSSProperties;
   eventKey: React.Key;
 
@@ -154,7 +154,11 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
 
       {/* Progress Bar */}
       {mergedShowProgress && (
-        <progress className={`${noticePrefixCls}-progress`} max="100" value={validPercent}>
+        <progress
+          className={clsx(`${noticePrefixCls}-progress`, semanticCls.progress)}
+          max="100"
+          value={validPercent}
+        >
           {validPercent + '%'}
         </progress>
       )}

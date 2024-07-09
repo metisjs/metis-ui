@@ -25,7 +25,8 @@ const DEFAULT_DURATION = 4.5;
 const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
 
 const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
-  enter: 'transition-[transform,opacity,top,bottom] duration-300',
+  appear: true,
+  enter: 'transition-[transform,opacity,top,bottom] duration-200',
   enterFrom: clsx('opacity-0', {
     '!-top-[9rem]': placement === 'top',
     '!-bottom-[9rem]': placement === 'bottom',
@@ -41,9 +42,9 @@ const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
       placement === 'topLeft' ||
       placement === 'bottomLeft',
   }),
-  leave: 'transition-[transform,opacity,margin,max-height] duration-300',
-  leaveFrom: 'opacity-100 max-h-[9rem] mb-4',
-  leaveTo: 'opacity-0 max-h-0 mb-0',
+  leave: 'transition-[opacity,margin] duration-150',
+  leaveFrom: 'opacity-100 mb-4',
+  leaveTo: 'opacity-0 mb-0',
 });
 
 const typeToIcon: Record<string, React.ReactElement> = {
@@ -109,12 +110,15 @@ export function useInternalNotification(
           'collapsed-wrapper after:hidden [&:not(:nth-last-child(-n+3))]:pointer-events-none [&:not(:nth-last-child(-n+3))]:overflow-hidden [&:not(:nth-last-child(-n+3))]:text-transparent [&:not(:nth-last-child(-n+3))]:opacity-0 [&:nth-last-child(2)]:bg-transparent [&:nth-last-child(2)]:backdrop-blur-md [&:nth-last-child(3)]:bg-transparent [&:nth-last-child(3)]:backdrop-blur-md',
         ),
         notice: clsx(
-          'w-[24rem] overflow-hidden break-words p-4 duration-300 ',
+          'relative w-[24rem] overflow-hidden break-words p-4',
           '[.collapsed-wrapper:nth-last-child(2)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(2)_&]:transition-opacity [.collapsed-wrapper:nth-last-child(3)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(3)_&]:transition-opacity',
         ),
         content: clsx('flex gap-3'),
         close: clsx(
-          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-neutral-text-tertiary hover:bg-neutral-fill-tertiary hover:!text-neutral-text-secondary',
+          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-neutral-text-secondary hover:bg-neutral-fill-tertiary',
+        ),
+        progress: clsx(
+          'absolute bottom-0 left-2 right-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-neutral-fill-quinary [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-primary',
         ),
       },
       className?.(placement),
@@ -169,7 +173,7 @@ export function useInternalNotification(
         },
         semanticCls.icon,
       );
-      const btnCls = clsx(`${prefixCls}-btn`, semanticCls.btn);
+      const btnCls = clsx(`${prefixCls}-btn`, 'mt-3', semanticCls.btn);
 
       let iconNode: React.ReactNode = null;
       if (icon || type) {

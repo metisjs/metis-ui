@@ -12,11 +12,11 @@ const App: React.FC = () => {
     const key = `open${Date.now()}`;
     const btn = (
       <Space>
-        <Button type="link" size="small" onClick={() => notification.destroy()}>
-          Destroy All
-        </Button>
         <Button type="primary" size="small" onClick={() => notification.destroy(key)}>
           Confirm
+        </Button>
+        <Button type="text" size="small" onClick={() => notification.destroy()}>
+          Destroy All
         </Button>
       </Space>
     );
