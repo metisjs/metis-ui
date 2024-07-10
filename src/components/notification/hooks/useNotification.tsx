@@ -26,25 +26,24 @@ const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
 
 const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
   appear: true,
-  enter: 'transition-[transform,opacity,top,bottom] duration-200',
+  enter: 'transition-[transform,opacity] duration-200 !-translate-x-1/2',
   enterFrom: clsx('opacity-0', {
-    '!-top-[9rem]': placement === 'top',
-    '!-bottom-[9rem]': placement === 'bottom',
+    '!-translate-y-full': placement === 'top',
+    '!translate-y-full': placement === 'bottom',
     '!translate-x-full': placement === 'topRight' || placement === 'bottomRight',
     '!-translate-x-full': placement === 'topLeft' || placement === 'bottomLeft',
   }),
   enterTo: clsx('opacity-100', {
-    '!top-0': placement === 'top',
-    '!bottom-0': placement === 'bottom',
+    '!-translate-y-0': placement === 'top' || placement === 'bottom',
     '!translate-x-0':
       placement === 'topRight' ||
       placement === 'bottomRight' ||
       placement === 'topLeft' ||
       placement === 'bottomLeft',
   }),
-  leave: 'transition-[opacity,margin] duration-150',
-  leaveFrom: 'opacity-100 mb-4',
-  leaveTo: 'opacity-0 mb-0',
+  leave: 'transition-[opacity,margin,max-height] duration-150',
+  leaveFrom: 'opacity-100 mb-4 max-h-[9rem]',
+  leaveTo: 'opacity-0 mb-0 max-h-0',
 });
 
 const typeToIcon: Record<string, React.ReactElement> = {
