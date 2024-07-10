@@ -31,7 +31,7 @@ const Divider: React.FC<DividerProps> = (props) => {
   const hasChildren = !!children;
   const classString = clsx(
     prefixCls,
-    'border-neutral-fill-secondary',
+    'border-neutral-fill-tertiary',
     {
       'clear-both my-6 flex w-full min-w-full border-t': type === 'horizontal',
       'relative top-[-0.06em] mx-2 inline-block h-[0.9em] border-l align-middle':
@@ -43,7 +43,7 @@ const Divider: React.FC<DividerProps> = (props) => {
       'before:w-1/2 after:w-1/2': orientation === 'center',
     },
     {
-      'my-4 flex translate-y-1/2 items-center whitespace-nowrap border-t-0 text-center text-base font-medium before:relative before:border-b-0 before:border-t before:border-inherit before:content-[""] after:relative after:border-b-0 after:border-t after:border-inherit after:content-[""]':
+      'my-4 flex items-center whitespace-nowrap border-t-0 text-center text-base font-medium before:relative before:border-b-0 before:border-t before:border-inherit before:content-[""] after:relative after:border-b-0 after:border-t after:border-inherit after:content-[""]':
         hasChildren,
       'border-dashed': dashed,
       'text-sm font-normal': plain,
