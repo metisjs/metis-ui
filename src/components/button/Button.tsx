@@ -177,8 +177,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
         type === 'link',
     },
     {
-      'px-2.5 py-1.5': mergedSize === 'small',
-      'px-3 py-2': mergedSize === 'middle',
+      'px-3 py-1.5': mergedSize === 'small',
+      'px-4 py-2': mergedSize === 'middle',
       'gap-x-2 px-4 py-2 text-base': mergedSize === 'large',
     },
     iconOnly && {
