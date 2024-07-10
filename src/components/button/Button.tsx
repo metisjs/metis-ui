@@ -165,7 +165,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
-    'relative inline-flex items-center justify-center gap-x-1.5 rounded-md text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+    'relative inline-flex items-center justify-center gap-x-1.5 whitespace-nowrap rounded-md text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
     {
       'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:bg-neutral-fill-quinary':
         type === 'default',
