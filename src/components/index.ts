@@ -28,6 +28,8 @@ export { default as Layout } from './layout';
 export type { LayoutProps, SiderProps } from './layout';
 export { default as Menu } from './menu';
 export type { MenuItemProps, MenuProps, MenuRef, MenuTheme, SubMenuProps } from './menu';
+export { default as message } from './message';
+export type { ArgsProps as MessageArgsProps } from './message';
 export { default as notification } from './notification';
 export type { ArgsProps as NotificationArgsProps } from './notification';
 export { default as Pagination } from './pagination';
