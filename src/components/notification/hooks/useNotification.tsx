@@ -26,7 +26,7 @@ const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
 
 const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
   appear: true,
-  enter: 'transition-[transform,opacity] duration-200 !-translate-x-1/2',
+  enter: 'transition-[transform,opacity] duration-300 !-translate-x-1/2',
   enterFrom: clsx('opacity-0', {
     '!-translate-y-full': placement === 'top',
     '!translate-y-full': placement === 'bottom',
@@ -41,7 +41,7 @@ const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
       placement === 'topLeft' ||
       placement === 'bottomLeft',
   }),
-  leave: 'transition-[opacity,margin,max-height] duration-150',
+  leave: 'transition-[opacity,margin,max-height] duration-200',
   leaveFrom: 'opacity-100 mb-4 max-h-[9rem]',
   leaveTo: 'opacity-0 mb-0 max-h-0',
 });
@@ -95,7 +95,7 @@ export function useInternalNotification(
         wrapper: clsx(
           'relative mb-4 ms-auto rounded-lg bg-neutral-bg-elevated shadow-lg ring-1 ring-inset ring-neutral-border-secondary',
           {
-            'absolute transition-transform duration-300 after:pointer-events-auto after:absolute after:-bottom-4 after:h-4 after:w-full after:bg-transparent':
+            'absolute transition-transform duration-200 after:pointer-events-auto after:absolute after:-bottom-4 after:h-4 after:w-full after:bg-transparent':
               !!stack,
           },
           !!stack && {
