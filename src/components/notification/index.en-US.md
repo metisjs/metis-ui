@@ -75,7 +75,7 @@ The properties of config are as follows:
 | duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |
 | showProgress | Show progress bar for auto-closing notification | boolean |  |  |
 | pauseOnHover | keep the timer running or not on hover | boolean | true |  |
-| transition | transition config | [TransitionProps](/compponents/transition) \| (placement: Placement) => [TransitionProps](/compponents/transition) |  |  |
+| transition | transition config | [TransitionProps](/components/transition) \| (placement: Placement) => [TransitionProps](/components/transition) |  |  |
 | props | An object that can contain `data-*`, `aria-*`, or `role` props, to be put on the notification `div`. This currently only allows `data-testid` instead of `data-*` in TypeScript. See https://github.com/microsoft/TypeScript/issues/28960. | Object | - | - |
 | className | Semantic DOM class | string \| (placement: Placement) => Record<'root' \| 'wrapper' \| 'collapsedWrapper' \| 'notice' \| 'content' \| 'close' \| 'progress', string> | - |  |
 | onAllRemoved | trigger on all notification removed | VoidFunction |  |  |

@@ -75,7 +75,7 @@ config 参数如下：
 | top | 消息从顶部弹出时，距离顶部的位置，单位像素 | number | 24 |  |
 | maxCount | 最大显示数，超过限制时，最早的消息会被自动关闭 | number | - |  |
 | stack | 堆叠模式，超过阈值时会将所有消息收起 | boolean \| `{ threshold: number; offset: number; gap: number }` | `{ threshold: 3, offset: 8, gap: 16 }` |  |
-| transition | 动画配置 | [TransitionProps](/compponents/transition-cn) \| (placement: Placement) => [TransitionProps](/compponents/transition-cn) |  |  |
+| transition | 动画配置 | [TransitionProps](/components/transition-cn) \| (placement: Placement) => [TransitionProps](/components/transition-cn) |  |  |
 | props | 透传至通知 `div` 上的 props 对象，支持传入 `data-*` `aria-*` 或 `role` 作为对象的属性。需要注意的是，虽然在 TypeScript 类型中声明的类型支持传入 `data-*` 作为对象的属性，但目前只允许传入 `data-testid` 作为对象的属性。 详见 https://github.com/microsoft/TypeScript/issues/28960 | Object | - | - |
 | className | 语义结构 class | string \| (placement: Placement) => Record<'root' \| 'wrapper' \| 'collapsedWrapper' \| 'notice' \| 'content' \| 'close' \| 'progress', string> | - |  |
 | onAllRemoved | 通知框全消失时触发 | VoidFunction |  |  |
