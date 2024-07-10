@@ -101,9 +101,9 @@ const InternalSegmentedOption: React.FC<{
     'segmented-item relative flex cursor-pointer justify-center rounded-md text-sm text-neutral-text-secondary',
     disabled ? 'cursor-not-allowed text-neutral-text-quaternary' : 'hover:text-neutral-text',
     {
-      'px-2.5 py-1.5': size === 'small',
-      'px-3 py-2': size === 'middle',
-      'px-4 py-2.5': size === 'large',
+      'px-2.5 py-1': size === 'small',
+      'px-3 py-1.5': size === 'middle',
+      'px-3 py-1.5 text-base': size === 'large',
     },
     {
       'min-w-0 flex-1': block,
@@ -190,8 +190,8 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
       {...divProps}
       className={clsx(
         prefixCls,
-        'inline-block rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text transition-all duration-300',
-        { 'block-segmented flex': block },
+        'inline-block w-fit rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text transition-all duration-300',
+        { 'block-segmented flex w-full': block },
         className,
       )}
       ref={mergedRef}
