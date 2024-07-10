@@ -29,7 +29,6 @@ const App: React.FC = () => (
       ))}
     </Space>
     <Divider orientation="left">Custom</Divider>
-    <Divider orientation="left">Custom</Divider>
     <Space size={[0, 8]} wrap>
       <Tag color="#f50">#f50</Tag>
       <Tag color="#2db7f5">#2db7f5</Tag>
