@@ -41,9 +41,9 @@ To display a notification message at any of the four corners of the viewport. Ty
 The properties of config are as follows:
 
 | Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | btn | Customized close button | ReactNode | - | - |
-| className | Semantic DOM class | string \| Record<'root' \| 'message' | 'icon' | 'description' | 'btn', string> | - |  |
+| className | Semantic DOM class | string \| Record<'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | The content of notification box (required) | ReactNode | - | - |
 | duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |

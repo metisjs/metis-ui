@@ -36,7 +36,7 @@ export interface ArgsProps {
   style?: React.CSSProperties;
   className?: SemanticClassName<'message' | 'icon' | 'description' | 'btn'>;
   readonly type?: IconType;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
   closable?: ClosableType;
   props?: DivProps;
   role?: 'alert' | 'status';

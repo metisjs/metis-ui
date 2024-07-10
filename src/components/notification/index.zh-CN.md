@@ -42,9 +42,9 @@ group: 反馈
 config 参数如下：
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | btn | 自定义关闭按钮 | ReactNode | - | - |
-| className | 语义结构 class | string \| Record<'root' \| 'message' | 'icon' | 'description' | 'btn', string> | - |  |
+| className | 语义结构 class | string \| Record<'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | 通知提醒内容，必选 | ReactNode | - | - |
 | duration | 默认 4.5 秒后自动关闭，配置为 null 则不自动关闭 | number | 4.5 | - |
