@@ -1,6 +1,6 @@
 import Modal from './Modal';
-import type { ModalProps } from './interfaces';
+import type { ModalProps } from './interface';
 
-export type { ModalProps as DialogProps };
+export type { ModalProps };
 
 export default Modal;

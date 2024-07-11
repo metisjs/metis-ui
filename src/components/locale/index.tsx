@@ -3,6 +3,8 @@
 import * as React from 'react';
 // import { changeConfirmLocale } from '../modal/locale';
 import { EmptyLocale } from '../empty';
+import { ModalLocale } from '../modal/interface';
+import { changeConfirmLocale } from '../modal/locale';
 import type { LocaleContextProps } from './context';
 import LocaleContext from './context';
 
@@ -17,7 +19,7 @@ export interface Locale {
   TimePicker?: Record<string, any>;
   Calendar?: Record<string, any>;
   // Table?: TableLocale;
-  // Modal?: ModalLocale;
+  Modal?: ModalLocale;
   // Tour?: TourLocale;
   // Popconfirm?: PopconfirmLocale;
   // Transfer?: TransferLocale;
@@ -57,12 +59,12 @@ export interface LocaleProviderProps {
 const LocaleProvider: React.FC<LocaleProviderProps> = (props) => {
   const { locale = {} as Locale, children } = props;
 
-  // React.useEffect(() => {
-  //   changeConfirmLocale(locale && locale.Modal);
-  //   return () => {
-  //     changeConfirmLocale();
-  //   };
-  // }, [locale]);
+  React.useEffect(() => {
+    changeConfirmLocale(locale && locale.Modal);
+    return () => {
+      changeConfirmLocale();
+    };
+  }, [locale]);
 
   const getMemoizedContextValue = React.useMemo<LocaleContextProps>(
     () => ({ ...locale, exist: true }),

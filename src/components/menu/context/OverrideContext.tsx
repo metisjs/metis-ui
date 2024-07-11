@@ -1,6 +1,6 @@
-import ContextIsolator from 'metis-ui/es/_util/ContextIsolator';
 import { supportNodeRef, useComposeRef } from 'rc-util';
 import * as React from 'react';
+import ContextIsolator from '../../_util/ContextIsolator';
 import { MenuProps } from '../Menu';
 
 // Used for Dropdown only

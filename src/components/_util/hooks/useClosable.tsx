@@ -1,4 +1,5 @@
 import { XMarkOutline } from '@metisjs/icons';
+import omit from 'rc-util/lib/omit';
 import type { ReactNode } from 'react';
 import React from 'react';
 import { clsx } from '../classNameUtils';
@@ -11,13 +12,13 @@ export default (
   closable: ClosableType = false,
   props?: { className?: string; onClick?: (e: any) => void },
   defaultIcon: ReactNode = <XMarkOutline className={props?.className} onClick={props?.onClick} />,
-): [boolean, ReactNode] => {
+): [boolean, ReactNode, React.AriaAttributes] => {
   if (closable === false) {
-    return [false, null];
+    return [false, null, {}];
   }
 
   if (closable === true) {
-    return [true, defaultIcon];
+    return [true, defaultIcon, {}];
   }
 
   return [
@@ -28,5 +29,6 @@ export default (
           onClick: oriProps.onClick ?? props?.onClick,
         }))
       : null,
+    omit(closable, ['closeIcon']),
   ];
 };

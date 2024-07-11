@@ -4,18 +4,18 @@ import Transition from '../transition';
 
 export type MaskProps = {
   prefixCls: string;
-  visible: boolean;
+  open: boolean;
   style?: React.CSSProperties;
   maskProps?: React.HTMLAttributes<HTMLDivElement>;
   className?: string;
 };
 
 const Mask: React.FC<MaskProps> = (props) => {
-  const { prefixCls, style, visible, maskProps, className } = props;
+  const { prefixCls, style, open, maskProps, className } = props;
   return (
     <Transition
       key="mask"
-      visible={visible}
+      visible={open}
       enter="transition-opacity ease-out duration-300"
       enterFrom="opacity-0"
       enterTo="opacity-100"
@@ -27,7 +27,7 @@ const Mask: React.FC<MaskProps> = (props) => {
         <div
           ref={ref}
           style={{ ...transitionStyle, ...style }}
-          className={clsx(`${prefixCls}-mask`, transitionClassName, className)}
+          className={clsx(`${prefixCls}-mask`, className, transitionClassName)}
           {...maskProps}
         />
       )}
