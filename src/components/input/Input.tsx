@@ -4,6 +4,7 @@ import RcInput from 'rc-input';
 import type { BaseInputProps } from 'rc-input/lib/interface';
 import { composeRef } from 'rc-util/lib/ref';
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
+import ContextIsolator from '../_util/ContextIsolator';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
@@ -12,9 +13,9 @@ import DisabledContext from '../config-provider/DisabledContext';
 import type { SizeType } from '../config-provider/SizeContext';
 import { Variant } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
-import { FormItemInputContext, NoFormStyle } from '../form/context';
+import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
-import { NoCompactStyle, useCompactItemContext } from '../space/Compact';
+import { useCompactItemContext } from '../space/Compact';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
 import { hasPrefixSuffix } from './utils';
 
@@ -296,20 +297,16 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       onChange={handleChange}
       addonAfter={
         addonAfter && (
-          <NoCompactStyle>
-            <NoFormStyle override status>
-              <span className={addonAfterWrapperCls}>{addonAfter}</span>
-            </NoFormStyle>
-          </NoCompactStyle>
+          <ContextIsolator form space>
+            <span className={addonAfterWrapperCls}>{addonAfter}</span>
+          </ContextIsolator>
         )
       }
       addonBefore={
         addonBefore && (
-          <NoCompactStyle>
-            <NoFormStyle override status>
-              <span className={addonBeforeWrapperCls}>{addonBefore}</span>
-            </NoFormStyle>
-          </NoCompactStyle>
+          <ContextIsolator form space>
+            <span className={addonBeforeWrapperCls}>{addonBefore}</span>
+          </ContextIsolator>
         )
       }
       classNames={{

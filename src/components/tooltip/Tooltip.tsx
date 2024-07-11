@@ -1,12 +1,12 @@
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
+import ContextIsolator from '../_util/ContextIsolator';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
-import { NoCompactStyle } from '../space/Compact';
 import Trigger, { BuildInPlacements } from '../trigger';
 import Popup from './Popup';
 import { TooltipProps, TooltipRef } from './interface';
@@ -156,9 +156,9 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   }, [overlay, title]);
 
   const memoOverlayWrapper = (
-    <NoCompactStyle>
+    <ContextIsolator space>
       {typeof memoOverlay === 'function' ? memoOverlay() : memoOverlay}
-    </NoCompactStyle>
+    </ContextIsolator>
   );
 
   const prefixCls = getPrefixCls('tooltip', customizePrefixCls);

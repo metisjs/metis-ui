@@ -1,5 +1,6 @@
+import ContextIsolator from 'metis-ui/es/_util/ContextIsolator';
+import { supportNodeRef, useComposeRef } from 'rc-util';
 import * as React from 'react';
-import { NoCompactStyle } from '../../space/Compact';
 import { MenuProps } from '../Menu';
 
 // Used for Dropdown only
@@ -28,9 +29,14 @@ export const OverrideProvider = React.forwardRef<
     [override, restProps.prefixCls, restProps.mode, restProps.selectable, restProps.className],
   );
 
+  const canRef = supportNodeRef(children);
+  const mergedRef = useComposeRef(ref, canRef ? children.ref : null);
+
   return (
     <OverrideContext.Provider value={context}>
-      <NoCompactStyle>{React.cloneElement(children as React.ReactElement, { ref })}</NoCompactStyle>
+      <ContextIsolator space>
+        {canRef ? React.cloneElement(children as React.ReactElement, { ref: mergedRef }) : children}
+      </ContextIsolator>
     </OverrideContext.Provider>
   );
 });
