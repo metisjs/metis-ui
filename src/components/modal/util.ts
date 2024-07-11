@@ -1,12 +1,3 @@
-// =============================== Motion ===============================
-export function getMotionName(prefixCls: string, transitionName?: string, animationName?: string) {
-  let motionName = transitionName;
-  if (!motionName && animationName) {
-    motionName = `${prefixCls}-${animationName}`;
-  }
-  return motionName;
-}
-
 // =============================== Offset ===============================
 function getScroll(w: Window, top?: boolean): number {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];

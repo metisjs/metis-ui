@@ -40,7 +40,7 @@ const Panel = React.forwardRef<ContentRef, PanelProps>((props, ref) => {
     onMouseDown,
     onMouseUp,
     holderRef,
-    visible,
+    open: visible,
     forceRender,
     width,
     height,

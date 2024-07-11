@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { useRef } from 'react';
 import classNames from 'classnames';
 import CSSMotion from 'rc-motion';
+import * as React from 'react';
+import { useRef } from 'react';
 import { offset } from '../../util';
-import type { PanelProps, ContentRef } from './Panel';
+import type { ContentRef, PanelProps } from './Panel';
 import Panel from './Panel';
 
 export type ContentProps = {
@@ -18,7 +18,7 @@ const Content = React.forwardRef<ContentRef, ContentProps>((props, ref) => {
     title,
     style,
     className,
-    visible,
+    open: visible,
     forceRender,
     destroyOnClose,
     motionName,

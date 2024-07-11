@@ -16,7 +16,7 @@ const Dialog: React.FC<ModalProps> = (props) => {
   const {
     prefixCls = 'rc-dialog',
     zIndex,
-    visible = false,
+    open: visible = false,
     keyboard = true,
     focusTriggerAfterClose = true,
     // scrollLocker,
@@ -202,7 +202,7 @@ const Dialog: React.FC<ModalProps> = (props) => {
           closable={closable}
           ariaId={ariaId}
           prefixCls={prefixCls}
-          visible={visible && animatedVisible}
+          open={visible && animatedVisible}
           onClose={onInternalClose}
           onVisibleChanged={onDialogVisibleChanged}
           motionName={getMotionName(prefixCls, transitionName, animation)}

@@ -1,5 +1,6 @@
 import type { GetContainer } from 'rc-util/lib/PortalWrapper';
 import type { CSSProperties, ReactNode, SyntheticEvent } from 'react';
+import { ClosableType } from '../_util/hooks/useClosable';
 
 export interface ModalClassNames {
   header?: string;
@@ -28,40 +29,21 @@ export type ModalProps = {
   afterClose?: () => any;
   afterOpenChange?: (open: boolean) => void;
   onClose?: (e: SyntheticEvent) => any;
-  closable?: boolean | ({ closeIcon?: React.ReactNode; disabled?: boolean } & React.AriaAttributes);
+  closable?: ClosableType;
   maskClosable?: boolean;
-  visible?: boolean;
+  open?: boolean;
   destroyOnClose?: boolean;
-  mousePosition?: {
-    x: number;
-    y: number;
-  } | null;
   title?: ReactNode;
   footer?: ReactNode;
-  transitionName?: string;
-  maskTransitionName?: string;
-  animation?: any;
-  maskAnimation?: any;
-  wrapStyle?: Record<string, any>;
-  bodyStyle?: Record<string, any>;
-  maskStyle?: Record<string, any>;
   prefixCls?: string;
-  wrapClassName?: string;
   width?: string | number;
   height?: string | number;
   zIndex?: number;
-  bodyProps?: any;
-  maskProps?: any;
-  rootClassName?: string;
-  classNames?: ModalClassNames;
-  styles?: ModalStyles;
-  wrapProps?: any;
+  wrapProps?: React.HTMLProps<HTMLDivElement>;
+  bodyProps?: React.HTMLProps<HTMLDivElement>;
+  maskProps?: React.HTMLProps<HTMLDivElement>;
   getContainer?: GetContainer | false;
-  closeIcon?: ReactNode;
   modalRender?: (node: ReactNode) => ReactNode;
   forceRender?: boolean;
   focusTriggerAfterClose?: boolean;
-
-  // Refs
-  panelRef?: React.Ref<HTMLDivElement>;
 };

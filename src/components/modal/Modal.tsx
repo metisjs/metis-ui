@@ -6,7 +6,7 @@ import type { ModalProps } from './interfaces';
 
 const Modal: React.FC<ModalProps> = (props) => {
   const {
-    visible,
+    open: visible,
     getContainer,
     forceRender,
     destroyOnClose = false,
