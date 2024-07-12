@@ -158,6 +158,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     `${prefixCls}-wrap`,
     { [`${prefixCls}-centered`]: !!centered },
     'fixed inset-0 overflow-auto outline-none',
+    !!centered && 'flex items-center justify-center',
     semanticCls.wrapper,
   );
 
@@ -215,6 +216,7 @@ const Modal: React.FC<ModalProps> = (props) => {
                 destroyOnClose={destroyOnClose}
                 className={className}
                 forceRender={forceRender}
+                centered={centered}
                 onClose={onCancel}
                 onMouseDown={onPanelMouseDown}
                 onMouseUp={onPanelMouseUp}

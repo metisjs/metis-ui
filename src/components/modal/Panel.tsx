@@ -22,6 +22,7 @@ export interface PanelProps
     | 'forceRender'
     | 'width'
     | 'height'
+    | 'centered'
     | 'destroyOnClose'
   > {
   prefixCls: string;
@@ -63,6 +64,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     forceRender,
     width,
     height,
+    centered,
     destroyOnClose,
     onOpenChanged,
   } = props;
@@ -88,48 +90,71 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   }));
 
   // ================================ Style =================================
-  const contentStyle: React.CSSProperties = {};
+  const rootCls = clsx(
+    prefixCls,
+    'relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform overflow-hidden pb-6 text-left text-sm text-neutral-text',
+    !!centered && 'top-0 pb-0',
+    semanticCls.root,
+  );
+
+  const contentCls = clsx(
+    `${prefixCls}-content`,
+    'overflow-hidden rounded-lg bg-neutral-bg-elevated shadow-xl',
+    semanticCls.content,
+  );
+
+  const headerCls = clsx(
+    `${prefixCls}-header`,
+    'truncate p-6 pb-2 pr-14 text-base font-semibold leading-6',
+    semanticCls.header,
+  );
+
+  const bodyCls = clsx(`${prefixCls}-body px-6 pb-4`, !title && 'pt-6', semanticCls.body);
+
+  const footerCls = clsx(
+    `${prefixCls}-footer`,
+    'flex justify-end gap-3 bg-neutral-fill-quinary px-6 py-3',
+    semanticCls.footer,
+  );
+
+  const closeCls = clsx(
+    `${prefixCls}-close`,
+    'absolute right-3 top-3 rounded p-1 text-neutral-text-secondary hover:bg-neutral-fill-tertiary',
+  );
+
+  const panelStyle: React.CSSProperties = {};
 
   if (width !== undefined) {
-    contentStyle.width = width;
+    panelStyle.width = width;
   }
   if (height !== undefined) {
-    contentStyle.height = height;
+    panelStyle.height = height;
   }
+
   // ================================ Render ================================
-  const footerNode = footer ? (
-    <div className={clsx(`${prefixCls}-footer`, semanticCls.footer)}>{footer}</div>
-  ) : null;
+  const footerNode = footer ? <div className={footerCls}>{footer}</div> : null;
 
   const headerNode = title ? (
-    <div className={clsx(`${prefixCls}-header`, semanticCls.header)}>
-      <div className={`${prefixCls}-title`} id={ariaId}>
-        {title}
-      </div>
+    <div className={headerCls} id={ariaId}>
+      {title}
     </div>
   ) : null;
 
-  const [, closeIcon, iconProps] = useClosable(closable);
+  const [, closeIcon, iconProps] = useClosable(closable, { className: 'w-6 h-6' });
   const ariaProps = pickAttrs(iconProps, true);
 
   const closerNode = closable ? (
-    <button
-      type="button"
-      onClick={onClose}
-      aria-label="Close"
-      {...ariaProps}
-      className={`${prefixCls}-close`}
-    >
+    <button type="button" onClick={onClose} aria-label="Close" {...ariaProps} className={closeCls}>
       {closeIcon}
     </button>
   ) : null;
 
   const content = (
     // TODO: use Scrollbar
-    <div className={clsx(`${prefixCls}-content`, semanticCls.content)} style={contentStyle}>
+    <div className={contentCls}>
       {closerNode}
       {headerNode}
-      <div className={clsx(`${prefixCls}-body`, semanticCls.body)} {...bodyProps}>
+      <div className={bodyCls} {...bodyProps}>
         {children}
       </div>
       {footerNode}
@@ -157,8 +182,8 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
           aria-labelledby={title ? ariaId : undefined}
           aria-modal="true"
           ref={transitionRef}
-          style={{ ...style, ...transitionStyle }}
-          className={clsx(prefixCls, className, transitionCls)}
+          style={{ ...panelStyle, ...style, ...transitionStyle }}
+          className={clsx(rootCls, transitionCls)}
           onMouseDown={onMouseDown}
           onMouseUp={onMouseUp}
         >
