@@ -11,7 +11,7 @@ export type ZIndexConsumer = 'SelectLike' | 'Dropdown' | 'DatePicker' | 'Menu' |
 // Popover: offset 50
 // Notification: Container Max zIndex + componentOffset
 
-const ZINDEX_BASE = 1000;
+export const Z_INDEX_BASE = 1000;
 const CONTAINER_OFFSET = 100;
 const CONTAINER_OFFSET_MAX_COUNT = 10;
 
@@ -51,7 +51,7 @@ export function useZIndex(
   if (customZIndex !== undefined) {
     result = [customZIndex, customZIndex];
   } else {
-    let zIndex = parentZIndex ?? ZINDEX_BASE;
+    let zIndex = parentZIndex ?? Z_INDEX_BASE;
 
     if (isContainer) {
       zIndex += containerBaseZIndexOffset[componentType];
@@ -64,7 +64,7 @@ export function useZIndex(
   if (process.env.NODE_ENV !== 'production') {
     const warning = devUseWarning(componentType);
 
-    const maxZIndex = ZINDEX_BASE + CONTAINER_MAX_OFFSET;
+    const maxZIndex = Z_INDEX_BASE + CONTAINER_MAX_OFFSET;
     const currentZIndex = result[0] || 0;
 
     warning(

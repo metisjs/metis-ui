@@ -15,6 +15,7 @@ const Mask: React.FC<MaskProps> = (props) => {
   return (
     <Transition
       key="mask"
+      appear
       visible={open}
       enter="transition-opacity ease-out duration-300"
       enterFrom="opacity-0"
@@ -27,7 +28,12 @@ const Mask: React.FC<MaskProps> = (props) => {
         <div
           ref={ref}
           style={{ ...transitionStyle, ...style }}
-          className={clsx(`${prefixCls}-mask`, className, transitionClassName)}
+          className={clsx(
+            `${prefixCls}-mask`,
+            'pointer-events-none fixed inset-0 bg-neutral-bg-mask',
+            className,
+            transitionClassName,
+          )}
           {...maskProps}
         />
       )}

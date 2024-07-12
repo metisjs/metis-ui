@@ -157,6 +157,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   const wrapperCls = clsx(
     `${prefixCls}-wrap`,
     { [`${prefixCls}-centered`]: !!centered },
+    'fixed inset-0 overflow-auto outline-none',
     semanticCls.wrapper,
   );
 
@@ -237,9 +238,5 @@ const Modal: React.FC<ModalProps> = (props) => {
     </ContextIsolator>
   );
 };
-
-if (process.env.NODE_ENV !== 'production') {
-  Modal.displayName = 'Modal';
-}
 
 export default Modal;

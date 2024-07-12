@@ -1,24 +1,21 @@
-import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
-import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
-import ExclamationCircleFilled from '@ant-design/icons/ExclamationCircleFilled';
-import InfoCircleFilled from '@ant-design/icons/InfoCircleFilled';
-import classNames from 'classnames';
+import {
+  CheckOutline,
+  ExclamationTriangleOutline,
+  InformationCircleOutline,
+  XMarkOutline,
+} from '@metisjs/icons';
 import * as React from 'react';
-
-import { CONTAINER_MAX_OFFSET } from '../_util/hooks/useZIndex';
-import { getTransitionName } from '../_util/motion';
+import { clsx } from '../_util/classNameUtils';
+import { CONTAINER_MAX_OFFSET, Z_INDEX_BASE } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';
-import type { ThemeConfig } from '../config-provider';
 import ConfigProvider from '../config-provider';
 import { useLocale } from '../locale';
-import useToken from '../theme/useToken';
 import CancelBtn from './components/ConfirmCancelBtn';
 import OkBtn from './components/ConfirmOkBtn';
 import type { ModalContextProps } from './context';
 import { ModalContextProvider } from './context';
 import type { ModalFuncProps, ModalLocale } from './interface';
 import Modal from './Modal';
-import Confirm from './style/confirm';
 
 export interface ConfirmModalProps extends ModalFuncProps {
   prefixCls: string;
@@ -32,12 +29,6 @@ export interface ConfirmModalProps extends ModalFuncProps {
   onConfirm?: (confirmed: boolean) => void;
   autoFocusButton?: null | 'ok' | 'cancel';
   rootPrefixCls?: string;
-  iconPrefixCls?: string;
-
-  /**
-   * Only passed by static method
-   */
-  theme?: ThemeConfig;
 
   /** @private Internal Usage. Do not override this */
   locale?: ModalLocale;
@@ -54,7 +45,6 @@ export function ConfirmContent(
   },
 ) {
   const {
-    prefixCls,
     icon,
     okText,
     cancelText,
@@ -62,20 +52,9 @@ export function ConfirmContent(
     type,
     okCancel,
     footer,
-    // Legacy for static function usage
     locale: staticLocale,
     ...resetProps
   } = props;
-
-  if (process.env.NODE_ENV !== 'production') {
-    const warning = devUseWarning('Modal');
-
-    warning(
-      !(typeof icon === 'string' && icon.length > 2),
-      'breaking',
-      `\`icon\` is using ReactNode instead of string naming in v4. Please check \`${icon}\` at https://ant.design/components/icon`,
-    );
-  }
 
   // Icon
   let mergedIcon: React.ReactNode = icon;
@@ -84,19 +63,19 @@ export function ConfirmContent(
   if (!icon && icon !== null) {
     switch (type) {
       case 'info':
-        mergedIcon = <InfoCircleFilled />;
+        mergedIcon = <InformationCircleOutline />;
         break;
 
       case 'success':
-        mergedIcon = <CheckCircleFilled />;
+        mergedIcon = <CheckOutline />;
         break;
 
       case 'error':
-        mergedIcon = <CloseCircleFilled />;
+        mergedIcon = <XMarkOutline />;
         break;
 
       default:
-        mergedIcon = <ExclamationCircleFilled />;
+        mergedIcon = <ExclamationTriangleOutline />;
     }
   }
 
@@ -138,7 +117,7 @@ export function ConfirmContent(
   return (
     <div className={`${confirmPrefixCls}-body-wrapper`}>
       <div
-        className={classNames(bodyCls, {
+        className={clsx(bodyCls, {
           [`${bodyCls}-has-title`]: hasTitle,
         })}
       >
@@ -163,13 +142,11 @@ export function ConfirmContent(
       ) : (
         footer
       )}
-
-      <Confirm prefixCls={prefixCls} />
     </div>
   );
 }
 
-const ConfirmDialog: React.FC<ConfirmModalProps> = (props) => {
+const ConfirmModal: React.FC<ConfirmModalProps> = (props) => {
   const {
     close,
     zIndex,
@@ -178,18 +155,11 @@ const ConfirmDialog: React.FC<ConfirmModalProps> = (props) => {
     keyboard,
     centered,
     getContainer,
-    maskStyle,
-    direction,
     prefixCls,
-    wrapClassName,
-    rootPrefixCls,
-    bodyStyle,
     closable = false,
-    closeIcon,
     modalRender,
     focusTriggerAfterClose,
     onConfirm,
-    styles,
   } = props;
 
   if (process.env.NODE_ENV !== 'production') {
@@ -212,34 +182,23 @@ const ConfirmDialog: React.FC<ConfirmModalProps> = (props) => {
   // 默认为 false，保持旧版默认行为
   const maskClosable = props.maskClosable === undefined ? false : props.maskClosable;
 
-  const classString = classNames(
-    confirmPrefixCls,
-    `${confirmPrefixCls}-${props.type}`,
-    { [`${confirmPrefixCls}-rtl`]: direction === 'rtl' },
-    props.className,
-  );
+  const classString = clsx(confirmPrefixCls, `${confirmPrefixCls}-${props.type}`, props.className);
 
   // ========================= zIndex =========================
-  const [, token] = useToken();
-
   const mergedZIndex = React.useMemo(() => {
     if (zIndex !== undefined) {
       return zIndex;
     }
 
     // Static always use max zIndex
-    return token.zIndexPopupBase + CONTAINER_MAX_OFFSET;
-  }, [zIndex, token]);
+    return Z_INDEX_BASE + CONTAINER_MAX_OFFSET;
+  }, [zIndex]);
 
   // ========================= Render =========================
   return (
     <Modal
       prefixCls={prefixCls}
       className={classString}
-      wrapClassName={classNames(
-        { [`${confirmPrefixCls}-centered`]: !!props.centered },
-        wrapClassName,
-      )}
       onCancel={() => {
         close?.({ triggerCancel: true });
         onConfirm?.(false);
@@ -247,12 +206,9 @@ const ConfirmDialog: React.FC<ConfirmModalProps> = (props) => {
       open={open}
       title=""
       footer={null}
-      transitionName={getTransitionName(rootPrefixCls || '', 'zoom', props.transitionName)}
-      maskTransitionName={getTransitionName(rootPrefixCls || '', 'fade', props.maskTransitionName)}
       mask={mask}
       maskClosable={maskClosable}
       style={style}
-      styles={{ body: bodyStyle, mask: maskStyle, ...styles }}
       width={width}
       zIndex={mergedZIndex}
       afterClose={afterClose}
@@ -260,7 +216,6 @@ const ConfirmDialog: React.FC<ConfirmModalProps> = (props) => {
       centered={centered}
       getContainer={getContainer}
       closable={closable}
-      closeIcon={closeIcon}
       modalRender={modalRender}
       focusTriggerAfterClose={focusTriggerAfterClose}
     >
@@ -269,24 +224,19 @@ const ConfirmDialog: React.FC<ConfirmModalProps> = (props) => {
   );
 };
 
-const ConfirmDialogWrapper: React.FC<ConfirmModalProps> = (props) => {
-  const { rootPrefixCls, iconPrefixCls, direction, theme } = props;
+const ConfirmModalWrapper: React.FC<ConfirmModalProps> = (props) => {
+  const { rootPrefixCls } = props;
 
   return (
-    <ConfigProvider
-      prefixCls={rootPrefixCls}
-      iconPrefixCls={iconPrefixCls}
-      direction={direction}
-      theme={theme}
-    >
-      <ConfirmDialog {...props} />
+    <ConfigProvider prefixCls={rootPrefixCls}>
+      <ConfirmModal {...props} />
     </ConfigProvider>
   );
 };
 
 if (process.env.NODE_ENV !== 'production') {
-  ConfirmDialog.displayName = 'ConfirmDialog';
-  ConfirmDialogWrapper.displayName = 'ConfirmDialogWrapper';
+  ConfirmModal.displayName = 'ConfirmModal';
+  ConfirmModalWrapper.displayName = 'ConfirmModalWrapper';
 }
 
-export default ConfirmDialogWrapper;
+export default ConfirmModalWrapper;

@@ -66,3 +66,5 @@ export { default as Tooltip } from './tooltip';
 export type { TooltipProps } from './tooltip';
 export { default as Transition } from './transition';
 export type { TransitionProps } from './transition';
+
+export * from './_util/classNameUtils';

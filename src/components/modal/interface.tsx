@@ -48,8 +48,12 @@ export type ModalProps = {
 
 export interface ModalFuncProps extends Omit<ModalProps, 'loading'> {
   content?: React.ReactNode;
-  type?: 'info' | 'success' | 'error' | 'warn' | 'warning' | 'confirm';
+  type?: 'info' | 'success' | 'error' | 'warning' | 'confirm';
   autoFocusButton?: null | 'ok' | 'cancel';
+  icon?: React.ReactNode;
+  okCancel?: boolean;
+  onOk?: (...args: any[]) => any;
+  onCancel?: (...args: any[]) => any;
 }
 
 export interface ModalLocale {

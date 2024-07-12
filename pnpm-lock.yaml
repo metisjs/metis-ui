@@ -177,6 +177,9 @@ devDependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-draggable:
+    specifier: ^4.4.6
+    version: 4.4.6(react-dom@18.2.0)(react@18.2.0)
   react-fast-marquee:
     specifier: ^1.6.4
     version: 1.6.4(react-dom@18.2.0)(react@18.2.0)
@@ -2895,7 +2898,7 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
       postcss: 8.4.38
-      postcss-syntax: 0.36.2(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss@8.4.38)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4085,7 +4088,7 @@ packages:
       eslint-plugin-react: 7.33.2(eslint@8.39.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.39.0)
       postcss: 8.4.38
-      postcss-syntax: 0.36.2(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss@8.4.38)
       stylelint-config-standard: 25.0.0(stylelint@15.6.0)
     transitivePeerDependencies:
       - eslint
@@ -5776,6 +5779,11 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+    dev: true
+
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
     dev: true
 
   /coa@2.0.2:
@@ -12983,7 +12991,7 @@ packages:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  /postcss-syntax@0.36.2(postcss@8.4.24):
+  /postcss-syntax@0.36.2(postcss@8.4.38):
     resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
     peerDependencies:
       postcss: '>=5.0.0'
@@ -13004,7 +13012,7 @@ packages:
       postcss-scss:
         optional: true
     dependencies:
-      postcss: 8.4.24
+      postcss: 8.4.38
     dev: true
 
   /postcss-value-parser@4.2.0:
@@ -14068,6 +14076,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
+    dev: true
+
+  /react-draggable@4.4.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-LtY5Xw1zTPqHkVmtM3X8MUOxNDOUhv/khTgBgrUvwaS064bwVvxT+q5El0uUFNx5IEPKXuRejr7UqLwBIg5pdw==}
+    peerDependencies:
+      react: '>= 16.3.0'
+      react-dom: '>= 16.3.0'
+    dependencies:
+      clsx: 1.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: true
 
   /react-error-boundary@4.0.13(react@18.2.0):
