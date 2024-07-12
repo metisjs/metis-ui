@@ -2,7 +2,9 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
+import ZIndexContext from '../_util/ZIndexContext';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import { useZIndex } from '../_util/hooks/useZIndex';
 import type { AdjustOverflow } from '../_util/placements';
 import getPlacements from '../_util/placements';
 import { cloneElement } from '../_util/reactNode';
@@ -115,7 +117,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
   // =========================== Overlay ============================
   const overlayClassNameCustomized = clsx(
-    'absolute z-[1050] rounded-md bg-neutral-bg-elevated text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+    'absolute rounded-md bg-neutral-bg-elevated text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
     arrow &&
       'origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-elevated))]',
     semanticCls.overlay,
@@ -159,9 +161,13 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     triggerHideAction = ['click'];
   }
 
+  // =========================== zIndex ============================
+  const [zIndex, contextZIndex] = useZIndex('Dropdown');
+
   // ============================ Render ============================
-  return (
+  let renderNode = (
     <Trigger
+      zIndex={zIndex}
       forceRender={forceRender}
       autoDestroy={destroyPopupOnHide}
       mouseEnterDelay={mouseEnterDelay}
@@ -200,6 +206,14 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       {dropdownTrigger}
     </Trigger>
   );
+
+  if (zIndex) {
+    renderNode = (
+      <ZIndexContext.Provider value={contextZIndex}>{renderNode}</ZIndexContext.Provider>
+    );
+  }
+
+  return renderNode;
 };
 
 if (process.env.NODE_ENV !== 'production') {

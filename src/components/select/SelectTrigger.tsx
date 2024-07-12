@@ -70,6 +70,7 @@ export interface SelectTriggerProps {
   getPopupContainer?: RenderDOMFunc;
   popupAlign?: AlignType;
   empty: boolean;
+  zIndex?: number;
 
   getTriggerDOMNode: () => HTMLElement;
   onPopupOpenChange?: (visible: boolean) => void;
@@ -98,6 +99,7 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
     popupAlign,
     getPopupContainer,
     empty,
+    zIndex,
     getTriggerDOMNode,
     onPopupOpenChange,
     onPopupMouseEnter,
@@ -149,6 +151,7 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
       }
       popupAlign={popupAlign}
       popupOpen={open}
+      zIndex={zIndex}
       getPopupContainer={getPopupContainer}
       className={{
         popup: clsx(

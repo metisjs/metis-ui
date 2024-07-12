@@ -51,18 +51,14 @@ export function useZIndex(
   if (customZIndex !== undefined) {
     result = [customZIndex, customZIndex];
   } else {
-    let zIndex = parentZIndex ?? 0;
+    let zIndex = parentZIndex ?? ZINDEX_BASE;
 
     if (isContainer) {
-      zIndex +=
-        // Use preset token zIndex by default but not stack when has parent container
-        (parentZIndex ? 0 : ZINDEX_BASE) +
-        // Container offset
-        containerBaseZIndexOffset[componentType];
+      zIndex += containerBaseZIndexOffset[componentType];
     } else {
       zIndex += consumerBaseZIndexOffset[componentType];
     }
-    result = [parentZIndex === undefined ? customZIndex : zIndex, zIndex];
+    result = [zIndex, zIndex];
   }
 
   if (process.env.NODE_ENV !== 'production') {

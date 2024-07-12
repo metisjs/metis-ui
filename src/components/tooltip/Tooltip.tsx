@@ -2,7 +2,9 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
 import ContextIsolator from '../_util/ContextIsolator';
+import ZIndexContext from '../_util/ZIndexContext';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { useZIndex } from '../_util/hooks/useZIndex';
 import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
@@ -188,7 +190,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const arrowContentStyle = colorInfo.arrowStyle;
 
   const customOverlayClassName = clsx(
-    'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
+    'visible absolute box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-spotlight))]',
     semanticCls.overlay,
   );
 
@@ -217,42 +219,48 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     </Popup>
   );
 
+  // ============================ zIndex ============================
+  const [zIndex, contextZIndex] = useZIndex('Tooltip');
+
   return (
-    <Trigger
-      {...restProps}
-      className={{
-        popup: customOverlayClassName,
-      }}
-      prefixCls={prefixCls}
-      popup={getPopupElement}
-      action={trigger}
-      builtinPlacements={tooltipPlacements}
-      popupPlacement={placement}
-      ref={tooltipRef}
-      popupAlign={align}
-      popupOpen={tempOpen}
-      onPopupOpenChange={onOpenChange}
-      afterPopupOpenChange={afterOpenChange}
-      popupTransition={
-        transition ?? {
-          enter: 'transition duration-[100ms]',
-          enterFrom: 'opacity-0 scale-[0.8]',
-          enterTo: 'opacity-100 scale-100',
-          leave: 'transition duration-[100ms]',
-          leaveFrom: 'opacity-100 scale-100 ',
-          leaveTo: 'opacity-0 scale-[0.8]',
+    <ZIndexContext.Provider value={contextZIndex}>
+      <Trigger
+        {...restProps}
+        className={{
+          popup: customOverlayClassName,
+        }}
+        prefixCls={prefixCls}
+        popup={getPopupElement}
+        action={trigger}
+        builtinPlacements={tooltipPlacements}
+        popupPlacement={placement}
+        ref={tooltipRef}
+        zIndex={zIndex}
+        popupAlign={align}
+        popupOpen={tempOpen}
+        onPopupOpenChange={onOpenChange}
+        afterPopupOpenChange={afterOpenChange}
+        popupTransition={
+          transition ?? {
+            enter: 'transition duration-[100ms]',
+            enterFrom: 'opacity-0 scale-[0.8]',
+            enterTo: 'opacity-100 scale-100',
+            leave: 'transition duration-[100ms]',
+            leaveFrom: 'opacity-100 scale-100 ',
+            leaveTo: 'opacity-0 scale-[0.8]',
+          }
         }
-      }
-      defaultPopupOpen={defaultOpen}
-      autoDestroy={!!destroyTooltipOnHide}
-      mouseLeaveDelay={mouseLeaveDelay}
-      mouseEnterDelay={mouseEnterDelay}
-      arrow={mergedArrow}
-      popupStyle={{ ...arrowContentStyle, ...overlayStyle }}
-      getPopupContainer={getPopupContainer || getTooltipContainer || getContextPopupContainer}
-    >
-      {tempOpen ? cloneElement(child, { className: childCls }) : child}
-    </Trigger>
+        defaultPopupOpen={defaultOpen}
+        autoDestroy={!!destroyTooltipOnHide}
+        mouseLeaveDelay={mouseLeaveDelay}
+        mouseEnterDelay={mouseEnterDelay}
+        arrow={mergedArrow}
+        popupStyle={{ ...arrowContentStyle, ...overlayStyle }}
+        getPopupContainer={getPopupContainer || getTooltipContainer || getContextPopupContainer}
+      >
+        {tempOpen ? cloneElement(child, { className: childCls }) : child}
+      </Trigger>
+    </ZIndexContext.Provider>
   );
 });
 

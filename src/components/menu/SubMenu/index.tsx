@@ -1,3 +1,4 @@
+import { useZIndex } from 'metis-ui/es/_util/hooks/useZIndex';
 import Overflow from 'rc-overflow';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
@@ -218,6 +219,9 @@ const InternalSubMenu = (props: SubMenuProps) => {
     onActive(eventKey);
   };
 
+  // ============================ zIndex ============================
+  const [zIndex] = useZIndex('Menu');
+
   // =============================== Render ===============================
   const popupId = domDataId ? `${domDataId}-popup` : undefined;
 
@@ -407,6 +411,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     // Which makes motion failed
     titleNode = (
       <PopupTrigger
+        zIndex={zIndex}
         mode={triggerMode}
         prefixCls={subMenuPrefixCls}
         open={!internalPopupClose && open && mode !== 'inline'}

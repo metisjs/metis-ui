@@ -2,6 +2,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
+import { useZIndex } from '../_util/hooks/useZIndex';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -592,7 +593,7 @@ const Select = React.forwardRef(
     });
 
     const popupClassName = clsx(
-      'absolute z-[1050] rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+      'absolute rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
       semanticCls.popup,
     );
 
@@ -632,6 +633,9 @@ const Select = React.forwardRef(
       warningProps(props);
       warningNullOptions(mergedOptions, mergedFieldNames);
     }
+
+    // ====================== zIndex =========================
+    const [zIndex] = useZIndex('SelectLike');
 
     // ==============================================================
     // ==                          Render                          ==
@@ -685,6 +689,7 @@ const Select = React.forwardRef(
           // >>> Accessibility
           activeValue={activeValue}
           activeDescendantId={`${mergedId}_list_${accessibilityIndex}`}
+          zIndex={zIndex}
         />
       </SelectContext.Provider>
     );

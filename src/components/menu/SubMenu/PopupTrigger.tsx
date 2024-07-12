@@ -25,6 +25,7 @@ export interface PopupTriggerProps {
   popupClassName?: string;
   popupOffset?: number[];
   disabled: boolean;
+  zIndex?: number;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -38,6 +39,7 @@ export default function PopupTrigger({
   popupOffset,
   disabled,
   mode,
+  zIndex,
   onOpenChange,
 }: PopupTriggerProps) {
   const {
@@ -104,6 +106,7 @@ export default function PopupTrigger({
           className,
         ),
       }}
+      zIndex={zIndex}
       stretch={mode === 'horizontal' ? 'minWidth' : undefined}
       getPopupContainer={getPopupContainer}
       builtinPlacements={placement}

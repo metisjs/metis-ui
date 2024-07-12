@@ -120,6 +120,7 @@ export interface BaseSelectPrivateProps {
   >;
   /** Tell if provided `options` is empty */
   emptyOptions: boolean;
+  zIndex?: number;
 }
 
 export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSelectPrivateProps>;
@@ -276,6 +277,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     onKeyUp,
     onKeyDown,
     onMouseDown,
+
+    zIndex,
 
     // Rest Props
     ...restProps
@@ -793,6 +796,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       popupRender={popupRender}
       popupAlign={popupAlign}
       placement={placement}
+      zIndex={zIndex}
       builtinPlacements={builtinPlacements}
       getPopupContainer={getPopupContainer}
       empty={emptyOptions}
