@@ -1,5 +1,6 @@
 import { render } from 'rc-util/lib/React/render';
 import React from 'react';
+import ConfigProvider, { globalConfig } from '../config-provider';
 import useNotification, { useInternalNotification } from './hooks/useNotification';
 import type { ArgsProps, NotificationConfig, NotificationInstance } from './interface';
 
@@ -77,7 +78,15 @@ const GlobalHolderWrapper = React.forwardRef<GlobalHolderRef, unknown>((_, ref) 
 
   React.useEffect(sync, []);
 
-  return <GlobalHolder ref={ref} sync={sync} notificationConfig={notificationConfig} />;
+  const global = globalConfig();
+  const rootPrefixCls = global.getRootPrefixCls();
+
+  const dom = <GlobalHolder ref={ref} sync={sync} notificationConfig={notificationConfig} />;
+  return (
+    <ConfigProvider prefixCls={rootPrefixCls}>
+      {global.holderRender ? global.holderRender(dom) : dom}
+    </ConfigProvider>
+  );
 });
 
 function flushNotice() {

@@ -1,97 +1,176 @@
-// import { FormProvider as RcFormProvider } from 'rc-field-form';
-// import type { ValidateMessages } from 'rc-field-form/lib/interface';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import * as React from 'react';
-// import type { RequiredMark } from '../form/Form';
-// import type { Locale } from '../locale-provider';
-// import LocaleProvider, { METIS_MARK } from '../locale-provider';
-// import LocaleReceiver from '../locale-provider/LocaleReceiver';
-// import defaultLocale from '../locale/default';
-// import message from '../message';
-// import notification from '../notification';
-// import type { Theme } from './context';
+// import ValidateMessagesContext from '../form/validateMessagesContext';
+import type { Locale } from '../locale';
+import LocaleProvider, { METIS_MARK } from '../locale';
+import type {
+  ConfigConsumerProps,
+  InputConfig,
+  PaginationConfig,
+  PopupOverflow,
+  RouteConfig,
+  SpaceConfig,
+  Variant,
+} from './context';
+import { ConfigConsumer, ConfigContext, Variants } from './context';
+import type { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
+import useConfig from './hooks/useConfig';
 import type { SizeType } from './SizeContext';
-import SizeContext, { SizeContextProvider } from './SizeContext';
-import type { ConfigConsumerProps } from './context';
-import { ConfigConsumer, ConfigContext } from './context';
-import { RenderEmptyHandler } from './defaultRenderEmpty';
+import { SizeContextProvider } from './SizeContext';
 
-export { ConfigConsumer, ConfigConsumerProps, ConfigContext };
+export type { Variant };
 
-export const configConsumerProps = [
-  'getTargetContainer',
-  'getPopupContainer',
-  'renderEmpty',
-  'locale',
-  'pageHeader',
-];
+export { Variants };
+
+export { ConfigConsumer, ConfigContext, type ConfigConsumerProps, type RenderEmptyHandler };
 
 // These props is used by `useContext` directly in sub component
-const PASSED_PROPS: (keyof ConfigConsumerProps)[] = [
+const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPrefixCls'>[] = [
   'getTargetContainer',
   'getPopupContainer',
   'renderEmpty',
   'input',
   'pagination',
-  'form',
+  'route',
+  // TODO: form组件待开发
+  // 'form'
 ];
 
 export interface ConfigProviderProps {
   getTargetContainer?: () => HTMLElement | Window;
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
+  prefixCls?: string;
   children?: React.ReactNode;
   renderEmpty?: RenderEmptyHandler;
-  form?: {
-    // validateMessages?: ValidateMessages;
-    // requiredMark?: RequiredMark;
-    colon?: boolean;
-  };
-  input?: {
-    autoComplete?: string;
-  };
-  pagination?: {
-    showSizeChanger?: boolean;
-  };
-  // locale?: Locale;
-  pageHeader?: {
-    ghost: boolean;
-  };
+  variant?: Variant;
+  // TODO: form组件待开发
+  // form?: FormConfig;
+  input?: InputConfig;
+  pagination?: PaginationConfig;
+  locale?: Locale;
   componentSize?: SizeType;
   componentDisabled?: boolean;
-  space?: {
-    size?: SizeType | number;
-  };
+  space?: SpaceConfig;
+  /**
+   * @descCN 设置 `false` 时关闭虚拟滚动。
+   * @descEN Close the virtual scrolling when setting `false`.
+   * @default true
+   */
   virtual?: boolean;
   popupMatchSelectWidth?: boolean;
+  popupOverflow?: PopupOverflow;
+  route?: RouteConfig;
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
   parentContext: ConfigConsumerProps;
-  // legacyLocale: Locale;
 }
+
+type holderRenderType = (children: React.ReactNode) => React.ReactNode;
+
+export const defaultPrefixCls = 'metis';
+
+let globalPrefixCls: string;
+let globalHolderRender: holderRenderType | undefined;
+
+function getGlobalPrefixCls() {
+  return globalPrefixCls || defaultPrefixCls;
+}
+
+interface GlobalConfigProps {
+  prefixCls?: string;
+  holderRender?: holderRenderType;
+}
+
+const setGlobalConfig = (props: GlobalConfigProps) => {
+  const { prefixCls, holderRender } = props;
+  if (prefixCls !== undefined) {
+    globalPrefixCls = prefixCls;
+  }
+  if ('holderRender' in props) {
+    globalHolderRender = holderRender;
+  }
+};
+
+export const globalConfig = () => ({
+  getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => {
+    if (customizePrefixCls) {
+      return customizePrefixCls;
+    }
+    return suffixCls ? `${getGlobalPrefixCls()}-${suffixCls}` : getGlobalPrefixCls();
+  },
+  getRootPrefixCls: () => {
+    // If Global prefixCls provided, use this
+    if (globalPrefixCls) {
+      return globalPrefixCls;
+    }
+
+    // Fallback to default prefixCls
+    return getGlobalPrefixCls();
+  },
+  holderRender: globalHolderRender,
+});
 
 const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const {
     children,
-    // form,
-    // locale,
+    locale,
     componentSize,
     space,
     virtual,
     popupMatchSelectWidth,
-    // legacyLocale,
+    popupOverflow,
     parentContext,
     componentDisabled,
+    pagination,
+    input,
+    variant,
+    route,
+    // TODO: form组件待开发
+    // form
   } = props;
 
-  const config = {
-    ...parentContext,
-    // locale: locale || legacyLocale,
+  // =================================== Context ===================================
+  const getPrefixCls = React.useCallback(
+    (suffixCls: string, customizePrefixCls?: string) => {
+      const { prefixCls } = props;
+
+      if (customizePrefixCls) {
+        return customizePrefixCls;
+      }
+
+      const mergedPrefixCls = prefixCls || parentContext.getPrefixCls('');
+
+      return suffixCls ? `${mergedPrefixCls}-${suffixCls}` : mergedPrefixCls;
+    },
+    [parentContext.getPrefixCls, props.prefixCls],
+  );
+
+  const baseConfig = {
+    locale: locale,
     space,
     virtual,
-    popupMatchSelectWidth,
+    popupMatchSelectWidth: popupMatchSelectWidth,
+    popupOverflow,
+    getPrefixCls,
+    input,
+    pagination,
+    variant,
+    route,
+    // TODO: form组件待开发
+    // form
   };
+
+  const config: ConfigConsumerProps = {
+    ...parentContext,
+  };
+
+  (Object.keys(baseConfig) as (keyof typeof baseConfig)[]).forEach((key) => {
+    if (baseConfig[key] !== undefined) {
+      (config as any)[key] = baseConfig[key];
+    }
+  });
 
   // Pass the props used by `useContext` directly with child component.
   // These props should merged into `config`.
@@ -102,7 +181,6 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     }
   });
 
-  // https://github.com/ant-design/ant-design/issues/27617
   const memoedConfig = useMemo(
     () => config,
     config,
@@ -116,42 +194,41 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     },
   );
 
-  // const memoIconContextValue = React.useMemo(() => ({ csp }), [csp]);
+  let childNode = <>{children}</>;
 
-  let childNode = children;
-  // Additional Form provider
-  // let validateMessages: ValidateMessages = {};
-
-  // if (locale) {
-  //   validateMessages =
-  //     locale.Form?.defaultValidateMessages || defaultLocale.Form?.defaultValidateMessages || {};
-  // }
-  // if (form && form.validateMessages) {
-  //   validateMessages = { ...validateMessages, ...form.validateMessages };
-  // }
+  // TODO: form组件待开发
+  // const validateMessages = React.useMemo(
+  //   () =>
+  //     merge(
+  //       defaultLocale.Form?.defaultValidateMessages || {},
+  //       memoedConfig.locale?.Form?.defaultValidateMessages || {},
+  //       memoedConfig.form?.validateMessages || {},
+  //       form?.validateMessages || {},
+  //     ),
+  //   [memoedConfig, form?.validateMessages],
+  // );
 
   // if (Object.keys(validateMessages).length > 0) {
-  //   childNode = <RcFormProvider validateMessages={validateMessages}>{children}</RcFormProvider>;
-  // }
-
-  // if (locale) {
   //   childNode = (
-  //     <LocaleProvider locale={locale} _METIS_MARK__={METIS_MARK}>
+  //     <ValidateMessagesContext.Provider value={validateMessages}>
   //       {childNode}
-  //     </LocaleProvider>
+  //     </ValidateMessagesContext.Provider>
   //   );
   // }
 
-  // if (csp) {
-  //   childNode = (
-  //     <IconContext.Provider value={memoIconContextValue}>{childNode}</IconContext.Provider>
-  //   );
-  // }
+  if (locale) {
+    childNode = (
+      <LocaleProvider locale={locale} _METIS_MARK__={METIS_MARK}>
+        {childNode}
+      </LocaleProvider>
+    );
+  }
 
   if (componentSize) {
     childNode = <SizeContextProvider size={componentSize}>{childNode}</SizeContextProvider>;
   }
 
+  // =================================== Render ===================================
   if (componentDisabled !== undefined) {
     childNode = (
       <DisabledContextProvider disabled={componentDisabled}>{childNode}</DisabledContextProvider>
@@ -162,22 +239,21 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 };
 
 const ConfigProvider: React.FC<ConfigProviderProps> & {
+  /** @private internal Usage. do not use in your production */
   ConfigContext: typeof ConfigContext;
-  SizeContext: typeof SizeContext;
+  config: typeof setGlobalConfig;
+  useConfig: typeof useConfig;
 } = (props) => {
-  return (
-    // <LocaleReceiver>
-    // {(_, __, legacyLocale) => (
-    <ConfigConsumer>
-      {(context) => <ProviderChildren parentContext={context} {...props} />}
-    </ConfigConsumer>
-    // )}
-    // </LocaleReceiver>
-  );
+  const context = React.useContext<ConfigConsumerProps>(ConfigContext);
+  return <ProviderChildren parentContext={context} {...props} />;
 };
 
-/** @private internal Usage. do not use in your production */
 ConfigProvider.ConfigContext = ConfigContext;
-ConfigProvider.SizeContext = SizeContext;
+ConfigProvider.config = setGlobalConfig;
+ConfigProvider.useConfig = useConfig;
+
+if (process.env.NODE_ENV !== 'production') {
+  ConfigProvider.displayName = 'ConfigProvider';
+}
 
 export default ConfigProvider;

@@ -1,5 +1,6 @@
 import { render } from 'rc-util/lib/React/render';
 import React from 'react';
+import ConfigProvider, { globalConfig } from '../config-provider';
 import type {
   ArgsProps,
   ConfigOptions,
@@ -98,7 +99,15 @@ const GlobalHolderWrapper = React.forwardRef<GlobalHolderRef, unknown>((_, ref) 
 
   React.useEffect(sync, []);
 
-  return <GlobalHolder ref={ref} sync={sync} messageConfig={messageConfig} />;
+  const global = globalConfig();
+  const rootPrefixCls = global.getRootPrefixCls();
+
+  const dom = <GlobalHolder ref={ref} sync={sync} messageConfig={messageConfig} />;
+  return (
+    <ConfigProvider prefixCls={rootPrefixCls}>
+      {global.holderRender ? global.holderRender(dom) : dom}
+    </ConfigProvider>
+  );
 });
 
 function flushNotice() {

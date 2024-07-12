@@ -54,6 +54,8 @@ export interface Locale {
 export interface LocaleProviderProps {
   locale: Locale;
   children?: React.ReactNode;
+  /** @internal */
+  _METIS_MARK__?: string;
 }
 
 const LocaleProvider: React.FC<LocaleProviderProps> = (props) => {
