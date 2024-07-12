@@ -250,13 +250,15 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const defaultTransitions: Partial<{ [key in MenuMode | 'other']: TransitionProps }> =
     React.useMemo(
       () => ({
-        horizontal: {
-          leave: 'transition ease-in',
+        inline: collapseTransition,
+        other: {
+          enter: 'transition ease-out duration-200',
+          enterFrom: 'opacity-0',
+          enterTo: 'opacity-100',
+          leave: 'transition ease-in duration-150',
           leaveFrom: 'opacity-100',
           leaveTo: 'opacity-0',
         },
-        inline: collapseTransition,
-        other: {},
       }),
       [],
     );
