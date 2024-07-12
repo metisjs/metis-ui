@@ -29,8 +29,8 @@ group: 导航
 ### Menu
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record<'root' | 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| 'groupList', string> | - |  |
+| --- | --- | --- | --- | --- |
+| className | 语义化结构 class | string \| Record<'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| 'groupList', string> | - |  |
 | defaultOpenKeys | 初始展开的 SubMenu 菜单项 key 数组 | string\[] | - |  |
 | defaultSelectedKeys | 初始选中的菜单项 key 数组 | string\[] | - |  |
 | expandIcon | 自定义展开图标 | ReactNode \| `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |

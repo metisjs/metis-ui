@@ -29,7 +29,7 @@ More layouts with navigation: [Layout](/components/layout).
 
 | Param | Description | Type | Default value | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' | 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| |
+| className | Semantic DOM class | string \| Record<'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| |
 | defaultOpenKeys | Array with the keys of default opened sub menus | string\[] | - |  |
 | defaultSelectedKeys | Array with the keys of default selected menu items | string\[] | - |  |
 | expandIcon | custom expand icon of submenu | ReactNode \| `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |
