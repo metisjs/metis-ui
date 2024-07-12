@@ -36,6 +36,7 @@ export default () => {
       <Checkbox.Group options={keys} value={checkedKeys} onChange={setCheckedKeys} />
       <div>key 3 is a different component with others.</div>
       <Transition.List
+        appear={false}
         className="flex space-x-2"
         keys={keyList}
         enter="transition-all duration-[500ms]"

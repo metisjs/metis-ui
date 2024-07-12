@@ -18,7 +18,7 @@ group: 其他
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | visible | 子元素应该显示还是隐藏 | boolean | - |  |
-| appear | 动画是否应在初始化时运行 | boolean | false |  |
+| appear | 动画是否应在初始化时运行 | boolean | true |  |
 | removeOnLeave | 根据显示状态是否应卸载或隐藏元素 | boolean | true | - |
 | enter | `enter`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |
 | enterFrom | `enter`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |

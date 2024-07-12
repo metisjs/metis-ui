@@ -55,7 +55,7 @@ export interface TransitionProps {
 
 const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   const {
-    appear,
+    appear = true,
     visible = true,
     removeOnLeave = true,
     forceRender,

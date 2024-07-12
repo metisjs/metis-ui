@@ -18,7 +18,7 @@ group: Other
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | visible | Whether the child element should be visible or hidden | boolean | - | - |
-| appear | Whether the animation should run on initialization | boolean | false | - |
+| appear | Whether the animation should run on initialization | boolean | true | - |
 | removeOnLeave | Whether the element should be unmounted or hidden based on the visible state | boolean | true | - |
 | enter | `enter` phase class or style added to the element | string \| CSSProperties | - | - |
 | enterFrom | Class or style added before the `enter` phase begins | string \| CSSProperties | - | - |
