@@ -8,7 +8,7 @@ import {
   TransitionStyleType,
 } from '../interface';
 
-export function splitStyle(node: HTMLElement | null, style?: TransitionStyle | TransitionStyleFn) {
+export function splitStyle(node: HTMLElement, style?: TransitionStyle | TransitionStyleFn) {
   if (typeof style === 'function') {
     return splitStyle(node, style(node));
   }
@@ -49,53 +49,76 @@ export function getStylesByStatusAndStep(
 
   const node = getElement();
 
-  const enter = splitStyle(node, styles.enter);
-  const enterFrom = splitStyle(node, styles.enterFrom);
-  const enterTo = splitStyle(node, styles.enterTo);
-  const leave = splitStyle(node, styles.leave);
-  const leaveFrom = splitStyle(node, styles.leaveFrom);
-  const leaveTo = splitStyle(node, styles.leaveTo);
+  if (!node) return [];
 
-  const mergedStyle = {
-    [TransitionStatus.Enter]: {
-      [TransitionStep.Prepare]: {
-        ...enter.style,
-      },
-      [TransitionStep.Start]: {
-        ...enter.style,
-        ...enterFrom.style,
-      },
-      [TransitionStep.Active]: {
-        ...enter.style,
-        ...enterTo.style,
-      },
-    },
-    [TransitionStatus.Leave]: {
-      [TransitionStep.Prepare]: {
-        ...leave.style,
-      },
-      [TransitionStep.Start]: {
-        ...leave.style,
-        ...leaveFrom.style,
-      },
-      [TransitionStep.Active]: {
-        ...leave.style,
-        ...leaveTo.style,
-      },
-    },
-  };
-  const mergedCls = {
-    [TransitionStatus.Enter]: {
-      [TransitionStep.Prepare]: clsx(enter.className),
-      [TransitionStep.Start]: clsx(enter.className, enterFrom.className),
-      [TransitionStep.Active]: clsx(enter.className, enterTo.className),
-    },
-    [TransitionStatus.Leave]: {
-      [TransitionStep.Prepare]: clsx(leave.className),
-      [TransitionStep.Start]: clsx(leave.className, leaveFrom.className),
-      [TransitionStep.Active]: clsx(leave.className, leaveTo.className),
-    },
-  };
+  let mergedStyle: CSSProperties = {};
+  let mergedCls: string = '';
 
-  return [mergedStyle[status][step], mergedCls[status][step]];
+  if (status === TransitionStatus.Enter) {
+    const enter = splitStyle(node, styles.enter);
+    switch (step) {
+      case TransitionStep.Prepare: {
+        mergedStyle = {
+          ...enter.style,
+        };
+        mergedCls = clsx(enter.className);
+        break;
+      }
+      case TransitionStep.Start: {
+        const enterFrom = splitStyle(node, styles.enterFrom);
+        mergedStyle = {
+          ...enter.style,
+          ...enterFrom.style,
+        };
+        mergedCls = clsx(enter.className, enterFrom.className);
+        break;
+      }
+      case TransitionStep.Active: {
+        const enterTo = splitStyle(node, styles.enterTo);
+        mergedStyle = {
+          ...enter.style,
+          ...enterTo.style,
+        };
+        mergedCls = clsx(enter.className, enterTo.className);
+        break;
+      }
+
+      default:
+        break;
+    }
+  } else if (status === TransitionStatus.Leave) {
+    const leave = splitStyle(node, styles.leave);
+    switch (step) {
+      case TransitionStep.Prepare: {
+        mergedStyle = {
+          ...leave.style,
+        };
+        mergedCls = clsx(leave.className);
+        break;
+      }
+      case TransitionStep.Start: {
+        const leaveFrom = splitStyle(node, styles.leaveFrom);
+        mergedStyle = {
+          ...leave.style,
+          ...leaveFrom.style,
+        };
+        mergedCls = clsx(leave.className, leaveFrom.className);
+        break;
+      }
+      case TransitionStep.Active: {
+        const leaveTo = splitStyle(node, styles.leaveTo);
+        mergedStyle = {
+          ...leave.style,
+          ...leaveTo.style,
+        };
+        mergedCls = clsx(leave.className, leaveTo.className);
+        break;
+      }
+
+      default:
+        break;
+    }
+  }
+
+  return [mergedStyle, mergedCls];
 }

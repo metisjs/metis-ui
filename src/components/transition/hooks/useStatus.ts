@@ -1,6 +1,6 @@
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useState from 'rc-util/lib/hooks/useState';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef } from 'react';
 import useLatestValue from '../../_util/hooks/useLatestValue';
 import {
   TransitionBeforeEventHandler,
@@ -180,7 +180,10 @@ export default function useStatus({
   }, [asyncVisible, status]);
 
   // ============================ Styles ============================
-  const [style, className] = getStylesByStatusAndStep(styles.current, status, step, getElement);
+  const [style, className] = useMemo(
+    () => getStylesByStatusAndStep(styles.current, status, step, getElement),
+    [status, step],
+  );
   let mergedStyle = style;
   if (step !== TransitionStep.Active) {
     mergedStyle = {

@@ -19,5 +19,5 @@ export type TransitionBaseStyle =
   | string
   | React.CSSProperties
   | { className: string; style: React.CSSProperties };
-export type TransitionStyleFn = (node: HTMLElement | null) => TransitionStyle;
+export type TransitionStyleFn = (node: HTMLElement) => TransitionStyle;
 export type TransitionStyle = TransitionBaseStyle | TransitionStyleFn;
