@@ -4,6 +4,7 @@ import * as React from 'react';
 import type { Locale } from '../locale';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import type {
+  ButtonConfig,
   ConfigConsumerProps,
   InputConfig,
   PaginationConfig,
@@ -30,6 +31,7 @@ const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPre
   'getTargetContainer',
   'getPopupContainer',
   'renderEmpty',
+  'button',
   'input',
   'pagination',
   'route',
@@ -46,6 +48,7 @@ export interface ConfigProviderProps {
   variant?: Variant;
   // TODO: form组件待开发
   // form?: FormConfig;
+  button?: ButtonConfig;
   input?: InputConfig;
   pagination?: PaginationConfig;
   locale?: Locale;
@@ -124,6 +127,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     parentContext,
     componentDisabled,
     pagination,
+    button,
     input,
     variant,
     route,
@@ -154,6 +158,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     popupMatchSelectWidth: popupMatchSelectWidth,
     popupOverflow,
     getPrefixCls,
+    button,
     input,
     pagination,
     variant,

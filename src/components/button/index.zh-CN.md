@@ -25,6 +25,7 @@ demo:
 <code src="./demo/disabled.tsx">不可用状态</code>
 <code src="./demo/loading.tsx">加载中状态</code>
 <code src="./demo/danger.tsx">危险按钮</code>
+<code src="./demo/no-space.tsx">移除两个汉字之间的空格</code>
 
 ## API
 
@@ -32,6 +33,7 @@ demo:
 
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| autoInsertSpace | 我们默认提供两个汉字之间的空格，可以设置 `autoInsertSpace` 为 `false` 关闭 | boolean | `true` |  |
 | className | 语义化结构 class | string \| Record<'root' \| 'icon', string> | - |  |
 | danger | 设置危险按钮 | boolean | false |  |
 | disabled | 按钮失效状态 | boolean | false |  |

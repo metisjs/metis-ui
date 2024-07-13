@@ -1,15 +1,17 @@
-import { LoadingOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
+import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { tuple } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
+import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
-import useSize from '../config-provider/hooks/useSize';
 import { useCompactItemContext } from '../space/Compact';
+import LoadingIcon from './LoadingIcon';
+import { isTwoCNChar, isUnBorderedButtonType, spaceChildren } from './utils';
 
 const ButtonTypes = tuple('default', 'primary', 'text', 'link');
 export type ButtonType = (typeof ButtonTypes)[number];
@@ -31,29 +33,39 @@ export interface BaseButtonProps {
   children?: React.ReactNode;
 }
 
-export type AnchorButtonProps = {
-  href: string;
-  target?: string;
-  onClick?: React.MouseEventHandler<HTMLElement>;
-} & BaseButtonProps &
-  Omit<React.AnchorHTMLAttributes<any>, 'type' | 'onClick' | 'className'>;
+type MergedHTMLAttributes = Omit<
+  React.HTMLAttributes<HTMLElement> &
+    React.ButtonHTMLAttributes<HTMLElement> &
+    React.AnchorHTMLAttributes<HTMLElement>,
+  'type' | 'className'
+>;
 
-export type NativeButtonProps = {
+export interface ButtonProps extends BaseButtonProps, MergedHTMLAttributes {
+  href?: string;
   htmlType?: ButtonHTMLType;
-  onClick?: React.MouseEventHandler<HTMLElement>;
-} & BaseButtonProps &
-  Omit<React.ButtonHTMLAttributes<any>, 'type' | 'onClick' | 'className'>;
+  autoInsertSpace?: boolean;
+}
 
-export type ButtonProps = Partial<AnchorButtonProps & NativeButtonProps>;
-
-type CompoundedComponent = React.ForwardRefExoticComponent<
-  ButtonProps & React.RefAttributes<HTMLElement>
-> & {
-  /** @internal */
-  __METIS_BUTTON: boolean;
+type LoadingConfigType = {
+  loading: boolean;
+  delay: number;
 };
 
-type Loading = number | boolean;
+function getLoadingConfig(loading: BaseButtonProps['loading']): LoadingConfigType {
+  if (typeof loading === 'object' && loading) {
+    let delay = loading?.delay;
+    delay = !Number.isNaN(delay) && typeof delay === 'number' ? delay : 0;
+    return {
+      loading: delay <= 0,
+      delay,
+    };
+  }
+
+  return {
+    loading: !!loading,
+    delay: 0,
+  };
+}
 
 const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (props, ref) => {
   const {
@@ -67,46 +79,74 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     className,
     children,
     icon,
+    autoInsertSpace,
     htmlType = 'button',
     ...rest
   } = props;
 
   const semanticCls = getSemanticCls(className);
-  const { getPrefixCls } = React.useContext(ConfigContext);
+  const { getPrefixCls, button } = React.useContext(ConfigContext);
+
+  const mergedInsertSpace = autoInsertSpace ?? button?.autoInsertSpace ?? true;
+
   const prefixCls = getPrefixCls('btn', customizePrefixCls);
 
   const size = React.useContext(SizeContext);
+
   // ===================== Disabled =====================
   const disabled = React.useContext(DisabledContext);
   const mergedDisabled = customDisabled ?? disabled;
 
-  const [innerLoading, setLoading] = React.useState<Loading>(!!loading);
-  const buttonRef = (ref as any) || React.createRef<HTMLElement>();
+  const loadingOrDelay = React.useMemo<LoadingConfigType>(
+    () => getLoadingConfig(loading),
+    [loading],
+  );
 
-  // =============== Update Loading ===============
-  const loadingOrDelay: Loading = typeof loading === 'boolean' ? loading : loading?.delay || true;
+  const [innerLoading, setLoading] = React.useState<boolean>(loadingOrDelay.loading);
+
+  const [hasTwoCNChar, setHasTwoCNChar] = React.useState<boolean>(false);
+
+  const internalRef = React.createRef<HTMLButtonElement | HTMLAnchorElement>();
+
+  const buttonRef = composeRef(ref, internalRef);
+
+  const needInserted =
+    React.Children.count(children) === 1 && !icon && !isUnBorderedButtonType(type);
 
   React.useEffect(() => {
-    let delayTimer: number | null = null;
-
-    if (typeof loadingOrDelay === 'number') {
-      delayTimer = window.setTimeout(() => {
+    let delayTimer: ReturnType<typeof setTimeout> | null = null;
+    if (loadingOrDelay.delay > 0) {
+      delayTimer = setTimeout(() => {
         delayTimer = null;
-        setLoading(loadingOrDelay);
-      }, loadingOrDelay);
+        setLoading(true);
+      }, loadingOrDelay.delay);
     } else {
-      setLoading(loadingOrDelay);
+      setLoading(loadingOrDelay.loading);
     }
 
-    return () => {
+    function cleanupTimer() {
       if (delayTimer) {
-        // in order to not perform a React state update on an unmounted component
-        // and clear timer after 'loadingOrDelay' updated.
-        window.clearTimeout(delayTimer);
+        clearTimeout(delayTimer);
         delayTimer = null;
       }
-    };
+    }
+
+    return cleanupTimer;
   }, [loadingOrDelay]);
+
+  React.useEffect(() => {
+    if (!buttonRef || !(buttonRef as any).current || !mergedInsertSpace) {
+      return;
+    }
+    const buttonText = (buttonRef as any).current.textContent;
+    if (needInserted && isTwoCNChar(buttonText)) {
+      if (!hasTwoCNChar) {
+        setHasTwoCNChar(true);
+      }
+    } else if (hasTwoCNChar) {
+      setHasTwoCNChar(false);
+    }
+  }, [buttonRef]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => {
     const { onClick } = props;
@@ -129,7 +169,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const iconType = innerLoading ? 'loading' : icon;
 
-  const linkButtonRestProps = omit(rest as AnchorButtonProps & { navigate: any }, ['navigate']);
+  const linkButtonRestProps = omit(rest as ButtonProps & { navigate: any }, ['navigate']);
 
   const iconOnly = !children && children !== 0 && !!iconType;
 
@@ -145,13 +185,22 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     semanticCls.icon,
   );
 
-  const iconNode = innerLoading ? (
-    <LoadingOutline className={clsx('animate-spin', iconCls)} />
-  ) : (
-    cloneElement(icon, ({ className: originCls }) => ({
-      className: clsx(iconCls, originCls),
-    }))
-  );
+  const iconNode =
+    icon && !innerLoading ? (
+      cloneElement(icon, ({ className: originCls }) => ({
+        className: clsx(iconCls, originCls),
+      }))
+    ) : (
+      <LoadingIcon
+        existIcon={!!icon}
+        prefixCls={prefixCls}
+        loading={innerLoading}
+        className={iconCls}
+      />
+    );
+
+  const kids =
+    children || children === 0 ? spaceChildren(children, needInserted && mergedInsertSpace) : null;
 
   const isHref = linkButtonRestProps.href !== undefined;
 
@@ -165,7 +214,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
-    'relative inline-flex w-fit items-center justify-center gap-x-1.5 whitespace-nowrap rounded-md text-sm font-medium shadow-sm transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2',
+    'relative inline-flex w-fit items-center justify-center whitespace-nowrap text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
     {
       'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:bg-neutral-fill-quinary':
         type === 'default',
@@ -177,9 +226,9 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
         type === 'link',
     },
     {
-      'px-3 py-1.5': mergedSize === 'small',
-      'px-4 py-2': mergedSize === 'middle',
-      'gap-x-2 px-4 py-2 text-base': mergedSize === 'large',
+      'gap-x-1.5 rounded-md px-3 py-1.5': mergedSize === 'small',
+      'gap-x-1.5 rounded-md px-4 py-2': mergedSize === 'middle',
+      'gap-x-2 rounded-md px-4 py-2 text-base': mergedSize === 'large',
     },
     iconOnly && {
       'h-8 w-8': mergedSize === 'small',
@@ -211,9 +260,15 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   if (isHref) {
     return (
-      <a {...linkButtonRestProps} className={classes} onClick={handleClick} ref={buttonRef}>
+      <a
+        {...linkButtonRestProps}
+        className={classes}
+        onClick={handleClick}
+        ref={buttonRef as React.Ref<HTMLAnchorElement>}
+        tabIndex={mergedDisabled ? -1 : 0}
+      >
         {iconNode}
-        {children}
+        {kids}
       </a>
     );
   }
@@ -226,14 +281,21 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       className={classes}
       onClick={handleClick}
       disabled={mergedDisabled}
-      ref={buttonRef}
+      ref={buttonRef as React.Ref<HTMLButtonElement>}
     >
       {iconNode}
-      {children}
+      {kids}
     </button>
   );
 
   return buttonNode;
+};
+
+type CompoundedComponent = React.ForwardRefExoticComponent<
+  ButtonProps & React.RefAttributes<HTMLElement>
+> & {
+  /** @internal */
+  __METIS_BUTTON: boolean;
 };
 
 const Button = React.forwardRef<unknown, ButtonProps>(InternalButton) as CompoundedComponent;
