@@ -1,7 +1,7 @@
 ---
 hero:
   title: Metis UI
-  description: A react library developed with dumi
+  description: Note ！！！ Metis UI screen breakpoints use desktop first principle, it different from tailwindcss.
   actions:
     - text: 开始使用
       link: /guide
