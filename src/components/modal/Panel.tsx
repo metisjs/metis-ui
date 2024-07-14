@@ -2,6 +2,7 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
+import Scrollbar from '../scrollbar';
 import Transition from '../transition';
 import type { ModalProps } from './interface';
 
@@ -90,16 +91,16 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   }));
 
   // ================================ Style =================================
-  const rootCls = clsx(
+  const panelCls = clsx(
     prefixCls,
-    'relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform overflow-hidden pb-6 text-left text-sm text-neutral-text',
+    'pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm text-neutral-text',
     !!centered && 'top-0 pb-0',
     semanticCls.root,
   );
 
   const contentCls = clsx(
     `${prefixCls}-content`,
-    'overflow-hidden rounded-lg bg-neutral-bg-elevated shadow-xl',
+    'pointer-events-auto flex flex-col overflow-hidden rounded-lg bg-neutral-bg-elevated shadow-xl',
     semanticCls.content,
   );
 
@@ -109,11 +110,15 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     semanticCls.header,
   );
 
-  const bodyCls = clsx(`${prefixCls}-body px-6 pb-4`, !title && 'pt-6', semanticCls.body);
+  const bodyCls = clsx(
+    `${prefixCls}-body px-6 pb-4`,
+    { 'pt-6': !title, 'pb-6': !footer },
+    semanticCls.body,
+  );
 
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'flex justify-end gap-3 bg-neutral-fill-quinary px-6 py-3',
+    'flex items-center justify-end gap-3 bg-neutral-fill-quinary px-6 py-3',
     semanticCls.footer,
   );
 
@@ -150,13 +155,16 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   ) : null;
 
   const content = (
-    // TODO: use Scrollbar
-    <div className={contentCls}>
+    <div className={contentCls} style={height ? { height: height } : undefined}>
       {closerNode}
       {headerNode}
-      <div className={bodyCls} {...bodyProps}>
-        {children}
-      </div>
+      {!!height ? (
+        <Scrollbar className={{ root: 'flex-1 basis-0', view: bodyCls }}>{children}</Scrollbar>
+      ) : (
+        <div className={bodyCls} {...bodyProps}>
+          {children}
+        </div>
+      )}
       {footerNode}
     </div>
   );
@@ -166,11 +174,11 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
       appear
       visible={open}
       enter="transition-[opacity,transform] ease-out duration-300"
-      enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-      enterTo="opacity-100 translate-y-0 sm:scale-100"
+      enterFrom="opacity-0 translate-y-0 scale-95 sm:translate-y-4 sm:scale-100"
+      enterTo="opacity-100 translate-y-0 scale-100"
       leave="transition-[opacity,transform] ease-in duration-200"
-      leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-      leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+      leaveFrom="opacity-100 translate-y-0 scale-100"
+      leaveTo="opacity-0 translate-y-0 scale-95 sm:translate-y-4 sm:scale-100"
       onVisibleChanged={onOpenChanged}
       forceRender={forceRender}
       removeOnLeave={destroyOnClose}
@@ -183,7 +191,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
           aria-modal="true"
           ref={transitionRef}
           style={{ ...panelStyle, ...style, ...transitionStyle }}
-          className={clsx(rootCls, transitionCls)}
+          className={clsx(panelCls, transitionCls)}
           onMouseDown={onMouseDown}
           onMouseUp={onMouseUp}
         >

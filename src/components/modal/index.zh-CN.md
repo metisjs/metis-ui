@@ -25,7 +25,7 @@ demo:
 <code src="./demo/position.tsx">自定义位置</code>
 <code src="./demo/button-props.tsx">自定义页脚按钮属性</code>
 <code src="./demo/modal-render.tsx">自定义渲染对话框</code>
-<code src="./demo/width.tsx">自定义模态的宽度</code>
+<code src="./demo/size.tsx">自定义模态的尺寸</code>
 <code src="./demo/static-info.tsx">静态方法</code>
 <code src="./demo/confirm.tsx">静态确认对话框</code>
 <code src="./demo/classNames.tsx">自定义内部模块 className</code>
@@ -37,13 +37,11 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | afterClose | Modal 完全关闭后的回调 | function | - |  |
-| classNames | 配置弹窗内置模块的 className | `header?: string; body?: string; footer?: string; mask?: string; wrapper?: string;` | - |  |
-| styles | 配置弹窗内置模块的 style | `header?: CSSProperties; body?: CSSProperties; footer?: CSSProperties; mask?: CSSProperties;` | - |  |
 | cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | cancelText | 取消按钮文字 | ReactNode | `取消` |  |
 | centered | 垂直居中展示 Modal | boolean | false |  |
+| className | 语义化结构 class | string \| Record<'root' \｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
 | closable | 是否显示右上角的关闭按钮 | boolean \| { closeIcon?: React.ReactNode } | true |  |
-| closeIcon | 自定义关闭图标。：设置为 `null` 或 `false` 时隐藏关闭按钮 | ReactNode | &lt;CloseOutlined /> |  |
 | confirmLoading | 确定按钮 loading | boolean | false |  |
 | destroyOnClose | 关闭时销毁 Modal 里的子元素 | boolean | false |  |
 | focusTriggerAfterClose | 对话框关闭后是否需要聚焦触发元素 | boolean | true |  |
@@ -62,7 +60,6 @@ demo:
 | title | 标题 | ReactNode | - |  |
 | open | 对话框是否可见 | boolean | - |  |
 | width | 宽度 | string \| number | 520 |  |
-| wrapClassName | 对话框外层容器的类名 | string | - |  |
 | zIndex | 设置 Modal 的 `z-index` | number | 1000 |  |
 | onCancel | 点击遮罩层或右上角叉或取消按钮的回调 | function(e) | - |  |
 | onOk | 点击确定回调 | function(e) | - |  |
@@ -93,9 +90,8 @@ demo:
 | cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | cancelText | 设置 Modal.confirm 取消按钮文字 | string | `取消` |  |
 | centered | 垂直居中展示 Modal | boolean | false |  |
-| className | 容器类名 | string | - |  |
-| closable | 是否显示右上角的关闭按钮 | boolean | false |  |
-| closeIcon | 自定义关闭图标 | ReactNode | undefined |  |
+| className | 语义化结构 class | string \| Record<'root' \｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
+| closable | 是否显示右上角的关闭按钮 | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | content | 内容 | ReactNode | - |  |
 | footer | 底部内容，当不需要默认底部按钮时，可以设为 `footer: null` | React.ReactNode \| ((params:[footerRenderParams](/components/modal-cn#footerrenderparams))=> React.ReactNode) | - | renderFunction: |
 | getContainer | 指定 Modal 挂载的 HTML 节点，false 为挂载在当前 dom | HTMLElement \| () => HTMLElement \| Selectors \| false | document.body |  |
@@ -109,7 +105,6 @@ demo:
 | style | 可用于设置浮层的样式，调整浮层位置等 | CSSProperties | - |  |
 | title | 标题 | ReactNode | - |  |
 | width | 宽度 | string \| number | 416 |  |
-| wrapClassName | 对话框外层容器的类名 | string | - |  |
 | zIndex | 设置 Modal 的 `z-index` | number | 1000 |  |
 | onCancel | 点击取消回调，参数为关闭函数，若返回 promise 时 resolve 为正常关闭, reject 为不关闭 | function(close) | - |  |
 | onOk | 点击确定回调，参数为关闭函数，若返回 promise 时 resolve 为正常关闭, reject 为不关闭 | function(close) | - |  |
@@ -187,7 +182,7 @@ const confirmed = await modal.confirm({ ... });
 
 Modal 在关闭时会将内容进行 memo 从而避免关闭过程中的内容跳跃。也因此如果你在配合使用 Form 有关闭时重置 `initialValues` 的操作，请通过在 effect 中调用 `resetFields` 来重置。
 
-### 为什么 Modal 方法不能获取 context、redux、的内容和 ConfigProvider `locale/prefixCls/theme` 等配置？
+### 为什么 Modal 方法不能获取 context、redux、的内容和 ConfigProvider `locale/prefixCls` 等配置？
 
 直接调用 Modal 方法，antd 会通过 `ReactDOM.render` 动态创建新的 React 实体。其 context 与当前代码所在 context 并不相同，因而无法获取 context 信息。
 
@@ -197,10 +192,10 @@ Modal 在关闭时会将内容进行 memo 从而避免关闭过程中的内容�
 const [modal, contextHolder] = Modal.useModal();
 
 return (
-  <Context1.Provider value="Ant">
+  <Context1.Provider value="Metis">
     {/* contextHolder 在 Context1 内，它可以获得 Context1 的 context */}
     {contextHolder}
-    <Context2.Provider value="Design">
+    <Context2.Provider value="UI">
       {/* contextHolder 在 Context2 外，因而不会获得 Context2 的 context */}
     </Context2.Provider>
   </Context1.Provider>

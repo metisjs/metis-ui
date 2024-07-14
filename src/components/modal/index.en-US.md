@@ -24,7 +24,7 @@ When requiring users to interact with the application, but without jumping to a 
 <code src="./demo/position.tsx">To customize the position of modal</code>
 <code src="./demo/button-props.tsx">Customize footer buttons props</code>
 <code src="./demo/modal-render.tsx">Custom modal content render</code>
-<code src="./demo/width.tsx">To customize the width of modal</code>
+<code src="./demo/size.tsx">To customize the size of modal</code>
 <code src="./demo/static-info.tsx">Static Method</code>
 <code src="./demo/confirm.tsx">Static confirmation</code>
 <code src="./demo/classNames.tsx">Customize className for build-in module</code>
@@ -36,13 +36,11 @@ When requiring users to interact with the application, but without jumping to a 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | afterClose | Specify a function that will be called when modal is closed completely | function | - |  |
-| classNames | Config Modal build-in module's className | `header?: string; body?: string; footer?: string; mask?: string; wrapper?: string;` | - |  |
-| styles | Config Modal build-in module's style | `header?: CSSProperties; body?: CSSProperties; footer?: CSSProperties; mask?: CSSProperties;` | - |  |
+| className | Semantic DOM class | string \| Record<'root' \｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
 | cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
 | cancelText | Text of the Cancel button | ReactNode | `Cancel` |  |
 | centered | Centered Modal | boolean | false |  |
 | closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
-| closeIcon | Custom close icon. : close button will be hidden when setting to `null` or `false` | ReactNode | &lt;CloseOutlined /> |  |
 | confirmLoading | Whether to apply loading visual effect for OK button or not | boolean | false |  |
 | destroyOnClose | Whether to unmount child components on onClose | boolean | false |  |
 | focusTriggerAfterClose | Whether need to focus trigger element after dialog is closed | boolean | true |  |
@@ -61,7 +59,6 @@ When requiring users to interact with the application, but without jumping to a 
 | title | The modal dialog's title | ReactNode | - |  |
 | open | Whether the modal dialog is visible or not | boolean | false |  |
 | width | Width of the modal dialog | string \| number | 520 |  |
-| wrapClassName | The class name of the container of the modal dialog | string | - |  |
 | zIndex | The `z-index` of the Modal | number | 1000 |  |
 | onCancel | Specify a function that will be called when a user clicks mask, close button on top right or Cancel button | function(e) | - |  |
 | onOk | Specify a function that will be called when a user clicks the OK button | function(e) | - |  |
@@ -92,9 +89,8 @@ The items listed above are all functions, expecting a settings object as paramet
 | cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
 | cancelText | Text of the Cancel button with Modal.confirm | string | `Cancel` |  |
 | centered | Centered Modal | boolean | false |  |
-| className | The className of container | string | - |  |
-| closable | Whether a close (x) button is visible on top right of the confirm dialog or not | boolean | false |  |
-| closeIcon | Custom close icon | ReactNode | undefined |  |
+| className | Semantic DOM class | string \| Record<'root' \｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
+| closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | content | Content | ReactNode | - |  |
 | footer | Footer content, set as `footer: null` when you don't need default buttons | React.ReactNode \| ((params:[footerRenderParams](/components/modal#footerrenderparams))=> React.ReactNode) | - | renderFunction: |
 | getContainer | Return the mount node for Modal | HTMLElement \| () => HTMLElement \| Selectors \| false | document.body |  |
@@ -108,7 +104,6 @@ The items listed above are all functions, expecting a settings object as paramet
 | style | Style of floating layer, typically used at least for adjusting the position | CSSProperties | - |  |
 | title | Title | ReactNode | - |  |
 | width | Width of the modal dialog | string \| number | 416 |  |
-| wrapClassName | The class name of the container of the modal dialog | string | - |  |
 | zIndex | The `z-index` of the Modal | number | 1000 |  |
 | onCancel | Click to onCancel the callback, the parameter is the closing function, if it returns a promise, resolve means normal closing, reject means not closing | function(close) | - |  |
 | onOk | Click to onOk the callback, the parameter is the closing function, if it returns a promise, resolve means normal closing, reject means not closing | function(close) | - |  |
@@ -198,10 +193,10 @@ const [modal, contextHolder] = Modal.useModal();
 // then call modal.confirm instead of Modal.confirm
 
 return (
-  <Context1.Provider value="Ant">
+  <Context1.Provider value="Metis">
     {/* contextHolder is in Context1, which means modal will get context of Context1 */}
     {contextHolder}
-    <Context2.Provider value="Design">
+    <Context2.Provider value="UI">
       {/* contextHolder is out of Context2, which means modal will not get context of Context2 */}
     </Context2.Provider>
   </Context1.Provider>

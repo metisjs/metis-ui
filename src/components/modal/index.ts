@@ -1,10 +1,10 @@
 import confirm, {
   modalGlobalConfig,
   ModalStaticFunctions,
+  withConfirm,
   withError,
   withInfo,
   withSuccess,
-  withWarn,
 } from './confirm';
 import destroyFns from './destroyFns';
 import { ModalFuncProps } from './interface';
@@ -41,7 +41,7 @@ Modal.warning = function warningFn(props: ModalFuncProps) {
 };
 
 Modal.confirm = function confirmFn(props: ModalFuncProps) {
-  return confirm(withWarn(props));
+  return confirm(withConfirm(props));
 };
 
 Modal.destroyAll = function destroyAllFn() {

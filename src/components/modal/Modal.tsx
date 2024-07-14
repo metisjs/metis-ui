@@ -36,7 +36,6 @@ const Modal: React.FC<ModalProps> = (props) => {
     loading,
     children,
     onCancel,
-    onOk,
     afterOpenChange,
     afterClose,
     ...restProps
@@ -153,7 +152,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   const [mergedZIndex, contextZIndex] = useZIndex('Modal', zIndex);
 
   // ========================= Styles =========================
-  const rootCls = clsx(`${prefixCls}-root`, semanticCls.root);
+  const containerCls = clsx(`${prefixCls}-container`);
   const wrapperCls = clsx(
     `${prefixCls}-wrap`,
     { [`${prefixCls}-centered`]: !!centered },
@@ -172,8 +171,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     return null;
   }
 
-  const mergedFooter =
-    footer !== null && !loading ? <Footer {...props} onOk={onOk} onCancel={onCancel} /> : null;
+  const mergedFooter = footer !== null ? <Footer {...props} /> : null;
 
   return (
     <ContextIsolator form space>
@@ -184,7 +182,7 @@ const Modal: React.FC<ModalProps> = (props) => {
           getContainer={mergedGetContainer}
           autoLock={open || animatedOpen}
         >
-          <div className={rootCls} {...pickAttrs(props, { data: true })}>
+          <div className={containerCls} {...pickAttrs(props, { data: true })}>
             <Mask
               prefixCls={prefixCls}
               open={mask && open}
@@ -227,7 +225,7 @@ const Modal: React.FC<ModalProps> = (props) => {
                     active
                     title={false}
                     paragraph={{ rows: 4 }}
-                    className={`${prefixCls}-body-skeleton`}
+                    className={clsx(`${prefixCls}-body-skeleton`, 'mt-1')}
                   />
                 ) : (
                   children

@@ -1,6 +1,6 @@
+import { mergeSemanticCls } from 'metis-ui/es/_util/classNameUtils';
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-
 import ActionButton from '../../_util/ActionButton';
 import type { ConfirmModalProps } from '../ConfirmModal';
 import { ModalContext } from '../context';
@@ -41,7 +41,10 @@ const ConfirmOkBtn: FC = () => {
         onConfirm?.(true);
       }}
       autoFocus={autoFocusButton === 'ok'}
-      buttonProps={okButtonProps}
+      buttonProps={{
+        ...okButtonProps,
+        className: mergeSemanticCls({ root: 'w-auto sm:w-full' }, okButtonProps?.className),
+      }}
       prefixCls={`${rootPrefixCls}-btn`}
     >
       {okTextLocale}

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Children, isValidElement, ReactNode } from 'react';
 
+import { flattenDeep } from 'lodash';
 import { DisabledContextProvider } from '../config-provider/DisabledContext';
 import { useLocale } from '../locale';
+import SkeletonButton from '../skeleton/Button';
 import NormalCancelBtn from './components/NormalCancelBtn';
 import NormalOkBtn from './components/NormalOkBtn';
 import type { ModalContextProps } from './context';
@@ -14,10 +16,32 @@ interface FooterProps {
   onCancel?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
 }
 
+function getSkeletonButtons(children: ReactNode): ReactNode[] | null {
+  const buttons = Children.map(children, (child) => {
+    if (isValidElement(child)) {
+      if (child.type === React.Fragment) {
+        return getSkeletonButtons(child.props.children);
+      }
+      if (
+        (child.type as any).__METIS_BUTTON ||
+        child.type === NormalCancelBtn ||
+        child.type === NormalOkBtn
+      ) {
+        return <SkeletonButton />;
+      }
+      return false;
+    }
+    return false;
+  })?.filter(Boolean);
+
+  return buttons?.length ? flattenDeep(buttons) : null;
+}
+
 const Footer: React.FC<
   FooterProps &
     Pick<
       ModalProps,
+      | 'loading'
       | 'footer'
       | 'okText'
       | 'okType'
@@ -37,6 +61,7 @@ const Footer: React.FC<
     okButtonProps,
     cancelButtonProps,
     footer,
+    loading,
   } = props;
 
   const [locale] = useLocale('Modal', getConfirmLocale());
@@ -74,13 +99,22 @@ const Footer: React.FC<
         CancelBtn: NormalCancelBtn,
       });
     }
-
-    footerNode = <ModalContextProvider value={btnCtxValueMemo}>{footerNode}</ModalContextProvider>;
   } else {
     footerNode = footer;
   }
 
-  return <DisabledContextProvider disabled={false}>{footerNode}</DisabledContextProvider>;
+  if (loading) {
+    const loadingNode = getSkeletonButtons(footerNode);
+    if (loadingNode !== null) {
+      footerNode = loadingNode;
+    }
+  }
+
+  return (
+    <DisabledContextProvider disabled={false}>
+      <ModalContextProvider value={btnCtxValueMemo}>{footerNode}</ModalContextProvider>
+    </DisabledContextProvider>
+  );
 };
 
 export default Footer;

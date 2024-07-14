@@ -1,3 +1,4 @@
+import { mergeSemanticCls } from 'metis-ui/es/_util/classNameUtils';
 import type { FC } from 'react';
 import React, { useContext } from 'react';
 import ActionButton from '../../_util/ActionButton';
@@ -40,7 +41,10 @@ const ConfirmCancelBtn: FC = () => {
         onConfirm?.(false);
       }}
       autoFocus={autoFocusButton === 'cancel'}
-      buttonProps={cancelButtonProps}
+      buttonProps={{
+        ...cancelButtonProps,
+        className: mergeSemanticCls({ root: 'w-auto sm:w-full' }, cancelButtonProps?.className),
+      }}
       prefixCls={`${rootPrefixCls}-btn`}
     >
       {cancelTextLocale}

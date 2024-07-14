@@ -5,13 +5,12 @@ import {
   XMarkOutline,
 } from '@metisjs/icons';
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import { CONTAINER_MAX_OFFSET, Z_INDEX_BASE } from '../_util/hooks/useZIndex';
-import { devUseWarning } from '../_util/warning';
 import ConfigProvider from '../config-provider';
 import { useLocale } from '../locale';
-import CancelBtn from './components/ConfirmCancelBtn';
-import OkBtn from './components/ConfirmOkBtn';
+import { default as ConfirmCancelBtn } from './components/ConfirmCancelBtn';
+import { default as ConfirmOkBtn } from './components/ConfirmOkBtn';
 import type { ModalContextProps } from './context';
 import { ModalContextProvider } from './context';
 import type { ModalFuncProps, ModalLocale } from './interface';
@@ -39,54 +38,32 @@ export interface ConfirmModalProps extends ModalFuncProps {
   isSilent?: () => boolean;
 }
 
-export function ConfirmContent(
-  props: ConfirmModalProps & {
-    confirmPrefixCls: string;
-  },
-) {
+const ConfirmFooter: React.FC<ConfirmModalProps> = (props) => {
   const {
-    icon,
-    okText,
-    cancelText,
-    confirmPrefixCls,
     type,
-    okCancel,
+    okText,
+    okType = 'primary',
+    cancelText,
+    onOk,
+    onCancel,
+    okButtonProps,
+    cancelButtonProps,
     footer,
     locale: staticLocale,
-    ...resetProps
+    okCancel,
+    isSilent,
+    rootPrefixCls,
+    close,
+    onConfirm,
   } = props;
-
-  // Icon
-  let mergedIcon: React.ReactNode = icon;
-
-  // 支持传入{ icon: null }来隐藏`Modal.confirm`默认的Icon
-  if (!icon && icon !== null) {
-    switch (type) {
-      case 'info':
-        mergedIcon = <InformationCircleOutline />;
-        break;
-
-      case 'success':
-        mergedIcon = <CheckOutline />;
-        break;
-
-      case 'error':
-        mergedIcon = <XMarkOutline />;
-        break;
-
-      default:
-        mergedIcon = <ExclamationTriangleOutline />;
-    }
-  }
-
-  // 默认为 true，保持向下兼容
-  const mergedOkCancel = okCancel ?? type === 'confirm';
-
-  const autoFocusButton = props.autoFocusButton === null ? false : props.autoFocusButton || 'ok';
 
   const [locale] = useLocale('Modal');
 
   const mergedLocale = staticLocale || locale;
+
+  const mergedOkCancel = okCancel ?? type === 'confirm';
+
+  const autoFocusButton = props.autoFocusButton === null ? false : props.autoFocusButton || 'ok';
 
   // ================== Locale Text ==================
   const okTextLocale = okText || (mergedOkCancel ? mergedLocale?.okText : mergedLocale?.justOkText);
@@ -95,53 +72,112 @@ export function ConfirmContent(
   // ================= Context Value =================
   const btnCtxValue: ModalContextProps = {
     autoFocusButton,
-    cancelTextLocale,
+    close,
+    isSilent,
+    okButtonProps: type === 'confirm' ? { danger: true, ...okButtonProps } : okButtonProps,
+    rootPrefixCls,
     okTextLocale,
+    okType,
+    onConfirm,
+    onOk,
+    cancelButtonProps,
+    cancelTextLocale,
     mergedOkCancel,
-    ...resetProps,
+    onCancel,
   };
+
   const btnCtxValueMemo = React.useMemo(() => btnCtxValue, [...Object.values(btnCtxValue)]);
 
-  // ====================== Footer Origin Node ======================
-  const footerOriginNode = (
-    <>
-      <CancelBtn />
-      <OkBtn />
-    </>
+  let footerNode: React.ReactNode;
+  if (typeof footer === 'function' || typeof footer === 'undefined') {
+    footerNode = (
+      <>
+        <ConfirmCancelBtn />
+        <ConfirmOkBtn />
+      </>
+    );
+
+    if (typeof footer === 'function') {
+      footerNode = footer(footerNode, {
+        OkBtn: ConfirmCancelBtn,
+        CancelBtn: ConfirmCancelBtn,
+      });
+    }
+  } else {
+    footerNode = footer;
+  }
+
+  return <ModalContextProvider value={btnCtxValueMemo}>{footerNode}</ModalContextProvider>;
+};
+
+function ConfirmContent(
+  props: ConfirmModalProps & {
+    confirmPrefixCls: string;
+  },
+) {
+  const { icon, confirmPrefixCls, type, title, content } = props;
+
+  // Icon
+  let mergedIcon: React.ReactNode = icon;
+
+  // 支持传入{ icon: null }来隐藏`Modal.confirm`默认的Icon
+  if (!icon && icon !== null) {
+    switch (type) {
+      case 'info':
+        mergedIcon = <InformationCircleOutline className="h-6 w-6" />;
+        break;
+
+      case 'success':
+        mergedIcon = <CheckOutline className="h-6 w-6" />;
+        break;
+
+      case 'error':
+        mergedIcon = <XMarkOutline className="h-6 w-6" />;
+        break;
+
+      default:
+        mergedIcon = <ExclamationTriangleOutline className="h-6 w-6" />;
+    }
+  }
+
+  const hasTitle = title !== undefined && title !== null;
+  const hasContent = content !== undefined && title !== null;
+
+  const bodyCls = clsx(`${confirmPrefixCls}-body`, 'flex items-start sm:block');
+  const iconCls = clsx(
+    `${confirmPrefixCls}-icon`,
+    'mx-0 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full sm:mx-auto sm:h-12 sm:w-12',
+    {
+      'bg-error-bg text-error': type === 'confirm' || type === 'error',
+      'bg-info-bg text-info': type === 'info',
+      'bg-success-bg text-success': type === 'success',
+      'bg-warning-bg text-warning': type === 'warning',
+    },
+  );
+  const paragraphCls = clsx(
+    `${confirmPrefixCls}-paragraph`,
+    'ml-4 mt-0 text-left sm:ml-0 sm:mt-3 sm:text-center',
+  );
+  const titleCls = clsx(
+    `${confirmPrefixCls}-title`,
+    'text-base font-semibold leading-6 text-neutral-text',
+    !hasContent && 'leading-10 sm:leading-6',
+  );
+  const contentCls = clsx(
+    `${confirmPrefixCls}-content`,
+    'mt-2 text-sm text-neutral-text-secondary',
+    !hasTitle && 'mt-[0.625rem] sm:mt-0 ',
   );
 
-  const hasTitle = props.title !== undefined && props.title !== null;
-
-  const bodyCls = `${confirmPrefixCls}-body`;
-
   return (
-    <div className={`${confirmPrefixCls}-body-wrapper`}>
-      <div
-        className={clsx(bodyCls, {
-          [`${bodyCls}-has-title`]: hasTitle,
-        })}
-      >
-        {mergedIcon}
-        <div className={`${confirmPrefixCls}-paragraph`}>
-          {hasTitle && <span className={`${confirmPrefixCls}-title`}>{props.title}</span>}
-          <div className={`${confirmPrefixCls}-content`}>{props.content}</div>
+    <div className={bodyCls}>
+      <div className={iconCls}>{mergedIcon}</div>
+      <div className={paragraphCls}>
+        {hasTitle && <span className={titleCls}>{title}</span>}
+        <div className={contentCls}>
+          <p>{content}</p>
         </div>
       </div>
-
-      {footer === undefined || typeof footer === 'function' ? (
-        <ModalContextProvider value={btnCtxValueMemo}>
-          <div className={`${confirmPrefixCls}-btns`}>
-            {typeof footer === 'function'
-              ? footer(footerOriginNode, {
-                  OkBtn,
-                  CancelBtn,
-                })
-              : footerOriginNode}
-          </div>
-        </ModalContextProvider>
-      ) : (
-        footer
-      )}
     </div>
   );
 }
@@ -157,32 +193,26 @@ const ConfirmModal: React.FC<ConfirmModalProps> = (props) => {
     getContainer,
     prefixCls,
     closable = false,
+    footer,
     modalRender,
     focusTriggerAfterClose,
     onConfirm,
   } = props;
 
-  if (process.env.NODE_ENV !== 'production') {
-    const warning = devUseWarning('Modal');
-
-    [
-      ['visible', 'open'],
-      ['bodyStyle', 'styles.body'],
-      ['maskStyle', 'styles.mask'],
-    ].forEach(([deprecatedName, newName]) => {
-      warning.deprecated(!(deprecatedName in props), deprecatedName, newName);
-    });
-  }
-
   const confirmPrefixCls = `${prefixCls}-confirm`;
 
-  const width = props.width || 416;
+  const width = props.width || 512;
   const style = props.style || {};
   const mask = props.mask === undefined ? true : props.mask;
-  // 默认为 false，保持旧版默认行为
   const maskClosable = props.maskClosable === undefined ? false : props.maskClosable;
 
-  const classString = clsx(confirmPrefixCls, `${confirmPrefixCls}-${props.type}`, props.className);
+  const classString = mergeSemanticCls(
+    {
+      root: clsx(confirmPrefixCls, `${confirmPrefixCls}-${props.type}`),
+      footer: clsx('flex-row px-6 py-3 sm:flex-col-reverse sm:px-4'),
+    },
+    props.className,
+  );
 
   // ========================= zIndex =========================
   const mergedZIndex = React.useMemo(() => {
@@ -195,6 +225,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = (props) => {
   }, [zIndex]);
 
   // ========================= Render =========================
+  const mergedFooter = footer !== null ? <ConfirmFooter {...props} /> : null;
+
   return (
     <Modal
       prefixCls={prefixCls}
@@ -205,7 +237,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = (props) => {
       }}
       open={open}
       title=""
-      footer={null}
+      footer={mergedFooter}
       mask={mask}
       maskClosable={maskClosable}
       style={style}
