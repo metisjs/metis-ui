@@ -165,7 +165,7 @@ const Options: React.FC<OptionsProps> = (props) => {
     );
   }
 
-  const rootCls = clsx(prefixCls, 'ms-1 hidden items-center gap-2 sm:inline-flex', className?.root);
+  const rootCls = clsx(prefixCls, 'ms-1 inline-flex items-center gap-2 sm:hidden', className?.root);
 
   return (
     <li className={rootCls}>
