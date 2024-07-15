@@ -34,13 +34,13 @@ demo:
 | --- | --- | --- | --- | --- |
 | autoFocus | 抽屉展开后是否将焦点切换至其 DOM 节点 | boolean | true |  |
 | afterOpenChange | 切换抽屉时动画结束后的回调 | function(open) | - |  |
-| className | Drawer 容器外层 className 设置，如果需要设置最外层，请使用 rootClassName | string | - |  |
+| className | 语义化结构 class | string \| Record<'root' \| 'mask' \| 'wrapper' \| 'content' \| 'header' \| 'footer' \| 'body', string> | - |  |
 | closable | 是否显示右上角的关闭按钮 | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | destroyOnClose | 关闭时销毁 Drawer 里的子元素 | boolean | false |  |
 | footer | 抽屉的页脚 | ReactNode | - |  |
 | forceRender | 预渲染 Drawer 内元素 | boolean | false |  |
 | getContainer | 指定 Drawer 挂载的节点，**并在容器内展现**，`false` 为挂载在当前位置 | HTMLElement \| () => HTMLElement \| Selectors \| false | body |  |
-| height | 高度，在 `placement` 为 `top` 或 `bottom` 时使用 | string \| number | 378 |  |
+| height | 高度，在 `placement` 为 `top` 或 `bottom` 时使用 | string \| number | 448 |  |
 | keyboard | 是否支持键盘 esc 关闭 | boolean | true |  |
 | mask | 是否展示遮罩 | boolean | true |  |
 | maskClosable | 点击蒙层是否允许关闭 | boolean | true |  |
@@ -50,7 +50,7 @@ demo:
 | title | 标题 | ReactNode | - |  |
 | loading | 显示骨架屏 | boolean | false |  |
 | open | Drawer 是否可见 | boolean | - |
-| width | 宽度 | string \| number | 378 |  |
+| width | 宽度 | string \| number | 448 |  |
 | zIndex | 设置 Drawer 的 `z-index` | number | 1000 |  |
 | onClose | 点击遮罩层或左上角叉或取消按钮的回调 | function(e) | - |  |
 | drawerRender | 自定义渲染抽屉 | (node: ReactNode) => ReactNode | - |  |

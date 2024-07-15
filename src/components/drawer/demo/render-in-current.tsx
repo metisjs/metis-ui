@@ -15,7 +15,7 @@ const App: React.FC = () => {
   return (
     <div className="relative h-[200px] overflow-hidden rounded-lg border border-neutral-border-secondary bg-neutral-fill-quaternary p-12">
       Render in this
-      <div style={{ marginTop: 16 }}>
+      <div className="mt-4">
         <Button type="primary" onClick={showDrawer}>
           Open
         </Button>

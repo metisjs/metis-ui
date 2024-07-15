@@ -3,6 +3,8 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
+import { getSkeletonButtons } from '../modal/Footer';
+import Scrollbar from '../scrollbar';
 import Skeleton from '../skeleton';
 import Transition, { TransitionProps } from '../transition';
 import type { DrawerContextProps } from './context';
@@ -161,18 +163,54 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   );
   const wrapperCls = clsx(
     `${prefixCls}-content-wrapper`,
-    'absolute max-w-full shadow-xl',
+    'absolute max-w-full transition-transform duration-300',
+    {
+      'bottom-0 left-0 top-0': placement === 'left',
+      'bottom-0 right-0 top-0': placement === 'right',
+      'left-0 right-0 top-0': placement === 'top',
+      'bottom-0 left-0 right-0': placement === 'bottom',
+    },
     semanticCls.wrapper,
   );
-  const contentCls = clsx(`${prefixCls}-content`, semanticCls.content);
-  const headerCls = clsx(`${prefixCls}-header`, semanticCls.header);
-  const titleCls = clsx(`${prefixCls}-title`);
-  const footerCls = clsx(`${prefixCls}-footer`, semanticCls.footer);
-  const bodyCls = clsx(`${prefixCls}-body`, semanticCls.body);
-  const closeCls = clsx(`${prefixCls}-close`);
+  const contentCls = clsx(
+    `${prefixCls}-content`,
+    'pointer-events-auto relative flex h-full w-full flex-col bg-neutral-bg-elevated',
+    {
+      'shadow-[20px_0_25px_-5px_rgba(0,0,0,0.1),8px_0_10px_-6px_rgba(0,0,0,0.1)]':
+        placement === 'left',
+      'shadow-[-20px_0_25px_-5px_rgba(0,0,0,0.1),-8px_0_10px_-6px_rgba(0,0,0,0.1)]':
+        placement === 'right',
+      'shadow-xl': placement === 'top',
+      'shadow-[0_-20px_25px_-5px_rgba(0,0,0,0.1),0_-8px_10px_-6px_rgba(0,0,0,0.1)]':
+        placement === 'bottom',
+    },
+    semanticCls.content,
+  );
+  const headerCls = clsx(
+    `${prefixCls}-header`,
+    'relative truncate p-6 pr-10 text-base font-semibold leading-6',
+    semanticCls.header,
+  );
+  const closeCls = clsx(
+    `${prefixCls}-close`,
+    'absolute right-3 top-3 z-[1000] rounded p-1 text-neutral-text-secondary hover:bg-neutral-fill-tertiary',
+  );
+  const bodyCls = clsx(
+    `${prefixCls}-body`,
+    'p-6',
+    {
+      'pt-0': title || closable,
+    },
+    semanticCls.body,
+  );
+  const footerCls = clsx(
+    `${prefixCls}-footer`,
+    'flex items-center justify-end gap-4 border-t border-neutral-border-secondary p-4',
+    semanticCls.footer,
+  );
   const maskCls = clsx(
     `${prefixCls}-mask`,
-    'pointer-events-auto fixed inset-0 bg-neutral-bg-mask',
+    'pointer-events-auto absolute inset-0 bg-neutral-bg-mask',
     semanticCls.mask,
   );
 
@@ -280,22 +318,17 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   ) : null;
 
   const headerNode = React.useMemo<React.ReactNode>(() => {
-    if (!title && !mergedClosable) {
+    if (!title) {
       return null;
     }
-    return (
-      <div className={headerCls}>
-        {title && <div className={titleCls}>{title}</div>}
-        {closerNode}
-      </div>
-    );
-  }, [mergedClosable, title, headerCls, titleCls]);
+    return <div className={headerCls}>{title}</div>;
+  }, [title, headerCls]);
 
   const footerNode = React.useMemo<React.ReactNode>(() => {
     if (!footer) {
       return null;
     }
-    return <div className={footerCls}>{footer}</div>;
+    return <div className={footerCls}>{loading ? getSkeletonButtons(footer) : footer}</div>;
   }, [footer, footerCls]);
 
   const contentNode: React.ReactNode = (
@@ -322,8 +355,9 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
             {...pickAttrs(props, { aria: true })}
             {...eventHandlers}
           >
+            {closerNode}
             {headerNode}
-            <div className={bodyCls}>
+            <Scrollbar className={{ root: 'flex-1 basis-0', view: bodyCls }}>
               {loading ? (
                 <Skeleton
                   active
@@ -334,7 +368,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
               ) : (
                 children
               )}
-            </div>
+            </Scrollbar>
             {footerNode}
           </div>
         );

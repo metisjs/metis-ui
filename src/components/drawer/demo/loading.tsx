@@ -30,12 +30,12 @@ const App: React.FC = () => {
         onClose={() => setOpen(false)}
         footer={
           <>
-            <Button>Cancel</Button>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="primary">Submit</Button>
           </>
         }
       >
-        <Button type="primary" style={{ marginBottom: 16 }} onClick={showLoading}>
+        <Button type="primary" className="mb-4" onClick={showLoading}>
           Reload
         </Button>
         <p>Some contents...</p>

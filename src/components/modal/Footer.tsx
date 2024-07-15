@@ -16,7 +16,7 @@ interface FooterProps {
   onCancel?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
 }
 
-function getSkeletonButtons(children: ReactNode): ReactNode[] | null {
+export function getSkeletonButtons(children: ReactNode): ReactNode[] | null {
   const buttons = Children.map(children, (child) => {
     if (isValidElement(child)) {
       if (child.type === React.Fragment) {
