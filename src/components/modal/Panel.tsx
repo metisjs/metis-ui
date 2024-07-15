@@ -145,10 +145,10 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     </div>
   ) : null;
 
-  const [, closeIcon, iconProps] = useClosable(closable, { className: 'w-6 h-6' });
+  const [mergedClosable, closeIcon, iconProps] = useClosable(closable, { className: 'w-6 h-6' });
   const ariaProps = pickAttrs(iconProps, true);
 
-  const closerNode = closable ? (
+  const closerNode = mergedClosable ? (
     <button type="button" onClick={onClose} aria-label="Close" {...ariaProps} className={closeCls}>
       {closeIcon}
     </button>
