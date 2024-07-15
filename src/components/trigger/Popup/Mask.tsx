@@ -21,7 +21,13 @@ export default function Mask(props: MaskProps) {
 
   return (
     <Transition {...transition} appear visible={open} removeOnLeave>
-      <div className={clsx(`${prefixCls}-mask`, className)} style={{ zIndex }} />
+      {({ className: transitionCls, style: transitionStyle }, ref) => (
+        <div
+          ref={ref}
+          className={clsx(`${prefixCls}-mask`, className, transitionCls)}
+          style={{ zIndex, ...transitionStyle }}
+        />
+      )}
     </Transition>
   );
 }
