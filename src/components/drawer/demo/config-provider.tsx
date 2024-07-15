@@ -15,11 +15,17 @@ const App: React.FC = () => {
 
   return (
     <ConfigProvider getPopupContainer={() => domRef.current!}>
-      <div ref={domRef} className="site-drawer-render-in-current-wrapper">
+      <div ref={domRef}>
         <Button type="primary" onClick={showDrawer}>
           Open
         </Button>
-        <Drawer title="ConfigProvider" placement="right" onClose={onClose} open={open}>
+        <Drawer
+          title="ConfigProvider"
+          placement="right"
+          onClose={onClose}
+          open={open}
+          className="absolute"
+        >
           <p>Some contents...</p>
           <p>Some contents...</p>
           <p>Some contents...</p>
