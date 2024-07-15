@@ -54,7 +54,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   const panelClickRef = React.useRef(false);
   const panelTimeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
 
-  const [animatedOpen, setAnimatedOpen] = React.useState(open);
+  const [animatedVisible, setAnimatedVisible] = React.useState(open);
 
   const ariaId = React.useId();
   const saveLastOutSideActiveElementRef = () => {
@@ -76,7 +76,7 @@ const Modal: React.FC<ModalProps> = (props) => {
       focusPanel();
     } else {
       // Clean up scroll bar & focus back
-      setAnimatedOpen(false);
+      setAnimatedVisible(false);
 
       if (mask && lastOutSideActiveElementRef.current && focusTriggerAfterClose) {
         try {
@@ -88,7 +88,7 @@ const Modal: React.FC<ModalProps> = (props) => {
       }
 
       // Trigger afterClose only when change visible from true to false
-      if (animatedOpen) {
+      if (animatedVisible) {
         afterClose?.();
       }
     }
@@ -135,7 +135,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   // ========================= Effect =========================
   React.useEffect(() => {
     if (open) {
-      setAnimatedOpen(true);
+      setAnimatedVisible(true);
       saveLastOutSideActiveElementRef();
     }
   }, [open]);
@@ -167,7 +167,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   // const watermarkRef = usePanelRef(`.${prefixCls}-content`);
 
   // ========================= Render ==========================
-  if (!forceRender && destroyOnClose && !animatedOpen) {
+  if (!forceRender && destroyOnClose && !animatedVisible) {
     return null;
   }
 
@@ -177,10 +177,10 @@ const Modal: React.FC<ModalProps> = (props) => {
     <ContextIsolator form space>
       <ZIndexContext.Provider value={contextZIndex}>
         <Portal
-          open={open || forceRender || animatedOpen}
+          open={open || forceRender || animatedVisible}
           autoDestroy={false}
           getContainer={mergedGetContainer}
-          autoLock={open || animatedOpen}
+          autoLock={open || animatedVisible}
         >
           <div className={containerCls} {...pickAttrs(props, { data: true })}>
             <Mask
@@ -198,7 +198,7 @@ const Modal: React.FC<ModalProps> = (props) => {
               onClick={onWrapperClick}
               style={{
                 zIndex: mergedZIndex,
-                display: !animatedOpen ? 'none' : undefined,
+                display: !animatedVisible ? 'none' : undefined,
               }}
               {...wrapProps}
             >
@@ -209,7 +209,7 @@ const Modal: React.FC<ModalProps> = (props) => {
                 closable={closable}
                 ariaId={ariaId}
                 prefixCls={prefixCls}
-                open={open && animatedOpen}
+                open={open && animatedVisible}
                 footer={mergedFooter}
                 destroyOnClose={destroyOnClose}
                 className={className}
