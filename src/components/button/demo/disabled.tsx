@@ -26,10 +26,10 @@ const App: React.FC = () => (
       </Button>
     </Space>
     <Space>
-      <Button type="primary" href="https://ant.design/index-cn">
+      <Button type="primary" href="#">
         Href Primary
       </Button>
-      <Button type="primary" href="https://ant.design/index-cn" disabled>
+      <Button type="primary" href="#" disabled>
         Href Primary(disabled)
       </Button>
     </Space>

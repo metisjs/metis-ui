@@ -240,7 +240,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       'rounded-full': shape === 'round',
       'justify-center pe-0 ps-0 text-base': iconOnly,
       'cursor-not-allowed opacity-disabled focus-visible:ring-0': mergedDisabled,
-      'text-error ring-error-bg-hover focus-visible:ring-error enabled:hover:bg-error-bg': danger,
+      'text-error ring-error focus-visible:ring-error enabled:hover:bg-error-bg': danger,
       'cursor-not-allowed': innerLoading,
     },
     isHref &&
