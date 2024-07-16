@@ -49,6 +49,8 @@ export { default as Progress } from './progress';
 export type { ProgressProps } from './progress';
 export { default as Radio } from './radio';
 export type { RadioChangeEvent, RadioGroupProps, RadioProps } from './radio';
+export { default as Result } from './result';
+export type { ResultProps } from './result';
 export { default as Scrollbar } from './scrollbar';
 export type { ScrollValues, ScrollbarProps } from './scrollbar';
 export { default as Segmented } from './segmented';
