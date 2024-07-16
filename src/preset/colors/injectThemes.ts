@@ -4,6 +4,7 @@ import twColors from 'tailwindcss/colors';
 import { PluginAPI } from 'tailwindcss/types/config';
 import { DefaultColors } from 'tailwindcss/types/generated/colors';
 import colorPalette from './colorPalette';
+import { PREFERS_COLOR_KEY } from './constants';
 import themes from './themes';
 
 type ColorParam = { [key: string]: any };
@@ -118,7 +119,7 @@ export default function injectThemes(addBase: PluginAPI['addBase'], config: Plug
     }
 
     addBase({
-      ['[data-prefers-color=' + themeName + ']']: includedThemesObj[themeName],
+      [`[${PREFERS_COLOR_KEY}=${themeName}]`]: includedThemesObj[themeName],
     });
   });
   if (config('metisui.darkTheme')) {
