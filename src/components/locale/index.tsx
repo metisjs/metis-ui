@@ -5,6 +5,7 @@ import * as React from 'react';
 import { EmptyLocale } from '../empty';
 import { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
+import { PopconfirmLocale } from '../popconfirm/Overlay';
 import type { LocaleContextProps } from './context';
 import LocaleContext from './context';
 
@@ -21,7 +22,7 @@ export interface Locale {
   // Table?: TableLocale;
   Modal?: ModalLocale;
   // Tour?: TourLocale;
-  // Popconfirm?: PopconfirmLocale;
+  Popconfirm?: PopconfirmLocale;
   // Transfer?: TransferLocale;
   Select?: Record<string, any>;
   // Upload?: UploadLocale;

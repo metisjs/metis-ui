@@ -41,6 +41,8 @@ export { default as notification } from './notification';
 export type { ArgsProps as NotificationArgsProps } from './notification';
 export { default as Pagination } from './pagination';
 export type { PaginationProps } from './pagination';
+export { default as Popconfirm } from './popconfirm';
+export type { PopconfirmProps } from './popconfirm';
 export { default as Popover } from './popover';
 export type { PopoverProps } from './popover';
 export { default as Progress } from './progress';
