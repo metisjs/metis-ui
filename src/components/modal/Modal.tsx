@@ -161,11 +161,6 @@ const Modal: React.FC<ModalProps> = (props) => {
     semanticCls.wrapper,
   );
 
-  // ============================ Refs ============================
-  // Select `metis-modal-content` by `panelRef`
-  // TODO: watermark组件待开发
-  // const watermarkRef = usePanelRef(`.${prefixCls}-content`);
-
   // ========================= Render ==========================
   if (!forceRender && destroyOnClose && !animatedVisible) {
     return null;

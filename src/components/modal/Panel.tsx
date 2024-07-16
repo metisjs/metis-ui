@@ -4,6 +4,7 @@ import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
 import Scrollbar from '../scrollbar';
 import Transition from '../transition';
+import { usePanelRef } from '../watermark/context';
 import type { ModalProps } from './interface';
 
 const sentinelStyle = { width: 0, height: 0, overflow: 'hidden', outline: 'none' };
@@ -90,6 +91,8 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     },
   }));
 
+  const watermarkRef = usePanelRef();
+
   // ================================ Style =================================
   const panelCls = clsx(
     prefixCls,
@@ -100,7 +103,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
 
   const contentCls = clsx(
     `${prefixCls}-content`,
-    'pointer-events-auto flex flex-col overflow-hidden rounded-lg bg-neutral-bg-elevated shadow-xl',
+    'pointer-events-auto relative flex flex-col overflow-hidden rounded-lg bg-neutral-bg-elevated shadow-xl',
     semanticCls.content,
   );
 
@@ -155,7 +158,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   ) : null;
 
   const content = (
-    <div className={contentCls} style={height ? { height: height } : undefined}>
+    <div ref={watermarkRef} className={contentCls} style={height ? { height: height } : undefined}>
       {closerNode}
       {headerNode}
       {!!height ? (

@@ -1,5 +1,6 @@
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
+import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
@@ -7,6 +8,7 @@ import { getSkeletonButtons } from '../modal/Footer';
 import Scrollbar from '../scrollbar';
 import Skeleton from '../skeleton';
 import Transition, { TransitionProps } from '../transition';
+import { usePanelRef } from '../watermark/context';
 import type { DrawerContextProps } from './context';
 import DrawerContext from './context';
 import { PanelProps, PushConfig } from './interface';
@@ -66,6 +68,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   const panelRef = React.useRef<HTMLDivElement>(null);
   const sentinelStartRef = React.useRef<HTMLDivElement>(null);
   const sentinelEndRef = React.useRef<HTMLDivElement>(null);
+  const watermarkRef = usePanelRef();
 
   React.useImperativeHandle(ref, () => panelRef.current);
 
@@ -348,7 +351,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
           <div
             role="dialog"
             id={id}
-            ref={transitionRef}
+            ref={composeRef(transitionRef, watermarkRef)}
             className={contentCls}
             style={style}
             aria-modal="true"

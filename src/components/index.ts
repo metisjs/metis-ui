@@ -1,3 +1,4 @@
+export type { GetProp, GetProps, GetRef } from './_util/type';
 export { default as Affix } from './affix';
 export type { AffixProps, AffixRef } from './affix';
 export { default as Alert } from './alert';
@@ -70,5 +71,7 @@ export { default as Tooltip } from './tooltip';
 export type { TooltipProps } from './tooltip';
 export { default as Transition } from './transition';
 export type { TransitionProps } from './transition';
+export { default as Watermark } from './watermark';
+export type { WatermarkProps } from './watermark';
 
 export * from './_util/classNameUtils';
