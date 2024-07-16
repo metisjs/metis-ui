@@ -28,7 +28,7 @@ export default function IconSearch() {
       <div className="pointer-events-none sticky top-[76px] z-50 -mb-12 overflow-hidden pb-12">
         <div className="relative">
           <div className="pointer-events-auto relative bg-white pb-4 shadow-[0_1px_3px_rgba(15,23,42,0.08)] dark:bg-[#0a0e13]">
-            <div className="flex flex-col items-center sm:flex-row">
+            <div className="flex flex-row items-center sm:flex-col">
               <div className="relative flex-auto">
                 <input
                   ref={searchInputRef}
@@ -37,7 +37,7 @@ export default function IconSearch() {
                   onChange={(e) => setQuery(e.target.value)}
                   aria-label="在此搜索图标，点击图标可复制代码"
                   placeholder="在此搜索图标，点击图标可复制代码"
-                  className="block w-full appearance-none rounded-lg border-0 bg-transparent py-6 pl-9 pr-4 text-base text-slate-900 transition placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-[#c6c9cd] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none"
+                  className="block w-full appearance-none rounded-lg border-0 bg-transparent py-4 pl-9 pr-4 text-base text-slate-900 transition placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-[#c6c9cd] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none"
                 />
                 <svg
                   viewBox="0 0 20 20"

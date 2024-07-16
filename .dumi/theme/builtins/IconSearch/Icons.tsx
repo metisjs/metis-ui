@@ -15,7 +15,7 @@ export default ({ type, query }: { type: string; query?: string }) => {
 
   if (query && filteredIcons.length === 0) {
     return (
-      <div className="flex flex-col items-center py-20 text-sm leading-6 text-slate-600 dark:text-[#c6c9cd] lg:py-40 md:py-32">
+      <div className="flex flex-col items-center py-40 text-sm leading-6 text-slate-600 dark:text-[#c6c9cd] md:py-32 sm:py-20">
         <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className="h-8 w-8">
           <path
             d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z"
