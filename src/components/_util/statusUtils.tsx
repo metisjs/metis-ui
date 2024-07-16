@@ -1,8 +1,7 @@
 import type { ValidateStatus } from '../form/FormItem';
 import { clsx } from './classNameUtils';
-import { tuple } from './type';
 
-const InputStatuses = tuple('warning', 'error', '');
+const InputStatuses = ['warning', 'error', ''] as const;
 export type InputStatus = (typeof InputStatuses)[number];
 
 export function getStatusClassNames(status?: ValidateStatus, hasFeedback?: boolean) {

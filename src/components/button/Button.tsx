@@ -3,7 +3,6 @@ import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
-import { tuple } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
@@ -13,11 +12,13 @@ import { useCompactItemContext } from '../space/Compact';
 import LoadingIcon from './LoadingIcon';
 import { isTwoCNChar, isUnBorderedButtonType, spaceChildren } from './utils';
 
-const ButtonTypes = tuple('default', 'primary', 'text', 'link');
+const ButtonTypes = ['default', 'primary', 'link', 'text'] as const;
 export type ButtonType = (typeof ButtonTypes)[number];
-const ButtonShapes = tuple('default', 'round');
+
+const ButtonShapes = ['default', 'round'] as const;
 export type ButtonShape = (typeof ButtonShapes)[number];
-const ButtonHTMLTypes = tuple('submit', 'button', 'reset');
+
+const ButtonHTMLTypes = ['submit', 'button', 'reset'] as const;
 export type ButtonHTMLType = (typeof ButtonHTMLTypes)[number];
 
 export interface BaseButtonProps {

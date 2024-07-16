@@ -7,7 +7,6 @@ import { supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useContext } from 'react';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
-import { tuple } from '../../_util/type';
 import warning from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
 import type { FormItemInputProps } from '../FormItemInput';
@@ -26,7 +25,7 @@ interface FieldError {
   warnings: string[];
 }
 
-const ValidateStatuses = tuple('success', 'warning', 'error', 'validating', '');
+const ValidateStatuses = ['success', 'warning', 'error', 'validating', ''];
 export type ValidateStatus = (typeof ValidateStatuses)[number];
 
 type RenderChildren<Values = any> = (form: FormInstance<Values>) => React.ReactNode;
