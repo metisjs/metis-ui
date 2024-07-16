@@ -21,9 +21,7 @@ const App: React.FC = () => (
     okText="Yes"
     cancelText="No"
   >
-    <Button type="primary" danger>
-      Delete
-    </Button>
+    <Button danger>Delete</Button>
   </Popconfirm>
 );
 

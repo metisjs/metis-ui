@@ -8,9 +8,7 @@ const App: React.FC = () => (
     description="Are you sure to delete this task?"
     icon={<QuestionMarkCircleOutline style={{ color: 'red' }} />}
   >
-    <Button type="primary" danger>
-      Delete
-    </Button>
+    <Button danger>Delete</Button>
   </Popconfirm>
 );
 

@@ -2,6 +2,7 @@ import { ExclamationTriangleOutline } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import omit from 'rc-util/lib/omit';
 import * as React from 'react';
+import { mergeSemanticCls } from '../_util/classNameUtils';
 import type { RenderFunction } from '../_util/getRenderPropValue';
 import type { ButtonProps, ButtonType } from '../button';
 import { ConfigContext } from '../config-provider';
@@ -35,6 +36,7 @@ const Popconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props, ref) =>
     icon = <ExclamationTriangleOutline />,
     children,
     onOpenChange,
+    className,
     ...restProps
   } = props;
 
@@ -65,6 +67,7 @@ const Popconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props, ref) =>
   };
 
   const prefixCls = getPrefixCls('popconfirm', customizePrefixCls);
+  const mergedCls = mergeSemanticCls({ overlay: 'w-max max-w-none' }, className);
 
   return (
     <Popover
@@ -74,6 +77,7 @@ const Popconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props, ref) =>
       onOpenChange={onInternalOpenChange}
       open={open}
       ref={ref}
+      className={mergedCls}
       content={
         <Overlay
           okType={okType}
