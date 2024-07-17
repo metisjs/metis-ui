@@ -136,3 +136,36 @@ export interface InputRef {
 export interface ChangeEventInfo {
   source: 'compositionEnd' | 'change';
 }
+
+export interface AutoSizeType {
+  minRows?: number;
+  maxRows?: number;
+}
+
+// To compatible with origin usage. We have to wrap this
+export interface ResizableTextAreaRef {
+  textArea: HTMLTextAreaElement;
+}
+
+export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
+  value?: HTMLTextareaProps['value'] | bigint;
+  prefixCls?: string;
+  className?: SemanticClassName<'textarea' | 'count' | 'clear'>;
+  style?: React.CSSProperties;
+  autoSize?: boolean | AutoSizeType;
+  onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+  onResize?: (size: { width: number; height: number }) => void;
+  size?: SizeType;
+  status?: InputStatus;
+  variant?: Variant;
+} & Pick<BaseInputProps, 'allowClear'> &
+  Pick<InputProps, 'showCount' | 'count'>;
+
+export type TextAreaRef = {
+  resizableTextArea: ResizableTextAreaRef;
+  focus: () => void;
+  blur: () => void;
+  nativeElement: HTMLElement;
+};

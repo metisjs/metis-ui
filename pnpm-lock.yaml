@@ -14,9 +14,6 @@ patchedDependencies:
   rc-slider@10.6.2:
     hash: kkiat36cjavbtnq7lhp77nmlry
     path: patches/rc-slider@10.6.2.patch
-  rc-textarea@1.7.0:
-    hash: xkdbu5vehnga3y473knshiw57m
-    path: patches/rc-textarea@1.7.0.patch
 
 dependencies:
   '@ctrl/tinycolor':
@@ -70,9 +67,6 @@ dependencies:
   rc-slider:
     specifier: 10.6.2
     version: 10.6.2(patch_hash=kkiat36cjavbtnq7lhp77nmlry)(react-dom@18.2.0)(react@18.2.0)
-  rc-textarea:
-    specifier: 1.7.0
-    version: 1.7.0(patch_hash=xkdbu5vehnga3y473knshiw57m)(react-dom@18.2.0)(react@18.2.0)
   rc-util:
     specifier: ^5.43.0
     version: 5.43.0(react-dom@18.2.0)(react@18.2.0)
@@ -4816,7 +4810,7 @@ packages:
       rc-switch: 4.1.0(react-dom@18.2.0)(react@18.2.0)
       rc-table: 7.45.7(react-dom@18.2.0)(react@18.2.0)
       rc-tabs: 15.1.1(react-dom@18.2.0)(react@18.2.0)
-      rc-textarea: 1.7.0(patch_hash=xkdbu5vehnga3y473knshiw57m)(react-dom@18.2.0)(react@18.2.0)
+      rc-textarea: 1.7.0(react-dom@18.2.0)(react@18.2.0)
       rc-tooltip: 6.2.0(react-dom@18.2.0)(react@18.2.0)
       rc-tree: 5.8.8(react-dom@18.2.0)(react@18.2.0)
       rc-tree-select: 5.21.0(react-dom@18.2.0)(react@18.2.0)
@@ -13582,10 +13576,11 @@ packages:
       react-dom: '>=16.0.0'
     dependencies:
       '@babel/runtime': 7.24.7
-      classnames: 2.3.2
+      classnames: 2.5.1
       rc-util: 5.43.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: true
 
   /rc-mentions@2.14.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-qKR59FMuF8PK4ZqsbWX3UuA5P1M/snzyqV6Yt3y1DCFbCEdqUGIBgQp6vEfLCO6Z0RoRFlzXtCeSlBTcDDpg1A==}
@@ -13598,7 +13593,7 @@ packages:
       classnames: 2.5.1
       rc-input: 1.5.1(react-dom@18.2.0)(react@18.2.0)
       rc-menu: 9.14.1(react-dom@18.2.0)(react@18.2.0)
-      rc-textarea: 1.7.0(patch_hash=xkdbu5vehnga3y473knshiw57m)(react-dom@18.2.0)(react@18.2.0)
+      rc-textarea: 1.7.0(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.43.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -13927,20 +13922,20 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: true
 
-  /rc-textarea@1.7.0(patch_hash=xkdbu5vehnga3y473knshiw57m)(react-dom@18.2.0)(react@18.2.0):
+  /rc-textarea@1.7.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-UxizYJkWkmxP3zofXgc487QiGyDmhhheDLLjIWbFtDmiru1ls30KpO8odDaPyqNUIy9ugj5djxTEuezIn6t3Jg==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.24.7
-      classnames: 2.3.2
+      classnames: 2.5.1
       rc-input: 1.5.1(react-dom@18.2.0)(react@18.2.0)
       rc-resize-observer: 1.4.0(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.43.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    patched: true
+    dev: true
 
   /rc-tooltip@6.2.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-iS/3iOAvtDh9GIx1ulY7EFUXUtktFccNLsARo3NPgLf0QW9oT0w3dA9cYWlhqAKmD+uriEwdWz1kH0Qs4zk2Aw==}
