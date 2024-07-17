@@ -156,11 +156,15 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
       <GroupWrapperComponent className={mergedGroupClassName} ref={groupRef}>
         <WrapperComponent className={mergedWrapperClassName}>
           {addonBefore && (
-            <GroupAddonComponent className={addonCls}>{addonBefore}</GroupAddonComponent>
+            <GroupAddonComponent className={clsx(addonCls, semanticCls.addonBefore)}>
+              {addonBefore}
+            </GroupAddonComponent>
           )}
           {element}
           {addonAfter && (
-            <GroupAddonComponent className={addonCls}>{addonAfter}</GroupAddonComponent>
+            <GroupAddonComponent className={clsx(addonCls, semanticCls.addonAfter)}>
+              {addonAfter}
+            </GroupAddonComponent>
           )}
         </WrapperComponent>
       </GroupWrapperComponent>
@@ -169,7 +173,7 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
 
   // `className` and `style` are always on the root element
   return React.cloneElement(element, {
-    className: clsx(semanticCls.root, element.props?.className) || null,
+    className: clsx(element.props?.className, semanticCls.root) || null,
     style: {
       ...element.props?.style,
       ...style,

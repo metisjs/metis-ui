@@ -18,7 +18,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
     {
       prefixCls: customizePrefixCls,
-      size: customizeSize,
+      size: customizeSize = 'middle',
       disabled: customizeDisabled,
       status: customizeStatus,
       allowClear,
@@ -189,7 +189,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
 
     const textareaCls = clsx(
       { [`${prefixCls}-${variant}`]: enableVariantCls },
-      'relative block h-full w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
+      'relative block h-full w-full appearance-none rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm outline-none ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
       {
         'px-2 py-1': mergedSize === 'small',
         'px-3 py-1.5 leading-6': mergedSize === 'middle',

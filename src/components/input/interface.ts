@@ -28,7 +28,14 @@ export interface BaseInputProps extends CommonInputProps {
   value?: ValueType;
   prefixCls?: string;
   className?: SemanticClassName<
-    'affixWrapper' | 'prefix' | 'suffix' | 'groupWrapper' | 'wrapper' | 'clear'
+    | 'affixWrapper'
+    | 'prefix'
+    | 'suffix'
+    | 'groupWrapper'
+    | 'wrapper'
+    | 'clear'
+    | 'addonBefore'
+    | 'addonAfter'
   >;
   style?: CSSProperties;
   disabled?: boolean;

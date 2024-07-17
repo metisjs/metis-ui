@@ -74,14 +74,30 @@ export default function StepHandler({
     return null;
   }
 
-  const handlerClassName = `${prefixCls}-handler`;
+  const handlerClassName = clsx(
+    `${prefixCls}-handler`,
+    'group-handler absolute right-[2px] top-[2px] flex h-[calc(100%-4px)] w-6 select-none flex-col items-stretch rounded-ee-md rounded-se-md bg-neutral-bg-container text-sm text-neutral-text-tertiary opacity-0 transition-opacity duration-200 ease-linear',
+    'group-hover/affix:opacity-100 group-hover/input:opacity-100',
+  );
 
-  const upClassName = clsx(handlerClassName, `${handlerClassName}-up`, {
-    [`${handlerClassName}-up-disabled`]: upDisabled,
-  });
-  const downClassName = clsx(handlerClassName, `${handlerClassName}-down`, {
-    [`${handlerClassName}-down-disabled`]: downDisabled,
-  });
+  const upClassName = clsx(
+    `${prefixCls}-handler-up`,
+    {
+      [`${prefixCls}-handler-up-disabled`]: upDisabled,
+    },
+    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l border-neutral-border-secondary transition-all duration-200 ease-linear',
+    !upDisabled && 'hover:h-3/5 hover:text-primary',
+    upDisabled && 'cursor-not-allowed',
+  );
+  const downClassName = clsx(
+    `${prefixCls}-handler-down`,
+    {
+      [`${prefixCls}-handler-down-disabled`]: downDisabled,
+    },
+    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l border-t border-neutral-border-secondary transition-all duration-200 ease-linear',
+    !downDisabled && 'hover:h-3/5 hover:text-primary',
+    downDisabled && 'cursor-not-allowed',
+  );
 
   // In Safari, When we fire onmousedown and onmouseup events in quick succession,
   // there may be a problem that the onmouseup events are executed first,
@@ -97,7 +113,7 @@ export default function StepHandler({
   };
 
   return (
-    <div className={`${handlerClassName}-wrap`}>
+    <div className={handlerClassName}>
       <span
         {...sharedHandlerProps}
         onMouseDown={(e) => {
@@ -107,7 +123,7 @@ export default function StepHandler({
         aria-disabled={upDisabled}
         className={upClassName}
       >
-        {upNode || <span unselectable="on" className={`${prefixCls}-handler-up-inner`} />}
+        {upNode}
       </span>
       <span
         {...sharedHandlerProps}
@@ -118,7 +134,7 @@ export default function StepHandler({
         aria-disabled={downDisabled}
         className={downClassName}
       >
-        {downNode || <span unselectable="on" className={`${prefixCls}-handler-down-inner`} />}
+        {downNode}
       </span>
     </div>
   );

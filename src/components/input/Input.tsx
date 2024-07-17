@@ -216,11 +216,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const [variant, enableVariantCls] = useVariant(customVariant);
 
   // ====================== Style ======================
-  const rootCls = clsx(
-    'rounded-md shadow-sm',
-    variant === 'borderless' && 'shadow-none',
-    semanticCls.root,
-  );
+  const rootCls = clsx('shadow-sm', variant === 'borderless' && 'shadow-none', semanticCls.root);
   const wrapperCls = clsx('flex items-center');
   const groupWrapperCls = clsx(
     { [`${prefixCls}-wrapper-${variant}`]: enableVariantCls },
@@ -230,7 +226,6 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     },
     {
       'text-neutral-text-tertiary': mergedDisabled,
-      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
     compactItemClassnames[0],
   );
@@ -240,7 +235,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       [`${prefixCls}-disabled`]: mergedDisabled,
       [`${prefixCls}-${variant}`]: enableVariantCls && !inputHasPrefixSuffix,
     },
-    'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
+    'relative inline-block w-full appearance-none rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text outline-none ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
     {
       'px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -259,8 +254,6 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'bg-transparent text-neutral-text-tertiary': mergedDisabled,
     },
     !inputHasPrefixSuffix &&
-      !addonBefore &&
-      !addonAfter &&
       mergedDisabled &&
       variant !== 'borderless' &&
       'bg-neutral-fill-quaternary',
@@ -292,7 +285,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     compactItemClassnames[1],
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
-  const addonBeforeWrapperCls = clsx(
+  const addonBeforeCls = clsx(
     'input-addon -mr-[1px] inline-flex items-center rounded-s-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
     {
       'h-8 px-2': mergedSize === 'small',
@@ -305,10 +298,11 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     },
     {
       'text-neutral-text-tertiary': mergedDisabled,
+      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
     compactItemClassnames[1],
   );
-  const addonAfterWrapperCls = clsx(
+  const addonAfterCls = clsx(
     'input-addon -ml-[1px] inline-flex items-center rounded-e-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
     {
       'h-8 px-2': mergedSize === 'small',
@@ -321,6 +315,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     },
     {
       'text-neutral-text-tertiary': mergedDisabled,
+      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
     compactItemClassnames[1],
   );
@@ -403,6 +398,8 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
         groupWrapper: groupWrapperCls,
         wrapper: wrapperCls,
         clear: clearCls,
+        addonAfter: addonAfterCls,
+        addonBefore: addonBeforeCls,
       }}
       handleReset={handleReset}
       value={formatValue}
@@ -413,14 +410,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       addonAfter={
         addonAfter && (
           <ContextIsolator form space>
-            <span className={addonAfterWrapperCls}>{addonAfter}</span>
+            {addonAfter}
           </ContextIsolator>
         )
       }
       addonBefore={
         addonBefore && (
           <ContextIsolator form space>
-            <span className={addonBeforeWrapperCls}>{addonBefore}</span>
+            {addonBefore}
           </ContextIsolator>
         )
       }

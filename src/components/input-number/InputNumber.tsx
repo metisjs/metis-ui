@@ -1,3 +1,4 @@
+import { ChevronDownOutline, ChevronUpOutline } from '@metisjs/icons';
 import getMiniDecimal, {
   DecimalClass,
   getNumberPrecision,
@@ -11,9 +12,18 @@ import proxyObject from 'rc-util/lib/proxyObject';
 import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
+import ContextIsolator from '../_util/ContextIsolator';
+import { getMergedStatus, getStatusClassNames, InputStatus } from '../_util/statusUtils';
+import { ConfigContext, Variant } from '../config-provider';
+import DisabledContext from '../config-provider/DisabledContext';
+import useSize from '../config-provider/hooks/useSize';
+import { SizeType } from '../config-provider/SizeContext';
+import { FormItemInputContext } from '../form/context';
+import useVariant from '../form/hooks/useVariants';
 import BaseInput, { HolderRef } from '../input/BaseInput';
 import { InputFocusOptions } from '../input/interface';
 import { triggerFocus } from '../input/utils';
+import { useCompactItemContext } from '../space/Compact';
 import useCursor from './hooks/useCursor';
 import useFrame from './hooks/useFrame';
 import StepHandler from './StepHandler';
@@ -28,13 +38,13 @@ export interface InputNumberRef extends HTMLInputElement {
 export interface InputNumberProps<T extends ValueType = ValueType>
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
-    'value' | 'defaultValue' | 'onInput' | 'onChange' | 'prefix' | 'suffix' | 'className'
+    'value' | 'defaultValue' | 'onInput' | 'onChange' | 'prefix' | 'suffix' | 'className' | 'size'
   > {
   /** value will show as string */
   stringMode?: boolean;
 
   defaultValue?: T;
-  value?: T;
+  value?: T | null;
 
   prefixCls?: string;
   className?: SemanticClassName<'input' | 'prefix' | 'suffix'>;
@@ -43,15 +53,15 @@ export interface InputNumberProps<T extends ValueType = ValueType>
   max?: T;
   step?: ValueType;
   tabIndex?: number;
-  controls?: boolean;
+  controls?: boolean | { upIcon?: React.ReactNode; downIcon?: React.ReactNode };
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   addonBefore?: React.ReactNode;
   addonAfter?: React.ReactNode;
+  size?: SizeType;
+  status?: InputStatus;
+  variant?: Variant;
 
-  // Customize handler node
-  upHandler?: React.ReactNode;
-  downHandler?: React.ReactNode;
   keyboard?: boolean;
   changeOnWheel?: boolean;
 
@@ -77,7 +87,10 @@ export interface InputNumberProps<T extends ValueType = ValueType>
   changeOnBlur?: boolean;
 }
 
-type InternalInputNumberProps = Omit<InputNumberProps, 'prefix' | 'suffix' | 'className'> & {
+type InternalInputNumberProps = Omit<
+  InputNumberProps,
+  'prefix' | 'suffix' | 'className' | 'size'
+> & {
   prefixCls: string;
   domRef: React.Ref<HTMLDivElement>;
   className?: string;
@@ -96,8 +109,6 @@ const InternalInputNumber = React.forwardRef(
       value,
       disabled,
       readOnly,
-      upHandler,
-      downHandler,
       keyboard,
       changeOnWheel = false,
       controls = true,
@@ -120,8 +131,6 @@ const InternalInputNumber = React.forwardRef(
 
       ...inputProps
     } = props;
-
-    const inputClassName = `${prefixCls}-input`;
 
     const inputRef = React.useRef<HTMLInputElement>(null!);
 
@@ -172,7 +181,7 @@ const InternalInputNumber = React.forwardRef(
 
     // >>> Parser
     const mergedParser = React.useCallback(
-      (num?: string | number) => {
+      (num?: string | number | null) => {
         const numStr = String(num);
 
         if (parser) {
@@ -553,6 +562,14 @@ const InternalInputNumber = React.forwardRef(
     }, [inputValue]);
 
     // ============================ Render ============================
+    let upHandler: React.ReactNode = <ChevronUpOutline />;
+    let downHandler: React.ReactNode = <ChevronDownOutline />;
+
+    if (typeof controls === 'object') {
+      upHandler ??= controls.upIcon;
+      downHandler ??= controls.downIcon;
+    }
+
     return (
       <div
         ref={domRef}
@@ -578,7 +595,7 @@ const InternalInputNumber = React.forwardRef(
         onCompositionEnd={onCompositionEnd}
         onBeforeInput={onBeforeInput}
       >
-        {controls && (
+        {controls && !disabled && !readOnly && (
           <StepHandler
             prefixCls={prefixCls}
             upNode={upHandler}
@@ -588,23 +605,25 @@ const InternalInputNumber = React.forwardRef(
             onStep={onInternalStep}
           />
         )}
-        <div className={`${inputClassName}-wrap`}>
-          <input
-            autoComplete="off"
-            role="spinbutton"
-            aria-valuemin={min as any}
-            aria-valuemax={max as any}
-            aria-valuenow={decimalValue.isInvalidate() ? null : (decimalValue.toString() as any)}
-            step={step}
-            {...inputProps}
-            ref={composeRef(inputRef, ref)}
-            className={inputClassName}
-            value={inputValue}
-            onChange={onInternalInput}
-            disabled={disabled}
-            readOnly={readOnly}
-          />
-        </div>
+        <input
+          autoComplete="off"
+          role="spinbutton"
+          type="text"
+          aria-valuemin={min as any}
+          aria-valuemax={max as any}
+          aria-valuenow={decimalValue.isInvalidate() ? null : (decimalValue.toString() as any)}
+          step={step}
+          {...inputProps}
+          ref={composeRef(inputRef, ref)}
+          className={clsx(
+            `${prefixCls}-input`,
+            'w-full appearance-none bg-transparent outline-none placeholder:text-neutral-text-quaternary',
+          )}
+          value={inputValue!}
+          onChange={onInternalInput}
+          disabled={disabled}
+          readOnly={readOnly}
+        />
       </div>
     );
   },
@@ -612,23 +631,46 @@ const InternalInputNumber = React.forwardRef(
 
 const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, ref) => {
   const {
-    disabled,
-    style,
-    prefixCls = 'rc-input-number',
-    value,
-    prefix,
-    suffix,
+    className,
+    size: customizeSize = 'middle',
+    disabled: customDisabled,
+    prefixCls: customizePrefixCls,
     addonBefore,
     addonAfter,
-    className,
+    prefix,
+    status: customStatus,
+    variant: customVariant,
+    style,
+    value,
+    suffix,
     ...rest
   } = props;
 
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('input-number', customizePrefixCls);
   const semanticCls = getSemanticCls(className);
 
   const holderRef = React.useRef<HolderRef>(null!);
   const inputNumberDomRef = React.useRef<HTMLDivElement>(null);
   const inputFocusRef = React.useRef<HTMLInputElement>(null!);
+
+  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+  const {
+    hasFeedback,
+    status: contextStatus,
+    feedbackIcon,
+  } = React.useContext(FormItemInputContext);
+  const mergedStatus = getMergedStatus(contextStatus, customStatus);
+
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+  // ===================== Disabled =====================
+  const disabled = React.useContext(DisabledContext);
+  const mergedDisabled = customDisabled ?? disabled;
+
+  const [variant, enableVariantCls] = useVariant(customVariant);
+
+  const hasPrefixSuffix = !!(props.prefix || props.suffix || hasFeedback);
 
   const focus = (option?: InputFocusOptions) => {
     if (inputFocusRef.current) {
@@ -644,32 +686,164 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
       }) as InputNumberRef,
   );
 
+  // ===================== Style =====================
+  const rootCls = clsx('shadow-sm', variant === 'borderless' && 'shadow-none', semanticCls.root);
+  const wrapperCls = clsx('flex items-center');
+  const groupWrapperCls = clsx(
+    { [`${prefixCls}-wrapper-${variant}`]: enableVariantCls },
+    'inline-block w-fit bg-neutral-bg-container text-start align-top',
+    {
+      'bg-neutral-fill-quinary': variant === 'filled',
+    },
+    {
+      'text-neutral-text-tertiary': mergedDisabled,
+    },
+    compactItemClassnames[0],
+  );
+  const inputCls = clsx(
+    'group/input relative inline-block w-24 flex-1 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
+    {
+      'px-2 py-1.5': mergedSize === 'small',
+      'px-3 py-1.5 leading-6': mergedSize === 'middle',
+      'px-3 py-2 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-1 focus-within:ring-2': variant === 'outlined',
+      'ring-0 focus-within:ring-0': variant === 'borderless',
+      'bg-neutral-fill-quinary ring-0 focus-within:bg-neutral-bg-container focus-within:ring-2':
+        variant === 'filled',
+    },
+    {
+      'rounded-none p-0 ring-0 focus-within:ring-0': hasPrefixSuffix,
+      'rounded-s-none': addonBefore,
+      'rounded-e-none': addonAfter,
+      'bg-transparent text-neutral-text-tertiary': mergedDisabled,
+    },
+    !hasPrefixSuffix && mergedDisabled && variant !== 'borderless' && 'bg-neutral-fill-quaternary',
+    semanticCls.input,
+    !hasPrefixSuffix && getStatusClassNames(mergedStatus),
+    compactItemClassnames[1],
+    !hasPrefixSuffix && !addonBefore && !addonAfter && compactItemClassnames[0],
+  );
+  const affixWrapperCls = clsx(
+    'group/affix relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
+    {
+      'gap-x-1 px-2 py-1.5': mergedSize === 'small',
+      'px-3 py-1.5 leading-6': mergedSize === 'middle',
+      'px-3 py-2 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-1 focus-within:ring-2': variant === 'outlined',
+      'ring-0 focus-within:ring-0': variant === 'borderless',
+      'bg-neutral-fill-quinary ring-0 focus-within:bg-neutral-bg-container focus-within:ring-2':
+        variant === 'filled',
+    },
+    {
+      'rounded-s-none': addonBefore,
+      'rounded-e-none': addonAfter,
+      'text-neutral-text-tertiary': mergedDisabled,
+      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
+    },
+    getStatusClassNames(mergedStatus, hasFeedback),
+    compactItemClassnames[1],
+    !addonBefore && !addonAfter && compactItemClassnames[0],
+  );
+  const addonBeforeCls = clsx(
+    'input-addon -mr-[1px] inline-flex items-center rounded-s-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
+    {
+      'h-8 px-2': mergedSize === 'small',
+      'h-9 px-3': mergedSize === 'middle',
+      'h-10 px-3 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-1': variant === 'outlined',
+      'ring-0': variant === 'borderless' || variant === 'filled',
+    },
+    {
+      'text-neutral-text-tertiary': mergedDisabled,
+      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
+    },
+    compactItemClassnames[1],
+  );
+  const addonAfterCls = clsx(
+    'input-addon -ml-[1px] inline-flex items-center rounded-e-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
+    {
+      'h-8 px-2': mergedSize === 'small',
+      'h-9 px-3': mergedSize === 'middle',
+      'h-10 px-3 text-base': mergedSize === 'large',
+    },
+    {
+      'ring-1': variant === 'outlined',
+      'ring-0': variant === 'borderless' || variant === 'filled',
+    },
+    {
+      'text-neutral-text-tertiary': mergedDisabled,
+      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
+    },
+    compactItemClassnames[1],
+  );
+  const _prefixCls = clsx(
+    mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
+    'flex flex-none items-center text-neutral-text-secondary',
+    mergedDisabled && 'text-neutral-text-tertiary',
+    semanticCls.prefix,
+  );
+  const suffixCls = clsx(
+    mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
+    'flex flex-none items-center gap-x-1 text-neutral-text-secondary',
+    mergedDisabled && 'text-neutral-text-tertiary',
+    semanticCls.suffix,
+  );
+
+  // ===================== Render =====================
+  const suffixNode = (suffix || hasFeedback) && (
+    <>
+      {suffix}
+      {hasFeedback && feedbackIcon}
+    </>
+  );
+
   return (
     <BaseInput
-      className={className}
+      className={{
+        root: rootCls,
+        affixWrapper: affixWrapperCls,
+        prefix: _prefixCls,
+        suffix: suffixCls,
+        groupWrapper: groupWrapperCls,
+        wrapper: wrapperCls,
+        addonAfter: addonAfterCls,
+        addonBefore: addonBeforeCls,
+      }}
       triggerFocus={focus}
       prefixCls={prefixCls}
-      value={value}
+      value={value!}
       disabled={disabled}
       style={style}
       prefix={prefix}
-      suffix={suffix}
-      addonAfter={addonAfter}
-      addonBefore={addonBefore}
-      components={{
-        affixWrapper: 'div',
-        groupWrapper: 'div',
-        wrapper: 'div',
-        groupAddon: 'div',
-      }}
+      suffix={suffixNode}
+      addonBefore={
+        addonBefore && (
+          <ContextIsolator form space>
+            {addonBefore}
+          </ContextIsolator>
+        )
+      }
+      addonAfter={
+        addonAfter && (
+          <ContextIsolator form space>
+            {addonAfter}
+          </ContextIsolator>
+        )
+      }
       ref={holderRef}
     >
       <InternalInputNumber
         prefixCls={prefixCls}
-        disabled={disabled}
+        disabled={mergedDisabled}
         ref={inputFocusRef}
         domRef={inputNumberDomRef}
-        className={semanticCls.input}
+        className={inputCls}
         {...rest}
       />
     </BaseInput>
