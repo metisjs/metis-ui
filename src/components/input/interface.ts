@@ -149,7 +149,7 @@ export interface ResizableTextAreaRef {
 
 export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
+export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value' | 'className'> & {
   value?: HTMLTextareaProps['value'] | bigint;
   prefixCls?: string;
   className?: SemanticClassName<'textarea' | 'count' | 'clear'>;
