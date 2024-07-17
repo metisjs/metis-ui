@@ -1,8 +1,8 @@
-import { useZIndex } from 'metis-ui/es/_util/hooks/useZIndex';
 import Overflow from 'rc-overflow';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
+import { useZIndex } from '../../_util/hooks/useZIndex';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
 import warning from '../../_util/warning';
 import Icon from '../Icon';
