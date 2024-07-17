@@ -1,67 +1,28 @@
-import { XCircleSolid } from '@metisjs/icons';
-import type { InputRef, InputProps as RcInputProps } from 'rc-input';
-import RcInput from 'rc-input';
-import type { BaseInputProps } from 'rc-input/lib/interface';
-import { composeRef } from 'rc-util/lib/ref';
-import React, { forwardRef, useContext, useEffect, useRef } from 'react';
+import { useMergedState } from 'rc-util';
+import omit from 'rc-util/lib/omit';
+import React, {
+  forwardRef,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import ContextIsolator from '../_util/ContextIsolator';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
-import { InputStatus, getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import type { SizeType } from '../config-provider/SizeContext';
-import { Variant } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
 import { useCompactItemContext } from '../space/Compact';
+import BaseInput, { HolderRef } from './BaseInput';
+import useCount from './hooks/useCount';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
-import { hasPrefixSuffix } from './utils';
-
-export interface InputFocusOptions extends FocusOptions {
-  cursor?: 'start' | 'end' | 'all';
-}
-
-export type { InputRef };
-
-export function triggerFocus(
-  element?: HTMLInputElement | HTMLTextAreaElement,
-  option?: InputFocusOptions,
-) {
-  if (!element) {
-    return;
-  }
-
-  element.focus(option);
-
-  // Selection content
-  const { cursor } = option || {};
-  if (cursor) {
-    const len = element.value.length;
-
-    switch (cursor) {
-      case 'start':
-        element.setSelectionRange(0, 0);
-        break;
-      case 'end':
-        element.setSelectionRange(len, len);
-        break;
-      default:
-        element.setSelectionRange(0, len);
-        break;
-    }
-  }
-}
-
-export interface InputProps extends Omit<RcInputProps, 'classes' | 'className' | 'classNames'> {
-  className?: SemanticClassName<'input' | 'prefix' | 'suffix' | 'count'>;
-  size?: SizeType;
-  disabled?: boolean;
-  status?: InputStatus;
-  variant?: Variant;
-  [key: `data-${string}`]: string | undefined;
-}
+import { ChangeEventInfo, InputFocusOptions, InputProps, InputRef } from './interface';
+import { hasPrefixSuffix, resolveOnChange, triggerFocus } from './utils';
 
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
@@ -71,22 +32,52 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     disabled: customDisabled,
     onBlur,
     onFocus,
-    prefix,
     suffix,
-    allowClear,
     addonAfter,
     addonBefore,
     className,
     onChange,
     showCount,
     variant: customVariant,
+    count,
+    maxLength,
+    type = 'text',
+    htmlSize,
+    onKeyDown,
+    onPressEnter,
+    onCompositionStart,
+    onCompositionEnd,
     ...rest
   } = props;
   const semanticCls = getSemanticCls(className);
   const { getPrefixCls, input } = React.useContext(ConfigContext);
-
   const prefixCls = getPrefixCls('input', customizePrefixCls);
-  const inputRef = useRef<InputRef>(null);
+
+  const [focused, setFocused] = useState<boolean>(false);
+
+  const compositionRef = useRef(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const holderRef = useRef<HolderRef>(null);
+
+  const focus = (option?: InputFocusOptions) => {
+    if (inputRef.current) {
+      triggerFocus(inputRef.current, option);
+    }
+  };
+
+  // ====================== Value =======================
+  const [value, setValue] = useMergedState(props.defaultValue, {
+    value: props.value,
+  });
+  const formatValue = value === undefined || value === null ? '' : String(value);
+
+  // =================== Select Range ===================
+  const [selection, setSelection] = useState<[start: number, end: number] | null>(null);
+
+  // ====================== Count =======================
+  const countConfig = useCount(count, showCount);
+  const mergedMax = countConfig.max || maxLength;
+  const valueLength = countConfig.strategy(formatValue);
 
   // ===================== Compact Item =====================
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
@@ -108,7 +99,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   useEffect(() => {
     if (inputHasPrefixSuffix && !prevHasPrefixSuffix.current) {
       warning(
-        document.activeElement === inputRef.current?.input,
+        document.activeElement === inputRef.current,
         'Input',
         `When Input is focused, dynamic add or remove prefix / suffix will make it lose focus caused by dom structure change.`,
       );
@@ -119,40 +110,112 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   // ===================== Remove Password value =====================
   const removePasswordTimeout = useRemovePasswordTimeout(inputRef, true);
 
+  // ======================= Ref ========================
+  useImperativeHandle(ref, () => ({
+    focus,
+    blur: () => {
+      inputRef.current?.blur();
+    },
+    setSelectionRange: (
+      start: number,
+      end: number,
+      direction?: 'forward' | 'backward' | 'none',
+    ) => {
+      inputRef.current?.setSelectionRange(start, end, direction);
+    },
+    select: () => {
+      inputRef.current?.select();
+    },
+    input: inputRef.current,
+    nativeElement: holderRef.current?.nativeElement || inputRef.current,
+  }));
+
+  // ======================= Effect ========================
+  useEffect(() => {
+    setFocused((prev) => (prev && mergedDisabled ? false : prev));
+  }, [mergedDisabled]);
+
+  useEffect(() => {
+    if (selection) {
+      inputRef.current?.setSelectionRange(...selection);
+    }
+  }, [selection]);
+
+  const triggerChange = (
+    e: React.ChangeEvent<HTMLInputElement> | React.CompositionEvent<HTMLInputElement>,
+    currentValue: string,
+    info: ChangeEventInfo,
+  ) => {
+    let cutValue = currentValue;
+
+    if (
+      !compositionRef.current &&
+      countConfig.exceedFormatter &&
+      countConfig.max &&
+      countConfig.strategy(currentValue) > countConfig.max
+    ) {
+      cutValue = countConfig.exceedFormatter(currentValue, {
+        max: countConfig.max,
+      });
+
+      if (currentValue !== cutValue) {
+        setSelection([inputRef.current?.selectionStart || 0, inputRef.current?.selectionEnd || 0]);
+      }
+    } else if (info.source === 'compositionEnd') {
+      return;
+    }
+    setValue(cutValue);
+
+    if (inputRef.current) {
+      resolveOnChange(inputRef.current, e, onChange, cutValue);
+    }
+  };
+
+  const onInternalCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+    compositionRef.current = false;
+    triggerChange(e, e.currentTarget.value, {
+      source: 'compositionEnd',
+    });
+    onCompositionEnd?.(e);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (onPressEnter && e.key === 'Enter') {
+      onPressEnter(e);
+    }
+    onKeyDown?.(e);
+  };
+
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     removePasswordTimeout();
+    setFocused(false);
     onBlur?.(e);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     removePasswordTimeout();
+    setFocused(true);
     onFocus?.(e);
+  };
+
+  const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setValue('');
+    focus();
+    if (inputRef.current) {
+      resolveOnChange(inputRef.current, e, onChange);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     removePasswordTimeout();
-    onChange?.(e);
+    triggerChange(e, e.target.value, {
+      source: 'change',
+    });
   };
-
-  const suffixNode = (hasFeedback || suffix) && (
-    <>
-      {suffix}
-      {hasFeedback && feedbackIcon}
-    </>
-  );
-
-  // Allow clear
-  let mergedAllowClear: BaseInputProps['allowClear'];
-  if (typeof allowClear === 'object' && allowClear?.clearIcon) {
-    mergedAllowClear = allowClear;
-  } else if (allowClear) {
-    mergedAllowClear = {
-      clearIcon: <XCircleSolid className="h-4 w-4" />,
-    };
-  }
 
   const [variant, enableVariantCls] = useVariant(customVariant);
 
+  // ====================== Style ======================
   const rootCls = clsx(
     'rounded-md shadow-sm',
     variant === 'borderless' && 'shadow-none',
@@ -160,6 +223,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const wrapperCls = clsx('flex items-center');
   const groupWrapperCls = clsx(
+    { [`${prefixCls}-wrapper-${variant}`]: enableVariantCls },
     'inline-block w-full bg-neutral-bg-container text-start align-top',
     {
       'bg-neutral-fill-quinary': variant === 'filled',
@@ -168,9 +232,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'text-neutral-text-tertiary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
-    rootCls,
+    compactItemClassnames[0],
   );
   const inputCls = clsx(
+    prefixCls,
+    {
+      [`${prefixCls}-disabled`]: mergedDisabled,
+      [`${prefixCls}-${variant}`]: enableVariantCls && !inputHasPrefixSuffix,
+    },
     'relative inline-block w-full rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
     {
       'px-2 py-1.5': mergedSize === 'small',
@@ -195,13 +264,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       mergedDisabled &&
       variant !== 'borderless' &&
       'bg-neutral-fill-quaternary',
-    !addonBefore && !addonAfter && !inputHasPrefixSuffix && rootCls,
     semanticCls.input,
     !inputHasPrefixSuffix && getStatusClassNames(mergedStatus),
-    compactItemClassnames,
+    compactItemClassnames[1],
+    !inputHasPrefixSuffix && !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const affixWrapperCls = clsx(
-    'relative inline-flex w-full items-center gap-x-2 border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
+    'relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
     {
       'gap-x-1 px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -219,8 +288,9 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'text-neutral-text-tertiary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
-    !addonBefore && !addonAfter && rootCls,
     getStatusClassNames(mergedStatus, hasFeedback),
+    compactItemClassnames[1],
+    !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const addonBeforeWrapperCls = clsx(
     'input-addon -mr-[1px] inline-flex items-center rounded-s-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
@@ -236,6 +306,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'text-neutral-text-tertiary': mergedDisabled,
     },
+    compactItemClassnames[1],
   );
   const addonAfterWrapperCls = clsx(
     'input-addon -ml-[1px] inline-flex items-center rounded-e-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
@@ -251,6 +322,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'text-neutral-text-tertiary': mergedDisabled,
     },
+    compactItemClassnames[1],
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
@@ -265,36 +337,79 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.suffix,
   );
   const countCls = clsx(
+    `${prefixCls}-show-count-suffix`,
+    {
+      [`${prefixCls}-show-count-has-suffix`]: hasFeedback || suffix,
+    },
     'text-neutral-text-tertiary',
     mergedDisabled && 'text-neutral-text-quaternary',
     semanticCls.count,
   );
   const clearCls = clsx(
-    'flex items-center text-neutral-text-quaternary hover:text-neutral-text-tertiary',
+    'flex items-center text-neutral-text-quaternary transition-colors hover:text-neutral-text-tertiary',
   );
-  const variantCls = clsx({
-    [`${prefixCls}-${variant}`]: enableVariantCls,
-  });
+
+  // ====================== Render ======================
+  let suffixNode = null;
+  const hasMaxLength = Number(mergedMax) > 0;
+  const hasSuffix = hasFeedback || suffix;
+  if (hasSuffix || countConfig.show) {
+    const dataCount = countConfig.showFormatter
+      ? countConfig.showFormatter({
+          value: formatValue,
+          count: valueLength,
+          maxLength: mergedMax,
+        })
+      : `${valueLength}${hasMaxLength ? ` / ${mergedMax}` : ''}`;
+
+    suffixNode = (
+      <>
+        {countConfig.show && <span className={countCls}>{dataCount}</span>}
+        {suffix}
+        {hasFeedback && feedbackIcon}
+      </>
+    );
+  }
+
+  const inputRestProps = omit(
+    props as Omit<InputProps, 'value'> & {
+      value?: React.InputHTMLAttributes<HTMLInputElement>['value'];
+    },
+    [
+      'prefixCls',
+      'onPressEnter',
+      'addonBefore',
+      'addonAfter',
+      'prefix',
+      'suffix',
+      'allowClear',
+      'defaultValue',
+      'showCount',
+      'count',
+      'htmlSize',
+      'style',
+    ],
+  );
 
   return (
-    <RcInput
-      prefixCls={prefixCls}
-      ref={composeRef(ref, inputRef)}
-      autoComplete={input?.autoComplete}
-      showCount={showCount}
+    <BaseInput
       {...rest}
-      disabled={mergedDisabled}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      prefix={prefix}
+      prefixCls={prefixCls}
+      className={{
+        root: rootCls,
+        affixWrapper: affixWrapperCls,
+        prefix: _prefixCls,
+        suffix: suffixCls,
+        groupWrapper: groupWrapperCls,
+        wrapper: wrapperCls,
+        clear: clearCls,
+      }}
+      handleReset={handleReset}
+      value={formatValue}
+      focused={focused}
+      triggerFocus={focus}
       suffix={suffixNode}
-      allowClear={mergedAllowClear}
-      className={clsx(
-        'rounded-md shadow-sm',
-        variant === 'borderless' && 'shadow-none',
-        semanticCls.root,
-      )}
-      onChange={handleChange}
+      disabled={mergedDisabled}
       addonAfter={
         addonAfter && (
           <ContextIsolator form space>
@@ -309,18 +424,25 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
           </ContextIsolator>
         )
       }
-      classNames={{
-        wrapper: wrapperCls,
-        affixWrapper: affixWrapperCls,
-        groupWrapper: groupWrapperCls,
-        input: inputCls,
-        variant: variantCls,
-        prefix: _prefixCls,
-        suffix: suffixCls,
-        count: countCls,
-        clear: clearCls,
-      }}
-    />
+    >
+      <input
+        autoComplete={input?.autoComplete}
+        {...inputRestProps}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        className={inputCls}
+        ref={inputRef}
+        size={htmlSize}
+        type={type}
+        onCompositionStart={(e) => {
+          compositionRef.current = true;
+          onCompositionStart?.(e);
+        }}
+        onCompositionEnd={onInternalCompositionEnd}
+      />
+    </BaseInput>
   );
 });
 

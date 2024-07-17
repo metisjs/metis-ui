@@ -15,8 +15,8 @@ import { Variant } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
-import type { InputFocusOptions } from './Input';
-import { triggerFocus } from './Input';
+import { InputFocusOptions } from './interface';
+import { triggerFocus } from './utils';
 
 export interface TextAreaProps
   extends Omit<RcTextAreaProps, 'suffix' | 'className' | 'classNames'> {

@@ -18,7 +18,7 @@ export const useCompactItemContext = (prefixCls: string) => {
   const compactItemContext = React.useContext(SpaceCompactItemContext);
 
   const compactItemClassnames = React.useMemo(() => {
-    if (!compactItemContext) return '';
+    if (!compactItemContext) return [];
 
     const { vertical, isFirstItem, isLastItem } = compactItemContext;
     const separator = vertical ? '-vertical-' : '-';
@@ -35,7 +35,7 @@ export const useCompactItemContext = (prefixCls: string) => {
         },
       ),
       clsx(
-        'focus:z-[2]',
+        'focus-within:z-[2] focus:z-[2]',
         !vertical && {
           'rounded-r-none': isFirstItem && !isLastItem,
           'rounded-l-none': isLastItem && !isFirstItem,
