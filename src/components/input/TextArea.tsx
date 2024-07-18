@@ -7,7 +7,7 @@ import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
-import useVariant from '../form/hooks/useVariants';
+import useVariant from '../form/hooks/useVariant';
 import BaseInput, { HolderRef } from './BaseInput';
 import useCount from './hooks/useCount';
 import { ResizableTextAreaRef, TextAreaProps, TextAreaRef } from './interface';

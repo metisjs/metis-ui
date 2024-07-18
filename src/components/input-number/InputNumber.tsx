@@ -19,7 +19,7 @@ import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 import { SizeType } from '../config-provider/SizeContext';
 import { FormItemInputContext } from '../form/context';
-import useVariant from '../form/hooks/useVariants';
+import useVariant from '../form/hooks/useVariant';
 import BaseInput, { HolderRef } from '../input/BaseInput';
 import { InputFocusOptions } from '../input/interface';
 import { triggerFocus } from '../input/utils';
