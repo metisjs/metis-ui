@@ -571,9 +571,9 @@ const Select = React.forwardRef(
         'px-2 after:leading-6': mergedSize === 'small',
         'after:leading-8': mergedSize === 'large',
       },
-      semanticCls.selector,
       getStatusClassNames(mergedStatus, hasFeedback),
       compactItemClassnames[1],
+      semanticCls.selector,
     );
 
     const selectorSearchClassName = clsx({

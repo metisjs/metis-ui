@@ -255,8 +255,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       'bg-error text-white focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white':
         type === 'primary',
     },
-    semanticCls.root,
     compactItemClassnames,
+    semanticCls.root,
   );
 
   if (isHref) {

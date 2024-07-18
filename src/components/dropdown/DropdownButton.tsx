@@ -93,7 +93,7 @@ const DropdownButton: CompoundedComponent = (props) => {
 
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
-  const classes = clsx(buttonPrefixCls, semanticCls.root, compactItemClassnames);
+  const classes = clsx(buttonPrefixCls, compactItemClassnames, semanticCls.root);
 
   if ('open' in props) {
     dropdownProps.open = open;

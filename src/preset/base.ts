@@ -31,14 +31,6 @@ export default {
       backgroundColor: 'hsla(var(--primary-hover))',
       content: '""',
     },
-  '.metis-input-prefix.metis-input-prefix-large > svg.metis-icon, .metis-input-suffix.metis-input-suffix-large > svg.metis-icon':
-    { fontSize: '1.25rem' },
-  '.metis-input-prefix > svg.metis-icon, .metis-input-suffix > svg.metis-icon': {
-    color: 'hsla(var(--neutral-text-tertiary))',
-    fontSize: '1rem',
-  },
-  '.metis-input-prefix.metis-input-prefix-small > svg.metis-icon, .metis-input-suffix.metis-input-suffix-small > svg.metis-icon':
-    { fontSize: '1rem' },
   '.metis-select.metis-select-focused.metis-select-compact-item': { zIndex: '2' },
   '[class*="metis-"][class*="-arrow"]::before': {
     clipPath:

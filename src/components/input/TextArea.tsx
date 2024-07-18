@@ -197,17 +197,19 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       },
       {
         'ring-1 focus:ring-2': variant === 'outlined',
-        'shadow-none ring-0 focus:ring-0': variant === 'borderless',
+        'bg-transparent shadow-none ring-0 focus:ring-0': variant === 'borderless',
         'bg-neutral-fill-quinary ring-0 focus:bg-neutral-bg-container  focus:ring-2':
           variant === 'filled',
       },
       {
-        'text-neutral-text-tertiary': mergedDisabled,
-        'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
         'pr-8': allowClear,
       },
+      getStatusClassNames(mergedStatus, variant),
+      mergedDisabled && {
+        'text-neutral-text-tertiary ring-neutral-border': true,
+        'bg-neutral-fill-quaternary': variant !== 'borderless',
+      },
       semanticCls.textarea,
-      getStatusClassNames(mergedStatus),
     );
     const affixWrapperCls = clsx(
       {
@@ -227,8 +229,8 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       'absolute bottom-1.5 right-3 bg-neutral-bg-container pl-1 text-neutral-text-tertiary',
       {
         'bg-neutral-fill-quinary group-focus-within:bg-neutral-bg-container': variant === 'filled',
+        'bg-transparent': variant === 'borderless',
         'text-neutral-text-quaternary': mergedDisabled,
-        'bg-transparent': mergedDisabled && variant !== 'borderless',
       },
       mergedSize === 'small' && 'right-2',
       mergedSize === 'large' && 'bottom-2',
@@ -303,7 +305,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
           onCompositionEnd={onInternalCompositionEnd}
           className={textareaCls}
           style={{ resize: style?.resize }}
-          disabled={disabled}
+          disabled={mergedDisabled}
           prefixCls={prefixCls}
           onResize={handleResize}
           ref={resizableTextAreaRef}

@@ -3,6 +3,7 @@ import useMobile from 'rc-util/lib/hooks/useMobile';
 import raf from 'rc-util/lib/raf';
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
+import { Variant } from '../config-provider';
 
 /**
  * When click and hold on a button - the speed of auto changing the value.
@@ -20,6 +21,7 @@ export interface StepHandlerProps {
   downNode?: React.ReactNode;
   upDisabled?: boolean;
   downDisabled?: boolean;
+  variant?: Variant;
   onStep: (up: boolean) => void;
 }
 
@@ -29,6 +31,7 @@ export default function StepHandler({
   downNode,
   upDisabled,
   downDisabled,
+  variant,
   onStep,
 }: StepHandlerProps) {
   // ======================== Step ========================
@@ -76,7 +79,14 @@ export default function StepHandler({
 
   const handlerClassName = clsx(
     `${prefixCls}-handler`,
-    'group-handler absolute right-[2px] top-[2px] flex h-[calc(100%-4px)] w-6 select-none flex-col items-stretch rounded-ee-md rounded-se-md bg-neutral-bg-container text-sm text-neutral-text-tertiary opacity-0 transition-opacity duration-200 ease-linear',
+    'group-handler absolute bottom-0 right-0 top-0 flex w-6 select-none flex-col items-stretch rounded-ee-md rounded-se-md text-sm text-neutral-text-tertiary opacity-0 transition-opacity duration-200 ease-linear',
+    {
+      'bottom-px right-px top-px bg-neutral-bg-container group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-1px)]':
+        variant === 'outlined',
+      'bg-neutral-fill-quinary group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-2px)] group-has-[:focus-within]/input:bg-neutral-bg-container':
+        variant === 'filled',
+      'bg-neutral-bg-container': variant === 'borderless',
+    },
     'group-hover/affix:opacity-100 group-hover/input:opacity-100',
   );
 
@@ -86,17 +96,29 @@ export default function StepHandler({
       [`${prefixCls}-handler-up-disabled`]: upDisabled,
     },
     'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l border-neutral-border-secondary transition-all duration-200 ease-linear',
+    {
+      '*:-translate-x-[0.5px] *:translate-y-[0.5px] group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+        variant === 'outlined',
+      '*:-translate-x-px *:translate-y-px group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+        variant === 'filled',
+    },
     !upDisabled && 'hover:h-3/5 hover:text-primary',
-    upDisabled && 'cursor-not-allowed',
+    upDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
   );
   const downClassName = clsx(
     `${prefixCls}-handler-down`,
     {
       [`${prefixCls}-handler-down-disabled`]: downDisabled,
     },
-    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l border-t border-neutral-border-secondary transition-all duration-200 ease-linear',
+    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l transition-all duration-200 ease-linear',
+    {
+      '*:-translate-x-[0.5px] *:-translate-y-[0.5px] group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+        variant === 'outlined',
+      '*:-translate-x-px *:-translate-y-px group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+        variant === 'filled',
+    },
     !downDisabled && 'hover:h-3/5 hover:text-primary',
-    downDisabled && 'cursor-not-allowed',
+    downDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
   );
 
   // In Safari, When we fire onmousedown and onmouseup events in quick succession,
@@ -125,6 +147,7 @@ export default function StepHandler({
       >
         {upNode}
       </span>
+      <span className="h-px bg-neutral-border-secondary"></span>
       <span
         {...sharedHandlerProps}
         onMouseDown={(e) => {
