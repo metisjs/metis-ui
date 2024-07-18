@@ -55,7 +55,11 @@ export default function Arrow(props: ArrowProps) {
   }
 
   return (
-    <div ref={arrowRef} className={clsx(`${prefixCls}-arrow`, className)} style={alignStyle}>
+    <div
+      ref={arrowRef}
+      className={clsx(`${prefixCls}-arrow popup-arrow`, className)}
+      style={alignStyle}
+    >
       {content}
     </div>
   );
