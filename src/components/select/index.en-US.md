@@ -38,6 +38,7 @@ demo:
 <code src="./demo/status.tsx">Status</code>
 <code src="./demo/placement.tsx">Placement</code>
 <code src="./demo/debug-flip-shift.tsx" iframe="200" debug>Flip + Shift</code>
+<code src="./demo/styles-debug.tsx" debug>Style Debug</code>
 
 ## API
 

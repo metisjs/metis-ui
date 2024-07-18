@@ -10,6 +10,7 @@ import DisabledContext from '../config-provider/DisabledContext';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
+import useVariant from '../form/hooks/useVariant';
 import { useCompactItemContext } from '../space/Compact';
 import type {
   BaseSelectProps,
@@ -60,6 +61,7 @@ const Select = React.forwardRef(
       className,
       prefixCls: customizePrefixCls,
       fieldNames,
+      variant: customizeVariant,
 
       // Request
       request,
@@ -129,6 +131,8 @@ const Select = React.forwardRef(
 
     const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
     const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+    const [variant, enableVariantCls] = useVariant(customizeVariant);
 
     // ===================== Disabled =====================
     const disabled = React.useContext(DisabledContext);
@@ -555,44 +559,57 @@ const Select = React.forwardRef(
     };
 
     // ========================== Style ===========================
-    const rootClassName = clsx(
-      'group/select relative cursor-pointer rounded-md',
+    const rootCls = clsx(
       {
         [`${prefixCls}-lg text-base`]: mergedSize === 'large',
         [`${prefixCls}-sm`]: mergedSize === 'small',
         [`${prefixCls}-in-form-item`]: isFormItemInput,
+        [`${prefixCls}-${variant}`]: enableVariantCls,
       },
-      compactItemClassnames[0],
+      {
+        'bg-neutral-bg-container ring-1': variant === 'outlined',
+        'bg-transparent shadow-none ring-0': variant === 'borderless',
+        'bg-neutral-fill-quinary ring-0': variant === 'filled',
+      },
+      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+      compactItemClassnames,
+      getStatusClassNames(mergedStatus, variant),
+      mergedDisabled && {
+        'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
+          variant !== 'borderless',
+      },
       semanticCls.root,
     );
+    const focusedRootCls = clsx({
+      'ring-0': variant === 'borderless',
+      'bg-neutral-bg-container': variant === 'filled',
+    });
 
-    const selectorClassName = clsx(
+    const selectorCls = clsx(
       {
         'px-2 after:leading-6': mergedSize === 'small',
         'after:leading-8': mergedSize === 'large',
       },
-      getStatusClassNames(mergedStatus, hasFeedback),
-      compactItemClassnames[1],
       semanticCls.selector,
     );
 
-    const selectorSearchClassName = clsx({
+    const selectorSearchCls = clsx({
       'end-2 start-2': mergedSize === 'small' && !multiple,
       'ms-0.5 h-7': mergedSize === 'small' && multiple,
     });
 
-    const selectorPlaceholderClassName = clsx({
+    const selectorPlaceholderCls = clsx({
       'end-2 start-2': mergedSize === 'small' && multiple,
     });
 
-    const selectorItemClassName = clsx({
+    const selectorItemCls = clsx({
       'text-base/7': mergedSize === 'large',
       'text-sm/5': mergedSize === 'small',
       'leading-8': mergedSize === 'large' && multiple,
       'pe-1 ps-2 leading-6': mergedSize === 'small' && multiple,
     });
 
-    const popupClassName = clsx(
+    const popupCls = clsx(
       'absolute rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
       semanticCls.popup,
     );
@@ -660,12 +677,13 @@ const Select = React.forwardRef(
           notFoundContent={mergedNotFound}
           getPopupContainer={getPopupContainer || getContextPopupContainer}
           className={{
-            root: rootClassName,
-            popup: popupClassName,
-            selector: selectorClassName,
-            selectorSearch: selectorSearchClassName,
-            selectorItem: selectorItemClassName,
-            selectorPlaceholder: selectorPlaceholderClassName,
+            root: rootCls,
+            popup: popupCls,
+            selector: selectorCls,
+            selectorSearch: selectorSearchCls,
+            selectorItem: selectorItemCls,
+            selectorPlaceholder: selectorPlaceholderCls,
+            focusedRoot: focusedRootCls,
           }}
           transition={{
             leave: 'transition ease-in duration-150',

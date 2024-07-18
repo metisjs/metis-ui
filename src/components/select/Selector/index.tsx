@@ -270,7 +270,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
       ref={domRef}
       className={clsx(
         `${prefixCls}-selector`,
-        'relative flex w-full items-center truncate rounded-md px-3 py-1 text-left leading-6 shadow-sm ring-1 ring-inset ring-neutral-border',
+        'relative flex w-full items-center truncate rounded-md px-3 py-1 text-left leading-6',
         'after:invisible after:inline-block after:w-0 after:leading-7 after:content-["a0"]',
         {
           'flex flex-wrap items-center py-0.5 pe-8 ps-1 leading-7 after:my-0.5': isMultiple,

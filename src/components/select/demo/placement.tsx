@@ -25,7 +25,7 @@ const App: React.FC = () => {
       <br />
       <Select
         defaultValue="HangZhou"
-        style={{ width: 120 }}
+        className="w-56"
         popupMatchSelectWidth={false}
         placement={placement}
         options={[

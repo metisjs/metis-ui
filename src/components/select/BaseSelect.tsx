@@ -6,8 +6,7 @@ import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
 import useLock from '../_util/hooks/useLock';
-import { Variant } from '../config-provider/context';
-import useVariants from '../form/hooks/useVariants';
+import { Variant } from '../config-provider';
 import { TransitionProps } from '../transition';
 import { AlignType, BuildInPlacements } from '../trigger';
 import type { RefTriggerProps } from './SelectTrigger';
@@ -127,14 +126,13 @@ export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSele
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
   className?: SemanticClassName<
-    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
+    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder' | 'focusedRoot'
   >;
   style?: React.CSSProperties;
   title?: string;
   showSearch?: boolean;
   tagRender?: (props: CustomTagProps) => React.ReactElement;
   maxLength?: number;
-
   variant?: Variant;
 
   // MISC
@@ -215,8 +213,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     showSearch,
     tagRender,
     omitDomProps,
-
-    variant: customizeVariant,
 
     // Value
     displayValues,
@@ -311,8 +307,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   /** Used for component focused management */
   const [mockFocused, setMockFocused, cancelSetMockFocused] = useDelayReset();
-
-  const [variant, enableVariantCls] = useVariants(customizeVariant);
 
   // =========================== Imperative ===========================
   React.useImperativeHandle(ref, () => ({
@@ -733,7 +727,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ============================= Style =============================
   const mergedRootClassName = clsx(
     prefixCls,
-    'inline-block bg-neutral-bg-container text-sm text-neutral-text',
+    'group/select relative inline-block cursor-pointer rounded-md bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border',
     {
       [`${prefixCls}-focused`]: mockFocused,
       [`${prefixCls}-multiple`]: multiple,
@@ -745,36 +739,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
       [`${prefixCls}-show-search`]: showSearch,
-      [`${prefixCls}-${variant}`]: enableVariantCls,
     },
-    (mockFocused || mergedOpen) && {
-      'bg-neutral-bg-container': variant === 'filled',
-    },
-    disabled
-      ? {
-          'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary': true,
-          'bg-neutral-bg-container': variant === 'borderless',
-        }
-      : {
-          'bg-neutral-fill-quinary': variant === 'filled',
-        },
-    '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent',
+    disabled && 'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary',
     semanticCls.root,
+    (mockFocused || mergedOpen) && ['ring-2 ring-primary', semanticCls.focusedRoot],
   );
 
   const mergedSelectorClassName = {
-    root: clsx(
-      {
-        'ring-1': variant === 'outlined',
-        'shadow-none ring-0': variant === 'borderless',
-        'ring-0': variant === 'filled',
-      },
-      (mockFocused || mergedOpen) && {
-        'ring-2 ring-primary': variant !== 'borderless',
-      },
-      '[.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
-      semanticCls.selector,
-    ),
+    root: semanticCls.selector,
     search: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorSearch),
     item: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorItem),
     placeholder: clsx({ 'pe-6': showSuffixIcon }, semanticCls.selectorPlaceholder),

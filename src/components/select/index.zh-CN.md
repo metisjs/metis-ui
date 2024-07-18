@@ -39,6 +39,7 @@ demo:
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/placement.tsx">弹出位置</code>
 <code src="./demo/debug-flip-shift.tsx" iframe="200" debug>翻转+偏移</code>
+<code src="./demo/styles-debug.tsx" debug>Style Debug</code>
 
 ## API
 

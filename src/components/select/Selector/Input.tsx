@@ -91,7 +91,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     autoFocus,
     className: clsx(
       `${prefixCls}-selection-search-input`,
-      'search h-full w-full border-0 bg-transparent p-0 text-neutral-text outline-0 focus:outline-0 focus:ring-0',
+      'h-full w-full appearance-none bg-transparent p-0 text-neutral-text outline-0 focus:outline-0 focus:ring-0',
       className,
       inputNode?.props?.className,
     ),
