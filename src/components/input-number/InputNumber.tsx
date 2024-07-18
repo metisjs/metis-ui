@@ -567,10 +567,11 @@ const InternalInputNumber = React.forwardRef(
     let downHandler: React.ReactNode = <ChevronDownOutline />;
 
     if (typeof controls === 'object') {
-      upHandler ??= controls.upIcon;
-      downHandler ??= controls.downIcon;
+      upHandler = controls.upIcon ?? upHandler;
+      downHandler = controls.downIcon ?? downHandler;
     }
 
+    const outOfRange = !decimalValue.isInvalidate() && !isInRange(decimalValue);
     return (
       <div
         ref={domRef}
@@ -581,7 +582,7 @@ const InternalInputNumber = React.forwardRef(
             [`${prefixCls}-disabled`]: disabled,
             [`${prefixCls}-readonly`]: readOnly,
             [`${prefixCls}-not-a-number`]: decimalValue.isNaN(),
-            [`${prefixCls}-out-of-range`]: !decimalValue.isInvalidate() && !isInRange(decimalValue),
+            [`${prefixCls}-out-of-range`]: outOfRange,
           },
           className,
         )}
@@ -620,6 +621,7 @@ const InternalInputNumber = React.forwardRef(
           className={clsx(
             `${prefixCls}-input`,
             'w-full appearance-none bg-transparent outline-none placeholder:text-neutral-text-quaternary',
+            outOfRange && 'text-error',
           )}
           value={inputValue!}
           onChange={onInternalInput}
@@ -689,7 +691,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   );
 
   // ===================== Style =====================
-  const statusCls = getStatusClassNames(mergedStatus, variant);
+  const statusClassName = getStatusClassNames(mergedStatus, variant);
   const rootCls = clsx('shadow-sm', variant === 'borderless' && 'shadow-none', semanticCls.root);
   const wrapperCls = clsx('flex items-center');
   const groupWrapperCls = clsx(
@@ -698,7 +700,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     compactItemClassnames[0],
   );
   const inputCls = clsx(
-    'group/input relative inline-block w-24 flex-1 text-sm text-neutral-text ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
+    'group/input inline-block w-24 flex-1 rounded-md bg-neutral-bg-container text-sm ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
     {
       'px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -706,19 +708,20 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     },
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
-      'ring-0 focus-within:ring-0': variant === 'borderless',
+      'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
       'bg-neutral-fill-quinary ring-0 focus-within:bg-neutral-bg-container focus-within:ring-2':
         variant === 'filled',
     },
     {
-      'rounded-md bg-neutral-bg-container': !hasPrefixSuffix,
-      'rounded-none bg-transparent p-0 ring-0 focus-within:ring-0': hasPrefixSuffix,
+      'relative text-neutral-text': !hasPrefixSuffix,
+      'rounded-none bg-transparent p-0 ring-0 focus-within:bg-transparent focus-within:ring-0':
+        hasPrefixSuffix,
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
     },
-    statusCls,
+    !hasPrefixSuffix && statusClassName,
     mergedDisabled && {
-      'text-neutral-text-tertiary': true,
+      'text-neutral-text-tertiary ring-neutral-border': true,
       'bg-neutral-fill-quaternary': !hasPrefixSuffix && variant !== 'borderless',
     },
     compactItemClassnames[1],
@@ -734,22 +737,24 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     },
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
-      'ring-0 focus-within:ring-0': variant === 'borderless',
+      'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
       'bg-neutral-fill-quinary ring-0 focus-within:bg-neutral-bg-container focus-within:ring-2':
         variant === 'filled',
     },
     {
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
-      'text-neutral-text-tertiary': mergedDisabled,
-      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
-    statusCls,
+    statusClassName,
+    mergedDisabled && {
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': variant !== 'borderless',
+    },
     compactItemClassnames[1],
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const addonBeforeCls = clsx(
-    'input-addon -mr-[1px] inline-flex items-center rounded-s-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
+    'input-addon -mr-[1px] inline-flex items-center rounded-s-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
     {
       'h-8 px-2': mergedSize === 'small',
       'h-9 px-3': mergedSize === 'middle',
@@ -757,18 +762,18 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     },
     {
       'ring-1': variant === 'outlined',
-      'ring-0': variant === 'borderless',
+      'bg-transparent ring-0': variant === 'borderless',
       'bg-neutral-fill-quinary ring-0': variant === 'filled',
     },
-    {
-      'text-neutral-text-tertiary': mergedDisabled,
-      'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
+    statusClassName,
+    mergedDisabled && {
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': variant !== 'borderless',
     },
-    statusCls,
     compactItemClassnames[1],
   );
   const addonAfterCls = clsx(
-    'input-addon -ml-[1px] inline-flex items-center rounded-e-md text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
+    'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
     {
       'h-8 px-2': mergedSize === 'small',
       'h-9 px-3': mergedSize === 'middle',
@@ -776,28 +781,30 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     },
     {
       'ring-1': variant === 'outlined',
-      'ring-0': variant === 'borderless',
+      'bg-transparent ring-0': variant === 'borderless',
       'bg-neutral-fill-quinary ring-0': variant === 'filled',
     },
     {
       'text-neutral-text-tertiary': mergedDisabled,
       'bg-neutral-fill-quaternary ': mergedDisabled && variant !== 'borderless',
     },
-    statusCls,
+    statusClassName,
+    mergedDisabled && {
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': variant !== 'borderless',
+    },
     compactItemClassnames[1],
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-neutral-text-secondary has-[.metis-icon]:text-base',
-    mergedSize === 'large' && 'has-[.metis-icon]:text-xl',
-    mergedDisabled && 'text-neutral-text-tertiary',
+    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
+    mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-neutral-text-secondary has-[.metis-icon]:text-base',
-    mergedSize === 'large' && 'has-[.metis-icon]:text-xl',
-    mergedDisabled && 'text-neutral-text-tertiary',
+    'flex flex-none items-center gap-x-1 text-neutral-text-secondary [&_.metis-icon]:text-base',
+    mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.suffix,
   );
 

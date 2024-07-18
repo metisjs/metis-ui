@@ -23,11 +23,11 @@ demo:
 <code src="./demo/keyboard.tsx">键盘行为</code>
 <code src="./demo/change-on-wheel.tsx">鼠标滚轮</code>
 <code src="./demo/variant.tsx">形态变体</code>
-<code src="./demo/styles-debug.tsx" debug>Style Debug</code>
 <code src="./demo/out-of-range.tsx">超出边界</code>
 <code src="./demo/prefix.tsx">前缀</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/controls.tsx" debug>图标按钮</code>
+<code src="./demo/styles-debug.tsx" debug>Style Debug</code>
 
 ## API
 
@@ -60,6 +60,7 @@ demo:
 | onChange | 变化回调 | function(value: number \| string \| null) | - | - |
 | onPressEnter | 按下回车的回调 | function(e) | - | - |
 | onStep | 点击上下箭头的回调 | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
+| className | 语义化结构 class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix', string> | - |  |
 
 ## Ref
 

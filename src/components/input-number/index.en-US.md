@@ -22,11 +22,11 @@ When a numeric value needs to be provided.
 <code src="./demo/keyboard.tsx">Keyboard</code>
 <code src="./demo/change-on-wheel.tsx">Wheel</code>
 <code src="./demo/variant.tsx">Variants</code>
-<code src="./demo/styles-debug.tsx" debug>Styles Debug</code>
 <code src="./demo/out-of-range.tsx">Out of range</code>
 <code src="./demo/prefix.tsx">Prefix</code>
 <code src="./demo/status.tsx">Status</code>
 <code src="./demo/controls.tsx" debug>Icon</code>
+<code src="./demo/styles-debug.tsx" debug>Styles Debug</code>
 
 ## API
 
@@ -59,6 +59,7 @@ When a numeric value needs to be provided.
 | onChange | The callback triggered when the value is changed | function(value: number \| string \| null) | - | - |
 | onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - | - |
 | onStep | The callback function that is triggered when click up or down buttons | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
+| className | Semantic Dom class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix', string> | - |  |
 
 ## Ref
 
