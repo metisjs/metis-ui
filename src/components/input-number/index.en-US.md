@@ -22,7 +22,7 @@ When a numeric value needs to be provided.
 <code src="./demo/keyboard.tsx">Keyboard</code>
 <code src="./demo/change-on-wheel.tsx">Wheel</code>
 <code src="./demo/variant.tsx">Variants</code>
-<code src="./demo/filled-debug.tsx" debug>Filled Debug</code>
+<code src="./demo/styles-debug.tsx" debug>Styles Debug</code>
 <code src="./demo/out-of-range.tsx">Out of range</code>
 <code src="./demo/prefix.tsx">Prefix</code>
 <code src="./demo/status.tsx">Status</code>
