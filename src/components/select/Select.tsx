@@ -129,7 +129,7 @@ const Select = React.forwardRef(
     const mergedMode = combobox ? 'combobox' : mode;
     const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? contextPopupMatchSelectWidth;
 
-    const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+    const { isCompactItem, compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
     const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
 
     const [variant, enableVariantCls] = useVariant(customizeVariant);
@@ -583,6 +583,7 @@ const Select = React.forwardRef(
     const focusedRootCls = clsx({
       'ring-0': variant === 'borderless',
       'bg-neutral-bg-container': variant === 'filled',
+      'z-[2]': isCompactItem,
     });
 
     const selectorCls = clsx(

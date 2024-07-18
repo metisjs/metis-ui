@@ -46,6 +46,7 @@ export const useCompactItemContext = (prefixCls: string) => {
   }, [compactItemContext]);
 
   return {
+    isCompactItem: !!compactItemContext,
     compactSize: compactItemContext?.compactSize,
     compactItemClassnames,
   };

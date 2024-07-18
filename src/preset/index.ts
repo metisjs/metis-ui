@@ -6,5 +6,5 @@ import plugin from './plugin';
 export default {
   darkMode: ['class', `[${PREFERS_COLOR_KEY}="dark"]`],
   plugins: [plugin, typographyPlugin, containerQueriesPlugin],
-  safelist: ['metis-btn-compact-item', 'metis-select-compact-item'],
+  safelist: ['metis-btn-compact-item'],
 };
