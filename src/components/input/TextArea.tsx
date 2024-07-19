@@ -92,7 +92,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
 
     React.useImperativeHandle(ref, () => ({
       resizableTextArea: resizableTextAreaRef.current!,
-      focus,
+      focus: () => {
+        getTextArea()?.focus();
+      },
       blur: () => {
         getTextArea()?.blur();
       },
