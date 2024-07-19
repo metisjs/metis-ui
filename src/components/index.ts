@@ -5,6 +5,8 @@ export { default as Alert } from './alert';
 export type { AlertProps } from './alert';
 export { default as Anchor } from './anchor';
 export type { AnchorLinkProps, AnchorProps } from './anchor';
+export { default as AutoComplete } from './auto-complete';
+export type { AutoCompleteProps } from './auto-complete';
 export { default as Avatar } from './avatar';
 export type { AvatarProps } from './avatar';
 export { default as Badge } from './badge';

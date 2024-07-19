@@ -59,7 +59,9 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   },
   ref,
 ) => {
-  let inputNode: any = inputElement || <input />;
+  let inputNode: any = inputElement || (
+    <input className="h-full w-full appearance-none bg-transparent p-0 leading-tight outline-0 focus:outline-0 focus:ring-0" />
+  );
 
   const { ref: originRef, props: originProps } = inputNode;
 
@@ -89,12 +91,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     autoComplete: autoComplete || 'off',
 
     autoFocus,
-    className: clsx(
-      `${prefixCls}-selection-search-input`,
-      'h-full w-full appearance-none bg-transparent p-0 text-neutral-text outline-0 focus:outline-0 focus:ring-0',
-      className,
-      inputNode?.props?.className,
-    ),
+    className: clsx(`${prefixCls}-selection-search-input`, className, inputNode?.props?.className),
 
     role: 'combobox',
     'aria-expanded': open,
@@ -109,7 +106,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
     readOnly: !editable,
     unselectable: !editable ? 'on' : null,
 
-    style: { ...style, fontSize: 'inherit', lineHeight: 'inherit', opacity: editable ? 1 : 0 },
+    style: { ...style, opacity: editable ? 1 : 0 },
 
     onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => {
       onKeyDown(event);

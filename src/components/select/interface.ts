@@ -84,10 +84,7 @@ export interface SelectProps<
   OptionType extends BaseOptionType = BaseOptionType,
   ValueType = any,
   ParamsType extends any[] = any[],
-> extends Omit<
-    BaseSelectPropsWithoutPrivate,
-    'mode' | 'getInputElement' | 'getRawInputElement' | 'backfill' | 'placement' | 'className'
-  > {
+> extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'className'> {
   prefixCls?: string;
   id?: string;
   className?: SemanticClassName<'popup' | 'selector'>;
@@ -166,7 +163,7 @@ export interface SelectPropsWithRequest<
   pagination?: false;
 }
 
-type SearchParamsType = [
+export type SearchParamsType = [
   {
     filters: { [key: string]: string };
   },
@@ -186,7 +183,7 @@ export interface SelectPropsWithRequestSearch<
   pagination?: false;
 }
 
-type PaginationParamsType = [
+export type PaginationParamsType = [
   {
     current: number;
     pageSize: number;
@@ -207,7 +204,7 @@ export interface SelectPropsWithRequestPagination<
   pagination?: true;
 }
 
-type SearchAndPaginationParamsType = [
+export type SearchAndPaginationParamsType = [
   {
     current: number;
     pageSize: number;

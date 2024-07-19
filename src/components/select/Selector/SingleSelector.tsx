@@ -47,6 +47,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
   const combobox = mode === 'combobox';
   const inputEditable = combobox || showSearch;
   const item = values[0];
+  const customizeInputElement = !!inputElement;
 
   let inputValue: string = searchValue || '';
   if (combobox && activeValue && !inputChanged) {
@@ -91,17 +92,14 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${prefixCls}-selection-search absolute bottom-0 end-3 start-3 top-0`,
+          customizeInputElement && 'static w-full',
           semanticCls.search,
         )}
       >
         <Input
           ref={inputRef}
           prefixCls={prefixCls}
-          className={clsx(
-            !showSearch && 'cursor-pointer',
-            disabled && 'cursor-not-allowed',
-            semanticCls.input,
-          )}
+          className={clsx(disabled && 'cursor-not-allowed', semanticCls.input)}
           id={id}
           open={open}
           inputElement={inputElement}
@@ -131,6 +129,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
         <span
           className={clsx(
             `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm/6`,
+            open && showSearch && 'text-neutral-text-quaternary',
             semanticCls.item,
           )}
           title={selectionTitle}
@@ -142,7 +141,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       ) : null}
 
       {/* Display placeholder */}
-      {renderPlaceholder()}
+      {!customizeInputElement && renderPlaceholder()}
     </>
   );
 };

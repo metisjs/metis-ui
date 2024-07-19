@@ -169,10 +169,8 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   tokenSeparators?: string[];
 
   // >>> Icons
-  allowClear?: boolean;
+  allowClear?: boolean | { clearIcon?: RenderNode };
   suffixIcon?: RenderNode;
-  /** Clear all icon */
-  clearIcon?: RenderNode;
   /** Selector remove icon */
   removeIcon?: RenderNode;
 
@@ -252,7 +250,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     // Icons
     allowClear,
     suffixIcon,
-    clearIcon,
 
     // Dropdown
     OptionList,
@@ -681,12 +678,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     (displayValues.length || mergedSearchValue) &&
     !(mode === 'combobox' && mergedSearchValue === '')
   ) {
+    const clearIcon = typeof allowClear === 'object' ? allowClear.clearIcon : undefined;
     clearNode = (
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
           'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-quaternary opacity-0 transition-all hover:text-neutral-text-tertiary',
           'group-hover/select:opacity-100',
+          mode === 'combobox' && 'opacity-100',
         )}
         onMouseDown={onClearMouseDown}
         customizeIcon={clearIcon}
@@ -707,6 +706,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
           {
             [`${prefixCls}-arrow-loading`]: loading,
             'group-hover/select:opacity-0': !!clearNode,
+            'opacity-0': !!clearNode && mode === 'combobox',
           },
         )}
         customizeIcon={suffixIcon}
@@ -727,7 +727,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ============================= Style =============================
   const mergedRootClassName = clsx(
     prefixCls,
-    'group/select relative inline-block cursor-pointer rounded-md bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border',
     {
       [`${prefixCls}-focused`]: mockFocused,
       [`${prefixCls}-multiple`]: multiple,
@@ -740,16 +739,22 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-customize-input`]: customizeInputElement,
       [`${prefixCls}-show-search`]: showSearch,
     },
-    disabled && 'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary',
+    !customizeInputElement &&
+      'group/select relative inline-block rounded-md bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border',
+    !customizeInputElement && disabled && 'bg-neutral-fill-quaternary text-neutral-text-tertiary',
     semanticCls.root,
-    (mockFocused || mergedOpen) && ['ring-2 ring-primary', semanticCls.focusedRoot],
+    !customizeInputElement &&
+      (mockFocused || mergedOpen) && ['ring-2 ring-primary', semanticCls.focusedRoot],
   );
 
   const mergedSelectorClassName = {
     root: semanticCls.selector,
-    search: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorSearch),
-    item: clsx({ 'pe-6': showSuffixIcon && !multiple }, semanticCls.selectorItem),
-    placeholder: clsx({ 'pe-6': showSuffixIcon }, semanticCls.selectorPlaceholder),
+    search: clsx(
+      { 'pe-7': !customizeInputElement && showSuffixIcon && !multiple },
+      semanticCls.selectorSearch,
+    ),
+    item: clsx({ 'pe-7': showSuffixIcon && !multiple }, semanticCls.selectorItem),
+    placeholder: clsx({ 'pe-7': showSuffixIcon }, semanticCls.selectorPlaceholder),
   };
 
   // ============================= Select =============================

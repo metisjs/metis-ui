@@ -217,15 +217,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
 
   const onClick: React.MouseEventHandler<HTMLDivElement> = ({ target }) => {
     if (target !== inputRef.current) {
-      // Should focus input if click the selector
-      const isIE = (document.body.style as any).msTouchAction !== undefined;
-      if (isIE) {
-        setTimeout(() => {
-          inputRef.current?.focus();
-        });
-      } else {
-        inputRef.current?.focus();
-      }
+      inputRef.current?.focus();
     }
   };
 
@@ -270,12 +262,11 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
       ref={domRef}
       className={clsx(
         `${prefixCls}-selector`,
-        'relative flex w-full items-center truncate rounded-md px-3 py-1 text-left leading-6',
+        'relative flex w-full cursor-pointer items-center text-left',
         'after:invisible after:inline-block after:w-0 after:leading-7 after:content-["a0"]',
         {
           'flex flex-wrap items-center py-0.5 pe-8 ps-1 leading-7 after:my-0.5': isMultiple,
-          'text-neutral-text-quaternary': open && showSearch && !isMultiple,
-          'cursor-text': showSearch,
+          'cursor-text': showSearch || mode === 'combobox',
           'cursor-not-allowed': disabled,
         },
         semanticCls.root,

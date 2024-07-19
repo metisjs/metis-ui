@@ -61,6 +61,7 @@ const Select = React.forwardRef(
       className,
       prefixCls: customizePrefixCls,
       fieldNames,
+      allowClear,
       variant: customizeVariant,
 
       // Request
@@ -106,6 +107,7 @@ const Select = React.forwardRef(
       showSearch,
 
       onPopupScroll,
+      getInputElement,
 
       ...restProps
     } = props;
@@ -158,7 +160,6 @@ const Select = React.forwardRef(
       options: requestedOptions,
       loading: requestLoading,
       onScroll: onInternalPopupScroll,
-      // loadingMore: requestLoadingMore,
     } = useRequest(
       request,
       showSearch,
@@ -166,6 +167,7 @@ const Select = React.forwardRef(
       optionFilterProp,
       pagination,
       onPopupScroll,
+      combobox,
     );
     const mergedLoading = loading || requestLoading;
 
@@ -190,6 +192,8 @@ const Select = React.forwardRef(
       feedbackIcon,
       prefixCls,
     });
+
+    const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
 
     // ===================== Placement =====================
     const memoPlacement = React.useMemo<SelectCommonPlacement>(() => {
@@ -558,6 +562,8 @@ const Select = React.forwardRef(
       });
     };
 
+    const customizeInputElement = combobox && typeof getInputElement === 'function';
+
     // ========================== Style ===========================
     const rootCls = clsx(
       {
@@ -566,38 +572,45 @@ const Select = React.forwardRef(
         [`${prefixCls}-in-form-item`]: isFormItemInput,
         [`${prefixCls}-${variant}`]: enableVariantCls,
       },
-      {
-        'bg-neutral-bg-container ring-1': variant === 'outlined',
-        'bg-transparent shadow-none ring-0': variant === 'borderless',
-        'bg-neutral-fill-quinary ring-0': variant === 'filled',
-      },
-      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
-      compactItemClassnames,
-      getStatusClassNames(mergedStatus, variant),
-      mergedDisabled && {
-        'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
-          variant !== 'borderless',
-      },
+      !customizeInputElement && [
+        {
+          'bg-neutral-bg-container ring-1': variant === 'outlined',
+          'bg-transparent shadow-none ring-0': variant === 'borderless',
+          'bg-neutral-fill-quinary ring-0': variant === 'filled',
+        },
+        '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+        compactItemClassnames,
+        getStatusClassNames(mergedStatus, variant),
+        mergedDisabled && {
+          'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
+            variant !== 'borderless',
+        },
+      ],
       semanticCls.root,
     );
-    const focusedRootCls = clsx({
-      'ring-0': variant === 'borderless',
-      'bg-neutral-bg-container': variant === 'filled',
-      'z-[2]': isCompactItem,
-    });
+    const focusedRootCls = clsx(
+      !customizeInputElement && {
+        'ring-0': variant === 'borderless',
+        'bg-neutral-bg-container': variant === 'filled',
+        'z-[2]': isCompactItem,
+      },
+    );
 
     const selectorCls = clsx(
-      {
+      !customizeInputElement && {
+        'truncate rounded-md px-3 py-1 leading-6': true,
         'px-2 after:leading-6': mergedSize === 'small',
         'after:leading-8': mergedSize === 'large',
       },
       semanticCls.selector,
     );
 
-    const selectorSearchCls = clsx({
-      'end-2 start-2': mergedSize === 'small' && !multiple,
-      'ms-0.5 h-7': mergedSize === 'small' && multiple,
-    });
+    const selectorSearchCls = clsx(
+      !customizeInputElement && {
+        'end-2 start-2': mergedSize === 'small' && !multiple,
+        'ms-0.5 h-7': mergedSize === 'small' && multiple,
+      },
+    );
 
     const selectorPlaceholderCls = clsx({
       'end-2 start-2': mergedSize === 'small' && multiple,
@@ -673,7 +686,7 @@ const Select = React.forwardRef(
           popupMatchSelectWidth={mergedPopupMatchSelectWidth}
           suffixIcon={suffixIcon}
           removeIcon={removeIcon}
-          clearIcon={clearIcon}
+          allowClear={mergedAllowClear}
           placement={memoPlacement}
           notFoundContent={mergedNotFound}
           getPopupContainer={getPopupContainer || getContextPopupContainer}
@@ -709,6 +722,7 @@ const Select = React.forwardRef(
           activeValue={activeValue}
           activeDescendantId={`${mergedId}_list_${accessibilityIndex}`}
           zIndex={zIndex}
+          getInputElement={getInputElement}
         />
       </SelectContext.Provider>
     );

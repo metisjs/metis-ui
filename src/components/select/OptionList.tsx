@@ -345,7 +345,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
           const optionClassName = clsx(
             itemPrefixCls,
             optionPrefixCls,
-            'relative flex cursor-default select-none items-center py-2 pl-3 pr-8 text-sm',
+            'relative flex cursor-default select-none items-center py-2 pl-3 pr-10 text-sm',
             {
               [`${optionPrefixCls}-grouped pl-6`]: groupOption,
               [`${optionPrefixCls}-active bg-primary text-white`]:
@@ -386,13 +386,13 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               }}
               style={style}
             >
-              <div className={clsx(`${optionPrefixCls}-content`, 'truncate')}>{content}</div>
+              <div className={clsx(`${optionPrefixCls}-content`, 'w-full truncate')}>{content}</div>
               {React.isValidElement(menuItemSelectedIcon) || selected}
               {iconVisible && (
                 <TransBtn
                   className={clsx(
                     `${itemPrefixCls}-option-state`,
-                    'absolute inset-y-0 right-0 flex items-center pr-2',
+                    'absolute inset-y-0 right-0 flex items-center pr-3',
                     {
                       'text-primary': selected,
                       'text-white': activeIndex === itemIndex && !disabled,
