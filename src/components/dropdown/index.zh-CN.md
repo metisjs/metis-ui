@@ -46,7 +46,7 @@ demo:
 | className | 语义化结构 class | string \| Record<'root' \| 'overlay' \| 'open', string> | - |  |
 | disabled | 菜单是否禁用 | boolean | - |  |
 | destroyPopupOnHide | 关闭后是否销毁 Dropdown | boolean | false |  |
-| dropdownRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
+| popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
 | getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
 | menu | 菜单配置项 | [MenuProps](/components/menu-cn#api) | - |  |
 | placement | 菜单弹出位置：`bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight` | string | `bottomLeft` |  |

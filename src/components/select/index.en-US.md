@@ -55,7 +55,7 @@ demo:
 | defaultValue | Initial selected option | string \| string\[] \| <br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
 | disabled | Whether disabled select | boolean | false |  |
 | popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
-| dropdownRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
+| popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
 | dropdownStyle | The style of dropdown menu | CSSProperties | - |  |
 | fieldNames | Customize node label, value, options，groupLabel field name | [FileNames](#filenames) | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
 | filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns `true`, the option will be included in the filtered set; Otherwise, it will be excluded | boolean \| function(inputValue, option) | true |  |
@@ -145,17 +145,17 @@ export type RequestConfig<TData, ParamsType extends any[]> =
 
 It's caused by option with different `label` and `value`. You can use `optionFilterProp="label"` to change filter logic instead.
 
-### When I click elements in dropdownRender, the select dropdown will not be closed?
+### When I click elements in popupRender, the select dropdown will not be closed?
 
 You can control it by `open` prop.
 
-### I don't want dropdown close when click inside `dropdownRender`?
+### I don't want dropdown close when click inside `popupRender`?
 
 Select will close when it lose focus. You can prevent event to handle this:
 
 ```tsx
 <Select
-  dropdownRender={() => (
+  popupRender={() => (
     <div
       onMouseDown={(e) => {
         e.preventDefault();

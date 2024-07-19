@@ -28,7 +28,7 @@ export interface DropdownProps {
   autoFocus?: boolean;
   arrow?: boolean | DropdownArrowOptions;
   trigger?: ('click' | 'hover' | 'contextMenu')[];
-  dropdownRender?: (originNode: React.ReactNode) => React.ReactNode;
+  popupRender?: (originNode: React.ReactNode) => React.ReactNode;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
   disabled?: boolean;
@@ -57,7 +57,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     disabled,
     destroyPopupOnHide,
     align,
-    dropdownRender,
+    popupRender,
     getPopupContainer,
     open,
     onOpenChange,
@@ -142,8 +142,8 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       overlayNode = <Menu {...menu} />;
     }
 
-    if (dropdownRender) {
-      overlayNode = dropdownRender(overlayNode);
+    if (popupRender) {
+      overlayNode = popupRender(overlayNode);
     }
     overlayNode = React.Children.only(
       typeof overlayNode === 'string' ? <span>{overlayNode}</span> : overlayNode,

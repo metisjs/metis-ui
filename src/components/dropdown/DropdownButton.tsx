@@ -67,7 +67,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     mouseEnterDelay,
     mouseLeaveDelay,
     destroyPopupOnHide,
-    dropdownRender,
+    popupRender,
     ...restProps
   } = props;
 
@@ -87,7 +87,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     mouseEnterDelay,
     mouseLeaveDelay,
     destroyPopupOnHide,
-    dropdownRender,
+    popupRender,
     className: { overlay: semanticCls.overlay, open: semanticCls.open },
   };
 
