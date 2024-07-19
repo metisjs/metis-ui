@@ -1,0 +1,15 @@
+import { AutoComplete } from 'metis-ui';
+import React from 'react';
+import { fetchDataWithPagination } from '../../select/demo/services';
+
+export default () => (
+  <AutoComplete
+    placeholder="input here"
+    request={fetchDataWithPagination}
+    fieldNames={{ label: 'name', value: 'name' }}
+    optionFilterProp="name"
+    pagination
+    onChange={(...arg) => console.log(...arg)}
+    className="w-[320px]"
+  />
+);
