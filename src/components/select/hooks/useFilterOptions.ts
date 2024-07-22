@@ -20,7 +20,7 @@ export default (
       return options;
     }
 
-    const { options: fieldOptions, value: fieldValue, groupLabel: fieldGrpLabel } = fieldNames;
+    const { options: fieldOptions, label: fieldLabel, groupLabel: fieldGrpLabel } = fieldNames;
     const filteredOptions: BaseOptionType[] = [];
 
     const customizeFilter = typeof filterOption === 'function';
@@ -40,7 +40,7 @@ export default (
             return includes(getFieldValue(option, fieldGrpLabel), upperSearch);
           }
 
-          return includes(getFieldValue(option, fieldValue), upperSearch);
+          return includes(getFieldValue(option, fieldLabel), upperSearch);
         };
 
     options.forEach((item) => {

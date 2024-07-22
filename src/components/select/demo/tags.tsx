@@ -18,6 +18,7 @@ const handleChange = (value: string) => {
 const App: React.FC = () => (
   <Select
     mode="tags"
+    showSearch
     style={{ width: '100%' }}
     placeholder="Tags Mode"
     onChange={handleChange}

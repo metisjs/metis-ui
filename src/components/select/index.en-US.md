@@ -66,11 +66,11 @@ demo:
 | maxTagCount | Max tag count to show. `responsive` will cost render performance | number \| `responsive` | - | responsive: 4.10 |
 | maxTagPlaceholder | Placeholder for not showing tags | ReactNode \| function(omittedValues) | - |  |
 | maxTagTextLength | Max tag text length to show | number | - |  |
-| menuItemSelectedIcon | The custom menuItemSelected icon with multiple options | ReactNode | - |  |
+| menuItemSelectedIcon | The custom menuItemSelected icon with options | ReactNode | - |  |
 | mode | Set mode of Select | `multiple` \| `tags` | - |  |
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
-| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`value` \| request: `keyword` |  |
+| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`label` \| request: `keyword` |  |
 | optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
 | optionLabelProp | Which prop value of option will render as content of select. | string | `label` |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
