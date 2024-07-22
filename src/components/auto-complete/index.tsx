@@ -14,7 +14,7 @@ export interface AutoCompleteProps<
   ParamsType extends any[] = any[],
 > extends Omit<
     SelectProps<OptionType, ValueType, ParamsType>,
-    'loading' | 'mode' | 'optionLabelProp' | 'labelInValue' | 'showSearch'
+    'loading' | 'mode' | 'optionLabelProp' | 'optionInValue' | 'showSearch'
   > {
   children?: React.ReactNode;
 }
@@ -61,7 +61,7 @@ export interface AutoCompletePropsWithOptions<
     | 'loading'
     | 'mode'
     | 'optionLabelProp'
-    | 'labelInValue'
+    | 'optionInValue'
     | 'showSearch'
   > {
   options: OptionType[];
@@ -80,7 +80,7 @@ export interface AutoCompletePropsWithRequest<
     | 'loading'
     | 'mode'
     | 'optionLabelProp'
-    | 'labelInValue'
+    | 'optionInValue'
     | 'showSearch'
   > {
   request: RequestConfig<OptionType, ParamsType>;
@@ -100,7 +100,7 @@ export interface AutoCompletePropsWithRequestPagination<
     | 'loading'
     | 'mode'
     | 'optionLabelProp'
-    | 'labelInValue'
+    | 'optionInValue'
     | 'showSearch'
   > {
   request: RequestConfig<OptionType, ParamsType>;
