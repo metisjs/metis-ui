@@ -265,7 +265,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
         'relative flex w-full cursor-pointer items-center text-left',
         'after:invisible after:inline-block after:w-0 after:leading-7 after:content-["a0"]',
         {
-          'flex flex-wrap items-center py-0.5 pe-8 ps-1 leading-7 after:my-0.5': isMultiple,
+          'flex-wrap': isMultiple,
           'cursor-text': showSearch || mode === 'combobox',
           'cursor-not-allowed': disabled,
         },

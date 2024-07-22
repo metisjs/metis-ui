@@ -599,6 +599,7 @@ const Select = React.forwardRef(
     const selectorCls = clsx(
       !customizeInputElement && {
         'truncate rounded-md px-3 py-1 leading-6': true,
+        'py-0.5 pe-9 ps-1 leading-7 after:my-0.5': multiple,
         'px-2 after:leading-6': mergedSize === 'small',
         'after:leading-8': mergedSize === 'large',
       },
