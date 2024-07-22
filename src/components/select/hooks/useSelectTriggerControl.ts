@@ -4,26 +4,18 @@ export default function useSelectTriggerControl(
   elements: () => (HTMLElement | null | undefined)[],
   open: boolean,
   triggerOpen: (open: boolean) => void,
-  customizedTrigger: boolean,
 ) {
   const propsRef = React.useRef({
     open,
     triggerOpen,
-    customizedTrigger,
   });
   propsRef.current = {
     open,
     triggerOpen,
-    customizedTrigger,
   };
 
   React.useEffect(() => {
     function onGlobalMouseDown(event: MouseEvent) {
-      // If trigger is customized, Trigger will take control of popupVisible
-      if (propsRef.current?.customizedTrigger) {
-        return;
-      }
-
       let target = event.target as HTMLElement;
 
       if (target.shadowRoot && event.composed) {

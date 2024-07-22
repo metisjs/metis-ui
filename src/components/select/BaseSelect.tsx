@@ -1,7 +1,6 @@
 import KeyCode from 'rc-util/lib/KeyCode';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { useComposeRef } from 'rc-util/lib/ref';
 import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
@@ -157,8 +156,6 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   // >>> Customize Input
   /** @private Internal usage. Do not use in your production. */
   getInputElement?: () => JSX.Element;
-  /** @private Internal usage. Do not use in your production. */
-  getRawInputElement?: () => JSX.Element;
 
   // >>> Selector
   maxTagTextLength?: number;
@@ -228,7 +225,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
     // Customize Input
     getInputElement,
-    getRawInputElement,
 
     // Open
     open,
@@ -327,15 +323,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // Only works in `combobox`
   const customizeInputElement =
     (mode === 'combobox' && typeof getInputElement === 'function' && getInputElement()) || null;
-
-  // Used for customize replacement for `cascader`
-  const customizeRawInputElement = typeof getRawInputElement === 'function' && getRawInputElement();
-
-  const customizeRawInputRef = useComposeRef<HTMLElement>(
-    selectorDomRef,
-    // @ts-ignore
-    customizeRawInputElement?.props?.ref,
-  );
 
   // ============================== Open ==============================
   // SSR not support Portal which means we need delay `open` for the first time render
@@ -623,20 +610,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     }
   }, [triggerOpen]);
 
-  // Used for raw custom input trigger
-  let onTriggerVisibleChange: undefined | ((newOpen: boolean) => void);
-  if (customizeRawInputElement) {
-    onTriggerVisibleChange = (newOpen: boolean) => {
-      onToggleOpen(newOpen);
-    };
-  }
-
   // Close when click on non-select element
   useSelectTriggerControl(
     () => [containerRef.current, triggerRef.current?.getPopupElement()],
     triggerOpen,
     onToggleOpen,
-    !!customizeRawInputElement,
   );
 
   // ============================ Context =============================
@@ -778,84 +756,70 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       getPopupContainer={getPopupContainer}
       empty={emptyOptions}
       getTriggerDOMNode={() => selectorDomRef.current!}
-      onPopupOpenChange={onTriggerVisibleChange}
       onPopupMouseEnter={onPopupMouseEnter}
     >
-      {customizeRawInputElement ? (
-        React.cloneElement(customizeRawInputElement, {
-          ref: customizeRawInputRef,
-        })
-      ) : (
-        <Selector
-          {...props}
-          domRef={selectorDomRef}
-          prefixCls={prefixCls}
-          className={mergedSelectorClassName}
-          inputElement={customizeInputElement}
-          ref={selectorRef}
-          id={id}
-          showSearch={showSearch}
-          autoClearSearchValue={!!autoClearSearchValue}
-          mode={mode}
-          activeDescendantId={activeDescendantId}
-          tagRender={tagRender}
-          values={displayValues}
-          open={mergedOpen}
-          onToggleOpen={onToggleOpen}
-          activeValue={activeValue!}
-          searchValue={mergedSearchValue}
-          onSearch={onInternalSearch}
-          onSearchSubmit={onInternalSearchSubmit}
-          onRemove={onSelectorRemove}
-          tokenWithEnter={tokenWithEnter}
-        />
-      )}
+      <Selector
+        {...props}
+        domRef={selectorDomRef}
+        prefixCls={prefixCls}
+        className={mergedSelectorClassName}
+        inputElement={customizeInputElement}
+        ref={selectorRef}
+        id={id}
+        showSearch={showSearch}
+        autoClearSearchValue={!!autoClearSearchValue}
+        mode={mode}
+        activeDescendantId={activeDescendantId}
+        tagRender={tagRender}
+        values={displayValues}
+        open={mergedOpen}
+        onToggleOpen={onToggleOpen}
+        activeValue={activeValue!}
+        searchValue={mergedSearchValue}
+        onSearch={onInternalSearch}
+        onSearchSubmit={onInternalSearchSubmit}
+        onRemove={onSelectorRemove}
+        tokenWithEnter={tokenWithEnter}
+      />
     </SelectTrigger>
   );
 
   // >>> Render
-  let renderNode: React.ReactNode;
-
-  // Render raw
-  if (customizeRawInputElement) {
-    renderNode = selectorNode;
-  } else {
-    renderNode = (
-      <div
-        className={mergedRootClassName}
-        {...domProps}
-        ref={containerRef}
-        onMouseDown={onInternalMouseDown}
-        onKeyDown={onInternalKeyDown}
-        onKeyUp={onInternalKeyUp}
-        onFocus={onContainerFocus}
-        onBlur={onContainerBlur}
-      >
-        {mockFocused && !mergedOpen && (
-          <span
-            style={{
-              width: 0,
-              height: 0,
-              position: 'absolute',
-              overflow: 'hidden',
-              opacity: 0,
-            }}
-            aria-live="polite"
-          >
-            {/* Merge into one string to make screen reader work as expect */}
-            {`${displayValues
-              .map(({ label, value }) =>
-                ['number', 'string'].includes(typeof label) ? label : value,
-              )
-              .join(', ')}`}
-          </span>
-        )}
-        {selectorNode}
-        {arrowNode}
-        {clearNode}
-      </div>
-    );
-  }
+  let renderNode = (
+    <div
+      className={mergedRootClassName}
+      {...domProps}
+      ref={containerRef}
+      onMouseDown={onInternalMouseDown}
+      onKeyDown={onInternalKeyDown}
+      onKeyUp={onInternalKeyUp}
+      onFocus={onContainerFocus}
+      onBlur={onContainerBlur}
+    >
+      {mockFocused && !mergedOpen && (
+        <span
+          style={{
+            width: 0,
+            height: 0,
+            position: 'absolute',
+            overflow: 'hidden',
+            opacity: 0,
+          }}
+          aria-live="polite"
+        >
+          {/* Merge into one string to make screen reader work as expect */}
+          {`${displayValues
+            .map(({ label, value }) =>
+              ['number', 'string'].includes(typeof label) ? label : value,
+            )
+            .join(', ')}`}
+        </span>
+      )}
+      {selectorNode}
+      {arrowNode}
+      {clearNode}
+    </div>
+  );
 
   return (
     <BaseSelectContext.Provider value={baseSelectContext}>{renderNode}</BaseSelectContext.Provider>
