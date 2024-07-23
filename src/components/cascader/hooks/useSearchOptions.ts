@@ -1,13 +1,13 @@
 import * as React from 'react';
 import type { DefaultOptionType, InternalFieldNames, ShowSearchType } from '../Cascader';
 
-export const SEARCH_MARK = '__rc_cascader_search_mark__';
+export const SEARCH_MARK = '__cascader_search_mark__';
 
 const defaultFilter: ShowSearchType['filter'] = (search, options, { label = '' }) =>
-  options.some(opt => String(opt[label]).toLowerCase().includes(search.toLowerCase()));
+  options.some((opt) => String(opt[label]).toLowerCase().includes(search.toLowerCase()));
 
 const defaultRender: ShowSearchType['render'] = (inputValue, path, prefixCls, fieldNames) =>
-  path.map(opt => opt[fieldNames.label as string]).join(' / ');
+  path.map((opt) => opt[fieldNames.label as string]).join(' / ');
 
 export default (
   search: string,
@@ -30,7 +30,7 @@ export default (
       pathOptions: DefaultOptionType[],
       parentDisabled = false,
     ) {
-      list.forEach(option => {
+      list.forEach((option) => {
         // Perf saving when `sort` is disabled and `limit` is provided
         if (!sort && limit !== false && limit > 0 && filteredOptions.length >= limit) {
           return;

@@ -1,6 +1,7 @@
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
+import { SemanticClassName } from '../_util/classNameUtils';
 import { BaseSelectPropsWithoutPrivate } from '../select';
 import { BuildInPlacements, Placement } from '../trigger/interface';
 import CascaderContext from './context';
@@ -54,8 +55,6 @@ export interface ShowSearchType<
     inputValue: string,
     fieldNames: FieldNames<OptionType, ValueField>,
   ) => number;
-  matchInputWidth?: boolean;
-  limit?: number | false;
 }
 
 export type ShowCheckedStrategy = typeof SHOW_PARENT | typeof SHOW_CHILD;
@@ -63,17 +62,22 @@ export type ShowCheckedStrategy = typeof SHOW_PARENT | typeof SHOW_CHILD;
 interface BaseCascaderProps<
   OptionType extends DefaultOptionType = DefaultOptionType,
   ValueField extends keyof OptionType = keyof OptionType,
-> extends Omit<BaseSelectPropsWithoutPrivate, 'tokenSeparators' | 'mode' | 'showSearch'> {
+> extends Omit<
+    BaseSelectPropsWithoutPrivate,
+    'tokenSeparators' | 'mode' | 'showSearch' | 'className'
+  > {
   // MISC
   id?: string;
   prefixCls?: string;
-  fieldNames?: FieldNames<OptionType, ValueField>;
   optionRender?: (option: OptionType) => React.ReactNode;
-  children?: React.ReactElement;
+  className?: SemanticClassName<'popup' | 'selector'>;
+  displayRender?: (selectedOptions?: OptionType[]) => React.ReactNode;
+
+  // >>> Field Names
+  fieldNames?: FieldNames<OptionType>;
 
   // Value
   changeOnSelect?: boolean;
-  displayRender?: (label: string[], selectedOptions?: OptionType[]) => React.ReactNode;
   checkable?: boolean | React.ReactNode;
   showCheckedStrategy?: ShowCheckedStrategy;
 
