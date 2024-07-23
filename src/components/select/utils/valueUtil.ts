@@ -31,21 +31,6 @@ export function fillFieldNames<OptionType extends BaseOptionType = BaseOptionTyp
   };
 }
 
-export function getFieldValue<OptionType extends BaseOptionType = BaseOptionType>(
-  option: OptionType,
-  fieldName: FieldNames<OptionType>['label' | 'value' | 'groupLabel' | 'disabled'],
-) {
-  if (typeof fieldName === 'string') {
-    return option[fieldName];
-  }
-
-  if (typeof fieldName === 'function') {
-    return fieldName(option);
-  }
-
-  return null;
-}
-
 /**
  * Flat options into flatten list.
  * We use `optionOnly` here is aim to avoid user use nested option group.
@@ -68,19 +53,19 @@ export function flattenOptions<OptionType extends BaseOptionType = BaseOptionTyp
   function dig(list: OptionType[], isGroupOption: boolean) {
     list.forEach((data) => {
       if (isGroupOption || !(fieldOptions in data)) {
-        const value = getFieldValue(data, fieldValue);
+        const value = data[fieldValue];
 
         // Option
         flattenList.push({
           key: getKey(data, flattenList.length),
           groupOption: isGroupOption,
           data,
-          label: getFieldValue(data, fieldLabel),
+          label: data[fieldLabel],
           value,
-          disabled: getFieldValue(data, fieldDisabled),
+          disabled: data[fieldDisabled],
         });
       } else {
-        const grpLabel = getFieldValue(data, groupLabel);
+        const grpLabel = data[groupLabel];
 
         // Option Group
         flattenList.push({

@@ -20,7 +20,7 @@ import type {
 } from './BaseSelect';
 import BaseSelect, { isMultiple } from './BaseSelect';
 import OptionList from './OptionList';
-import SelectContext, { SelectContextProps } from './SelectContext';
+import { SelectContext, SelectContextProps } from './context';
 import useBuiltinPlacements from './hooks/useBuiltinPlacements';
 import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
@@ -41,7 +41,7 @@ import {
   SelectProps,
 } from './interface';
 import { hasValue, toArray } from './utils/commonUtil';
-import { fillFieldNames, flattenOptions, getFieldValue } from './utils/valueUtil';
+import { fillFieldNames, flattenOptions } from './utils/valueUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
 const OMIT_DOM_PROPS = ['inputValue'];
@@ -84,6 +84,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     fieldNames,
     allowClear,
     variant: customizeVariant,
+    displayRender,
 
     // Request
     request,
@@ -103,8 +104,9 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     filterOption,
     filterSort,
     optionFilterProp,
-    displayRender,
+
     options,
+    optionRender,
     defaultActiveFirstOption,
     virtual,
     listHeight = 256,
@@ -242,7 +244,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   );
 
   // =========================== Option ===========================
-  const parsedOptions = useOptions(
+  const parsedOptions = useOptions<BaseOptionType>(
     request ? requestedOptions : options,
     mergedFieldNames,
     optionFilterProp,
@@ -259,7 +261,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
       return valueList.map((val) => {
         let rawValue: RawValueType;
         let rawLabel: React.ReactNode;
-        let rawKey: React.Key = '';
+        let rawKey: React.Key | undefined;
         let rawDisabled: boolean | undefined;
         let rawTitle: string = '';
 
@@ -267,23 +269,23 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         if (isRawValue(val)) {
           rawValue = val;
         } else {
-          rawValue = getFieldValue(val, mergedFieldNames.value) ?? val.value;
+          rawKey = val.key;
+          rawValue = val[mergedFieldNames.value] ?? val.value;
+          rawLabel = val[mergedFieldNames.label] ?? val.label;
         }
 
         const option = valueOptions.get(rawValue);
         if (option) {
-          rawLabel = displayRender
-            ? displayRender(option)
-            : getFieldValue(option, mergedFieldNames.label);
-          rawKey = option?.key ?? rawValue;
-          rawDisabled = getFieldValue(option, mergedFieldNames.disabled);
+          if (rawLabel === undefined) rawLabel = option[mergedFieldNames.label];
+          if (rawKey === undefined) rawKey = option?.key ?? rawValue;
+          rawDisabled = option[mergedFieldNames.disabled];
           rawTitle = option?.title;
         }
 
         return {
           label: rawLabel,
           value: rawValue,
-          key: rawKey,
+          key: rawKey ?? '',
           disabled: rawDisabled,
           title: rawTitle,
           option,
@@ -325,11 +327,18 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
       }
     }
 
-    return mergedValues.map((item) => ({
-      ...item,
-      label: item.label ?? item.value,
-    }));
-  }, [mergedMode, mergedValues]);
+    return mergedValues.map((item) => {
+      let label: React.ReactNode = item.label ?? item.value;
+      const option = getMixedOption(item.value);
+      if (displayRender && option) {
+        label = displayRender(option);
+      }
+      return {
+        ...item,
+        label,
+      };
+    });
+  }, [mergedMode, mergedValues, displayRender, getMixedOption]);
 
   /** Convert `displayValues` to raw value type set */
   const rawValues = React.useMemo(
@@ -634,6 +643,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     const realVirtual = mergedVirtual !== false && popupMatchSelectWidth !== false;
     return {
       ...parsedOptions,
+      optionRender,
       flattenOptions: displayOptions,
       onActiveValue,
       defaultActiveFirstOption: mergedDefaultActiveFirstOption,
@@ -648,6 +658,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   }, [
     mergedVirtual,
     parsedOptions,
+    optionRender,
     displayOptions,
     onActiveValue,
     mergedDefaultActiveFirstOption,
@@ -746,9 +757,5 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
 if (process.env.NODE_ENV !== 'production') {
   Select.displayName = 'Select';
 }
-
-// const TypedSelect: TypedSelectComponent = (props: any) => {
-//   return <Select {...props} />;
-// };
 
 export default Select;

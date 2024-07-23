@@ -3,7 +3,7 @@ import { isMultiple } from '../BaseSelect';
 import type { BaseOptionType, FieldNames, OptionInValueType, RawValueType } from '../interface';
 import { InternalSelectProps } from '../Select';
 import { toArray } from './commonUtil';
-import { fillFieldNames, getFieldValue } from './valueUtil';
+import { fillFieldNames } from './valueUtil';
 
 function warningProps(props: InternalSelectProps) {
   const {
@@ -93,15 +93,15 @@ export function warningNullOptions(
       for (let i = 0; i < optionsList.length; i++) {
         const option = optionsList[i];
 
-        if (getFieldValue(option, fieldValue) === null) {
+        if (option[fieldValue] === null) {
           warning(false, 'usage', '`value` in Select options should not be `null`.');
           return true;
         }
 
         if (
           !inGroup &&
-          Array.isArray(getFieldValue(option, fieldOptions)) &&
-          recursiveOptions(getFieldValue(option, fieldOptions), true)
+          Array.isArray(option[fieldOptions]) &&
+          recursiveOptions(option[fieldOptions], true)
         ) {
           break;
         }

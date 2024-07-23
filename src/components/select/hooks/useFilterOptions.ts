@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { BaseOptionType, FieldNames, SelectProps } from '../interface';
 import { toArray } from '../utils/commonUtil';
-import { getFieldValue } from '../utils/valueUtil';
 
 function includes(test: React.ReactNode, search: string) {
   return toArray(test).join('').toUpperCase().includes(search);
@@ -37,10 +36,10 @@ export default (
           // Auto select `label` or `value` by option type
           if (option[fieldOptions]) {
             // hack `fieldLabel` since `OptionGroup` children is not `label`
-            return includes(getFieldValue(option, fieldGrpLabel), upperSearch);
+            return includes(option[fieldGrpLabel], upperSearch);
           }
 
-          return includes(getFieldValue(option, fieldLabel), upperSearch);
+          return includes(option[fieldLabel], upperSearch);
         };
 
     options.forEach((item) => {

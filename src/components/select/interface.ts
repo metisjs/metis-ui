@@ -6,7 +6,7 @@ import * as React from 'react';
 import { SemanticClassName } from '../_util/classNameUtils';
 import { InputStatus } from '../_util/statusUtils';
 import { SizeType } from '../config-provider/SizeContext';
-import type { BaseSelectPropsWithoutPrivate, DisplayValueType, RenderNode } from './BaseSelect';
+import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import { SelectPlacements } from './Select';
 
 export type SelectCommonPlacement = (typeof SelectPlacements)[number];
@@ -32,8 +32,7 @@ export type OptionInValueType = BaseOptionType;
 export type DraftValueType =
   | RawValueType
   | OptionInValueType
-  | DisplayValueType
-  | (RawValueType | OptionInValueType | DisplayValueType)[];
+  | (RawValueType | OptionInValueType)[];
 
 export type GetValueType<
   OptionType extends BaseOptionType,
@@ -89,11 +88,11 @@ export type GetRequestType<
 export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
 
 export interface FieldNames<OptionType extends BaseOptionType> {
-  value?: keyof OptionType | ((option: OptionType) => RawValueType);
-  label?: keyof OptionType | ((option: OptionType) => React.ReactNode);
-  groupLabel?: keyof OptionType | ((option: OptionType) => React.ReactNode);
+  value?: keyof OptionType;
+  label?: keyof OptionType;
+  groupLabel?: keyof OptionType;
   options?: keyof OptionType;
-  disabled?: keyof OptionType | ((option: OptionType) => boolean);
+  disabled?: keyof OptionType;
 }
 
 export interface FlattenOptionData<OptionType> {
@@ -137,6 +136,7 @@ export interface SelectProps<
   prefixCls?: string;
   id?: string;
   className?: SemanticClassName<'popup' | 'selector'>;
+  displayRender?: (selectedOption: OptionType) => React.ReactNode;
 
   disabled?: boolean;
 
@@ -165,8 +165,13 @@ export interface SelectProps<
   filterOption?: boolean | FilterFunc<OptionType>;
   filterSort?: (optionA: OptionType, optionB: OptionType) => number;
   optionFilterProp?: string;
-  displayRender?: (selectedOption?: OptionType) => React.ReactNode;
   options?: OptionType[];
+  optionRender?: (
+    option: FlattenOptionData<OptionType>,
+    info: {
+      index: number;
+    },
+  ) => React.ReactNode;
   defaultActiveFirstOption?: boolean;
   virtual?: boolean;
   listHeight?: number;

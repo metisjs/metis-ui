@@ -9,8 +9,8 @@ import { useEffect } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
-import SelectContext from './SelectContext';
 import TransBtn from './TransBtn';
+import { SelectContext } from './context';
 import useBaseProps from './hooks/useBaseProps';
 import type { BaseOptionType, FlattenOptionData, RawValueType } from './interface';
 
@@ -47,6 +47,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
   } = useBaseProps();
   const {
     flattenOptions,
+    optionRender,
     onActiveValue,
     defaultActiveFirstOption,
     onSelect,
@@ -386,7 +387,11 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               }}
               style={style}
             >
-              <div className={clsx(`${optionPrefixCls}-content`, 'w-full truncate')}>{content}</div>
+              <div className={clsx(`${optionPrefixCls}-content`, 'w-full truncate')}>
+                {typeof optionRender === 'function'
+                  ? optionRender(item, { index: itemIndex })
+                  : content}
+              </div>
               {React.isValidElement(menuItemSelectedIcon) || selected}
               {iconVisible && (
                 <TransBtn

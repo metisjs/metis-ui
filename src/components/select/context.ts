@@ -2,22 +2,23 @@ import * as React from 'react';
 import type { RawValueType, RenderNode } from './BaseSelect';
 import type {
   BaseOptionType,
-  FieldNames,
   FlattenOptionData,
   OnActiveValue,
   OnInternalSelect,
+  SelectProps,
 } from './interface';
 
 // Use any here since we do not get the type during compilation
 export interface SelectContextProps {
   options: BaseOptionType[];
+  optionRender?: SelectProps['optionRender'];
   flattenOptions: FlattenOptionData<BaseOptionType>[];
   onActiveValue: OnActiveValue;
   defaultActiveFirstOption?: boolean;
   onSelect: OnInternalSelect;
   menuItemSelectedIcon?: RenderNode;
   rawValues: Set<RawValueType>;
-  fieldNames?: FieldNames<BaseOptionType>;
+  fieldNames?: SelectProps['fieldNames'];
   virtual?: boolean;
   listHeight?: number;
   listItemHeight?: number;
@@ -25,12 +26,10 @@ export interface SelectContextProps {
 
 const noop = () => {};
 
-const SelectContext = React.createContext<SelectContextProps>({
+export const SelectContext = React.createContext<SelectContextProps>({
   options: [],
   flattenOptions: [],
   onActiveValue: noop,
   onSelect: noop,
   rawValues: new Set(),
 });
-
-export default SelectContext;

@@ -18,6 +18,7 @@ demo:
 <code src="./demo/search.tsx">Select with search field</code>
 <code src="./demo/multiple.tsx">multiple selection</code>
 <code src="./demo/size.tsx">Sizes</code>
+<code src="./demo/option-render.tsx">Custom dropdown options</code>
 <code src="./demo/custom-display-render.tsx">Custom selection render</code>
 <code src="./demo/search-sort.tsx">Search with sort</code>
 <code src="./demo/tags.tsx">Tags</code>
@@ -74,6 +75,7 @@ demo:
 | optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
 | displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
+| optionRender | Customize the rendering dropdown options | (option: FlattenOptionData\<BaseOptionType\> , info: { index: number }) => React.ReactNode | - |  |
 | placeholder | Placeholder of select | ReactNode | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
 | removeIcon | The custom remove icon | ReactNode | - |  |
