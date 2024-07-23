@@ -36,9 +36,9 @@ import {
   OnInternalSelect,
   OptionInValueType,
   RawValueType,
+  RequestConfig,
   SelectCommonPlacement,
   SelectProps,
-  TypedSelectComponent,
 } from './interface';
 import { hasValue, toArray } from './utils/commonUtil';
 import { fillFieldNames, flattenOptions, getFieldValue } from './utils/valueUtil';
@@ -52,690 +52,723 @@ function isRawValue(value: DraftValueType): value is RawValueType {
   return !value || typeof value !== 'object';
 }
 
-const Select = React.forwardRef(
-  (props: SelectProps<BaseOptionType>, ref: React.Ref<BaseSelectRef>) => {
-    const {
-      id,
-      mode,
-      combobox,
-      className,
-      prefixCls: customizePrefixCls,
-      fieldNames,
-      allowClear,
-      variant: customizeVariant,
+export interface InternalSelectProps
+  extends Omit<
+    SelectProps,
+    | 'mode'
+    | 'value'
+    | 'defaultValue'
+    | 'onChange'
+    | 'onSelect'
+    | 'onDeselect'
+    | 'pagination'
+    | 'request'
+  > {
+  mode?: 'multiple' | 'tags';
+  value?: any;
+  defaultValue?: any;
+  pagination?: boolean;
+  request?: RequestConfig<BaseOptionType, any[]>;
+  onChange?: (value: any, option?: any) => void;
+  onSelect?: (value: RawValueType | BaseOptionType, option?: BaseOptionType) => void;
+  onDeselect?: (value: RawValueType | BaseOptionType, option?: BaseOptionType) => void;
+}
 
-      // Request
-      request,
-      pagination,
+const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<BaseSelectRef>) => {
+  const {
+    id,
+    mode,
+    combobox,
+    className,
+    prefixCls: customizePrefixCls,
+    fieldNames,
+    allowClear,
+    variant: customizeVariant,
 
-      // Search
-      searchValue,
-      onSearch,
-      autoClearSearchValue = true,
+    // Request
+    request,
+    pagination,
 
-      // Select
-      onSelect,
-      onDeselect,
-      popupMatchSelectWidth = true,
+    // Search
+    searchValue,
+    onSearch,
+    autoClearSearchValue = true,
 
-      // Options
-      filterOption,
-      filterSort,
-      optionFilterProp,
-      optionLabelProp,
-      options,
-      defaultActiveFirstOption,
-      virtual,
-      listHeight = 256,
-      listItemHeight = 24,
+    // Select
+    onSelect,
+    onDeselect,
+    popupMatchSelectWidth = true,
 
-      // Value
-      value,
-      defaultValue,
-      optionInValue,
-      onChange,
+    // Options
+    filterOption,
+    filterSort,
+    optionFilterProp,
+    optionLabelProp,
+    options,
+    defaultActiveFirstOption,
+    virtual,
+    listHeight = 256,
+    listItemHeight = 24,
 
-      status: customStatus,
-      notFoundContent,
-      size: customizeSize,
-      disabled: customDisabled,
-      placement,
-      builtinPlacements,
-      getPopupContainer,
+    // Value
+    value,
+    defaultValue,
+    optionInValue,
+    onChange,
 
-      loading,
-      showSearch,
+    status: customStatus,
+    notFoundContent,
+    size: customizeSize,
+    disabled: customDisabled,
+    placement,
+    builtinPlacements,
+    getPopupContainer,
 
-      onPopupScroll,
-      getInputElement,
+    loading,
+    showSearch,
 
-      ...restProps
-    } = props;
+    onPopupScroll,
+    getInputElement,
 
-    const warning = devUseWarning('Select');
+    ...restProps
+  } = props;
 
-    const {
-      getPopupContainer: getContextPopupContainer,
-      getPrefixCls,
-      renderEmpty,
-      virtual: contextVirtual,
-      popupMatchSelectWidth: contextPopupMatchSelectWidth,
-      popupOverflow,
-    } = React.useContext(ConfigContext);
+  const warning = devUseWarning('Select');
 
-    const semanticCls = getSemanticCls(className);
-    const prefixCls = getPrefixCls('select', customizePrefixCls);
-    const mergedId = useId(id);
-    const multiple = isMultiple(mode);
-    const mergedVirtual = virtual ?? contextVirtual;
-    const mergedMode = combobox ? 'combobox' : mode;
-    const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? contextPopupMatchSelectWidth;
+  const {
+    getPopupContainer: getContextPopupContainer,
+    getPrefixCls,
+    renderEmpty,
+    virtual: contextVirtual,
+    popupMatchSelectWidth: contextPopupMatchSelectWidth,
+    popupOverflow,
+  } = React.useContext(ConfigContext);
 
-    const { isCompactItem, compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
-    const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+  const semanticCls = getSemanticCls(className);
+  const prefixCls = getPrefixCls('select', customizePrefixCls);
+  const mergedId = useId(id);
+  const multiple = isMultiple(mode);
+  const mergedVirtual = virtual ?? contextVirtual;
+  const mergedMode = combobox ? 'combobox' : mode;
+  const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? contextPopupMatchSelectWidth;
 
-    const [variant, enableVariantCls] = useVariant(customizeVariant);
+  const { isCompactItem, compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
 
-    // ===================== Disabled =====================
-    const disabled = React.useContext(DisabledContext);
-    const mergedDisabled = customDisabled ?? disabled;
+  const [variant, enableVariantCls] = useVariant(customizeVariant);
 
-    // ===================== Form Status =====================
-    const {
-      status: contextStatus,
-      hasFeedback,
-      isFormItemInput,
-      feedbackIcon,
-    } = React.useContext(FormItemInputContext);
-    const mergedStatus = getMergedStatus(contextStatus, customStatus);
+  // ===================== Disabled =====================
+  const disabled = React.useContext(DisabledContext);
+  const mergedDisabled = customDisabled ?? disabled;
 
-    // =========================== Search ===========================
-    const [mergedSearchValue, setSearchValue] = useMergedState('', {
-      value: searchValue,
-      postState: (search) => search || '',
-    });
+  // ===================== Form Status =====================
+  const {
+    status: contextStatus,
+    hasFeedback,
+    isFormItemInput,
+    feedbackIcon,
+  } = React.useContext(FormItemInputContext);
+  const mergedStatus = getMergedStatus(contextStatus, customStatus);
 
-    // ===================== Request =====================
-    const {
-      options: requestedOptions,
-      loading: requestLoading,
-      onScroll: onInternalPopupScroll,
-    } = useRequest(
-      request,
-      showSearch,
-      mergedSearchValue,
-      optionFilterProp,
-      pagination,
-      onPopupScroll,
-      combobox,
-    );
-    const mergedLoading = loading || requestLoading;
+  // =========================== Search ===========================
+  const [mergedSearchValue, setSearchValue] = useMergedState('', {
+    value: searchValue,
+    postState: (search) => search || '',
+  });
 
-    // ===================== Empty =====================
-    let mergedNotFound: React.ReactNode;
-    if (requestLoading) {
-      mergedNotFound = null;
-    } else if (notFoundContent !== undefined) {
-      mergedNotFound = notFoundContent;
-    } else if (mergedMode === 'combobox') {
-      mergedNotFound = null;
-    } else {
-      mergedNotFound = renderEmpty?.('Select') || <DefaultRenderEmpty componentName="Select" />;
+  // ===================== Request =====================
+  const {
+    options: requestedOptions,
+    loading: requestLoading,
+    onScroll: onInternalPopupScroll,
+  } = useRequest(
+    request,
+    showSearch,
+    mergedSearchValue,
+    optionFilterProp,
+    pagination,
+    onPopupScroll,
+    combobox,
+  );
+  const mergedLoading = loading || requestLoading;
+
+  // ===================== Empty =====================
+  let mergedNotFound: React.ReactNode;
+  if (requestLoading) {
+    mergedNotFound = null;
+  } else if (notFoundContent !== undefined) {
+    mergedNotFound = notFoundContent;
+  } else if (mergedMode === 'combobox') {
+    mergedNotFound = null;
+  } else {
+    mergedNotFound = renderEmpty?.('Select') || <DefaultRenderEmpty componentName="Select" />;
+  }
+
+  // ===================== Icons =====================
+  const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
+    ...props,
+    loading: mergedLoading,
+    multiple,
+    hasFeedback,
+    feedbackIcon,
+    prefixCls,
+  });
+
+  const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
+
+  // ===================== Placement =====================
+  const memoPlacement = React.useMemo<SelectCommonPlacement>(() => {
+    if (placement !== undefined) {
+      return placement;
+    }
+    return 'bottomLeft';
+  }, [placement]);
+
+  const mergedBuiltinPlacements = useBuiltinPlacements(builtinPlacements, popupOverflow);
+
+  // ========================= FilterOption =========================
+  const mergedFilterOption = React.useMemo(() => {
+    if (filterOption === undefined && mergedMode === 'combobox') {
+      return false;
+    }
+    return filterOption;
+  }, [filterOption, mergedMode]);
+
+  // ========================= FieldNames =========================
+  const mergedFieldNames = React.useMemo(
+    () => fillFieldNames(fieldNames),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(fieldNames)],
+  );
+
+  // =========================== Option ===========================
+  const parsedOptions = useOptions(
+    request ? requestedOptions : options,
+    mergedFieldNames,
+    optionFilterProp,
+    optionLabelProp,
+  );
+  const { valueOptions, labelOptions, options: mergedOptions } = parsedOptions;
+
+  // ========================= Wrap Value =========================
+  const convert2LabelValues = React.useCallback(
+    (draftValues: DraftValueType): LabeledValueType[] => {
+      // Convert to array
+      const valueList = toArray(draftValues);
+
+      // Convert to optionInValue type
+      return valueList.map((val) => {
+        let rawValue: RawValueType;
+        let rawLabel: React.ReactNode;
+        let rawKey: React.Key = '';
+        let rawDisabled: boolean | undefined;
+        let rawTitle: string = '';
+
+        // Fill label & value
+        if (isRawValue(val)) {
+          rawValue = val;
+        } else {
+          rawLabel = getFieldValue(val, mergedFieldNames.label) ?? val.label;
+          rawValue = getFieldValue(val, mergedFieldNames.value) ?? val.value;
+        }
+
+        const option = valueOptions.get(rawValue);
+        if (option) {
+          // Fill missing props
+          if (rawLabel === undefined)
+            rawLabel = optionLabelProp
+              ? option[optionLabelProp]
+              : getFieldValue(option, mergedFieldNames.label);
+          rawKey = option?.key ?? rawValue;
+          rawDisabled = getFieldValue(option, mergedFieldNames.disabled);
+          rawTitle = option?.title;
+
+          // Warning if label not same as provided
+          if (process.env.NODE_ENV !== 'production' && !optionLabelProp) {
+            const optionLabel = getFieldValue(option, mergedFieldNames.label);
+
+            warning(
+              !(
+                optionLabel !== undefined &&
+                !React.isValidElement(optionLabel) &&
+                !React.isValidElement(rawLabel) &&
+                optionLabel !== rawLabel
+              ),
+              'usage',
+              '`label` of `value` is not same as `label` in Select options.',
+            );
+          }
+        }
+
+        return {
+          label: rawLabel,
+          value: rawValue,
+          key: rawKey,
+          disabled: rawDisabled,
+          title: rawTitle,
+          option,
+        };
+      });
+    },
+    [mergedFieldNames, optionLabelProp, valueOptions],
+  );
+
+  // =========================== Values ===========================
+  const [internalValue, setInternalValue] = useMergedState(defaultValue, {
+    value,
+  });
+
+  // Merged value with LabelValueType
+  const rawLabeledValues = React.useMemo(() => {
+    const values = convert2LabelValues(internalValue);
+
+    // combobox no need save value when it's no value
+    if (mergedMode === 'combobox' && !values[0]?.value) {
+      return [];
     }
 
-    // ===================== Icons =====================
-    const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
-      ...props,
-      loading: mergedLoading,
-      multiple,
-      hasFeedback,
-      feedbackIcon,
-      prefixCls,
-    });
+    return values;
+  }, [internalValue, convert2LabelValues, mergedMode]);
 
-    const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
+  // Fill label with cache to avoid option remove
+  const [mergedValues, getMixedOption] = useCache(rawLabeledValues, valueOptions);
 
-    // ===================== Placement =====================
-    const memoPlacement = React.useMemo<SelectCommonPlacement>(() => {
-      if (placement !== undefined) {
-        return placement;
-      }
-      return 'bottomLeft';
-    }, [placement]);
-
-    const mergedBuiltinPlacements = useBuiltinPlacements(builtinPlacements, popupOverflow);
-
-    // ========================= FilterOption =========================
-    const mergedFilterOption = React.useMemo(() => {
-      if (filterOption === undefined && mergedMode === 'combobox') {
-        return false;
-      }
-      return filterOption;
-    }, [filterOption, mergedMode]);
-
-    // ========================= FieldNames =========================
-    const mergedFieldNames = React.useMemo(
-      () => fillFieldNames(fieldNames),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [JSON.stringify(fieldNames)],
-    );
-
-    // =========================== Option ===========================
-    const parsedOptions = useOptions(
-      request ? requestedOptions : options,
-      mergedFieldNames,
-      optionFilterProp,
-      optionLabelProp,
-    );
-    const { valueOptions, labelOptions, options: mergedOptions } = parsedOptions;
-
-    // ========================= Wrap Value =========================
-    const convert2LabelValues = React.useCallback(
-      (draftValues: DraftValueType): LabeledValueType[] => {
-        // Convert to array
-        const valueList = toArray(draftValues);
-
-        // Convert to optionInValue type
-        return valueList.map((val) => {
-          let rawValue: RawValueType;
-          let rawLabel: React.ReactNode;
-          let rawKey: React.Key = '';
-          let rawDisabled: boolean | undefined;
-          let rawTitle: string = '';
-
-          // Fill label & value
-          if (isRawValue(val)) {
-            rawValue = val;
-          } else {
-            rawLabel = getFieldValue(val, mergedFieldNames.label) ?? val.label;
-            rawValue = getFieldValue(val, mergedFieldNames.value) ?? val.value;
-          }
-
-          const option = valueOptions.get(rawValue);
-          if (option) {
-            // Fill missing props
-            if (rawLabel === undefined)
-              rawLabel = optionLabelProp
-                ? option[optionLabelProp]
-                : getFieldValue(option, mergedFieldNames.label);
-            rawKey = option?.key ?? rawValue;
-            rawDisabled = getFieldValue(option, mergedFieldNames.disabled);
-            rawTitle = option?.title;
-
-            // Warning if label not same as provided
-            if (process.env.NODE_ENV !== 'production' && !optionLabelProp) {
-              const optionLabel = getFieldValue(option, mergedFieldNames.label);
-
-              warning(
-                !(
-                  optionLabel !== undefined &&
-                  !React.isValidElement(optionLabel) &&
-                  !React.isValidElement(rawLabel) &&
-                  optionLabel !== rawLabel
-                ),
-                'usage',
-                '`label` of `value` is not same as `label` in Select options.',
-              );
-            }
-          }
-
-          return {
-            label: rawLabel,
-            value: rawValue,
-            key: rawKey,
-            disabled: rawDisabled,
-            title: rawTitle,
-            option,
-          };
-        });
-      },
-      [mergedFieldNames, optionLabelProp, valueOptions],
-    );
-
-    // =========================== Values ===========================
-    const [internalValue, setInternalValue] = useMergedState(defaultValue, {
-      value,
-    });
-
-    // Merged value with LabelValueType
-    const rawLabeledValues = React.useMemo(() => {
-      const values = convert2LabelValues(internalValue);
-
-      // combobox no need save value when it's no value
-      if (mergedMode === 'combobox' && !values[0]?.value) {
+  const displayValues = React.useMemo(() => {
+    // `null` need show as placeholder instead
+    if (!mergedMode && mergedValues.length === 1) {
+      const firstValue = mergedValues[0];
+      if (
+        firstValue.value === null &&
+        (firstValue.label === null || firstValue.label === undefined)
+      ) {
         return [];
       }
-
-      return values;
-    }, [internalValue, convert2LabelValues, mergedMode]);
-
-    // Fill label with cache to avoid option remove
-    const [mergedValues, getMixedOption] = useCache(rawLabeledValues, valueOptions);
-
-    const displayValues = React.useMemo(() => {
-      // `null` need show as placeholder instead
-      if (!mergedMode && mergedValues.length === 1) {
-        const firstValue = mergedValues[0];
-        if (
-          firstValue.value === null &&
-          (firstValue.label === null || firstValue.label === undefined)
-        ) {
-          return [];
-        }
-      }
-
-      return mergedValues.map((item) => ({
-        ...item,
-        label: item.label ?? item.value,
-      }));
-    }, [mergedMode, mergedValues]);
-
-    /** Convert `displayValues` to raw value type set */
-    const rawValues = React.useMemo(
-      () => new Set(mergedValues.map((val) => val.value)),
-      [mergedValues],
-    );
-
-    React.useEffect(() => {
-      if (mergedMode === 'combobox') {
-        const strValue = mergedValues[0]?.value;
-        setSearchValue(hasValue(strValue) ? String(strValue) : '');
-      }
-    }, [mergedMode, mergedValues, setSearchValue]);
-
-    // ======================= Display Option =======================
-    // Create a placeholder item if not exist in `options`
-    const createTagOption = useMemoizedFn((val: RawValueType, label?: React.ReactNode) => {
-      const mergedLabel = label ?? val;
-
-      warning(
-        typeof mergedFieldNames.value === 'string' && typeof mergedFieldNames.label === 'string',
-        'usage',
-        '`fieldNames.value` and `fieldNames.label` must be a string in tag mode.',
-      );
-
-      return {
-        [typeof mergedFieldNames.value === 'string' ? mergedFieldNames.value : 'value']: val,
-        [typeof mergedFieldNames.label === 'string' ? mergedFieldNames.label : 'label']:
-          mergedLabel,
-      };
-    });
-
-    // Fill tag as option if mode is `tags`
-    const filledTagOptions = React.useMemo(() => {
-      if (mergedMode !== 'tags') {
-        return mergedOptions;
-      }
-
-      // >>> Tag mode
-      const cloneOptions = [...(mergedOptions ?? [])];
-
-      // Check if value exist in options (include new patch item)
-      const existOptions = (val: RawValueType) => valueOptions.has(val);
-
-      // Fill current value as option
-      [...mergedValues]
-        .sort((a, b) => (a.value < b.value ? -1 : 1))
-        .forEach((item) => {
-          const val = item.value;
-
-          if (!existOptions(val)) {
-            cloneOptions.push(createTagOption(val, item.label));
-          }
-        });
-
-      return cloneOptions;
-    }, [createTagOption, mergedOptions, valueOptions, mergedValues, mergedMode]);
-
-    const filteredOptions = useFilterOptions(
-      filledTagOptions,
-      mergedFieldNames,
-      mergedSearchValue,
-      mergedFilterOption,
-      optionFilterProp,
-      !!request,
-    );
-
-    // Fill options with search value if needed
-    const filledSearchOptions = React.useMemo(() => {
-      if (
-        mergedMode !== 'tags' ||
-        !mergedSearchValue ||
-        filteredOptions.some((item) => item[optionFilterProp || 'label'] === mergedSearchValue)
-      ) {
-        return filteredOptions;
-      }
-
-      // Fill search value as option
-      return [createTagOption(mergedSearchValue), ...filteredOptions];
-    }, [createTagOption, optionFilterProp, mergedMode, filteredOptions, mergedSearchValue]);
-
-    const orderedFilteredOptions = React.useMemo(() => {
-      if (!filterSort || request) {
-        return filledSearchOptions;
-      }
-
-      return [...filledSearchOptions].sort((a, b) => filterSort(a, b));
-    }, [filledSearchOptions, filterSort]);
-
-    const displayOptions = React.useMemo(
-      () => flattenOptions(orderedFilteredOptions, mergedFieldNames),
-      [orderedFilteredOptions, mergedFieldNames],
-    );
-
-    // =========================== Change ===========================
-    const triggerChange = (values: DraftValueType) => {
-      const labeledValues = convert2LabelValues(values);
-      setInternalValue(labeledValues);
-
-      if (
-        onChange &&
-        // Trigger event only when value changed
-        (labeledValues.length !== mergedValues.length ||
-          labeledValues.some((newVal, index) => mergedValues[index]?.value !== newVal?.value))
-      ) {
-        const returnOptions = labeledValues.map((v) => getMixedOption(v.value));
-        const returnValues = optionInValue ? returnOptions : labeledValues.map((v) => v.value);
-
-        onChange(
-          // Value
-          multiple ? returnValues : returnValues[0],
-          // Option
-          multiple ? returnOptions : returnOptions[0],
-        );
-      }
-    };
-
-    // ======================= Accessibility ========================
-    const [activeValue, setActiveValue] = React.useState<string>();
-    const [accessibilityIndex, setAccessibilityIndex] = React.useState(0);
-    const mergedDefaultActiveFirstOption =
-      defaultActiveFirstOption !== undefined ? defaultActiveFirstOption : mergedMode !== 'combobox';
-
-    const onActiveValue: OnActiveValue = React.useCallback(
-      (_, index) => {
-        setAccessibilityIndex(index);
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [mergedMode],
-    );
-
-    // ========================= OptionList =========================
-    const triggerSelect = (val: RawValueType, selected: boolean, type?: DisplayInfoType) => {
-      const getSelectEnt = (): [RawValueType | OptionInValueType, BaseOptionType] => {
-        const option = getMixedOption(val);
-        return [optionInValue ? option : val, option];
-      };
-
-      if (selected && onSelect) {
-        const [wrappedValue, option] = getSelectEnt();
-        onSelect(wrappedValue, option);
-      } else if (!selected && onDeselect && type !== 'clear') {
-        const [wrappedValue, option] = getSelectEnt();
-        onDeselect(wrappedValue, option);
-      }
-    };
-
-    // Used for OptionList selection
-    const onInternalSelect = useMemoizedFn<OnInternalSelect>((val, info) => {
-      let cloneValues: (RawValueType | DisplayValueType)[];
-
-      // Single mode always trigger select only with option list
-      const mergedSelect = multiple ? info.selected : true;
-
-      if (mergedSelect) {
-        cloneValues = multiple ? [...mergedValues, val] : [val];
-      } else {
-        cloneValues = mergedValues.filter((v) => v.value !== val);
-      }
-
-      triggerChange(cloneValues);
-      triggerSelect(val, mergedSelect);
-
-      // Clean search value if single or configured
-      if (mergedMode === 'combobox') {
-        // setSearchValue(String(val));
-        setActiveValue('');
-      } else if (!isMultiple(mergedMode) || autoClearSearchValue) {
-        setSearchValue('');
-        setActiveValue('');
-      }
-    });
-
-    // ======================= Display Change =======================
-    // BaseSelect display values change
-    const onDisplayValuesChange: BaseSelectProps['onDisplayValuesChange'] = (nextValues, info) => {
-      triggerChange(nextValues);
-      const { type, values } = info;
-
-      if (type === 'remove' || type === 'clear') {
-        values.forEach((item) => {
-          triggerSelect(item.value!, false, type);
-        });
-      }
-    };
-
-    // =========================== Search ===========================
-    const onInternalSearch: BaseSelectProps['onSearch'] = (searchText, info) => {
-      setSearchValue(searchText);
-      setActiveValue(undefined);
-
-      // [Submit] Tag mode should flush input
-      if (info.source === 'submit') {
-        const formatted = (searchText || '').trim();
-        // prevent empty tags from appearing when you click the Enter button
-        if (formatted) {
-          const newRawValues = Array.from(new Set<RawValueType>([...rawValues, formatted]));
-          triggerChange(newRawValues);
-          triggerSelect(formatted, true);
-          setSearchValue('');
-        }
-
-        return;
-      }
-
-      if (info.source !== 'blur') {
-        if (mergedMode === 'combobox') {
-          triggerChange(searchText);
-        }
-
-        onSearch?.(searchText);
-      }
-    };
-
-    const onInternalSearchSplit: BaseSelectProps['onSearchSplit'] = (words) => {
-      let patchValues: RawValueType[] = words;
-
-      if (mergedMode !== 'tags') {
-        patchValues = words
-          .map((word) => {
-            const opt = labelOptions.get(word);
-            return opt?.value;
-          })
-          .filter((val) => val !== undefined) as RawValueType[];
-      }
-
-      const newRawValues = Array.from(new Set<RawValueType>([...rawValues, ...patchValues]));
-      triggerChange(newRawValues);
-      newRawValues.forEach((newRawValue) => {
-        triggerSelect(newRawValue, true);
-      });
-    };
-
-    const customizeInputElement = combobox && typeof getInputElement === 'function';
-
-    // ========================== Style ===========================
-    const rootCls = clsx(
-      {
-        [`${prefixCls}-lg text-base`]: mergedSize === 'large',
-        [`${prefixCls}-sm`]: mergedSize === 'small',
-        [`${prefixCls}-in-form-item`]: isFormItemInput,
-        [`${prefixCls}-${variant}`]: enableVariantCls,
-      },
-      !customizeInputElement && [
-        {
-          'bg-neutral-bg-container ring-1': variant === 'outlined',
-          'bg-transparent shadow-none ring-0': variant === 'borderless',
-          'bg-neutral-fill-quinary ring-0': variant === 'filled',
-        },
-        '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
-        compactItemClassnames,
-        getStatusClassNames(mergedStatus, variant),
-        mergedDisabled && {
-          'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
-            variant !== 'borderless',
-        },
-      ],
-      semanticCls.root,
-    );
-    const focusedRootCls = clsx(
-      !customizeInputElement && {
-        'ring-0': variant === 'borderless',
-        'bg-neutral-bg-container': variant === 'filled',
-        'z-[2]': isCompactItem,
-      },
-    );
-
-    const selectorCls = clsx(
-      !customizeInputElement && {
-        'truncate rounded-md px-3 py-1 leading-6': true,
-        'py-0.5 pe-9 ps-1 leading-7 after:my-0.5': multiple,
-        'px-2 after:leading-6': mergedSize === 'small',
-        'after:leading-8': mergedSize === 'large',
-      },
-      semanticCls.selector,
-    );
-
-    const selectorSearchCls = clsx(
-      !customizeInputElement && {
-        'end-2 start-2': mergedSize === 'small' && !multiple,
-        'ms-0.5 h-7': mergedSize === 'small' && multiple,
-      },
-    );
-
-    const selectorPlaceholderCls = clsx({
-      'end-2 start-2': mergedSize === 'small' && multiple,
-    });
-
-    const selectorItemCls = clsx({
-      'text-base/7': mergedSize === 'large',
-      'text-sm/5': mergedSize === 'small',
-      'leading-8': mergedSize === 'large' && multiple,
-      'pe-1 ps-2 leading-6': mergedSize === 'small' && multiple,
-    });
-
-    const popupCls = clsx(
-      'absolute rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
-      semanticCls.popup,
-    );
-
-    // ========================== Context ===========================
-    const selectContext = React.useMemo((): SelectContextProps => {
-      const realVirtual = mergedVirtual !== false && popupMatchSelectWidth !== false;
-      return {
-        ...parsedOptions,
-        flattenOptions: displayOptions,
-        onActiveValue,
-        defaultActiveFirstOption: mergedDefaultActiveFirstOption,
-        onSelect: onInternalSelect,
-        menuItemSelectedIcon: itemIcon,
-        rawValues,
-        fieldNames: mergedFieldNames,
-        virtual: realVirtual,
-        listHeight,
-        listItemHeight,
-      };
-    }, [
-      mergedVirtual,
-      parsedOptions,
-      displayOptions,
-      onActiveValue,
-      mergedDefaultActiveFirstOption,
-      onInternalSelect,
-      itemIcon,
-      rawValues,
-      mergedFieldNames,
-      popupMatchSelectWidth,
-      listHeight,
-      listItemHeight,
-    ]);
-
-    // ========================== Warning ===========================
-    if (process.env.NODE_ENV !== 'production') {
-      warningProps(props);
-      warningNullOptions(mergedOptions, mergedFieldNames);
     }
 
-    // ====================== zIndex =========================
-    const [zIndex] = useZIndex('SelectLike');
+    return mergedValues.map((item) => ({
+      ...item,
+      label: item.label ?? item.value,
+    }));
+  }, [mergedMode, mergedValues]);
 
-    // ==============================================================
-    // ==                          Render                          ==
-    // ==============================================================
-    return (
-      <SelectContext.Provider value={selectContext}>
-        <BaseSelect
-          {...restProps}
-          // >>> MISC
-          id={mergedId}
-          prefixCls={prefixCls}
-          ref={ref}
-          omitDomProps={OMIT_DOM_PROPS}
-          mode={mergedMode}
-          disabled={mergedDisabled}
-          builtinPlacements={mergedBuiltinPlacements}
-          popupMatchSelectWidth={mergedPopupMatchSelectWidth}
-          suffixIcon={suffixIcon}
-          removeIcon={removeIcon}
-          allowClear={mergedAllowClear}
-          placement={memoPlacement}
-          notFoundContent={mergedNotFound}
-          getPopupContainer={getPopupContainer || getContextPopupContainer}
-          className={{
-            root: rootCls,
-            popup: popupCls,
-            selector: selectorCls,
-            selectorSearch: selectorSearchCls,
-            selectorItem: selectorItemCls,
-            selectorPlaceholder: selectorPlaceholderCls,
-            focusedRoot: focusedRootCls,
-          }}
-          transition={{
-            leave: 'transition ease-in duration-150',
-            leaveFrom: 'opacity-100',
-            leaveTo: 'opacity-0',
-          }}
-          loading={mergedLoading}
-          showSearch={showSearch}
-          onPopupScroll={onInternalPopupScroll}
-          // >>> Values
-          displayValues={displayValues}
-          onDisplayValuesChange={onDisplayValuesChange}
-          // >>> Search
-          searchValue={mergedSearchValue}
-          onSearch={onInternalSearch}
-          autoClearSearchValue={autoClearSearchValue}
-          onSearchSplit={onInternalSearchSplit}
-          // >>> OptionList
-          OptionList={OptionList}
-          emptyOptions={!displayOptions.length}
-          // >>> Accessibility
-          activeValue={activeValue}
-          activeDescendantId={`${mergedId}_list_${accessibilityIndex}`}
-          zIndex={zIndex}
-          getInputElement={getInputElement}
-        />
-      </SelectContext.Provider>
+  /** Convert `displayValues` to raw value type set */
+  const rawValues = React.useMemo(
+    () => new Set(mergedValues.map((val) => val.value)),
+    [mergedValues],
+  );
+
+  React.useEffect(() => {
+    if (mergedMode === 'combobox') {
+      const strValue = mergedValues[0]?.value;
+      setSearchValue(hasValue(strValue) ? String(strValue) : '');
+    }
+  }, [mergedMode, mergedValues, setSearchValue]);
+
+  // ======================= Display Option =======================
+  // Create a placeholder item if not exist in `options`
+  const createTagOption = useMemoizedFn((val: RawValueType, label?: React.ReactNode) => {
+    const mergedLabel = label ?? val;
+
+    warning(
+      typeof mergedFieldNames.value === 'string' && typeof mergedFieldNames.label === 'string',
+      'usage',
+      '`fieldNames.value` and `fieldNames.label` must be a string in tag mode.',
     );
+
+    return {
+      [typeof mergedFieldNames.value === 'string' ? mergedFieldNames.value : 'value']: val,
+      [typeof mergedFieldNames.label === 'string' ? mergedFieldNames.label : 'label']: mergedLabel,
+    };
+  });
+
+  // Fill tag as option if mode is `tags`
+  const filledTagOptions = React.useMemo(() => {
+    if (mergedMode !== 'tags') {
+      return mergedOptions;
+    }
+
+    // >>> Tag mode
+    const cloneOptions = [...(mergedOptions ?? [])];
+
+    // Check if value exist in options (include new patch item)
+    const existOptions = (val: RawValueType) => valueOptions.has(val);
+
+    // Fill current value as option
+    [...mergedValues]
+      .sort((a, b) => (a.value < b.value ? -1 : 1))
+      .forEach((item) => {
+        const val = item.value;
+
+        if (!existOptions(val)) {
+          cloneOptions.push(createTagOption(val, item.label));
+        }
+      });
+
+    return cloneOptions;
+  }, [createTagOption, mergedOptions, valueOptions, mergedValues, mergedMode]);
+
+  const filteredOptions = useFilterOptions(
+    filledTagOptions,
+    mergedFieldNames,
+    mergedSearchValue,
+    mergedFilterOption,
+    optionFilterProp,
+    !!request,
+  );
+
+  // Fill options with search value if needed
+  const filledSearchOptions = React.useMemo(() => {
+    if (
+      mergedMode !== 'tags' ||
+      !mergedSearchValue ||
+      filteredOptions.some((item) => item[optionFilterProp || 'label'] === mergedSearchValue)
+    ) {
+      return filteredOptions;
+    }
+
+    // Fill search value as option
+    return [createTagOption(mergedSearchValue), ...filteredOptions];
+  }, [createTagOption, optionFilterProp, mergedMode, filteredOptions, mergedSearchValue]);
+
+  const orderedFilteredOptions = React.useMemo(() => {
+    if (!filterSort || request) {
+      return filledSearchOptions;
+    }
+
+    return [...filledSearchOptions].sort((a, b) => filterSort(a, b));
+  }, [filledSearchOptions, filterSort]);
+
+  const displayOptions = React.useMemo(
+    () => flattenOptions(orderedFilteredOptions, mergedFieldNames),
+    [orderedFilteredOptions, mergedFieldNames],
+  );
+
+  // =========================== Change ===========================
+  const triggerChange = (values: DraftValueType) => {
+    const labeledValues = convert2LabelValues(values);
+    setInternalValue(labeledValues);
+
+    if (
+      onChange &&
+      // Trigger event only when value changed
+      (labeledValues.length !== mergedValues.length ||
+        labeledValues.some((newVal, index) => mergedValues[index]?.value !== newVal?.value))
+    ) {
+      const returnOptions = labeledValues.map((v) => getMixedOption(v.value));
+      const returnValues = optionInValue ? returnOptions : labeledValues.map((v) => v.value);
+
+      onChange(
+        // Value
+        multiple ? returnValues : returnValues[0],
+        // Option
+        multiple ? returnOptions : returnOptions[0],
+      );
+    }
+  };
+
+  // ======================= Accessibility ========================
+  const [activeValue, setActiveValue] = React.useState<string>();
+  const [accessibilityIndex, setAccessibilityIndex] = React.useState(0);
+  const mergedDefaultActiveFirstOption =
+    defaultActiveFirstOption !== undefined ? defaultActiveFirstOption : mergedMode !== 'combobox';
+
+  const onActiveValue: OnActiveValue = React.useCallback(
+    (_, index) => {
+      setAccessibilityIndex(index);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mergedMode],
+  );
+
+  // ========================= OptionList =========================
+  const triggerSelect = (val: RawValueType, selected: boolean, type?: DisplayInfoType) => {
+    const getSelectEnt = (): [RawValueType | OptionInValueType, BaseOptionType] => {
+      const option = getMixedOption(val);
+      return [optionInValue ? option : val, option];
+    };
+
+    if (selected && onSelect) {
+      const [wrappedValue, option] = getSelectEnt();
+      onSelect(wrappedValue, option);
+    } else if (!selected && onDeselect && type !== 'clear') {
+      const [wrappedValue, option] = getSelectEnt();
+      onDeselect(wrappedValue, option);
+    }
+  };
+
+  // Used for OptionList selection
+  const onInternalSelect = useMemoizedFn<OnInternalSelect>((val, info) => {
+    let cloneValues: (RawValueType | DisplayValueType)[];
+
+    // Single mode always trigger select only with option list
+    const mergedSelect = multiple ? info.selected : true;
+
+    if (mergedSelect) {
+      cloneValues = multiple ? [...mergedValues, val] : [val];
+    } else {
+      cloneValues = mergedValues.filter((v) => v.value !== val);
+    }
+
+    triggerChange(cloneValues);
+    triggerSelect(val, mergedSelect);
+
+    // Clean search value if single or configured
+    if (mergedMode === 'combobox') {
+      // setSearchValue(String(val));
+      setActiveValue('');
+    } else if (!isMultiple(mergedMode) || autoClearSearchValue) {
+      setSearchValue('');
+      setActiveValue('');
+    }
+  });
+
+  // ======================= Display Change =======================
+  // BaseSelect display values change
+  const onDisplayValuesChange: BaseSelectProps['onDisplayValuesChange'] = (nextValues, info) => {
+    triggerChange(nextValues);
+    const { type, values } = info;
+
+    if (type === 'remove' || type === 'clear') {
+      values.forEach((item) => {
+        triggerSelect(item.value!, false, type);
+      });
+    }
+  };
+
+  // =========================== Search ===========================
+  const onInternalSearch: BaseSelectProps['onSearch'] = (searchText, info) => {
+    setSearchValue(searchText);
+    setActiveValue(undefined);
+
+    // [Submit] Tag mode should flush input
+    if (info.source === 'submit') {
+      const formatted = (searchText || '').trim();
+      // prevent empty tags from appearing when you click the Enter button
+      if (formatted) {
+        const newRawValues = Array.from(new Set<RawValueType>([...rawValues, formatted]));
+        triggerChange(newRawValues);
+        triggerSelect(formatted, true);
+        setSearchValue('');
+      }
+
+      return;
+    }
+
+    if (info.source !== 'blur') {
+      if (mergedMode === 'combobox') {
+        triggerChange(searchText);
+      }
+
+      onSearch?.(searchText);
+    }
+  };
+
+  const onInternalSearchSplit: BaseSelectProps['onSearchSplit'] = (words) => {
+    let patchValues: RawValueType[] = words;
+
+    if (mergedMode !== 'tags') {
+      patchValues = words
+        .map((word) => {
+          const opt = labelOptions.get(word);
+          return opt?.value;
+        })
+        .filter((val) => val !== undefined) as RawValueType[];
+    }
+
+    const newRawValues = Array.from(new Set<RawValueType>([...rawValues, ...patchValues]));
+    triggerChange(newRawValues);
+    newRawValues.forEach((newRawValue) => {
+      triggerSelect(newRawValue, true);
+    });
+  };
+
+  const customizeInputElement = combobox && typeof getInputElement === 'function';
+
+  // ========================== Style ===========================
+  const rootCls = clsx(
+    {
+      [`${prefixCls}-lg text-base`]: mergedSize === 'large',
+      [`${prefixCls}-sm`]: mergedSize === 'small',
+      [`${prefixCls}-in-form-item`]: isFormItemInput,
+      [`${prefixCls}-${variant}`]: enableVariantCls,
+    },
+    !customizeInputElement && [
+      {
+        'bg-neutral-bg-container ring-1': variant === 'outlined',
+        'bg-transparent shadow-none ring-0': variant === 'borderless',
+        'bg-neutral-fill-quinary ring-0': variant === 'filled',
+      },
+      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+      compactItemClassnames,
+      getStatusClassNames(mergedStatus, variant),
+      mergedDisabled && {
+        'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
+          variant !== 'borderless',
+      },
+    ],
+    semanticCls.root,
+  );
+  const focusedRootCls = clsx(
+    !customizeInputElement && {
+      'ring-0': variant === 'borderless',
+      'bg-neutral-bg-container': variant === 'filled',
+      'z-[2]': isCompactItem,
+    },
+  );
+
+  const selectorCls = clsx(
+    !customizeInputElement && {
+      'truncate rounded-md px-3 py-1 leading-6': true,
+      'py-0.5 pe-9 ps-1 leading-7 after:my-0.5': multiple,
+      'px-2 after:leading-6': mergedSize === 'small',
+      'after:leading-8': mergedSize === 'large',
+    },
+    semanticCls.selector,
+  );
+
+  const selectorSearchCls = clsx(
+    !customizeInputElement && {
+      'end-2 start-2': mergedSize === 'small' && !multiple,
+      'ms-0.5 h-7': mergedSize === 'small' && multiple,
+    },
+  );
+
+  const selectorPlaceholderCls = clsx({
+    'end-2 start-2': mergedSize === 'small' && multiple,
+  });
+
+  const selectorItemCls = clsx({
+    'text-base/7': mergedSize === 'large',
+    'text-sm/5': mergedSize === 'small',
+    'leading-8': mergedSize === 'large' && multiple,
+    'pe-1 ps-2 leading-6': mergedSize === 'small' && multiple,
+  });
+
+  const popupCls = clsx(
+    'absolute rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+    semanticCls.popup,
+  );
+
+  // ========================== Context ===========================
+  const selectContext = React.useMemo((): SelectContextProps => {
+    const realVirtual = mergedVirtual !== false && popupMatchSelectWidth !== false;
+    return {
+      ...parsedOptions,
+      flattenOptions: displayOptions,
+      onActiveValue,
+      defaultActiveFirstOption: mergedDefaultActiveFirstOption,
+      onSelect: onInternalSelect,
+      menuItemSelectedIcon: itemIcon,
+      rawValues,
+      fieldNames: mergedFieldNames,
+      virtual: realVirtual,
+      listHeight,
+      listItemHeight,
+    };
+  }, [
+    mergedVirtual,
+    parsedOptions,
+    displayOptions,
+    onActiveValue,
+    mergedDefaultActiveFirstOption,
+    onInternalSelect,
+    itemIcon,
+    rawValues,
+    mergedFieldNames,
+    popupMatchSelectWidth,
+    listHeight,
+    listItemHeight,
+  ]);
+
+  // ========================== Warning ===========================
+  if (process.env.NODE_ENV !== 'production') {
+    warningProps(props);
+    warningNullOptions(mergedOptions, mergedFieldNames);
+  }
+
+  // ====================== zIndex =========================
+  const [zIndex] = useZIndex('SelectLike');
+
+  // ==============================================================
+  // ==                          Render                          ==
+  // ==============================================================
+  return (
+    <SelectContext.Provider value={selectContext}>
+      <BaseSelect
+        {...restProps}
+        // >>> MISC
+        id={mergedId}
+        prefixCls={prefixCls}
+        ref={ref}
+        omitDomProps={OMIT_DOM_PROPS}
+        mode={mergedMode}
+        disabled={mergedDisabled}
+        builtinPlacements={mergedBuiltinPlacements}
+        popupMatchSelectWidth={mergedPopupMatchSelectWidth}
+        suffixIcon={suffixIcon}
+        removeIcon={removeIcon}
+        allowClear={mergedAllowClear}
+        placement={memoPlacement}
+        notFoundContent={mergedNotFound}
+        getPopupContainer={getPopupContainer || getContextPopupContainer}
+        className={{
+          root: rootCls,
+          popup: popupCls,
+          selector: selectorCls,
+          selectorSearch: selectorSearchCls,
+          selectorItem: selectorItemCls,
+          selectorPlaceholder: selectorPlaceholderCls,
+          focusedRoot: focusedRootCls,
+        }}
+        transition={{
+          leave: 'transition ease-in duration-150',
+          leaveFrom: 'opacity-100',
+          leaveTo: 'opacity-0',
+        }}
+        loading={mergedLoading}
+        showSearch={showSearch}
+        onPopupScroll={onInternalPopupScroll}
+        // >>> Values
+        displayValues={displayValues}
+        onDisplayValuesChange={onDisplayValuesChange}
+        // >>> Search
+        searchValue={mergedSearchValue}
+        onSearch={onInternalSearch}
+        autoClearSearchValue={autoClearSearchValue}
+        onSearchSplit={onInternalSearchSplit}
+        // >>> OptionList
+        OptionList={OptionList}
+        emptyOptions={!displayOptions.length}
+        // >>> Accessibility
+        activeValue={activeValue}
+        activeDescendantId={`${mergedId}_list_${accessibilityIndex}`}
+        zIndex={zIndex}
+        getInputElement={getInputElement}
+      />
+    </SelectContext.Provider>
+  );
+}) as unknown as (<
+  OptionType extends BaseOptionType = BaseOptionType,
+  ModeType extends 'multiple' | 'tags' | 'default' = 'default',
+  OptionInValueType extends boolean = false,
+  ShowSearchType extends boolean = false,
+  PaginationType extends boolean = false,
+>(
+  props: React.PropsWithChildren<
+    SelectProps<OptionType, ModeType, OptionInValueType, ShowSearchType, PaginationType>
+  > & {
+    ref?: React.Ref<BaseSelectRef>;
   },
-);
+) => React.ReactElement) & {
+  displayName?: string;
+};
 
 if (process.env.NODE_ENV !== 'production') {
   Select.displayName = 'Select';
 }
 
-const TypedSelect: TypedSelectComponent = (props: any) => {
-  return <Select {...props} />;
-};
+// const TypedSelect: TypedSelectComponent = (props: any) => {
+//   return <Select {...props} />;
+// };
 
-export default TypedSelect;
+export default Select;

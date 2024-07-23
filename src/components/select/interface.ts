@@ -6,12 +6,7 @@ import * as React from 'react';
 import { SemanticClassName } from '../_util/classNameUtils';
 import { InputStatus } from '../_util/statusUtils';
 import { SizeType } from '../config-provider/SizeContext';
-import type {
-  BaseSelectPropsWithoutPrivate,
-  BaseSelectRef,
-  DisplayValueType,
-  RenderNode,
-} from './BaseSelect';
+import type { BaseSelectPropsWithoutPrivate, DisplayValueType, RenderNode } from './BaseSelect';
 import { SelectPlacements } from './Select';
 
 export type SelectCommonPlacement = (typeof SelectPlacements)[number];
@@ -39,6 +34,56 @@ export type DraftValueType =
   | OptionInValueType
   | DisplayValueType
   | (RawValueType | OptionInValueType | DisplayValueType)[];
+
+export type GetValueType<
+  ModeType extends 'multiple' | 'tags' | 'default' = 'default',
+  OptionInValueType extends boolean = false,
+> = false extends OptionInValueType
+  ? ModeType extends 'default'
+    ? RawValueType
+    : RawValueType[]
+  : ModeType extends 'default'
+  ? OptionInValueType
+  : OptionInValueType[];
+
+export type GetRequestType<
+  OptionType extends BaseOptionType,
+  ShowSearchType extends boolean = false,
+  PaginationType extends boolean = false,
+> = ShowSearchType extends true
+  ? PaginationType extends true
+    ? RequestConfig<
+        OptionType,
+        [
+          {
+            current: number;
+            pageSize: number;
+            filters: { [key: string]: string };
+          },
+          ...any[],
+        ]
+      >
+    : RequestConfig<
+        OptionType,
+        [
+          {
+            filters: { [key: string]: string };
+          },
+          ...any[],
+        ]
+      >
+  : PaginationType extends true
+  ? RequestConfig<
+      OptionType,
+      [
+        {
+          current: number;
+          pageSize: number;
+        },
+        ...any[],
+      ]
+    >
+  : RequestConfig<OptionType, any[]>;
 
 export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
 
@@ -82,9 +127,12 @@ export type RequestConfig<TData, ParamsType extends any[]> =
 
 export interface SelectProps<
   OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends any[] = any[],
-> extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'className'> {
+  ModeType extends 'multiple' | 'tags' | 'default' = 'default',
+  OptionInValueType extends boolean = false,
+  ShowSearchType extends boolean = false,
+  PaginationType extends boolean = false,
+  ValueType = GetValueType<ModeType, OptionInValueType>,
+> extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'className' | 'showSearch'> {
   prefixCls?: string;
   id?: string;
   className?: SemanticClassName<'popup' | 'selector'>;
@@ -98,6 +146,7 @@ export interface SelectProps<
   fieldNames?: FieldNames<OptionType>;
 
   // >>> Search
+  showSearch?: ShowSearchType;
   searchValue?: string;
   onSearch?: (value: string) => void;
   autoClearSearchValue?: boolean;
@@ -126,155 +175,22 @@ export interface SelectProps<
   menuItemSelectedIcon?: RenderNode;
   suffixIcon?: React.ReactNode;
 
-  mode?: 'multiple' | 'tags';
+  mode?: ModeType;
   /** @private Internal usage. Do not use in your production. */
   combobox?: boolean;
 
-  optionInValue?: boolean;
-  value?: ValueType | null;
-  defaultValue?: ValueType | null;
-  onChange?: (value: ValueType, option: OptionType | OptionType[]) => void;
+  optionInValue?: OptionInValueType;
+  value?: ValueType;
+  defaultValue?: ValueType;
+  onChange?: (
+    value: ValueType,
+    option: ModeType extends 'default' ? OptionType : OptionType[],
+  ) => void;
 
   placement?: SelectCommonPlacement;
   status?: InputStatus;
 
   // >>> Request
-  request?: RequestConfig<OptionType, ParamsType>;
-  pagination?: boolean;
-}
-
-export interface SelectPropsWithOptions<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-> extends Omit<SelectProps<OptionType, ValueType>, 'request' | 'pagination'> {
-  options: OptionType[];
-}
-
-export interface SelectPropsWithRequest<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends any[] = any[],
-> extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
-    'options' | 'filterOption' | 'filterSort'
-  > {
-  request: RequestConfig<OptionType, ParamsType>;
-  showSearch?: false;
-  pagination?: false;
-}
-
-export type SearchParamsType = [
-  {
-    filters: { [key: string]: string };
-  },
-  ...any[],
-];
-
-export interface SelectPropsWithRequestSearch<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends SearchParamsType = SearchParamsType,
-> extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
-    'options' | 'filterOption' | 'filterSort'
-  > {
-  request: RequestConfig<OptionType, ParamsType>;
-  showSearch: true;
-  pagination?: false;
-}
-
-export type PaginationParamsType = [
-  {
-    current: number;
-    pageSize: number;
-  },
-  ...any[],
-];
-
-export interface SelectPropsWithRequestPagination<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends PaginationParamsType = PaginationParamsType,
-> extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
-    'options' | 'filterOption' | 'filterSort'
-  > {
-  request: RequestConfig<OptionType, ParamsType>;
-  showSearch: false;
-  pagination?: true;
-}
-
-export type SearchAndPaginationParamsType = [
-  {
-    current: number;
-    pageSize: number;
-    filters: { [key: string]: string };
-  },
-  ...any[],
-];
-
-export interface SelectPropsWithRequestSearchPagination<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends SearchAndPaginationParamsType = SearchAndPaginationParamsType,
-> extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
-    'options' | 'filterOption' | 'filterSort'
-  > {
-  request: RequestConfig<OptionType, ParamsType>;
-  showSearch: true;
-  pagination?: true;
-}
-
-export interface TypedSelectComponent {
-  // >>> With options
-  <OptionType extends BaseOptionType = BaseOptionType, ValueType = any>(
-    props: SelectPropsWithOptions<OptionType, ValueType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-
-  // >>> With request
-  <
-    OptionType extends BaseOptionType = BaseOptionType,
-    ValueType = any,
-    ParamsType extends any[] = any[],
-  >(
-    props: SelectPropsWithRequest<OptionType, ValueType, ParamsType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-
-  // >>> With request and search
-  <
-    OptionType extends BaseOptionType = BaseOptionType,
-    ValueType = any,
-    ParamsType extends SearchParamsType = SearchParamsType,
-  >(
-    props: SelectPropsWithRequestSearch<OptionType, ValueType, ParamsType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-
-  // >>> With request and pagination
-  <
-    OptionType extends BaseOptionType = BaseOptionType,
-    ValueType = any,
-    ParamsType extends PaginationParamsType = PaginationParamsType,
-  >(
-    props: SelectPropsWithRequestPagination<OptionType, ValueType, ParamsType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-
-  // >>> With request and search and pagination
-  <
-    OptionType extends BaseOptionType = BaseOptionType,
-    ValueType = any,
-    ParamsType extends SearchAndPaginationParamsType = SearchAndPaginationParamsType,
-  >(
-    props: SelectPropsWithRequestSearchPagination<OptionType, ValueType, ParamsType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
+  request?: GetRequestType<OptionType, ShowSearchType, PaginationType>;
+  pagination?: PaginationType;
 }

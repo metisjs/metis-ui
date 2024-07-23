@@ -1,16 +1,11 @@
 import { devUseWarning, noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
-import type {
-  BaseOptionType,
-  FieldNames,
-  OptionInValueType,
-  RawValueType,
-  SelectProps,
-} from '../interface';
+import type { BaseOptionType, FieldNames, OptionInValueType, RawValueType } from '../interface';
+import { InternalSelectProps } from '../Select';
 import { toArray } from './commonUtil';
 import { fillFieldNames, getFieldValue } from './valueUtil';
 
-function warningProps(props: SelectProps) {
+function warningProps(props: InternalSelectProps) {
   const {
     mode,
     combobox,
