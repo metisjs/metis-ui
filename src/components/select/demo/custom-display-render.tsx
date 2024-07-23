@@ -5,6 +5,10 @@ const handleChange = (value: string[]) => {
   console.log(`selected ${value}`);
 };
 
+const displayRender = (option: { value: string; label: React.ReactNode; label2: string }) => {
+  return option?.label2;
+};
+
 const App: React.FC = () => (
   <Select
     mode="multiple"
@@ -12,7 +16,7 @@ const App: React.FC = () => (
     placeholder="Select one country"
     defaultValue={['china']}
     onChange={handleChange}
-    optionLabelProp="label2"
+    displayRender={displayRender}
     options={[
       {
         value: 'china',

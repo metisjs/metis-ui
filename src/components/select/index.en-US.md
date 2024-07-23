@@ -18,7 +18,7 @@ demo:
 <code src="./demo/search.tsx">Select with search field</code>
 <code src="./demo/multiple.tsx">multiple selection</code>
 <code src="./demo/size.tsx">Sizes</code>
-<code src="./demo/option-label-prop.tsx">Custom selection render</code>
+<code src="./demo/custom-display-render.tsx">Custom selection render</code>
 <code src="./demo/search-sort.tsx">Search with sort</code>
 <code src="./demo/tags.tsx">Tags</code>
 <code src="./demo/optgroup.tsx">Option Group</code>
@@ -72,7 +72,7 @@ demo:
 | open | Controlled open state of dropdown | boolean | - |  |
 | optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`label` \| request: `keyword` |  |
 | optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
-| optionLabelProp | Which prop value of option will render as content of select. | string | `label` |  |
+| displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
 | placeholder | Placeholder of select | ReactNode | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |

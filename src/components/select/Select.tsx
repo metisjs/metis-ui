@@ -103,7 +103,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     filterOption,
     filterSort,
     optionFilterProp,
-    optionLabelProp,
+    displayRender,
     options,
     defaultActiveFirstOption,
     virtual,
@@ -246,7 +246,6 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     request ? requestedOptions : options,
     mergedFieldNames,
     optionFilterProp,
-    optionLabelProp,
   );
   const { valueOptions, labelOptions, options: mergedOptions } = parsedOptions;
 
@@ -268,36 +267,17 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         if (isRawValue(val)) {
           rawValue = val;
         } else {
-          rawLabel = getFieldValue(val, mergedFieldNames.label) ?? val.label;
           rawValue = getFieldValue(val, mergedFieldNames.value) ?? val.value;
         }
 
         const option = valueOptions.get(rawValue);
         if (option) {
-          // Fill missing props
-          if (rawLabel === undefined)
-            rawLabel = optionLabelProp
-              ? option[optionLabelProp]
-              : getFieldValue(option, mergedFieldNames.label);
+          rawLabel = displayRender
+            ? displayRender(option)
+            : getFieldValue(option, mergedFieldNames.label);
           rawKey = option?.key ?? rawValue;
           rawDisabled = getFieldValue(option, mergedFieldNames.disabled);
           rawTitle = option?.title;
-
-          // Warning if label not same as provided
-          if (process.env.NODE_ENV !== 'production' && !optionLabelProp) {
-            const optionLabel = getFieldValue(option, mergedFieldNames.label);
-
-            warning(
-              !(
-                optionLabel !== undefined &&
-                !React.isValidElement(optionLabel) &&
-                !React.isValidElement(rawLabel) &&
-                optionLabel !== rawLabel
-              ),
-              'usage',
-              '`label` of `value` is not same as `label` in Select options.',
-            );
-          }
         }
 
         return {
@@ -310,7 +290,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         };
       });
     },
-    [mergedFieldNames, optionLabelProp, valueOptions],
+    [mergedFieldNames, displayRender, valueOptions],
   );
 
   // =========================== Values ===========================

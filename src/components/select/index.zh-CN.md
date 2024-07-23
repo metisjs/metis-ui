@@ -19,7 +19,7 @@ demo:
 <code src="./demo/search.tsx">带搜索框</code>
 <code src="./demo/multiple.tsx">多选</code>
 <code src="./demo/size.tsx">三种大小</code>
-<code src="./demo/option-label-prop.tsx">定制回填内容</code>
+<code src="./demo/custom-display-render.tsx">定制回填内容</code>
 <code src="./demo/search-sort.tsx">带排序的搜索</code>
 <code src="./demo/tags.tsx">标签</code>
 <code src="./demo/optgroup.tsx">分组</code>
@@ -73,7 +73,7 @@ demo:
 | open | 是否展开下拉菜单 | boolean | - |  |
 | optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | option:`label` \| request: `keyword` |  |
 | optionInValue | 是否把每个选项的 option 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 OptionType 的格式 | boolean | false |  |
-| optionLabelProp | 回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 `value`。 | string | `label` |  |
+| displayRender | 选择后展示的渲染函数 | (selectedOption) => ReactNode | - |  |
 | options | 数据化配置选项内容，相比 jsx 定义会获得更好的渲染性能 | { label, value }\[] | - |  |
 | placeholder | 选择框默认文本 | string | - |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |

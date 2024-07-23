@@ -16,7 +16,7 @@ function warningProps(props: InternalSelectProps) {
     autoFocus,
     optionInValue,
     value,
-    optionLabelProp,
+    displayRender,
   } = props;
 
   const warning = devUseWarning('Select');
@@ -48,11 +48,11 @@ function warningProps(props: InternalSelectProps) {
     );
   }
 
-  // `combobox` should not use `optionLabelProp`
+  // `combobox` should not use `displayRender`
   warning(
-    !combobox || !optionLabelProp,
+    !combobox || !displayRender,
     'usage',
-    '`combobox` mode not support `optionLabelProp`. Please set `value` on Option directly.',
+    '`combobox` mode not support `displayRender`. Please set `value` on option directly.',
   );
 
   // `onSearch` should use in `combobox` or `showSearch`

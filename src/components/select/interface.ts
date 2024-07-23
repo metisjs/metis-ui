@@ -36,6 +36,7 @@ export type DraftValueType =
   | (RawValueType | OptionInValueType | DisplayValueType)[];
 
 export type GetValueType<
+  OptionType extends BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
   OptionInValueType extends boolean = false,
 > = false extends OptionInValueType
@@ -43,8 +44,8 @@ export type GetValueType<
     ? RawValueType
     : RawValueType[]
   : ModeType extends 'default'
-  ? OptionInValueType
-  : OptionInValueType[];
+  ? OptionType
+  : OptionType[];
 
 export type GetRequestType<
   OptionType extends BaseOptionType,
@@ -131,7 +132,7 @@ export interface SelectProps<
   OptionInValueType extends boolean = false,
   ShowSearchType extends boolean = false,
   PaginationType extends boolean = false,
-  ValueType = GetValueType<ModeType, OptionInValueType>,
+  ValueType = GetValueType<OptionType, ModeType, OptionInValueType>,
 > extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'className' | 'showSearch'> {
   prefixCls?: string;
   id?: string;
@@ -164,7 +165,7 @@ export interface SelectProps<
   filterOption?: boolean | FilterFunc<OptionType>;
   filterSort?: (optionA: OptionType, optionB: OptionType) => number;
   optionFilterProp?: string;
-  optionLabelProp?: string;
+  displayRender?: (selectedOption?: OptionType) => React.ReactNode;
   options?: OptionType[];
   defaultActiveFirstOption?: boolean;
   virtual?: boolean;

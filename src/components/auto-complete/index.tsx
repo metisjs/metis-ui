@@ -13,7 +13,7 @@ export interface AutoCompleteProps<
   PaginationType extends boolean = false,
 > extends Omit<
     SelectProps<OptionType, 'default', OptionInValueType, true, PaginationType>,
-    'loading' | 'mode' | 'optionLabelProp' | 'optionInValue' | 'showSearch'
+    'loading' | 'mode' | 'displayRender' | 'optionInValue' | 'showSearch'
   > {
   children?: React.ReactNode;
 }
