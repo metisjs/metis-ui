@@ -1,7 +1,7 @@
 import { SemanticClassName } from '../_util/classNameUtils';
 import { SizeType } from '../config-provider/SizeContext';
 import { BaseSelectPropsWithoutPrivate } from '../select';
-import { GetRequestType } from '../select/interface';
+import { FilterFunc, GetRequestType } from '../select/interface';
 import { SHOW_CHILD, SHOW_PARENT } from './utils/commonUtil';
 
 export interface BaseOptionType {
@@ -63,6 +63,13 @@ export interface CascaderProps<
   onSearch?: (value: string) => void;
   autoClearSearchValue?: boolean;
 
+  // >>> Options
+  filterOption?: boolean | FilterFunc<OptionType>;
+  filterSort?: (optionA: OptionType, optionB: OptionType) => number;
+  optionFilterProp?: string;
+  options?: OptionType[];
+  optionRender?: (option: (option: OptionType) => React.ReactNode) => React.ReactNode;
+
   // >>> Value
   value?: ValueType;
   defaultValue?: ValueType;
@@ -70,6 +77,9 @@ export interface CascaderProps<
   displayRender?: (label: string[], selectedOptions?: OptionType[]) => React.ReactNode;
   multiple?: MultipleType;
   showCheckedStrategy?: ShowCheckedStrategy;
+
+  // >>> Icon
+  suffixIcon?: React.ReactNode;
 
   // >>> Request
   request?: GetRequestType<OptionType, ShowSearchType, PaginationType>;
