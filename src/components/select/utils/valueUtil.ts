@@ -17,7 +17,9 @@ function getKey(data: BaseOptionType, index: number) {
   return `metis-index-key-${index}`;
 }
 
-export function fillFieldNames(fieldNames: FieldNames<BaseOptionType> | undefined) {
+export function fillFieldNames<OptionType extends BaseOptionType = BaseOptionType>(
+  fieldNames: FieldNames<OptionType> | undefined,
+) {
   const { label, value, options, groupLabel, disabled } = fieldNames || {};
 
   return {
@@ -29,9 +31,9 @@ export function fillFieldNames(fieldNames: FieldNames<BaseOptionType> | undefine
   };
 }
 
-export function getFieldValue(
-  option: BaseOptionType,
-  fieldName: FieldNames<BaseOptionType>['label' | 'value' | 'groupLabel' | 'disabled'],
+export function getFieldValue<OptionType extends BaseOptionType = BaseOptionType>(
+  option: OptionType,
+  fieldName: FieldNames<OptionType>['label' | 'value' | 'groupLabel' | 'disabled'],
 ) {
   if (typeof fieldName === 'string') {
     return option[fieldName];

@@ -87,12 +87,12 @@ export type GetRequestType<
 
 export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
 
-export interface FieldNames<OptionType> {
-  value?: string | ((option: OptionType) => RawValueType);
-  label?: string | ((option: OptionType) => React.ReactNode);
-  groupLabel?: string | ((option: OptionType) => React.ReactNode);
-  options?: string;
-  disabled?: string | ((option: OptionType) => boolean);
+export interface FieldNames<OptionType extends BaseOptionType> {
+  value?: keyof OptionType | ((option: OptionType) => RawValueType);
+  label?: keyof OptionType | ((option: OptionType) => React.ReactNode);
+  groupLabel?: keyof OptionType | ((option: OptionType) => React.ReactNode);
+  options?: keyof OptionType;
+  disabled?: keyof OptionType | ((option: OptionType) => boolean);
 }
 
 export interface FlattenOptionData<OptionType> {
