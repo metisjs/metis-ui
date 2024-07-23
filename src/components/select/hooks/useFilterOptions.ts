@@ -10,7 +10,7 @@ export default (
   options: BaseOptionType[] = [],
   fieldNames: Required<FieldNames<BaseOptionType>>,
   searchValue?: string,
-  filterOption?: SelectProps['filterOption'],
+  filterOption?: boolean | SelectProps['filterOption'],
   optionFilterProp?: string,
   useRequest?: boolean,
 ) =>

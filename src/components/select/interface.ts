@@ -157,12 +157,7 @@ export interface SelectProps<
   onDeselect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
 
   // >>> Options
-  /**
-   * In Select, `false` means do nothing.
-   * In TreeSelect, `false` will highlight match item.
-   * It's by design.
-   */
-  filterOption?: boolean | FilterFunc<OptionType>;
+  filterOption?: FilterFunc<OptionType>;
   filterSort?: (optionA: OptionType, optionB: OptionType) => number;
   optionFilterProp?: string;
   options?: OptionType[];

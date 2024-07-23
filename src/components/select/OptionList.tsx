@@ -392,7 +392,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
                   ? optionRender(item, { index: itemIndex })
                   : content}
               </div>
-              {React.isValidElement(menuItemSelectedIcon) || selected}
               {iconVisible && (
                 <TransBtn
                   className={clsx(
