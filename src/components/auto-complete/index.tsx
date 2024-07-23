@@ -5,15 +5,14 @@ import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import type { RefSelectProps, SelectProps } from '../select';
 import Select from '../select';
-import { BaseSelectRef } from '../select/BaseSelect';
-import { BaseOptionType, PaginationParamsType, RequestConfig } from '../select/interface';
+import { BaseOptionType } from '../select/interface';
 
 export interface AutoCompleteProps<
   OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends any[] = any[],
+  OptionInValueType extends boolean = false,
+  PaginationType extends boolean = false,
 > extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
+    SelectProps<OptionType, 'default', OptionInValueType, true, PaginationType>,
     'loading' | 'mode' | 'optionLabelProp' | 'optionInValue' | 'showSearch'
   > {
   children?: React.ReactNode;
@@ -51,100 +50,8 @@ const AutoComplete = React.forwardRef(
   },
 );
 
-export interface AutoCompletePropsWithOptions<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-> extends Omit<
-    SelectProps<OptionType, ValueType>,
-    | 'request'
-    | 'pagination'
-    | 'loading'
-    | 'mode'
-    | 'optionLabelProp'
-    | 'optionInValue'
-    | 'showSearch'
-  > {
-  options: OptionType[];
-  children?: React.ReactNode;
-}
-
-export interface AutoCompletePropsWithRequest<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends any[] = any[],
-> extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
-    | 'options'
-    | 'filterOption'
-    | 'filterSort'
-    | 'loading'
-    | 'mode'
-    | 'optionLabelProp'
-    | 'optionInValue'
-    | 'showSearch'
-  > {
-  request: RequestConfig<OptionType, ParamsType>;
-  pagination?: false;
-  children?: React.ReactNode;
-}
-
-export interface AutoCompletePropsWithRequestPagination<
-  OptionType extends BaseOptionType = BaseOptionType,
-  ValueType = any,
-  ParamsType extends PaginationParamsType = PaginationParamsType,
-> extends Omit<
-    SelectProps<OptionType, ValueType, ParamsType>,
-    | 'options'
-    | 'filterOption'
-    | 'filterSort'
-    | 'loading'
-    | 'mode'
-    | 'optionLabelProp'
-    | 'optionInValue'
-    | 'showSearch'
-  > {
-  request: RequestConfig<OptionType, ParamsType>;
-  pagination?: true;
-  children?: React.ReactNode;
-}
-
-interface TypedAutoCompleteComponent {
-  // >>> With options
-  <OptionType extends BaseOptionType = BaseOptionType, ValueType = any>(
-    props: AutoCompletePropsWithOptions<OptionType, ValueType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-
-  // >>> With request
-  <
-    OptionType extends BaseOptionType = BaseOptionType,
-    ValueType = any,
-    ParamsType extends any[] = any[],
-  >(
-    props: AutoCompletePropsWithRequest<OptionType, ValueType, ParamsType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-
-  // >>> With request and pagination
-  <
-    OptionType extends BaseOptionType = BaseOptionType,
-    ValueType = any,
-    ParamsType extends PaginationParamsType = PaginationParamsType,
-  >(
-    props: AutoCompletePropsWithRequestPagination<OptionType, ValueType, ParamsType> & {
-      ref?: React.Ref<BaseSelectRef>;
-    },
-  ): React.ReactElement;
-}
-
 if (process.env.NODE_ENV !== 'production') {
   AutoComplete.displayName = 'AutoComplete';
 }
 
-const TypedAutoComplete: TypedAutoCompleteComponent = (props: any) => {
-  return <AutoComplete {...props} />;
-};
-
-export default TypedAutoComplete;
+export default AutoComplete;
