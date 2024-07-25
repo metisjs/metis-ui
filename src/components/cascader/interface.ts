@@ -1,7 +1,9 @@
 import { SemanticClassName } from '../_util/classNameUtils';
+import { InputStatus } from '../_util/statusUtils';
+import { Variant } from '../config-provider';
 import { SizeType } from '../config-provider/SizeContext';
 import { BaseSelectPropsWithoutPrivate } from '../select';
-import { FilterFunc, GetRequestType } from '../select/interface';
+import { GetRequestType, SelectCommonPlacement } from '../select/interface';
 import { SHOW_CHILD, SHOW_PARENT } from './utils/commonUtil';
 
 export interface BaseOptionType {
@@ -13,23 +15,24 @@ export interface BaseOptionType {
 
 export type DefaultOptionType = BaseOptionType & Record<string, any>;
 
-export type RawValueType = string | number;
+export type SingleValueType = (string | number)[];
+export type MultiValueType = SingleValueType[];
 
 export type GetValueType<
   MultipleType extends boolean = false,
   OptionInValueType extends boolean = false,
 > = false extends OptionInValueType
   ? false extends MultipleType
-    ? RawValueType[]
-    : RawValueType[][]
+    ? SingleValueType
+    : MultiValueType
   : false extends MultipleType
   ? OptionInValueType[]
   : OptionInValueType[][];
 
 export interface FieldNames<OptionType extends DefaultOptionType = DefaultOptionType> {
-  value?: keyof OptionType | ((option: OptionType) => RawValueType);
-  label?: keyof OptionType | ((option: OptionType) => React.ReactNode);
-  disabled?: keyof OptionType | ((option: OptionType) => boolean);
+  value?: keyof OptionType;
+  label?: keyof OptionType;
+  disabled?: keyof OptionType;
   children?: keyof OptionType;
 }
 
@@ -40,16 +43,21 @@ export interface CascaderProps<
   MultipleType extends boolean = false,
   OptionInValueType extends boolean = false,
   ShowSearchType extends boolean = false,
-  PaginationType extends boolean = false,
   ValueType = GetValueType<MultipleType, OptionInValueType>,
 > extends Omit<
     BaseSelectPropsWithoutPrivate,
-    'tokenSeparators' | 'mode' | 'showSearch' | 'className'
+    'tokenSeparators' | 'mode' | 'showSearch' | 'className' | 'popupMatchSelectWidth'
   > {
   // >>> MISC
   prefixCls?: string;
   id?: string;
   className?: SemanticClassName<'popup' | 'selector'>;
+  placement?: SelectCommonPlacement;
+  status?: InputStatus;
+  displayRender?: (label: string[], selectedOptions?: OptionType[]) => React.ReactNode;
+
+  // >>> Variant
+  variant?: Variant;
 
   // >>> Size
   size?: SizeType;
@@ -63,25 +71,35 @@ export interface CascaderProps<
   onSearch?: (value: string) => void;
   autoClearSearchValue?: boolean;
 
+  // Trigger
+  expandTrigger?: 'hover' | 'click';
+
   // >>> Options
-  filterOption?: boolean | FilterFunc<OptionType>;
-  filterSort?: (optionA: OptionType, optionB: OptionType) => number;
-  optionFilterProp?: string;
   options?: OptionType[];
-  optionRender?: (option: (option: OptionType) => React.ReactNode) => React.ReactNode;
+  optionFilterProp?: string;
+  filterOption?: (inputValue: string, options: OptionType[]) => boolean;
+  filterRender?: (inputValue: string, path: OptionType[]) => React.ReactNode;
+  filterSort?: (optionA: OptionType[], optionB: OptionType[]) => number;
+  optionRender?: (option: OptionType) => React.ReactNode;
 
   // >>> Value
   value?: ValueType;
   defaultValue?: ValueType;
   changeOnSelect?: boolean;
-  displayRender?: (label: string[], selectedOptions?: OptionType[]) => React.ReactNode;
   multiple?: MultipleType;
   showCheckedStrategy?: ShowCheckedStrategy;
+  optionInValue?: OptionInValueType;
+  onChange?: (
+    value: ValueType,
+    options: MultipleType extends false ? OptionType[] : OptionType[][],
+  ) => void;
 
   // >>> Icon
   suffixIcon?: React.ReactNode;
+  expandIcon?: React.ReactNode;
+  loadingIcon?: React.ReactNode;
 
   // >>> Request
-  request?: GetRequestType<OptionType, ShowSearchType, PaginationType>;
-  pagination?: PaginationType;
+  request?: GetRequestType<OptionType, ShowSearchType, false>;
+  lazyLoad?: boolean;
 }

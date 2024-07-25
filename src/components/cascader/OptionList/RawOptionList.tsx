@@ -1,10 +1,9 @@
-/* eslint-disable default-case */
-import classNames from 'classnames';
-import type { useBaseProps } from 'rc-select';
-import type { RefOptionListProps } from 'rc-select/lib/OptionList';
+import { clsx } from 'metis-ui/es/_util/classNameUtils';
 import * as React from 'react';
-import type { DefaultOptionType, SingleValueType } from '../Cascader';
+import { useBaseProps } from '../../select';
+import { RefOptionListProps } from '../../select/BaseSelect';
 import CascaderContext from '../context';
+import { DefaultOptionType, SingleValueType } from '../interface';
 import {
   getFullPathKeys,
   isLeaf,
@@ -21,14 +20,13 @@ import useKeyboard from './useKeyboard';
 
 export type RawOptionListProps = Pick<
   ReturnType<typeof useBaseProps>,
-  'prefixCls' | 'multiple' | 'searchValue' | 'toggleOpen' | 'notFoundContent' | 'direction' | 'open'
+  'prefixCls' | 'multiple' | 'searchValue' | 'toggleOpen' | 'notFoundContent' | 'open'
 >;
 
 const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((props, ref) => {
-  const { prefixCls, multiple, searchValue, toggleOpen, notFoundContent, direction, open } = props;
+  const { prefixCls, multiple, searchValue, toggleOpen, notFoundContent, open } = props;
 
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const rtl = direction === 'rtl';
 
   const {
     options,
@@ -38,19 +36,15 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     changeOnSelect,
     onSelect,
     searchOptions,
-    dropdownPrefixCls,
-    loadData,
     expandTrigger,
   } = React.useContext(CascaderContext);
-
-  const mergedPrefixCls = dropdownPrefixCls || prefixCls;
 
   // ========================= loadData =========================
   const [loadingKeys, setLoadingKeys] = React.useState<React.Key[]>([]);
 
   const internalLoadData = (valueCells: React.Key[]) => {
     // Do not load when search
-    if (!loadData || searchValue) {
+    if (searchValue) {
       return;
     }
 
@@ -61,16 +55,16 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     if (lastOption && !isLeaf(lastOption, fieldNames)) {
       const pathKey = toPathKey(valueCells);
 
-      setLoadingKeys(keys => [...keys, pathKey]);
+      setLoadingKeys((keys) => [...keys, pathKey]);
 
-      loadData(rawOptions);
+      // loadData(rawOptions);
     }
   };
 
   // zombieJ: This is bad. We should make this same as `rc-tree` to use Promise instead.
   React.useEffect(() => {
     if (loadingKeys.length) {
-      loadingKeys.forEach(loadingKey => {
+      loadingKeys.forEach((loadingKey) => {
         const valueStrCells = toPathValueStr(loadingKey as string);
         const optionList = toPathOptions(valueStrCells, options, fieldNames, true).map(
           ({ option }) => option,
@@ -78,7 +72,7 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
         const lastOption = optionList[optionList.length - 1];
 
         if (!lastOption || lastOption[fieldNames.children] || isLeaf(lastOption, fieldNames)) {
-          setLoadingKeys(keys => keys.filter(key => key !== loadingKey));
+          setLoadingKeys((keys) => keys.filter((key) => key !== loadingKey));
         }
       });
     }
@@ -158,7 +152,6 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
   };
 
   useKeyboard(ref, mergedOptions, fieldNames, activeValueCells, onPathOpen, onKeyboardSelect, {
-    direction,
     searchValue,
     toggleOpen,
     open,
@@ -214,7 +207,7 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
         key={index}
         {...columnProps}
         searchValue={searchValue}
-        prefixCls={mergedPrefixCls}
+        prefixCls={prefixCls}
         options={col.options}
         prevValuePath={prevValuePath}
         activeValue={activeValue}
@@ -226,9 +219,8 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
   return (
     <CacheContent open={open}>
       <div
-        className={classNames(`${mergedPrefixCls}-menus`, {
-          [`${mergedPrefixCls}-menu-empty`]: isEmpty,
-          [`${mergedPrefixCls}-rtl`]: rtl,
+        className={clsx(`${prefixCls}-menus`, {
+          [`${prefixCls}-menu-empty`]: isEmpty,
         })}
         ref={containerRef}
       >

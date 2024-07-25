@@ -1,20 +1,20 @@
-import type { DataEntity } from 'rc-tree/lib/interface';
-import { conductCheck } from 'rc-tree/lib/utils/conductUtil';
+import { conductCheck } from 'metis-ui/es/tree/utils/conductUtil';
 import * as React from 'react';
-import type { SingleValueType } from '../Cascader';
+import { DataEntity } from '../../tree/interface';
+import { MultiValueType } from '../interface';
 import { toPathKeys } from '../utils/commonUtil';
 import type { GetMissValues } from './useMissingValues';
 
 export default function useValues(
   multiple: boolean,
-  rawValues: SingleValueType[],
+  rawValues: MultiValueType,
   getPathKeyEntities: () => Record<string, DataEntity>,
-  getValueByKeyPath: (pathKeys: React.Key[]) => SingleValueType[],
+  getValueByKeyPath: (pathKeys: React.Key[]) => MultiValueType,
   getMissingValues: GetMissValues,
 ): [
-  checkedValues: SingleValueType[],
-  halfCheckedValues: SingleValueType[],
-  missingCheckedValues: SingleValueType[],
+  checkedValues: MultiValueType,
+  halfCheckedValues: MultiValueType,
+  missingCheckedValues: MultiValueType,
 ] {
   // Fill `rawValues` with checked conduction values
   return React.useMemo(() => {

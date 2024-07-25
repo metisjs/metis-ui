@@ -1,5 +1,6 @@
-import { conductCheck } from 'rc-tree/lib/utils/conductUtil';
-import type { InternalValueType, ShowCheckedStrategy, SingleValueType } from '../Cascader';
+import { conductCheck } from '../../tree/utils/conductUtil';
+import type { InternalValueType } from '../Cascader';
+import type { MultiValueType, ShowCheckedStrategy, SingleValueType } from '../interface';
 import { toPathKey, toPathKeys } from '../utils/commonUtil';
 import { formatStrategyValues } from '../utils/treeUtil';
 import type { GetEntities } from './useEntities';
@@ -7,11 +8,11 @@ import type { GetEntities } from './useEntities';
 export default function useSelect(
   multiple: boolean,
   triggerChange: (nextValues: InternalValueType) => void,
-  checkedValues: SingleValueType[],
-  halfCheckedValues: SingleValueType[],
-  missingCheckedValues: SingleValueType[],
+  checkedValues: MultiValueType,
+  halfCheckedValues: MultiValueType,
+  missingCheckedValues: MultiValueType,
   getPathKeyEntities: GetEntities,
-  getValueByKeyPath: (pathKeys: React.Key[]) => SingleValueType[],
+  getValueByKeyPath: (pathKeys: React.Key[]) => MultiValueType,
   showCheckedStrategy?: ShowCheckedStrategy,
 ) {
   return (valuePath: SingleValueType) => {
@@ -25,7 +26,7 @@ export default function useSelect(
 
       const existInChecked = checkedPathKeys.includes(pathKey);
       const existInMissing = missingCheckedValues.some(
-        valueCells => toPathKey(valueCells) === pathKey,
+        (valueCells) => toPathKey(valueCells) === pathKey,
       );
 
       // Do update
@@ -35,12 +36,12 @@ export default function useSelect(
       if (existInMissing && !existInChecked) {
         // Missing value only do filter
         nextMissingValues = missingCheckedValues.filter(
-          valueCells => toPathKey(valueCells) !== pathKey,
+          (valueCells) => toPathKey(valueCells) !== pathKey,
         );
       } else {
         // Update checked key first
         const nextRawCheckedKeys = existInChecked
-          ? checkedPathKeys.filter(key => key !== pathKey)
+          ? checkedPathKeys.filter((key) => key !== pathKey)
           : [...checkedPathKeys, pathKey];
 
         const pathKeyEntities = getPathKeyEntities();

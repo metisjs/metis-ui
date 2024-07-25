@@ -1,19 +1,38 @@
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
-import { BaseSelectPropsWithoutPrivate } from '../select';
-import { BuildInPlacements, Placement } from '../trigger/interface';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { useZIndex } from '../_util/hooks/useZIndex';
+import { getMergedStatus } from '../_util/statusUtils';
+import { ConfigContext } from '../config-provider';
+import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import DisabledContext from '../config-provider/DisabledContext';
+import useSize from '../config-provider/hooks/useSize';
+import { FormItemInputContext } from '../form/context';
+import useVariant from '../form/hooks/useVariant';
+import BaseSelect, { BaseSelectProps, BaseSelectRef, DisplayValueType } from '../select/BaseSelect';
+import useBuiltinPlacements from '../select/hooks/useBuiltinPlacements';
+import useIcons from '../select/hooks/useIcons';
+import useId from '../select/hooks/useId';
+import { RequestConfig, SelectCommonPlacement } from '../select/interface';
+import { useCompactItemContext } from '../space/Compact';
 import CascaderContext from './context';
+import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
+import useFilterOptions from './hooks/useFilterOptions';
 import useMissingValues from './hooks/useMissingValues';
 import useOptions from './hooks/useOptions';
-import useSearchConfig from './hooks/useSearchConfig';
-import useSearchOptions from './hooks/useSearchOptions';
 import useSelect from './hooks/useSelect';
 import useValues from './hooks/useValues';
+import {
+  BaseOptionType,
+  CascaderProps,
+  DefaultOptionType,
+  FieldNames,
+  MultiValueType,
+  SingleValueType,
+} from './interface';
 import OptionList from './OptionList';
-import Panel from './Panel';
 import {
   fillFieldNames,
   SHOW_CHILD,
@@ -22,140 +41,23 @@ import {
   toRawValues,
 } from './utils/commonUtil';
 import { formatStrategyValues, toPathOptions } from './utils/treeUtil';
-import { warningNullOptions } from './utils/warningPropsUtil';
+import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
-export interface BaseOptionType {
-  disabled?: boolean;
-  disableCheckbox?: boolean;
-  label?: React.ReactNode;
-  value?: string | number | null;
-  children?: DefaultOptionType[];
-}
-
-export type DefaultOptionType = BaseOptionType & Record<string, any>;
-
-export interface ShowSearchType<
-  OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-> {
-  filter?: (
-    inputValue: string,
-    options: OptionType[],
-    fieldNames: FieldNames<OptionType, ValueField>,
-  ) => boolean;
-  render?: (
-    inputValue: string,
-    path: OptionType[],
-    prefixCls: string,
-    fieldNames: FieldNames<OptionType, ValueField>,
-  ) => React.ReactNode;
-  sort?: (
-    a: OptionType[],
-    b: OptionType[],
-    inputValue: string,
-    fieldNames: FieldNames<OptionType, ValueField>,
-  ) => number;
-}
-
-export type ShowCheckedStrategy = typeof SHOW_PARENT | typeof SHOW_CHILD;
-
-interface BaseCascaderProps<
-  OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-> extends Omit<
-    BaseSelectPropsWithoutPrivate,
-    'tokenSeparators' | 'mode' | 'showSearch' | 'className'
-  > {
-  // MISC
-  id?: string;
-  prefixCls?: string;
-  optionRender?: (option: OptionType) => React.ReactNode;
-  className?: SemanticClassName<'popup' | 'selector'>;
-  displayRender?: (selectedOptions?: OptionType[]) => React.ReactNode;
-
-  // >>> Field Names
-  fieldNames?: FieldNames<OptionType>;
-
-  // Value
-  changeOnSelect?: boolean;
-  checkable?: boolean | React.ReactNode;
-  showCheckedStrategy?: ShowCheckedStrategy;
-
-  // Search
-  autoClearSearchValue?: boolean;
-  showSearch?: boolean | ShowSearchType<OptionType>;
-  searchValue?: string;
-  onSearch?: (value: string) => void;
-
-  // Trigger
-  expandTrigger?: 'hover' | 'click';
-
-  // Options
-  options?: OptionType[];
-  /** @private Internal usage. Do not use in your production. */
-  dropdownPrefixCls?: string;
-  loadData?: (selectOptions: OptionType[]) => void;
-
-  placement?: Placement;
-  builtinPlacements?: BuildInPlacements;
-
-  onPopupOpenChange?: (open: boolean) => void;
-
-  // Icon
-  expandIcon?: React.ReactNode;
-  loadingIcon?: React.ReactNode;
-}
-
-export interface FieldNames<
-  OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-> {
-  label?: keyof OptionType;
-  value?: keyof OptionType | ValueField;
-  children?: keyof OptionType;
-}
-
-export type ValueType<
-  OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-> = keyof OptionType extends ValueField
-  ? unknown extends OptionType['value']
-    ? OptionType[ValueField]
-    : OptionType['value']
-  : OptionType[ValueField];
-
-export type GetValueType<
-  OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-  Multiple extends boolean | React.ReactNode = false,
-> = false extends Multiple
-  ? ValueType<Required<OptionType>, ValueField>[]
-  : ValueType<Required<OptionType>, ValueField>[][];
-
-export interface CascaderProps<
-  OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-  Multiple extends boolean | React.ReactNode = false,
-> extends BaseCascaderProps<OptionType, ValueField> {
-  checkable?: Multiple;
-  value?: GetValueType<OptionType, ValueField, Multiple>;
-  defaultValue?: GetValueType<OptionType, ValueField, Multiple>;
-  onChange?: (
-    value: GetValueType<OptionType, ValueField, Multiple>,
-    selectOptions: OptionType[],
-  ) => void;
-}
-
-export type SingleValueType = (string | number)[];
-export type InternalValueType = SingleValueType | SingleValueType[];
-
+export type InternalValueType = SingleValueType | MultiValueType;
 export interface InternalFieldNames extends Required<FieldNames> {
   key: string;
 }
 
-export type InternalCascaderProps = Omit<CascaderProps, 'onChange' | 'value' | 'defaultValue'> & {
+export type InternalCascaderProps = Omit<
+  CascaderProps,
+  'onChange' | 'value' | 'defaultValue' | 'multiple' | 'optionInValue' | 'pagination' | 'request'
+> & {
+  optionInValue?: boolean;
+  multiple?: boolean;
   value?: InternalValueType;
   defaultValue?: InternalValueType;
+  pagination?: boolean;
+  request?: RequestConfig<BaseOptionType, any[]>;
   onChange?: (
     value: InternalValueType,
     selectOptions: BaseOptionType[] | BaseOptionType[][],
@@ -166,62 +68,99 @@ export type CascaderRef = Omit<BaseSelectRef, 'scrollTo'>;
 
 const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, ref) => {
   const {
-    // MISC
     id,
-    prefixCls = 'rc-cascader',
+    prefixCls: customizePrefixCls,
     fieldNames,
-
-    // Value
+    className,
+    size: customizeSize,
+    disabled: customizeDisabled,
+    multiple = false,
+    allowClear = true,
+    notFoundContent,
+    status: customizeStatus,
+    variant: customizeVariant,
     defaultValue,
     value,
     changeOnSelect,
     onChange,
     displayRender,
-    checkable,
-
-    // Search
+    optionInValue,
     autoClearSearchValue = true,
     searchValue,
     onSearch,
     showSearch,
-
-    // Trigger
+    filterOption,
+    filterRender,
+    filterSort,
+    optionFilterProp,
     expandTrigger,
-
-    // Options
     options,
-    dropdownPrefixCls,
-    loadData,
-
-    // Open
-    popupVisible,
-    open,
-
-    popupClassName,
-    dropdownClassName,
-    dropdownMenuColumnStyle,
-    dropdownStyle: customDropdownStyle,
-
-    popupPlacement,
-    placement,
-
-    onPopupOpenChange: onDropdownVisibleChange,
-    onPopupVisibleChange,
-
-    // Icon
-    expandIcon = '>',
-    loadingIcon,
-
-    // Children
-    children,
-    dropdownMatchSelectWidth = false,
-    showCheckedStrategy = SHOW_PARENT,
     optionRender,
+    placement,
+    builtinPlacements,
+    expandIcon,
+    showCheckedStrategy = SHOW_PARENT,
+    getPopupContainer,
+    request,
     ...restProps
   } = props;
 
+  const {
+    getPopupContainer: getContextPopupContainer,
+    getPrefixCls,
+    renderEmpty,
+    popupOverflow,
+  } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('cascader', customizePrefixCls);
+  const semanticCls = getSemanticCls(className);
+
   const mergedId = useId(id);
-  const multiple = !!checkable;
+
+  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+
+  const [variant, enableVariantCls] = useVariant(customizeVariant);
+
+  // =================== Form =====================
+  const {
+    status: contextStatus,
+    hasFeedback,
+    isFormItemInput,
+    feedbackIcon,
+  } = React.useContext(FormItemInputContext);
+  const mergedStatus = getMergedStatus(contextStatus, customizeStatus);
+
+  // =================== No Found ====================
+  const mergedNotFoundContent = notFoundContent || renderEmpty?.('Cascader') || (
+    <DefaultRenderEmpty componentName="Cascader" />
+  );
+
+  // ===================== Size ======================
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+  // ===================== Disabled =====================
+  const disabled = React.useContext(DisabledContext);
+  const mergedDisabled = customizeDisabled ?? disabled;
+
+  // ===================== Icons ======================
+  const { suffixIcon, removeIcon, clearIcon } = useIcons({
+    ...props,
+    hasFeedback,
+    feedbackIcon,
+    prefixCls,
+  });
+  const [mergedExpandIcon, loadingIcon] = useColumnIcons(prefixCls, expandIcon);
+
+  const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
+
+  // ===================== Placement =====================
+  const memoPlacement = React.useMemo<SelectCommonPlacement>(() => {
+    if (placement !== undefined) {
+      return placement;
+    }
+    return 'bottomLeft';
+  }, [placement]);
+
+  const mergedBuiltinPlacements = useBuiltinPlacements(builtinPlacements, popupOverflow);
 
   // =========================== Values ===========================
   const [rawValues, setRawValues] = useMergedState<
@@ -232,9 +171,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   // ========================= FieldNames =========================
   const mergedFieldNames = React.useMemo(
     () => fillFieldNames(fieldNames),
-    /* eslint-disable react-hooks/exhaustive-deps */
     [JSON.stringify(fieldNames)],
-    /* eslint-enable react-hooks/exhaustive-deps */
   );
 
   // =========================== Option ===========================
@@ -257,15 +194,16 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     }
   };
 
-  const [mergedShowSearch, searchConfig] = useSearchConfig(showSearch);
-
-  const searchOptions = useSearchOptions(
-    mergedSearchValue,
+  const searchOptions = useFilterOptions(
     mergedOptions,
     mergedFieldNames,
-    dropdownPrefixCls || prefixCls,
-    searchConfig,
+    mergedSearchValue,
+    filterOption,
+    filterRender,
+    filterSort,
+    optionFilterProp,
     changeOnSelect,
+    !!request,
   );
 
   // =========================== Values ===========================
@@ -358,18 +296,6 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     onInternalSelect(valueCells);
   };
 
-  // ============================ Open ============================
-  const mergedOpen = open !== undefined ? open : popupVisible;
-
-  const mergedDropdownClassName = dropdownClassName || popupClassName;
-
-  const mergedPlacement = placement || popupPlacement;
-
-  const onInternalDropdownVisibleChange = (nextVisible: boolean) => {
-    onDropdownVisibleChange?.(nextVisible);
-    onPopupVisibleChange?.(nextVisible);
-  };
-
   // ========================== Warning ===========================
   if (process.env.NODE_ENV !== 'production') {
     warningProps(props);
@@ -385,14 +311,11 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       halfValues: halfCheckedValues,
       changeOnSelect,
       onSelect: onInternalSelect,
-      checkable,
+      checkable: multiple,
       searchOptions,
-      dropdownPrefixCls,
-      loadData,
       expandTrigger,
-      expandIcon,
+      expandIcon: mergedExpandIcon,
       loadingIcon,
-      dropdownMenuColumnStyle,
       optionRender,
     }),
     [
@@ -402,79 +325,74 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       halfCheckedValues,
       changeOnSelect,
       onInternalSelect,
-      checkable,
+      multiple,
       searchOptions,
-      dropdownPrefixCls,
-      loadData,
       expandTrigger,
-      expandIcon,
+      mergedExpandIcon,
       loadingIcon,
-      dropdownMenuColumnStyle,
       optionRender,
     ],
   );
 
-  // ==============================================================
-  // ==                          Render                          ==
-  // ==============================================================
   const emptyOptions = !(mergedSearchValue ? searchOptions : mergedOptions).length;
 
-  const dropdownStyle: React.CSSProperties =
-    // Search to match width
-    (mergedSearchValue && searchConfig.matchInputWidth) ||
-    // Empty keep the width
-    emptyOptions
-      ? {}
-      : {
-          minWidth: 'auto',
-        };
+  // ========================== Style ===========================
+  const popupCls = clsx(
+    '',
+    !mergedSearchValue && !emptyOptions && 'min-w-[auto]',
+    semanticCls.popup,
+  );
+
+  const cls: BaseSelectProps['className'] = React.useMemo(() => ({ popup: popupCls }), [popupCls]);
+
+  // ============================ zIndex ============================
+  const [zIndex] = useZIndex('SelectLike');
+
+  // ============================ Render ============================
 
   return (
     <CascaderContext.Provider value={cascaderContext}>
       <BaseSelect
         {...restProps}
-        // MISC
         ref={ref as any}
         id={mergedId}
         prefixCls={prefixCls}
         autoClearSearchValue={autoClearSearchValue}
-        dropdownMatchSelectWidth={dropdownMatchSelectWidth}
-        dropdownStyle={{
-          ...dropdownStyle,
-          ...customDropdownStyle,
-        }}
-        // Value
+        popupMatchSelectWidth={false}
+        zIndex={zIndex}
         displayValues={displayValues}
         onDisplayValuesChange={onDisplayValuesChange}
         mode={multiple ? 'multiple' : undefined}
-        // Search
         searchValue={mergedSearchValue}
         onSearch={onInternalSearch}
-        showSearch={mergedShowSearch}
-        // Options
+        showSearch={showSearch}
         OptionList={OptionList}
         emptyOptions={emptyOptions}
-        // Open
-        open={mergedOpen}
-        dropdownClassName={mergedDropdownClassName}
-        placement={mergedPlacement}
-        onDropdownVisibleChange={onInternalDropdownVisibleChange}
+        className={cls}
+        disabled={mergedDisabled}
+        builtinPlacements={mergedBuiltinPlacements}
+        placement={memoPlacement}
+        notFoundContent={mergedNotFoundContent}
+        allowClear={mergedAllowClear}
+        suffixIcon={suffixIcon}
+        removeIcon={removeIcon}
+        getPopupContainer={getPopupContainer || getContextPopupContainer}
       />
     </CascaderContext.Provider>
   );
 }) as unknown as (<
   OptionType extends DefaultOptionType = DefaultOptionType,
-  ValueField extends keyof OptionType = keyof OptionType,
-  Multiple extends boolean | React.ReactNode = false,
+  MultipleType extends boolean = false,
+  OptionInValueType extends boolean = false,
+  ShowSearchType extends boolean = false,
 >(
-  props: React.PropsWithChildren<CascaderProps<OptionType, ValueField, Multiple>> & {
+  props: CascaderProps<OptionType, MultipleType, OptionInValueType, ShowSearchType> & {
     ref?: React.Ref<CascaderRef>;
   },
 ) => React.ReactElement) & {
   displayName?: string;
   SHOW_PARENT: typeof SHOW_PARENT;
   SHOW_CHILD: typeof SHOW_CHILD;
-  Panel: typeof Panel;
 };
 
 if (process.env.NODE_ENV !== 'production') {
@@ -483,6 +401,5 @@ if (process.env.NODE_ENV !== 'production') {
 
 Cascader.SHOW_PARENT = SHOW_PARENT;
 Cascader.SHOW_CHILD = SHOW_CHILD;
-Cascader.Panel = Panel;
 
 export default Cascader;

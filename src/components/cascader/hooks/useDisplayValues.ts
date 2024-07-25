@@ -1,15 +1,11 @@
-import { toPathOptions } from '../utils/treeUtil';
 import * as React from 'react';
-import type {
-  DefaultOptionType,
-  SingleValueType,
-  CascaderProps,
-  InternalFieldNames,
-} from '../Cascader';
+import type { InternalFieldNames } from '../Cascader';
+import type { CascaderProps, DefaultOptionType, MultiValueType } from '../interface';
 import { toPathKey } from '../utils/commonUtil';
+import { toPathOptions } from '../utils/treeUtil';
 
 export default (
-  rawValues: SingleValueType[],
+  rawValues: MultiValueType,
   options: DefaultOptionType[],
   fieldNames: InternalFieldNames,
   multiple: boolean,
@@ -19,11 +15,11 @@ export default (
     const mergedDisplayRender =
       displayRender ||
       // Default displayRender
-      (labels => {
+      ((labels) => {
         const mergedLabels: React.ReactNode[] = multiple ? labels.slice(-1) : labels;
         const SPLIT = ' / ';
 
-        if (mergedLabels.every(label => ['string', 'number'].includes(typeof label))) {
+        if (mergedLabels.every((label) => ['string', 'number'].includes(typeof label))) {
           return mergedLabels.join(SPLIT);
         }
 
@@ -40,7 +36,7 @@ export default (
         }, []);
       });
 
-    return rawValues.map(valueCells => {
+    return rawValues.map((valueCells) => {
       const valueOptions = toPathOptions(valueCells, options, fieldNames);
 
       const label = mergedDisplayRender(

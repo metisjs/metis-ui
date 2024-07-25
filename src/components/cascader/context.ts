@@ -1,26 +1,18 @@
 import * as React from 'react';
-import type {
-  CascaderProps,
-  InternalFieldNames,
-  DefaultOptionType,
-  SingleValueType,
-} from './Cascader';
+import { InternalFieldNames } from './Cascader';
+import { CascaderProps, DefaultOptionType, MultiValueType, SingleValueType } from './interface';
 
 export interface CascaderContextProps {
   options: NonNullable<CascaderProps['options']>;
   fieldNames: InternalFieldNames;
-  values: SingleValueType[];
-  halfValues: SingleValueType[];
+  values: MultiValueType;
+  halfValues: MultiValueType;
   changeOnSelect?: boolean;
   onSelect: (valuePath: SingleValueType) => void;
-  checkable?: boolean | React.ReactNode;
   searchOptions: DefaultOptionType[];
-  dropdownPrefixCls?: string;
-  loadData?: (selectOptions: DefaultOptionType[]) => void;
   expandTrigger?: 'hover' | 'click';
   expandIcon?: React.ReactNode;
   loadingIcon?: React.ReactNode;
-  dropdownMenuColumnStyle?: React.CSSProperties;
   optionRender?: CascaderProps['optionRender'];
 }
 

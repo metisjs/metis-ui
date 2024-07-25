@@ -1,8 +1,9 @@
-import type { RefOptionListProps } from 'rc-select/lib/OptionList';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
-import type { DefaultOptionType, InternalFieldNames, SingleValueType } from '../Cascader';
-import { SEARCH_MARK } from '../hooks/useSearchOptions';
+import { RefOptionListProps } from '../../select/BaseSelect';
+import type { InternalFieldNames } from '../Cascader';
+import { SEARCH_MARK } from '../hooks/useFilterOptions';
+import { DefaultOptionType, SingleValueType } from '../interface';
 import { getFullPathKeys, toPathKey } from '../utils/commonUtil';
 
 export default (
@@ -108,7 +109,7 @@ export default (
     const nextOptions: DefaultOptionType[] =
       lastActiveOptions[lastActiveIndex]?.[fieldNames.children] || [];
 
-    const nextOption = nextOptions.find(option => !option.disabled);
+    const nextOption = nextOptions.find((option) => !option.disabled);
 
     if (nextOption) {
       const nextActiveCells = [...validActiveValueCells, nextOption[fieldNames.value]];
@@ -118,7 +119,7 @@ export default (
 
   React.useImperativeHandle(ref, () => ({
     // scrollTo: treeRef.current?.scrollTo,
-    onKeyDown: event => {
+    onKeyDown: (event) => {
       const { which } = event;
 
       switch (which) {
@@ -179,7 +180,7 @@ export default (
             const originOptions: DefaultOptionType[] = option?.[SEARCH_MARK] || [];
             if (originOptions.length) {
               onKeyBoardSelect(
-                originOptions.map(opt => opt[fieldNames.value]),
+                originOptions.map((opt) => opt[fieldNames.value]),
                 originOptions[originOptions.length - 1],
               );
             } else {

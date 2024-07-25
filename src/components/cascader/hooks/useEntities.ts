@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { convertDataToEntities } from 'rc-tree/lib/utils/treeUtil';
-import type { DefaultOptionType, InternalFieldNames } from '../Cascader';
-import type { DataEntity, DataNode } from 'rc-tree/lib/interface';
+import { DataEntity, DataNode } from '../../tree/interface';
+import { convertDataToEntities } from '../../tree/utils/treeUtil';
+import { InternalFieldNames } from '../Cascader';
+import { DefaultOptionType } from '../interface';
 import { VALUE_SPLIT } from '../utils/commonUtil';
 
 export interface OptionsInfo {
@@ -26,13 +27,13 @@ export default (options: DefaultOptionType[], fieldNames: InternalFieldNames) =>
       cacheRef.current.options = options;
       cacheRef.current.info = convertDataToEntities(options as DataNode[], {
         fieldNames: fieldNames as any,
-        initWrapper: wrapper => ({
+        initWrapper: (wrapper) => ({
           ...wrapper,
           pathKeyEntities: {},
         }),
         processEntity: (entity, wrapper) => {
           const pathKey = (entity.nodes as DefaultOptionType[])
-            .map(node => node[fieldNames.value])
+            .map((node) => node[fieldNames.value])
             .join(VALUE_SPLIT);
 
           (wrapper as unknown as OptionsInfo).pathKeyEntities[pathKey] = entity;

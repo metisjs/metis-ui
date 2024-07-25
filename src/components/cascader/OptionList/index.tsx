@@ -1,7 +1,7 @@
-import { useBaseProps } from 'rc-select';
-import type { RefOptionListProps } from 'rc-select/lib/OptionList';
 import * as React from 'react';
-import RawOptionList from './List';
+import { useBaseProps } from '../../select';
+import { RefOptionListProps } from '../../select/BaseSelect';
+import RawOptionList from './RawOptionList';
 
 const RefOptionList = React.forwardRef<RefOptionListProps>((props, ref) => {
   const baseProps = useBaseProps();

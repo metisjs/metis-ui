@@ -1,17 +1,17 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import type { DefaultOptionType, SingleValueType } from '../Cascader';
 import CascaderContext from '../context';
-import { SEARCH_MARK } from '../hooks/useSearchOptions';
+import { SEARCH_MARK } from '../hooks/useFilterOptions';
+import type { DefaultOptionType, SingleValueType } from '../interface';
 import { isLeaf, toPathKey } from '../utils/commonUtil';
 import Checkbox from './Checkbox';
 
 export const FIX_LABEL = '__cascader_fix_label__';
 
-export interface ColumnProps<OptionType extends DefaultOptionType = DefaultOptionType> {
+export interface ColumnProps {
   prefixCls: string;
   multiple?: boolean;
-  options: OptionType[];
+  options: DefaultOptionType[];
   /** Current Column opened item key */
   activeValue?: React.Key;
   /** The value path before current column */
@@ -26,7 +26,7 @@ export interface ColumnProps<OptionType extends DefaultOptionType = DefaultOptio
   searchValue?: string;
 }
 
-export default function Column<OptionType extends DefaultOptionType = DefaultOptionType>({
+export default function Column({
   prefixCls,
   multiple,
   options,
@@ -40,26 +40,19 @@ export default function Column<OptionType extends DefaultOptionType = DefaultOpt
   loadingKeys,
   isSelectable,
   searchValue,
-}: ColumnProps<OptionType>) {
+}: ColumnProps) {
   const menuPrefixCls = `${prefixCls}-menu`;
   const menuItemPrefixCls = `${prefixCls}-menu-item`;
 
-  const {
-    fieldNames,
-    changeOnSelect,
-    expandTrigger,
-    expandIcon,
-    loadingIcon,
-    dropdownMenuColumnStyle,
-    optionRender,
-  } = React.useContext(CascaderContext);
+  const { fieldNames, changeOnSelect, expandTrigger, expandIcon, loadingIcon, optionRender } =
+    React.useContext(CascaderContext);
 
   const hoverOpen = expandTrigger === 'hover';
 
   // ============================ Option ============================
   const optionInfoList = React.useMemo(
     () =>
-      options.map(option => {
+      options.map((option) => {
         const { disabled, disableCheckbox } = option;
         const searchOptions: Record<string, any>[] = option[SEARCH_MARK];
         const label = option[FIX_LABEL] ?? option[fieldNames.label];
@@ -69,7 +62,7 @@ export default function Column<OptionType extends DefaultOptionType = DefaultOpt
 
         // Get real value of option. Search option is different way.
         const fullPath = searchOptions
-          ? searchOptions.map(opt => opt[fieldNames.value])
+          ? searchOptions.map((opt) => opt[fieldNames.value])
           : [...prevValuePath, value];
         const fullPathKey = toPathKey(fullPath);
 
@@ -153,7 +146,6 @@ export default function Column<OptionType extends DefaultOptionType = DefaultOpt
                 [`${menuItemPrefixCls}-disabled`]: disabled,
                 [`${menuItemPrefixCls}-loading`]: isLoading,
               })}
-              style={dropdownMenuColumnStyle}
               role="menuitemcheckbox"
               title={title}
               aria-checked={checked}
@@ -177,7 +169,7 @@ export default function Column<OptionType extends DefaultOptionType = DefaultOpt
                   triggerOpenPath();
                 }
               }}
-              onMouseDown={e => {
+              onMouseDown={(e) => {
                 // Prevent selector from blurring
                 e.preventDefault();
               }}

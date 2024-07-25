@@ -1,5 +1,14 @@
-import { devUseWarning } from 'metis-ui/es/_util/warning';
-import type { DefaultOptionType, FieldNames } from '../Cascader';
+import { devUseWarning } from '../../_util/warning';
+import { InternalCascaderProps } from '../Cascader';
+import { DefaultOptionType, FieldNames } from '../interface';
+
+function warningProps(props: InternalCascaderProps) {
+  const warning = devUseWarning('Cascader');
+
+  const { request, lazyLoad } = props;
+
+  warning(!(!request && lazyLoad), 'usage', '`lazyLoad` should be use with `request`.');
+}
 
 // value in Cascader options should not be null
 export function warningNullOptions(options: DefaultOptionType[], fieldNames: FieldNames) {
@@ -26,3 +35,5 @@ export function warningNullOptions(options: DefaultOptionType[], fieldNames: Fie
     recursiveOptions(options);
   }
 }
+
+export default warningProps;

@@ -1,11 +1,6 @@
-import type {
-  DefaultOptionType,
-  FieldNames,
-  InternalFieldNames,
-  InternalValueType,
-  SingleValueType,
-} from '../Cascader';
-import { SEARCH_MARK } from '../hooks/useSearchOptions';
+import { InternalFieldNames, InternalValueType } from '../Cascader';
+import { SEARCH_MARK } from '../hooks/useFilterOptions';
+import { DefaultOptionType, FieldNames, MultiValueType, SingleValueType } from '../interface';
 
 export const VALUE_SPLIT = '__CASCADER_SPLIT__';
 export const SHOW_PARENT = 'SHOW_PARENT';
@@ -21,7 +16,7 @@ export function toPathKey(value: SingleValueType) {
 /**
  * Batch convert value to string, and join with `VALUE_SPLIT`
  */
-export function toPathKeys(value: SingleValueType[]) {
+export function toPathKeys(value: MultiValueType) {
   return value.map(toPathKey);
 }
 
@@ -30,13 +25,14 @@ export function toPathValueStr(pathKey: string) {
 }
 
 export function fillFieldNames(fieldNames?: FieldNames): InternalFieldNames {
-  const { label, value, children } = fieldNames || {};
+  const { label, value, children, disabled } = fieldNames || {};
   const val = value || 'value';
   return {
     label: label || 'label',
     value: val,
     key: val as string,
     children: children || 'children',
+    disabled: disabled || 'disabled',
   };
 }
 
@@ -64,11 +60,11 @@ export function getFullPathKeys(options: DefaultOptionType[], fieldNames: FieldN
   );
 }
 
-function isMultipleValue(value: InternalValueType): value is SingleValueType[] {
+function isMultipleValue(value: InternalValueType): value is MultiValueType {
   return Array.isArray(value) && Array.isArray(value[0]);
 }
 
-export function toRawValues(value?: InternalValueType): SingleValueType[] {
+export function toRawValues(value?: InternalValueType): MultiValueType {
   if (!value) {
     return [];
   }
