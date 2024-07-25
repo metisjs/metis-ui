@@ -8,7 +8,6 @@ export default () => (
     placeholder="Search to Select"
     request={fetchData}
     fieldNames={{ label: 'name', value: 'id' }}
-    optionFilterProp="name"
     onChange={(...arg) => console.log(...arg)}
     className="w-[320px]"
   />

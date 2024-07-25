@@ -72,7 +72,7 @@ demo:
 | mode | 设置 Select 的模式为多选或标签 | `multiple` \| `tags` | - |  |
 | notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `Not Found` |  |
 | open | 是否展开下拉菜单 | boolean | - |  |
-| optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | option:`label` \| request: `keyword` |  |
+| optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | `fieldNames.label` |  |
 | optionInValue | 是否把每个选项的 option 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 OptionType 的格式 | boolean | false |  |
 | displayRender | 选择后展示的渲染函数 | (selectedOption) => ReactNode | - |  |
 | optionRender | 自定义渲染下拉选项 | (option: FlattenOptionData\<BaseOptionType\> , info: { index: number }) => React.ReactNode | - |  |

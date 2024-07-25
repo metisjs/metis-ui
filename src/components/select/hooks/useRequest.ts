@@ -2,12 +2,13 @@ import { useMemoizedFn, useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { useMemo, useRef, useState } from 'react';
 import { getClientHeight, getScrollHeight, getScrollTop } from '../../_util/rect';
-import { BaseOptionType, RequestConfig } from '../interface';
+import { BaseOptionType, FieldNames, RequestConfig } from '../interface';
 
 const PAGE_SIZE = 30;
 const THRESHOLD = 100;
 
 export default function <TData extends BaseOptionType>(
+  fieldNames: Required<FieldNames<BaseOptionType>>,
   request?: RequestConfig<TData, any[]>,
   showSearch?: boolean,
   searchValue?: string,
@@ -40,7 +41,7 @@ export default function <TData extends BaseOptionType>(
       let firstParam: Record<string, any> | undefined = undefined;
       if (showSearch || combobox) {
         firstParam = {
-          filters: { [optionFilterProp ?? 'keyword']: searchValue?.trim() || undefined },
+          filters: { [optionFilterProp ?? fieldNames.label]: searchValue?.trim() || undefined },
         };
       }
 

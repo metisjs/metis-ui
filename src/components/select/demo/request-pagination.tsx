@@ -8,7 +8,6 @@ export default () => (
     placeholder="Search to Select"
     request={fetchDataWithPagination}
     fieldNames={{ label: 'name', value: 'id' }}
-    optionFilterProp="name"
     pagination
     onChange={(...arg) => console.log(...arg)}
     className="w-[320px]"

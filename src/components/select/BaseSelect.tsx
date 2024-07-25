@@ -250,7 +250,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     // Dropdown
     OptionList,
     transition,
-    popupMatchSelectWidth: popupMatchSelectWidth,
+    popupMatchSelectWidth,
     popupRender,
     popupAlign,
     placement,

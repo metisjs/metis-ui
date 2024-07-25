@@ -58,6 +58,8 @@ export interface InternalSelectProps
     | 'mode'
     | 'value'
     | 'defaultValue'
+    | 'showSearch'
+    | 'optionInValue'
     | 'onChange'
     | 'onSelect'
     | 'onDeselect'
@@ -67,6 +69,8 @@ export interface InternalSelectProps
   mode?: 'multiple' | 'tags';
   value?: any;
   defaultValue?: any;
+  showSearch?: boolean;
+  optionInValue?: boolean;
   pagination?: boolean;
   request?: RequestConfig<BaseOptionType, any[]>;
   onChange?: (value: any, option?: any) => void;
@@ -178,12 +182,20 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     postState: (search) => search || '',
   });
 
+  // ========================= FieldNames =========================
+  const mergedFieldNames = React.useMemo(
+    () => fillFieldNames(fieldNames),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(fieldNames)],
+  );
+
   // ===================== Request =====================
   const {
     options: requestedOptions,
     loading: requestLoading,
     onScroll: onInternalPopupScroll,
   } = useRequest(
+    mergedFieldNames,
     request,
     showSearch,
     mergedSearchValue,
@@ -236,18 +248,10 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     return filterOption;
   }, [filterOption, mergedMode]);
 
-  // ========================= FieldNames =========================
-  const mergedFieldNames = React.useMemo(
-    () => fillFieldNames(fieldNames),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(fieldNames)],
-  );
-
   // =========================== Option ===========================
   const parsedOptions = useOptions<BaseOptionType>(
-    request ? requestedOptions : options,
     mergedFieldNames,
-    optionFilterProp,
+    request ? requestedOptions : options,
   );
   const { valueOptions, labelOptions, options: mergedOptions } = parsedOptions;
 
@@ -292,7 +296,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         };
       });
     },
-    [mergedFieldNames, displayRender, valueOptions],
+    [mergedFieldNames, valueOptions],
   );
 
   // =========================== Values ===========================
@@ -745,9 +749,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   ShowSearchType extends boolean = false,
   PaginationType extends boolean = false,
 >(
-  props: React.PropsWithChildren<
-    SelectProps<OptionType, ModeType, OptionInValueType, ShowSearchType, PaginationType>
-  > & {
+  props: SelectProps<OptionType, ModeType, OptionInValueType, ShowSearchType, PaginationType> & {
     ref?: React.Ref<BaseSelectRef>;
   },
 ) => React.ReactElement) & {

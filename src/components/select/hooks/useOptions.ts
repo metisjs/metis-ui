@@ -2,10 +2,11 @@ import * as React from 'react';
 import type { BaseOptionType, FieldNames, RawValueType } from '../interface';
 
 export default function useOptions<OptionType extends BaseOptionType = BaseOptionType>(
-  options: OptionType[] | undefined,
   fieldNames: FieldNames<OptionType>,
-  optionFilterProp?: string,
+  options?: OptionType[],
 ) {
+  const mergedOptions = React.useMemo(() => options || [], [options]);
+
   return React.useMemo(() => {
     const valueOptions = new Map<RawValueType, OptionType>();
     const labelOptions = new Map<React.ReactNode, OptionType>();
@@ -32,12 +33,12 @@ export default function useOptions<OptionType extends BaseOptionType = BaseOptio
         }
       }
     }
-    dig(options!);
+    dig(mergedOptions);
 
     return {
-      options: options!,
+      options: mergedOptions,
       valueOptions,
       labelOptions,
     };
-  }, [options, fieldNames, optionFilterProp]);
+  }, [mergedOptions, fieldNames]);
 }

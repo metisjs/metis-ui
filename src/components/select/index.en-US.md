@@ -71,7 +71,7 @@ demo:
 | mode | Set mode of Select | `multiple` \| `tags` | - |  |
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
-| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`label` \| request: `keyword` |  |
+| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `fieldNames.label`.If `request` is set, it will be pass to the request method. | string | `fieldNames.label` |  |
 | optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
 | displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
