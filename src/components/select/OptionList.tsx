@@ -9,18 +9,13 @@ import { useEffect } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
+import { RefOptionListProps } from './BaseSelect';
 import TransBtn from './TransBtn';
 import { SelectContext } from './context';
 import useBaseProps from './hooks/useBaseProps';
 import type { BaseOptionType, FlattenOptionData, RawValueType } from './interface';
 
 export type OptionListProps = Record<string, never>;
-
-export interface RefOptionListProps {
-  onKeyDown: React.KeyboardEventHandler;
-  onKeyUp: React.KeyboardEventHandler;
-  scrollTo?: (args: number | ScrollConfig) => void;
-}
 
 function isTitleType(content: any) {
   return typeof content === 'string' || typeof content === 'number';
