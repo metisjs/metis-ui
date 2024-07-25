@@ -1,10 +1,6 @@
-import type {
-  SingleValueType,
-  DefaultOptionType,
-  InternalFieldNames,
-  ShowCheckedStrategy,
-} from '../Cascader';
+import { InternalFieldNames } from '../Cascader';
 import type { GetEntities } from '../hooks/useEntities';
+import type { DefaultOptionType, ShowCheckedStrategy, SingleValueType } from '../interface';
 import { SHOW_CHILD } from './commonUtil';
 
 export function formatStrategyValues(
@@ -15,7 +11,7 @@ export function formatStrategyValues(
   const valueSet = new Set(pathKeys);
   const keyPathEntities = getKeyPathEntities();
 
-  return pathKeys.filter(key => {
+  return pathKeys.filter((key) => {
     const entity = keyPathEntities[key];
     const parent = entity ? entity.parent : null;
     const children = entity ? entity.children : null;
@@ -25,7 +21,7 @@ export function formatStrategyValues(
     }
 
     return showCheckedStrategy === SHOW_CHILD
-      ? !(children && children.some(child => child.key && valueSet.has(child.key)))
+      ? !(children && children.some((child) => child.key && valueSet.has(child.key)))
       : !(parent && !parent.node.disabled && valueSet.has(parent.key));
   });
 }
@@ -46,7 +42,7 @@ export function toPathOptions(
 
   for (let i = 0; i < valueCells.length; i += 1) {
     const valueCell = valueCells[i];
-    const foundIndex = currentList?.findIndex(option => {
+    const foundIndex = currentList?.findIndex((option) => {
       const val = option[fieldNames.value];
       return stringMode ? String(val) === String(valueCell) : val === valueCell;
     });
