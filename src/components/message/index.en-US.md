@@ -77,7 +77,6 @@ The properties of config are as follows:
 | getContainer | Return the mount node for Message, but still display at fullScreen | () => HTMLElement | () => document.body |  |
 | maxCount | Max message show, drop oldest if exceed limit | number | - |  |
 | prefixCls | The prefix className of message node | string |  |  |
-| rtl | Whether to enable RTL mode | boolean | false |  |
 | top | Distance from top | number | 8 |  |
 | onAllRemoved | trigger on all notification removed | VoidFunction |  |  |
 | transition | transition config | [TransitionProps](/components/transition) |  |  |
@@ -100,7 +99,6 @@ message.config({
   top: 100,
   duration: 2,
   maxCount: 3,
-  rtl: true,
   prefixCls: 'my-message',
 });
 ```
