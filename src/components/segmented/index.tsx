@@ -42,7 +42,6 @@ export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'o
   value?: SegmentedValue;
   onChange?: (value: SegmentedValue) => void;
   disabled?: boolean;
-  direction?: 'ltr' | 'rtl';
   block?: boolean;
   size?: SizeType;
 }
