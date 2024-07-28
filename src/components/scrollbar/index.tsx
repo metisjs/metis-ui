@@ -21,7 +21,7 @@ export interface ScrollbarProps
   prefixCls?: string;
   className?: SemanticClassName<'view'>;
   autoHide?: boolean;
-  autoHeight?: [number, number];
+  autoHeight?: number[];
   onScroll?: (values: ScrollValues) => void;
 }
 
@@ -62,7 +62,7 @@ const Scrollbar = forwardRef<ScrollbarRef, ScrollbarProps>(
 
     return (
       <Scrollbars
-        className={clsx(prefixCls, 'h-full, w-full', semanticCls.root)}
+        className={clsx(prefixCls, 'h-full w-full', semanticCls.root)}
         autoHide={autoHide}
         onScrollFrame={onScroll}
         autoHeight={!!autoHeight}

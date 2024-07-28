@@ -1,8 +1,7 @@
 import { useMemoizedFn, useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { useMemo, useRef, useState } from 'react';
-import { getClientHeight, getScrollHeight, getScrollTop } from '../../_util/rect';
-import { BaseOptionType, FieldNames, RequestConfig } from '../interface';
+import { BaseOptionType, FieldNames, RequestConfig, SelectProps } from '../interface';
 
 const PAGE_SIZE = 30;
 const THRESHOLD = 100;
@@ -14,7 +13,7 @@ export default function <TData extends BaseOptionType>(
   searchValue?: string,
   optionFilterProp?: string,
   pagination?: boolean,
-  onScroll?: React.UIEventHandler<HTMLDivElement>,
+  onScroll?: SelectProps['onPopupScroll'],
   combobox?: boolean,
 ) {
   const current = useRef(1);
@@ -103,18 +102,14 @@ export default function <TData extends BaseOptionType>(
     run(params);
   });
 
-  const onInternalScroll: React.UIEventHandler<HTMLDivElement> = useMemoizedFn((e) => {
-    target.current = e.target as HTMLDivElement;
+  const onInternalScroll: SelectProps['onPopupScroll'] = useMemoizedFn((values) => {
+    const { scrollTop, scrollHeight, clientHeight } = values;
     if (pagination && !noMore && !loadingMore) {
-      const scrollTop = getScrollTop(target.current);
-      const scrollHeight = getScrollHeight(target.current);
-      const clientHeight = getClientHeight(target.current);
-
       if (scrollHeight - scrollTop <= clientHeight + THRESHOLD) {
         loadMore(current.current + 1);
       }
     }
-    onScroll?.(e);
+    onScroll?.(values);
   });
 
   const mergedOptions = useMemo(() => {

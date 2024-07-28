@@ -17,6 +17,8 @@ export { default as Button } from './button';
 export type { ButtonProps } from './button';
 export { default as Card } from './card';
 export type { CardProps } from './card';
+export { default as Cascader } from './cascader';
+export type { CascaderProps } from './cascader';
 export { default as Checkbox } from './checkbox';
 export type { CheckboxOptionType, CheckboxProps, CheckboxRef } from './checkbox';
 export { default as ConfigProvider } from './config-provider';

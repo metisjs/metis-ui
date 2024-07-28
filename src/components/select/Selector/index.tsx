@@ -9,7 +9,6 @@
  */
 
 import KeyCode from 'rc-util/lib/KeyCode';
-import type { ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useRef } from 'react';
 import { SemanticClassName, clsx, getSemanticCls } from '../../_util/classNameUtils';
@@ -57,7 +56,7 @@ export interface RefSelectorProps {
 export interface SelectorProps {
   id: string;
   prefixCls: string;
-  className?: SemanticClassName<'search' | 'item'>;
+  className?: SemanticClassName<'search' | 'item' | 'placeholder' | 'input'>;
   showSearch?: boolean;
   open: boolean;
   /** Display in the Selector value, it's not same as `value` prop */

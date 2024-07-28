@@ -32,4 +32,5 @@ export const SelectContext = React.createContext<SelectContextProps>({
   onActiveValue: noop,
   onSelect: noop,
   rawValues: new Set(),
+  listHeight: 0,
 });

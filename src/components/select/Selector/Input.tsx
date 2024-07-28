@@ -60,7 +60,12 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   ref,
 ) => {
   let inputNode: any = inputElement || (
-    <input className="h-full w-full appearance-none bg-transparent p-0 leading-tight outline-0 focus:outline-0 focus:ring-0" />
+    <input
+      className={clsx(
+        'h-full w-full appearance-none bg-transparent p-0 leading-tight outline-0 focus:outline-0 focus:ring-0',
+        !editable && 'cursor-pointer',
+      )}
+    />
   );
 
   const { ref: originRef, props: originProps } = inputNode;

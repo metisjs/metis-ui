@@ -1,14 +1,13 @@
 import KeyCode from 'rc-util/lib/KeyCode';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { ListRef } from 'rc-virtual-list';
-import List from 'rc-virtual-list';
-import type { ScrollConfig } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
+import { VirtualListRef } from '../virtual-list';
+import VirtualList, { ScrollConfig } from '../virtual-list/VirtualList';
 import { RefOptionListProps } from './BaseSelect';
 import TransBtn from './TransBtn';
 import { SelectContext } from './context';
@@ -62,7 +61,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
   );
 
   // =========================== List ===========================
-  const listRef = React.useRef<ListRef>(null);
+  const listRef = React.useRef<VirtualListRef>(null);
 
   const onListMouseDown: React.MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
@@ -133,12 +132,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         }
       }
     });
-
-    // Force trigger scrollbar visible when open
-    if (open) {
-      //@ts-ignore
-      listRef.current?.scrollTo(undefined);
-    }
 
     return () => clearTimeout(timeoutId);
   }, [open, searchValue, flattenOptions.length]);
@@ -281,7 +274,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
           {renderItem(activeIndex + 1)}
         </div>
       )}
-      <List<FlattenOptionData<BaseOptionType>>
+      <VirtualList<FlattenOptionData<BaseOptionType>>
         itemKey="key"
         ref={listRef}
         data={memoFlattenOptions}
@@ -292,10 +285,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         onScroll={onPopupScroll}
         virtual={virtual}
         innerProps={virtual ? undefined : a11yProps}
-        styles={{
-          horizontalScrollBar: { height: 6 },
-          verticalScrollBar: { width: 6 },
-        }}
       >
         {(item, itemIndex) => {
           const { group, groupOption, data, label, value, disabled } = item;
@@ -406,7 +395,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             </div>
           );
         }}
-      </List>
+      </VirtualList>
     </>
   );
 };

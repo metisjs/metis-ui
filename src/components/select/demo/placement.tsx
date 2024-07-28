@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { SelectCommonPlacement } from '../interface';
 
 const App: React.FC = () => {
-  const [placement, SetPlacement] = useState<SelectCommonPlacement>('topLeft');
+  const [placement, setPlacement] = useState<SelectCommonPlacement>('topLeft');
 
   const placementChange = (value: string) => {
-    SetPlacement(value as SelectCommonPlacement);
+    setPlacement(value as SelectCommonPlacement);
   };
 
   return (

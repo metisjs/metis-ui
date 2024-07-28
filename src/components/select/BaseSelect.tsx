@@ -1,13 +1,21 @@
 import KeyCode from 'rc-util/lib/KeyCode';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import type { ScrollConfig, ScrollTo } from 'rc-virtual-list/lib/List';
 import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
 import useLock from '../_util/hooks/useLock';
+import { getMergedStatus, getStatusClassNames, InputStatus } from '../_util/statusUtils';
 import { Variant } from '../config-provider';
+import DisabledContext from '../config-provider/DisabledContext';
+import { SizeType } from '../config-provider/SizeContext';
+import useSize from '../config-provider/hooks/useSize';
+import { FormItemInputContext } from '../form/context';
+import useVariant from '../form/hooks/useVariant';
+import { ScrollbarProps } from '../scrollbar';
+import { useCompactItemContext } from '../space/Compact';
 import { TransitionProps } from '../transition';
 import { AlignType, BuildInPlacements } from '../trigger';
+import { ScrollConfig, ScrollTo } from '../virtual-list/VirtualList';
 import type { RefTriggerProps } from './SelectTrigger';
 import SelectTrigger from './SelectTrigger';
 import type { RefSelectorProps } from './Selector';
@@ -125,14 +133,13 @@ export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSele
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
   className?: SemanticClassName<
-    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder' | 'focusedRoot'
+    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
   >;
   style?: React.CSSProperties;
   title?: string;
   showSearch?: boolean;
   tagRender?: (props: CustomTagProps) => React.ReactElement;
   maxLength?: number;
-  variant?: Variant;
 
   // MISC
   tabIndex?: number;
@@ -140,6 +147,14 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   notFoundContent?: React.ReactNode;
   placeholder?: React.ReactNode;
   onClear?: () => void;
+
+  // >>> Size
+  size?: SizeType;
+
+  // >>> Variant
+  variant?: Variant;
+
+  status?: InputStatus;
 
   // >>> Mode
   mode?: Mode;
@@ -189,7 +204,7 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
   onKeyUp?: React.KeyboardEventHandler<HTMLDivElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   onMouseDown?: React.MouseEventHandler<HTMLDivElement>;
-  onPopupScroll?: React.UIEventHandler<HTMLDivElement>;
+  onPopupScroll?: ScrollbarProps['onScroll'];
   onInputKeyDown?: React.KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
@@ -208,6 +223,9 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     showSearch,
     tagRender,
     omitDomProps,
+    size: customizeSize,
+    variant: customizeVariant,
+    status: customStatus,
 
     // Value
     displayValues,
@@ -220,7 +238,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     mode,
 
     // Status
-    disabled,
+    disabled: customDisabled,
     loading,
 
     // Customize Input
@@ -291,6 +309,19 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     delete domProps[propName];
   });
 
+  const { isCompactItem, compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+  const [variant, enableVariantCls] = useVariant(customizeVariant);
+
+  // ===================== Disabled =====================
+  const disabled = React.useContext(DisabledContext);
+  const mergedDisabled = customDisabled ?? disabled;
+
+  // ===================== Form Status =====================
+  const { status: contextStatus, isFormItemInput } = React.useContext(FormItemInputContext);
+  const mergedStatus = getMergedStatus(contextStatus, customStatus);
+
   // ============================== Refs ==============================
   const containerRef = React.useRef<HTMLDivElement>(null);
   const selectorDomRef = React.useRef<HTMLDivElement>(null);
@@ -340,7 +371,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   // Not trigger `open` in `combobox` when `notFoundContent` is empty
   const emptyListContent = !notFoundContent && emptyOptions;
-  if (disabled || (emptyListContent && mergedOpen && mode === 'combobox')) {
+  if (mergedDisabled || (emptyListContent && mergedOpen && mode === 'combobox')) {
     mergedOpen = false;
   }
   const triggerOpen = emptyListContent ? false : mergedOpen;
@@ -349,7 +380,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     (newOpen?: boolean) => {
       const nextOpen = newOpen !== undefined ? newOpen : !mergedOpen;
 
-      if (!disabled) {
+      if (!mergedDisabled) {
         setInnerOpen(nextOpen);
 
         if (mergedOpen !== nextOpen) {
@@ -357,7 +388,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         }
       }
     },
-    [disabled, mergedOpen, setInnerOpen, onPopupOpenChange],
+    [mergedDisabled, mergedOpen, setInnerOpen, onPopupOpenChange],
   );
 
   // ============================= Search =============================
@@ -417,14 +448,14 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ============================ Disabled ============================
   // Close dropdown & remove focus state when disabled change
   React.useEffect(() => {
-    if (innerOpen && disabled) {
+    if (innerOpen && mergedDisabled) {
       setInnerOpen(false);
     }
 
-    if (disabled) {
+    if (mergedDisabled) {
       setMockFocused(false);
     }
-  }, [disabled]);
+  }, [mergedDisabled]);
 
   // ============================ Keyboard ============================
   /**
@@ -516,7 +547,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   const onContainerFocus: React.FocusEventHandler<HTMLElement> = (...args) => {
     setMockFocused(true);
 
-    if (!disabled) {
+    if (!mergedDisabled) {
       if (onFocus && !focusRef.current) {
         onFocus(...args);
       }
@@ -536,7 +567,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       onToggleOpen(false);
     });
 
-    if (disabled) {
+    if (mergedDisabled) {
       return;
     }
 
@@ -651,7 +682,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   };
 
   if (
-    !disabled &&
+    !mergedDisabled &&
     allowClear &&
     (displayValues.length || mergedSearchValue) &&
     !(mode === 'combobox' && mergedSearchValue === '')
@@ -703,7 +734,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   const optionList = <OptionList ref={listRef} />;
 
   // ============================= Style =============================
-  const mergedRootClassName = clsx(
+  const rootCls = clsx(
     prefixCls,
     {
       [`${prefixCls}-focused`]: mockFocused,
@@ -711,42 +742,97 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-single`]: !multiple,
       [`${prefixCls}-allow-clear`]: allowClear,
       [`${prefixCls}-show-arrow`]: showSuffixIcon,
-      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixCls}-disabled`]: mergedDisabled,
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-open`]: mergedOpen,
       [`${prefixCls}-customize-input`]: customizeInputElement,
       [`${prefixCls}-show-search`]: showSearch,
+      [`${prefixCls}-lg`]: mergedSize === 'large',
+      [`${prefixCls}-sm`]: mergedSize === 'small',
+      [`${prefixCls}-in-form-item`]: isFormItemInput,
+      [`${prefixCls}-${variant}`]: enableVariantCls,
     },
-    !customizeInputElement &&
+    !customizeInputElement && [
       'group/select relative inline-block rounded-md bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border',
-    !customizeInputElement && disabled && 'bg-neutral-fill-quaternary text-neutral-text-tertiary',
+      { 'text-base': mergedSize === 'large' },
+      {
+        'bg-neutral-bg-container ring-1': variant === 'outlined',
+        'bg-transparent shadow-none ring-0': variant === 'borderless',
+        'bg-neutral-fill-quinary ring-0': variant === 'filled',
+      },
+      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+      compactItemClassnames,
+      getStatusClassNames(mergedStatus, variant),
+      mergedDisabled && {
+        'bg-neutral-fill-quaternary text-neutral-text-tertiary': true,
+        'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
+          variant !== 'borderless',
+      },
+      (mockFocused || mergedOpen) && {
+        'ring-2 ring-primary': true,
+        'ring-0': variant === 'borderless',
+        'bg-neutral-bg-container': variant === 'filled',
+        'z-[2]': isCompactItem,
+      },
+    ],
     semanticCls.root,
-    !customizeInputElement &&
-      (mockFocused || mergedOpen) && ['ring-2 ring-primary', semanticCls.focusedRoot],
   );
 
-  const mergedSelectorClassName = {
-    root: semanticCls.selector,
-    search: clsx(
-      { 'pe-7': !customizeInputElement && showSuffixIcon && !multiple },
-      semanticCls.selectorSearch,
-    ),
-    item: clsx({ 'pe-7': showSuffixIcon && !multiple }, semanticCls.selectorItem),
-    placeholder: clsx({ 'pe-7': showSuffixIcon }, semanticCls.selectorPlaceholder),
-  };
+  const selectorCls = clsx(
+    !customizeInputElement && {
+      'truncate rounded-md px-3 py-1 leading-6': true,
+      'py-0.5 pe-9 ps-1 leading-7 after:my-0.5': multiple,
+      'px-2 after:leading-6': mergedSize === 'small',
+      'after:leading-8': mergedSize === 'large',
+    },
+    semanticCls.selector,
+  );
+
+  const selectorSearchCls = clsx(
+    !customizeInputElement && {
+      'pe-7': showSuffixIcon && !multiple,
+      'end-2 start-2': mergedSize === 'small' && !multiple,
+      'ms-0.5 h-7': mergedSize === 'small' && multiple,
+    },
+    semanticCls.selectorSearch,
+  );
+
+  const selectorPlaceholderCls = clsx(
+    {
+      'pe-7': showSuffixIcon,
+      'end-2 start-2': mergedSize === 'small' && multiple,
+    },
+    semanticCls.selectorPlaceholder,
+  );
+
+  const selectorItemCls = clsx(
+    {
+      'pe-7': showSuffixIcon && !multiple,
+      'text-base/7': mergedSize === 'large',
+      'text-sm/5': mergedSize === 'small',
+      'leading-8': mergedSize === 'large' && multiple,
+      'pe-1 ps-2 leading-6': mergedSize === 'small' && multiple,
+    },
+    semanticCls.selectorItem,
+  );
+
+  const popupCls = clsx(
+    'absolute rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+    semanticCls.popup,
+  );
 
   // ============================= Select =============================
   // >>> Selector
   const selectorNode = (
     <SelectTrigger
       ref={triggerRef}
-      disabled={!!disabled}
+      disabled={!!mergedDisabled}
       prefixCls={prefixCls}
       open={triggerOpen}
       popupElement={optionList}
       containerWidth={containerWidth}
       transition={transition}
-      popupClassName={semanticCls.popup}
+      popupClassName={popupCls}
       popupMatchSelectWidth={popupMatchSelectWidth}
       popupRender={popupRender}
       popupAlign={popupAlign}
@@ -762,7 +848,12 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         {...props}
         domRef={selectorDomRef}
         prefixCls={prefixCls}
-        className={mergedSelectorClassName}
+        className={{
+          root: selectorCls,
+          search: selectorSearchCls,
+          item: selectorItemCls,
+          placeholder: selectorPlaceholderCls,
+        }}
         inputElement={customizeInputElement}
         ref={selectorRef}
         id={id}
@@ -787,7 +878,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // >>> Render
   let renderNode = (
     <div
-      className={mergedRootClassName}
+      className={rootCls}
       {...domProps}
       ref={containerRef}
       onMouseDown={onInternalMouseDown}

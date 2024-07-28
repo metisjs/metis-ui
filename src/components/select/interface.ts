@@ -4,8 +4,6 @@ import {
 } from 'ahooks/lib/useRequest/src/types';
 import * as React from 'react';
 import { SemanticClassName } from '../_util/classNameUtils';
-import { InputStatus } from '../_util/statusUtils';
-import { SizeType } from '../config-provider/SizeContext';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import { SelectPlacements } from './Select';
 
@@ -140,9 +138,6 @@ export interface SelectProps<
 
   disabled?: boolean;
 
-  // >>> Size
-  size?: SizeType;
-
   // >>> Field Names
   fieldNames?: FieldNames<OptionType>;
 
@@ -189,7 +184,6 @@ export interface SelectProps<
   ) => void;
 
   placement?: SelectCommonPlacement;
-  status?: InputStatus;
 
   // >>> Request
   request?: GetRequestType<OptionType, ShowSearchType, PaginationType>;
