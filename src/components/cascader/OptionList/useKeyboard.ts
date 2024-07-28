@@ -14,14 +14,12 @@ export default (
   setActiveValueCells: (activeValueCells: React.Key[]) => void,
   onKeyBoardSelect: (valueCells: SingleValueType, option: DefaultOptionType) => void,
   contextProps: {
-    direction?: 'ltr' | 'rtl';
     searchValue: string;
     toggleOpen: (open?: boolean) => void;
     open?: boolean;
   },
 ) => {
-  const { direction, searchValue, toggleOpen, open } = contextProps;
-  const rtl = direction === 'rtl';
+  const { searchValue, toggleOpen, open } = contextProps;
 
   const [validActiveValueCells, lastActiveIndex, lastActiveOptions, fullPathKeys] =
     React.useMemo(() => {
@@ -144,11 +142,7 @@ export default (
           if (searchValue) {
             break;
           }
-          if (rtl) {
-            nextColumn();
-          } else {
-            prevColumn();
-          }
+          prevColumn();
           break;
         }
 
@@ -156,11 +150,7 @@ export default (
           if (searchValue) {
             break;
           }
-          if (rtl) {
-            prevColumn();
-          } else {
-            nextColumn();
-          }
+          nextColumn();
           break;
         }
 

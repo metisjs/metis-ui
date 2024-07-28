@@ -1,14 +1,7 @@
 import Cascader from './Cascader';
-import Panel from './Panel';
 
-export type {
-  BaseOptionType,
-  DefaultOptionType,
-  CascaderProps,
-  FieldNames,
-  ShowSearchType,
-  CascaderRef,
-} from './Cascader';
-export { Panel };
+export type { CascaderRef } from './Cascader';
+
+export type { BaseOptionType, CascaderProps, DefaultOptionType, FieldNames } from './interface';
 
 export default Cascader;

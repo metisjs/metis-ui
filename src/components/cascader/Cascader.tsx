@@ -3,19 +3,14 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { useZIndex } from '../_util/hooks/useZIndex';
-import { getMergedStatus } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
-import DisabledContext from '../config-provider/DisabledContext';
-import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
-import useVariant from '../form/hooks/useVariant';
 import BaseSelect, { BaseSelectProps, BaseSelectRef, DisplayValueType } from '../select/BaseSelect';
 import useBuiltinPlacements from '../select/hooks/useBuiltinPlacements';
 import useIcons from '../select/hooks/useIcons';
 import useId from '../select/hooks/useId';
 import { RequestConfig, SelectCommonPlacement } from '../select/interface';
-import { useCompactItemContext } from '../space/Compact';
 import CascaderContext from './context';
 import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
@@ -72,19 +67,15 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     prefixCls: customizePrefixCls,
     fieldNames,
     className,
-    size: customizeSize,
-    disabled: customizeDisabled,
     multiple = false,
-    allowClear = true,
+    allowClear,
     notFoundContent,
-    status: customizeStatus,
-    variant: customizeVariant,
     defaultValue,
     value,
     changeOnSelect,
     onChange,
     displayRender,
-    optionInValue,
+    // optionInValue,
     autoClearSearchValue = true,
     searchValue,
     onSearch,
@@ -116,30 +107,13 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
 
   const mergedId = useId(id);
 
-  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
-
-  const [variant, enableVariantCls] = useVariant(customizeVariant);
-
   // =================== Form =====================
-  const {
-    status: contextStatus,
-    hasFeedback,
-    isFormItemInput,
-    feedbackIcon,
-  } = React.useContext(FormItemInputContext);
-  const mergedStatus = getMergedStatus(contextStatus, customizeStatus);
+  const { hasFeedback, feedbackIcon } = React.useContext(FormItemInputContext);
 
   // =================== No Found ====================
   const mergedNotFoundContent = notFoundContent || renderEmpty?.('Cascader') || (
     <DefaultRenderEmpty componentName="Cascader" />
   );
-
-  // ===================== Size ======================
-  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
-
-  // ===================== Disabled =====================
-  const disabled = React.useContext(DisabledContext);
-  const mergedDisabled = customizeDisabled ?? disabled;
 
   // ===================== Icons ======================
   const { suffixIcon, removeIcon, clearIcon } = useIcons({
@@ -338,12 +312,10 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
 
   // ========================== Style ===========================
   const popupCls = clsx(
-    '',
-    !mergedSearchValue && !emptyOptions && 'min-w-[auto]',
+    'p-0',
+    !mergedSearchValue && !emptyOptions && '!min-w-[auto]',
     semanticCls.popup,
   );
-
-  const cls: BaseSelectProps['className'] = React.useMemo(() => ({ popup: popupCls }), [popupCls]);
 
   // ============================ zIndex ============================
   const [zIndex] = useZIndex('SelectLike');
@@ -368,8 +340,10 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
         showSearch={showSearch}
         OptionList={OptionList}
         emptyOptions={emptyOptions}
-        className={cls}
-        disabled={mergedDisabled}
+        className={{
+          root: semanticCls.root,
+          popup: popupCls,
+        }}
         builtinPlacements={mergedBuiltinPlacements}
         placement={memoPlacement}
         notFoundContent={mergedNotFoundContent}
@@ -377,6 +351,11 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
         suffixIcon={suffixIcon}
         removeIcon={removeIcon}
         getPopupContainer={getPopupContainer || getContextPopupContainer}
+        transition={{
+          leave: 'transition ease-in duration-100',
+          leaveFrom: 'opacity-100',
+          leaveTo: 'opacity-0',
+        }}
       />
     </CascaderContext.Provider>
   );

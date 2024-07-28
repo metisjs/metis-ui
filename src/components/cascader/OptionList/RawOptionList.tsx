@@ -1,5 +1,5 @@
-import { clsx } from 'metis-ui/es/_util/classNameUtils';
 import * as React from 'react';
+import { clsx } from '../../_util/classNameUtils';
 import { useBaseProps } from '../../select';
 import { RefOptionListProps } from '../../select/BaseSelect';
 import CascaderContext from '../context';
@@ -219,9 +219,13 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
   return (
     <CacheContent open={open}>
       <div
-        className={clsx(`${prefixCls}-menus`, {
-          [`${prefixCls}-menu-empty`]: isEmpty,
-        })}
+        className={clsx(
+          `${prefixCls}-menus`,
+          {
+            [`${prefixCls}-menu-empty`]: isEmpty,
+          },
+          'flex flex-nowrap items-start',
+        )}
         ref={containerRef}
       >
         {columnNodes}

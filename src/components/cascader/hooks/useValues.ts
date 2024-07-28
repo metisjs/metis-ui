@@ -1,6 +1,6 @@
-import { conductCheck } from 'metis-ui/es/tree/utils/conductUtil';
 import * as React from 'react';
 import { DataEntity } from '../../tree/interface';
+import { conductCheck } from '../../tree/utils/conductUtil';
 import { MultiValueType } from '../interface';
 import { toPathKeys } from '../utils/commonUtil';
 import type { GetMissValues } from './useMissingValues';

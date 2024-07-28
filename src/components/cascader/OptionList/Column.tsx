@@ -1,10 +1,11 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import { clsx } from '../../_util/classNameUtils';
+import Checkbox from '../../checkbox';
+import Scrollbar from '../../scrollbar';
 import CascaderContext from '../context';
 import { SEARCH_MARK } from '../hooks/useFilterOptions';
 import type { DefaultOptionType, SingleValueType } from '../interface';
 import { isLeaf, toPathKey } from '../utils/commonUtil';
-import Checkbox from './Checkbox';
 
 export const FIX_LABEL = '__cascader_fix_label__';
 
@@ -53,7 +54,7 @@ export default function Column({
   const optionInfoList = React.useMemo(
     () =>
       options.map((option) => {
-        const { disabled, disableCheckbox } = option;
+        const { disabled } = option;
         const searchOptions: Record<string, any>[] = option[SEARCH_MARK];
         const label = option[FIX_LABEL] ?? option[fieldNames.label];
         const value = option[fieldNames.value];
@@ -83,7 +84,6 @@ export default function Column({
           checked,
           halfChecked,
           option,
-          disableCheckbox,
           fullPath,
           fullPathKey,
         };
@@ -91,118 +91,115 @@ export default function Column({
     [options, checkedSet, fieldNames, halfCheckedSet, loadingKeys, prevValuePath],
   );
 
+  // ============================ Style ============================
+  const menuCls = clsx(menuPrefixCls, '');
+
   // ============================ Render ============================
   return (
-    <ul className={menuPrefixCls} role="menu">
-      {optionInfoList.map(
-        ({
-          disabled,
-          label,
-          value,
-          isLeaf: isMergedLeaf,
-          isLoading,
-          checked,
-          halfChecked,
-          option,
-          fullPath,
-          fullPathKey,
-          disableCheckbox,
-        }) => {
-          // >>>>> Open
-          const triggerOpenPath = () => {
-            if (disabled || searchValue) {
-              return;
-            }
-            const nextValueCells = [...fullPath];
-            if (hoverOpen && isMergedLeaf) {
-              nextValueCells.pop();
-            }
-            onActive(nextValueCells);
-          };
+    <Scrollbar>
+      <ul className={menuCls} role="menu">
+        {optionInfoList.map(
+          ({
+            disabled,
+            label,
+            value,
+            isLeaf: isMergedLeaf,
+            isLoading,
+            checked,
+            halfChecked,
+            option,
+            fullPath,
+            fullPathKey,
+          }) => {
+            // >>>>> Open
+            const triggerOpenPath = () => {
+              if (disabled || searchValue) {
+                return;
+              }
+              const nextValueCells = [...fullPath];
+              if (hoverOpen && isMergedLeaf) {
+                nextValueCells.pop();
+              }
+              onActive(nextValueCells);
+            };
 
-          // >>>>> Selection
-          const triggerSelect = () => {
-            if (isSelectable(option)) {
-              onSelect(fullPath, isMergedLeaf);
+            // >>>>> Selection
+            const triggerSelect = () => {
+              if (isSelectable(option)) {
+                onSelect(fullPath, isMergedLeaf);
+              }
+            };
+
+            // >>>>> Title
+            let title: string | undefined;
+            if (typeof option.title === 'string') {
+              title = option.title;
+            } else if (typeof label === 'string') {
+              title = label;
             }
-          };
 
-          // >>>>> Title
-          let title: string | undefined;
-          if (typeof option.title === 'string') {
-            title = option.title;
-          } else if (typeof label === 'string') {
-            title = label;
-          }
-
-          // >>>>> Render
-          return (
-            <li
-              key={fullPathKey}
-              className={classNames(menuItemPrefixCls, {
-                [`${menuItemPrefixCls}-expand`]: !isMergedLeaf,
-                [`${menuItemPrefixCls}-active`]:
-                  activeValue === value || activeValue === fullPathKey,
-                [`${menuItemPrefixCls}-disabled`]: disabled,
-                [`${menuItemPrefixCls}-loading`]: isLoading,
-              })}
-              role="menuitemcheckbox"
-              title={title}
-              aria-checked={checked}
-              data-path-key={fullPathKey}
-              onClick={() => {
-                triggerOpenPath();
-                if (disableCheckbox) {
-                  return;
-                }
-                if (!multiple || isMergedLeaf) {
-                  triggerSelect();
-                }
-              }}
-              onDoubleClick={() => {
-                if (changeOnSelect) {
-                  onToggleOpen(false);
-                }
-              }}
-              onMouseEnter={() => {
-                if (hoverOpen) {
+            // >>>>> Render
+            return (
+              <li
+                key={fullPathKey}
+                className={clsx(menuItemPrefixCls, {
+                  [`${menuItemPrefixCls}-expand`]: !isMergedLeaf,
+                  [`${menuItemPrefixCls}-active`]:
+                    activeValue === value || activeValue === fullPathKey,
+                  [`${menuItemPrefixCls}-disabled`]: disabled,
+                  [`${menuItemPrefixCls}-loading`]: isLoading,
+                })}
+                role="menuitemcheckbox"
+                title={title}
+                aria-checked={checked}
+                data-path-key={fullPathKey}
+                onClick={() => {
                   triggerOpenPath();
-                }
-              }}
-              onMouseDown={(e) => {
-                // Prevent selector from blurring
-                e.preventDefault();
-              }}
-            >
-              {multiple && (
-                <Checkbox
-                  prefixCls={`${prefixCls}-checkbox`}
-                  checked={checked}
-                  halfChecked={halfChecked}
-                  disabled={disabled || disableCheckbox}
-                  disableCheckbox={disableCheckbox}
-                  onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
-                    if (disableCheckbox) {
-                      return;
-                    }
-                    e.stopPropagation();
+                  if (!multiple || isMergedLeaf) {
                     triggerSelect();
-                  }}
-                />
-              )}
-              <div className={`${menuItemPrefixCls}-content`}>
-                {optionRender ? optionRender(option) : label}
-              </div>
-              {!isLoading && expandIcon && !isMergedLeaf && (
-                <div className={`${menuItemPrefixCls}-expand-icon`}>{expandIcon}</div>
-              )}
-              {isLoading && loadingIcon && (
-                <div className={`${menuItemPrefixCls}-loading-icon`}>{loadingIcon}</div>
-              )}
-            </li>
-          );
-        },
-      )}
-    </ul>
+                  }
+                }}
+                onDoubleClick={() => {
+                  if (changeOnSelect) {
+                    onToggleOpen(false);
+                  }
+                }}
+                onMouseEnter={() => {
+                  if (hoverOpen) {
+                    triggerOpenPath();
+                  }
+                }}
+                onMouseDown={(e) => {
+                  // Prevent selector from blurring
+                  e.preventDefault();
+                }}
+              >
+                {multiple && (
+                  <Checkbox
+                    prefixCls={`${prefixCls}-checkbox`}
+                    checked={checked}
+                    indeterminate={halfChecked}
+                    disabled={disabled}
+                    onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
+                      e.stopPropagation();
+                      triggerSelect();
+                    }}
+                  />
+                )}
+                <div className={`${menuItemPrefixCls}-content`}>
+                  {optionRender ? optionRender(option) : label}
+                </div>
+                {!isLoading && expandIcon && !isMergedLeaf && (
+                  <div className={`${menuItemPrefixCls}-expand-icon`}>{expandIcon}</div>
+                )}
+                {isLoading && loadingIcon && (
+                  <div className={`${menuItemPrefixCls}-loading-icon`}>{loadingIcon}</div>
+                )}
+              </li>
+            );
+          },
+        )}
+      </ul>
+    </Scrollbar>
   );
 }
