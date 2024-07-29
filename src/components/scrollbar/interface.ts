@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SemanticClassName } from '../_util/classNameUtils';
 
-export interface ScrollbarsProps {
+export interface ScrollbarProps {
   prefixCls?: string;
   children?: React.ReactNode;
   autoHeight?: false | number[];

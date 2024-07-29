@@ -15,7 +15,7 @@ export type {
   BaseSelectProps,
   BaseSelectPropsWithoutPrivate,
   CustomTagProps,
-  BaseSelectRef as RefSelectProps,
+  BaseSelectRef as SelectRef,
 };
 
 export default Select;
