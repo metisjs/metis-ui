@@ -5,8 +5,6 @@ description: 可以自动隐藏的滚动条。
 group: 其他
 ---
 
-> 由 [rc-scrollbars](https://github.com/sakhnyuk/rc-scrollbars) 扩展而来
-
 ## 何时使用
 
 - 用于美化滚动条。

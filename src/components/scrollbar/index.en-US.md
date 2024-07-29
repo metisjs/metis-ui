@@ -4,8 +4,6 @@ description: A scrollbar that can hide automatically.
 group: Other
 ---
 
-> Extended from [rc-scrollbars](https://github.com/sakhnyuk/rc-scrollbars)
-
 ## When to Use
 
 - To beautify the scrollbar.
