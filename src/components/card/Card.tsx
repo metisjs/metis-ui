@@ -34,13 +34,13 @@ const ActionNode: React.FC<{
         const key = `action-${index}`;
         return (
           <li
-            className="py-3 text-center text-neutral-text-tertiary"
+            className="py-3 text-center text-text-tertiary"
             style={{ width: `${100 / actions.length}%` }}
             key={key}
           >
             <span
               className={clsx(
-                'relative block cursor-pointer border-r border-neutral-border-secondary hover:text-primary',
+                'border-neutral-border-secondary relative block cursor-pointer border-r hover:text-primary',
                 // last item
                 actions.length - 1 === index && 'border-r-0',
               )}
@@ -86,7 +86,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   if (title || extra) {
     const headClasses = clsx(
       `${prefixCls}-head`,
-      'flex items-center justify-between border-b border-neutral-border-secondary px-6 py-4',
+      'border-neutral-border-secondary flex items-center justify-between border-b px-6 py-4',
       semanticCLs.header,
     );
     const titleClasses = clsx(
@@ -115,7 +115,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 
   const actionClasses = clsx(
     `${prefixCls}-actions`,
-    'flex border-t border-neutral-border-secondary',
+    'border-neutral-border-secondary flex border-t',
     semanticCLs.actions,
   );
   const actionDom = actions?.length ? (
@@ -130,7 +130,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
       [`${prefixCls}-hoverable`]: hoverable,
       [`${prefixCls}-${mergedSize}`]: mergedSize,
     },
-    'overflow-hidden rounded-lg border border-neutral-border-secondary bg-neutral-bg-container text-sm text-neutral-text',
+    'border-neutral-border-secondary overflow-hidden rounded-lg border bg-container text-sm text-text',
     {
       'border-0 shadow': !bordered,
       'hover:shadow-lg': hoverable,

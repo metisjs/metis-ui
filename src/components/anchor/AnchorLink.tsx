@@ -83,7 +83,7 @@ const AnchorLink: React.FC<AnchorLinkProps> = (props) => {
     {
       [`${prefixCls}-link-title-active`]: active,
     },
-    'block !text-neutral-text',
+    'block !text-text',
     {
       '!text-primary': active,
     },

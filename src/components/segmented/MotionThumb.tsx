@@ -96,10 +96,7 @@ export default function MotionThumb(props: MotionThumbInterface) {
       {({ className, style }, ref) => (
         <div
           ref={ref}
-          className={clsx(
-            className,
-            'absolute left-0 top-0 h-full rounded-md bg-neutral-bg-container shadow',
-          )}
+          className={clsx(className, 'absolute left-0 top-0 h-full rounded-md bg-container shadow')}
           style={style}
         ></div>
       )}

@@ -79,13 +79,13 @@ export default function StepHandler({
 
   const handlerClassName = clsx(
     `${prefixCls}-handler`,
-    'group-handler absolute bottom-0 right-0 top-0 flex w-6 select-none flex-col items-stretch rounded-ee-md rounded-se-md text-sm text-neutral-text-tertiary opacity-0 transition-opacity duration-200 ease-linear',
+    'group-handler absolute bottom-0 right-0 top-0 flex w-6 select-none flex-col items-stretch rounded-ee-md rounded-se-md text-sm text-text-tertiary opacity-0 transition-opacity duration-200 ease-linear',
     {
-      'bottom-px right-px top-px bg-neutral-bg-container group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-1px)]':
+      'bottom-px right-px top-px bg-container group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-1px)]':
         variant === 'outlined',
-      'bg-neutral-fill-quinary group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-2px)] group-has-[:focus-within]/input:bg-neutral-bg-container':
+      'bg-fill-quinary group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-2px)] group-has-[:focus-within]/input:bg-container':
         variant === 'filled',
-      'bg-neutral-bg-container': variant === 'borderless',
+      'bg-container': variant === 'borderless',
     },
     'group-hover/affix:opacity-100 group-hover/input:opacity-100',
   );
@@ -95,7 +95,7 @@ export default function StepHandler({
     {
       [`${prefixCls}-handler-up-disabled`]: upDisabled,
     },
-    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l border-neutral-border-secondary transition-all duration-200 ease-linear',
+    'border-neutral-border-secondary flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l transition-all duration-200 ease-linear',
     {
       '*:-translate-x-[0.5px] *:translate-y-[0.5px] group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
         variant === 'outlined',
@@ -103,7 +103,7 @@ export default function StepHandler({
         variant === 'filled',
     },
     !upDisabled && 'hover:h-3/5 hover:text-primary',
-    upDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
+    upDisabled && 'cursor-not-allowed text-text-quaternary',
   );
   const downClassName = clsx(
     `${prefixCls}-handler-down`,
@@ -118,7 +118,7 @@ export default function StepHandler({
         variant === 'filled',
     },
     !downDisabled && 'hover:h-3/5 hover:text-primary',
-    downDisabled && 'cursor-not-allowed text-neutral-text-quaternary',
+    downDisabled && 'cursor-not-allowed text-text-quaternary',
   );
 
   // In Safari, When we fire onmousedown and onmouseup events in quick succession,
@@ -147,7 +147,7 @@ export default function StepHandler({
       >
         {upNode}
       </span>
-      <span className="h-px bg-neutral-border-secondary"></span>
+      <span className="bg-neutral-border-secondary h-px"></span>
       <span
         {...sharedHandlerProps}
         onMouseDown={(e) => {

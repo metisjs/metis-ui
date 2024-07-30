@@ -48,8 +48,8 @@ export function renderItem(
 
   const cls = clsx(
     `${prefixCls}-link`,
-    'inline-flex h-full items-center gap-1 px-1 !text-neutral-text-secondary',
-    isLastItem && '!text-neutral-text',
+    'inline-flex h-full items-center gap-1 px-1 !text-text-secondary',
+    isLastItem && '!text-text',
     semanticCls.item,
     itemClassName,
   );
@@ -63,7 +63,7 @@ export function renderItem(
 
   if (href !== undefined) {
     return (
-      <a {...passedProps} className={clsx(cls, 'hover:!text-neutral-text')} href={href}>
+      <a {...passedProps} className={clsx(cls, 'hover:!text-text')} href={href}>
         {iconNode}
         {children}
       </a>

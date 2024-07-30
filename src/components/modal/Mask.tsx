@@ -30,7 +30,7 @@ const Mask: React.FC<MaskProps> = (props) => {
           style={{ ...transitionStyle, ...style }}
           className={clsx(
             `${prefixCls}-mask`,
-            'pointer-events-none fixed inset-0 bg-neutral-bg-mask',
+            'pointer-events-none fixed inset-0 bg-mask',
             className,
             transitionClassName,
           )}

@@ -191,7 +191,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
 
     const textareaCls = clsx(
       { [`${prefixCls}-${variant}`]: enableVariantCls },
-      'relative block h-full w-full appearance-none rounded-md border-0 bg-neutral-bg-container text-sm text-neutral-text shadow-sm outline-none ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
+      'ring-neutral-border relative block h-full w-full appearance-none rounded-md border-0 bg-container text-sm text-text shadow-sm outline-none ring-inset placeholder:text-text-quaternary focus:ring-inset focus:ring-primary',
       {
         'px-2 py-1': mergedSize === 'small',
         'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -200,16 +200,15 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       {
         'ring-1 focus:ring-2': variant === 'outlined',
         'bg-transparent shadow-none ring-0 focus:ring-0': variant === 'borderless',
-        'bg-neutral-fill-quinary ring-0 focus:bg-neutral-bg-container  focus:ring-2':
-          variant === 'filled',
+        'bg-fill-quinary ring-0 focus:bg-container  focus:ring-2': variant === 'filled',
       },
       {
         'pr-8': allowClear,
       },
       getStatusClassNames(mergedStatus, variant),
       mergedDisabled && {
-        'text-neutral-text-tertiary ring-neutral-border': true,
-        'bg-neutral-fill-quaternary': variant !== 'borderless',
+        'ring-neutral-border text-text-tertiary': true,
+        'bg-fill-quaternary': variant !== 'borderless',
       },
       semanticCls.textarea,
     );
@@ -220,7 +219,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         [`${prefixCls}-textarea-allow-clear`]: allowClear,
       },
       'group',
-      'relative inline-flex w-full min-w-0 border-0 text-sm text-neutral-text',
+      'relative inline-flex w-full min-w-0 border-0 text-sm text-text',
       {
         'leading-6': mergedSize === 'middle',
         'text-base': mergedSize === 'large',
@@ -228,18 +227,18 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     );
     const countCls = clsx(
       `${prefixCls}-data-count`,
-      'absolute bottom-1.5 right-3 bg-neutral-bg-container pl-1 text-neutral-text-tertiary',
+      'absolute bottom-1.5 right-3 bg-container pl-1 text-text-tertiary',
       {
-        'bg-neutral-fill-quinary group-focus-within:bg-neutral-bg-container': variant === 'filled',
+        'bg-fill-quinary group-focus-within:bg-container': variant === 'filled',
         'bg-transparent': variant === 'borderless',
-        'text-neutral-text-quaternary': mergedDisabled,
+        'text-text-quaternary': mergedDisabled,
       },
       mergedSize === 'small' && 'right-2',
       mergedSize === 'large' && 'bottom-2',
       semanticCls.count,
     );
     const clearCls = clsx(
-      'absolute right-2 top-1 text-neutral-text-quaternary hover:text-neutral-text-tertiary',
+      'absolute right-2 top-1 text-text-quaternary hover:text-text-tertiary',
       semanticCls.clear,
     );
 

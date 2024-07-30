@@ -22,7 +22,7 @@ const App: React.FC = () => {
         />
       </Header>
       <Content className="px-12 py-6">
-        <div className="bg-neutral-bg-container">Content</div>
+        <div className="bg-container">Content</div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
     </Layout>

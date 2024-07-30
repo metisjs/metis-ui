@@ -154,7 +154,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
     {
       [`${prefixCls}-lock`]: dragging,
     },
-    'group relative cursor-pointer text-sm text-neutral-text',
+    'group relative cursor-pointer text-sm text-text',
     { 'mx-3 my-1 h-full px-1': vertical, 'mx-1 my-3 h-3 py-1': !vertical },
     !isEmpty(marks) && { 'mr-8': vertical, 'mb-8': !vertical },
     mergedDisabled && 'cursor-not-allowed opacity-disabled',
@@ -162,9 +162,9 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   );
 
   const railCls = clsx(
-    'absolute rounded-full bg-neutral-fill-quaternary transition-colors',
+    'absolute rounded-full bg-fill-quaternary transition-colors',
     { 'h-full w-1': vertical, 'h-1 w-full': !vertical },
-    !mergedDisabled && 'group-hover:bg-neutral-fill-tertiary',
+    !mergedDisabled && 'group-hover:bg-fill-tertiary',
     semanticCls.rail,
   );
 
@@ -177,7 +177,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
 
   const handleCls = clsx(
     'absolute h-2 w-2 rounded-full',
-    'after:absolute after:left-0 after:top-0 after:h-2 after:w-2 after:cursor-pointer after:rounded-full after:bg-neutral-bg-elevated after:ring-2 after:ring-primary after:transition-all',
+    'after:absolute after:left-0 after:top-0 after:h-2 after:w-2 after:cursor-pointer after:rounded-full after:bg-elevated after:ring-2 after:ring-primary after:transition-all',
     !mergedDisabled &&
       'hover:after:-left-[0.0626rem] hover:after:-top-[0.0626rem] hover:after:h-[0.625rem] hover:after:w-[0.625rem] hover:after:ring-primary-hover',
     !mergedDisabled &&
@@ -194,15 +194,15 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   );
 
   const markCls = clsx(
-    'absolute inline-block cursor-pointer select-none break-keep text-center text-neutral-text-tertiary',
+    'absolute inline-block cursor-pointer select-none break-keep text-center text-text-tertiary',
     mergedDisabled && 'cursor-not-allowed',
   );
 
-  const activeMarkCls = clsx('text-neutral-text');
+  const activeMarkCls = clsx('text-text');
 
   const dotCls = clsx(
-    'absolute h-1 w-1 rounded-full bg-neutral-bg-elevated ring-2 ring-neutral-fill-quaternary',
-    !mergedDisabled && 'group-hover:ring-neutral-fill-tertiary',
+    'absolute h-1 w-1 rounded-full bg-elevated ring-2 ring-fill-quaternary',
+    !mergedDisabled && 'group-hover:ring-fill-tertiary',
   );
 
   const activeDotCls = clsx('ring-primary', !mergedDisabled && 'group-hover:ring-primary-hover');
