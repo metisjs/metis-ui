@@ -111,7 +111,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     <span
       className={clsx(
         `${prefixCls}-item-ellipsis`,
-        'absolute text-text-quaternary transition-opacity',
+        'absolute text-neutral-text-quaternary transition-opacity',
         !disabled && 'group-hover/jump:opacity-0',
       )}
     >
@@ -347,7 +347,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       <li
         title={showTitle ? `${current}/${allPages}` : undefined}
         className={clsx(`${prefixCls}-simple-pager`, 'mx-1 inline-flex items-center gap-2', {
-          'text-text-quaternary': disabled,
+          'text-neutral-text-quaternary': disabled,
         })}
       >
         {isReadOnly ? (
@@ -488,8 +488,8 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           },
           'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md px-2',
           {
-            'cursor-not-allowed text-text-quaternary': prevDisabled || disabled,
-            'hover:bg-fill-tertiary': !prevDisabled && !disabled,
+            'cursor-not-allowed text-neutral-text-quaternary': prevDisabled || disabled,
+            'hover:bg-neutral-fill-tertiary': !prevDisabled && !disabled,
             'h-8 min-w-8': isSmall || simple,
           },
           semanticCls.prev,
@@ -526,8 +526,8 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           },
           'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md px-2',
           {
-            'cursor-not-allowed text-text-quaternary': nextDisabled || disabled,
-            'hover:bg-fill-tertiary': !nextDisabled && !disabled,
+            'cursor-not-allowed text-neutral-text-quaternary': nextDisabled || disabled,
+            'hover:bg-neutral-fill-tertiary': !nextDisabled && !disabled,
             'h-8 min-w-8': isSmall || simple,
           },
           semanticCls.next,
@@ -546,7 +546,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       [`${prefixCls}-simple`]: simple,
       [`${prefixCls}-disabled`]: disabled,
     },
-    'inline-flex items-center gap-1 text-sm text-text',
+    'inline-flex items-center gap-1 text-sm text-neutral-text',
     semanticCls.root,
   );
 

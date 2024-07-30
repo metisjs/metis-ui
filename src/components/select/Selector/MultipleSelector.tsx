@@ -106,9 +106,9 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${selectionPrefixCls}-item`,
-          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-fill-tertiary pe-2 ps-2 leading-7',
+          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-neutral-fill-tertiary pe-2 ps-2 leading-7',
           {
-            'cursor-not-allowed bg-fill-tertiary': disabled,
+            'cursor-not-allowed bg-neutral-fill-tertiary': disabled,
             [`${selectionPrefixCls}-item-disabled cursor-not-allowed`]: itemDisabled,
           },
           semanticCls.item,
@@ -127,7 +127,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
           <TransBtn
             className={clsx(
               `${selectionPrefixCls}-item-remove`,
-              'inline-flex cursor-pointer items-center font-bold text-text-secondary hover:text-text',
+              'inline-flex cursor-pointer items-center font-bold text-neutral-text-secondary hover:text-neutral-text',
             )}
             onMouseDown={onPreventMouseDown}
             onClick={onClose}
@@ -283,7 +283,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       {!values.length && !inputValue && (
         <span
           className={clsx(
-            `${selectionPrefixCls}-placeholder pointer-events-none absolute end-3 start-3 top-1/2 -translate-y-1/2 truncate text-text-quaternary`,
+            `${selectionPrefixCls}-placeholder pointer-events-none absolute end-3 start-3 top-1/2 -translate-y-1/2 truncate text-neutral-text-quaternary`,
             semanticCls.placeholder,
           )}
         >

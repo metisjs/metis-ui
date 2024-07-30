@@ -87,7 +87,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   const classString = clsx(
     'inline-flex cursor-pointer items-center text-sm leading-6',
     {
-      'text-text-tertiary': mergedDisabled,
+      'text-neutral-text-tertiary': mergedDisabled,
       '': isFormItemInput,
     },
     `${prefixCls}-wrapper`,
@@ -95,12 +95,12 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   );
 
   const innerClass = clsx(
-    'border-neutral-border block h-4 w-4 cursor-pointer rounded-full border text-white',
+    'block h-4 w-4 cursor-pointer rounded-full border border-neutral-border text-white',
     'peer-focus/radio:outline peer-focus/radio:outline-2 peer-focus/radio:outline-offset-2 peer-focus/radio:outline-primary',
     {
       'border-primary bg-primary': mergedChecked,
-      'border-neutral-border bg-fill-quaternary text-text-tertiary': mergedDisabled,
-      'after:bg-text-tertiary': mergedDisabled,
+      'border-neutral-border bg-neutral-fill-quaternary text-neutral-text-tertiary': mergedDisabled,
+      'after:bg-neutral-text-tertiary': mergedDisabled,
     },
     `${prefixCls}-inner`,
     semanticCls.radio,

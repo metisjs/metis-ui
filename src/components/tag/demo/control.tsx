@@ -123,7 +123,10 @@ const App: React.FC = () => {
             onPressEnter={handleInputConfirm}
           />
         ) : (
-          <Tag className="cursor-pointer bg-container outline-dashed" onClick={showInput}>
+          <Tag
+            className="cursor-pointer bg-neutral-bg-container outline-dashed"
+            onClick={showInput}
+          >
             <PlusOutline /> New Tag
           </Tag>
         )}

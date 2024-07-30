@@ -57,52 +57,24 @@ const colorObject = {
     'border-secondary': 'hsla(var(--info-border-secondary))',
   },
 
-  /** 文字色 */
-  text: {
-    DEFAULT: `hsla(var(--text))`,
-    secondary: 'hsla(var(--text-secondary))',
-    tertiary: 'hsla(var(--text-tertiary))',
-    quaternary: 'hsla(var(--text-quaternary))',
-  },
-
-  /** 边框色 */
-  border: {
-    DEFAULT: 'hsla(var(--border))',
-    secondary: 'hsla(var(--border-secondary))',
-  },
-
-  /** 填充色 */
-  fill: {
-    DEFAULT: 'hsla(var(--fill))',
-    secondary: 'hsla(var(--fill-secondary))',
-    tertiary: 'hsla(var(--fill-tertiary))',
-    quaternary: 'hsla(var(--fill-quaternary))',
-    quinary: 'hsla(var(--fill-quinary))',
-  },
-
-  /** 组件容器背景 */
-  container: {
-    DEFAULT: 'hsla(var(--container))',
-  },
-
-  /** 浮层容器背景色 */
-  elevated: {
-    DEFAULT: 'hsla(var(--elevated))',
-  },
-
-  /** 布局背景色 */
-  layout: {
-    DEFAULT: 'hsla(var(--layout))',
-  },
-
-  /** 引起注意的背景色 */
-  spotlight: {
-    DEFAULT: 'hsla(var(--spotlight))',
-  },
-
-  /** 浮层的背景蒙层颜色 */
-  mask: {
-    DEFAULT: 'hsla(var(--mask))',
+  /** 中性色 */
+  neutral: {
+    text: `hsla(var(--neutral-text))`,
+    'text-secondary': 'hsla(var(--neutral-text-secondary))',
+    'text-tertiary': 'hsla(var(--neutral-text-tertiary))',
+    'text-quaternary': 'hsla(var(--neutral-text-quaternary))',
+    border: 'hsla(var(--neutral-border))',
+    'border-secondary': 'hsla(var(--neutral-border-secondary))',
+    fill: `hsla(var(--neutral-fill))`,
+    'fill-secondary': 'hsla(var(--neutral-fill-secondary))',
+    'fill-tertiary': 'hsla(var(--neutral-fill-tertiary))',
+    'fill-quaternary': 'hsla(var(--neutral-fill-quaternary))',
+    'fill-quinary': 'hsla(var(--neutral-fill-quinary))',
+    'bg-container': 'hsla(var(--neutral-bg-container))',
+    'bg-elevated': 'hsla(var(--neutral-bg-elevated))',
+    'bg-layout': 'hsla(var(--neutral-bg-layout))',
+    'bg-spotlight': 'hsla(var(--neutral-bg-spotlight))',
+    'bg-mask': 'hsla(var(--neutral-bg-mask))',
   },
 
   /** 滚动组件滚动条颜色 */

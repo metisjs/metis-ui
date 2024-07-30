@@ -7,7 +7,7 @@ const BreadcrumbSeparator: React.FC<
 > = ({ prefixCls, className, children }) => {
   return (
     <li
-      className={clsx(`${prefixCls}-separator`, 'mx-2 text-text-tertiary', className)}
+      className={clsx(`${prefixCls}-separator`, 'mx-2 text-neutral-text-tertiary', className)}
       aria-hidden="true"
     >
       {children === '' ? children : children || '/'}

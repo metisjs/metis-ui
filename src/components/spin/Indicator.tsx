@@ -17,7 +17,7 @@ export default function Indicator(props: IndicatorProps) {
   });
   const itemClassName = clsx(
     `${prefixCls}-spinner-item`,
-    'h-full w-1.5 origin-center animate-[0.6s_ease-in-out_0s_infinite_normal_none_running_bounce-spin] rounded-sm bg-fill opacity-20',
+    'h-full w-1.5 origin-center animate-[0.6s_ease-in-out_0s_infinite_normal_none_running_bounce-spin] rounded-sm bg-neutral-fill opacity-20',
     {
       'w-1 rounded-sm': size === 'small',
       'w-2 rounded': size === 'large',

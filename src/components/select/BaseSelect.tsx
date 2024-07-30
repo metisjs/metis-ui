@@ -692,7 +692,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-text-quaternary opacity-0 transition-all hover:text-text-tertiary',
+          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-neutral-text-quaternary opacity-0 transition-all hover:text-neutral-text-tertiary',
           'group-hover/select:opacity-100',
           mode === 'combobox' && 'opacity-100',
         )}
@@ -711,7 +711,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-arrow`,
-          'pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-3 text-text-tertiary',
+          'pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-3 text-neutral-text-tertiary',
           {
             [`${prefixCls}-arrow-loading`]: loading,
             'group-hover/select:opacity-0': !!clearNode,
@@ -753,25 +753,25 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     !customizeInputElement && [
-      'group/select ring-neutral-border relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset',
+      'group/select relative inline-block rounded-md bg-neutral-bg-container text-sm text-neutral-text shadow-sm ring-1 ring-inset ring-neutral-border',
       { 'text-base': mergedSize === 'large' },
       {
-        'bg-container ring-1': variant === 'outlined',
+        'bg-neutral-bg-container ring-1': variant === 'outlined',
         'bg-transparent shadow-none ring-0': variant === 'borderless',
-        'bg-fill-quinary ring-0': variant === 'filled',
+        'bg-neutral-fill-quinary ring-0': variant === 'filled',
       },
       '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
       compactItemClassnames,
       getStatusClassNames(mergedStatus, variant),
       mergedDisabled && {
-        'bg-fill-quaternary text-text-tertiary': true,
-        'not-allowed ring-neutral-border bg-fill-quaternary text-text-tertiary':
+        'bg-neutral-fill-quaternary text-neutral-text-tertiary': true,
+        'not-allowed bg-neutral-fill-quaternary text-neutral-text-tertiary ring-neutral-border':
           variant !== 'borderless',
       },
       (mockFocused || mergedOpen) && {
         'ring-2 ring-primary': true,
         'ring-0': variant === 'borderless',
-        'bg-container': variant === 'filled',
+        'bg-neutral-bg-container': variant === 'filled',
         'z-[2]': isCompactItem,
       },
     ],
@@ -817,7 +817,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   );
 
   const popupCls = clsx(
-    'ring-neutral-border-secondary absolute rounded-md bg-elevated py-1 text-sm shadow-lg ring-1 focus:outline-none',
+    'absolute rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
     semanticCls.popup,
   );
 

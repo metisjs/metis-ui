@@ -146,7 +146,11 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
     });
   }
 
-  const breadcrumbClassName = clsx(prefixCls, 'text-md text-text-secondary', semanticCls.root);
+  const breadcrumbClassName = clsx(
+    prefixCls,
+    'text-md text-neutral-text-secondary',
+    semanticCls.root,
+  );
 
   return (
     <nav className={breadcrumbClassName} style={style} {...restProps}>

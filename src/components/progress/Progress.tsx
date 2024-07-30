@@ -169,7 +169,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
               'justify-start': infoAlign === 'start',
               'justify-center': infoAlign === 'center',
               'justify-end': infoAlign === 'end',
-              'text-text-tertiary': isBrightInnerColor,
+              'text-neutral-text-tertiary': isBrightInnerColor,
             },
           semanticCls.text,
         )}
@@ -243,7 +243,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
   const classString = clsx(
     prefixCls,
     `${prefixCls}-status-${progressStatus}`,
-    'inline-block text-sm leading-[1] text-text',
+    'inline-block text-sm leading-[1] text-neutral-text',
     isPureLineType && 'relative w-full',
     { 'text-xs': size === 'small' },
     {

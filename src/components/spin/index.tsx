@@ -111,7 +111,7 @@ const Spin: React.FC<SpinProps> = (props) => {
   );
   const tipCls = clsx(
     `${prefixCls}-text`,
-    'mt-2 text-text-tertiary',
+    'mt-2 text-neutral-text-tertiary',
     {
       'mt-1': size === 'small',
       'mt-3': size === 'large',
@@ -124,7 +124,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     {
       [`${prefixCls}-fullscreen-show`]: spinning,
     },
-    'invisible fixed inset-0 z-[1000] flex h-screen w-screen flex-col items-center justify-center bg-mask opacity-0 transition-all',
+    'invisible fixed inset-0 z-[1000] flex h-screen w-screen flex-col items-center justify-center bg-neutral-bg-mask opacity-0 transition-all',
     spinning && 'visible opacity-100',
     semanticCls.fullscreen,
   );

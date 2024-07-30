@@ -49,7 +49,7 @@ const App: React.FC = () => {
           />
         </Sider>
         <Layout className="p-6">
-          <Content className="m-0 min-h-[280px] bg-container p-6">Content</Content>
+          <Content className="m-0 min-h-[280px] bg-neutral-bg-container p-6">Content</Content>
         </Layout>
       </Layout>
     </Layout>

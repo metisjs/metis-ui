@@ -167,7 +167,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
           className={clsx(
             `${prefixCls}-trigger`,
             'fixed bottom-0 z-[1] flex h-12 cursor-pointer items-center justify-center bg-gray-700 text-center leading-[3rem] text-white transition-[width]',
-            theme === 'light' && 'bg-fill-quaternary',
+            theme === 'light' && 'bg-neutral-fill-quaternary',
           )}
           onClick={toggle}
           style={{ width: siderWidth }}
@@ -194,7 +194,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
         [`${prefixCls}-below`]: !!below,
         [`${prefixCls}-zero-width`]: parseFloat(siderWidth) === 0,
       },
-      theme === 'light' && 'bg-container',
+      theme === 'light' && 'bg-neutral-bg-container',
       className,
     );
     return (

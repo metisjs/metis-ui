@@ -99,7 +99,7 @@ const Step: React.FC<StepProps> = (props) => {
     'group relative inline-block flex-1 overflow-hidden align-top',
     {
       'text-primary': status === 'process' || status === 'finish',
-      'text-text-secondary': status === 'wait',
+      'text-neutral-text-secondary': status === 'wait',
       'text-error': status === 'error',
     },
     !vertical &&
@@ -123,18 +123,18 @@ const Step: React.FC<StepProps> = (props) => {
       'py-2': description && size === 'small',
     },
     isInline &&
-      'mx-[0.125rem] cursor-pointer flex-col gap-1 rounded px-1 pb-1 pt-2 transition-colors group-hover:bg-fill-quaternary',
+      'mx-[0.125rem] cursor-pointer flex-col gap-1 rounded px-1 pb-1 pt-2 transition-colors group-hover:bg-neutral-fill-quaternary',
   );
 
   const tailCls = clsx(
     `${prefixCls}-item-tail`,
     'absolute hidden',
     vertical &&
-      'left-[1.125rem] top-0 block h-full w-[1px] pb-2 pt-11 after:inline-block after:h-full after:w-[1px] after:bg-fill-secondary after:transition-colors group-last-of-type:hidden',
+      'left-[1.125rem] top-0 block h-full w-[1px] pb-2 pt-11 after:inline-block after:h-full after:w-[1px] after:bg-neutral-fill-secondary after:transition-colors group-last-of-type:hidden',
     vertical && status === 'finish' && 'after:bg-primary',
     size === 'small' && 'left-[1rem] pb-[0.375rem] pt-[2.375rem]',
     isInline &&
-      'after:bg-neutral-border-secondary left-0 top-[0.40625rem] ms-0 inline-block w-full -translate-y-1/2 after:inline-block after:h-[1px] after:w-full group-first:ms-[50%] group-first:w-1/2 group-last:w-1/2',
+      'left-0 top-[0.40625rem] ms-0 inline-block w-full -translate-y-1/2 after:inline-block after:h-[1px] after:w-full after:bg-neutral-border-secondary group-first:ms-[50%] group-first:w-1/2 group-last:w-1/2',
   );
 
   const iconCls = clsx(
@@ -143,12 +143,12 @@ const Step: React.FC<StepProps> = (props) => {
     {
       'border-2 border-primary': status === 'process',
       'bg-primary text-white': status === 'finish',
-      'border-neutral-border-secondary border-2': status === 'wait',
+      'border-2 border-neutral-border-secondary': status === 'wait',
       'border-2 border-error': status === 'error',
     },
     clickable && {
       'group-hover:bg-primary-hover': status === 'finish',
-      'group-hover:border-text-tertiary group-hover:text-text': status === 'wait',
+      'group-hover:border-neutral-text-tertiary group-hover:text-neutral-text': status === 'wait',
     },
     size === 'small' && 'h-8 w-8',
     isSimple && {
@@ -156,13 +156,13 @@ const Step: React.FC<StepProps> = (props) => {
       'bg-primary ring-4 ring-primary-bg-hover': status === 'process',
       'bg-neutral-border-secondary': status === 'wait',
       'bg-error': status === 'error',
-      'group-hover:bg-text-tertiary': clickable && status === 'wait',
+      'group-hover:bg-neutral-text-tertiary': clickable && status === 'wait',
     },
     isInline && {
       'ms-[calc(50%-0.125rem)] h-[0.375rem] w-[0.375rem] border': true,
       'bg-primary': status === 'process',
-      'bg-fill-tertiary': status === 'finish',
-      'border-fill-tertiary bg-container': status === 'wait',
+      'bg-neutral-fill-tertiary': status === 'finish',
+      'border-neutral-fill-tertiary bg-neutral-bg-container': status === 'wait',
     },
   );
 
@@ -179,20 +179,20 @@ const Step: React.FC<StepProps> = (props) => {
     !vertical &&
       !isNav &&
       !isInline &&
-      'after:absolute after:start-full after:top-3 after:h-[1px] after:w-screen after:bg-fill-secondary group-last-of-type:after:h-0',
+      'after:absolute after:start-full after:top-3 after:h-[1px] after:w-screen after:bg-neutral-fill-secondary group-last-of-type:after:h-0',
     {
-      'text-text after:bg-primary': status === 'finish',
+      'text-neutral-text after:bg-primary': status === 'finish',
     },
     clickable && {
-      'group-hover:text-text': status === 'wait',
+      'group-hover:text-neutral-text': status === 'wait',
     },
     size === 'small' && 'pe-3 text-sm leading-5',
-    isInline && 'pe-0 text-xs text-text-quaternary',
+    isInline && 'pe-0 text-xs text-neutral-text-quaternary',
     semanticCls.title,
   );
   const descriptionCls = clsx(
     `${prefixCls}-item-description`,
-    'truncate text-sm text-text-tertiary',
+    'truncate text-sm text-neutral-text-tertiary',
     {
       'text-error': status === 'error',
     },
@@ -257,7 +257,7 @@ const Step: React.FC<StepProps> = (props) => {
       {isNav && (
         <NavSplit
           className={clsx(
-            'text-neutral-border-secondary h-[4.25rem] group-last-of-type:hidden',
+            'h-[4.25rem] text-neutral-border-secondary group-last-of-type:hidden',
             size === 'small' && 'h-14',
           )}
         />

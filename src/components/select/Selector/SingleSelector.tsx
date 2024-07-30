@@ -77,7 +77,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${prefixCls}-selection-placeholder`,
-          'pointer-events-none flex-1 truncate text-text-quaternary',
+          'pointer-events-none flex-1 truncate text-neutral-text-quaternary',
           semanticCls.placeholder,
         )}
         style={hiddenStyle}
@@ -129,7 +129,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
         <span
           className={clsx(
             `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm/6`,
-            open && showSearch && 'text-text-quaternary',
+            open && showSearch && 'text-neutral-text-quaternary',
             semanticCls.item,
           )}
           title={selectionTitle}

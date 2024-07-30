@@ -20,7 +20,7 @@ const InternalSubMenuList = (
         `${prefixCls}-${mode === 'inline' ? 'inline' : 'vertical'}`,
         // >>> Vertical
         mode !== 'inline' &&
-          'ring-neutral-border-secondary flex max-h-[calc(100vh-6.25rem)] min-w-[10rem] flex-col gap-1 rounded-md bg-elevated py-1 text-sm shadow-lg ring-1 focus:outline-none',
+          'flex max-h-[calc(100vh-6.25rem)] min-w-[10rem] flex-col gap-1 rounded-md bg-neutral-bg-elevated py-1 text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
         // >>> Inline
         mode === 'inline' && 'mt-1 flex flex-col gap-1 font-normal',
         theme === 'dark' && 'bg-gray-800 text-white ring-gray-800',

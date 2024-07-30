@@ -160,12 +160,12 @@ function ConfirmContent(
   );
   const titleCls = clsx(
     `${confirmPrefixCls}-title`,
-    'text-base font-semibold leading-6 text-text',
+    'text-base font-semibold leading-6 text-neutral-text',
     !hasContent && 'leading-10 sm:leading-6',
   );
   const contentCls = clsx(
     `${confirmPrefixCls}-content`,
-    'mt-2 text-sm text-text-secondary',
+    'mt-2 text-sm text-neutral-text-secondary',
     !hasTitle && 'mt-[0.625rem] sm:mt-0 ',
   );
 

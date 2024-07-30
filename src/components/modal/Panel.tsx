@@ -96,14 +96,14 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   // ================================ Style =================================
   const panelCls = clsx(
     prefixCls,
-    'pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm text-text',
+    'pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm text-neutral-text',
     !!centered && 'top-0 pb-0',
     semanticCls.root,
   );
 
   const contentCls = clsx(
     `${prefixCls}-content`,
-    'pointer-events-auto relative flex flex-col overflow-hidden rounded-lg bg-elevated shadow-xl',
+    'pointer-events-auto relative flex flex-col overflow-hidden rounded-lg bg-neutral-bg-elevated shadow-xl',
     semanticCls.content,
   );
 
@@ -121,13 +121,13 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
 
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'flex items-center justify-end gap-3 bg-fill-quinary px-6 py-3',
+    'flex items-center justify-end gap-3 bg-neutral-fill-quinary px-6 py-3',
     semanticCls.footer,
   );
 
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'absolute right-3 top-3 rounded p-1 text-text-secondary hover:bg-fill-tertiary',
+    'absolute right-3 top-3 rounded p-1 text-neutral-text-secondary hover:bg-neutral-fill-tertiary',
   );
 
   const panelStyle: React.CSSProperties = {};

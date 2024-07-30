@@ -46,9 +46,9 @@ const App: React.FC = () => {
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="bg-container p-0" />
+        <Header className="bg-neutral-bg-container p-0" />
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div className="bg-container p-6 text-center">
+          <div className="bg-neutral-bg-container p-6 text-center">
             <p>long content</p>
             {
               // indicates very long content

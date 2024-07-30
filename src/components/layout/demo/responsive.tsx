@@ -29,9 +29,9 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header className="bg-container p-0" />
+        <Header className="bg-neutral-bg-container p-0" />
         <Content style={{ margin: '24px 16px 0' }}>
-          <div className="min-h-[360px] bg-container p-6">content</div>
+          <div className="min-h-[360px] bg-neutral-bg-container p-6">content</div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
       </Layout>

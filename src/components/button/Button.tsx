@@ -217,11 +217,11 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     },
     'relative inline-flex w-fit items-center justify-center whitespace-nowrap text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
     {
-      'ring-neutral-border bg-container text-text ring-1 ring-inset focus-visible:ring-primary enabled:hover:bg-fill-quinary':
+      'bg-neutral-bg-container text-neutral-text ring-1 ring-inset ring-neutral-border focus-visible:ring-primary enabled:hover:bg-neutral-fill-quinary':
         type === 'default',
       'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover':
         type === 'primary',
-      'text-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-fill-tertiary':
+      'text-neutral-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-neutral-fill-tertiary':
         type === 'text',
       'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover':
         type === 'link',
@@ -245,9 +245,9 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     },
     isHref &&
       !mergedDisabled && {
-        'hover:bg-fill-quinary': type === 'default',
+        'hover:bg-neutral-fill-quinary': type === 'default',
         'hover:bg-primary-hover': type === 'primary',
-        'hover:bg-fill-secondary': type === 'text',
+        'hover:bg-neutral-fill-secondary': type === 'text',
         'hover:text-primary-hover': type === 'link',
       },
     danger && {

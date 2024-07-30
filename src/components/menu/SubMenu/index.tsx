@@ -270,26 +270,27 @@ const InternalSubMenu = (props: SubMenuProps) => {
               horizontal: {
                 '-mt-[1px] mb-0 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
                   true,
-                'hover:after:border-neutral-border text-text-secondary hover:text-text':
+                'text-neutral-text-secondary hover:text-neutral-text hover:after:border-neutral-border':
                   !mergedDisabled,
-                'after:border-neutral-border text-text': open,
-                'text-text after:border-primary hover:after:border-primary': childrenSelected,
-                'text-text-tertiary': mergedDisabled,
+                'text-neutral-text after:border-neutral-border': open,
+                'text-neutral-text after:border-primary hover:after:border-primary':
+                  childrenSelected,
+                'text-neutral-text-tertiary': mergedDisabled,
               },
               // >>> Light Vertical
               vertical: {
                 'h-10 truncate rounded-md p-2': true,
                 'px-4 leading-10 [.item-group_&]:ps-7': !firstLevel,
                 'text-primary': childrenSelected,
-                'hover:bg-fill-quaternary': !mergedDisabled,
-                'text-text-tertiary': mergedDisabled,
+                'hover:bg-neutral-fill-quaternary': !mergedDisabled,
+                'text-neutral-text-tertiary': mergedDisabled,
               },
               // >>> Light Inline
               inline: {
                 'h-10 rounded-md p-2': true,
                 'text-primary': childrenSelected,
-                'hover:bg-fill-quaternary': !mergedDisabled,
-                'text-text-tertiary': mergedDisabled,
+                'hover:bg-neutral-fill-quaternary': !mergedDisabled,
+                'text-neutral-text-tertiary': mergedDisabled,
               },
             },
             // >>> Dark
@@ -305,7 +306,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
               },
               // >>> Dark Vertical
               vertical: {
-                'h-10 truncate rounded-md p-2 text-text-tertiary': true,
+                'h-10 truncate rounded-md p-2 text-neutral-text-tertiary': true,
                 'px-4 leading-10 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
                 'text-white': childrenSelected,
                 'hover:bg-gray-700': !mergedDisabled,
@@ -313,7 +314,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
               },
               // >>> Dark Inline
               inline: {
-                'h-10 rounded-md p-2 text-text-tertiary': true,
+                'h-10 rounded-md p-2 text-neutral-text-tertiary': true,
                 'text-white': childrenSelected,
                 'hover:bg-gray-700 hover:text-white': !mergedDisabled,
                 'text-gray-500': mergedDisabled,
@@ -330,7 +331,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
             'h-5 w-5 flex-shrink-0 flex-grow-0',
             firstLevel && 'h-6 w-6',
             mode !== 'horizontal' && {
-              'text-text-tertiary': firstLevel && contextTheme !== 'dark',
+              'text-neutral-text-tertiary': firstLevel && contextTheme !== 'dark',
               'text-primary': childrenSelected && contextTheme !== 'dark',
             },
             contextClassName?.itemIcon,
@@ -372,12 +373,12 @@ const InternalSubMenu = (props: SubMenuProps) => {
                   '[.submenu-popup_&]:text-primary': childrenSelected,
                   '[.submenu-popup_&]:text-white': contextTheme === 'dark' && childrenSelected,
                 },
-                contextTheme !== 'dark' && 'text-text-tertiary',
+                contextTheme !== 'dark' && 'text-neutral-text-tertiary',
                 contextTheme !== 'dark' && childrenSelected && 'text-primary',
                 open && mode === 'inline' && 'rotate-90',
                 firstLevel && isInlineCollapsed && 'opacity-0',
                 mergedDisabled && {
-                  'text-text-tertiary': contextTheme === 'light',
+                  'text-neutral-text-tertiary': contextTheme === 'light',
                   'text-gray-500': contextTheme === 'dark',
                 },
               )}

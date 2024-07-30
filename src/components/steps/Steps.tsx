@@ -85,7 +85,7 @@ const Steps: React.FC<StepsProps> = (props) => {
       [`${prefixCls}-${mergedSize}`]: mergedSize,
       [`${prefixCls}-${type}`]: type !== 'default',
     },
-    'flex w-full text-text',
+    'flex w-full text-neutral-text',
     mergedDirection === 'vertical' && 'flex-col',
     (isInline || isSimple) && 'inline-flex w-auto',
     isSimple && 'gap-5',

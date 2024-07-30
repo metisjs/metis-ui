@@ -39,7 +39,7 @@ const CheckableTag: React.FC<CheckableTagProps> = (props) => {
     'relative me-2 inline-block h-auto cursor-pointer whitespace-nowrap rounded bg-transparent px-2 py-1 text-xs transition-colors',
     {
       [`${prefixCls}-checkable-checked bg-primary text-white hover:bg-primary-hover`]: checked,
-      'hover:bg-fill-secondary hover:text-primary': !checked,
+      'hover:bg-neutral-fill-secondary hover:text-primary': !checked,
     },
     className,
   );

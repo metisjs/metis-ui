@@ -97,8 +97,8 @@ const InternalSegmentedOption: React.FC<{
 
   const clsString = clsx(
     prefixCls,
-    'segmented-item relative flex cursor-pointer justify-center rounded-md text-sm text-text-secondary',
-    disabled ? 'cursor-not-allowed text-text-quaternary' : 'hover:text-text',
+    'segmented-item relative flex cursor-pointer justify-center rounded-md text-sm text-neutral-text-secondary',
+    disabled ? 'cursor-not-allowed text-neutral-text-quaternary' : 'hover:text-neutral-text',
     {
       'px-2.5 py-1': size === 'small',
       'px-3 py-1.5': size === 'middle',
@@ -106,7 +106,7 @@ const InternalSegmentedOption: React.FC<{
     },
     {
       'min-w-0 flex-1': block,
-      'bg-container text-primary shadow hover:text-primary': checked && motionEnd,
+      'bg-neutral-bg-container text-primary shadow hover:text-primary': checked && motionEnd,
     },
     className,
   );
@@ -189,7 +189,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
       {...divProps}
       className={clsx(
         prefixCls,
-        'inline-block w-fit rounded-lg bg-layout p-0.5 text-text transition-all duration-300',
+        'inline-block w-fit rounded-lg bg-neutral-bg-layout p-0.5 text-neutral-text transition-all duration-300',
         { 'block-segmented flex w-full': block },
         className,
       )}

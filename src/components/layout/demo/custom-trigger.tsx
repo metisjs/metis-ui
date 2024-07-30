@@ -41,7 +41,7 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header className="bg-container p-0">
+        <Header className="bg-neutral-bg-container p-0">
           <Button
             type="text"
             icon={collapsed ? <ChevronRightOutline /> : <ChevronLeftOutline />}
@@ -53,7 +53,7 @@ const App: React.FC = () => {
             }}
           />
         </Header>
-        <Content className="mx-4 my-6 min-h-[280px] bg-container p-6">Content</Content>
+        <Content className="mx-4 my-6 min-h-[280px] bg-neutral-bg-container p-6">Content</Content>
       </Layout>
     </Layout>
   );

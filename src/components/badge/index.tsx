@@ -139,7 +139,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
 
   // Shared styles
   const presetStatusCls = clsx({
-    'bg-fill': status === 'default',
+    'bg-neutral-text-quaternary': status === 'default',
     'bg-success': status === 'success',
     'bg-warning': status === 'warning',
     'bg-error': status === 'error',
@@ -153,7 +153,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
       [`${prefixCls}-status-${status}`]: !!status,
       [`${prefixCls}-color-${color}`]: isInternalColor,
     },
-    'relative -top-[2px] inline-block h-[0.375rem] w-[0.375rem] rounded-full bg-fill',
+    'relative -top-[2px] inline-block h-[0.375rem] w-[0.375rem] rounded-full bg-neutral-text-quaternary',
     isInternalColor && getPresetColorCls(color, { rawBackground: true }),
     presetStatusCls,
     semanticCls.root,
@@ -161,7 +161,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
 
   const statusTextCls = clsx(
     `${prefixCls}-status-text`,
-    'ms-2 text-sm text-text',
+    'ms-2 text-sm text-neutral-text',
     semanticCls.text,
   );
 
@@ -199,7 +199,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
       'h-2 w-2 rounded-full bg-error': isDot,
       'inline-flex min-w-5 justify-center overflow-hidden rounded-full bg-error text-xs leading-5 text-white':
         !isDot,
-      'absolute end-0 top-0 origin-center -translate-y-1/2 translate-x-1/2 ring-2 ring-container':
+      'absolute end-0 top-0 origin-center -translate-y-1/2 translate-x-1/2 ring-2 ring-neutral-bg-container':
         children,
       'relative top-auto block origin-center ring-0': !children,
       'px-2': multiWords,

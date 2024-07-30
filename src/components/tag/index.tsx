@@ -62,7 +62,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
 
   const tagClassName = clsx(
     prefixCls,
-    'outline-neutral-border-secondary relative me-2 inline-flex h-auto items-center whitespace-nowrap rounded-md bg-fill-quaternary px-2 py-1 text-xs font-medium text-text-secondary outline outline-1 -outline-offset-1 transition-colors',
+    'relative me-2 inline-flex h-auto items-center whitespace-nowrap rounded-md bg-neutral-fill-quaternary px-2 py-1 text-xs font-medium text-neutral-text-secondary outline outline-1 -outline-offset-1 outline-neutral-border-secondary transition-colors',
     {
       [getPresetColorCls(color as PresetColorType)]: color && isPreset,
       [getPresetStatusCls(color as PresetStatusColorType)]: color && isStatus,
@@ -85,7 +85,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
 
   const iconClassName = clsx(
     `${prefixCls}-close-icon`,
-    'ms-0.5 cursor-pointer text-text-tertiary hover:text-text-secondary',
+    'ms-0.5 cursor-pointer text-neutral-text-tertiary hover:text-neutral-text-secondary',
     color &&
       isInternalColor && {
         'text-success hover:text-success-active': color === 'success',

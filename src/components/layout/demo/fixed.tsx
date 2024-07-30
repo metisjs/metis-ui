@@ -28,7 +28,7 @@ const App: React.FC = () => {
         />
       </Header>
       <Content className="site-layout px-12 py-6">
-        <div className="min-h-[380px] bg-container p-6">Content</div>
+        <div className="min-h-[380px] bg-neutral-bg-container p-6">Content</div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
     </Layout>

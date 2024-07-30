@@ -49,9 +49,9 @@ const App: React.FC = () => {
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       <Layout>
-        <Header className="bg-container p-0" />
+        <Header className="bg-neutral-bg-container p-0" />
         <Content className="m-4">
-          <div className="min-h-[360px] bg-container p-6">Bill is a cat.</div>
+          <div className="min-h-[360px] bg-neutral-bg-container p-6">Bill is a cat.</div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
       </Layout>

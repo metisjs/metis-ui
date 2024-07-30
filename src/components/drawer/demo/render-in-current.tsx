@@ -13,7 +13,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="border-neutral-border-secondary relative h-[200px] overflow-hidden rounded-lg border bg-fill-quaternary p-12">
+    <div className="relative h-[200px] overflow-hidden rounded-lg border border-neutral-border-secondary bg-neutral-fill-quaternary p-12">
       Render in this
       <div className="mt-4">
         <Button type="primary" onClick={showDrawer}>

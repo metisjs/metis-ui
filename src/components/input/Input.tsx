@@ -230,7 +230,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       [`${prefixCls}-disabled`]: mergedDisabled,
       [`${prefixCls}-${variant}`]: enableVariantCls && !inputHasPrefixSuffix,
     },
-    'ring-neutral-border relative inline-block w-full appearance-none rounded-md bg-container text-sm outline-none ring-inset placeholder:text-text-quaternary focus:ring-inset focus:ring-primary',
+    'relative inline-block w-full appearance-none rounded-md bg-neutral-bg-container text-sm outline-none ring-inset ring-neutral-border placeholder:text-neutral-text-quaternary focus:ring-inset focus:ring-primary',
     {
       'px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -239,10 +239,11 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'ring-1 focus:ring-2': variant === 'outlined',
       'bg-transparent ring-0 focus:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus:bg-container focus:ring-2': variant === 'filled',
+      'bg-neutral-fill-quinary ring-0 focus:bg-neutral-bg-container focus:ring-2':
+        variant === 'filled',
     },
     {
-      'text-text': !inputHasPrefixSuffix,
+      'text-neutral-text': !inputHasPrefixSuffix,
       'rounded-none bg-transparent p-0 ring-0 focus:bg-transparent focus:ring-0':
         inputHasPrefixSuffix,
       'rounded-s-none': addonBefore,
@@ -250,15 +251,15 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     },
     !inputHasPrefixSuffix && statusClassName,
     mergedDisabled && {
-      'ring-neutral-border text-text-tertiary': true,
-      'bg-fill-quaternary': !inputHasPrefixSuffix && variant !== 'borderless',
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': !inputHasPrefixSuffix && variant !== 'borderless',
     },
     compactItemClassnames[1],
     !inputHasPrefixSuffix && !addonBefore && !addonAfter && compactItemClassnames[0],
     semanticCls.input,
   );
   const affixWrapperCls = clsx(
-    'ring-neutral-border relative inline-flex w-full items-center gap-x-2 rounded-md bg-container text-sm text-text-secondary ring-inset focus-within:ring-inset focus-within:ring-primary',
+    'relative inline-flex w-full items-center gap-x-2 rounded-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-inset ring-neutral-border focus-within:ring-inset focus-within:ring-primary',
     {
       'gap-x-1 px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -267,7 +268,8 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
       'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus-within:bg-container focus-within:ring-2': variant === 'filled',
+      'bg-neutral-fill-quinary ring-0 focus-within:bg-neutral-bg-container focus-within:ring-2':
+        variant === 'filled',
     },
     {
       'rounded-s-none': addonBefore,
@@ -275,14 +277,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     },
     statusClassName,
     mergedDisabled && {
-      'ring-neutral-border text-text-tertiary': true,
-      'bg-fill-quaternary': variant !== 'borderless',
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const addonBeforeCls = clsx(
-    'input-addon ring-neutral-border -mr-[1px] inline-flex items-center rounded-s-md bg-container text-sm text-text-secondary ring-inset',
+    'input-addon -mr-[1px] inline-flex items-center rounded-s-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
     {
       'h-8 px-2': mergedSize === 'small',
       'h-9 px-3': mergedSize === 'middle',
@@ -291,17 +293,17 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'ring-1': variant === 'outlined',
       'bg-transparent ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0': variant === 'filled',
+      'bg-neutral-fill-quinary ring-0': variant === 'filled',
     },
     statusClassName,
     mergedDisabled && {
-      'ring-neutral-border text-text-tertiary': true,
-      'bg-fill-quaternary': variant !== 'borderless',
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
   );
   const addonAfterCls = clsx(
-    'input-addon ring-neutral-border -ml-[1px] inline-flex items-center rounded-e-md bg-container text-sm text-text-secondary ring-inset',
+    'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-neutral-bg-container text-sm text-neutral-text-secondary ring-inset ring-neutral-border',
     {
       'h-8 px-2': mergedSize === 'small',
       'h-9 px-3': mergedSize === 'middle',
@@ -310,12 +312,12 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'ring-1': variant === 'outlined',
       'bg-transparent ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0': variant === 'filled',
+      'bg-neutral-fill-quinary ring-0': variant === 'filled',
     },
     statusClassName,
     mergedDisabled && {
-      'ring-neutral-border text-text-tertiary': true,
-      'bg-fill-quaternary': variant !== 'borderless',
+      'text-neutral-text-tertiary ring-neutral-border': true,
+      'bg-neutral-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
   );
@@ -336,12 +338,12 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       [`${prefixCls}-show-count-has-suffix`]: hasFeedback || suffix,
     },
-    'text-text-tertiary',
-    mergedDisabled && 'text-text-quaternary',
+    'text-neutral-text-tertiary',
+    mergedDisabled && 'text-neutral-text-quaternary',
     semanticCls.count,
   );
   const clearCls = clsx(
-    'flex items-center text-text-quaternary transition-colors hover:text-text-tertiary',
+    'flex items-center text-neutral-text-quaternary transition-colors hover:text-neutral-text-tertiary',
   );
 
   // ====================== Render ======================

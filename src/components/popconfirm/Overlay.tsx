@@ -58,7 +58,7 @@ const Overlay: React.FC<OverlayProps> = (props) => {
   const theTitle = getRenderPropValue(title);
   const theDescription = getRenderPropValue(description);
 
-  const contentCls = clsx(`${prefixCls}-inner-content`, 'text-sm text-text');
+  const contentCls = clsx(`${prefixCls}-inner-content`, 'text-sm text-neutral-text');
   const iconCls = clsx(
     `${prefixCls}-message-icon`,
     'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-error-bg text-error',
@@ -68,8 +68,8 @@ const Overlay: React.FC<OverlayProps> = (props) => {
     `${prefixCls}-message-text`,
     'flex min-h-8 flex-col justify-center gap-0.5',
   );
-  const titleCls = clsx(`${prefixCls}-title`, 'font-medium text-text');
-  const descriptionCls = clsx(`${prefixCls}-description`, 'text-text-secondary');
+  const titleCls = clsx(`${prefixCls}-title`, 'font-medium text-neutral-text');
+  const descriptionCls = clsx(`${prefixCls}-description`, 'text-neutral-text-secondary');
   const buttonsCls = clsx(`${prefixCls}-buttons`, 'mt-2 flex justify-end gap-2');
 
   return (

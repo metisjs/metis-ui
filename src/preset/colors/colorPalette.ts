@@ -33,13 +33,13 @@ export default {
     warning: lightBase,
     error: lightBase,
     info: lightBase,
-    text: {
+    'neutral-text': {
       secondary: -4,
       tertiary: -5,
       quaternary: -6,
     },
-    border: { secondary: -1 },
-    fill: { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
+    'neutral-border': { secondary: -1 },
+    'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
   },
   dark: {
     primary: {
@@ -54,12 +54,12 @@ export default {
     warning: darkBase,
     error: darkBase,
     info: darkBase,
-    text: {
+    'neutral-text': {
       secondary: 0.65,
       tertiary: 0.45,
       quaternary: 0.25,
     },
-    border: { secondary: 2 },
-    fill: { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
+    'neutral-border': { secondary: 2 },
+    'neutral-fill': { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
   },
 } as const;
