@@ -63,7 +63,7 @@ export default function useScrollTo<T>(
 
       let needCollectHeight = false;
       let newTargetAlign: 'top' | 'bottom' | undefined = targetAlign;
-      let targetTop: number | undefined = undefined;
+      let targetTop: number | null = null;
 
       // Go to next frame if height not exist
       if (height) {
@@ -120,8 +120,7 @@ export default function useScrollTo<T>(
             }
           }
         }
-
-        if (targetTop !== undefined) {
+        if (targetTop !== null) {
           syncScrollTop(targetTop);
         }
 
@@ -137,7 +136,7 @@ export default function useScrollTo<T>(
           ...syncState,
           times: syncState.times + 1,
           targetAlign: newTargetAlign,
-          lastTop: targetTop,
+          lastTop: targetTop!,
         });
       }
     } else if (process.env.NODE_ENV !== 'production' && syncState?.times === MAX_TIMES) {

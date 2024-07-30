@@ -2,6 +2,7 @@
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import * as React from 'react';
 import { useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { mergeSemanticCls, SemanticClassName } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import Scrollbar, { ScrollbarProps, ScrollbarRef, ScrollValues } from '../scrollbar';
@@ -55,6 +56,11 @@ export interface VirtualListProps<T>
   /** Render extra content into Filler */
   extraRender?: (info: ExtraRenderInfo) => React.ReactNode;
 }
+
+/**
+ * Make the component "chunk" the rendering of new items on scroll. The property causes the component to render more items than the necessary, but reduces the re-renders on scroll.
+ */
+const OVERSCAN = 120;
 
 export function RawVirtualList<T>(props: VirtualListProps<T>, ref: React.Ref<VirtualListRef>) {
   const {
@@ -118,23 +124,27 @@ export function RawVirtualList<T>(props: VirtualListProps<T>, ref: React.Ref<Vir
   // ================================ Scroll ================================
   const syncScrollTop = (newTop: number) => {
     setOffsetTop(() => {
-      scrollbarRef.current?.scrollTop(newTop);
-      return scrollbarRef.current?.getScrollTop() || 0;
+      scrollbarRef.current?.scrollTo({ top: newTop });
+      return scrollbarRef.current?.getValues().scrollTop || 0;
     });
   };
 
   const syncScrollLeft = (newLeft: number) => {
     setOffsetLeft(() => {
-      scrollbarRef.current?.scrollLeft(newLeft);
-      return scrollbarRef.current?.getScrollLeft() || 0;
+      scrollbarRef.current?.scrollTo({ left: newLeft });
+      return scrollbarRef.current?.getValues().scrollLeft || 0;
     });
   };
 
-  const onInternalScroll = (values: ScrollValues) => {
-    setOffsetTop(values.scrollTop);
-    setOffsetLeft(values.scrollLeft);
+  const onInternalScroll = (values: ScrollValues, e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollLeft } = values;
 
-    onScroll?.(values);
+    flushSync(() => {
+      setOffsetTop(scrollTop);
+      setOffsetLeft(scrollLeft);
+    });
+
+    onScroll?.(values, e);
   };
 
   // ========================== Visible Calculation =========================
@@ -176,14 +186,14 @@ export function RawVirtualList<T>(props: VirtualListProps<T>, ref: React.Ref<Vir
       const cacheHeight = heights.get(key);
       const currentItemBottom = itemTop + (cacheHeight === undefined ? itemHeight : cacheHeight);
 
-      // Check item top in the range
-      if (currentItemBottom >= offsetTop && startIndex === undefined) {
+      // Check item top in the range.
+      if (currentItemBottom >= offsetTop - OVERSCAN && startIndex === undefined) {
         startIndex = i;
         startOffset = itemTop;
       }
 
       // Check item bottom in the range. We will render additional one item for motion usage
-      if (currentItemBottom > offsetTop + height && endIndex === undefined) {
+      if (currentItemBottom > offsetTop + height + OVERSCAN && endIndex === undefined) {
         endIndex = i;
       }
 
@@ -200,9 +210,6 @@ export function RawVirtualList<T>(props: VirtualListProps<T>, ref: React.Ref<Vir
     if (endIndex === undefined) {
       endIndex = mergedData.length - 1;
     }
-
-    // Give cache to improve scroll experience
-    endIndex = Math.min(endIndex + 1, mergedData.length - 1);
 
     return {
       scrollHeight: itemTop,
