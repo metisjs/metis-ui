@@ -59,8 +59,8 @@ export default function useScrollTo<T>(
       collectHeight();
 
       const { targetAlign, originAlign, index, offset } = syncState;
+      const { clientHeight: height, scrollTop } = scrollbarRef.current.getValues();
 
-      const height = scrollbarRef.current.getClientHeight();
       let needCollectHeight = false;
       let newTargetAlign: 'top' | 'bottom' | undefined = targetAlign;
       let targetTop: number | undefined = undefined;
@@ -112,7 +112,6 @@ export default function useScrollTo<T>(
             break;
 
           default: {
-            const scrollTop = scrollbarRef.current.getScrollTop();
             const scrollBottom = scrollTop + height;
             if (itemTop < scrollTop) {
               newTargetAlign = 'top';
