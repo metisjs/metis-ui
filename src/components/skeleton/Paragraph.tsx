@@ -28,7 +28,7 @@ const Paragraph: React.FC<SkeletonParagraphProps> = (props) => {
   const rowList = [...Array(rows)].map((_, index) => (
     <li
       key={index}
-      className={clsx('h-4 w-full rounded bg-neutral-fill-tertiary')}
+      className={clsx('h-4 w-full rounded bg-fill-tertiary')}
       style={{ width: getWidth(index, props) }}
     />
   ));

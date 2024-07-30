@@ -137,7 +137,7 @@ const Line: React.FC<LineProps> = (props) => {
   const outerCls = clsx(`${prefixCls}-outer`, 'inline-flex w-full items-center', semanticCls.outer);
   const innerCls = clsx(
     `${prefixCls}-inner`,
-    'relative inline-block w-full flex-1 overflow-hidden rounded-full bg-neutral-fill-quaternary align-middle',
+    'relative inline-block w-full flex-1 overflow-hidden rounded-full bg-fill-quaternary align-middle',
     semanticCls.trail,
   );
   const innerBgCls = clsx(
@@ -145,7 +145,7 @@ const Line: React.FC<LineProps> = (props) => {
     `${prefixCls}-bg-${infoPosition}`,
     'relative overflow-hidden rounded-full bg-primary transition-all duration-300',
     {
-      'before:absolute before:inset-0 before:animate-[2.4s_ease-in-out_infinite_progress-active] before:rounded-full before:bg-neutral-bg-container before:opacity-0':
+      'before:absolute before:inset-0 before:animate-[2.4s_ease-in-out_infinite_progress-active] before:rounded-full before:bg-container before:opacity-0':
         status === 'active',
       'bg-success': status === 'success',
       'bg-error': status === 'exception',

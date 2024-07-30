@@ -63,7 +63,7 @@ const App: React.FC = () => {
       onOpenChange={onOpenChange}
       style={{ width: 288 }}
       items={items}
-      className="border-e border-e-neutral-border"
+      className="border-e border-e-border"
     />
   );
 };

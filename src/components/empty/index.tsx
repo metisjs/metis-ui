@@ -68,7 +68,7 @@ const Empty: CompoundedComponent = ({
         <div
           className={clsx(
             `${prefixCls}-description`,
-            'text-neutral-text-quaternary',
+            'text-text-quaternary',
             semanticCls.description,
           )}
         >

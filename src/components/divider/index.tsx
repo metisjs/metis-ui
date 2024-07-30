@@ -31,7 +31,7 @@ const Divider: React.FC<DividerProps> = (props) => {
   const hasChildren = !!children;
   const classString = clsx(
     prefixCls,
-    'border-neutral-border-secondary',
+    'border-border-secondary',
     {
       'clear-both my-6 flex w-full min-w-full border-t': type === 'horizontal',
       'relative top-[-0.06em] mx-2 inline-block h-[0.9em] border-l align-middle':

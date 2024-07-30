@@ -103,7 +103,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     }
 
     const rootCls = clsx(
-      'relative inline-block h-6 min-w-[2.75rem] cursor-pointer select-none rounded-full bg-neutral-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
+      'relative inline-block h-6 min-w-[2.75rem] cursor-pointer select-none rounded-full bg-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
       'focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary',
       'disabled:cursor-not-allowed disabled:opacity-disabled',
       {
@@ -168,7 +168,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           </span>
           <span
             className={clsx(
-              'pointer-events-none -mt-6 me-0 ms-0 block text-neutral-text-tertiary transition-all duration-200 ease-in-out',
+              'pointer-events-none -mt-6 me-0 ms-0 block text-text-tertiary transition-all duration-200 ease-in-out',
               mergedSize === 'small' && '-mt-5',
               innerChecked && 'me-[calc(-100%+24px-52px)] ms-[calc(100%-24px+52px)]',
               mergedSize === 'small' &&

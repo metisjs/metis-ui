@@ -40,7 +40,7 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
           {
             [`${prefixCls}-steps-item-active`]: i <= current - 1,
           },
-          'me-[0.125rem] bg-neutral-fill-quaternary last-of-type:me-0',
+          'me-[0.125rem] bg-fill-quaternary last-of-type:me-0',
           i <= current - 1 && {
             'bg-primary': true,
             'bg-success': status === 'success',

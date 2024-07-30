@@ -74,7 +74,7 @@ const App: React.FC = () => {
         selectedKeys={[current]}
         mode="inline"
         items={items}
-        className={theme === 'light' ? 'border-e border-e-neutral-border' : ''}
+        className={theme === 'light' ? 'border-e border-e-border' : ''}
       />
     </>
   );

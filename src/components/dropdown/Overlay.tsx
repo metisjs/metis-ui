@@ -37,7 +37,7 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
             `${prefixCls}-arrow`,
             getArrowClassName({
               limitVerticalRadius: true,
-              custom: 'after:ring-1 after:ring-neutral-border-secondary',
+              custom: 'after:ring-1 after:ring-border-secondary',
             }),
           )}
         />

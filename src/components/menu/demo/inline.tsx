@@ -54,7 +54,7 @@ const App: React.FC = () => {
       defaultOpenKeys={['teams', 'projects']}
       mode="inline"
       items={items}
-      className="border-e border-e-neutral-border"
+      className="border-e border-e-border"
     />
   );
 };

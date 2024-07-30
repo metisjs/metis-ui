@@ -51,7 +51,7 @@ const App: React.FC = () => (
     style={{ width: 288 }}
     mode="vertical"
     items={items}
-    className="border-e border-e-neutral-border"
+    className="border-e border-e-border"
   />
 );
 

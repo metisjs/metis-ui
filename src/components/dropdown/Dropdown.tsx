@@ -117,9 +117,9 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
   // =========================== Overlay ============================
   const overlayClassNameCustomized = clsx(
-    'absolute rounded-md bg-neutral-bg-elevated text-sm shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+    'absolute rounded-md bg-elevated text-sm shadow-lg ring-1 ring-border-secondary focus:outline-none',
     arrow &&
-      'origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-elevated))]',
+      'origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--elevated))]',
     semanticCls.overlay,
     semanticCls.root,
   );

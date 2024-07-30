@@ -128,7 +128,7 @@ const Result: ResultType = ({
   const rootCls = clsx(
     prefixCls,
     `${prefixCls}-${status}`,
-    'px-8 py-12 text-sm text-neutral-text',
+    'px-8 py-12 text-sm text-text',
     semanticCls.root,
   );
   const iconCls = clsx(`${prefixCls}-icon`, 'mb-6 text-center');
@@ -136,14 +136,10 @@ const Result: ResultType = ({
   const titleCls = clsx(`${prefixCls}-title`, 'my-2 text-center text-2xl', semanticCls.title);
   const subTitleCls = clsx(
     `${prefixCls}-subtitle`,
-    'text-center text-neutral-text-tertiary',
+    'text-center text-text-tertiary',
     semanticCls.subTitle,
   );
-  const contentCls = clsx(
-    `${prefixCls}-content`,
-    'mt-6 bg-neutral-fill-quinary p-6',
-    semanticCls.content,
-  );
+  const contentCls = clsx(`${prefixCls}-content`, 'mt-6 bg-fill-quinary p-6', semanticCls.content);
   const extraCls = clsx(
     `${prefixCls}-extra`,
     'mt-6 flex justify-center gap-2 text-center',

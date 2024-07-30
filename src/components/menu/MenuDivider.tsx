@@ -19,7 +19,7 @@ export default function MenuDivider({ className, dashed }: MenuDividerProps) {
       role="separator"
       className={clsx(
         `${prefixCls}-item-divider`,
-        'overflow-hidden border-t border-neutral-border-secondary leading-[0]',
+        'overflow-hidden border-t border-border-secondary leading-[0]',
         {
           [`${prefixCls}-item-divider-dashed border-dashed`]: !!dashed,
           'border-gray-500': theme === 'dark',

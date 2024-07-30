@@ -88,12 +88,12 @@ export function useInternalNotification(
   const getClassName = (placement: NotificationPlacement) =>
     mergeSemanticCls(
       {
-        root: clsx('fixed z-[2050] text-sm text-neutral-text', {
+        root: clsx('fixed z-[2050] text-sm text-text', {
           'ml-6': placement === 'topLeft' || placement === 'bottomLeft',
           'mr-6': placement === 'topRight' || placement === 'bottomRight',
         }),
         wrapper: clsx(
-          'relative mb-4 ms-auto rounded-lg bg-neutral-bg-elevated shadow-lg ring-1 ring-inset ring-neutral-border-secondary',
+          'relative mb-4 ms-auto rounded-lg bg-elevated shadow-lg ring-1 ring-inset ring-border-secondary',
           {
             'absolute transition-transform duration-200 after:pointer-events-auto after:absolute after:-bottom-4 after:h-4 after:w-full after:bg-transparent':
               !!stack,
@@ -114,10 +114,10 @@ export function useInternalNotification(
         ),
         content: clsx('flex gap-3'),
         close: clsx(
-          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-neutral-text-secondary hover:bg-neutral-fill-tertiary',
+          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-text-secondary hover:bg-fill-tertiary',
         ),
         progress: clsx(
-          'absolute bottom-0 left-2 right-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-neutral-fill-quinary [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-primary',
+          'absolute bottom-0 left-2 right-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-primary',
         ),
       },
       className?.(placement),
@@ -157,7 +157,7 @@ export function useInternalNotification(
       const messageCls = clsx(`${prefixCls}-message`, 'truncate font-medium', semanticCls.message);
       const descriptionCls = clsx(
         `${prefixCls}-description`,
-        'mt-1 text-neutral-text-secondary',
+        'mt-1 text-text-secondary',
         semanticCls.message,
       );
       const iconCls = clsx(

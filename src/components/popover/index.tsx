@@ -47,15 +47,15 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
   const prefixCls = getPrefixCls('popover');
 
   const overlayCls = clsx(
-    'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--neutral-bg-elevated))]',
+    'visible absolute z-[1070] box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--elevated))]',
     semanticCls.overlay,
   );
 
   const popupInnerCls = clsx(
-    'z-[1030] cursor-auto select-text rounded-lg p-3 text-neutral-text shadow-lg ring-1 ring-neutral-border-secondary focus:outline-none',
+    'z-[1030] cursor-auto select-text rounded-lg p-3 text-text shadow-lg ring-1 ring-border-secondary focus:outline-none',
   );
 
-  const arrowCls = clsx('after:ring-1 after:ring-neutral-border-secondary');
+  const arrowCls = clsx('after:ring-1 after:ring-border-secondary');
 
   return (
     <Tooltip

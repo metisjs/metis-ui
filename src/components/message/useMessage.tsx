@@ -74,9 +74,9 @@ export function useInternalMessage(
   });
 
   const getClassName = () => ({
-    root: clsx('fixed top-2 z-[2010] text-center text-sm text-neutral-text'),
+    root: clsx('fixed top-2 z-[2010] text-center text-sm text-text'),
     wrapper: clsx(
-      'relative mx-auto mb-3 w-fit rounded-lg bg-neutral-bg-elevated shadow-lg ring-1 ring-inset ring-neutral-border-secondary',
+      'relative mx-auto mb-3 w-fit rounded-lg bg-elevated shadow-lg ring-1 ring-inset ring-border-secondary',
     ),
     notice: clsx('relative overflow-hidden break-words p-3'),
     content: clsx('flex items-center gap-2'),

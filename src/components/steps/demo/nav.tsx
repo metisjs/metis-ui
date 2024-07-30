@@ -15,7 +15,7 @@ const App: React.FC = () => {
         type="navigation"
         current={current}
         onChange={onChange}
-        className="rounded-lg border border-neutral-border-secondary"
+        className="rounded-lg border border-border-secondary"
         items={[
           {
             title: 'Step 1',
@@ -35,7 +35,7 @@ const App: React.FC = () => {
         type="navigation"
         current={current}
         onChange={onChange}
-        className="rounded-lg border border-neutral-border-secondary"
+        className="rounded-lg border border-border-secondary"
         items={[
           {
             title: 'Step 1',
@@ -56,7 +56,7 @@ const App: React.FC = () => {
         size="small"
         current={current}
         onChange={onChange}
-        className="rounded-lg border border-neutral-border-secondary"
+        className="rounded-lg border border-border-secondary"
         items={[
           {
             title: 'finish 1',
