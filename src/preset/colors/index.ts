@@ -104,6 +104,12 @@ const colorObject = {
   mask: {
     DEFAULT: 'hsla(var(--mask))',
   },
+
+  /** 滚动组件滚动条颜色 */
+  scrollbar: {
+    track: 'hsla(var(--scrollbar-track))',
+    thumb: 'hsla(var(--scrollbar-thumb))',
+  },
 };
 
 export default colorObject;

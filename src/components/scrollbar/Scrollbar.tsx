@@ -396,6 +396,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     };
   }, []);
 
+  // ====================== Imperative ======================
   useImperativeHandle(
     ref,
     () => ({
@@ -467,31 +468,34 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const trackHorizontalCls = clsx(
     `${prefixCls}-track ${prefixCls}-track-horizontal`,
-    'absolute bottom-[2px] left-[2px] right-[2px] z-[100] h-[6px] opacity-0',
+    'absolute bottom-0 left-0 right-0 z-[100] h-3 px-1 py-0.5 opacity-0 hover:h-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
       'hidden ': !scrollbarWidth || (universal && !didMountUniversal),
+      'h-[14px] bg-scrollbar-track': dragging.current || trackMouseOver.current,
     },
     semanticCls.trackHorizontal,
   );
 
   const trackVerticalCls = clsx(
     `${prefixCls}-track ${prefixCls}-track-vertical`,
-    'absolute bottom-[2px] right-[2px] top-[2px] z-[100] w-[6px] opacity-0',
+    'absolute bottom-0 right-0 top-0 z-[100] w-3 px-0.5 py-1 opacity-0 hover:w-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
       'hidden ': !scrollbarWidth || (universal && !didMountUniversal),
+      'w-[14px] bg-scrollbar-track': dragging.current,
     },
     semanticCls.trackVertical,
   );
 
   const trackStyle = {
-    transition: `opacity ${autoHideDuration}ms`,
+    transitionProperty: 'opacity,background-color,width',
+    transitionDuration: `${autoHideDuration}ms`,
   };
 
   const thumbCls = clsx(
     `${prefixCls}-track-thumb`,
-    'relative block h-full cursor-pointer rounded-full bg-neutral-fill-secondary transition-colors hover:bg-neutral-fill',
+    'relative block h-full cursor-pointer rounded-full bg-scrollbar-thumb transition-colors',
   );
 
   // ======================== Render ========================
