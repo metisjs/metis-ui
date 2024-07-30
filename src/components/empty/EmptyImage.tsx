@@ -3,20 +3,15 @@ import * as React from 'react';
 import useTheme from '../theme/useTheme';
 
 const EmptyImage: React.FC = () => {
-  const { neutralFill, neutralFillTertiary, neutralFillQuaternary, neutralBgContainer } =
-    useTheme();
+  const { fill, fillTertiary, fillQuaternary, container } = useTheme();
 
   const { borderColor, shadowColor, contentColor } = React.useMemo(
     () => ({
-      borderColor: new TinyColor(neutralFill).onBackground(neutralBgContainer).toHexShortString(),
-      shadowColor: new TinyColor(neutralFillTertiary)
-        .onBackground(neutralBgContainer)
-        .toHexShortString(),
-      contentColor: new TinyColor(neutralFillQuaternary)
-        .onBackground(neutralBgContainer)
-        .toHexShortString(),
+      borderColor: new TinyColor(fill).onBackground(container).toHexShortString(),
+      shadowColor: new TinyColor(fillTertiary).onBackground(container).toHexShortString(),
+      contentColor: new TinyColor(fillQuaternary).onBackground(container).toHexShortString(),
     }),
-    [neutralFill, neutralFillTertiary, neutralFillQuaternary, neutralBgContainer],
+    [fill, fillTertiary, fillQuaternary, container],
   );
 
   return (

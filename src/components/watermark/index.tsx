@@ -71,10 +71,10 @@ const Watermark: React.FC<WatermarkProps> = (props) => {
     ...style,
   };
 
-  const { neutralFill } = useTheme();
+  const { fill } = useTheme();
 
   const {
-    color = neutralFill,
+    color = fill,
     fontSize = 16,
     fontWeight = 'normal',
     fontStyle = 'normal',
