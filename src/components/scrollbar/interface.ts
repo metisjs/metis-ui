@@ -15,9 +15,9 @@ export interface ScrollbarProps {
   onScroll?: (values: ScrollValues, e: React.UIEvent<HTMLElement>) => void;
   onScrollStart?: () => void;
   onScrollStop?: () => void;
-  thumbMinSize: number;
+  thumbMinSize?: number;
   thumbSize?: number;
-  universal: boolean;
+  universal?: boolean;
 }
 
 export interface ScrollValues {
@@ -33,17 +33,7 @@ export interface ScrollValues {
 
 export interface ScrollbarRef {
   view?: HTMLElement;
-  getScrollLeft(): number;
-  getScrollTop(): number;
-  getScrollWidth(): number;
-  getScrollHeight(): number;
-  getClientWidth(): number;
-  getClientHeight(): number;
   getValues(): ScrollValues;
-  scrollLeft(left?: number): void;
-  scrollTop(top?: number): void;
-  scrollToLeft(): void;
-  scrollToTop(): void;
-  scrollToRight(): void;
-  scrollToBottom(): void;
+  scrollTo(options?: ScrollToOptions): void;
+  scrollTo(x: number, y: number): void;
 }

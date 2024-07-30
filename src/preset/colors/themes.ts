@@ -15,7 +15,7 @@ export default {
     layout: 'slate-950',
     spotlight: 'slate-700/85',
     mask: 'slate-900/45',
-    'scrollbar-track': 'white/5',
+    'scrollbar-track': 'white/10',
     'scrollbar-thumb': 'white/50',
   },
   light: {
@@ -34,7 +34,7 @@ export default {
     layout: 'slate-100',
     spotlight: 'gray-900/85',
     mask: 'gray-900/45',
-    'scrollbar-track': 'black/5',
+    'scrollbar-track': 'black/10',
     'scrollbar-thumb': 'black/50',
   },
 } as const;

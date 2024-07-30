@@ -401,30 +401,9 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     ref,
     () => ({
       view: viewRef.current ?? undefined,
-      getScrollLeft: () => viewRef.current?.scrollLeft ?? 0,
-      getScrollTop: () => viewRef.current?.scrollTop ?? 0,
-      getScrollWidth: () => viewRef.current?.scrollWidth ?? 0,
-      getScrollHeight: () => viewRef.current?.scrollHeight ?? 0,
-      getClientWidth: () => viewRef.current?.clientWidth ?? 0,
-      getClientHeight: () => viewRef.current?.clientHeight ?? 0,
       getValues,
-      scrollLeft: (left = 0) => {
-        if (viewRef.current) viewRef.current.scrollLeft = left;
-      },
-      scrollTop: (top = 0) => {
-        if (viewRef.current) viewRef.current.scrollTop = top;
-      },
-      scrollToLeft: () => {
-        if (viewRef.current) viewRef.current.scrollLeft = 0;
-      },
-      scrollToTop: () => {
-        if (viewRef.current) viewRef.current.scrollTop = 0;
-      },
-      scrollToRight: () => {
-        if (viewRef.current) viewRef.current.scrollLeft = viewRef.current.scrollWidth;
-      },
-      scrollToBottom: () => {
-        if (viewRef.current) viewRef.current.scrollTop = viewRef.current.scrollHeight;
+      scrollTo: (...arg: any[]) => {
+        viewRef.current?.scrollTo(...arg);
       },
     }),
     [],
@@ -471,7 +450,8 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     'absolute bottom-0 left-0 right-0 z-[100] h-3 px-1 py-0.5 opacity-0 hover:h-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
-      'hidden ': !scrollbarWidth || (universal && !didMountUniversal),
+      'hidden ':
+        !scrollbarWidth || !thumbHorizontalStyle?.width || (universal && !didMountUniversal),
       'h-[14px] bg-scrollbar-track': dragging.current || trackMouseOver.current,
     },
     semanticCls.trackHorizontal,
@@ -482,7 +462,8 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     'absolute bottom-0 right-0 top-0 z-[100] w-3 px-0.5 py-1 opacity-0 hover:w-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
-      'hidden ': !scrollbarWidth || (universal && !didMountUniversal),
+      'hidden ':
+        !scrollbarWidth || !thumbVerticalStyle?.height || (universal && !didMountUniversal),
       'w-[14px] bg-scrollbar-track': dragging.current,
     },
     semanticCls.trackVertical,
