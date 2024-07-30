@@ -285,6 +285,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         onScroll={onPopupScroll}
         virtual={virtual}
         innerProps={virtual ? undefined : a11yProps}
+        className={{ view: ' py-1' }}
       >
         {(item, itemIndex) => {
           const { group, groupOption, data, label, value, disabled } = item;
