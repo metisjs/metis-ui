@@ -30,7 +30,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     onScroll,
     onScrollStart,
     onScrollStop,
-    thumbMinSize = 30,
+    thumbMinSize = 24,
     thumbSize,
     universal = false,
   } = props;
