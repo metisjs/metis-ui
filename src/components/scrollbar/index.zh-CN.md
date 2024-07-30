@@ -29,7 +29,7 @@ group: 其他
 | onScroll | 在滚动时运行 | (values: ScrollValues, event:UIEvent&lt;HTMLElement>) => void | undefined |  |
 | onScrollStart | 滚动开始时调用 | () => void | - |  |
 | onScrollStop | 滚动停止时调用 | () => void | - |  |
-| thumbMinSize | 滑块最小尺寸 | number | 24 |  |
+| thumbMinSize | 滑块最小尺寸 | number | 20 |  |
 | thumbSize | 滑块尺寸 | number | - |  |
 | universal | 服务端渲染时激活 | boolean | false |  |
 

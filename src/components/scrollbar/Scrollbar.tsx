@@ -30,9 +30,10 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     onScroll,
     onScrollStart,
     onScrollStop,
-    thumbMinSize = 24,
+    thumbMinSize = 20,
     thumbSize,
     universal = false,
+    style,
   } = props;
   const { getPrefixCls } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('scrollbar', customizePrefixCls);
@@ -51,9 +52,6 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const detectScrollingInterval = useRef<NodeJS.Timer>();
   const hideTracksTimeout = useRef<NodeJS.Timer>();
 
-  const dragging = useRef(false);
-  const scrolling = useRef(false);
-  const trackMouseOver = useRef(false);
   const viewScrollLeft = useRef<number>();
   const viewScrollTop = useRef<number>();
   const lastViewScrollLeft = useRef<number>();
@@ -65,6 +63,9 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const [didMountUniversal, setDidMountUniversal] = useState(false);
   const [scrollbarWidth, setScrollbarWidth] = useState(getScrollbarWidth);
   const [trackVisible, setTrackVisible] = useState(!autoHide);
+  const [scrolling, setScrolling] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [trackMouseOver, setTrackMouseOver] = useState(false);
 
   const [thumbHorizontalStyle, setThumbHorizontalStyle] = useState<CSSProperties>();
   const [thumbVerticalStyle, setThumbVerticalStyle] = useState<CSSProperties>();
@@ -96,6 +97,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
     const { scrollWidth, clientWidth } = viewRef.current;
     const trackWidth = getInnerWidth(trackHorizontalRef.current);
+    if (!scrollWidth) return 0;
     const width = Math.ceil((clientWidth / scrollWidth) * trackWidth);
     if (trackWidth === width) return 0;
     if (thumbSize) return thumbSize;
@@ -107,6 +109,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
     const { scrollHeight, clientHeight } = viewRef.current;
     const trackHeight = getInnerHeight(trackVerticalRef.current);
+    if (!scrollHeight) return 0;
     const height = Math.ceil((clientHeight / scrollHeight) * trackHeight);
     if (trackHeight === height) return 0;
     if (thumbSize) return thumbSize;
@@ -159,7 +162,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const hideTracks = () => {
-    if (dragging.current || trackMouseOver.current || scrolling.current) return;
+    if (dragging || trackMouseOver || scrolling) return;
 
     clearTimeout(hideTracksTimeout.current);
     hideTracksTimeout.current = setTimeout(() => {
@@ -178,7 +181,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleTrackMouseEnter = () => {
-    trackMouseOver.current = true;
+    setTrackMouseOver(true);
     handleTrackMouseEnterAutoHide();
   };
 
@@ -188,7 +191,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleTrackMouseLeave = () => {
-    trackMouseOver.current = false;
+    setTrackMouseOver(false);
     handleTrackMouseLeaveAutoHide();
   };
 
@@ -213,9 +216,9 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const detectScrolling = () => {
-    if (scrolling.current) return;
+    if (scrolling) return;
 
-    scrolling.current = true;
+    setScrolling(true);
     handleScrollStart();
     detectScrollingInterval.current = setInterval(() => {
       if (
@@ -224,7 +227,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
       ) {
         clearInterval(detectScrollingInterval.current);
         detectScrollingInterval.current = undefined;
-        scrolling.current = false;
+        setScrolling(false);
 
         handleScrollStop();
       }
@@ -281,13 +284,18 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleDrag = (event: globalThis.MouseEvent) => {
+    if (rafId.current !== undefined) raf.cancel(rafId.current);
+
     if (prevPageX.current && trackHorizontalRef.current && viewRef.current) {
       const { clientX } = event;
       const { left: trackLeft } = trackHorizontalRef.current.getBoundingClientRect();
       const thumbWidth = getThumbHorizontalWidth();
       const clickPosition = thumbWidth - prevPageX.current;
       const offset = -trackLeft + clientX - clickPosition;
-      viewRef.current.scrollLeft = getScrollLeftForOffset(offset);
+
+      rafId.current = raf(() => {
+        viewRef.current!.scrollLeft = getScrollLeftForOffset(offset);
+      });
     }
     if (prevPageY.current && trackVerticalRef.current && viewRef.current) {
       const { clientY } = event;
@@ -295,13 +303,17 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
       const thumbHeight = getThumbVerticalHeight();
       const clickPosition = thumbHeight - prevPageY.current;
       const offset = -trackTop + clientY - clickPosition;
-      viewRef.current.scrollTop = getScrollTopForOffset(offset);
+
+      rafId.current = raf(() => {
+        viewRef.current!.scrollTop = getScrollTopForOffset(offset);
+      });
     }
+
     return false;
   };
 
   const handleDragEnd = () => {
-    dragging.current = false;
+    setDragging(false);
     prevPageX.current = 0;
     prevPageY.current = 0;
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -324,7 +336,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleDragStart = (event: globalThis.MouseEvent) => {
-    dragging.current = true;
+    setDragging(true);
     event.stopImmediatePropagation();
     setupDragging();
   };
@@ -412,6 +424,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   // ======================== Style ========================
   const rootCls = clsx(prefixCls, 'relative h-full w-full overflow-hidden', semanticCls.root);
   const rootStyle = {
+    ...style,
     ...(autoHeight && {
       height: 'auto',
       minHeight: autoHeight[0],
@@ -426,6 +439,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
       'absolute inset-0': !autoHeight,
       'relative ': autoHeight,
       'overflow-hidden': universal && !didMountUniversal,
+      'pointer-events-none': dragging,
     },
     semanticCls.view,
   );
@@ -452,7 +466,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
       'opacity-100': trackVisible,
       'hidden ':
         !scrollbarWidth || !thumbHorizontalStyle?.width || (universal && !didMountUniversal),
-      'h-[14px] bg-scrollbar-track': dragging.current || trackMouseOver.current,
+      'h-[14px] bg-scrollbar-track': dragging || trackMouseOver,
     },
     semanticCls.trackHorizontal,
   );
@@ -464,7 +478,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
       'opacity-100': trackVisible,
       'hidden ':
         !scrollbarWidth || !thumbVerticalStyle?.height || (universal && !didMountUniversal),
-      'w-[14px] bg-scrollbar-track': dragging.current,
+      'w-[14px] bg-scrollbar-track': dragging,
     },
     semanticCls.trackVertical,
   );

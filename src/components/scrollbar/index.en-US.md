@@ -28,7 +28,7 @@ group: Other
 | onScroll | Triggered while scrolling | (values: ScrollValues, event:UIEvent&lt;HTMLElement>) => void | undefined |  |
 | onScrollStart | Called when scrolling starts | () => void | - |  |
 | onScrollStop | Called when scrolling stops | () => void | - |  |
-| thumbMinSize | Set thumb min size | number | 24 |  |
+| thumbMinSize | Set thumb min size | number | 20 |  |
 | thumbSize | fixed a thumb size | number | - |  |
 | universal | App runs on both client and server, activate the universal mode | boolean | false |  |
 
