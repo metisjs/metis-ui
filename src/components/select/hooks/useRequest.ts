@@ -102,14 +102,14 @@ export default function <TData extends BaseOptionType>(
     run(params);
   });
 
-  const onInternalScroll: SelectProps['onPopupScroll'] = useMemoizedFn((values) => {
+  const onInternalScroll: SelectProps['onPopupScroll'] = useMemoizedFn((values, ev) => {
     const { scrollTop, scrollHeight, clientHeight } = values;
     if (pagination && !noMore && !loadingMore) {
       if (scrollHeight - scrollTop <= clientHeight + THRESHOLD) {
         loadMore(current.current + 1);
       }
     }
-    onScroll?.(values);
+    onScroll?.(values, ev);
   });
 
   const mergedOptions = useMemo(() => {
