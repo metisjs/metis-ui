@@ -14,6 +14,7 @@ export interface CascaderContextProps {
   expandIcon?: React.ReactNode;
   loadingIcon?: React.ReactNode;
   optionRender?: CascaderProps['optionRender'];
+  lazeLoad?: boolean;
 }
 
 const CascaderContext = React.createContext<CascaderContextProps>({} as CascaderContextProps);

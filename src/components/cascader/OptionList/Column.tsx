@@ -92,11 +92,15 @@ export default function Column({
   );
 
   // ============================ Style ============================
-  const menuCls = clsx(menuPrefixCls, '');
+  const rootCls = clsx(
+    'h-44 w-auto min-w-28 shrink-0 grow border-e border-border-secondary last-of-type:border-e-0',
+  );
+  const viewCls = clsx('!w-auto');
+  const menuCls = clsx(menuPrefixCls, 'p-1 text-sm text-text');
 
   // ============================ Render ============================
   return (
-    <Scrollbar>
+    <Scrollbar className={{ root: rootCls, view: viewCls }}>
       <ul className={menuCls} role="menu">
         {optionInfoList.map(
           ({
@@ -138,17 +142,31 @@ export default function Column({
               title = label;
             }
 
+            const isActive = activeValue === value || activeValue === fullPathKey;
+
+            // >>>>> Style
+            const menuItemCls = clsx(
+              menuItemPrefixCls,
+              {
+                [`${menuItemPrefixCls}-expand`]: !isMergedLeaf,
+                [`${menuItemPrefixCls}-active`]: isActive,
+                [`${menuItemPrefixCls}-disabled`]: disabled,
+                [`${menuItemPrefixCls}-loading`]: isLoading,
+              },
+              'flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded px-3 py-2 transition-all duration-200 hover:bg-fill-quaternary',
+              {
+                'bg-primary-bg': isActive && !disabled,
+                'hover:bg-transparent': disabled,
+              },
+            );
+            const menuItemContentCls = clsx(`${menuItemPrefixCls}-content`, 'flex-1');
+            const menuItemIconCls = clsx('translate-x-2 text-text-secondary');
+
             // >>>>> Render
             return (
               <li
                 key={fullPathKey}
-                className={clsx(menuItemPrefixCls, {
-                  [`${menuItemPrefixCls}-expand`]: !isMergedLeaf,
-                  [`${menuItemPrefixCls}-active`]:
-                    activeValue === value || activeValue === fullPathKey,
-                  [`${menuItemPrefixCls}-disabled`]: disabled,
-                  [`${menuItemPrefixCls}-loading`]: isLoading,
-                })}
+                className={menuItemCls}
                 role="menuitemcheckbox"
                 title={title}
                 aria-checked={checked}
@@ -186,14 +204,18 @@ export default function Column({
                     }}
                   />
                 )}
-                <div className={`${menuItemPrefixCls}-content`}>
+                <div className={menuItemContentCls}>
                   {optionRender ? optionRender(option) : label}
                 </div>
                 {!isLoading && expandIcon && !isMergedLeaf && (
-                  <div className={`${menuItemPrefixCls}-expand-icon`}>{expandIcon}</div>
+                  <div className={clsx(`${menuItemPrefixCls}-expand-icon`, menuItemIconCls)}>
+                    {expandIcon}
+                  </div>
                 )}
                 {isLoading && loadingIcon && (
-                  <div className={`${menuItemPrefixCls}-loading-icon`}>{loadingIcon}</div>
+                  <div className={clsx(`${menuItemPrefixCls}-loading-icon`, menuItemIconCls)}>
+                    {loadingIcon}
+                  </div>
                 )}
               </li>
             );

@@ -37,14 +37,14 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     onSelect,
     searchOptions,
     expandTrigger,
+    lazeLoad,
   } = React.useContext(CascaderContext);
 
   // ========================= loadData =========================
   const [loadingKeys, setLoadingKeys] = React.useState<React.Key[]>([]);
 
   const internalLoadData = (valueCells: React.Key[]) => {
-    // Do not load when search
-    if (searchValue) {
+    if (!lazeLoad) {
       return;
     }
 
@@ -215,19 +215,19 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     );
   });
 
+  // >>>>> Style
+  const menusCls = clsx(
+    `${prefixCls}-menus`,
+    {
+      [`${prefixCls}-menu-empty`]: isEmpty,
+    },
+    'flex flex-nowrap items-start',
+  );
+
   // >>>>> Render
   return (
     <CacheContent open={open}>
-      <div
-        className={clsx(
-          `${prefixCls}-menus`,
-          {
-            [`${prefixCls}-menu-empty`]: isEmpty,
-          },
-          'flex flex-nowrap items-start',
-        )}
-        ref={containerRef}
-      >
+      <div className={menusCls} ref={containerRef}>
         {columnNodes}
       </div>
     </CacheContent>
