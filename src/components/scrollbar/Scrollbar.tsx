@@ -498,27 +498,27 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     style: trackStyle,
   };
   return (
-    <ResizeObserver onResize={() => update()}>
-      <div className={rootCls} style={rootStyle}>
+    <div className={rootCls} style={rootStyle}>
+      <ResizeObserver onResize={() => update()}>
         <div className={viewCls} ref={viewRef} style={viewStyle} onScroll={handleScroll}>
           {children}
         </div>
-        <div className={trackHorizontalCls} ref={trackHorizontalRef} {...sharedTrackProps}>
-          <div
-            className={clsx(thumbCls, semanticCls.thumbHorizontal)}
-            ref={thumbHorizontalRef}
-            style={thumbHorizontalStyle}
-          ></div>
-        </div>
-        <div className={trackVerticalCls} ref={trackVerticalRef} {...sharedTrackProps}>
-          <div
-            className={clsx(thumbCls, semanticCls.thumbVertical)}
-            ref={thumbVerticalRef}
-            style={thumbVerticalStyle}
-          ></div>
-        </div>
+      </ResizeObserver>
+      <div className={trackHorizontalCls} ref={trackHorizontalRef} {...sharedTrackProps}>
+        <div
+          className={clsx(thumbCls, semanticCls.thumbHorizontal)}
+          ref={thumbHorizontalRef}
+          style={thumbHorizontalStyle}
+        ></div>
       </div>
-    </ResizeObserver>
+      <div className={trackVerticalCls} ref={trackVerticalRef} {...sharedTrackProps}>
+        <div
+          className={clsx(thumbCls, semanticCls.thumbVertical)}
+          ref={thumbVerticalRef}
+          style={thumbVerticalStyle}
+        ></div>
+      </div>
+    </div>
   );
 };
 
