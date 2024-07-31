@@ -6,7 +6,7 @@ import type { TriggerProps } from '../';
 import { SemanticClassName, clsx, getSemanticCls } from '../../_util/classNameUtils';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
-import type { AlignPoint, AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
+import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
 import Arrow from './Arrow';
 import Mask from './Mask';
 import PopupContent from './PopupContent';
@@ -25,7 +25,7 @@ export interface PopupProps {
   onOpenChanged: (open: boolean) => void;
 
   // Arrow
-  align: AlignType & { points: (string | AlignPoint)[] };
+  align: AlignType;
   arrow?: ArrowTypeOuter;
   arrowPos: ArrowPos;
 
@@ -151,7 +151,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
 
   // Set align style
   if (ready || !open) {
-    const { points } = align;
+    const { points = [] } = align;
     const dynamicInset = align.dynamicInset;
     const alignRight = dynamicInset && points[0][1] === 'r';
     const alignBottom = dynamicInset && points[0][0] === 'b';

@@ -5,13 +5,15 @@ import { clsx } from './classNameUtils';
 const InputStatuses = ['warning', 'error', ''] as const;
 export type InputStatus = (typeof InputStatuses)[number];
 
-export function getStatusClassNames(status?: ValidateStatus, variant?: Variant) {
+export function getStatusClassNames(status?: ValidateStatus, variant?: Variant, focus?: boolean) {
   return clsx(
     {
       '1': status === 'success',
       'text-warning ring-warning-border focus-within:ring-warning focus:ring-warning':
         status === 'warning',
+      'ring-warning': status === 'warning' && focus,
       'text-error ring-error-border focus-within:ring-error focus:ring-error': status === 'error',
+      'ring-error': status === 'error' && focus,
       '4': status === 'validating',
     },
     variant === 'filled' && {

@@ -11,6 +11,7 @@ const getBuiltInPlacements = (popupOverflow?: PopupOverflow): Record<string, Ali
       shiftY: true,
     },
     htmlRegion,
+    dynamicInset: true,
   };
 
   return {

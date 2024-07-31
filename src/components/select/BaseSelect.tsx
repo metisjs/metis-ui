@@ -762,16 +762,16 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       },
       '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
       compactItemClassnames,
-      getStatusClassNames(mergedStatus, variant),
-      mergedDisabled && {
-        'bg-fill-quaternary text-text-tertiary': true,
-        'not-allowed bg-fill-quaternary text-text-tertiary ring-border': variant !== 'borderless',
-      },
       (mockFocused || mergedOpen) && {
         'ring-2 ring-primary': true,
         'ring-0': variant === 'borderless',
         'bg-container': variant === 'filled',
         'z-[2]': isCompactItem,
+      },
+      getStatusClassNames(mergedStatus, variant, mockFocused || mergedOpen),
+      mergedDisabled && {
+        'bg-fill-quaternary text-text-tertiary': true,
+        'not-allowed bg-fill-quaternary text-text-tertiary ring-border': variant !== 'borderless',
       },
     ],
     semanticCls.root,
