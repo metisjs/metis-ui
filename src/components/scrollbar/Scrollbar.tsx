@@ -443,15 +443,13 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const viewStyle = {
     marginRight: scrollbarWidth ? -scrollbarWidth : 0,
     marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
-    ...(autoHeight
-      ? {
-          minHeight: autoHeight[0] + scrollbarWidth,
-          maxHeight: autoHeight[1] + scrollbarWidth,
-        }
-      : {
-          height: `calc(100% + ${scrollbarWidth}px)`,
-          width: `calc(100% + ${scrollbarWidth}px)`,
-        }),
+    width: `calc(100% + ${scrollbarWidth}px)`,
+    height: `calc(100% + ${scrollbarWidth}px)`,
+    ...(autoHeight && {
+      height: 'auto',
+      minHeight: autoHeight[0] + scrollbarWidth,
+      maxHeight: autoHeight[1] + scrollbarWidth,
+    }),
     ...(autoHeight &&
       universal &&
       !didMountUniversal && {
