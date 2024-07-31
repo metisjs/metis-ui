@@ -40,7 +40,6 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const semanticCls = getSemanticCls(className);
 
   // ======================== Ref ========================
-  const containerRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<HTMLDivElement>(null);
   const trackHorizontalRef = useRef<HTMLDivElement>(null);
   const trackVerticalRef = useRef<HTMLDivElement>(null);
@@ -434,10 +433,8 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const viewCls = clsx(
     `${prefixCls}-view`,
-    'overflow-scroll',
+    'relative overflow-scroll',
     {
-      'absolute inset-0': !autoHeight,
-      'relative ': autoHeight,
       'overflow-hidden': universal && !didMountUniversal,
       'pointer-events-none': dragging,
     },
@@ -446,10 +443,15 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const viewStyle = {
     marginRight: scrollbarWidth ? -scrollbarWidth : 0,
     marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
-    ...(autoHeight && {
-      minHeight: autoHeight[0] + scrollbarWidth,
-      maxHeight: autoHeight[1] + scrollbarWidth,
-    }),
+    ...(autoHeight
+      ? {
+          minHeight: autoHeight[0] + scrollbarWidth,
+          maxHeight: autoHeight[1] + scrollbarWidth,
+        }
+      : {
+          height: `calc(100% + ${scrollbarWidth}px)`,
+          width: `calc(100% + ${scrollbarWidth}px)`,
+        }),
     ...(autoHeight &&
       universal &&
       !didMountUniversal && {
@@ -499,7 +501,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
   return (
     <ResizeObserver onResize={() => update()}>
-      <div className={rootCls} ref={containerRef} style={rootStyle}>
+      <div className={rootCls} style={rootStyle}>
         <div className={viewCls} ref={viewRef} style={viewStyle} onScroll={handleScroll}>
           {children}
         </div>
