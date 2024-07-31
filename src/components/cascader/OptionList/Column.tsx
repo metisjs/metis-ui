@@ -93,7 +93,7 @@ export default function Column({
 
   // ============================ Style ============================
   const rootCls = clsx(
-    'h-44 w-auto min-w-28 shrink-0 grow border-e border-border-secondary last-of-type:border-e-0',
+    'h-44 w-auto min-w-28 shrink-0 grow border-s border-border-secondary first-of-type:border-e-0',
   );
   const viewCls = clsx('!w-auto');
   const menuCls = clsx(menuPrefixCls, 'p-1 text-sm text-text');
@@ -156,11 +156,14 @@ export default function Column({
               'flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded px-3 py-2 transition-all duration-200 hover:bg-fill-quaternary',
               {
                 'bg-primary-bg': isActive && !disabled,
-                'hover:bg-transparent': disabled,
+                'cursor-not-allowed text-text-tertiary hover:bg-transparent': disabled,
               },
             );
+            const checkboxCls = clsx(`${prefixCls}-checkbox`, 'me-1');
             const menuItemContentCls = clsx(`${menuItemPrefixCls}-content`, 'flex-1');
-            const menuItemIconCls = clsx('translate-x-2 text-text-secondary');
+            const menuItemIconCls = clsx('flex translate-x-1 items-center text-text-secondary', {
+              'text-text-tertiary': disabled,
+            });
 
             // >>>>> Render
             return (
@@ -194,7 +197,7 @@ export default function Column({
               >
                 {multiple && (
                   <Checkbox
-                    prefixCls={`${prefixCls}-checkbox`}
+                    prefixCls={checkboxCls}
                     checked={checked}
                     indeterminate={halfChecked}
                     disabled={disabled}

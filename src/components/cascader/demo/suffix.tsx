@@ -51,6 +51,7 @@ const onChange: CascaderProps<Option>['onChange'] = (value) => {
 const App: React.FC = () => (
   <>
     <Cascader
+      className="w-72"
       suffixIcon={<FaceSmileOutline />}
       options={options}
       onChange={onChange}
@@ -58,10 +59,17 @@ const App: React.FC = () => (
     />
     <br />
     <br />
-    <Cascader suffixIcon="ab" options={options} onChange={onChange} placeholder="Please select" />
+    <Cascader
+      className="w-72"
+      suffixIcon="ab"
+      options={options}
+      onChange={onChange}
+      placeholder="Please select"
+    />
     <br />
     <br />
     <Cascader
+      className="w-72"
       expandIcon={<FaceSmileOutline />}
       options={options}
       onChange={onChange}
@@ -69,7 +77,13 @@ const App: React.FC = () => (
     />
     <br />
     <br />
-    <Cascader expandIcon="ab" options={options} onChange={onChange} placeholder="Please select" />
+    <Cascader
+      className="w-72"
+      expandIcon="ab"
+      options={options}
+      onChange={onChange}
+      placeholder="Please select"
+    />
   </>
 );
 

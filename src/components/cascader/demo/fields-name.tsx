@@ -49,6 +49,7 @@ const onChange: CascaderProps<Option>['onChange'] = (value) => {
 
 const App: React.FC = () => (
   <Cascader
+    className="w-72"
     fieldNames={{ label: 'name', value: 'code', children: 'items' }}
     options={options}
     onChange={onChange}

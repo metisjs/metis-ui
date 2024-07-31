@@ -29,7 +29,7 @@ const App: React.FC = () => {
     console.log(value, selectedOptions);
   };
 
-  return <Cascader options={options} onChange={onChange} changeOnSelect />;
+  return <Cascader className="w-72" options={options} onChange={onChange} changeOnSelect />;
 };
 
 export default App;

@@ -49,13 +49,13 @@ const onChange: CascaderProps<Option>['onChange'] = (value) => {
 
 const App: React.FC = () => (
   <>
-    <Cascader size="large" options={options} onChange={onChange} />
+    <Cascader className="w-72" size="large" options={options} onChange={onChange} />
     <br />
     <br />
-    <Cascader options={options} onChange={onChange} />
+    <Cascader className="w-72" options={options} onChange={onChange} />
     <br />
     <br />
-    <Cascader size="small" options={options} onChange={onChange} />
+    <Cascader className="w-72" size="small" options={options} onChange={onChange} />
     <br />
     <br />
   </>

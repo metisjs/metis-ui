@@ -48,7 +48,7 @@ const onChange: CascaderProps<Option>['onChange'] = (value) => {
 };
 
 const App: React.FC = () => (
-  <Cascader open options={options} onChange={onChange} placeholder="Please select" />
+  <Cascader className="w-72" options={options} onChange={onChange} placeholder="Please select" />
 );
 
 export default App;

@@ -48,7 +48,12 @@ const onChange: CascaderProps<Option>['onChange'] = (value) => {
 };
 
 const App: React.FC = () => (
-  <Cascader defaultValue={['zhejiang', 'hangzhou', 'xihu']} options={options} onChange={onChange} />
+  <Cascader
+    className="w-72"
+    defaultValue={['zhejiang', 'hangzhou', 'xihu']}
+    options={options}
+    onChange={onChange}
+  />
 );
 
 export default App;

@@ -68,7 +68,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     fieldNames,
     className,
     multiple = false,
-    allowClear,
+    allowClear = true,
     notFoundContent,
     defaultValue,
     value,

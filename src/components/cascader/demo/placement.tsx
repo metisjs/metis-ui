@@ -64,7 +64,12 @@ const App: React.FC = () => {
       />
       <br />
       <br />
-      <Cascader options={options} placeholder="Please select" placement={placement} />
+      <Cascader
+        className="w-72"
+        options={options}
+        placeholder="Please select"
+        placement={placement}
+      />
     </>
   );
 };

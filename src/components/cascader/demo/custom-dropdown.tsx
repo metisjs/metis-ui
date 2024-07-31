@@ -51,7 +51,12 @@ const popupRender = (menus: React.ReactNode) => (
 );
 
 const App: React.FC = () => (
-  <Cascader options={options} popupRender={popupRender} placeholder="Please select" />
+  <Cascader
+    className="w-72"
+    options={options}
+    popupRender={popupRender}
+    placeholder="Please select"
+  />
 );
 
 export default App;

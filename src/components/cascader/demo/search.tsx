@@ -62,6 +62,7 @@ const filter = (inputValue: string, path: DefaultOptionType[]) =>
 
 const App: React.FC = () => (
   <Cascader
+    className="w-72"
     options={options}
     onChange={onChange}
     placeholder="Please select"

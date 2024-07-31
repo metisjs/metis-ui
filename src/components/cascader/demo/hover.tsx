@@ -52,6 +52,7 @@ const displayRender = (labels: string[]) => labels[labels.length - 1];
 
 const App: React.FC = () => (
   <Cascader
+    className="w-72"
     options={options}
     expandTrigger="hover"
     displayRender={displayRender}
