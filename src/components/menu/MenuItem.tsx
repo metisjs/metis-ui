@@ -233,7 +233,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
           className={clsx(
             `${itemCls}-inner`,
             'flex items-center gap-2 transition-colors',
-            firstLevel && 'gap-3',
+            firstLevel && 'gap-3 font-medium',
             {
               // >>> Light
               light: {

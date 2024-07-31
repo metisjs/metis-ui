@@ -245,7 +245,6 @@ const InternalSubMenu = (props: SubMenuProps) => {
         contextClassName?.item,
         semanticCls.title,
       )}
-      style={inlineStyle}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : undefined}
@@ -322,6 +321,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
           contextClassName?.itemInner,
           semanticCls.inner,
         )}
+        style={inlineStyle}
       >
         {cloneElement(icon, {
           className: clsx(
