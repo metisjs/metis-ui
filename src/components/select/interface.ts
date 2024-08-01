@@ -25,31 +25,20 @@ export type LabeledValueType = {
   disabled: boolean | undefined;
   title: string;
 };
-export type OptionInValueType = BaseOptionType;
 
-export type DraftValueType =
-  | RawValueType
-  | OptionInValueType
-  | (RawValueType | OptionInValueType)[];
+export type DraftValueType = RawValueType | BaseOptionType | (RawValueType | BaseOptionType)[];
 
 export type GetValueType<
   OptionType extends BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
-  OptionInValueType extends boolean = false,
-> = false extends OptionInValueType
-  ? ModeType extends 'default'
-    ? RawValueType
-    : RawValueType[]
-  : ModeType extends 'default'
-  ? OptionType
-  : OptionType[];
+> = ModeType extends 'default' ? RawValueType | OptionType : RawValueType[] | OptionType[];
 
 export type GetRequestType<
   OptionType extends BaseOptionType,
   ShowSearchType extends boolean = false,
-  PaginationType extends boolean = false,
+  LazyLoadType extends boolean = false,
 > = ShowSearchType extends true
-  ? PaginationType extends true
+  ? LazyLoadType extends true
     ? RequestConfig<
         OptionType,
         [
@@ -70,7 +59,7 @@ export type GetRequestType<
           ...any[],
         ]
       >
-  : PaginationType extends true
+  : LazyLoadType extends true
   ? RequestConfig<
       OptionType,
       [
@@ -126,10 +115,9 @@ export type RequestConfig<TData, ParamsType extends any[]> =
 export interface SelectProps<
   OptionType extends BaseOptionType = BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
-  OptionInValueType extends boolean = false,
   ShowSearchType extends boolean = false,
-  PaginationType extends boolean = false,
-  ValueType = GetValueType<OptionType, ModeType, OptionInValueType>,
+  LazyLoadType extends boolean = false,
+  ValueType = ModeType extends 'default' ? RawValueType : RawValueType[],
 > extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'className' | 'showSearch'> {
   prefixCls?: string;
   id?: string;
@@ -175,9 +163,8 @@ export interface SelectProps<
   /** @private Internal usage. Do not use in your production. */
   combobox?: boolean;
 
-  optionInValue?: OptionInValueType;
-  value?: ValueType;
-  defaultValue?: ValueType;
+  value?: GetValueType<OptionType, ModeType>;
+  defaultValue?: GetValueType<OptionType, ModeType>;
   onChange?: (
     value: ValueType,
     option: ModeType extends 'default' ? OptionType : OptionType[],
@@ -186,6 +173,6 @@ export interface SelectProps<
   placement?: SelectCommonPlacement;
 
   // >>> Request
-  request?: GetRequestType<OptionType, ShowSearchType, PaginationType>;
-  pagination?: PaginationType;
+  request?: GetRequestType<OptionType, ShowSearchType, LazyLoadType>;
+  lazyLoad?: LazyLoadType;
 }

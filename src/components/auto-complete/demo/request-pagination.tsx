@@ -8,7 +8,7 @@ export default () => (
     request={fetchDataWithPagination}
     fieldNames={{ label: 'name', value: 'name' }}
     optionFilterProp="name"
-    pagination
+    lazyLoad
     onChange={(...arg) => console.log(...arg)}
     className="w-[320px]"
   />

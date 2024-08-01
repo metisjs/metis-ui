@@ -12,7 +12,7 @@ export default function <TData extends BaseOptionType>(
   showSearch?: boolean,
   searchValue?: string,
   optionFilterProp?: string,
-  pagination?: boolean,
+  lazyLoad?: boolean,
   onScroll?: SelectProps['onPopupScroll'],
   combobox?: boolean,
 ) {
@@ -44,7 +44,7 @@ export default function <TData extends BaseOptionType>(
         };
       }
 
-      if (pagination) {
+      if (lazyLoad) {
         firstParam = {
           ...firstParam,
           current: current.current,
@@ -55,7 +55,7 @@ export default function <TData extends BaseOptionType>(
     },
     {
       ready: !!requestService && ready,
-      refreshDeps: [showSearch, searchValue, pagination, optionFilterProp, ...refreshDeps],
+      refreshDeps: [showSearch, searchValue, lazyLoad, optionFilterProp, ...refreshDeps],
       refreshDepsAction: () => {
         cancel();
         current.current = 1;
@@ -104,7 +104,7 @@ export default function <TData extends BaseOptionType>(
 
   const onInternalScroll: SelectProps['onPopupScroll'] = useMemoizedFn((values, ev) => {
     const { scrollTop, scrollHeight, clientHeight } = values;
-    if (pagination && !noMore && !loadingMore) {
+    if (lazyLoad && !noMore && !loadingMore) {
       if (scrollHeight - scrollTop <= clientHeight + THRESHOLD) {
         loadMore(current.current + 1);
       }
@@ -113,11 +113,11 @@ export default function <TData extends BaseOptionType>(
   });
 
   const mergedOptions = useMemo(() => {
-    if (pagination && !noMore && loadingMore) {
+    if (lazyLoad && !noMore && loadingMore) {
       return [...options, { __loading__: true }];
     }
     return options;
-  }, [options, loadingMore, noMore, pagination]);
+  }, [options, loadingMore, noMore, lazyLoad]);
 
   return {
     options: mergedOptions,

@@ -28,7 +28,6 @@ import {
   LabeledValueType,
   OnActiveValue,
   OnInternalSelect,
-  OptionInValueType,
   RawValueType,
   RequestConfig,
   SelectCommonPlacement,
@@ -53,19 +52,17 @@ export interface InternalSelectProps
     | 'value'
     | 'defaultValue'
     | 'showSearch'
-    | 'optionInValue'
     | 'onChange'
     | 'onSelect'
     | 'onDeselect'
-    | 'pagination'
+    | 'lazyLoad'
     | 'request'
   > {
   mode?: 'multiple' | 'tags';
   value?: any;
   defaultValue?: any;
   showSearch?: boolean;
-  optionInValue?: boolean;
-  pagination?: boolean;
+  lazyLoad?: boolean;
   request?: RequestConfig<BaseOptionType, any[]>;
   onChange?: (value: any, option?: any) => void;
   onSelect?: (value: RawValueType | BaseOptionType, option?: BaseOptionType) => void;
@@ -85,7 +82,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
 
     // Request
     request,
-    pagination,
+    lazyLoad,
 
     // Search
     searchValue,
@@ -112,7 +109,6 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     // Value
     value,
     defaultValue,
-    optionInValue,
     onChange,
 
     notFoundContent,
@@ -174,7 +170,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     showSearch,
     mergedSearchValue,
     optionFilterProp,
-    pagination,
+    lazyLoad,
     onPopupScroll,
     combobox,
   );
@@ -235,7 +231,6 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
       // Convert to array
       const valueList = toArray(draftValues);
 
-      // Convert to optionInValue type
       return valueList.map((val) => {
         let rawValue: RawValueType;
         let rawLabel: React.ReactNode;
@@ -422,7 +417,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         labeledValues.some((newVal, index) => mergedValues[index]?.value !== newVal?.value))
     ) {
       const returnOptions = labeledValues.map((v) => getMixedOption(v.value));
-      const returnValues = optionInValue ? returnOptions : labeledValues.map((v) => v.value);
+      const returnValues = labeledValues.map((v) => v.value);
 
       onChange(
         // Value
@@ -449,9 +444,9 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
 
   // ========================= OptionList =========================
   const triggerSelect = (val: RawValueType, selected: boolean, type?: DisplayInfoType) => {
-    const getSelectEnt = (): [RawValueType | OptionInValueType, BaseOptionType] => {
+    const getSelectEnt = (): [RawValueType, BaseOptionType] => {
       const option = getMixedOption(val);
-      return [optionInValue ? option : val, option];
+      return [val, option];
     };
 
     if (selected && onSelect) {
@@ -641,11 +636,10 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
 }) as unknown as (<
   OptionType extends BaseOptionType = BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
-  OptionInValueType extends boolean = false,
   ShowSearchType extends boolean = false,
   PaginationType extends boolean = false,
 >(
-  props: SelectProps<OptionType, ModeType, OptionInValueType, ShowSearchType, PaginationType> & {
+  props: SelectProps<OptionType, ModeType, ShowSearchType, PaginationType> & {
     ref?: React.Ref<BaseSelectRef>;
   },
 ) => React.ReactElement) & {

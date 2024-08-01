@@ -26,10 +26,9 @@ demo:
 <code src="./demo/optgroup.tsx">分组</code>
 <code src="./demo/coordinate.tsx">联动</code>
 <code src="./demo/search-box.tsx">搜索框</code>
-<code src="./demo/option-in-value.tsx">获得选项的值</code>
 <code src="./demo/automatic-tokenization.tsx">自动分词</code>
 <code src="./demo/request.tsx">请求远程数据</code>
-<code src="./demo/request-pagination.tsx">分页请求远程数据</code>
+<code src="./demo/request-lazy-load.tsx">请求远程数据,分页懒加载</code>
 <code src="./demo/suffix.tsx" debug>后缀图标</code>
 <code src="./demo/custom-dropdown-menu.tsx">扩展菜单</code>
 <code src="./demo/hide-selected.tsx">隐藏已选择选项</code>
@@ -54,7 +53,7 @@ demo:
 | className | 语义化结构 class | string \| Record<'root' \| 'popup' \| 'selector', string> | - |  |
 | defaultActiveFirstOption | 是否默认高亮第一个选项 | boolean | true |  |
 | defaultOpen | 是否默认展开下拉菜单 | boolean | - |  |
-| defaultValue | 指定默认选中的条目 | string \| string\[] \|<br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
+| defaultValue | 指定默认选中的条目 | string \| string\[] \|<br />number \| number\[] \| <br />Option \| Option\[] | - |  |
 | disabled | 是否禁用 | boolean | false |  |
 | popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。false 时会关闭虚拟滚动 | boolean \| number | true |  |
 | popupRender | 自定义下拉框内容 | (originNode: ReactNode) => ReactNode | - |  |
@@ -73,9 +72,8 @@ demo:
 | notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `Not Found` |  |
 | open | 是否展开下拉菜单 | boolean | - |  |
 | optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | `fieldNames.label` |  |
-| optionInValue | 是否把每个选项的 option 包装到 value 中，会把 Select 的 value 类型从 `string` 变为 OptionType 的格式 | boolean | false |  |
 | displayRender | 选择后展示的渲染函数 | (selectedOption) => ReactNode | - |  |
-| optionRender | 自定义渲染下拉选项 | (option: FlattenOptionData\<BaseOptionType\> , info: { index: number }) => React.ReactNode | - |  |
+| optionRender | 自定义渲染下拉选项 | (option: FlattenOptionData\<BaseOption\> , info: { index: number }) => React.ReactNode | - |  |
 | options | 数据化配置选项内容，相比 jsx 定义会获得更好的渲染性能 | { label, value }\[] | - |  |
 | placeholder | 选择框默认文本 | string | - |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
@@ -87,13 +85,13 @@ demo:
 | suffixIcon | 自定义的选择框后缀图标。以防止图标被用于其他交互，替换的图标默认不会响应展开、收缩事件，可以通过添加 `pointer-events: none` 样式透传。 | ReactNode | - |  |
 | tagRender | 自定义 tag 内容 render，仅在 `mode` 为 `multiple` 或 `tags` 时生效 | (props) => ReactNode | - |  |
 | tokenSeparators | 自动分词的分隔符，仅在 `mode="tags"` 时生效 | string\[] | - |  |
-| value | 指定当前选中的条目，多选时为一个数组。（value 数组引用未变化时，Select 不会更新） | string \| string\[] \| <br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
+| value | 指定当前选中的条目，多选时为一个数组。（value 数组引用未变化时，Select 不会更新） | string \| string\[] \| <br />number \| number\[] \| <br />Option \| Option\[] | - |  |
 | variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | virtual | 设置 false 时关闭虚拟滚动 | boolean | true |  |
 | onBlur | 失去焦点时回调 | function | - |  |
 | onChange | 选中 option，或 input 的 value 变化时，调用此函数 | function(value, option:Option \| Array&lt;Option>) | - |  |
 | onClear | 清除内容时回调 | function | - |  |
-| onDeselect | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 或 `tags` 模式下生效 | function(value: string \| number \| LabeledValue) | - |  |
+| onDeselect | 取消选中时调用，参数为选中项的 value (或 key) 值，仅在 `multiple` 或 `tags` 模式下生效 | function(value: string \| number) | - |  |
 | onPopupOpenChange | 展开下拉菜单的回调 | function(open) | - |  |
 | onFocus | 获得焦点时回调 | function | - |  |
 | onInputKeyDown | 按键按下时回调 | function | - |  |
@@ -101,9 +99,9 @@ demo:
 | onMouseLeave | 鼠标移出时回调 | function | - |  |
 | onPopupScroll | 下拉列表滚动时的回调 | function | - |  |
 | onSearch | 文本框值变化时回调 | function(value: string) | - |  |
-| onSelect | 被选中时调用，参数为选中项的 value (或 key) 值 | function(value: string \| number \| LabeledValue, option: Option) | - |  |
+| onSelect | 被选中时调用，参数为选中项的 value (或 key) 值 | function(value: string \| number, option: Option) | - |  |
 | request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
-| pagination | 远程分页请求，仅使用 `request` 配置时有效 | boolean | false |  |
+| lazyLoad | 远程分页懒加载请求，仅使用 `request` 配置时有效 | boolean | false |  |
 
 > 注意，如果发现下拉菜单跟随页面滚动，或者需要在其他弹层中触发 Select，请尝试使用 `getPopupContainer={triggerNode => triggerNode.parentElement}` 将下拉弹层渲染节点固定在触发器的父元素中。
 
@@ -111,11 +109,11 @@ demo:
 
 ```ts
 interface FileNames {
-  value?: string | ((option: OptionType) => RawValueType);
-  label?: string | ((option: OptionType) => React.ReactNode);
-  groupLabel?: string | ((option: OptionType) => React.ReactNode);
+  value?: string;
+  label?: string;
+  groupLabel?: string;
   options?: string;
-  disabled?: string | ((option: OptionType) => boolean);
+  disabled?: string;
 }
 ```
 

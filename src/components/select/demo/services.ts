@@ -1,7 +1,6 @@
 export interface DataItem {
   id: number;
   name: string;
-  createdAt: number;
 }
 
 export const dataSource: DataItem[] = [];
@@ -10,7 +9,6 @@ for (let i = 0; i < 300; i += 1) {
   dataSource.push({
     id: i,
     name: `TradeCode ${i}`,
-    createdAt: Date.now() - Math.floor(Math.random() * 2000),
   });
 }
 

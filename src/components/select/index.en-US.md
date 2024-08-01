@@ -25,10 +25,9 @@ demo:
 <code src="./demo/optgroup.tsx">Option Group</code>
 <code src="./demo/coordinate.tsx">Coordinate</code>
 <code src="./demo/search-box.tsx">Search Box</code>
-<code src="./demo/option-in-value.tsx">Get value of selected item</code>
 <code src="./demo/automatic-tokenization.tsx">Automatic tokenization</code>
 <code src="./demo/request.tsx">Remote fetch</code>
-<code src="./demo/request-pagination.tsx">Remote fetch with pagination</code>
+<code src="./demo/request-lazy-load.tsx">Remote fetch with lazy load</code>
 <code src="./demo/suffix.tsx" debug>Suffix</code>
 <code src="./demo/custom-dropdown-menu.tsx">Custom dropdown</code>
 <code src="./demo/hide-selected.tsx">Hide Already Selected</code>
@@ -53,7 +52,7 @@ demo:
 | className | Semantic DOM class | string \| Record<'root' \| 'popup' \| 'selector', string> | - |  |
 | defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
 | defaultOpen | Initial open state of dropdown | boolean | - |  |
-| defaultValue | Initial selected option | string \| string\[] \| <br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
+| defaultValue | Initial selected option | string \| string\[] \| <br />number \| number\[] \| <br />Option \| Option\[] | - |  |
 | disabled | Whether disabled select | boolean | false |  |
 | popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
 | popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
@@ -72,10 +71,9 @@ demo:
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
 | optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `fieldNames.label`.If `request` is set, it will be pass to the request method. | string | `fieldNames.label` |  |
-| optionInValue | Whether to embed option in value, turn the format of value from `string` to OptionType | boolean | false |  |
 | displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
-| optionRender | Customize the rendering dropdown options | (option: FlattenOptionData\<BaseOptionType\> , info: { index: number }) => React.ReactNode | - |  |
+| optionRender | Customize the rendering dropdown options | (option: FlattenOptionData\<BaseOption\> , info: { index: number }) => React.ReactNode | - |  |
 | placeholder | Placeholder of select | ReactNode | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
 | removeIcon | The custom remove icon | ReactNode | - |  |
@@ -86,13 +84,13 @@ demo:
 | suffixIcon | The custom suffix icon. Customize icon will not response click open to avoid icon designed to do other interactive. You can use `pointer-events: none` style to bypass | ReactNode |  |  |
 | tagRender | Customize tag render, only applies when `mode` is set to `multiple` or `tags` | (props) => ReactNode | - |  |
 | tokenSeparators | Separator used to tokenize, only applies when `mode="tags"` | string\[] | - |  |
-| value | Current selected option (considered as a immutable array) | string \| string\[] \| <br />number \| number\[] \| <br />LabeledValue \| LabeledValue\[] | - |  |
+| value | Current selected option (considered as a immutable array) | string \| string\[] \| <br />number \| number\[] \| <br />Option \| Option\[] | - |  |
 | variant | Variants of selector | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | virtual | Disable virtual scroll when set to false | boolean | true |  |
 | onBlur | Called when blur | function | - |  |
 | onChange | Called when select an option or input value change | function(value, option:Option \| Array&lt;Option>) | - |  |
 | onClear | Called when clear | function | - | 4.6.0 |
-| onDeselect | Called when an option is deselected, param is the selected option's value. Only called for `multiple` or `tags`, effective in multiple or tags mode only | function(value: string \| number \| LabeledValue) | - |  |
+| onDeselect | Called when an option is deselected, param is the selected option's value. Only called for `multiple` or `tags`, effective in multiple or tags mode only | function(value: string \| number) | - |  |
 | onPopupOpenChange | Called when dropdown open | function(open) | - |  |
 | onFocus | Called when focus | function | - |  |
 | onInputKeyDown | Called when key pressed | function | - |  |
@@ -100,9 +98,9 @@ demo:
 | onMouseLeave | Called when mouse leave | function | - |  |
 | onPopupScroll | Called when dropdown scrolls | function | - |  |
 | onSearch | Callback function that is fired when input changed | function(value: string) | - |  |
-| onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string \| number \| LabeledValue, option: Option) | - |  |
+| onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string \| number, option: Option) | - |  |
 | request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
-| pagination | Remote pagination request, effective only when using the `request` configuration | boolean | false |  |
+| lazyLoad | Remote laze load request, effective only when using the `request` configuration | boolean | false |  |
 
 > Note, if you find that the drop-down menu scrolls with the page, or you need to trigger Select in other popup layers, please try to use `getPopupContainer={triggerNode => triggerNode.parentElement}` to fix the drop-down popup rendering node in the parent element of the trigger .
 
@@ -110,11 +108,11 @@ demo:
 
 ```ts
 interface FileNames {
-  value?: string | ((option: OptionType) => RawValueType);
-  label?: string | ((option: OptionType) => React.ReactNode);
-  groupLabel?: string | ((option: OptionType) => React.ReactNode);
+  value?: string;
+  label?: string;
+  groupLabel?: string;
   options?: string;
-  disabled?: string | ((option: OptionType) => boolean);
+  disabled?: string;
 }
 ```
 
