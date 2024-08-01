@@ -27,7 +27,11 @@ export type LabeledValueType = {
   option?: BaseOptionType;
 };
 
-export type DraftValueType = RawValueType | BaseOptionType | (RawValueType | BaseOptionType)[];
+export type DraftValueType =
+  | RawValueType
+  | BaseOptionType
+  | LabeledValueType
+  | (RawValueType | BaseOptionType | LabeledValueType)[];
 
 export type GetValueType<
   OptionType extends BaseOptionType,

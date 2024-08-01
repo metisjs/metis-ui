@@ -243,8 +243,10 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         if (isRawValue(val)) {
           rawValue = val;
         } else {
-          rawValue = val[mergedFieldNames.value] ?? val.value;
-          rawLabel = val[mergedFieldNames.label] ?? val.label;
+          rawValue =
+            (val as BaseOptionType)[mergedFieldNames.value] ?? (val as LabeledValueType).value;
+          rawLabel =
+            (val as BaseOptionType)[mergedFieldNames.label] ?? (val as LabeledValueType).label;
           rawKey = val.key ?? rawValue;
           option = val;
         }
