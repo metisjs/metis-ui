@@ -237,17 +237,19 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         let rawKey: React.Key | undefined;
         let rawDisabled: boolean | undefined;
         let rawTitle: string = '';
+        let option: BaseOptionType | undefined = undefined;
 
         // Fill label & value
         if (isRawValue(val)) {
           rawValue = val;
         } else {
-          rawKey = val.key;
           rawValue = val[mergedFieldNames.value] ?? val.value;
           rawLabel = val[mergedFieldNames.label] ?? val.label;
+          rawKey = val.key ?? rawValue;
+          option = val;
         }
 
-        const option = valueOptions.get(rawValue);
+        option = valueOptions.get(rawValue) ?? option;
         if (option) {
           if (rawLabel === undefined) rawLabel = option[mergedFieldNames.label];
           if (rawKey === undefined) rawKey = option?.key ?? rawValue;
@@ -302,9 +304,8 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
 
     return mergedValues.map((item) => {
       let label: React.ReactNode = item.label ?? item.value;
-      const option = getMixedOption(item.value);
-      if (displayRender && option) {
-        label = displayRender(option);
+      if (displayRender && item.option) {
+        label = displayRender(item.option);
       }
       return {
         ...item,

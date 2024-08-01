@@ -24,6 +24,7 @@ export type LabeledValueType = {
   key: React.Key;
   disabled: boolean | undefined;
   title: string;
+  option?: BaseOptionType;
 };
 
 export type DraftValueType = RawValueType | BaseOptionType | (RawValueType | BaseOptionType)[];
