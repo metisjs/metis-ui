@@ -18,16 +18,17 @@ export type DefaultOptionType = BaseOptionType & Record<string, any>;
 export type SingleValueType = (string | number)[];
 export type MultiValueType = SingleValueType[];
 
+export type LabeledValueType = {
+  label: React.ReactNode;
+  value: MultiValueType;
+  key: React.Key;
+  disabled?: boolean;
+};
+
 export type GetValueType<
+  OptionType extends DefaultOptionType = DefaultOptionType,
   MultipleType extends boolean = false,
-  OptionInValueType extends boolean = false,
-> = false extends OptionInValueType
-  ? false extends MultipleType
-    ? SingleValueType
-    : MultiValueType
-  : false extends MultipleType
-  ? OptionInValueType[]
-  : OptionInValueType[][];
+> = false extends MultipleType ? SingleValueType | OptionType[] : MultiValueType | OptionType[][];
 
 export interface FieldNames<OptionType extends DefaultOptionType = DefaultOptionType> {
   value?: keyof OptionType;
@@ -41,9 +42,7 @@ export type ShowCheckedStrategy = typeof SHOW_PARENT | typeof SHOW_CHILD;
 export interface CascaderProps<
   OptionType extends DefaultOptionType = DefaultOptionType,
   MultipleType extends boolean = false,
-  OptionInValueType extends boolean = false,
   ShowSearchType extends boolean = false,
-  ValueType = GetValueType<MultipleType, OptionInValueType>,
 > extends Omit<
     BaseSelectPropsWithoutPrivate,
     'tokenSeparators' | 'mode' | 'showSearch' | 'className' | 'popupMatchSelectWidth'
@@ -83,14 +82,13 @@ export interface CascaderProps<
   optionRender?: (option: OptionType) => React.ReactNode;
 
   // >>> Value
-  value?: ValueType;
-  defaultValue?: ValueType;
+  value?: GetValueType<OptionType, MultipleType>;
+  defaultValue?: GetValueType<OptionType, MultipleType>;
   changeOnSelect?: boolean;
   multiple?: MultipleType;
   showCheckedStrategy?: ShowCheckedStrategy;
-  optionInValue?: OptionInValueType;
   onChange?: (
-    value: ValueType,
+    value: MultipleType extends false ? SingleValueType : MultiValueType[],
     options: MultipleType extends false ? OptionType[] : OptionType[][],
   ) => void;
 

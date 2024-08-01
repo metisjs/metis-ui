@@ -64,7 +64,7 @@ function isMultipleValue(value: InternalValueType): value is MultiValueType {
   return Array.isArray(value) && Array.isArray(value[0]);
 }
 
-export function toRawValues(value?: InternalValueType): MultiValueType {
+export function toRawValues(value?: SingleValueType | MultiValueType): MultiValueType {
   if (!value) {
     return [];
   }

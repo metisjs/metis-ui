@@ -1,5 +1,5 @@
 import type { CascaderProps } from 'metis-ui';
-import { Cascader } from 'metis-ui';
+import { Cascader, Space } from 'metis-ui';
 import React from 'react';
 
 interface Option {
@@ -48,12 +48,30 @@ const onChange: CascaderProps<Option>['onChange'] = (value) => {
 };
 
 const App: React.FC = () => (
-  <Cascader
-    className="w-72"
-    defaultValue={['zhejiang', 'hangzhou', 'xihu']}
-    options={options}
-    onChange={onChange}
-  />
+  <Space vertical>
+    <Cascader
+      className="w-72"
+      defaultValue={['zhejiang', 'hangzhou', 'xihu']}
+      options={options}
+      onChange={onChange}
+    />
+    {/* <Cascader
+      className="w-72"
+      defaultValue={[
+        {
+          value: 'jiangsu',
+          label: 'Jiangsu',
+        },
+        { value: 'nanjing', label: 'Nanjing' },
+        {
+          value: 'zhonghuamen',
+          label: 'Zhong Hua Men',
+        },
+      ]}
+      options={options}
+      onChange={onChange}
+    /> */}
+  </Space>
 );
 
 export default App;

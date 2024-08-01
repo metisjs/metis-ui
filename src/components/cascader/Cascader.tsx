@@ -38,23 +38,26 @@ import {
 import { formatStrategyValues, toPathOptions } from './utils/treeUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
 
-export type InternalValueType = SingleValueType | MultiValueType;
+export type InternalValueType =
+  | SingleValueType
+  | MultiValueType
+  | DefaultOptionType[]
+  | DefaultOptionType[][];
 export interface InternalFieldNames extends Required<FieldNames> {
   key: string;
 }
 
 export type InternalCascaderProps = Omit<
   CascaderProps,
-  'onChange' | 'value' | 'defaultValue' | 'multiple' | 'optionInValue' | 'pagination' | 'request'
+  'onChange' | 'value' | 'defaultValue' | 'multiple' | 'pagination' | 'request'
 > & {
-  optionInValue?: boolean;
   multiple?: boolean;
   value?: InternalValueType;
   defaultValue?: InternalValueType;
   pagination?: boolean;
   request?: RequestConfig<BaseOptionType, any[]>;
   onChange?: (
-    value: InternalValueType,
+    value: SingleValueType | MultiValueType,
     selectOptions: BaseOptionType[] | BaseOptionType[][],
   ) => void;
 };
@@ -75,7 +78,6 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     changeOnSelect,
     onChange,
     displayRender,
-    // optionInValue,
     autoClearSearchValue = true,
     searchValue,
     onSearch,
@@ -136,12 +138,6 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
 
   const mergedBuiltinPlacements = useBuiltinPlacements(builtinPlacements, popupOverflow);
 
-  // =========================== Values ===========================
-  const [rawValues, setRawValues] = useMergedState<
-    InternalValueType | undefined,
-    SingleValueType[]
-  >(defaultValue, { value, postState: toRawValues });
-
   // ========================= FieldNames =========================
   const mergedFieldNames = React.useMemo(
     () => fillFieldNames(fieldNames),
@@ -181,6 +177,11 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   );
 
   // =========================== Values ===========================
+  const [rawValues, setRawValues] = useMergedState<InternalValueType | undefined, MultiValueType>(
+    defaultValue,
+    { value, postState: toRawValues },
+  );
+
   const getMissingValues = useMissingValues(mergedOptions, mergedFieldNames);
 
   // Fill `rawValues` with checked conduction values
@@ -199,7 +200,6 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       getPathKeyEntities,
       showCheckedStrategy,
     );
-
     return [...missingCheckedValues, ...getValueByKeyPath(deduplicateKeys)];
   }, [
     checkedValues,
@@ -362,10 +362,9 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
 }) as unknown as (<
   OptionType extends DefaultOptionType = DefaultOptionType,
   MultipleType extends boolean = false,
-  OptionInValueType extends boolean = false,
   ShowSearchType extends boolean = false,
 >(
-  props: CascaderProps<OptionType, MultipleType, OptionInValueType, ShowSearchType> & {
+  props: CascaderProps<OptionType, MultipleType, ShowSearchType> & {
     ref?: React.Ref<CascaderRef>;
   },
 ) => React.ReactElement) & {
