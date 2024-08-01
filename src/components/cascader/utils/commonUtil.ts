@@ -1,6 +1,14 @@
-import { InternalFieldNames, InternalValueType } from '../Cascader';
+import { RawValueType } from '../../select/interface';
+import { InternalFieldNames } from '../Cascader';
 import { SEARCH_MARK } from '../hooks/useFilterOptions';
-import { DefaultOptionType, FieldNames, MultiValueType, SingleValueType } from '../interface';
+import {
+  DefaultOptionType,
+  DraftValueType,
+  FieldNames,
+  LabeledValueType,
+  MultiValueType,
+  SingleValueType,
+} from '../interface';
 
 export const VALUE_SPLIT = '__CASCADER_SPLIT__';
 export const SHOW_PARENT = 'SHOW_PARENT';
@@ -60,11 +68,15 @@ export function getFullPathKeys(options: DefaultOptionType[], fieldNames: FieldN
   );
 }
 
-function isMultipleValue(value: InternalValueType): value is MultiValueType {
+function isMultipleValue(
+  value: DraftValueType,
+): value is (SingleValueType | DefaultOptionType[] | LabeledValueType[])[] {
   return Array.isArray(value) && Array.isArray(value[0]);
 }
 
-export function toRawValues(value?: SingleValueType | MultiValueType): MultiValueType {
+export function toMultipleValue(
+  value?: DraftValueType,
+): (SingleValueType | DefaultOptionType[] | LabeledValueType[])[] {
   if (!value) {
     return [];
   }
@@ -74,4 +86,10 @@ export function toRawValues(value?: SingleValueType | MultiValueType): MultiValu
   }
 
   return (value.length === 0 ? [] : [value]).map((val) => (Array.isArray(val) ? val : [val]));
+}
+
+export function isRawValue(
+  value?: RawValueType | DefaultOptionType | LabeledValueType,
+): value is RawValueType {
+  return !value || typeof value !== 'object';
 }

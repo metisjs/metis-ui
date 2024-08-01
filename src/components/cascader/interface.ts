@@ -3,19 +3,19 @@ import { InputStatus } from '../_util/statusUtils';
 import { Variant } from '../config-provider';
 import { SizeType } from '../config-provider/SizeContext';
 import { BaseSelectPropsWithoutPrivate } from '../select';
-import { GetRequestType, SelectCommonPlacement } from '../select/interface';
+import { GetRequestType, RawValueType, SelectCommonPlacement } from '../select/interface';
 import { SHOW_CHILD, SHOW_PARENT } from './utils/commonUtil';
 
 export interface BaseOptionType {
   disabled?: boolean;
   label?: React.ReactNode;
-  value?: string | number | null;
+  value?: string | number;
   children?: DefaultOptionType[];
 }
 
 export type DefaultOptionType = BaseOptionType & Record<string, any>;
 
-export type SingleValueType = (string | number)[];
+export type SingleValueType = RawValueType[];
 export type MultiValueType = SingleValueType[];
 
 export type LabeledValueType = {
@@ -23,7 +23,16 @@ export type LabeledValueType = {
   value: MultiValueType;
   key: React.Key;
   disabled?: boolean;
+  option?: DefaultOptionType;
 };
+
+export type DraftValueType =
+  | SingleValueType
+  | MultiValueType
+  | DefaultOptionType[]
+  | DefaultOptionType[][]
+  | LabeledValueType[]
+  | LabeledValueType[][];
 
 export type GetValueType<
   OptionType extends DefaultOptionType = DefaultOptionType,

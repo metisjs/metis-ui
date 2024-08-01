@@ -24,6 +24,7 @@ import {
   CascaderProps,
   DefaultOptionType,
   FieldNames,
+  LabeledValueType,
   MultiValueType,
   SingleValueType,
 } from './interface';
@@ -175,6 +176,8 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     changeOnSelect,
     !!request,
   );
+
+  
 
   // =========================== Values ===========================
   const [rawValues, setRawValues] = useMergedState<InternalValueType | undefined, MultiValueType>(
