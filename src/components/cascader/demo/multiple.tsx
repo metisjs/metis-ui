@@ -1,4 +1,3 @@
-import type { CascaderProps } from 'metis-ui';
 import { Cascader } from 'metis-ui';
 import React from 'react';
 
@@ -6,7 +5,6 @@ interface Option {
   value: string | number;
   label: string;
   children?: Option[];
-  disableCheckbox?: boolean;
 }
 
 const options: Option[] = [
@@ -28,7 +26,6 @@ const options: Option[] = [
           {
             label: 'Toy Fish',
             value: 'fish',
-            disableCheckbox: true,
           },
           {
             label: 'Toy Cards',
@@ -44,7 +41,7 @@ const options: Option[] = [
   },
 ];
 
-const onChange: CascaderProps<Option, 'value', true>['onChange'] = (value) => {
+const onChange = (value: string[][]) => {
   console.log(value);
 };
 

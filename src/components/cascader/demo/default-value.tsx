@@ -55,7 +55,7 @@ const App: React.FC = () => (
       options={options}
       onChange={onChange}
     />
-    {/* <Cascader
+    <Cascader
       className="w-72"
       defaultValue={[
         {
@@ -70,7 +70,7 @@ const App: React.FC = () => (
       ]}
       options={options}
       onChange={onChange}
-    /> */}
+    />
   </Space>
 );
 

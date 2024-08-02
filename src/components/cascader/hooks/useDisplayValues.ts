@@ -1,12 +1,10 @@
 import * as React from 'react';
 import type { InternalFieldNames } from '../Cascader';
-import type { CascaderProps, DefaultOptionType, MultiValueType } from '../interface';
-import { toPathKey } from '../utils/commonUtil';
-import { toPathOptions } from '../utils/treeUtil';
+import type { CascaderProps, LabeledValueType } from '../interface';
+import { toPathKey, toRawValueCell } from '../utils/commonUtil';
 
 export default (
-  rawValues: MultiValueType,
-  options: DefaultOptionType[],
+  values: LabeledValueType[],
   fieldNames: InternalFieldNames,
   multiple: boolean,
   displayRender: CascaderProps['displayRender'],
@@ -36,14 +34,13 @@ export default (
         }, []);
       });
 
-    return rawValues.map((valueCells) => {
-      const valueOptions = toPathOptions(valueCells, options, fieldNames);
-
+    return values.map((item) => {
       const label = mergedDisplayRender(
-        valueOptions.map(({ option, value }) => option?.[fieldNames.label] ?? value),
-        valueOptions.map(({ option }) => option),
+        item.map(({ label }) => label),
+        item.map(({ option }) => option),
       );
 
+      const valueCells = toRawValueCell(item);
       const value = toPathKey(valueCells);
 
       return {
@@ -51,8 +48,8 @@ export default (
         value,
         key: value,
         valueCells,
-        disabled: valueOptions[valueOptions.length - 1]?.option?.disabled,
+        disabled: item[item.length - 1]?.disabled,
       };
     });
-  }, [rawValues, options, fieldNames, displayRender, multiple]);
+  }, [values, fieldNames, displayRender, multiple]);
 };

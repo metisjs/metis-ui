@@ -1,93 +1,103 @@
 import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { RawValueType } from '../../select/interface';
 import { DataEntity } from '../../tree/interface';
 import { conductCheck } from '../../tree/utils/conductUtil';
 import { InternalFieldNames, InternalValueType } from '../Cascader';
-import { DraftValueType, LabeledValueType, MultiValueType } from '../interface';
-import { isRawValue, toMultipleValue, toPathKeys } from '../utils/commonUtil';
-import type { GetMissValues } from './useMissingValues';
+import {
+  DefaultOptionType,
+  DraftValueType,
+  LabeledValueType,
+  MultiValueType,
+  SingleValueType,
+} from '../interface';
+import { isRawValue, toMultipleValue, toPathKeys, toRawValueCells } from '../utils/commonUtil';
+import { toPathOptions } from '../utils/treeUtil';
 
 export default function useValues(
   multiple: boolean,
   defaultValue: InternalValueType | undefined,
   value: InternalValueType | undefined,
   fieldNames: InternalFieldNames,
+  getPathOptions: (valueCells: SingleValueType) => ReturnType<typeof toPathOptions>,
   getPathKeyEntities: () => Record<string, DataEntity>,
   getValueByKeyPath: (pathKeys: React.Key[]) => MultiValueType,
-  getMissingValues: GetMissValues,
 ): [
-  checkedValues: MultiValueType,
-  halfCheckedValues: MultiValueType,
-  missingCheckedValues: MultiValueType,
+  checkedValues: LabeledValueType[],
+  halfCheckedValues: LabeledValueType[],
+  missingCheckedValues: LabeledValueType[],
+  setLabeledValues: (values?: DraftValueType) => void,
 ] {
   const convert2LabelValues = React.useCallback(
-    (draftValues: DraftValueType): LabeledValueType[][] => {
+    (draftValues: DraftValueType): LabeledValueType[] => {
       const valueList = toMultipleValue(draftValues);
 
       return valueList.map((values) => {
-        const labeledValue: LabeledValueType[] = [];
+        const rawValueCells = values.map((val) =>
+          isRawValue(val) ? val : (val as DefaultOptionType)[fieldNames.value] ?? val.value,
+        );
+        const pathOptions = getPathOptions(rawValueCells);
 
-        for (let i = 0; i < values.length; i++) {
-          const val = values[i];
-          let rawValue: RawValueType;
-          let rawLabel: React.ReactNode;
-          let rawKey: React.Key | undefined;
-          let rawDisabled: boolean | undefined;
-          let rawTitle: string = '';
+        return pathOptions.map(({ value: rawValue, option }, i) => {
+          const missing = !option;
+          // 当 value 为 DefaultOptionType, 且 option 中不存在 value 时，使用 value 作为 option用于显示
+          const mergedOption = option ?? (values[i] as DefaultOptionType);
 
-          // Fill label & value
-          if (isRawValue(val)) {
-            rawValue = val;
-          } else {
-            rawKey = val.key;
-            rawValue = val[mergedFieldNames.value] ?? val.value;
-            rawLabel = val[mergedFieldNames.label] ?? val.label;
-          }
+          const rawKey = mergedOption.key ?? rawValue;
+          const rawLabel = mergedOption[fieldNames.label];
+          const rawDisabled = mergedOption[fieldNames.disabled];
 
-          const option = valueOptions.get(rawValue);
-          if (option) {
-            if (rawLabel === undefined) rawLabel = option[mergedFieldNames.label];
-            if (rawKey === undefined) rawKey = option?.key ?? rawValue;
-            rawDisabled = option[mergedFieldNames.disabled];
-            rawTitle = option?.title;
-          }
-
-          labeledValue[i] = {
+          return {
             label: rawLabel,
             value: rawValue,
-            key: rawKey ?? '',
+            key: rawKey,
             disabled: rawDisabled,
-            title: rawTitle,
-            option,
+            option: mergedOption,
+            missing,
           };
-        }
-
-        return labeledValue;
+        });
       });
     },
-    [fieldNames],
+    [fieldNames, getPathOptions],
   );
 
   const [labeledValues, setLabeledValues] = useMergedState<
     DraftValueType | undefined,
-    LabeledValueType[][]
+    LabeledValueType[]
   >(defaultValue, { value, postState: convert2LabelValues });
 
-  // Fill `rawValues` with checked conduction values
-  return React.useMemo(() => {
-    const [existValues, missingValues] = getMissingValues(rawValues);
+  const getMissingValues = React.useCallback(() => {
+    const missingValues: LabeledValueType[] = [];
+    const existsValues: LabeledValueType[] = [];
 
-    if (!multiple || !rawValues.length) {
+    labeledValues.forEach((labeledValue) => {
+      if (labeledValue.every((opt) => !opt.missing)) {
+        existsValues.push(labeledValue);
+      } else {
+        missingValues.push(labeledValue);
+      }
+    });
+
+    return [existsValues, missingValues];
+  }, [labeledValues]);
+
+  const [checkedValues, halfCheckedValues, missingCheckedValues] = React.useMemo(() => {
+    const [existValues, missingValues] = getMissingValues();
+
+    if (!multiple || !labeledValues.length) {
       return [existValues, [], missingValues];
     }
 
-    const keyPathValues = toPathKeys(existValues);
+    const keyPathValues = toPathKeys(toRawValueCells(existValues));
     const keyPathEntities = getPathKeyEntities();
 
     const { checkedKeys, halfCheckedKeys } = conductCheck(keyPathValues, true, keyPathEntities);
 
-    // Convert key back to value cells
-    return [getValueByKeyPath(checkedKeys), getValueByKeyPath(halfCheckedKeys), missingValues];
-  }, [multiple, rawValues, getPathKeyEntities, getValueByKeyPath, getMissingValues]);
+    return [
+      convert2LabelValues(getValueByKeyPath(checkedKeys)),
+      convert2LabelValues(getValueByKeyPath(halfCheckedKeys)),
+      missingValues,
+    ];
+  }, [multiple, labeledValues, getPathKeyEntities, getValueByKeyPath, getMissingValues]);
+
+  return [checkedValues, halfCheckedValues, missingCheckedValues, setLabeledValues];
 }

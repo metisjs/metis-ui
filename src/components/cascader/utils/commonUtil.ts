@@ -70,13 +70,13 @@ export function getFullPathKeys(options: DefaultOptionType[], fieldNames: FieldN
 
 function isMultipleValue(
   value: DraftValueType,
-): value is (SingleValueType | DefaultOptionType[] | LabeledValueType[])[] {
+): value is (SingleValueType | DefaultOptionType[] | LabeledValueType)[] {
   return Array.isArray(value) && Array.isArray(value[0]);
 }
 
 export function toMultipleValue(
   value?: DraftValueType,
-): (SingleValueType | DefaultOptionType[] | LabeledValueType[])[] {
+): (SingleValueType | DefaultOptionType[] | LabeledValueType)[] {
   if (!value) {
     return [];
   }
@@ -92,4 +92,12 @@ export function isRawValue(
   value?: RawValueType | DefaultOptionType | LabeledValueType,
 ): value is RawValueType {
   return !value || typeof value !== 'object';
+}
+
+export function toRawValueCell(value: LabeledValueType) {
+  return value.map(({ value }) => value);
+}
+
+export function toRawValueCells(values: LabeledValueType[]) {
+  return values.map(toRawValueCell);
 }

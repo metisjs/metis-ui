@@ -20,19 +20,21 @@ export type MultiValueType = SingleValueType[];
 
 export type LabeledValueType = {
   label: React.ReactNode;
-  value: MultiValueType;
+  value: RawValueType;
   key: React.Key;
   disabled?: boolean;
-  option?: DefaultOptionType;
-};
+  option: DefaultOptionType;
+  /** 是否在options中不存在 */
+  missing?: boolean;
+}[];
 
 export type DraftValueType =
   | SingleValueType
   | MultiValueType
   | DefaultOptionType[]
   | DefaultOptionType[][]
-  | LabeledValueType[]
-  | LabeledValueType[][];
+  | LabeledValueType
+  | LabeledValueType[];
 
 export type GetValueType<
   OptionType extends DefaultOptionType = DefaultOptionType,
@@ -62,7 +64,7 @@ export interface CascaderProps<
   className?: SemanticClassName<'popup' | 'selector'>;
   placement?: SelectCommonPlacement;
   status?: InputStatus;
-  displayRender?: (label: string[], selectedOptions?: OptionType[]) => React.ReactNode;
+  displayRender?: (labels: React.ReactNode[], selectedOptions?: OptionType[]) => React.ReactNode;
 
   // >>> Variant
   variant?: Variant;
@@ -97,7 +99,7 @@ export interface CascaderProps<
   multiple?: MultipleType;
   showCheckedStrategy?: ShowCheckedStrategy;
   onChange?: (
-    value: MultipleType extends false ? SingleValueType : MultiValueType[],
+    value: MultipleType extends false ? SingleValueType : MultiValueType,
     options: MultipleType extends false ? OptionType[] : OptionType[][],
   ) => void;
 

@@ -1,17 +1,30 @@
 import { InternalFieldNames } from '../Cascader';
 import type { GetEntities } from '../hooks/useEntities';
-import type { DefaultOptionType, ShowCheckedStrategy, SingleValueType } from '../interface';
-import { SHOW_CHILD } from './commonUtil';
+import type {
+  DefaultOptionType,
+  LabeledValueType,
+  ShowCheckedStrategy,
+  SingleValueType,
+} from '../interface';
+import { isRawValue, SHOW_CHILD, toPathKeys, toRawValueCells } from './commonUtil';
 
-export function formatStrategyValues(
-  pathKeys: React.Key[],
+export function formatStrategyValues<T extends LabeledValueType | React.Key>(
+  values: T[],
   getKeyPathEntities: GetEntities,
   showCheckedStrategy?: ShowCheckedStrategy,
-) {
+): T[] {
+  if (!values || !values.length) {
+    return [];
+  }
+
+  const pathKeys: React.Key[] = isRawValue(values[0])
+    ? (values as React.Key[])
+    : toPathKeys(toRawValueCells(values as LabeledValueType[]));
   const valueSet = new Set(pathKeys);
   const keyPathEntities = getKeyPathEntities();
 
-  return pathKeys.filter((key) => {
+  return values.filter((_, i) => {
+    const key = pathKeys[i];
     const entity = keyPathEntities[key];
     const parent = entity ? entity.parent : null;
     const children = entity ? entity.children : null;
@@ -37,7 +50,7 @@ export function toPathOptions(
   const valueOptions: {
     value: SingleValueType[number];
     index: number;
-    option: DefaultOptionType;
+    option: DefaultOptionType | null;
   }[] = [];
 
   for (let i = 0; i < valueCells.length; i += 1) {
@@ -51,7 +64,7 @@ export function toPathOptions(
     valueOptions.push({
       value: foundOption?.[fieldNames.value] ?? valueCell,
       index: foundIndex,
-      option: foundOption as DefaultOptionType,
+      option: foundOption,
     });
 
     currentList = foundOption?.[fieldNames.children];

@@ -15,7 +15,6 @@ import CascaderContext from './context';
 import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
 import useFilterOptions from './hooks/useFilterOptions';
-import useMissingValues from './hooks/useMissingValues';
 import useOptions from './hooks/useOptions';
 import useSelect from './hooks/useSelect';
 import useValues from './hooks/useValues';
@@ -24,7 +23,6 @@ import {
   CascaderProps,
   DefaultOptionType,
   FieldNames,
-  LabeledValueType,
   MultiValueType,
   SingleValueType,
 } from './interface';
@@ -33,8 +31,8 @@ import {
   fillFieldNames,
   SHOW_CHILD,
   SHOW_PARENT,
-  toPathKeys,
-  toRawValues,
+  toMultipleValue,
+  toRawValueCells,
 } from './utils/commonUtil';
 import { formatStrategyValues, toPathOptions } from './utils/treeUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';
@@ -146,7 +144,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   );
 
   // =========================== Option ===========================
-  const [mergedOptions, getPathKeyEntities, getValueByKeyPath] = useOptions(
+  const [mergedOptions, getPathKeyEntities, getValueByKeyPath, getPathOptions] = useOptions(
     mergedFieldNames,
     options,
   );
@@ -177,62 +175,45 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     !!request,
   );
 
-  
-
   // =========================== Values ===========================
-  const [rawValues, setRawValues] = useMergedState<InternalValueType | undefined, MultiValueType>(
-    defaultValue,
-    { value, postState: toRawValues },
-  );
-
-  const getMissingValues = useMissingValues(mergedOptions, mergedFieldNames);
-
-  // Fill `rawValues` with checked conduction values
-  const [checkedValues, halfCheckedValues, missingCheckedValues] = useValues(
+  const [checkedValues, halfCheckedValues, missingCheckedValues, onValueChange] = useValues(
     multiple,
-    rawValues,
+    defaultValue,
+    value,
+    mergedFieldNames,
+    getPathOptions,
     getPathKeyEntities,
     getValueByKeyPath,
-    getMissingValues,
   );
 
-  const deDuplicatedValues = React.useMemo(() => {
-    const checkedKeys = toPathKeys(checkedValues);
-    const deduplicateKeys = formatStrategyValues(
-      checkedKeys,
-      getPathKeyEntities,
-      showCheckedStrategy,
-    );
-    return [...missingCheckedValues, ...getValueByKeyPath(deduplicateKeys)];
-  }, [
-    checkedValues,
-    getPathKeyEntities,
-    getValueByKeyPath,
-    missingCheckedValues,
-    showCheckedStrategy,
-  ]);
+  const deduplicatedValues = React.useMemo(
+    () => [
+      ...missingCheckedValues,
+      ...formatStrategyValues(checkedValues, getPathKeyEntities, showCheckedStrategy),
+    ],
+    [checkedValues, getPathKeyEntities, missingCheckedValues, showCheckedStrategy],
+  );
 
   const displayValues = useDisplayValues(
-    deDuplicatedValues,
-    mergedOptions,
+    deduplicatedValues,
     mergedFieldNames,
     multiple,
     displayRender,
   );
 
   // =========================== Change ===========================
-  const triggerChange = useEvent((nextValues: InternalValueType) => {
-    setRawValues(nextValues);
+  const triggerChange = useEvent((nextValues: SingleValueType | MultiValueType) => {
+    onValueChange(nextValues);
 
     // Save perf if no need trigger event
     if (onChange) {
-      const nextRawValues = toRawValues(nextValues);
+      const nextRawValues = toMultipleValue(nextValues) as SingleValueType[];
 
       const valueOptions = nextRawValues.map((valueCells) =>
         toPathOptions(valueCells, mergedOptions, mergedFieldNames).map(
           (valueOpt) => valueOpt.option,
         ),
-      );
+      ) as DefaultOptionType[][];
 
       const triggerValues = multiple ? nextRawValues : nextRawValues[0];
       const triggerOptions = multiple ? valueOptions : valueOptions[0];
@@ -242,12 +223,22 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   });
 
   // =========================== Select ===========================
+  const rawCheckedValues = React.useMemo(() => toRawValueCells(checkedValues), [checkedValues]);
+  const rawHalfCheckedValues = React.useMemo(
+    () => toRawValueCells(halfCheckedValues),
+    [halfCheckedValues],
+  );
+  const rawMissingCheckedValues = React.useMemo(
+    () => toRawValueCells(missingCheckedValues),
+    [missingCheckedValues],
+  );
+
   const handleSelection = useSelect(
     multiple,
     triggerChange,
-    checkedValues,
-    halfCheckedValues,
-    missingCheckedValues,
+    rawCheckedValues,
+    rawHalfCheckedValues,
+    rawMissingCheckedValues,
     getPathKeyEntities,
     getValueByKeyPath,
     showCheckedStrategy,
@@ -284,8 +275,8 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     () => ({
       options: mergedOptions,
       fieldNames: mergedFieldNames,
-      values: checkedValues,
-      halfValues: halfCheckedValues,
+      values: rawCheckedValues,
+      halfValues: rawHalfCheckedValues,
       changeOnSelect,
       onSelect: onInternalSelect,
       checkable: multiple,
