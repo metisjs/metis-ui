@@ -88,16 +88,16 @@ export function toMultipleValue(
   return (value.length === 0 ? [] : [value]).map((val) => (Array.isArray(val) ? val : [val]));
 }
 
-export function isRawValue(
-  value?: RawValueType | DefaultOptionType | LabeledValueType,
-): value is RawValueType {
-  return !value || typeof value !== 'object';
+export function isRawValues(
+  value?: RawValueType[] | DefaultOptionType[] | LabeledValueType,
+): value is RawValueType[] {
+  return !value || typeof value[0] !== 'object';
 }
 
-export function toRawValueCell(value: LabeledValueType) {
-  return value.map(({ value }) => value);
+export function toRawValueCell(value: LabeledValueType | RawValueType[]): RawValueType[] {
+  return isRawValues(value) ? value : value.map(({ value }) => value);
 }
 
-export function toRawValueCells(values: LabeledValueType[]) {
+export function toRawValueCells(values: (LabeledValueType | RawValueType[])[]): RawValueType[][] {
   return values.map(toRawValueCell);
 }

@@ -10,7 +10,7 @@ import {
   MultiValueType,
   SingleValueType,
 } from '../interface';
-import { isRawValue, toMultipleValue, toPathKeys, toRawValueCells } from '../utils/commonUtil';
+import { isRawValues, toMultipleValue, toPathKeys, toRawValueCells } from '../utils/commonUtil';
 import { toPathOptions } from '../utils/treeUtil';
 
 export default function useValues(
@@ -26,15 +26,16 @@ export default function useValues(
   halfCheckedValues: LabeledValueType[],
   missingCheckedValues: LabeledValueType[],
   setLabeledValues: (values?: DraftValueType) => void,
+  toLabeledValues: (draftValues: DraftValueType) => LabeledValueType[],
 ] {
-  const convert2LabelValues = React.useCallback(
+  const toLabeledValues = React.useCallback(
     (draftValues: DraftValueType): LabeledValueType[] => {
       const valueList = toMultipleValue(draftValues);
 
       return valueList.map((values) => {
-        const rawValueCells = values.map((val) =>
-          isRawValue(val) ? val : (val as DefaultOptionType)[fieldNames.value] ?? val.value,
-        );
+        const rawValueCells = isRawValues(values)
+          ? values
+          : values.map((val) => (val as DefaultOptionType)[fieldNames.value] ?? val.value);
         const pathOptions = getPathOptions(rawValueCells);
 
         return pathOptions.map(({ value: rawValue, option }, i) => {
@@ -63,7 +64,7 @@ export default function useValues(
   const [labeledValues, setLabeledValues] = useMergedState<
     DraftValueType | undefined,
     LabeledValueType[]
-  >(defaultValue, { value, postState: convert2LabelValues });
+  >(defaultValue, { value, postState: toLabeledValues });
 
   const getMissingValues = React.useCallback(() => {
     const missingValues: LabeledValueType[] = [];
@@ -93,11 +94,17 @@ export default function useValues(
     const { checkedKeys, halfCheckedKeys } = conductCheck(keyPathValues, true, keyPathEntities);
 
     return [
-      convert2LabelValues(getValueByKeyPath(checkedKeys)),
-      convert2LabelValues(getValueByKeyPath(halfCheckedKeys)),
+      toLabeledValues(getValueByKeyPath(checkedKeys)),
+      toLabeledValues(getValueByKeyPath(halfCheckedKeys)),
       missingValues,
     ];
   }, [multiple, labeledValues, getPathKeyEntities, getValueByKeyPath, getMissingValues]);
 
-  return [checkedValues, halfCheckedValues, missingCheckedValues, setLabeledValues];
+  return [
+    checkedValues,
+    halfCheckedValues,
+    missingCheckedValues,
+    setLabeledValues,
+    toLabeledValues,
+  ];
 }

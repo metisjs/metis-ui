@@ -23,12 +23,14 @@ import {
   CascaderProps,
   DefaultOptionType,
   FieldNames,
+  LabeledValueType,
   MultiValueType,
   SingleValueType,
 } from './interface';
 import OptionList from './OptionList';
 import {
   fillFieldNames,
+  isRawValues,
   SHOW_CHILD,
   SHOW_PARENT,
   toMultipleValue,
@@ -176,15 +178,16 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   );
 
   // =========================== Values ===========================
-  const [checkedValues, halfCheckedValues, missingCheckedValues, onValueChange] = useValues(
-    multiple,
-    defaultValue,
-    value,
-    mergedFieldNames,
-    getPathOptions,
-    getPathKeyEntities,
-    getValueByKeyPath,
-  );
+  const [checkedValues, halfCheckedValues, missingCheckedValues, onValueChange, toLabeledValues] =
+    useValues(
+      multiple,
+      defaultValue,
+      value,
+      mergedFieldNames,
+      getPathOptions,
+      getPathKeyEntities,
+      getValueByKeyPath,
+    );
 
   const deduplicatedValues = React.useMemo(
     () => [
@@ -202,54 +205,48 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   );
 
   // =========================== Change ===========================
-  const triggerChange = useEvent((nextValues: SingleValueType | MultiValueType) => {
-    onValueChange(nextValues);
+  const triggerChange = useEvent(
+    (nextValues: SingleValueType | MultiValueType | LabeledValueType | LabeledValueType[]) => {
+      onValueChange(nextValues);
 
-    // Save perf if no need trigger event
-    if (onChange) {
-      const nextRawValues = toMultipleValue(nextValues) as SingleValueType[];
+      // Save perf if no need trigger event
+      if (onChange) {
+        const nextValueList = toMultipleValue(nextValues) as (SingleValueType | LabeledValueType)[];
+        const nextRawValues = toRawValueCells(nextValueList);
 
-      const valueOptions = nextRawValues.map((valueCells) =>
-        toPathOptions(valueCells, mergedOptions, mergedFieldNames).map(
-          (valueOpt) => valueOpt.option,
-        ),
-      ) as DefaultOptionType[][];
+        const valueOptions = nextValueList.map((value) =>
+          (isRawValues(value) ? toPathOptions(value, mergedOptions, mergedFieldNames) : value).map(
+            (valueOpt) => valueOpt.option,
+          ),
+        ) as DefaultOptionType[][];
 
-      const triggerValues = multiple ? nextRawValues : nextRawValues[0];
-      const triggerOptions = multiple ? valueOptions : valueOptions[0];
+        const triggerValues = multiple ? nextRawValues : nextRawValues[0];
+        const triggerOptions = multiple ? valueOptions : valueOptions[0];
 
-      onChange(triggerValues, triggerOptions);
-    }
-  });
+        onChange(triggerValues, triggerOptions);
+      }
+    },
+  );
 
   // =========================== Select ===========================
-  const rawCheckedValues = React.useMemo(() => toRawValueCells(checkedValues), [checkedValues]);
-  const rawHalfCheckedValues = React.useMemo(
-    () => toRawValueCells(halfCheckedValues),
-    [halfCheckedValues],
-  );
-  const rawMissingCheckedValues = React.useMemo(
-    () => toRawValueCells(missingCheckedValues),
-    [missingCheckedValues],
-  );
-
   const handleSelection = useSelect(
     multiple,
     triggerChange,
-    rawCheckedValues,
-    rawHalfCheckedValues,
-    rawMissingCheckedValues,
-    getPathKeyEntities,
+    checkedValues,
+    halfCheckedValues,
+    missingCheckedValues,
+    toLabeledValues,
     getValueByKeyPath,
+    getPathKeyEntities,
     showCheckedStrategy,
   );
 
-  const onInternalSelect = useEvent((valuePath: SingleValueType) => {
+  const onInternalSelect = useEvent((valueCell: SingleValueType | LabeledValueType) => {
     if (!multiple || autoClearSearchValue) {
       setSearchValue('');
     }
 
-    handleSelection(valuePath);
+    handleSelection(valueCell);
   });
 
   // Display Value change logic
@@ -260,8 +257,10 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     }
 
     // Cascader do not support `add` type. Only support `remove`
-    const { valueCells } = info.values[0] as DisplayValueType & { valueCells: SingleValueType };
-    onInternalSelect(valueCells);
+    const { labeledValue } = info.values[0] as DisplayValueType & {
+      labeledValue: LabeledValueType;
+    };
+    onInternalSelect(labeledValue);
   };
 
   // ========================== Warning ===========================
@@ -271,6 +270,12 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   }
 
   // ========================== Context ===========================
+  const rawCheckedValues = React.useMemo(() => toRawValueCells(checkedValues), [checkedValues]);
+  const rawHalfCheckedValues = React.useMemo(
+    () => toRawValueCells(halfCheckedValues),
+    [halfCheckedValues],
+  );
+
   const cascaderContext = React.useMemo(
     () => ({
       options: mergedOptions,
@@ -289,8 +294,8 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     [
       mergedOptions,
       mergedFieldNames,
-      checkedValues,
-      halfCheckedValues,
+      rawCheckedValues,
+      rawHalfCheckedValues,
       changeOnSelect,
       onInternalSelect,
       multiple,

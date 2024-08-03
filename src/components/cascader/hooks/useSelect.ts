@@ -1,33 +1,52 @@
 import { conductCheck } from '../../tree/utils/conductUtil';
 import type { InternalValueType } from '../Cascader';
-import type { MultiValueType, ShowCheckedStrategy, SingleValueType } from '../interface';
-import { toPathKey, toPathKeys } from '../utils/commonUtil';
+import type {
+  DraftValueType,
+  LabeledValueType,
+  MultiValueType,
+  ShowCheckedStrategy,
+  SingleValueType,
+} from '../interface';
+import {
+  isRawValues,
+  toPathKey,
+  toPathKeys,
+  toRawValueCell,
+  toRawValueCells,
+} from '../utils/commonUtil';
 import { formatStrategyValues } from '../utils/treeUtil';
 import type { GetEntities } from './useEntities';
 
 export default function useSelect(
   multiple: boolean,
   triggerChange: (nextValues: InternalValueType) => void,
-  checkedValues: MultiValueType,
-  halfCheckedValues: MultiValueType,
-  missingCheckedValues: MultiValueType,
-  getPathKeyEntities: GetEntities,
+  checkedValues: LabeledValueType[],
+  halfCheckedValues: LabeledValueType[],
+  missingCheckedValues: LabeledValueType[],
+  toLabeledValues: (draftValues: DraftValueType) => LabeledValueType[],
   getValueByKeyPath: (pathKeys: React.Key[]) => MultiValueType,
+  getPathKeyEntities: GetEntities,
   showCheckedStrategy?: ShowCheckedStrategy,
 ) {
-  return (valuePath: SingleValueType) => {
+  const rawCheckedValues = toRawValueCells(checkedValues);
+  const rawHalfCheckedValues = toRawValueCells(halfCheckedValues);
+  const rawMissingCheckedValues = toRawValueCells(missingCheckedValues);
+
+  const checkedPathKeys = toPathKeys(rawCheckedValues);
+  const halfCheckedPathKeys = toPathKeys(rawHalfCheckedValues);
+  const missingCheckedPathKeys = toPathKeys(rawMissingCheckedValues);
+
+  return (value: SingleValueType | LabeledValueType) => {
     if (!multiple) {
-      triggerChange(valuePath);
+      triggerChange(value);
     } else {
-      // Prepare conduct required info
-      const pathKey = toPathKey(valuePath);
-      const checkedPathKeys = toPathKeys(checkedValues);
-      const halfCheckedPathKeys = toPathKeys(halfCheckedValues);
+      const isRaw = isRawValues(value);
+      const rawValueCell = isRaw ? value : toRawValueCell(value);
+
+      const pathKey = toPathKey(rawValueCell);
 
       const existInChecked = checkedPathKeys.includes(pathKey);
-      const existInMissing = missingCheckedValues.some(
-        (valueCells) => toPathKey(valueCells) === pathKey,
-      );
+      const existInMissing = missingCheckedPathKeys.includes(pathKey);
 
       // Do update
       let nextCheckedValues = checkedValues;
@@ -36,7 +55,7 @@ export default function useSelect(
       if (existInMissing && !existInChecked) {
         // Missing value only do filter
         nextMissingValues = missingCheckedValues.filter(
-          (valueCells) => toPathKey(valueCells) !== pathKey,
+          (valueCell) => toPathKey(toRawValueCell(valueCell)) !== pathKey,
         );
       } else {
         // Update checked key first
@@ -59,12 +78,11 @@ export default function useSelect(
         }
 
         // Roll up to parent level keys
-        const deDuplicatedKeys = formatStrategyValues(
-          checkedKeys,
+        nextCheckedValues = formatStrategyValues(
+          toLabeledValues(getValueByKeyPath(checkedKeys)),
           getPathKeyEntities,
           showCheckedStrategy,
         );
-        nextCheckedValues = getValueByKeyPath(deDuplicatedKeys);
       }
 
       triggerChange([...nextMissingValues, ...nextCheckedValues]);

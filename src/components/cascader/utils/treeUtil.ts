@@ -6,20 +6,18 @@ import type {
   ShowCheckedStrategy,
   SingleValueType,
 } from '../interface';
-import { isRawValue, SHOW_CHILD, toPathKeys, toRawValueCells } from './commonUtil';
+import { SHOW_CHILD, toPathKeys, toRawValueCells } from './commonUtil';
 
-export function formatStrategyValues<T extends LabeledValueType | React.Key>(
-  values: T[],
+export function formatStrategyValues(
+  values: LabeledValueType[],
   getKeyPathEntities: GetEntities,
   showCheckedStrategy?: ShowCheckedStrategy,
-): T[] {
+): LabeledValueType[] {
   if (!values || !values.length) {
     return [];
   }
 
-  const pathKeys: React.Key[] = isRawValue(values[0])
-    ? (values as React.Key[])
-    : toPathKeys(toRawValueCells(values as LabeledValueType[]));
+  const pathKeys: React.Key[] = toPathKeys(toRawValueCells(values));
   const valueSet = new Set(pathKeys);
   const keyPathEntities = getKeyPathEntities();
 

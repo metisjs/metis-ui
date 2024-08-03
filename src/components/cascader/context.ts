@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { InternalFieldNames } from './Cascader';
-import { CascaderProps, DefaultOptionType, MultiValueType, SingleValueType } from './interface';
+import {
+  CascaderProps,
+  DefaultOptionType,
+  LabeledValueType,
+  MultiValueType,
+  SingleValueType,
+} from './interface';
 
 export interface CascaderContextProps {
   options: NonNullable<CascaderProps['options']>;
@@ -8,7 +14,7 @@ export interface CascaderContextProps {
   values: MultiValueType;
   halfValues: MultiValueType;
   changeOnSelect?: boolean;
-  onSelect: (valuePath: SingleValueType) => void;
+  onSelect: (valuePath: SingleValueType | LabeledValueType) => void;
   searchOptions: DefaultOptionType[];
   expandTrigger?: 'hover' | 'click';
   expandIcon?: React.ReactNode;

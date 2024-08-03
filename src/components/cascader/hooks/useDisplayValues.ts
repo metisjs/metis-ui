@@ -40,14 +40,14 @@ export default (
         item.map(({ option }) => option),
       );
 
-      const valueCells = toRawValueCell(item);
-      const value = toPathKey(valueCells);
+      const valueCell = toRawValueCell(item);
+      const value = toPathKey(valueCell);
 
       return {
         label,
         value,
         key: value,
-        valueCells,
+        labeledValue: item,
         disabled: item[item.length - 1]?.disabled,
       };
     });
