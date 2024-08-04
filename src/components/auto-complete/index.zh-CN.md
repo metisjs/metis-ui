@@ -60,7 +60,7 @@ demo:
 | variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onBlur | 失去焦点时的回调 | function() | - |  |
 | onChange | 选中 option，或 input 的 value 变化时，调用此函数 | function(value) | - |  |
-| onDropdownVisibleChange | 展开下拉菜单的回调 | function(open) | - |  |
+| onPopupOpenChange | 展开下拉菜单的回调 | function(open) | - |  |
 | onFocus | 获得焦点时的回调 | function() | - |  |
 | onSearch | 搜索补全项的时候调用 | function(value) | - |  |
 | onSelect | 被选中时调用，参数为选中项的 value 值 | function(value, option) | - |  |

@@ -160,6 +160,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   );
 
   // ===================== Request =====================
+  const requestSearchable = showSearch && request && lazyLoad;
   const {
     options: requestedOptions,
     loading: requestLoading,
@@ -167,8 +168,8 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   } = useRequest(
     mergedFieldNames,
     request,
-    showSearch,
-    mergedSearchValue,
+    requestSearchable,
+    requestSearchable ? mergedSearchValue : undefined,
     optionFilterProp,
     lazyLoad,
     onPopupScroll,
@@ -378,7 +379,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     mergedSearchValue,
     mergedFilterOption,
     optionFilterProp,
-    !!request,
+    !!request && lazyLoad,
   );
 
   // Fill options with search value if needed

@@ -101,7 +101,7 @@ demo:
 | onSearch | 文本框值变化时回调 | function(value: string) | - |  |
 | onSelect | 被选中时调用，参数为选中项的 value (或 key) 值 | function(value: string \| number, option: Option) | - |  |
 | request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
-| lazyLoad | 远程分页懒加载请求，仅使用 `request` 配置时有效 | boolean | false |  |
+| lazyLoad | 远程分页懒加载请求，仅使用 `request` 配置时有效, 如果开启 `showSearch` 将使用远程搜索 | boolean | false |  |
 
 > 注意，如果发现下拉菜单跟随页面滚动，或者需要在其他弹层中触发 Select，请尝试使用 `getPopupContainer={triggerNode => triggerNode.parentElement}` 将下拉弹层渲染节点固定在触发器的父元素中。
 

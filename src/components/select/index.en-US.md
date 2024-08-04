@@ -100,7 +100,7 @@ demo:
 | onSearch | Callback function that is fired when input changed | function(value: string) | - |  |
 | onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string \| number, option: Option) | - |  |
 | request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
-| lazyLoad | Remote laze load request, effective only when using the `request` configuration | boolean | false |  |
+| lazyLoad | Remote laze load request, effective only when using the `request` configuration. if `showSearch` is true, will search by remote service | boolean | false |  |
 
 > Note, if you find that the drop-down menu scrolls with the page, or you need to trigger Select in other popup layers, please try to use `getPopupContainer={triggerNode => triggerNode.parentElement}` to fix the drop-down popup rendering node in the parent element of the trigger .
 

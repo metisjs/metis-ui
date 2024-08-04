@@ -4,7 +4,8 @@ import { useMemo, useRef, useState } from 'react';
 import { BaseOptionType, FieldNames, RequestConfig, SelectProps } from '../interface';
 
 const PAGE_SIZE = 30;
-const THRESHOLD = 100;
+const SCROLL_THRESHOLD = 100;
+const REQUEST_DEBOUNCE = 200;
 
 export default function <TData extends BaseOptionType>(
   fieldNames: Required<FieldNames<BaseOptionType>>,
@@ -29,10 +30,17 @@ export default function <TData extends BaseOptionType>(
     requestService = request.service;
     requestOptions = request.options;
   }
-  const { refreshDeps = [], onFinally, onSuccess, ready, ...restOptions } = requestOptions ?? {};
+  const {
+    refreshDeps = [],
+    onFinally,
+    onSuccess,
+    ready,
+    debounceWait = REQUEST_DEBOUNCE,
+    ...restOptions
+  } = requestOptions ?? {};
 
   const { loading, run, params, cancel } = useRequest(
-    async (defaultParams: any[] = []) => {
+    async (...defaultParams: any[]) => {
       // combobox 模式下只在搜索时触发请求
       if (combobox && !searchValue?.trim()) {
         return { data: [], total: 0 };
@@ -54,13 +62,14 @@ export default function <TData extends BaseOptionType>(
       return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
     },
     {
+      debounceWait,
       ready: !!requestService && ready,
       refreshDeps: [showSearch, searchValue, lazyLoad, optionFilterProp, ...refreshDeps],
       refreshDepsAction: () => {
         cancel();
         current.current = 1;
         target.current?.scrollTo({ top: 0 });
-        run(params);
+        run(...params);
       },
       onSuccess: (d, params) => {
         if (current.current === 1) {
@@ -99,13 +108,14 @@ export default function <TData extends BaseOptionType>(
     }
 
     current.current = toCurrent;
-    run(params);
+    run(...params);
   });
 
   const onInternalScroll: SelectProps['onPopupScroll'] = useMemoizedFn((values, ev) => {
+    target.current = ev.target as HTMLDivElement;
     const { scrollTop, scrollHeight, clientHeight } = values;
     if (lazyLoad && !noMore && !loadingMore) {
-      if (scrollHeight - scrollTop <= clientHeight + THRESHOLD) {
+      if (scrollHeight - scrollTop <= clientHeight + SCROLL_THRESHOLD) {
         loadMore(current.current + 1);
       }
     }

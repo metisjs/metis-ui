@@ -12,10 +12,10 @@ export default (
   searchValue?: string,
   filterOption?: boolean | SelectProps['filterOption'],
   optionFilterProp?: string,
-  useRequest?: boolean,
+  ignore?: boolean,
 ) =>
   React.useMemo(() => {
-    if (!searchValue || filterOption === false || useRequest) {
+    if (!searchValue || filterOption === false || ignore) {
       return options;
     }
 
@@ -72,4 +72,4 @@ export default (
     });
 
     return filteredOptions;
-  }, [options, filterOption, optionFilterProp, searchValue, fieldNames]);
+  }, [options, filterOption, optionFilterProp, searchValue, fieldNames, ignore]);

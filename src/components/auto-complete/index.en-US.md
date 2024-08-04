@@ -59,7 +59,7 @@ The differences with Select are:
 | variant | Variants of input | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onBlur | Called when leaving the component | function() | - |  |
 | onChange | Called when selecting an option or changing an input value | function(value) | - |  |
-| onDropdownVisibleChange | Call when dropdown open | function(open) | - |  |
+| onPopupOpenChange | Call when dropdown open | function(open) | - |  |
 | onFocus | Called when entering the component | function() | - |  |
 | onSearch | Called when searching items | function(value) | - |  |
 | onSelect | Called when a option is selected. param is option's value and option instance | function(value, option) | - |  |

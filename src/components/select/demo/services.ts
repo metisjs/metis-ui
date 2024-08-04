@@ -32,18 +32,12 @@ export async function fetchDataWithPagination(params: {
   });
 }
 
-export async function fetchData(params?: {
-  filters?: { name?: string };
-}): Promise<{ data: DataItem[] }> {
-  console.log('fetchData', params);
+export async function fetchData(): Promise<{ data: DataItem[] }> {
+  console.log('fetchData');
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        data: dataSource
-          .slice(0, 30)
-          .filter((item) =>
-            params?.filters?.name ? item.name.includes(params?.filters?.name) : true,
-          ),
+        data: dataSource.slice(0, 30),
       });
     }, 700);
   });

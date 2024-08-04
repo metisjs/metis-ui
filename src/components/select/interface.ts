@@ -55,26 +55,7 @@ export type GetRequestType<
           ...any[],
         ]
       >
-    : RequestConfig<
-        OptionType,
-        [
-          {
-            filters: { [key: string]: string };
-          },
-          ...any[],
-        ]
-      >
-  : LazyLoadType extends true
-  ? RequestConfig<
-      OptionType,
-      [
-        {
-          current: number;
-          pageSize: number;
-        },
-        ...any[],
-      ]
-    >
+    : RequestConfig<OptionType, any[]>
   : RequestConfig<OptionType, any[]>;
 
 export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
