@@ -33,7 +33,7 @@ export function toPathValueStr(pathKey: string) {
 }
 
 export function fillFieldNames(fieldNames?: FieldNames): InternalFieldNames {
-  const { label, value, children, disabled } = fieldNames || {};
+  const { label, value, children, disabled, leaf } = fieldNames || {};
   const val = value || 'value';
   return {
     label: label || 'label',
@@ -41,11 +41,12 @@ export function fillFieldNames(fieldNames?: FieldNames): InternalFieldNames {
     key: val as string,
     children: children || 'children',
     disabled: disabled || 'disabled',
+    leaf: leaf || 'leaf',
   };
 }
 
-export function isLeaf(option: DefaultOptionType, fieldNames: FieldNames) {
-  return option.isLeaf ?? !option[fieldNames.children as string]?.length;
+export function isLeaf(option: DefaultOptionType, fieldNames: InternalFieldNames) {
+  return option[fieldNames.leaf] ?? !option[fieldNames.children]?.length;
 }
 
 export function scrollIntoParentView(element: HTMLElement) {

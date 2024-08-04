@@ -10,7 +10,6 @@ import {
   scrollIntoParentView,
   toPathKey,
   toPathKeys,
-  toPathValueStr,
 } from '../utils/commonUtil';
 import { toPathOptions } from '../utils/treeUtil';
 import CacheContent from './CacheContent';
@@ -37,14 +36,15 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     onSelect,
     searchOptions,
     expandTrigger,
-    lazeLoad,
+    lazyLoad,
+    loadData,
   } = React.useContext(CascaderContext);
 
   // ========================= loadData =========================
   const [loadingKeys, setLoadingKeys] = React.useState<React.Key[]>([]);
 
-  const internalLoadData = (valueCells: React.Key[]) => {
-    if (!lazeLoad) {
+  const internalLoadData = async (valueCells: React.Key[]) => {
+    if (!lazyLoad || !loadData) {
       return;
     }
 
@@ -52,31 +52,16 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     const rawOptions = optionList.map(({ option }) => option);
     const lastOption = rawOptions[rawOptions.length - 1];
 
-    if (lastOption && !isLeaf(lastOption, fieldNames)) {
+    if (lastOption && !lastOption[fieldNames.children]?.length && !isLeaf(lastOption, fieldNames)) {
       const pathKey = toPathKey(valueCells);
 
       setLoadingKeys((keys) => [...keys, pathKey]);
 
-      // loadData(rawOptions);
+      await loadData(lastOption);
+
+      setLoadingKeys((keys) => keys.filter((key) => key !== pathKey));
     }
   };
-
-  // zombieJ: This is bad. We should make this same as `rc-tree` to use Promise instead.
-  React.useEffect(() => {
-    if (loadingKeys.length) {
-      loadingKeys.forEach((loadingKey) => {
-        const valueStrCells = toPathValueStr(loadingKey as string);
-        const optionList = toPathOptions(valueStrCells, options, fieldNames, true).map(
-          ({ option }) => option,
-        );
-        const lastOption = optionList[optionList.length - 1];
-
-        if (!lastOption || lastOption[fieldNames.children] || isLeaf(lastOption, fieldNames)) {
-          setLoadingKeys((keys) => keys.filter((key) => key !== loadingKey));
-        }
-      });
-    }
-  }, [options, loadingKeys, fieldNames]);
 
   // ========================== Values ==========================
   const checkedSet = React.useMemo(() => new Set(toPathKeys(values)), [values]);
@@ -110,7 +95,8 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
 
   // ========================== Option ==========================
   const mergedOptions = React.useMemo(() => {
-    if (searchValue) {
+    // searchOptions === null, 表示request search 正在查询中,依然正常显示options
+    if (searchValue && searchOptions !== null) {
       return searchOptions;
     }
 

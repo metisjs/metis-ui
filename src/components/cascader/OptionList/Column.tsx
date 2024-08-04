@@ -93,7 +93,7 @@ export default function Column({
 
   // ============================ Style ============================
   const rootCls = clsx(
-    'h-44 w-auto min-w-28 shrink-0 grow border-s border-border-secondary first-of-type:border-e-0',
+    'h-44 w-auto min-w-28 shrink-0 grow border-s border-border-secondary first-of-type:border-s-0',
   );
   const viewCls = clsx('!w-auto');
   const menuCls = clsx(menuPrefixCls, 'p-1 text-sm text-text');
@@ -208,7 +208,7 @@ export default function Column({
                   />
                 )}
                 <div className={menuItemContentCls}>
-                  {optionRender ? optionRender(option) : label}
+                  {optionRender && option.value !== '__EMPTY__' ? optionRender(option) : label}
                 </div>
                 {!isLoading && expandIcon && !isMergedLeaf && (
                   <div className={clsx(`${menuItemPrefixCls}-expand-icon`, menuItemIconCls)}>

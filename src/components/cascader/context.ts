@@ -15,12 +15,13 @@ export interface CascaderContextProps {
   halfValues: MultiValueType;
   changeOnSelect?: boolean;
   onSelect: (valuePath: SingleValueType | LabeledValueType) => void;
-  searchOptions: DefaultOptionType[];
+  searchOptions: DefaultOptionType[] | null;
   expandTrigger?: 'hover' | 'click';
   expandIcon?: React.ReactNode;
   loadingIcon?: React.ReactNode;
   optionRender?: CascaderProps['optionRender'];
-  lazeLoad?: boolean;
+  lazyLoad?: boolean;
+  loadData?: (selectOption: DefaultOptionType) => Promise<void>;
 }
 
 const CascaderContext = React.createContext<CascaderContextProps>({} as CascaderContextProps);

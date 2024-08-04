@@ -25,6 +25,7 @@ demo:
 <code src="./demo/show-checked-strategy.tsx">自定义回填方式</code>
 <code src="./demo/size.tsx">大小</code>
 <code src="./demo/search.tsx">搜索</code>
+<code src="./demo/request.tsx">请求远程数据</code>
 <code src="./demo/lazy.tsx">动态加载选项</code>
 <code src="./demo/fields-name.tsx">自定义字段名</code>
 <code src="./demo/suffix.tsx" debug>自定义图标</code>
@@ -36,58 +37,49 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| allowClear | 支持清除 | boolean \| { clearIcon?: ReactNode } | true | 5.8.0: 支持对象形式 |
-| autoClearSearchValue | 是否在选中项后清空搜索框，只在 `multiple` 为 `true` 时有效 | boolean | true | 5.9.0 |
+| allowClear | 支持清除 | boolean \| { clearIcon?: ReactNode } | true |  |
+| autoClearSearchValue | 是否在选中项后清空搜索框，只在 `multiple` 为 `true` 时有效 | boolean | true |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | changeOnSelect | （单选时生效）当此项为 true 时，点选每级菜单选项值都会发生变化，具体见上面的演示 | boolean | false |  |
-| className | 自定义类名 | string | - |  |
-| defaultValue | 默认的选中项 | string\[] \| number\[] | \[] |  |
+| className | 语义化结构 class | string \| Record<'root' \| 'popup' \| 'selector', string> | - |  |
+| defaultValue | 默认的选中项 | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | \[] |  |
 | disabled | 禁用 | boolean | false |  |
-| displayRender | 选择后展示的渲染函数 | (label, selectedOptions) => ReactNode | label => label.join(`/`) | `multiple`: 4.18.0 |
+| displayRender | 选择后展示的渲染函数 | (labels, selectedOptions) => ReactNode | labels => labels.join(`/`) |  |
 | tagRender | 自定义 tag 内容 render，仅在多选时生效 | ({ label: string, onClose: function, value: string }) => ReactNode | - |  |
-| popupClassName | 自定义浮层类名 | string | - | 4.23.0 |
-| dropdownRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - | 4.4.0 |
-| expandIcon | 自定义次级菜单展开图标 | ReactNode | - | 4.4.0 |
+| popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
+| expandIcon | 自定义次级菜单展开图标 | ReactNode | - |  |
 | expandTrigger | 次级菜单的展开方式，可选 'click' 和 'hover' | string | `click` |  |
-| fieldNames | 自定义 options 中 label value children 的字段 | object | { label: `label`, value: `value`, children: `children` } |  |
-| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。[示例](https://codepen.io/afc163/pen/zEjNOy?editors=0010) | function(triggerNode) | () => document.body |  |
-| loadData | 用于动态加载选项，无法与 `showSearch` 一起使用 | (selectedOptions) => void | - |  |
-| maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - | 4.17.0 |
-| maxTagPlaceholder | 隐藏 tag 时显示的内容 | ReactNode \| function(omittedValues) | - | 4.17.0 |
-| maxTagTextLength | 最大显示的 tag 文本长度 | number | - | 4.17.0 |
+| fieldNames | 自定义 options 中 label value children 的字段 | object | { label: `label`, value: `value`, children: `children`, disabled: `disabled`, leaf: `leaf` } |  |
+| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | function(triggerNode) | () => document.body |  |
+| maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - |  |
+| maxTagPlaceholder | 隐藏 tag 时显示的内容 | ReactNode \| function(omittedValues) | - |  |
+| maxTagTextLength | 最大显示的 tag 文本长度 | number | - |  |
 | notFoundContent | 当下拉列表为空时显示的内容 | string | `Not Found` |  |
-| open | 控制浮层显隐 | boolean | - | 4.17.0 |
+| open | 控制浮层显隐 | boolean | - |  |
 | options | 可选项数据源 | [Option](#option)\[] | - |  |
 | placeholder | 输入框占位文本 | string | - |  |
-| placement | 浮层预设位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | `bottomLeft` | 4.17.0 |
-| showSearch | 在选择框中显示搜索框 | boolean \| [Object](#showsearch) | false |  |
+| placement | 浮层预设位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | `bottomLeft` |  |
+| showSearch | 在选择框中显示搜索框 | boolean | false |  |
 | size | 输入框大小 | `large` \| `middle` \| `small` | - |  |
-| status | 设置校验状态 | 'error' \| 'warning' | - | 4.19.0 |
+| status | 设置校验状态 | 'error' \| 'warning' | - |  |
 | style | 自定义样式 | CSSProperties | - |  |
 | suffixIcon | 自定义的选择框后缀图标 | ReactNode | - |  |
-| value | 指定选中项 | string\[] \| number\[] | - |  |
-| variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` | 5.13.0 |
+| value | 指定选中项 | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | - |  |
+| variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onChange | 选择完成后的回调 | (value, selectedOptions) => void | - |  |
-| onDropdownVisibleChange | 显示/隐藏浮层的回调 | (value) => void | - | 4.17.0 |
-| multiple | 支持多选节点 | boolean | - | 4.17.0 |
-| showCheckedStrategy | 定义选中项回填的方式。`Cascader.SHOW_CHILD`: 只显示选中的子节点。`Cascader.SHOW_PARENT`: 只显示父节点（当父节点下所有子节点都选中时）。 | `Cascader.SHOW_PARENT` \| `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` | 4.20.0 |
+| onPopupOpenChange | 显示/隐藏浮层的回调 | (value) => void | - |  |
+| multiple | 支持多选节点 | boolean | - |  |
+| showCheckedStrategy | 定义选中项回填的方式。`Cascader.SHOW_CHILD`: 只显示选中的子节点。`Cascader.SHOW_PARENT`: 只显示父节点（当父节点下所有子节点都选中时）。 | `Cascader.SHOW_PARENT` \| `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
 | removeIcon | 自定义的多选框清除图标 | ReactNode | - |  |
-| searchValue | 设置搜索的值，需要与 `showSearch` 配合使用 | string | - | 4.17.0 |
-| onSearch | 监听搜索，返回输入的值 | (search: string) => void | - | 4.17.0 |
-| dropdownMenuColumnStyle | 下拉菜单列的样式 | CSSProperties | - |  |
-| optionRender | 自定义渲染下拉选项 | (option: Option) => React.ReactNode | - | 5.16.0 |
-
-### showSearch
-
-`showSearch` 为对象时，其中的字段：
-
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| filter | 接收 `inputValue` `path` 两个参数，当 `path` 符合筛选条件时，应返回 true，反之则返回 false | function(inputValue, path): boolean | - |  |
-| limit | 搜索结果展示数量 | number \| false | 50 |  |
-| matchInputWidth | 搜索结果列表是否与输入框同宽（[效果](https://github.com/ant-design/ant-design/issues/25779)） | boolean | true |  |
-| render | 用于渲染 filter 后的选项 | function(inputValue, path): ReactNode | - |  |
-| sort | 用于排序 filter 后的选项 | function(a, b, inputValue) | - |  |
+| searchValue | 设置搜索的值，需要与 `showSearch` 配合使用 | string | - |  |
+| onSearch | 监听搜索，返回输入的值 | (search: string) => void | - |  |
+| optionRender | 自定义渲染下拉选项 | (option: Option) => React.ReactNode | - |  |
+| filterOption | 是否根据输入项进行筛选。当其为一个函数时，会接收 `inputValue` `option` 两个参数，当 `option` 符合筛选条件时，应返回 true，反之则返回 false | function(inputValue, option) | - |  |
+| filterSort | 搜索时对筛选结果项的排序函数, 类似[Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)里的 compareFunction | (optionA: Option, optionB: Option) => number | - |  |
+| optionFilterProp | 搜索时过滤对应的 `option` 属性。若通过 `options` 属性配置选项内容。若通过 `request` 属性配置获取选项内容，`optionFilterProp` 将作为 filters 属性名传递给 request 方法 | string | `fieldNames.label` |  |
+| displayRender | 选择后展示的渲染函数 | (selectedOption) => ReactNode | - |  |
+| request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
+| lazyLoad | 懒加载，点击节点时加载，仅使用 `request` 配置时有效，如果开启 `showSearch` 将使用远程搜索 | boolean | false |  |
 
 ### Option
 
@@ -97,11 +89,17 @@ interface Option {
   label?: React.ReactNode;
   disabled?: boolean;
   children?: Option[];
-  // 标记是否为叶子节点，设置了 `loadData` 时有效
+  // 标记是否为叶子节点，设置了 `lazyLoad` 时有效
   // 设为 `false` 时会强制标记为父节点，即使当前节点没有 children，也会显示展开图标
-  isLeaf?: boolean;
-}
+  leaf?: boolean;
+} ｜ Record<string, any>;
 ```
+
+> 注意：`Option` 支持 `Record<string, any>`，因此可以自定义任意属性，但需要使用 `fieldNames` 进行配置。
+
+### RequestConfig
+
+> request 使用 ahooks 的 [useRequest](https://ahooks.js.org/hooks/use-request)，因此支持所有 [useRequest](https://ahooks.js.org/hooks/use-request) 的参数。
 
 ## 方法
 

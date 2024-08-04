@@ -3,7 +3,7 @@ import { InputStatus } from '../_util/statusUtils';
 import { Variant } from '../config-provider';
 import { SizeType } from '../config-provider/SizeContext';
 import { BaseSelectPropsWithoutPrivate } from '../select';
-import { GetRequestType, RawValueType, SelectCommonPlacement } from '../select/interface';
+import { RawValueType, RequestConfig, SelectCommonPlacement } from '../select/interface';
 import { SHOW_CHILD, SHOW_PARENT } from './utils/commonUtil';
 
 export interface BaseOptionType {
@@ -41,11 +41,48 @@ export type GetValueType<
   MultipleType extends boolean = false,
 > = false extends MultipleType ? SingleValueType | OptionType[] : MultiValueType | OptionType[][];
 
+export type GetRequestType<
+  OptionType extends BaseOptionType,
+  ShowSearchType extends boolean = false,
+  LazyLoadType extends boolean = false,
+> = ShowSearchType extends true
+  ? LazyLoadType extends true
+    ? RequestConfig<
+        OptionType,
+        [
+          {
+            filters: { [key: string]: string };
+          } & { [parentValue: string]: RawValueType },
+          ...any[],
+        ]
+      >
+    : RequestConfig<
+        OptionType,
+        [
+          {
+            filters: { [key: string]: string };
+          },
+          ...any[],
+        ]
+      >
+  : LazyLoadType extends true
+  ? RequestConfig<
+      OptionType,
+      [
+        {
+          [parentValue: string]: RawValueType;
+        },
+        ...any[],
+      ]
+    >
+  : RequestConfig<OptionType, any[]>;
+
 export interface FieldNames<OptionType extends DefaultOptionType = DefaultOptionType> {
   value?: keyof OptionType;
   label?: keyof OptionType;
   disabled?: keyof OptionType;
   children?: keyof OptionType;
+  leaf?: keyof OptionType;
 }
 
 export type ShowCheckedStrategy = typeof SHOW_PARENT | typeof SHOW_CHILD;
@@ -54,6 +91,7 @@ export interface CascaderProps<
   OptionType extends DefaultOptionType = DefaultOptionType,
   MultipleType extends boolean = false,
   ShowSearchType extends boolean = false,
+  LazyLoadType extends boolean = false,
 > extends Omit<
     BaseSelectPropsWithoutPrivate,
     'tokenSeparators' | 'mode' | 'showSearch' | 'className' | 'popupMatchSelectWidth'
@@ -109,6 +147,6 @@ export interface CascaderProps<
   loadingIcon?: React.ReactNode;
 
   // >>> Request
-  request?: GetRequestType<OptionType, ShowSearchType, false>;
-  lazyLoad?: boolean;
+  lazyLoad?: LazyLoadType;
+  request?: GetRequestType<OptionType, ShowSearchType, LazyLoadType>;
 }

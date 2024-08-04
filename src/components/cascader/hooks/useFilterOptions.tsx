@@ -22,7 +22,7 @@ function highlightKeyword(str: string, lowerKeyword: string) {
 
     if (index % 2 === 1) {
       originWorld = (
-        <span className="bg-warning-bg" key={`separator-${index}`}>
+        <span className="text-error" key={`separator-${index}`}>
           {originWorld}
         </span>
       );
@@ -34,6 +34,95 @@ function highlightKeyword(str: string, lowerKeyword: string) {
   return fillCells;
 }
 
+function defaultRender(
+  searchValue: string,
+  path: DefaultOptionType[],
+  fieldNames: InternalFieldNames,
+) {
+  const optionList: React.ReactNode[] = [];
+  const lower = searchValue.toLowerCase();
+
+  path.forEach((node, index) => {
+    if (index !== 0) {
+      optionList.push(' / ');
+    }
+
+    let label = node[fieldNames.label];
+    const type = typeof label;
+    if (type === 'string' || type === 'number') {
+      label = highlightKeyword(String(label), lower);
+    }
+
+    optionList.push(label);
+  });
+  return optionList;
+}
+
+export function doFilter<T extends DefaultOptionType>(
+  options: T[],
+  fieldNames: InternalFieldNames,
+  searchValue: string,
+  filterOption?: CascaderProps['filterOption'],
+  filterRender?: CascaderProps['filterRender'],
+  filterSort?: CascaderProps['filterSort'],
+  optionFilterProp?: string,
+  changeOnSelect?: boolean,
+) {
+  const filteredOptions: T[] = [];
+  if (!searchValue) {
+    return [];
+  }
+
+  const customizeFilter = typeof filterOption === 'function';
+  const customizeRender = typeof filterRender === 'function';
+  const customizeSort = typeof filterSort === 'function';
+
+  function dig(list: T[], pathOptions: T[], parentDisabled = false) {
+    list.forEach((option) => {
+      const connectedPathOptions = [...pathOptions, option];
+      const children = option[fieldNames.children];
+
+      const mergedDisabled = parentDisabled || option.disabled;
+
+      if (!children || children.length === 0 || changeOnSelect) {
+        const matched = customizeFilter
+          ? filterOption(searchValue, connectedPathOptions)
+          : connectedPathOptions.some((opt) =>
+              String(opt[optionFilterProp ?? fieldNames.label])
+                .toLowerCase()
+                .includes(searchValue.trim().toLowerCase()),
+            );
+        if (matched) {
+          filteredOptions.push({
+            ...option,
+            disabled: mergedDisabled,
+            [fieldNames.label as 'label']: customizeRender
+              ? filterRender(searchValue, connectedPathOptions)
+              : defaultRender(searchValue, connectedPathOptions, fieldNames),
+            [SEARCH_MARK]: connectedPathOptions,
+            [fieldNames.children]: undefined,
+          });
+        }
+      }
+
+      if (children) {
+        dig(option[fieldNames.children], connectedPathOptions, mergedDisabled);
+      }
+    });
+  }
+
+  dig(options, []);
+
+  // Do sort
+  if (customizeSort) {
+    filteredOptions.sort((a, b) => {
+      return filterSort(a[SEARCH_MARK], b[SEARCH_MARK]);
+    });
+  }
+
+  return filteredOptions;
+}
+
 export default (
   options: DefaultOptionType[],
   fieldNames: InternalFieldNames,
@@ -43,86 +132,23 @@ export default (
   filterSort?: CascaderProps['filterSort'],
   optionFilterProp?: string,
   changeOnSelect?: boolean,
-  useRequest?: boolean,
+  ignore?: boolean,
 ) => {
   return React.useMemo(() => {
-    const filteredOptions: DefaultOptionType[] = [];
-    if (!searchValue) {
-      return [];
+    if (ignore) {
+      return options;
     }
 
-    const customizeFilter = typeof filterOption === 'function';
-    const customizeRender = typeof filterRender === 'function';
-    const customizeSort = typeof filterSort === 'function';
-
-    function defaultRender(path: DefaultOptionType[]) {
-      const optionList: React.ReactNode[] = [];
-      const lower = searchValue.toLowerCase();
-
-      path.forEach((node, index) => {
-        if (index !== 0) {
-          optionList.push(' / ');
-        }
-
-        let label = node[fieldNames.label];
-        const type = typeof label;
-        if (type === 'string' || type === 'number') {
-          label = highlightKeyword(String(label), lower);
-        }
-
-        optionList.push(label);
-      });
-      return optionList;
-    }
-
-    function dig(
-      list: DefaultOptionType[],
-      pathOptions: DefaultOptionType[],
-      parentDisabled = false,
-    ) {
-      list.forEach((option) => {
-        const connectedPathOptions = [...pathOptions, option];
-        const children = option[fieldNames.children];
-
-        const mergedDisabled = parentDisabled || option.disabled;
-
-        if (!children || children.length === 0 || changeOnSelect) {
-          const matched = customizeFilter
-            ? filterOption(searchValue, connectedPathOptions)
-            : options.some((opt) =>
-                String(opt[optionFilterProp ?? fieldNames.label])
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase()),
-              );
-          if (matched) {
-            filteredOptions.push({
-              ...option,
-              disabled: mergedDisabled,
-              [fieldNames.label as 'label']: customizeRender
-                ? filterRender(searchValue, connectedPathOptions)
-                : defaultRender(connectedPathOptions),
-              [SEARCH_MARK]: connectedPathOptions,
-              [fieldNames.children]: undefined,
-            });
-          }
-        }
-
-        if (children) {
-          dig(option[fieldNames.children], connectedPathOptions, mergedDisabled);
-        }
-      });
-    }
-
-    dig(options, []);
-
-    // Do sort
-    if (customizeSort) {
-      filteredOptions.sort((a, b) => {
-        return filterSort(a[SEARCH_MARK], b[SEARCH_MARK]);
-      });
-    }
-
-    return filteredOptions;
+    return doFilter<DefaultOptionType>(
+      options,
+      fieldNames,
+      searchValue,
+      filterOption,
+      filterRender,
+      filterSort,
+      optionFilterProp,
+      changeOnSelect,
+    );
   }, [
     options,
     fieldNames,
@@ -132,6 +158,6 @@ export default (
     filterSort,
     optionFilterProp,
     changeOnSelect,
-    useRequest,
+    ignore,
   ]);
 };

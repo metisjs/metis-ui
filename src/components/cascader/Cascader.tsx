@@ -16,6 +16,7 @@ import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
 import useFilterOptions from './hooks/useFilterOptions';
 import useOptions from './hooks/useOptions';
+import useRequest from './hooks/useRequest';
 import useSelect from './hooks/useSelect';
 import useValues from './hooks/useValues';
 import {
@@ -50,13 +51,13 @@ export interface InternalFieldNames extends Required<FieldNames> {
 
 export type InternalCascaderProps = Omit<
   CascaderProps,
-  'onChange' | 'value' | 'defaultValue' | 'multiple' | 'pagination' | 'request'
+  'onChange' | 'value' | 'defaultValue' | 'multiple' | 'pagination' | 'request' | 'lazyLoad'
 > & {
   multiple?: boolean;
   value?: InternalValueType;
   defaultValue?: InternalValueType;
-  pagination?: boolean;
   request?: RequestConfig<BaseOptionType, any[]>;
+  lazyLoad?: boolean;
   onChange?: (
     value: SingleValueType | MultiValueType,
     selectOptions: BaseOptionType[] | BaseOptionType[][],
@@ -95,7 +96,9 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     expandIcon,
     showCheckedStrategy = SHOW_PARENT,
     getPopupContainer,
+    loading,
     request,
+    lazyLoad,
     ...restProps
   } = props;
 
@@ -118,17 +121,6 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     <DefaultRenderEmpty componentName="Cascader" />
   );
 
-  // ===================== Icons ======================
-  const { suffixIcon, removeIcon, clearIcon } = useIcons({
-    ...props,
-    hasFeedback,
-    feedbackIcon,
-    prefixCls,
-  });
-  const [mergedExpandIcon, loadingIcon] = useColumnIcons(prefixCls, expandIcon);
-
-  const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
-
   // ===================== Placement =====================
   const memoPlacement = React.useMemo<SelectCommonPlacement>(() => {
     if (placement !== undefined) {
@@ -145,17 +137,50 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     [JSON.stringify(fieldNames)],
   );
 
-  // =========================== Option ===========================
-  const [mergedOptions, getPathKeyEntities, getValueByKeyPath, getPathOptions] = useOptions(
-    mergedFieldNames,
-    options,
-  );
-
   // =========================== Search ===========================
   const [mergedSearchValue, setSearchValue] = useMergedState('', {
     value: searchValue,
     postState: (search) => search || '',
   });
+
+  // ===================== Request =====================
+  const requestSearchable = showSearch && request && lazyLoad;
+  const {
+    options: requestedOptions,
+    searchOptions: requestedSearchOptions,
+    loading: requestLoading,
+    loadData,
+  } = useRequest(
+    mergedFieldNames,
+    request,
+    requestSearchable,
+    requestSearchable ? mergedSearchValue : undefined,
+    optionFilterProp,
+    lazyLoad,
+    filterOption,
+    filterRender,
+    filterSort,
+    changeOnSelect,
+  );
+  const mergedLoading = loading || requestLoading;
+
+  // =========================== Option ===========================
+  const [mergedOptions, getPathKeyEntities, getValueByKeyPath, getPathOptions] = useOptions(
+    mergedFieldNames,
+    request ? requestedOptions : options,
+  );
+
+  // ===================== Icons ======================
+  const { suffixIcon, removeIcon, clearIcon } = useIcons({
+    ...props,
+    loading: mergedLoading,
+    hasFeedback,
+    feedbackIcon,
+    prefixCls,
+  });
+  const [mergedExpandIcon, loadingIcon] = useColumnIcons(prefixCls, expandIcon);
+
+  const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
 
   const onInternalSearch: BaseSelectProps['onSearch'] = (searchText, info) => {
     setSearchValue(searchText);
@@ -174,8 +199,10 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     filterSort,
     optionFilterProp,
     changeOnSelect,
-    !!request,
+    !!request && lazyLoad,
   );
+
+  const mergedSearchOptions = request && lazyLoad ? requestedSearchOptions : searchOptions;
 
   // =========================== Values ===========================
   const [checkedValues, halfCheckedValues, missingCheckedValues, onValueChange, toLabeledValues] =
@@ -285,11 +312,13 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       changeOnSelect,
       onSelect: onInternalSelect,
       checkable: multiple,
-      searchOptions,
+      searchOptions: mergedSearchOptions,
       expandTrigger,
       expandIcon: mergedExpandIcon,
       loadingIcon,
       optionRender,
+      loadData,
+      lazyLoad,
     }),
     [
       mergedOptions,
@@ -299,20 +328,25 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       changeOnSelect,
       onInternalSelect,
       multiple,
-      searchOptions,
+      mergedSearchOptions,
       expandTrigger,
       mergedExpandIcon,
       loadingIcon,
       optionRender,
+      loadData,
+      lazyLoad,
     ],
   );
 
-  const emptyOptions = !(mergedSearchValue ? searchOptions : mergedOptions).length;
+  // mergedSearchOptions === null, 表示request search 正在查询中,依然正常显示options
+  const emptyOptions = !(
+    mergedSearchValue && mergedSearchOptions !== null ? mergedSearchOptions : mergedOptions
+  ).length;
 
   // ========================== Style ===========================
   const popupCls = clsx(
     'p-0',
-    !mergedSearchValue && !emptyOptions && '!min-w-[auto]',
+    !(mergedSearchValue && mergedSearchOptions !== null) && !emptyOptions && '!min-w-[auto]',
     semanticCls.popup,
   );
 
@@ -362,8 +396,9 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   OptionType extends DefaultOptionType = DefaultOptionType,
   MultipleType extends boolean = false,
   ShowSearchType extends boolean = false,
+  LazyLoadType extends boolean = false,
 >(
-  props: CascaderProps<OptionType, MultipleType, ShowSearchType> & {
+  props: CascaderProps<OptionType, MultipleType, ShowSearchType, LazyLoadType> & {
     ref?: React.Ref<CascaderRef>;
   },
 ) => React.ReactElement) & {
