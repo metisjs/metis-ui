@@ -107,7 +107,7 @@
     "wangjianming.x@gmail.com"
   ],
   "dependencies": {
-    "@ctrl/tinycolor": "^3.6.0",
+    "@ctrl/tinycolor": "^4.1.0",
     "@metisjs/icons": "^0.0.2-alpha.0",
     "@rc-component/mini-decimal": "^1.1.0",
     "@rc-component/mutate-observer": "^1.1.0",
