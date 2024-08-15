@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { HandleProps } from './Handles/Handle';
 import type { Direction, SemanticName } from './interface';
 
 export interface SliderContextProps {
@@ -43,3 +44,9 @@ export interface UnstableContextProps {
 
 /** @private NOT PROMISE AVAILABLE. DO NOT USE IN PRODUCTION. */
 export const UnstableContext = React.createContext<UnstableContextProps>({});
+
+export interface SliderInternalContextProps {
+  handleRender?: HandleProps['render'];
+}
+/** @private Internal context. Do not use in your production. */
+export const SliderInternalContext = React.createContext<SliderInternalContextProps>({});

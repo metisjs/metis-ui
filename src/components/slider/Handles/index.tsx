@@ -3,7 +3,7 @@ import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { ConfigContext } from '../../config-provider';
 import type { TooltipPlacement } from '../../tooltip';
-import SliderContext from '../context';
+import SliderContext, { SliderInternalContext } from '../context';
 import useRafLock from '../hooks/useRafLock';
 import type { OnStartMove, SliderTooltipProps } from '../interface';
 import { getIndex, getTipFormatter } from '../util';
@@ -43,6 +43,7 @@ const Handles = React.forwardRef<HandlesRef, HandlesProps>((props, ref) => {
   } = props;
   const { getPopupContainer } = React.useContext(ConfigContext);
   const { range, direction } = React.useContext(SliderContext);
+  const { handleRender: contextHandleRender } = React.useContext(SliderInternalContext);
 
   const handlesRef = React.useRef<Record<number, HTMLDivElement>>({});
 
@@ -206,7 +207,7 @@ const Handles = React.forwardRef<HandlesRef, HandlesProps>((props, ref) => {
     prefixCls,
     onStartMove,
     onOffsetChange,
-    render: handleRender,
+    render: contextHandleRender ?? handleRender,
     onFocus: onHandleFocus,
     onMouseEnter: onHandleMouseEnter,
     ...restProps,

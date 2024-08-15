@@ -1,5 +1,5 @@
 import ColorPicker from './ColorPicker';
-export { Color } from './color';
+export { default as Color } from './Color';
 export type { ColorPickerProps } from './ColorPicker';
 export { default as ColorBlock } from './components/ColorBlock';
 export type { ColorBlockProps } from './components/ColorBlock';

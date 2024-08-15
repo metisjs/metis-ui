@@ -1,24 +1,32 @@
-import classNames from 'classnames';
 import { useEvent } from 'rc-util';
-import type { FC } from 'react';
-import React, { useRef } from 'react';
-import { Color } from '../color';
-import useColorDrag from '../hooks/useColorDrag';
-import type { HSBAColorType, TransformOffset } from '../interface';
-import { calcOffset, calculateColor } from '../util';
-import Gradient from './Gradient';
-import Handler from './Handler';
-import Palette from './Palette';
-import Transform from './Transform';
-import {GetContextProp} from '../../_util/type'
+import React from 'react';
+import { clsx } from '../../_util/classNameUtils';
+import { GetContextProp, GetProp } from '../../_util/type';
+import Slider from '../../slider';
+import {
+  SliderInternalContext,
+  SliderInternalContextProps,
+  UnstableContext,
+} from '../../slider/context';
+import Color from '../Color';
+import type { HSBAColorType } from '../interface';
+import { getGradientPercentColor } from '../util';
 
-export interface GradientColorSliderProps {
+export interface SingleSliderProps {
   prefixCls: string;
   colors: { percent: number; color: string }[];
   min: number;
   max: number;
+  value: number;
   disabled: boolean;
+  onChange: (value: number) => void;
+  onChangeComplete: (value: number) => void;
+  type: HSBAColorType;
   color: Color;
+}
+
+export interface GradientSliderProps
+  extends Omit<SingleSliderProps, 'value' | 'onChange' | 'onChangeComplete' | 'type'> {
   value: number[];
   onChange?: (value: number[]) => void;
   onChangeComplete: (value: number[]) => void;
@@ -36,13 +44,13 @@ export interface GradientColorSliderProps {
   onKeyDelete?: (index: number) => void;
 }
 
-export const GradientColorSlider = (props: GradientColorSliderProps) => {
+export const GradientSlider = (props: GradientSliderProps) => {
   const {
     prefixCls,
     colors,
     type,
     color,
-    range = false,
+    range = true,
     className,
     activeIndex,
     onActive,
@@ -53,11 +61,6 @@ export const GradientColorSlider = (props: GradientColorSliderProps) => {
 
     ...restProps
   } = props;
-
-  const sliderProps = {
-    ...restProps,
-    track: false,
-  };
 
   // ========================== Background ==========================
   const linearCss = React.useMemo(() => {
@@ -111,7 +114,7 @@ export const GradientColorSlider = (props: GradientColorSliderProps) => {
           onFocus?.(e);
         },
         style: mergedStyle,
-        className: classNames(handleCls, {
+        className: clsx(handleCls, {
           [`${prefixCls}-slider-handle-active`]: activeIndex === info.index,
         }),
         onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -127,7 +130,6 @@ export const GradientColorSlider = (props: GradientColorSliderProps) => {
 
   const sliderContext: SliderInternalContextProps = React.useMemo(
     () => ({
-      direction: 'ltr',
       handleRender,
     }),
     [],
@@ -138,106 +140,42 @@ export const GradientColorSlider = (props: GradientColorSliderProps) => {
     <SliderInternalContext.Provider value={sliderContext}>
       <UnstableContext.Provider value={unstableContext}>
         <Slider
-          {...sliderProps}
-          className={classNames(className, `${prefixCls}-slider`)}
+          {...restProps}
+          className={clsx(className, `${prefixCls}-slider`)}
+          track={false}
           tooltip={{ open: false }}
-          range={{
-            editable: range,
-            minCount: 2,
+          range={range as any}
+          railStyle={{
+            background: linearCss,
           }}
-          styles={{
-            rail: {
-              background: linearCss,
-            },
-            handle: pointColor
+          handleStyle={
+            pointColor
               ? {
                   background: pointColor,
                 }
-              : {},
-          }}
-          classNames={{
-            rail: `${prefixCls}-slider-rail`,
-            handle: `${prefixCls}-slider-handle`,
-          }}
+              : {}
+          }
         />
       </UnstableContext.Provider>
     </SliderInternalContext.Provider>
   );
 };
 
-const Slider: FC<BaseSliderProps> = (props) => {
-  const { prefixCls, colors, disabled, onChange, onChangeComplete, color, type } = props;
+const SingleSlider = (props: SingleSliderProps) => {
+  const { value, onChange, onChangeComplete } = props;
 
-  const sliderRef = useRef();
-  const transformRef = useRef();
-  const colorRef = useRef(color);
+  const singleOnChange = (v: number[]) => onChange(v[0]);
+  const singleOnChangeComplete = (v: number[]) => onChangeComplete(v[0]);
 
-  const getValue = (c: Color) => {
-    return type === 'hue' ? c.getHue() : c.a * 100;
-  };
-
-  const onDragChange = useEvent((offsetValue: TransformOffset) => {
-    const calcColor = calculateColor({
-      offset: offsetValue,
-      targetRef: transformRef,
-      containerRef: sliderRef,
-      color,
-      type,
-    });
-
-    colorRef.current = calcColor;
-    onChange(getValue(calcColor));
-  });
-
-  const [offset, dragStartHandle] = useColorDrag({
-    color,
-    targetRef: transformRef,
-    containerRef: sliderRef,
-    calculate: () => calcOffset(color, type),
-    onDragChange,
-    onDragChangeComplete() {
-      onChangeComplete(getValue(colorRef.current));
-    },
-    direction: 'x',
-    disabledDrag: disabled,
-  });
-
-  const handleColor = React.useMemo(() => {
-    if (type === 'hue') {
-      const hsb = color.toHsb();
-      hsb.s = 1;
-      hsb.b = 1;
-      hsb.a = 1;
-
-      const lightColor = new Color(hsb);
-      return lightColor;
-    }
-
-    return color;
-  }, [color, type]);
-
-  // ========================= Gradient =========================
-  const gradientList = React.useMemo(
-    () => colors.map((info) => `${info.color} ${info.percent}%`),
-    [colors],
-  );
-
-  // ========================== Render ==========================
   return (
-    <div
-      ref={sliderRef}
-      className={classNames(`${prefixCls}-slider`, `${prefixCls}-slider-${type}`)}
-      onMouseDown={dragStartHandle}
-      onTouchStart={dragStartHandle}
-    >
-      <Palette prefixCls={prefixCls}>
-        <Transform x={offset.x} y={offset.y} ref={transformRef}>
-          <Handler size="small" color={handleColor.toHexString()} prefixCls={prefixCls} />
-        </Transform>
-        <Gradient colors={gradientList} type={type} prefixCls={prefixCls} />
-      </Palette>
-    </div>
+    <GradientSlider
+      {...props}
+      range={false}
+      value={[value]}
+      onChange={singleOnChange}
+      onChangeComplete={singleOnChangeComplete}
+    />
   );
 };
 
-export default Slider;
+export default SingleSlider;

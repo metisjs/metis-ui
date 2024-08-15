@@ -43,6 +43,9 @@ export interface SliderBaseProps {
   style?: React.CSSProperties;
   tooltip?: SliderTooltipProps;
   autoFocus?: boolean;
+  railStyle?: React.CSSProperties;
+  handleStyle?: React.CSSProperties;
+  track?: boolean;
 
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;

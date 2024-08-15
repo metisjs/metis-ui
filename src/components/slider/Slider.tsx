@@ -35,6 +35,9 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
     dots,
     keyboard = true,
     included = true,
+    track,
+    railStyle,
+    handleStyle,
     onChange,
     onChangeComplete,
     onFocus,
@@ -381,13 +384,15 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   return (
     <SliderContext.Provider value={context}>
       <div ref={containerRef} className={rootCls} style={style} onMouseDown={onSliderMouseDown}>
-        <div className={railCls} />
+        <div className={railCls} style={railStyle} />
 
-        <Tracks
-          prefixCls={prefixCls}
-          values={rawValues}
-          onStartMove={mergedDraggableTrack ? onStartDrag : undefined}
-        />
+        {track !== false && (
+          <Tracks
+            prefixCls={prefixCls}
+            values={rawValues}
+            onStartMove={mergedDraggableTrack ? onStartDrag : undefined}
+          />
+        )}
 
         <Steps prefixCls={prefixCls} marks={markList} dots={dots} />
 
@@ -397,6 +402,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
           values={cacheValues}
           draggingIndex={draggingIndex}
           tooltip={tooltip}
+          style={handleStyle}
           onStartMove={onStartDrag}
           onOffsetChange={onHandleOffsetChange}
           onFocus={onFocus}

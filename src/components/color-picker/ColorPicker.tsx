@@ -1,13 +1,12 @@
 import type { CSSProperties } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import { clsx } from '../_util/classNameUtils';
-import { Color } from './color';
 import ColorBlock from './components/ColorBlock';
 import Picker from './components/Picker';
+import Slider from './components/Slider';
 import useColorState from './hooks/useColorState';
-import useComponent, { type Components } from './hooks/useComponent';
 import type { BaseColorPickerProps, ColorGenInput } from './interface';
-import { ColorPickerPrefixCls } from './util';
+import { ColorPickerPrefixCls, genAlphaColor, genHueColor } from './util';
 
 const HUE_COLORS = [
   {
@@ -49,7 +48,6 @@ export interface ColorPickerProps extends Omit<BaseColorPickerProps, 'color'> {
   panelRender?: (panel: React.ReactElement) => React.ReactElement;
   /** Disabled alpha selection */
   disabledAlpha?: boolean;
-  components?: Components;
 }
 
 const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>((props, ref) => {
@@ -64,11 +62,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>((props, ref) =>
     panelRender,
     disabledAlpha = false,
     disabled = false,
-    components,
   } = props;
-
-  // ========================== Components ==========================
-  const [Slider] = useComponent(components);
 
   // ============================ Color =============================
   const [colorValue, setColorValue] = useColorState(defaultValue, value);
@@ -82,38 +76,25 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>((props, ref) =>
     onChange?.(data, type);
   };
 
-  // Convert
-  const getHueColor = (hue: number) => {
-    const newColor = colorValue.clone();
-    newColor.toHsv().h = hue;
-    return new Color(newColor);
-  };
-
-  const getAlphaColor = (alpha: number) => {
-    const newColor = colorValue.clone();
-    newColor.setAlpha(alpha / 100);
-    return newColor;
-  };
-
   // Slider change
   const onHueChange = (hue: number) => {
-    handleChange(getHueColor(hue), { type: 'hue', value: hue });
+    handleChange(genHueColor(colorValue, hue), { type: 'hue', value: hue });
   };
 
   const onAlphaChange = (alpha: number) => {
-    handleChange(getAlphaColor(alpha), { type: 'alpha', value: alpha });
+    handleChange(genAlphaColor(colorValue, alpha / 100), { type: 'alpha', value: alpha });
   };
 
   // Complete
   const onHueChangeComplete = (hue: number) => {
     if (onChangeComplete) {
-      onChangeComplete(getHueColor(hue));
+      onChangeComplete(genHueColor(colorValue, hue));
     }
   };
 
   const onAlphaChangeComplete = (alpha: number) => {
     if (onChangeComplete) {
-      onChangeComplete(getAlphaColor(alpha));
+      onChangeComplete(genAlphaColor(colorValue, alpha / 100));
     }
   };
 
