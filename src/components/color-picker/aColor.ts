@@ -1,7 +1,6 @@
 import { ColorInput, HSV, TinyColor } from '@ctrl/tinycolor';
 import type { ColorGenInput, HSB } from './interface';
-
-export const getRoundNumber = (value: number) => Math.round(Number(value || 0));
+import { getRoundNumber } from './util';
 
 const convertHsb2Hsv = (color?: ColorGenInput): ColorInput => {
   if (color instanceof TinyColor) {
@@ -21,7 +20,7 @@ const convertHsb2Hsv = (color?: ColorGenInput): ColorInput => {
   return color as ColorInput;
 };
 
-export class Color extends TinyColor {
+class Color extends TinyColor {
   constructor(color?: ColorGenInput) {
     super(convertHsb2Hsv(color));
   }
@@ -52,3 +51,5 @@ export class Color extends TinyColor {
     return new Color(this.toString());
   }
 }
+
+export default Color;
