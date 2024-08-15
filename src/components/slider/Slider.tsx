@@ -177,7 +177,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   );
 
   const changeToCloseValue = (newValue: number, e?: React.MouseEvent) => {
-    if (!disabled) {
+    if (!mergedDisabled) {
       // Create new values
       const cloneNextValues = [...rawValues];
 
@@ -242,7 +242,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   const [keyboardValue, setKeyboardValue] = React.useState<number | null>(null);
 
   const onHandleOffsetChange = (offset: number | 'min' | 'max', valueIndex: number) => {
-    if (!disabled) {
+    if (!mergedDisabled) {
       const next = offsetValues(rawValues, offset, valueIndex);
 
       triggerChange(next.values);
@@ -327,14 +327,14 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   const rootCls = clsx(
     prefixCls,
     {
-      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixCls}-disabled`]: mergedDisabled,
       [`${prefixCls}-vertical`]: vertical,
       [`${prefixCls}-horizontal`]: !vertical,
       [`${prefixCls}-with-marks`]: markList.length,
     },
     'group relative cursor-pointer text-sm text-text',
     { 'mx-3 my-1 h-full px-1': vertical, 'mx-1 my-3 h-3 py-1': !vertical },
-    !markList.length && { 'mr-8': vertical, 'mb-8': !vertical },
+    markList.length && { 'mr-8': vertical, 'mb-8': !vertical },
     mergedDisabled && 'cursor-not-allowed opacity-disabled',
     semanticCls.root,
   );
@@ -353,7 +353,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       min: mergedMin,
       max: mergedMax,
       direction,
-      disabled,
+      disabled: mergedDisabled,
       keyboard,
       step: mergedStep,
       included,
@@ -366,7 +366,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       mergedMin,
       mergedMax,
       direction,
-      disabled,
+      mergedDisabled,
       keyboard,
       mergedStep,
       included,
@@ -386,7 +386,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
         <Tracks
           prefixCls={prefixCls}
           values={rawValues}
-          onStartDrag={mergedDraggableTrack ? onStartDrag : undefined}
+          onStartMove={mergedDraggableTrack ? onStartDrag : undefined}
         />
 
         <Steps prefixCls={prefixCls} marks={markList} dots={dots} />
@@ -397,7 +397,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
           values={cacheValues}
           draggingIndex={draggingIndex}
           tooltip={tooltip}
-          onStartDrag={onStartDrag}
+          onStartMove={onStartDrag}
           onOffsetChange={onHandleOffsetChange}
           onFocus={onFocus}
           onBlur={onBlur}
