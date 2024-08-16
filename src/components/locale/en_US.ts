@@ -155,6 +155,9 @@ const localeValues: Locale = {
   },
   ColorPicker: {
     presetEmpty: 'Empty',
+    transparent: 'Transparent',
+    singleColor: 'Single',
+    gradientColor: 'Gradient',
   },
 };
 

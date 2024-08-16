@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type Color from '../Color';
+import type { AggregationColor } from '../color';
 import type { TransformOffset } from '../interface';
 
 type EventType =
@@ -11,7 +11,7 @@ type EventType =
 type EventHandle = (e: EventType) => void;
 
 interface useColorDragProps {
-  color: Color;
+  color: AggregationColor;
   containerRef: React.RefObject<HTMLDivElement>;
   targetRef: React.RefObject<HTMLDivElement>;
   direction?: 'x' | 'y';

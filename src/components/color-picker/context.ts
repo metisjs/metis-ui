@@ -1,8 +1,7 @@
 import React from 'react';
-
 import type { GetProp } from '../_util/type';
-import type { AggregationColor } from './Color';
-import type { ModeOptions } from './hooks/useModeColor';
+import type { AggregationColor } from './color';
+import type { ModeOptions } from './hooks/useMode';
 import type { ColorFormatType, ColorPickerProps, ModeType, PresetsItem } from './interface';
 
 export interface PanelPickerContextProps {

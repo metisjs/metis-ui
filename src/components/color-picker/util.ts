@@ -1,36 +1,38 @@
-import Color from './Color';
-import type { ColorGenInput, HSBAColorType, TransformOffset } from './interface';
+import { AggregationColor, Color } from './color';
+import type { ColorGenInput, ColorValueType, HSBAColorType, TransformOffset } from './interface';
 
-export const ColorPickerPrefixCls = 'rc-color-picker';
-
-export const generateColor = (color?: ColorGenInput): Color => {
-  if (color instanceof Color) {
+export const generateColor = (
+  color: ColorGenInput<AggregationColor> | Exclude<ColorValueType, null>,
+): AggregationColor => {
+  if (color instanceof AggregationColor) {
     return color;
   }
-  return new Color(color);
+  return new AggregationColor(color);
 };
 
 export const getRoundNumber = (value: number) => Math.round(Number(value || 0));
 
-export const genHueColor = (color: Color, hue: number) => {
-  const newColor = color.clone();
-  newColor.toHsv().h = hue;
-  return new Color(newColor);
+export const getColorAlpha = (color: AggregationColor) => getRoundNumber(color.toHsb().a * 100);
+
+export const genHueColor = (color: AggregationColor, hue: number) => {
+  const hsba = color.toHsb();
+  hsba.h = hue;
+  return generateColor(hsba);
 };
 
-export const genAlphaColor = (color: Color, alpha: number = 1) => {
-  const newColor = color.clone();
-  newColor.setAlpha(alpha);
-  return newColor;
+export const genAlphaColor = (color: AggregationColor, alpha?: number) => {
+  const hsba = color.toHsb();
+  hsba.a = alpha ?? 1;
+  return generateColor(hsba);
 };
 
 export const calculateColor = (props: {
   offset: TransformOffset;
   containerRef: React.RefObject<HTMLDivElement>;
   targetRef: React.RefObject<HTMLDivElement>;
-  color: Color;
+  color: AggregationColor;
   type?: HSBAColorType;
-}): Color => {
+}): AggregationColor => {
   const { offset, targetRef, containerRef, color, type } = props;
   const { width, height } = containerRef.current!.getBoundingClientRect();
   const { width: targetWidth, height: targetHeight } = targetRef.current!.getBoundingClientRect();
@@ -65,7 +67,7 @@ export const calculateColor = (props: {
   });
 };
 
-export const calcOffset = (color: Color, type?: HSBAColorType) => {
+export const calcOffset = (color: AggregationColor, type?: HSBAColorType) => {
   const hsb = color.toHsb();
 
   switch (type) {
@@ -76,7 +78,7 @@ export const calcOffset = (color: Color, type?: HSBAColorType) => {
       };
     case 'alpha':
       return {
-        x: color.a * 100,
+        x: hsb.a * 100,
         y: 50,
       };
 
@@ -130,3 +132,7 @@ export const getGradientPercentColor = (
 
   return '';
 };
+
+export function sortColors(colors: { percent: number; color: string }[]) {
+  return [...colors].sort((a, b) => a.percent - b.percent);
+}

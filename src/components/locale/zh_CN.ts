@@ -152,9 +152,13 @@ const localeValues: Locale = {
   QRCode: {
     expired: '二维码过期',
     refresh: '点击刷新',
+    scanned: '已扫描',
   },
   ColorPicker: {
     presetEmpty: '暂无',
+    transparent: '无色',
+    singleColor: '单色',
+    gradientColor: '渐变色',
   },
 };
 

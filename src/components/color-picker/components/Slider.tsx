@@ -8,25 +8,16 @@ import {
   SliderInternalContextProps,
   UnstableContext,
 } from '../../slider/context';
-import Color from '../Color';
-import type { HSBAColorType } from '../interface';
-import { getGradientPercentColor } from '../util';
+import { AggregationColor, GradientColor } from '../color';
+import type { ColorPickerProps, HSBAColorType } from '../interface';
+import { getGradientPercentColor, sortColors } from '../util';
 
-export interface SingleSliderProps {
+export interface BaseSliderProps {
   prefixCls: string;
   colors: { percent: number; color: string }[];
   min: number;
   max: number;
-  value: number;
-  disabled: boolean;
-  onChange: (value: number) => void;
-  onChangeComplete: (value: number) => void;
-  type: HSBAColorType;
-  color: Color;
-}
-
-export interface GradientSliderProps
-  extends Omit<SingleSliderProps, 'value' | 'onChange' | 'onChangeComplete' | 'type'> {
+  color: AggregationColor;
   value: number[];
   onChange?: (value: number[]) => void;
   onChangeComplete: (value: number[]) => void;
@@ -39,12 +30,30 @@ export interface GradientSliderProps
   // Drag events
   onDragStart?: GetContextProp<typeof UnstableContext, 'onDragStart'>;
   onDragChange?: GetContextProp<typeof UnstableContext, 'onDragChange'>;
-
-  // Key event
-  onKeyDelete?: (index: number) => void;
 }
 
-export const GradientSlider = (props: GradientSliderProps) => {
+export interface SingleSliderProps
+  extends Omit<BaseSliderProps, 'value' | 'onChange' | 'onChangeComplete' | 'type'> {
+  value: number;
+  onChange: (value: number) => void;
+  onChangeComplete: (value: number) => void;
+  type: HSBAColorType;
+}
+
+export interface GradientSliderProps
+  extends Omit<
+    BaseSliderProps,
+    'colors' | 'onChange' | 'onChangeComplete' | 'type' | 'color' | 'value'
+  > {
+  colors: GradientColor;
+  onDragging: (dragging: boolean) => void;
+  onChange: (value?: AggregationColor, pickColor?: boolean) => void;
+  onChangeComplete: GetProp<ColorPickerProps, 'onChangeComplete'>;
+  activeIndex: number;
+  onActive: (index: number) => void;
+}
+
+export const BaseSlider = (props: BaseSliderProps) => {
   const {
     prefixCls,
     colors,
@@ -57,7 +66,6 @@ export const GradientSlider = (props: GradientSliderProps) => {
 
     onDragStart,
     onDragChange,
-    onKeyDelete,
 
     ...restProps
   } = props;
@@ -100,7 +108,7 @@ export const GradientSlider = (props: GradientSliderProps) => {
   // ======================= Context: Render ========================
   const handleRender: GetProp<SliderInternalContextProps, 'handleRender'> = useEvent(
     (ori, info) => {
-      const { onFocus, style, className: handleCls, onKeyDown } = ori.props;
+      const { onFocus, style, className: handleCls } = ori.props;
 
       // Point Color
       const mergedStyle = { ...style };
@@ -117,13 +125,6 @@ export const GradientSlider = (props: GradientSliderProps) => {
         className: clsx(handleCls, {
           [`${prefixCls}-slider-handle-active`]: activeIndex === info.index,
         }),
-        onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
-          if ((e.key === 'Delete' || e.key === 'Backspace') && onKeyDelete) {
-            onKeyDelete(info.index);
-          }
-
-          onKeyDown?.(e);
-        },
       });
     },
   );
@@ -168,12 +169,107 @@ const SingleSlider = (props: SingleSliderProps) => {
   const singleOnChangeComplete = (v: number[]) => onChangeComplete(v[0]);
 
   return (
-    <GradientSlider
+    <BaseSlider
       {...props}
       range={false}
       value={[value]}
       onChange={singleOnChange}
       onChangeComplete={singleOnChangeComplete}
+    />
+  );
+};
+
+export const GradientSlider = (props: GradientSliderProps) => {
+  const { prefixCls, onChange, onChangeComplete, onActive, activeIndex, onDragging, colors } =
+    props;
+
+  // ============================= Colors =============================
+  const colorList = React.useMemo(
+    () =>
+      colors.map((info) => ({
+        percent: info.percent,
+        color: info.color.toRgbString(),
+      })),
+    [colors],
+  );
+
+  const values = React.useMemo(() => colorList.map((info) => info.percent), [colorList]);
+
+  // ============================== Drag ==============================
+  const colorsRef = React.useRef(colorList);
+
+  // Record current colors
+  const onDragStart: GetContextProp<typeof UnstableContext, 'onDragStart'> = ({
+    rawValues,
+    draggingIndex,
+    draggingValue = 0,
+  }) => {
+    if (rawValues.length > colorList.length) {
+      // Add new node
+      const newPointColor = getGradientPercentColor(colorList, draggingValue);
+      const nextColors = [...colorList];
+      nextColors.splice(draggingIndex, 0, {
+        percent: draggingValue,
+        color: newPointColor,
+      });
+
+      colorsRef.current = nextColors;
+    } else {
+      colorsRef.current = colorList;
+    }
+
+    onDragging(true);
+    onChange(new AggregationColor(sortColors(colorsRef.current)), true);
+  };
+
+  // Adjust color when dragging
+  const onDragChange: GetContextProp<typeof UnstableContext, 'onDragChange'> = ({
+    draggingIndex,
+    draggingValue = 0,
+  }) => {
+    let nextColors = [...colorsRef.current];
+
+    nextColors[draggingIndex] = {
+      ...nextColors[draggingIndex],
+      percent: draggingValue,
+    };
+
+    nextColors = sortColors(nextColors);
+
+    onChange(new AggregationColor(nextColors), true);
+  };
+
+  // ============================= Change =============================
+  const onInternalChangeComplete = (nextValues: number[]) => {
+    onChangeComplete(new AggregationColor(colorList));
+
+    // Reset `activeIndex` if out of range
+    if (activeIndex >= nextValues.length) {
+      onActive(nextValues.length - 1);
+    }
+
+    onDragging(false);
+  };
+
+  // ============================= Render =============================
+  return (
+    <BaseSlider
+      min={0}
+      max={100}
+      prefixCls={prefixCls}
+      className={`${prefixCls}-gradient-slider`}
+      colors={colorList}
+      color={null!}
+      value={values}
+      range
+      onChangeComplete={onInternalChangeComplete}
+      type="gradient"
+      // Active
+      activeIndex={activeIndex}
+      onActive={onActive}
+      // Drag
+      onDragStart={onDragStart}
+      onDragChange={onDragChange}
     />
   );
 };
