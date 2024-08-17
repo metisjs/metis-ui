@@ -1,6 +1,6 @@
 import { devUseWarning } from '../../_util/warning';
-import { InternalCascaderProps } from '../Cascader';
-import { DefaultOptionType, FieldNames } from '../interface';
+import type { InternalCascaderProps } from '../Cascader';
+import type { DefaultOptionType, FieldNames } from '../interface';
 
 function warningProps(props: InternalCascaderProps) {
   const warning = devUseWarning('Cascader');

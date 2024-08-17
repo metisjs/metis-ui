@@ -1,7 +1,9 @@
 import type { CSSProperties, FC } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
-import { TransitionList, TransitionProps } from '../transition';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { TransitionProps } from '../transition';
+import { TransitionList } from '../transition';
 import useStack from './hooks/useStack';
 import type {
   InnerOpenConfig,

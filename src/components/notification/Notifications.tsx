@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { TransitionProps } from '../transition';
+import type { TransitionProps } from '../transition';
 import type {
   InnerOpenConfig,
   NotificationPlacement,
@@ -8,7 +8,8 @@ import type {
   OpenConfig,
   StackConfig,
 } from './interface';
-import NoticeList, { NoticeListProps } from './NoticeList';
+import type { NoticeListProps } from './NoticeList';
+import NoticeList from './NoticeList';
 
 export interface NotificationsProps {
   prefixCls: string;

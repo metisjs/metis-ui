@@ -1,4 +1,4 @@
-import { TransitionProps } from '../transition';
+import type { TransitionProps } from '../transition';
 
 const collapseTransition: TransitionProps = {
   enter: 'transition-all ease-in overflow-hidden',

@@ -1,4 +1,4 @@
-import { AlignType, BuildInPlacements } from '../trigger';
+import type { AlignType, BuildInPlacements } from '../trigger';
 
 export interface AdjustOverflow {
   adjustX?: 0 | 1;

@@ -1,4 +1,4 @@
-import { BaseInputProps, InputFocusOptions, InputProps } from './interface';
+import type { BaseInputProps, InputFocusOptions, InputProps } from './interface';
 
 export function hasAddon(props: BaseInputProps | InputProps) {
   return !!(props.addonBefore || props.addonAfter);

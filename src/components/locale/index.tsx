@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 // import { changeConfirmLocale } from '../modal/locale';
-import { EmptyLocale } from '../empty';
-import { ModalLocale } from '../modal/interface';
+import type { EmptyLocale } from '../empty';
+import type { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
-import { PopconfirmLocale } from '../popconfirm/Overlay';
+import type { PopconfirmLocale } from '../popconfirm/Overlay';
 import type { LocaleContextProps } from './context';
 import LocaleContext from './context';
 

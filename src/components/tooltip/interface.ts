@@ -1,6 +1,6 @@
-import { SemanticClassName } from '../_util/classNameUtils';
-import { AdjustOverflow } from '../_util/placements';
-import { TransitionProps } from '../transition';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { AdjustOverflow } from '../_util/placements';
+import type { TransitionProps } from '../transition';
 import type { ActionType, AlignType, ArrowType, BuildInPlacements, TriggerProps } from '../trigger';
 
 export interface AbstractTooltipProps

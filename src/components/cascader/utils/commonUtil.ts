@@ -1,7 +1,7 @@
-import { RawValueType } from '../../select/interface';
-import { InternalFieldNames } from '../Cascader';
+import type { RawValueType } from '../../select/interface';
+import type { InternalFieldNames } from '../Cascader';
 import { SEARCH_MARK } from '../hooks/useFilterOptions';
-import {
+import type {
   DefaultOptionType,
   DraftValueType,
   FieldNames,

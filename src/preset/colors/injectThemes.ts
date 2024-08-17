@@ -1,8 +1,8 @@
 import { TinyColor } from '@ctrl/tinycolor';
 import get from 'lodash/get';
 import twColors from 'tailwindcss/colors';
-import { PluginAPI } from 'tailwindcss/types/config';
-import { DefaultColors } from 'tailwindcss/types/generated/colors';
+import type { PluginAPI } from 'tailwindcss/types/config';
+import type { DefaultColors } from 'tailwindcss/types/generated/colors';
 import colorPalette from './colorPalette';
 import { PREFERS_COLOR_KEY } from './constants';
 import themes from './themes';

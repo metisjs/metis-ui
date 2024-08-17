@@ -1,6 +1,7 @@
 import React from 'react';
-import { NotificationAPI, NotificationConfig, OpenConfig } from './interface';
-import Notifications, { NotificationsRef } from './Notifications';
+import type { NotificationAPI, NotificationConfig, OpenConfig } from './interface';
+import type { NotificationsRef } from './Notifications';
+import Notifications from './Notifications';
 import { mergeConfig } from './util';
 
 export interface NotificationHolderProps extends Omit<NotificationConfig, 'top' | 'bottom'> {

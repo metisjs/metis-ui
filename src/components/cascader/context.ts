@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { InternalFieldNames } from './Cascader';
-import {
+import type { InternalFieldNames } from './Cascader';
+import type {
   CascaderProps,
   DefaultOptionType,
   LabeledValueType,

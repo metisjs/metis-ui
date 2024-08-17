@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { AbstractCheckboxProps, CheckboxChangeEvent, CheckboxRef } from '../checkbox/Checkbox';
 import type { AbstractCheckboxGroupProps } from '../checkbox/Group';
 import type { DisabledType } from '../config-provider/DisabledContext';

@@ -1,8 +1,9 @@
-import getMiniDecimal, {
+import type {
   DecimalClass,
+  ValueType} from '@rc-component/mini-decimal';
+import getMiniDecimal, {
   num2str,
-  trimNumber,
-  ValueType,
+  trimNumber
 } from '@rc-component/mini-decimal';
 
 export function getDecupleSteps(step: string | number) {

@@ -1,11 +1,12 @@
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { clsx } from '../../_util/classNameUtils';
-import {
-  TransitionStatus,
-  TransitionStep,
+import type {
   TransitionStyle,
   TransitionStyleFn,
-  TransitionStyleType,
+  TransitionStyleType} from '../interface';
+import {
+  TransitionStatus,
+  TransitionStep
 } from '../interface';
 
 export function splitStyle(node: HTMLElement, style?: TransitionStyle | TransitionStyleFn) {

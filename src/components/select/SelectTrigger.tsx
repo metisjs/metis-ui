@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
-import { TransitionProps } from '../transition';
-import Trigger, { AlignType, BuildInPlacements } from '../trigger';
+import type { TransitionProps } from '../transition';
+import type { AlignType, BuildInPlacements } from '../trigger';
+import Trigger from '../trigger';
 import type { Placement, RenderDOMFunc } from './BaseSelect';
 
 const getBuiltInPlacements = (

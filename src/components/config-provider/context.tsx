@@ -1,10 +1,10 @@
 import * as React from 'react';
 // import type { RequiredMark } from '../form/Form';
-import { InputProps } from 'rc-input';
-import { ButtonProps } from '../button';
-import { Locale } from '../locale';
-import { PaginationProps } from '../pagination';
-import { SpaceProps } from '../space';
+import type { InputProps } from 'rc-input';
+import type { ButtonProps } from '../button';
+import type { Locale } from '../locale';
+import type { PaginationProps } from '../pagination';
+import type { SpaceProps } from '../space';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 
 export type PopupOverflow = 'viewport' | 'scroll';

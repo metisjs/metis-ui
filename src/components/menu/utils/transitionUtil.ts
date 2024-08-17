@@ -1,4 +1,4 @@
-import { TransitionProps } from '../../transition';
+import type { TransitionProps } from '../../transition';
 
 export function getTransition(
   mode: string,

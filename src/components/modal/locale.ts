@@ -1,5 +1,5 @@
 import defaultLocale from '../locale/zh_CN';
-import { ModalLocale } from './interface';
+import type { ModalLocale } from './interface';
 
 let runtimeLocale: ModalLocale = {
   ...(defaultLocale.Modal as ModalLocale),

@@ -1,7 +1,7 @@
 import { devUseWarning, noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
 import type { BaseOptionType, FieldNames, OptionInValueType, RawValueType } from '../interface';
-import { InternalSelectProps } from '../Select';
+import type { InternalSelectProps } from '../Select';
 import { toArray } from './commonUtil';
 import { fillFieldNames } from './valueUtil';
 

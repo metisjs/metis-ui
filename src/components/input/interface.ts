@@ -6,11 +6,11 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
-import { InputStatus } from '../_util/statusUtils';
-import { LiteralUnion } from '../_util/type';
-import { Variant } from '../config-provider';
-import { SizeType } from '../config-provider/SizeContext';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { InputStatus } from '../_util/statusUtils';
+import type { LiteralUnion } from '../_util/type';
+import type { Variant } from '../config-provider';
+import type { SizeType } from '../config-provider/SizeContext';
 
 type DataAttr = Record<`data-${string}`, string>;
 

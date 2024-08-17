@@ -1,4 +1,4 @@
-import { Variant } from '../config-provider';
+import type { Variant } from '../config-provider';
 import type { ValidateStatus } from '../form/FormItem';
 import { clsx } from './classNameUtils';
 

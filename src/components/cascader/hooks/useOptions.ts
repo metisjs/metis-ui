@@ -1,9 +1,10 @@
 import * as React from 'react';
 import type { DefaultOptionType } from '..';
 import type { InternalFieldNames } from '../Cascader';
-import { MultiValueType, SingleValueType } from '../interface';
+import type { MultiValueType, SingleValueType } from '../interface';
 import { toPathOptions } from '../utils/treeUtil';
-import useEntities, { GetEntities } from './useEntities';
+import type { GetEntities } from './useEntities';
+import useEntities from './useEntities';
 
 export default function useOptions(
   fieldNames: InternalFieldNames,

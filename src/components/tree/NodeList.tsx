@@ -4,8 +4,9 @@
 
 import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import VirtualList, { ListRef } from 'rc-virtual-list';
-import {
+import type { ListRef } from 'rc-virtual-list';
+import VirtualList from 'rc-virtual-list';
+import type {
   BasicDataNode,
   DataEntity,
   DataNode,

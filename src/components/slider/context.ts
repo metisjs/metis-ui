@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HandleProps } from './Handles/Handle';
+import type { HandleProps } from './Handles/Handle';
 import type { Direction, SemanticName } from './interface';
 
 export interface SliderContextProps {

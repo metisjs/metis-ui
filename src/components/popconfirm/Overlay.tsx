@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PopconfirmProps } from '.';
+import type { PopconfirmProps } from '.';
 import ActionButton from '../_util/ActionButton';
 import { clsx } from '../_util/classNameUtils';
 import { getRenderPropValue } from '../_util/getRenderPropValue';

@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
 
 // ========================= Options =========================
 export interface SubMenuType<T extends MenuItemType = MenuItemType> {

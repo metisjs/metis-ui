@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { InternalFieldNames } from '../Cascader';
-import { CascaderProps, DefaultOptionType } from '../interface';
+import type { CascaderProps, DefaultOptionType } from '../interface';
 
 export const SEARCH_MARK = '__cascader_search_mark__';
 

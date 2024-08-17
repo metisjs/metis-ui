@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { clsx } from '../../_util/classNameUtils';
-import { useBaseProps } from '../../select';
-import { RefOptionListProps } from '../../select/BaseSelect';
+import type { useBaseProps } from '../../select';
+import type { RefOptionListProps } from '../../select/BaseSelect';
 import CascaderContext from '../context';
-import { DefaultOptionType, SingleValueType } from '../interface';
+import type { DefaultOptionType, SingleValueType } from '../interface';
 import {
   getFullPathKeys,
   isLeaf,

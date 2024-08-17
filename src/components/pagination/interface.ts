@@ -1,7 +1,7 @@
 import type React from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
-import { InputProps } from '../input';
-import { SelectProps } from '../select';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { InputProps } from '../input';
+import type { SelectProps } from '../select';
 
 export interface PaginationLocale {
   // Options

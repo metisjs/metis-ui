@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import { TransitionProps } from '../transition';
+import type { TransitionProps } from '../transition';
 
 export type NoticeType = 'info' | 'success' | 'error' | 'warning' | 'loading';
 
