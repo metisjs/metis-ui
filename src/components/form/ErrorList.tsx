@@ -1,8 +1,8 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import CSSMotion, { CSSMotionList } from 'rc-motion';
-import * as React from 'react';
-import { ConfigContext } from '../config-provider';
 import collapseMotion from '../_util/motion';
+import { ConfigContext } from '../config-provider';
 import { FormItemPrefixContext } from './context';
 import type { ValidateStatus } from './FormItem';
 import useDebounce from './hooks/useDebounce';
@@ -84,7 +84,7 @@ export default function ErrorList({
       visible={!!fullKeyList.length}
       onVisibleChanged={onVisibleChanged}
     >
-      {holderProps => {
+      {(holderProps) => {
         const { className: holderClassName, style: holderStyle } = holderProps;
 
         return (
@@ -100,7 +100,7 @@ export default function ErrorList({
               motionName={`${rootPrefixCls}-show-help-item`}
               component={false}
             >
-              {itemProps => {
+              {(itemProps) => {
                 const {
                   key,
                   error,

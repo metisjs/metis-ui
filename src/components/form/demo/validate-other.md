@@ -14,6 +14,7 @@ title:
 Demonstration of validation configuration for form controls which are not shown in the demos above.
 
 ```tsx
+import React from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -29,7 +30,6 @@ import {
   Switch,
   Upload,
 } from 'antd';
-import React from 'react';
 
 const { Option } = Select;
 

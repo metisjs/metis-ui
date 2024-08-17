@@ -1,7 +1,7 @@
+import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
 import omit from 'rc-util/lib/omit';
 import warning from 'rc-util/lib/warning';
-import * as React from 'react';
 import {
   BasicDataNode,
   DataEntity,
@@ -52,7 +52,7 @@ export function warningWithoutKey(treeData: DataNode[], fieldNames: FieldNames) 
   const keys: Map<string, boolean> = new Map();
 
   function dig(list: DataNode[], path: string = '') {
-    (list || []).forEach(treeNode => {
+    (list || []).forEach((treeNode) => {
       const key = treeNode[fieldNames.key];
       const children = treeNode[fieldNames.children];
       warning(
@@ -81,7 +81,7 @@ export function convertTreeToData(rootNodes: React.ReactNode): DataNode[] {
   function dig(node: React.ReactNode): DataNode[] {
     const treeNodes = toArray(node) as NodeElement[];
     return treeNodes
-      .map(treeNode => {
+      .map((treeNode) => {
         // Filter invalidate node
         if (!isTreeNode(treeNode)) {
           warning(!treeNode, 'Tree/TreeNode can only accept TreeNode as children.');
@@ -324,7 +324,7 @@ export function convertDataToEntities(
 
   traverseDataNodes(
     dataNodes,
-    item => {
+    (item) => {
       const { node, index, pos, key, parentPos, level, nodes } = item;
       const entity: DataEntity = { node, nodes, index, key, pos, level };
 

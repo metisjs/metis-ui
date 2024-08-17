@@ -15,9 +15,9 @@ debug: true
 Nest with `noStyle` field dynamic form.
 
 ```tsx
+import React from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
-import React from 'react';
 
 const App: React.FC = () => {
   const onFinish = (values: any) => {
@@ -30,7 +30,7 @@ const App: React.FC = () => {
         <Form.List name="users">
           {(fields, { add, remove }) => (
             <>
-              {fields.map(field => (
+              {fields.map((field) => (
                 <Space key={field.key} style={{ marginBottom: 16 }}>
                   <Form.Item noStyle name={[field.name, 'lastName']} rules={[{ required: true }]}>
                     <Input placeholder="Last Name" />

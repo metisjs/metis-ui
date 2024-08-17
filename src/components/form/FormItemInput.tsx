@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 import type { ColProps } from '../grid/col';
 import Col from '../grid/col';
 import { FormContext, FormItemPrefixContext } from './context';
@@ -35,7 +35,7 @@ export interface FormItemInputProps {
   fieldId?: string;
 }
 
-const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = props => {
+const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (props) => {
   const {
     prefixCls,
     status,

@@ -16,7 +16,7 @@ interface ConductReturnType {
 
 function removeFromCheckedKeys(halfCheckedKeys: Set<Key>, checkedKeys: Set<Key>) {
   const filteredKeys = new Set<Key>();
-  halfCheckedKeys.forEach(key => {
+  halfCheckedKeys.forEach((key) => {
     if (!checkedKeys.has(key)) {
       filteredKeys.add(key);
     }
@@ -42,13 +42,13 @@ function fillConductCheck<TreeDataType extends BasicDataNode = DataNode>(
   // Add checked keys top to bottom
   for (let level = 0; level <= maxLevel; level += 1) {
     const entities = levelEntities.get(level) || new Set();
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const { key, node, children = [] } = entity;
 
       if (checkedKeys.has(key) && !syntheticGetCheckDisabled(node)) {
         children
-          .filter(childEntity => !syntheticGetCheckDisabled(childEntity.node))
-          .forEach(childEntity => {
+          .filter((childEntity) => !syntheticGetCheckDisabled(childEntity.node))
+          .forEach((childEntity) => {
             checkedKeys.add(childEntity.key);
           });
       }
@@ -59,7 +59,7 @@ function fillConductCheck<TreeDataType extends BasicDataNode = DataNode>(
   const visitedKeys = new Set<Key>();
   for (let level = maxLevel; level >= 0; level -= 1) {
     const entities = levelEntities.get(level) || new Set();
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const { parent, node } = entity;
 
       // Skip if no need to check
@@ -77,7 +77,7 @@ function fillConductCheck<TreeDataType extends BasicDataNode = DataNode>(
       let partialChecked = false;
 
       (parent.children || [])
-        .filter(childEntity => !syntheticGetCheckDisabled(childEntity.node))
+        .filter((childEntity) => !syntheticGetCheckDisabled(childEntity.node))
         .forEach(({ key }) => {
           const checked = checkedKeys.has(key);
           if (allChecked && !checked) {
@@ -119,13 +119,13 @@ function cleanConductCheck<TreeDataType extends BasicDataNode = DataNode>(
   // Remove checked keys from top to bottom
   for (let level = 0; level <= maxLevel; level += 1) {
     const entities = levelEntities.get(level) || new Set();
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const { key, node, children = [] } = entity;
 
       if (!checkedKeys.has(key) && !halfCheckedKeys.has(key) && !syntheticGetCheckDisabled(node)) {
         children
-          .filter(childEntity => !syntheticGetCheckDisabled(childEntity.node))
-          .forEach(childEntity => {
+          .filter((childEntity) => !syntheticGetCheckDisabled(childEntity.node))
+          .forEach((childEntity) => {
             checkedKeys.delete(childEntity.key);
           });
       }
@@ -138,7 +138,7 @@ function cleanConductCheck<TreeDataType extends BasicDataNode = DataNode>(
   for (let level = maxLevel; level >= 0; level -= 1) {
     const entities = levelEntities.get(level) || new Set();
 
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const { parent, node } = entity;
 
       // Skip if no need to check
@@ -156,7 +156,7 @@ function cleanConductCheck<TreeDataType extends BasicDataNode = DataNode>(
       let partialChecked = false;
 
       (parent.children || [])
-        .filter(childEntity => !syntheticGetCheckDisabled(childEntity.node))
+        .filter((childEntity) => !syntheticGetCheckDisabled(childEntity.node))
         .forEach(({ key }) => {
           const checked = checkedKeys.has(key);
           if (allChecked && !checked) {
@@ -207,7 +207,7 @@ export function conductCheck<TreeDataType extends BasicDataNode = DataNode>(
 
   // We only handle exist keys
   const keys = new Set<Key>(
-    keyList.filter(key => {
+    keyList.filter((key) => {
       const hasEntity = !!getEntity(keyEntities, key);
       if (!hasEntity) {
         warningMissKeys.push(key);
@@ -220,7 +220,7 @@ export function conductCheck<TreeDataType extends BasicDataNode = DataNode>(
   let maxLevel = 0;
 
   // Convert entities by level for calculation
-  Object.keys(keyEntities).forEach(key => {
+  Object.keys(keyEntities).forEach((key) => {
     const entity = keyEntities[key];
     const { level } = entity;
 
@@ -239,7 +239,7 @@ export function conductCheck<TreeDataType extends BasicDataNode = DataNode>(
     !warningMissKeys.length,
     `Tree missing follow keys: ${warningMissKeys
       .slice(0, 100)
-      .map(key => `'${key}'`)
+      .map((key) => `'${key}'`)
       .join(', ')}`,
   );
 

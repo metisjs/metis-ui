@@ -15,8 +15,8 @@ See issue [#32980](https://github.com/ant-design/ant-design/issues/32980).
 See issue [#32980](https://github.com/ant-design/ant-design/issues/32980).
 
 ```tsx
-import { Button, Select, Form, Input, Divider } from 'antd';
 import React from 'react';
+import { Button, Divider, Form, Input, Select } from 'antd';
 
 const sharedItem = (
   <Form.Item

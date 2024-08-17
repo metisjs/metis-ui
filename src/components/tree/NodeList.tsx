@@ -2,9 +2,9 @@
  * Handle virtual list of the TreeNodes.
  */
 
+import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import VirtualList, { ListRef } from 'rc-virtual-list';
-import * as React from 'react';
 import {
   BasicDataNode,
   DataEntity,
@@ -179,7 +179,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
   const listRef = React.useRef<ListRef>(null);
   const indentMeasurerRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => ({
-    scrollTo: scroll => {
+    scrollTo: (scroll) => {
       listRef.current.scrollTo(scroll);
     },
     getIndentWidth: () => indentMeasurerRef.current.offsetWidth,
@@ -328,15 +328,15 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
         ref={listRef}
         onVisibleChange={(originList, fullList) => {
           const originSet = new Set(originList);
-          const restList = fullList.filter(item => !originSet.has(item));
+          const restList = fullList.filter((item) => !originSet.has(item));
 
           // Motion node is not render. Skip motion
-          if (restList.some(item => itemKey(item) === MOTION_KEY)) {
+          if (restList.some((item) => itemKey(item) === MOTION_KEY)) {
             onMotionEnd();
           }
         }}
       >
-        {treeNode => {
+        {(treeNode) => {
           const {
             pos,
             data: { ...restProps },

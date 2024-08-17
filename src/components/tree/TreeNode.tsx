@@ -1,6 +1,6 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import * as React from 'react';
 // @ts-ignore
 import { TreeContext, TreeContextProps } from './contextTypes';
 import Indent from './Indent';
@@ -181,7 +181,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
   };
 
   // Disabled item still can be switch
-  onExpand: React.MouseEventHandler<HTMLDivElement> = e => {
+  onExpand: React.MouseEventHandler<HTMLDivElement> = (e) => {
     const {
       loading,
       context: { onNodeExpand },
@@ -191,7 +191,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
   };
 
   // Drag usage
-  setSelectHandle = node => {
+  setSelectHandle = (node) => {
     this.selectHandle = node;
   };
 
@@ -579,12 +579,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
         {...ariaSelected}
         {...dataOrAriaAttributeProps}
       >
-        <Indent
-          prefixCls={prefixCls}
-          level={level}
-          isStart={isStart}
-          isEnd={isEnd}
-        />
+        <Indent prefixCls={prefixCls} level={level} isStart={isStart} isEnd={isEnd} />
         {this.renderDragHandler()}
         {this.renderSwitcher()}
         {this.renderCheckbox()}
@@ -594,9 +589,9 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
   }
 }
 
-const ContextTreeNode: React.FC<TreeNodeProps> = props => (
+const ContextTreeNode: React.FC<TreeNodeProps> = (props) => (
   <TreeContext.Consumer>
-    {context => <InternalTreeNode {...props} context={context} />}
+    {(context) => <InternalTreeNode {...props} context={context} />}
   </TreeContext.Consumer>
 );
 

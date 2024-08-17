@@ -1,7 +1,7 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import CSSMotion from 'rc-motion';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import * as React from 'react';
 import { TreeContext } from './contextTypes';
 import { FlattenNode, TreeNodeProps } from './interface';
 import TreeNode from './TreeNode';

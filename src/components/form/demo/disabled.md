@@ -18,17 +18,17 @@ Set component disabled, only works for antd components.
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import {
+  Button,
+  Cascader,
+  Checkbox,
+  DatePicker,
   Form,
   Input,
-  Button,
+  InputNumber,
   Radio,
   Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
   Switch,
-  Checkbox,
+  TreeSelect,
   Upload,
 } from 'antd';
 
@@ -43,7 +43,10 @@ const FormDisabledDemo = () => {
 
   return (
     <>
-      <Checkbox checked={componentDisabled} onChange={e => setComponentDisabled(e.target.checked)}>
+      <Checkbox
+        checked={componentDisabled}
+        onChange={(e) => setComponentDisabled(e.target.checked)}
+      >
         Form disabled
       </Checkbox>
       <Form

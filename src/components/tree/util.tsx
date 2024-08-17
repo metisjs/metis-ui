@@ -3,8 +3,8 @@
  * Legacy code. Should avoid to use if you are new to import these code.
  */
 
-import warning from 'rc-util/lib/warning';
 import React from 'react';
+import warning from 'rc-util/lib/warning';
 import {
   BasicDataNode,
   DataEntity,
@@ -125,7 +125,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   if (clientY < top + height / 2) {
     // first half, set abstract drop node to previous node
     const nodeIndex = flattenedNodes.findIndex(
-      flattenedNode => flattenedNode.key === abstractDropNodeEntity.key,
+      (flattenedNode) => flattenedNode.key === abstractDropNodeEntity.key,
     );
     const prevNodeIndex = nodeIndex <= 0 ? 0 : nodeIndex - 1;
     const prevNodeKey = flattenedNodes[prevNodeIndex].key;
@@ -354,7 +354,7 @@ export function conductExpandParent(keyList: Key[], keyEntities: KeyEntities): K
     }
   }
 
-  (keyList || []).forEach(key => {
+  (keyList || []).forEach((key) => {
     conductUp(key);
   });
 

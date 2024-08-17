@@ -1,12 +1,11 @@
 // TODO: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/treeview/treeview-2/treeview-2a.html
 // Fully accessibility support
 
+import * as React from 'react';
 import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import warning from 'rc-util/lib/warning';
-import * as React from 'react';
-
 import {
   NodeDragEventHandler,
   NodeDragEventParams,
@@ -397,7 +396,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
     } else if (!prevProps && props.defaultExpandAll) {
       const cloneKeyEntities = { ...keyEntities };
       delete cloneKeyEntities[MOTION_KEY];
-      newState.expandedKeys = Object.keys(cloneKeyEntities).map(key => cloneKeyEntities[key].key);
+      newState.expandedKeys = Object.keys(cloneKeyEntities).map((key) => cloneKeyEntities[key].key);
     } else if (!prevProps && props.defaultExpandedKeys) {
       newState.expandedKeys =
         props.autoExpandParent || props.defaultExpandParent
@@ -549,7 +548,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
     if (!this.delayedDragEnterLogic) {
       this.delayedDragEnterLogic = {};
     }
-    Object.keys(this.delayedDragEnterLogic).forEach(key => {
+    Object.keys(this.delayedDragEnterLogic).forEach((key) => {
       clearTimeout(this.delayedDragEnterLogic[key]);
     });
 
@@ -700,7 +699,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
 
   // since stopPropagation() is called in treeNode
   // if onWindowDrag is called, whice means state is keeped, drag state should be cleared
-  onWindowDragEnd = event => {
+  onWindowDragEnd = (event) => {
     this.onNodeDragEnd(event, null, true);
     window.removeEventListener('dragend', this.onWindowDragEnd);
   };
@@ -803,7 +802,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
       return;
     }
 
-    const node = flattenNodes.filter(nodeItem => nodeItem.key === key)[0];
+    const node = flattenNodes.filter((nodeItem) => nodeItem.key === key)[0];
     const eventNode = convertNodePropsToEventData<TreeDataType>({
       ...getTreeNodeProps(key, this.getTreeNodeRequiredProps()),
       data: node.data,
@@ -852,13 +851,13 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
 
     // [Legacy] Not found related usage in doc or upper libs
     const selectedNodes = selectedKeys
-      .map(selectedKey => {
+      .map((selectedKey) => {
         const entity = getEntity(keyEntities, selectedKey);
         if (!entity) return null;
 
         return entity.node;
       })
-      .filter(node => node);
+      .filter((node) => node);
 
     this.setUncontrolledState({ selectedKeys });
 
@@ -899,9 +898,9 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
       checkedObj = { checked: checkedKeys, halfChecked: halfCheckedKeys };
 
       eventObj.checkedNodes = checkedKeys
-        .map(checkedKey => getEntity(keyEntities, checkedKey))
-        .filter(entity => entity)
-        .map(entity => entity.node);
+        .map((checkedKey) => getEntity(keyEntities, checkedKey))
+        .filter((entity) => entity)
+        .map((entity) => entity.node);
 
       this.setUncontrolledState({ checkedKeys });
     } else {
@@ -930,7 +929,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
       eventObj.checkedNodesPositions = [];
       eventObj.halfCheckedKeys = halfCheckedKeys;
 
-      checkedKeys.forEach(checkedKey => {
+      checkedKeys.forEach((checkedKey) => {
         const entity = getEntity(keyEntities, checkedKey);
         if (!entity) return;
 
@@ -990,14 +989,14 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
             this.setUncontrolledState({
               loadedKeys: newLoadedKeys,
             });
-            this.setState(prevState => ({
+            this.setState((prevState) => ({
               loadingKeys: arrDel(prevState.loadingKeys, key),
             }));
 
             resolve();
           })
-          .catch(e => {
-            this.setState(prevState => ({
+          .catch((e) => {
+            this.setState((prevState) => ({
               loadingKeys: arrDel(prevState.loadingKeys, key),
             }));
 
@@ -1228,7 +1227,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
     }
   };
 
-  onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = event => {
+  onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
     const { activeKey, expandedKeys, checkedKeys, fieldNames } = this.state;
     const { onKeyDown, checkable, selectable } = this.props;
 
@@ -1325,7 +1324,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
       let allPassed = true;
       const newState = {};
 
-      Object.keys(state).forEach(name => {
+      Object.keys(state).forEach((name) => {
         if (name in this.props) {
           allPassed = false;
           return;
@@ -1344,7 +1343,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
     }
   };
 
-  scrollTo: ScrollTo = scroll => {
+  scrollTo: ScrollTo = (scroll) => {
     this.listRef.current.scrollTo(scroll);
   };
 

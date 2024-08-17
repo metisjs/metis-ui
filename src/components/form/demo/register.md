@@ -14,6 +14,7 @@ title:
 Fill in this form to create a new account for you.
 
 ```tsx
+import React, { useState } from 'react';
 import {
   AutoComplete,
   Button,
@@ -26,7 +27,6 @@ import {
   Row,
   Select,
 } from 'antd';
-import React, { useState } from 'react';
 
 const { Option } = Select;
 
@@ -119,11 +119,11 @@ const App: React.FC = () => {
     if (!value) {
       setAutoCompleteResult([]);
     } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map(domain => `${value}${domain}`));
+      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
     }
   };
 
-  const websiteOptions = autoCompleteResult.map(website => ({
+  const websiteOptions = autoCompleteResult.map((website) => ({
     label: website,
     value: website,
   }));
