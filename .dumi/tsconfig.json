@@ -1,15 +1,7 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "baseUrl": "../",
-    "paths": {
-      "@@/*": [".dumi/tmp/*"],
-      "mate-ui": ["components/index.tsx"],
-      "mate-ui/es/*": ["components/*"],
-      "dumi/theme/*": [".dumi/theme/*"]
-    }
+    "resolveJsonModule": true
   },
-  "include": ["./**/*"]
+  "include": ["**/*", "../typings/index.d.ts"]
 }

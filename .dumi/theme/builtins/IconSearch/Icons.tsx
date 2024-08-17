@@ -1,3 +1,4 @@
+import React from 'react';
 import CopyableIcon from './CopyableIcon';
 import fields from './fields';
 

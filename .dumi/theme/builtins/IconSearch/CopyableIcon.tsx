@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as MetisIcons from '@metisjs/icons';
-import { Transition } from 'metis-ui';
-import { clsx } from 'metis-ui/es/_util/classNameUtils';
+import { clsx, Transition } from 'metis-ui';
 
 const allIcons: {
   [key: string]: any;
