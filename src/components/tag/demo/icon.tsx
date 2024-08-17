@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   AcademicCapOutline,
   BuildingOffice2Outline,
@@ -5,7 +6,6 @@ import {
   ShareOutline,
 } from '@metisjs/icons';
 import { Space, Tag } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space size={[0, 8]} wrap>

@@ -1,5 +1,5 @@
-import { Button, Popover, Space } from 'metis-ui';
 import React from 'react';
+import { Button, Popover, Space } from 'metis-ui';
 
 const content = (
   <div>

@@ -1,5 +1,5 @@
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import React from 'react';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { SegmentedValue } from '.';
 import { clsx } from '../_util/classNameUtils';
 import Transition from '../transition';

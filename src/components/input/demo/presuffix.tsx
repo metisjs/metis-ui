@@ -1,6 +1,6 @@
+import React from 'react';
 import { InformationCircleOutline, UsersSolid } from '@metisjs/icons';
 import { Input, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space vertical className="flex">

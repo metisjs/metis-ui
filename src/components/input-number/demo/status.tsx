@@ -1,6 +1,6 @@
+import React from 'react';
 import { ClockOutline } from '@metisjs/icons';
 import { InputNumber, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space vertical block>

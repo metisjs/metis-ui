@@ -1,17 +1,17 @@
+import type { MutableRefObject } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useState from 'rc-util/lib/hooks/useState';
-import { MutableRefObject, useEffect, useMemo, useRef } from 'react';
 import useLatestValue from '../../_util/hooks/useLatestValue';
-import {
+import type {
   TransitionBeforeEventHandler,
   TransitionEventHandler,
-  TransitionStatus,
-  TransitionStep,
   TransitionStyle,
 } from '../interface';
+import { TransitionStatus, TransitionStep } from '../interface';
 import { getStylesByStatusAndStep } from '../util/style';
 import useDomEvents from './useDomEvents';
-import useStepQueue, { DoStep, SkipStep, isActive } from './useStepQueue';
+import useStepQueue, { DoStep, isActive, SkipStep } from './useStepQueue';
 
 interface StatusArgs {
   appear?: boolean;

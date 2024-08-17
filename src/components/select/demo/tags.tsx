@@ -1,6 +1,6 @@
+import React from 'react';
 import type { SelectProps } from 'metis-ui';
 import { Select } from 'metis-ui';
-import React from 'react';
 
 const options: SelectProps['options'] = [];
 

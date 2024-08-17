@@ -1,6 +1,6 @@
+import React from 'react';
 import type { CascaderProps, GetProp } from 'metis-ui';
 import { Cascader } from 'metis-ui';
-import React from 'react';
 
 type DefaultOptionType = GetProp<CascaderProps, 'options'>[number];
 

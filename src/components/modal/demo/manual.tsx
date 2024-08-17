@@ -1,5 +1,5 @@
-import { Button, Modal } from 'metis-ui';
 import React from 'react';
+import { Button, Modal } from 'metis-ui';
 
 const App: React.FC = () => {
   const [modal, contextHolder] = Modal.useModal();

@@ -1,7 +1,7 @@
-import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
-import omit from 'rc-util/lib/omit';
 import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
+import omit from 'rc-util/lib/omit';
 import { clsx } from '../_util/classNameUtils';
 import isNumeric from '../_util/isNumeric';
 import { ConfigContext } from '../config-provider';

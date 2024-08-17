@@ -1,6 +1,6 @@
+import React from 'react';
 import { UserOutline } from '@metisjs/icons';
 import { AutoComplete, Input } from 'metis-ui';
-import React from 'react';
 
 const renderTitle = (title: string) => (
   <span>

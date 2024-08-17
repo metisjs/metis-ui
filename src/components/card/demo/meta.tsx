@@ -1,6 +1,6 @@
+import React from 'react';
 import { Cog6ToothOutline, EllipsisHorizontalOutline, PencilSquareOutline } from '@metisjs/icons';
 import { Avatar, Card } from 'metis-ui';
-import React from 'react';
 
 const { Meta } = Card;
 

@@ -1,7 +1,8 @@
+import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useState from 'rc-util/lib/hooks/useState';
-import * as React from 'react';
-import { TransitionStatus, TransitionStep } from '../interface';
+import type { TransitionStatus } from '../interface';
+import { TransitionStep } from '../interface';
 import useNextFrame from './useNextFrame';
 
 const STEP_QUEUE: TransitionStep[] = [

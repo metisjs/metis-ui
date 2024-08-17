@@ -1,7 +1,7 @@
-import raf from 'rc-util/lib/raf';
 import * as React from 'react';
+import raf from 'rc-util/lib/raf';
 import { clsx } from '../../_util/classNameUtils';
-import { TransitionProps } from '../../transition';
+import type { TransitionProps } from '../../transition';
 import Trigger from '../../trigger';
 import { MenuContext } from '../context/MenuContext';
 import type { MenuMode } from '../interface';

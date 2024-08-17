@@ -1,5 +1,5 @@
-import { Button, message } from 'metis-ui';
 import React from 'react';
+import { Button, message } from 'metis-ui';
 
 const App: React.FC = () => {
   const key = 'updatable';

@@ -1,7 +1,7 @@
+import * as React from 'react';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
-import * as React from 'react';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
 

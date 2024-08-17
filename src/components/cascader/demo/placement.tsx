@@ -1,6 +1,6 @@
-import { Cascader, Segmented } from 'metis-ui';
-import { SelectCommonPlacement } from 'metis-ui/es/select/interface';
 import React, { useState } from 'react';
+import { Cascader, Segmented } from 'metis-ui';
+import type { SelectCommonPlacement } from 'metis-ui/es/select/interface';
 
 interface Option {
   value: string;

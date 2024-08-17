@@ -1,5 +1,5 @@
-import { Button, ConfigProvider, Drawer } from 'metis-ui';
 import React, { useRef, useState } from 'react';
+import { Button, ConfigProvider, Drawer } from 'metis-ui';
 
 const App: React.FC = () => {
   const domRef = useRef<HTMLDivElement>(null);

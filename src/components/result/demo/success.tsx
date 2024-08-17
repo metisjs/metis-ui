@@ -1,5 +1,5 @@
-import { Button, Result } from 'metis-ui';
 import React from 'react';
+import { Button, Result } from 'metis-ui';
 
 const App: React.FC = () => (
   <Result

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { NoFormStyle } from '../form/context';
 import { NoCompactStyle } from '../space/Compact';
 

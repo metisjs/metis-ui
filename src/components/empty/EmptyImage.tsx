@@ -1,5 +1,5 @@
-import { TinyColor } from '@ctrl/tinycolor';
 import * as React from 'react';
+import { TinyColor } from '@ctrl/tinycolor';
 import useTheme from '../theme/useTheme';
 
 const EmptyImage: React.FC = () => {

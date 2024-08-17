@@ -1,5 +1,5 @@
-import { Button, Scrollbar, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Scrollbar, Space } from 'metis-ui';
 
 const lorem = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
   nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam

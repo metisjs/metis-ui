@@ -5,8 +5,8 @@ import type {
   CustomTagProps,
 } from './BaseSelect';
 import BaseSelect from './BaseSelect';
-import Select from './Select';
 import useBaseProps from './hooks/useBaseProps';
+import Select from './Select';
 
 export type { SelectProps } from './interface';
 

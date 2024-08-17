@@ -1,7 +1,7 @@
+import React from 'react';
 import { ChevronDownOutline, UserOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Button, Dropdown, Space, Tooltip } from 'metis-ui';
-import React from 'react';
 
 const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
   console.log('click left button', e);

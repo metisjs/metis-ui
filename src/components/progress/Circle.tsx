@@ -1,6 +1,6 @@
+import * as React from 'react';
 import type { ProgressProps as RcProgressProps } from 'rc-progress';
 import { Circle as RCCircle } from 'rc-progress';
-import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import Tooltip from '../tooltip';

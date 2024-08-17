@@ -1,8 +1,9 @@
+import * as React from 'react';
 import { TinyColor } from '@ctrl/tinycolor';
 import { CheckCircleSolid, CheckOutline, XCircleSolid, XMarkOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
-import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { devUseWarning } from '../_util/warning';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';

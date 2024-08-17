@@ -1,9 +1,10 @@
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
+import type { ForwardRefExoticComponent, RefAttributes } from 'react';
+import type { TransitionEventHandler } from './interface';
 import type { TransitionProps } from './Transition';
 import InternalTransition from './Transition';
 import type { TransitionListProps } from './TransitionList';
 import TransitionList from './TransitionList';
-import type { TransitionEventHandler } from './interface';
+
 export { TransitionList };
 export type { TransitionEventHandler, TransitionListProps, TransitionProps };
 

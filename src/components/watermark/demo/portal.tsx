@@ -1,5 +1,5 @@
-import { Button, Drawer, Modal, Space, Watermark } from 'metis-ui';
 import React from 'react';
+import { Button, Drawer, Modal, Space, Watermark } from 'metis-ui';
 
 const placeholder = (
   <div className="flex h-80 items-center justify-center bg-gray-100">A mock height</div>

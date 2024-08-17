@@ -1,6 +1,7 @@
-import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
-import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
+import KeyCode from 'rc-util/lib/KeyCode';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
 import type { NoticeConfig } from './interface';
 

@@ -2,16 +2,16 @@
 
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
+import type { PresetColorType, PresetStatusColorType } from '../_util/colors';
 import {
-  PresetColorType,
-  PresetStatusColorType,
   getPresetColorCls,
   getPresetStatusCls,
   isPresetColor,
   isPresetStatusColor,
 } from '../_util/colors';
-import useClosable, { ClosableType } from '../_util/hooks/useClosable';
-import { LiteralUnion } from '../_util/type';
+import type { ClosableType } from '../_util/hooks/useClosable';
+import useClosable from '../_util/hooks/useClosable';
+import type { LiteralUnion } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import CheckableTag from './CheckableTag';
 

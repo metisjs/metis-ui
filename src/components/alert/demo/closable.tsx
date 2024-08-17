@@ -1,6 +1,6 @@
+import React from 'react';
 import { XMarkSolid } from '@metisjs/icons';
 import { Alert, Space } from 'metis-ui';
-import React from 'react';
 
 const onClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
   console.log(e, 'I was closed.');

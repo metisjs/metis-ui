@@ -1,6 +1,6 @@
+import React from 'react';
 import type { PaginationProps } from 'metis-ui';
 import { Pagination } from 'metis-ui';
-import React from 'react';
 
 const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
   if (type === 'prev') {

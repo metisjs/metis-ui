@@ -1,5 +1,5 @@
-import { Badge, Card, Space } from 'metis-ui';
 import React from 'react';
+import { Badge, Card, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical size="middle" style={{ width: '100%' }}>

@@ -1,5 +1,5 @@
-import { Input, Tooltip } from 'metis-ui';
 import React, { useState } from 'react';
+import { Input, Tooltip } from 'metis-ui';
 
 interface NumericInputProps {
   style: React.CSSProperties;

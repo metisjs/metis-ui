@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   ArrowPathOutline,
   CheckCircleOutline,
@@ -7,7 +8,6 @@ import {
   XCircleOutline,
 } from '@metisjs/icons';
 import { Divider, Space, Tag } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <>

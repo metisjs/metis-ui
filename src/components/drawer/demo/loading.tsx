@@ -1,5 +1,5 @@
-import { Button, Drawer } from 'metis-ui';
 import React from 'react';
+import { Button, Drawer } from 'metis-ui';
 
 const App: React.FC = () => {
   const [open, setOpen] = React.useState<boolean>(false);

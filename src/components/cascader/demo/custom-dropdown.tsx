@@ -1,5 +1,5 @@
-import { Cascader, Divider } from 'metis-ui';
 import React from 'react';
+import { Cascader, Divider } from 'metis-ui';
 
 interface Option {
   value: string;

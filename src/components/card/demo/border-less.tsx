@@ -1,5 +1,5 @@
-import { Card } from 'metis-ui';
 import React from 'react';
+import { Card } from 'metis-ui';
 
 const App: React.FC = () => (
   <Card title="Card title" bordered={false} style={{ width: 300 }}>

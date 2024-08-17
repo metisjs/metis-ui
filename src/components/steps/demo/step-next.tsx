@@ -1,5 +1,5 @@
-import { Button, Steps } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Steps } from 'metis-ui';
 
 const steps = [
   {

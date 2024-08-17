@@ -1,5 +1,5 @@
-import { composeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
+import { composeRef } from 'rc-util/lib/ref';
 import { clsx } from '../../_util/classNameUtils';
 import warning from '../../_util/warning';
 

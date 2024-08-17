@@ -1,7 +1,7 @@
+import React from 'react';
 import { FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Menu } from 'metis-ui';
-import React from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

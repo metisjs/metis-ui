@@ -1,8 +1,8 @@
+import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import raf from 'rc-util/lib/raf';
-import * as React from 'react';
 import { devUseWarning } from '../../_util/warning';
-import { ScrollbarRef } from '../../scrollbar';
+import type { ScrollbarRef } from '../../scrollbar';
 import type { GetKey } from '../interface';
 import type CacheMap from '../utils/CacheMap';
 

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unknown-property */
+import * as React from 'react';
 import useMobile from 'rc-util/lib/hooks/useMobile';
 import raf from 'rc-util/lib/raf';
-import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
-import { Variant } from '../config-provider';
+import type { Variant } from '../config-provider';
 
 /**
  * When click and hold on a button - the speed of auto changing the value.

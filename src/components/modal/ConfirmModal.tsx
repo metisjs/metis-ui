@@ -1,10 +1,10 @@
+import * as React from 'react';
 import {
   CheckOutline,
   ExclamationTriangleOutline,
   InformationCircleOutline,
   XMarkOutline,
 } from '@metisjs/icons';
-import * as React from 'react';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import { CONTAINER_MAX_OFFSET, Z_INDEX_BASE } from '../_util/hooks/useZIndex';
 import ConfigProvider from '../config-provider';

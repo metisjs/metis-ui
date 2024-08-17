@@ -1,5 +1,5 @@
-import { AutoComplete, Input } from 'metis-ui';
 import React, { useState } from 'react';
+import { AutoComplete, Input } from 'metis-ui';
 
 const getRandomInt = (max: number, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min;
 

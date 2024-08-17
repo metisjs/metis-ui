@@ -1,6 +1,6 @@
-import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { forwardRef } from 'react';
+import { useMergedState } from 'rc-util';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
@@ -8,9 +8,10 @@ import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariant';
-import BaseInput, { HolderRef } from './BaseInput';
+import type { HolderRef } from './BaseInput';
+import BaseInput from './BaseInput';
 import useCount from './hooks/useCount';
-import { ResizableTextAreaRef, TextAreaProps, TextAreaRef } from './interface';
+import type { ResizableTextAreaRef, TextAreaProps, TextAreaRef } from './interface';
 import ResizableTextArea from './ResizableTextArea';
 import { resolveOnChange } from './utils';
 

@@ -1,5 +1,5 @@
-import { Button, Popover } from 'metis-ui';
 import React from 'react';
+import { Button, Popover } from 'metis-ui';
 
 const text = <span>Title</span>;
 

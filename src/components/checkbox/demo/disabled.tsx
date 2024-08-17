@@ -1,5 +1,5 @@
-import { Checkbox } from 'metis-ui';
 import React from 'react';
+import { Checkbox } from 'metis-ui';
 
 const App: React.FC = () => (
   <>

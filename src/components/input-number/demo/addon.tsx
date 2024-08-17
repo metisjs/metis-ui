@@ -1,6 +1,6 @@
+import React from 'react';
 import { Cog6ToothOutline } from '@metisjs/icons';
 import { InputNumber, Select, Space } from 'metis-ui';
-import React from 'react';
 
 const selectBefore = (
   <Select

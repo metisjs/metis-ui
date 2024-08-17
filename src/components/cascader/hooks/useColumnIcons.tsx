@@ -1,5 +1,5 @@
-import { ChevronRightOutline, LoadingOutline } from '@metisjs/icons';
 import * as React from 'react';
+import { ChevronRightOutline, LoadingOutline } from '@metisjs/icons';
 
 export default function useColumnIcons(prefixCls: string, expandIcon?: React.ReactNode) {
   let mergedExpandIcon = expandIcon;

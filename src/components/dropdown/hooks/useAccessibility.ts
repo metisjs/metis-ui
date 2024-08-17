@@ -1,6 +1,6 @@
+import * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
-import * as React from 'react';
 
 const { ESC, TAB } = KeyCode;
 

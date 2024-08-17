@@ -1,6 +1,6 @@
+import React from 'react';
 import type { TooltipProps } from 'metis-ui';
 import { Button, Tooltip } from 'metis-ui';
-import React from 'react';
 
 const Block = React.forwardRef<HTMLDivElement, Partial<TooltipProps>>((props, ref) => (
   <div

@@ -1,5 +1,5 @@
-import { Divider, Steps } from 'metis-ui';
 import React from 'react';
+import { Divider, Steps } from 'metis-ui';
 
 const App: React.FC = () => (
   <>

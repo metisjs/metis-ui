@@ -1,5 +1,5 @@
-import raf from 'rc-util/lib/raf';
 import * as React from 'react';
+import raf from 'rc-util/lib/raf';
 
 export default (): [
   (callback: (info: { isCanceled: () => boolean }) => void) => void,

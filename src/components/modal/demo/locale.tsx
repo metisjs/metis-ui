@@ -1,5 +1,5 @@
-import { Button, Modal, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Modal, Space } from 'metis-ui';
 
 const LocalizedModal = () => {
   const [open, setOpen] = useState(false);

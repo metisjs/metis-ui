@@ -1,5 +1,5 @@
-import { Scrollbar } from 'metis-ui';
 import React from 'react';
+import { Scrollbar } from 'metis-ui';
 import { Lorem } from './vertical';
 
 const App: React.FC = () => (

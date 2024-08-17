@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'metis-ui';
 import { Radio } from 'metis-ui';
-import React, { useState } from 'react';
 
 const plainOptions = ['Apple', 'Pear', 'Orange'];
 const optionsWithDisabled = [

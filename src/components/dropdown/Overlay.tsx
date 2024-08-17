@@ -1,5 +1,6 @@
+import type { ReactElement } from 'react';
+import React, { forwardRef } from 'react';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
-import React, { ReactElement, forwardRef } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import getArrowClassName from '../_util/placementArrow';
 import { cloneElement } from '../_util/reactNode';

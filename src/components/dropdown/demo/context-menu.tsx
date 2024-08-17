@@ -1,6 +1,6 @@
+import React from 'react';
 import type { MenuProps } from 'metis-ui';
 import { Dropdown } from 'metis-ui';
-import React from 'react';
 
 const items: MenuProps['items'] = [
   {

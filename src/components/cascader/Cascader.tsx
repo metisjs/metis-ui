@@ -1,16 +1,17 @@
+import * as React from 'react';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import { FormItemInputContext } from '../form/context';
-import BaseSelect, { BaseSelectProps, BaseSelectRef, DisplayValueType } from '../select/BaseSelect';
+import type { BaseSelectProps, BaseSelectRef, DisplayValueType } from '../select/BaseSelect';
+import BaseSelect from '../select/BaseSelect';
 import useBuiltinPlacements from '../select/hooks/useBuiltinPlacements';
 import useIcons from '../select/hooks/useIcons';
 import useId from '../select/hooks/useId';
-import { RequestConfig, SelectCommonPlacement } from '../select/interface';
+import type { RequestConfig, SelectCommonPlacement } from '../select/interface';
 import CascaderContext from './context';
 import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
@@ -19,7 +20,7 @@ import useOptions from './hooks/useOptions';
 import useRequest from './hooks/useRequest';
 import useSelect from './hooks/useSelect';
 import useValues from './hooks/useValues';
-import {
+import type {
   BaseOptionType,
   CascaderProps,
   DefaultOptionType,

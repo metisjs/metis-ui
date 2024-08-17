@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { debounce } from 'throttle-debounce';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import Indicator from './Indicator';

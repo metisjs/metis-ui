@@ -1,13 +1,14 @@
-import raf from 'rc-util/es/raf';
 import * as React from 'react';
 import { flushSync } from 'react-dom';
+import raf from 'rc-util/es/raf';
 import { ConfigContext } from '../../config-provider';
 import type { TooltipPlacement } from '../../tooltip';
 import SliderContext, { SliderInternalContext } from '../context';
 import useRafLock from '../hooks/useRafLock';
 import type { OnStartMove, SliderTooltipProps } from '../interface';
 import { getIndex, getTipFormatter } from '../util';
-import Handle, { HandleProps } from './Handle';
+import type { HandleProps } from './Handle';
+import Handle from './Handle';
 import SliderTooltip from './Tooltip';
 
 export interface HandlesProps {

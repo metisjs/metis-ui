@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   CheckCircleOutline,
   ExclamationTriangleOutline,
@@ -5,13 +6,12 @@ import {
   LoadingOutline,
   XCircleOutline,
 } from '@metisjs/icons';
-import * as React from 'react';
 import { getGlobalConfig } from '.';
 import { clsx } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
-import { NotificationAPI } from '../notification/interface';
+import type { NotificationAPI } from '../notification/interface';
 import NotificationHolder from '../notification/NotificationHolder';
 import type {
   ArgsProps,

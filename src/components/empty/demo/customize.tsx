@@ -1,5 +1,5 @@
-import { Button, Empty } from 'metis-ui';
 import React from 'react';
+import { Button, Empty } from 'metis-ui';
 
 const App: React.FC = () => (
   <Empty

@@ -1,5 +1,5 @@
-import { LoadingOutline } from '@metisjs/icons';
 import React from 'react';
+import { LoadingOutline } from '@metisjs/icons';
 import { clsx } from '../_util/classNameUtils';
 import Transition from '../transition';
 

@@ -1,9 +1,9 @@
-import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
-import { RefOptionListProps } from '../../select/BaseSelect';
+import KeyCode from 'rc-util/lib/KeyCode';
+import type { RefOptionListProps } from '../../select/BaseSelect';
 import type { InternalFieldNames } from '../Cascader';
 import { SEARCH_MARK } from '../hooks/useFilterOptions';
-import { DefaultOptionType, SingleValueType } from '../interface';
+import type { DefaultOptionType, SingleValueType } from '../interface';
 import { getFullPathKeys, toPathKey } from '../utils/commonUtil';
 
 export default (

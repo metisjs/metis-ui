@@ -1,5 +1,5 @@
-import { Select } from 'metis-ui';
 import React from 'react';
+import { Select } from 'metis-ui';
 import { fetchDataWithPagination } from './services';
 
 export default () => (

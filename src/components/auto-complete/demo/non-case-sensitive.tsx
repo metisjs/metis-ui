@@ -1,5 +1,5 @@
-import { AutoComplete } from 'metis-ui';
 import React from 'react';
+import { AutoComplete } from 'metis-ui';
 
 const options = [
   { value: 'Burns Bay Road' },

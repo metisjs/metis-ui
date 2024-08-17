@@ -1,7 +1,8 @@
+import * as React from 'react';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
-import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';

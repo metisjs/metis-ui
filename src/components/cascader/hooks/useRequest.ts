@@ -1,10 +1,10 @@
+import { useCallback, useState } from 'react';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
-import { useCallback, useState } from 'react';
-import { RawValueType, RequestConfig } from '../../select/interface';
-import { InternalFieldNames } from '../Cascader';
-import { CascaderProps, DefaultOptionType } from '../interface';
+import type { RawValueType, RequestConfig } from '../../select/interface';
+import type { InternalFieldNames } from '../Cascader';
+import type { CascaderProps, DefaultOptionType } from '../interface';
 import { doFilter } from './useFilterOptions';
 
 export const REQUEST_DEBOUNCE = 200;

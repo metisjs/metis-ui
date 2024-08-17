@@ -1,5 +1,5 @@
-import { InputNumber, Space } from 'metis-ui';
 import React from 'react';
+import { InputNumber, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical size={12}>

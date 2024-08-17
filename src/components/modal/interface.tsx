@@ -1,8 +1,8 @@
-import type { GetContainer } from 'rc-util/lib/PortalWrapper';
 import type { CSSProperties, ReactNode } from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
-import { ClosableType } from '../_util/hooks/useClosable';
-import { ButtonProps, ButtonType } from '../button';
+import type { GetContainer } from 'rc-util/lib/PortalWrapper';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { ClosableType } from '../_util/hooks/useClosable';
+import type { ButtonProps, ButtonType } from '../button';
 
 export type ModalProps = {
   className?: SemanticClassName<'header' | 'body' | 'footer' | 'mask' | 'content' | 'wrapper'>;

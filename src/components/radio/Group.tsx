@@ -1,11 +1,11 @@
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { clsx } from '../_util/classNameUtils';
 import getDataOrAriaProps from '../_util/getDataOrAriaProps';
 import { ConfigContext } from '../config-provider';
 import { RadioGroupContextProvider } from './Context';
-import Radio from './Radio';
 import type { RadioChangeEvent, RadioGroupProps } from './interface';
+import Radio from './Radio';
 
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref) => {
   const {

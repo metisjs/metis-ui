@@ -1,10 +1,10 @@
+import * as React from 'react';
+import { useRef, useState } from 'react';
 import { EyeOutline, EyeSlashOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
-import * as React from 'react';
-import { useRef, useState } from 'react';
-import Input from './Input';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
+import Input from './Input';
 import type { InputProps, InputRef } from './interface';
 
 const defaultIconRender = (visible: boolean): React.ReactNode =>

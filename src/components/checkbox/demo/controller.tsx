@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { Button, Checkbox } from 'metis-ui';
 import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [checked, setChecked] = useState(true);

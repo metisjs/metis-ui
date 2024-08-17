@@ -1,5 +1,5 @@
-import { Button, Popconfirm } from 'metis-ui';
 import React from 'react';
+import { Button, Popconfirm } from 'metis-ui';
 
 const text = 'Are you sure to delete this task?';
 const description = 'Delete the task';

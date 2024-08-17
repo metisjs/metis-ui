@@ -1,5 +1,5 @@
-import { Avatar, Badge, Space } from 'metis-ui';
 import React from 'react';
+import { Avatar, Badge, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space size="large">

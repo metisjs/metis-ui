@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import Group from './Group';
-import InternalRadio from './Radio';
 import type { RadioProps, RadioRef } from './interface';
+import InternalRadio from './Radio';
 
 export type {
   RadioChangeEvent,

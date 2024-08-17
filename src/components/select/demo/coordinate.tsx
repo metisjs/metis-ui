@@ -1,5 +1,5 @@
-import { Select, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Select, Space } from 'metis-ui';
 
 const provinceData = ['Zhejiang', 'Jiangsu'];
 

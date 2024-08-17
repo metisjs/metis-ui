@@ -1,7 +1,7 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { PlusOutline } from '@metisjs/icons';
 import type { InputRef } from 'metis-ui';
 import { Input, Space, Tag, Tooltip } from 'metis-ui';
-import React, { useEffect, useRef, useState } from 'react';
 
 const App: React.FC = () => {
   const [tags, setTags] = useState(['Unremovable', 'Tag 2', 'Tag 3']);

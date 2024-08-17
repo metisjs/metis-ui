@@ -1,15 +1,15 @@
 import * as React from 'react';
+import { EllipsisHorizontalOutline } from '@metisjs/icons';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import Button from '../button';
+import type { ButtonProps } from '../button';
+import type { ButtonHTMLType } from '../button/Button';
 import { ConfigContext } from '../config-provider';
+import type { SizeType } from '../config-provider/SizeContext';
 import Space from '../space';
 import { useCompactItemContext } from '../space/Compact';
 import Dropdown from './Dropdown';
-
-import { EllipsisHorizontalOutline } from '@metisjs/icons';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
-import type { ButtonProps } from '../button';
-import { ButtonHTMLType } from '../button/Button';
-import { SizeType } from '../config-provider/SizeContext';
 import type { DropdownProps } from './Dropdown';
 
 export type DropdownButtonType = 'default' | 'primary' | 'link' | 'text';

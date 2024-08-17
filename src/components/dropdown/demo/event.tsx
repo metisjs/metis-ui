@@ -1,7 +1,7 @@
+import React from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Dropdown, Space } from 'metis-ui';
-import React from 'react';
 
 const onClick: MenuProps['onClick'] = ({ key }) => {
   console.log(`Click on item ${key}`);

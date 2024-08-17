@@ -1,5 +1,5 @@
-import useMemo from 'rc-util/lib/hooks/useMemo';
 import * as React from 'react';
+import useMemo from 'rc-util/lib/hooks/useMemo';
 // import ValidateMessagesContext from '../form/validateMessagesContext';
 import type { Locale } from '../locale';
 import LocaleProvider, { METIS_MARK } from '../locale';

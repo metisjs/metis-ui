@@ -1,5 +1,5 @@
-import { Alert, Spin, Switch } from 'metis-ui';
 import React from 'react';
+import { Alert, Spin, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [loading, setLoading] = React.useState<boolean>(false);

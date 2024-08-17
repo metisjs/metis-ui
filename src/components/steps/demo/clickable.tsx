@@ -1,5 +1,5 @@
-import { Divider, Steps } from 'metis-ui';
 import React, { useState } from 'react';
+import { Divider, Steps } from 'metis-ui';
 
 const App: React.FC = () => {
   const [current, setCurrent] = useState(0);

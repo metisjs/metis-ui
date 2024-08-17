@@ -1,5 +1,5 @@
-import { Button, Modal } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Modal } from 'metis-ui';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);

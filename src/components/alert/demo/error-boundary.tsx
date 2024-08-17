@@ -1,5 +1,5 @@
-import { Alert, Button } from 'metis-ui';
 import React, { useState } from 'react';
+import { Alert, Button } from 'metis-ui';
 
 const { ErrorBoundary } = Alert;
 const ThrowError: React.FC = () => {

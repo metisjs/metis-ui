@@ -1,5 +1,5 @@
-import { Cascader, Space } from 'metis-ui';
 import React from 'react';
+import { Cascader, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical block>

@@ -1,5 +1,5 @@
-import { Button, message, Popconfirm, Switch } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, message, Popconfirm, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);

@@ -1,5 +1,5 @@
-import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { InnerSelectorProps } from '.';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { getTitle } from '../utils/commonUtil';

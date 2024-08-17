@@ -1,5 +1,5 @@
-import { Empty } from 'metis-ui';
 import React from 'react';
+import { Empty } from 'metis-ui';
 
 const App: React.FC = () => <Empty />;
 

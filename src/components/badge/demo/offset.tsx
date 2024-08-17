@@ -1,5 +1,5 @@
-import { Avatar, Badge } from 'metis-ui';
 import React from 'react';
+import { Avatar, Badge } from 'metis-ui';
 
 const App: React.FC = () => (
   <Badge count={5} offset={[10, 10]}>

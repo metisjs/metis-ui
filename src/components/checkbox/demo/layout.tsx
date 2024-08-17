@@ -1,6 +1,6 @@
+import React from 'react';
 import { Checkbox } from 'metis-ui';
 import type { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
-import React from 'react';
 
 const onChange = (checkedValues: CheckboxValueType[]) => {
   console.log('checked = ', checkedValues);

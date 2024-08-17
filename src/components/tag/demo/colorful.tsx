@@ -1,5 +1,5 @@
-import { Divider, Space, Tag } from 'metis-ui';
 import React from 'react';
+import { Divider, Space, Tag } from 'metis-ui';
 
 const colors = [
   'blue',

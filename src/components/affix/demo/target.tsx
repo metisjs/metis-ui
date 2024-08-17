@@ -1,5 +1,6 @@
-import { Affix, AffixRef, Button } from 'metis-ui';
 import React, { useEffect, useRef } from 'react';
+import type { AffixRef } from 'metis-ui';
+import { Affix, Button } from 'metis-ui';
 
 const App: React.FC = () => {
   const affixRef = useRef<AffixRef>(null);

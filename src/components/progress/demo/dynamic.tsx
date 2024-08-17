@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { MinusOutline, PlusOutline } from '@metisjs/icons';
 import { Button, Progress, Space } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [percent, setPercent] = useState<number>(0);

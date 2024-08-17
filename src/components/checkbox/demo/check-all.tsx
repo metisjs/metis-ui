@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import { Checkbox, Divider } from 'metis-ui';
 import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
 import type { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
-import React, { useState } from 'react';
 
 const CheckboxGroup = Checkbox.Group;
 

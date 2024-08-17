@@ -1,5 +1,5 @@
-import { Button, Divider, notification, Space, Switch } from 'metis-ui';
 import React from 'react';
+import { Button, Divider, notification, Space, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [enabled, setEnabled] = React.useState(true);

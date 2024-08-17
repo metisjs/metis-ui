@@ -1,5 +1,5 @@
-import React, { Children, isValidElement, ReactNode } from 'react';
-
+import type { ReactNode } from 'react';
+import React, { Children, isValidElement } from 'react';
 import { flattenDeep } from 'lodash';
 import { DisabledContextProvider } from '../config-provider/DisabledContext';
 import { useLocale } from '../locale';

@@ -1,6 +1,6 @@
+import React from 'react';
 import { LockClosedOutline, LockOpenOutline } from '@metisjs/icons';
 import { Button, Input, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);

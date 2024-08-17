@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import type { AntAnchor } from './Anchor';

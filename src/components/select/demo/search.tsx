@@ -1,5 +1,5 @@
-import { Select } from 'metis-ui';
 import React from 'react';
+import { Select } from 'metis-ui';
 
 const onChange = (value: string) => {
   console.log(`selected ${value}`);

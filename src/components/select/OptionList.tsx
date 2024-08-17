@@ -1,18 +1,19 @@
-import KeyCode from 'rc-util/lib/KeyCode';
-import useMemo from 'rc-util/lib/hooks/useMemo';
-import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
 import { useEffect } from 'react';
+import useMemo from 'rc-util/lib/hooks/useMemo';
+import KeyCode from 'rc-util/lib/KeyCode';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
-import { VirtualListRef } from '../virtual-list';
-import VirtualList, { ScrollConfig } from '../virtual-list/VirtualList';
-import { RefOptionListProps } from './BaseSelect';
-import TransBtn from './TransBtn';
+import type { VirtualListRef } from '../virtual-list';
+import type { ScrollConfig } from '../virtual-list/VirtualList';
+import VirtualList from '../virtual-list/VirtualList';
+import type { RefOptionListProps } from './BaseSelect';
 import { SelectContext } from './context';
 import useBaseProps from './hooks/useBaseProps';
 import type { BaseOptionType, FlattenOptionData, RawValueType } from './interface';
+import TransBtn from './TransBtn';
 
 export type OptionListProps = Record<string, never>;
 

@@ -1,6 +1,6 @@
+import { useRef } from 'react';
 import { useUpdate } from 'ahooks';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { useRef } from 'react';
 import type { ScreenMap } from '../responsiveObserver';
 import useResponsiveObserver from '../responsiveObserver';
 

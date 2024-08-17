@@ -1,5 +1,5 @@
-import { Space } from 'metis-ui';
 import React from 'react';
+import { Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <div className="space-align-container">

@@ -1,10 +1,10 @@
+import React from 'react';
 import {
   CheckCircleOutline,
   ExclamationTriangleOutline,
   InformationCircleOutline,
   XCircleOutline,
 } from '@metisjs/icons';
-import React from 'react';
 import { getGlobalConfig } from '..';
 import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
 import { cloneElement } from '../../_util/reactNode';

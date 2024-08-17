@@ -1,6 +1,6 @@
+import React from 'react';
 import { FaceSmileOutline } from '@metisjs/icons';
 import { Alert, Space } from 'metis-ui';
-import React from 'react';
 
 const icon = <FaceSmileOutline />;
 

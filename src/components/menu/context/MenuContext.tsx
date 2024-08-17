@@ -1,8 +1,7 @@
+import * as React from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
-import * as React from 'react';
-import { TransitionProps } from '../../transition';
-import { MenuClassNameType } from '../Menu';
+import type { TransitionProps } from '../../transition';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
@@ -10,6 +9,7 @@ import type {
   RenderIconType,
   TriggerSubMenuAction,
 } from '../interface';
+import type { MenuClassNameType } from '../Menu';
 
 const noop = () => {};
 

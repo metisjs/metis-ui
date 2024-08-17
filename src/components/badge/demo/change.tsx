@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { MinusOutline, PlusOutline, QuestionMarkCircleOutline } from '@metisjs/icons';
 import { Avatar, Badge, Button, Space, Switch } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [count, setCount] = useState(5);

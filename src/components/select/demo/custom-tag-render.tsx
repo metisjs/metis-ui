@@ -1,6 +1,6 @@
-import { Select, Tag } from 'metis-ui';
-import { CustomTagProps } from 'metis-ui/es/select';
 import React from 'react';
+import { Select, Tag } from 'metis-ui';
+import type { CustomTagProps } from 'metis-ui/es/select';
 
 const options = [
   { value: '#f50' },

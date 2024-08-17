@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { ArrowPathOutline } from '@metisjs/icons';
 import { Button, Transition } from 'metis-ui';
-import React, { useState } from 'react';
 
 export default () => {
   const [visible, setVisible] = useState(true);

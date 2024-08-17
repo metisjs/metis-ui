@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import type { SelectProps } from 'metis-ui';
 import { Segmented, Select, Space } from 'metis-ui';
-import { SizeType } from 'metis-ui/es/config-provider/SizeContext';
-import React, { useState } from 'react';
+import type { SizeType } from 'metis-ui/es/config-provider/SizeContext';
 
 const options: SelectProps['options'] = [];
 

@@ -1,8 +1,8 @@
-import { XCircleSolid } from '@metisjs/icons';
 import type { ReactElement, ReactNode } from 'react';
 import React, { cloneElement, useRef } from 'react';
+import { XCircleSolid } from '@metisjs/icons';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
-import { BaseInputProps } from './interface';
+import type { BaseInputProps } from './interface';
 import { hasAddon, hasPrefixSuffix } from './utils';
 
 export interface HolderRef {

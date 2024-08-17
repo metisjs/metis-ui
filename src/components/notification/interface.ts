@@ -1,9 +1,8 @@
 import type * as React from 'react';
-
-import { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { BaseClosableType, ClosableType } from '../_util/hooks/useClosable';
-import { TransitionProps } from '../transition';
-import { NotificationsProps } from './Notifications';
+import type { TransitionProps } from '../transition';
+import type { NotificationsProps } from './Notifications';
 
 interface DivProps extends React.HTMLProps<HTMLDivElement> {
   'data-testid'?: string;

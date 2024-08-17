@@ -1,6 +1,6 @@
+import React from 'react';
 import type { StepsProps } from 'metis-ui';
 import { Avatar, List, Steps } from 'metis-ui';
-import React from 'react';
 
 const data = [
   {

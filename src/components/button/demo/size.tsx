@@ -1,7 +1,7 @@
+import React from 'react';
 import { ArrowDownTrayOutline } from '@metisjs/icons';
 import { Button, Space } from 'metis-ui';
-import { SizeType } from 'metis-ui/es/config-provider/SizeContext';
-import React from 'react';
+import type { SizeType } from 'metis-ui/es/config-provider/SizeContext';
 
 const App: React.FC = () => (
   <>

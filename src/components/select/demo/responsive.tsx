@@ -1,5 +1,6 @@
-import { Select, SelectPropsWithOptions, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import type { SelectPropsWithOptions } from 'metis-ui';
+import { Select, Space } from 'metis-ui';
 
 interface ItemProps {
   label: string;

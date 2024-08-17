@@ -1,6 +1,6 @@
+import React from 'react';
 import { ExclamationTriangleOutline } from '@metisjs/icons';
 import { Button, Modal } from 'metis-ui';
-import React from 'react';
 
 const { confirm } = Modal;
 

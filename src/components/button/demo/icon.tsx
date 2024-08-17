@@ -1,6 +1,6 @@
+import React from 'react';
 import { MagnifyingGlassOutline } from '@metisjs/icons';
 import { Button, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space wrap>

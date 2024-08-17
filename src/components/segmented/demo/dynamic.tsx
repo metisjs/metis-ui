@@ -1,5 +1,5 @@
-import { Button, Segmented, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Segmented, Space } from 'metis-ui';
 
 const Demo: React.FC = () => {
   const [options, setOptions] = useState(['Daily', 'Weekly', 'Monthly']);

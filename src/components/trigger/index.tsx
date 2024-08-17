@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Portal from '@rc-component/portal';
 import ResizeObserver from 'rc-resize-observer';
 import { isDOM } from 'rc-util/lib/Dom/findDOMNode';
@@ -5,13 +6,11 @@ import { getShadowRoot } from 'rc-util/lib/Dom/shadow';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useId from 'rc-util/lib/hooks/useId';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
-import { TransitionProps } from '../transition';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { TransitionProps } from '../transition';
 import type { TriggerContextProps } from './Context';
 import TriggerContext from './Context';
-import Popup from './Popup';
-import TriggerWrapper from './TriggerWrapper';
 import useAction from './hooks/useAction';
 import useAlign from './hooks/useAlign';
 import useWatch from './hooks/useWatch';
@@ -23,6 +22,8 @@ import type {
   ArrowTypeOuter,
   BuildInPlacements,
 } from './interface';
+import Popup from './Popup';
+import TriggerWrapper from './TriggerWrapper';
 import { getAlignPopupClassName } from './util';
 
 export type { ActionType, AlignType, ArrowTypeOuter as ArrowType, BuildInPlacements };

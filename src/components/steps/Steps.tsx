@@ -1,6 +1,7 @@
 /* eslint react/no-did-mount-set-state: 0, react/prop-types: 0 */
 import React from 'react';
-import { SemanticClassName, clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';

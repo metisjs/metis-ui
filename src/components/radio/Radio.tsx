@@ -1,5 +1,5 @@
-import { useMergedState } from 'rc-util';
 import * as React from 'react';
+import { useMergedState } from 'rc-util';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';

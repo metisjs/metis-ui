@@ -1,5 +1,5 @@
-import { Pagination } from 'metis-ui';
 import React from 'react';
+import { Pagination } from 'metis-ui';
 
 const App: React.FC = () => (
   <Pagination

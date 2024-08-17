@@ -1,19 +1,17 @@
-import ResizeObserver from 'rc-resize-observer';
-import raf from 'rc-util/lib/raf';
+import type { CSSProperties, HTMLAttributes, UIEvent } from 'react';
 import React, {
-  CSSProperties,
   forwardRef,
-  HTMLAttributes,
-  UIEvent,
   useContext,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from 'react';
+import ResizeObserver from 'rc-resize-observer';
+import raf from 'rc-util/lib/raf';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
-import { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
+import type { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
 import getInnerHeight from './utils/getInnerHeight';
 import getInnerWidth from './utils/getInnerWidth';
 import getScrollbarWidth from './utils/getScrollbarWidth';

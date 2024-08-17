@@ -1,5 +1,5 @@
-import { Button, Skeleton, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Skeleton, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);

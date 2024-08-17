@@ -1,6 +1,5 @@
-import type { InputRef } from 'metis-ui';
 import React, { useRef, useState } from 'react';
-
+import type { InputRef } from 'metis-ui';
 import { Button, Input, Space } from 'metis-ui';
 
 const App: React.FC = () => {

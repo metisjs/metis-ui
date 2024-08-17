@@ -1,5 +1,5 @@
-import { Button, notification, Space } from 'metis-ui';
 import React from 'react';
+import { Button, notification, Space } from 'metis-ui';
 
 const close = () => {
   console.log(

@@ -1,7 +1,7 @@
+import * as React from 'react';
 import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
-import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';

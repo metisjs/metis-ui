@@ -1,5 +1,5 @@
-import { Progress, Slider, Space } from 'metis-ui';
 import React from 'react';
+import { Progress, Slider, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [stepsCount, setStepsCount] = React.useState<number>(5);

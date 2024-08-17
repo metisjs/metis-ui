@@ -1,5 +1,5 @@
-import { AutoComplete, Input } from 'metis-ui';
 import React, { useState } from 'react';
+import { AutoComplete, Input } from 'metis-ui';
 
 const { TextArea } = Input;
 

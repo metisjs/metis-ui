@@ -1,3 +1,5 @@
+import type { MenuTheme } from './context/MenuContext';
+import type { ItemType, MenuItemType, MenuRef } from './interface';
 import type { MenuProps } from './Menu';
 import InternalMenu from './Menu';
 import type { MenuDividerProps } from './MenuDivider';
@@ -8,8 +10,6 @@ import type { MenuItemGroupProps } from './MenuItemGroup';
 import MenuItemGroup from './MenuItemGroup';
 import type { SubMenuProps } from './SubMenu';
 import SubMenu from './SubMenu';
-import type { MenuTheme } from './context/MenuContext';
-import type { ItemType, MenuItemType, MenuRef } from './interface';
 
 export type {
   MenuDividerProps,

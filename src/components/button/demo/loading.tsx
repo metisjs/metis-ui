@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { PowerOutline } from '@metisjs/icons';
 import { Button, Space } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [loadings, setLoadings] = useState<boolean[]>([]);

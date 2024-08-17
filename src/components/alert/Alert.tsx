@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react';
+import * as React from 'react';
 import {
   CheckCircleSolid,
   ExclamationTriangleSolid,
@@ -6,9 +8,8 @@ import {
 } from '@metisjs/icons';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
-import type { ReactElement } from 'react';
-import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { ClosableType } from '../_util/hooks/useClosable';
 import useClosable from '../_util/hooks/useClosable';
 import { replaceElement } from '../_util/reactNode';

@@ -1,5 +1,5 @@
-import { render } from 'rc-util/lib/React/render';
 import React from 'react';
+import { render } from 'rc-util/lib/React/render';
 import ConfigProvider, { globalConfig } from '../config-provider';
 import type {
   ArgsProps,

@@ -1,5 +1,5 @@
-import { Drawer, Modal, Space, Switch } from 'metis-ui';
 import React, { useState } from 'react';
+import { Drawer, Modal, Space, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [drawer, setDrawer] = useState(false);

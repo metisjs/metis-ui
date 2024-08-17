@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+import * as React from 'react';
 import {
   CheckOutline,
   ChevronDownOutline,
@@ -6,8 +8,6 @@ import {
   XCircleSolid,
   XMarkOutline,
 } from '@metisjs/icons';
-import type { ReactNode } from 'react';
-import * as React from 'react';
 
 type RenderNode = React.ReactNode | ((props: any) => React.ReactNode);
 

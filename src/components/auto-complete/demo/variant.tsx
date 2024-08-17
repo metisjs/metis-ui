@@ -1,5 +1,5 @@
-import { AutoComplete, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { AutoComplete, Space } from 'metis-ui';
 
 const mockVal = (str: string, repeat = 1) => ({
   value: str.repeat(repeat),

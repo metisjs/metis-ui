@@ -1,14 +1,14 @@
-import { DndContext, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import type { FC } from 'react';
+import React, { useState } from 'react';
+import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core/dist/types/index';
 import {
-  SortableContext,
   arrayMove,
   horizontalListSortingStrategy,
+  SortableContext,
   useSortable,
 } from '@dnd-kit/sortable';
 import { Tag } from 'metis-ui';
-import type { FC } from 'react';
-import React, { useState } from 'react';
 
 type Item = {
   id: number;

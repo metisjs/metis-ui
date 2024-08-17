@@ -1,8 +1,10 @@
-import KEYCODE from 'rc-util/lib/KeyCode';
 import React from 'react';
+import KEYCODE from 'rc-util/lib/KeyCode';
 import { clsx } from '../_util/classNameUtils';
-import Input, { InputProps } from '../input';
-import Select, { SelectProps } from '../select';
+import type { InputProps } from '../input';
+import Input from '../input';
+import type { SelectProps } from '../select';
+import Select from '../select';
 import type { PaginationLocale } from './interface';
 
 interface OptionsProps {

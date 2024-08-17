@@ -1,9 +1,9 @@
-import { useMergedState } from 'rc-util';
 import * as React from 'react';
-import { DataEntity } from '../../tree/interface';
+import { useMergedState } from 'rc-util';
+import type { DataEntity } from '../../tree/interface';
 import { conductCheck } from '../../tree/utils/conductUtil';
-import { InternalFieldNames, InternalValueType } from '../Cascader';
-import {
+import type { InternalFieldNames, InternalValueType } from '../Cascader';
+import type {
   DefaultOptionType,
   DraftValueType,
   LabeledValueType,
@@ -11,7 +11,7 @@ import {
   SingleValueType,
 } from '../interface';
 import { isRawValues, toMultipleValue, toPathKeys, toRawValueCells } from '../utils/commonUtil';
-import { toPathOptions } from '../utils/treeUtil';
+import type { toPathOptions } from '../utils/treeUtil';
 
 export default function useValues(
   multiple: boolean,

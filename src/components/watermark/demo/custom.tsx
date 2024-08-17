@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import type { ColorPickerProps, GetProp, WatermarkProps } from 'metis-ui';
 import {
   ColorPicker,
@@ -9,7 +10,6 @@ import {
   Typography,
   Watermark,
 } from 'metis-ui';
-import React, { useState } from 'react';
 
 type Color = GetProp<ColorPickerProps, 'color'>;
 

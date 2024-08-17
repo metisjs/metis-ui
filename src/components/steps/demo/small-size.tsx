@@ -1,5 +1,5 @@
-import { Steps } from 'metis-ui';
 import React from 'react';
+import { Steps } from 'metis-ui';
 
 const App: React.FC = () => (
   <Steps

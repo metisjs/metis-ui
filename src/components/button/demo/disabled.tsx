@@ -1,5 +1,5 @@
-import { Button, Space } from 'metis-ui';
 import React from 'react';
+import { Button, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical>

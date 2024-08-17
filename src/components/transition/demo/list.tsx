@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 import range from 'lodash/range';
 import { Button, Checkbox, Space, Transition } from 'metis-ui';
 import { clsx } from 'metis-ui/es/_util/classNameUtils';
-import { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
-import React, { useState } from 'react';
+import type { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
 
 const keys = range(10).map((key) => key);
 const defaultKeyList = keys.map((key) => {

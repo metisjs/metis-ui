@@ -1,6 +1,6 @@
+import React from 'react';
 import type { PaginationProps } from 'metis-ui';
 import { Pagination, Space } from 'metis-ui';
-import React from 'react';
 
 const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
   console.log(current, pageSize);

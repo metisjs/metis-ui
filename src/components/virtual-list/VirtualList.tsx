@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { mergeSemanticCls, SemanticClassName } from '../_util/classNameUtils';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { mergeSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
-import Scrollbar, { ScrollbarProps, ScrollbarRef, ScrollValues } from '../scrollbar';
+import type { ScrollbarProps, ScrollbarRef, ScrollValues } from '../scrollbar';
+import Scrollbar from '../scrollbar';
 import type { InnerProps } from './Filler';
 import Filler from './Filler';
 import useChildren from './hooks/useChildren';

@@ -1,5 +1,5 @@
-import { Switch } from 'metis-ui';
 import React from 'react';
+import { Switch } from 'metis-ui';
 
 const onChange = (checked: boolean) => {
   console.log(`switch to ${checked}`);

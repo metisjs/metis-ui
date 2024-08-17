@@ -1,5 +1,5 @@
-import { Button, clsx, Modal, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, clsx, Modal, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);

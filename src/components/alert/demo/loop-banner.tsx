@@ -1,5 +1,5 @@
-import { Alert } from 'metis-ui';
 import React from 'react';
+import { Alert } from 'metis-ui';
 import Marquee from 'react-fast-marquee';
 
 const App: React.FC = () => (

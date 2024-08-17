@@ -1,6 +1,6 @@
+import React from 'react';
 import { CalendarOutline, FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import { Layout, Menu } from 'metis-ui';
-import React from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
 

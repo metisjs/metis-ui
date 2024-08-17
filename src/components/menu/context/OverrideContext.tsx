@@ -1,7 +1,7 @@
-import { supportNodeRef, useComposeRef } from 'rc-util';
 import * as React from 'react';
+import { supportNodeRef, useComposeRef } from 'rc-util';
 import ContextIsolator from '../../_util/ContextIsolator';
-import { MenuProps } from '../Menu';
+import type { MenuProps } from '../Menu';
 
 // Used for Dropdown only
 export interface OverrideContextProps {

@@ -1,27 +1,30 @@
+import * as React from 'react';
 import { ChevronDownOutline, ChevronUpOutline } from '@metisjs/icons';
+import type { DecimalClass, ValueType } from '@rc-component/mini-decimal';
 import getMiniDecimal, {
-  DecimalClass,
   getNumberPrecision,
   num2str,
   toFixed,
   validateNumber,
-  ValueType,
 } from '@rc-component/mini-decimal';
 import { useLayoutUpdateEffect } from 'rc-util/lib/hooks/useLayoutEffect';
 import proxyObject from 'rc-util/lib/proxyObject';
 import { composeRef } from 'rc-util/lib/ref';
-import * as React from 'react';
-import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
-import { getMergedStatus, getStatusClassNames, InputStatus } from '../_util/statusUtils';
-import { ConfigContext, Variant } from '../config-provider';
+import type { InputStatus } from '../_util/statusUtils';
+import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
+import type { Variant } from '../config-provider';
+import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
-import { SizeType } from '../config-provider/SizeContext';
+import type { SizeType } from '../config-provider/SizeContext';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariant';
-import BaseInput, { HolderRef } from '../input/BaseInput';
-import { InputFocusOptions } from '../input/interface';
+import type { HolderRef } from '../input/BaseInput';
+import BaseInput from '../input/BaseInput';
+import type { InputFocusOptions } from '../input/interface';
 import { triggerFocus } from '../input/utils';
 import { useCompactItemContext } from '../space/Compact';
 import useCursor from './hooks/useCursor';

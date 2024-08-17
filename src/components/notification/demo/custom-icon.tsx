@@ -1,6 +1,6 @@
+import React from 'react';
 import { FaceSmileOutline } from '@metisjs/icons';
 import { Button, notification } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => {
   const openNotification = () => {

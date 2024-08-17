@@ -1,5 +1,5 @@
-import { Checkbox, InputNumber, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Checkbox, InputNumber, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [keyboard, setKeyboard] = useState(true);

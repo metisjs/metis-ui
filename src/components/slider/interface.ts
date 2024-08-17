@@ -1,7 +1,7 @@
 import type React from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
-import { AbstractTooltipProps, TooltipPlacement } from '../tooltip';
-import { MarkObj } from './Marks';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { AbstractTooltipProps, TooltipPlacement } from '../tooltip';
+import type { MarkObj } from './Marks';
 
 export type Direction = 'rtl' | 'ltr' | 'ttb' | 'btt';
 

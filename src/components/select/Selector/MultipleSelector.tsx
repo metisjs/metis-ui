@@ -1,8 +1,8 @@
+import * as React from 'react';
+import { useState } from 'react';
 import Overflow from 'rc-overflow';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import * as React from 'react';
-import { useState } from 'react';
 import type { InnerSelectorProps } from '.';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';

@@ -1,6 +1,7 @@
-import pickAttrs from 'rc-util/lib/pickAttrs';
 import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import pickAttrs from 'rc-util/lib/pickAttrs';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { AnyObject } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import type { DropdownProps } from '../dropdown';

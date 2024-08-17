@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { StepsProps } from 'metis-ui';
 import { Card, Radio, Steps } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [size, setSize] = useState<StepsProps['size']>('default');

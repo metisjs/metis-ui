@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { PaginationProps } from 'metis-ui';
 import { Pagination } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [current, setCurrent] = useState(3);

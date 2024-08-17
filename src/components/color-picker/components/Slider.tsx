@@ -1,14 +1,12 @@
-import { useEvent } from 'rc-util';
 import React from 'react';
+import { useEvent } from 'rc-util';
 import { clsx } from '../../_util/classNameUtils';
-import { GetContextProp, GetProp } from '../../_util/type';
+import type { GetContextProp, GetProp } from '../../_util/type';
 import Slider from '../../slider';
-import {
-  SliderInternalContext,
-  SliderInternalContextProps,
-  UnstableContext,
-} from '../../slider/context';
-import { AggregationColor, GradientColor } from '../color';
+import type { SliderInternalContextProps } from '../../slider/context';
+import { SliderInternalContext, UnstableContext } from '../../slider/context';
+import type { GradientColor } from '../color';
+import { AggregationColor } from '../color';
 import type { ColorPickerProps, HSBAColorType } from '../interface';
 import { getGradientPercentColor, sortColors } from '../util';
 

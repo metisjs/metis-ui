@@ -1,6 +1,6 @@
+import React from 'react';
 import type { SliderSingleProps } from 'metis-ui';
 import { Slider } from 'metis-ui';
-import React from 'react';
 
 const style: React.CSSProperties = {
   display: 'inline-block',

@@ -1,7 +1,7 @@
+import { useMemo, useRef, useState } from 'react';
 import { useMemoizedFn, useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
-import { useMemo, useRef, useState } from 'react';
-import { BaseOptionType, FieldNames, RequestConfig, SelectProps } from '../interface';
+import type { BaseOptionType, FieldNames, RequestConfig, SelectProps } from '../interface';
 
 const PAGE_SIZE = 30;
 const SCROLL_THRESHOLD = 100;

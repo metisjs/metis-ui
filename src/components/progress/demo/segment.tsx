@@ -1,5 +1,5 @@
-import { Progress, Space, Tooltip } from 'metis-ui';
 import React from 'react';
+import { Progress, Space, Tooltip } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space size="small" vertical block>

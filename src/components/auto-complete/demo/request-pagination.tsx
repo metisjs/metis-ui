@@ -1,5 +1,5 @@
-import { AutoComplete } from 'metis-ui';
 import React from 'react';
+import { AutoComplete } from 'metis-ui';
 import { fetchDataWithPagination } from '../../select/demo/services';
 
 export default () => (

@@ -1,6 +1,6 @@
+import React from 'react';
 import type { CascaderProps } from 'metis-ui';
 import { Cascader } from 'metis-ui';
-import React from 'react';
 
 interface Option {
   value: string;

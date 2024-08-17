@@ -1,11 +1,12 @@
+import * as React from 'react';
 import {
   CheckCircleSolid,
   ExclamationTriangleSolid,
   InformationCircleSolid,
   XCircleSolid,
 } from '@metisjs/icons';
-import * as React from 'react';
-import { clsx, getSemanticCls, SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import NoFound from './NoFound';

@@ -1,19 +1,21 @@
+import React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import isEqual from 'rc-util/es/isEqual';
-
-import React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import Handles, { HandlesRef } from './Handles';
-import Marks, { InternalMarkObj } from './Marks';
-import Steps from './Steps';
-import Tracks from './Tracks';
-import SliderContext, { SliderContextProps } from './context';
+import type { SliderContextProps } from './context';
+import SliderContext from './context';
+import type { HandlesRef } from './Handles';
+import Handles from './Handles';
 import useDrag from './hooks/useDrag';
 import useOffset from './hooks/useOffset';
-import { Direction, SliderRangeProps, SliderRef, SliderSingleProps } from './interface';
+import type { Direction, SliderRangeProps, SliderRef, SliderSingleProps } from './interface';
+import type { InternalMarkObj } from './Marks';
+import Marks from './Marks';
+import Steps from './Steps';
+import Tracks from './Tracks';
 
 const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>((props, ref) => {
   const {

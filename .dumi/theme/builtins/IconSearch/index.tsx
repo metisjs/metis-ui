@@ -1,5 +1,5 @@
-import { Segmented } from 'metis-ui';
 import { useEffect, useRef, useState } from 'react';
+import { Segmented } from 'metis-ui';
 import Icons from './Icons';
 
 export default function IconSearch() {

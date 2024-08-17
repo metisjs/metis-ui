@@ -1,5 +1,5 @@
-import { Card } from 'metis-ui';
 import React from 'react';
+import { Card } from 'metis-ui';
 
 const { Meta } = Card;
 

@@ -1,5 +1,5 @@
-import { Card, Space } from 'metis-ui';
 import React from 'react';
+import { Card, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical size={16}>

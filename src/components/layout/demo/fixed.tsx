@@ -1,5 +1,5 @@
-import { Layout, Menu } from 'metis-ui';
 import React from 'react';
+import { Layout, Menu } from 'metis-ui';
 
 const { Header, Content, Footer } = Layout;
 

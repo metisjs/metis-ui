@@ -1,17 +1,18 @@
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { CSSProperties } from 'react';
 import * as React from 'react';
-import ContextIsolator from '../_util/ContextIsolator';
-import ZIndexContext from '../_util/ZIndexContext';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import ContextIsolator from '../_util/ContextIsolator';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
+import ZIndexContext from '../_util/ZIndexContext';
 import { ConfigContext } from '../config-provider';
-import Trigger, { BuildInPlacements } from '../trigger';
+import type { BuildInPlacements } from '../trigger';
+import Trigger from '../trigger';
+import type { TooltipProps, TooltipRef } from './interface';
 import Popup from './Popup';
-import { TooltipProps, TooltipRef } from './interface';
 import { parseColor } from './util';
 
 const splitObject = <T extends CSSProperties>(

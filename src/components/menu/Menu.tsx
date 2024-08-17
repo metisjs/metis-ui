@@ -1,22 +1,22 @@
+import * as React from 'react';
+import { useImperativeHandle } from 'react';
+import { flushSync } from 'react-dom';
 import { EllipsisHorizontalOutline } from '@metisjs/icons';
 import Overflow from 'rc-overflow';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isEqual from 'rc-util/lib/isEqual';
-import * as React from 'react';
-import { useImperativeHandle } from 'react';
-import { flushSync } from 'react-dom';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import { SiderContext } from '../layout/Sider';
-import { TransitionProps } from '../transition';
-import MenuItem from './MenuItem';
-import SubMenu from './SubMenu';
-import { IdContext, getMenuId } from './context/IdContext';
-import MenuContextProvider, { MenuTheme } from './context/MenuContext';
+import type { TransitionProps } from '../transition';
+import { getMenuId, IdContext } from './context/IdContext';
+import type { MenuTheme } from './context/MenuContext';
+import MenuContextProvider from './context/MenuContext';
 import OverrideContext from './context/OverrideContext';
 import { PathRegisterContext, PathUserContext } from './context/PathContext';
 import useAccessibility from './hooks/useAccessibility';
@@ -34,6 +34,8 @@ import type {
   SelectInfo,
   TriggerSubMenuAction,
 } from './interface';
+import MenuItem from './MenuItem';
+import SubMenu from './SubMenu';
 import { parseItems } from './utils/nodeUtil';
 
 // optimize for render

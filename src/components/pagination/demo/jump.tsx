@@ -1,6 +1,6 @@
+import React from 'react';
 import type { PaginationProps } from 'metis-ui';
 import { Pagination, Space } from 'metis-ui';
-import React from 'react';
 
 const onChange: PaginationProps['onChange'] = (pageNumber) => {
   console.log('Page: ', pageNumber);

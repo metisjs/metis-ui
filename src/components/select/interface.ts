@@ -1,11 +1,11 @@
-import {
+import type * as React from 'react';
+import type {
   Options as RequestOptions,
   Service as RequestService,
 } from 'ahooks/lib/useRequest/src/types';
-import * as React from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
-import { SelectPlacements } from './Select';
+import type { SelectPlacements } from './Select';
 
 export type SelectCommonPlacement = (typeof SelectPlacements)[number];
 

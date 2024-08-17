@@ -1,6 +1,7 @@
-import omit from 'rc-util/lib/omit';
 import * as React from 'react';
-import { SemanticClassName, clsx } from '../_util/classNameUtils';
+import omit from 'rc-util/lib/omit';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { CheckboxChangeEvent } from './Checkbox';
 import Checkbox from './Checkbox';

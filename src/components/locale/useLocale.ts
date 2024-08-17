@@ -16,7 +16,7 @@ const useLocale = <C extends LocaleComponentName = LocaleComponentName>(
     const locale = defaultLocale || defaultLocaleData[componentName];
     const localeFromContext = fullLocale?.[componentName] ?? {};
     return {
-      ...(typeof locale === 'function' ? (locale as (() => Locale[C]))() : locale),
+      ...(typeof locale === 'function' ? (locale as () => Locale[C])() : locale),
       ...(localeFromContext || {}),
     };
   }, [componentName, defaultLocale, fullLocale]);

@@ -1,5 +1,5 @@
-import { Button, message, Modal, notification, Select, Space, Switch } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, message, Modal, notification, Select, Space, Switch } from 'metis-ui';
 
 const options = [
   {

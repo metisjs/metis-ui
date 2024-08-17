@@ -1,6 +1,7 @@
-import useState from 'rc-util/lib/hooks/useState';
 import * as React from 'react';
-import Button, { ButtonProps, ButtonType } from '../button';
+import useState from 'rc-util/lib/hooks/useState';
+import type { ButtonProps, ButtonType } from '../button';
+import Button from '../button';
 
 export interface ActionButtonProps {
   type?: ButtonType;

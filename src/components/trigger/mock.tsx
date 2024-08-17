@@ -8,12 +8,7 @@ interface MockPortalProps {
   getContainer?: () => HTMLElement;
 }
 
-const MockPortal: React.FC<MockPortalProps> = ({
-  open,
-  autoDestroy,
-  children,
-  getContainer,
-}) => {
+const MockPortal: React.FC<MockPortalProps> = ({ open, autoDestroy, children, getContainer }) => {
   const [visible, setVisible] = React.useState(open);
 
   React.useEffect(() => {

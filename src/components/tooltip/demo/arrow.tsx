@@ -1,5 +1,5 @@
-import { Button, Divider, Segmented, Tooltip } from 'metis-ui';
 import React, { useMemo, useState } from 'react';
+import { Button, Divider, Segmented, Tooltip } from 'metis-ui';
 
 const text = <span>prompt text</span>;
 

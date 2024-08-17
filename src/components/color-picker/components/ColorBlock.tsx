@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import type { FC } from 'react';
 import React from 'react';
+import classNames from 'classnames';
 
 export type ColorBlockProps = {
   color: string;

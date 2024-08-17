@@ -1,5 +1,5 @@
-import omit from 'rc-util/lib/omit';
 import * as React from 'react';
+import omit from 'rc-util/lib/omit';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';

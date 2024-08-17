@@ -1,5 +1,5 @@
-import { Alert, Space, Switch } from 'metis-ui';
 import React, { useState } from 'react';
+import { Alert, Space, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [visible, setVisible] = useState(true);

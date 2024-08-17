@@ -1,6 +1,6 @@
+import React from 'react';
 import type { PopconfirmProps } from 'metis-ui';
 import { Button, message, Popconfirm } from 'metis-ui';
-import React from 'react';
 
 const confirm: PopconfirmProps['onConfirm'] = (e) => {
   console.log(e);

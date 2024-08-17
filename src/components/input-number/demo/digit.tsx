@@ -1,6 +1,6 @@
+import React from 'react';
 import type { InputNumberProps } from 'metis-ui';
 import { InputNumber } from 'metis-ui';
-import React from 'react';
 
 const onChange: InputNumberProps['onChange'] = (value) => {
   console.log('changed', value);

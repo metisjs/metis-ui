@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'metis-ui';
 import { Divider, Radio, Skeleton, Space, Switch } from 'metis-ui';
-import React, { useState } from 'react';
 
 type SizeType = 'default' | 'small' | 'large';
 type ButtonShapeType = 'circle' | 'square' | 'round' | 'default';

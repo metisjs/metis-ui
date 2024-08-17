@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { clsx } from '../_util/classNameUtils';
 
 const BreadcrumbSeparator: React.FC<

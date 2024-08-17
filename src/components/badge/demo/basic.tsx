@@ -1,6 +1,6 @@
+import React from 'react';
 import { ClockOutline } from '@metisjs/icons';
 import { Avatar, Badge, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space size="middle">

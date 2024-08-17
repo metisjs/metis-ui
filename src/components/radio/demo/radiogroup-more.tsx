@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'metis-ui';
 import { Input, Radio, Space } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [value, setValue] = useState(1);

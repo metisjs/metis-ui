@@ -1,5 +1,5 @@
-import { Button, notification } from 'metis-ui';
 import React from 'react';
+import { Button, notification } from 'metis-ui';
 
 const key = 'updatable';
 

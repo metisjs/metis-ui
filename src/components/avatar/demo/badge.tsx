@@ -1,6 +1,6 @@
+import React from 'react';
 import { UserOutline } from '@metisjs/icons';
 import { Avatar, Badge, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space size={24}>

@@ -1,8 +1,8 @@
+import * as React from 'react';
 import Portal from '@rc-component/portal';
 import contains from 'rc-util/lib/Dom/contains';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
 import { useZIndex } from '../_util/hooks/useZIndex';
@@ -12,7 +12,8 @@ import Skeleton from '../skeleton';
 import Footer from './Footer';
 import type { ModalProps } from './interface';
 import Mask from './Mask';
-import Panel, { PanelRef } from './Panel';
+import type { PanelRef } from './Panel';
+import Panel from './Panel';
 
 const Modal: React.FC<ModalProps> = (props) => {
   const {

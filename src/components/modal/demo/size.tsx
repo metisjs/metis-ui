@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { range } from 'lodash';
 import { Button, Modal, Space } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [openWidth, setOpenWidth] = useState(false);

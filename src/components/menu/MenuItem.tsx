@@ -1,13 +1,15 @@
+import * as React from 'react';
 import Overflow from 'rc-overflow';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
-import * as React from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import warning from '../_util/warning';
-import { SiderContext, SiderContextProps } from '../layout/Sider';
-import Tooltip, { TooltipProps } from '../tooltip';
+import type { SiderContextProps } from '../layout/Sider';
+import { SiderContext } from '../layout/Sider';
+import type { TooltipProps } from '../tooltip';
+import Tooltip from '../tooltip';
 import { useMenuId } from './context/IdContext';
 import { MenuContext } from './context/MenuContext';
 import { PathTrackerContext, useFullPath, useMeasure } from './context/PathContext';

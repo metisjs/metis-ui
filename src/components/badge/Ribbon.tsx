@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
-import { PresetColorType, getPresetColorCls, isPresetColor } from '../_util/colors';
-import { LiteralUnion } from '../_util/type';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { PresetColorType } from '../_util/colors';
+import { getPresetColorCls, isPresetColor } from '../_util/colors';
+import type { LiteralUnion } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 
 type RibbonPlacement = 'start' | 'end';

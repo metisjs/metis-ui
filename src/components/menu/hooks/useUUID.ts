@@ -1,5 +1,5 @@
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 
 const uniquePrefix = Math.random().toFixed(5).toString().slice(2);
 

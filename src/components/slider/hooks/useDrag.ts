@@ -1,5 +1,5 @@
-import { useEvent } from 'rc-util';
 import * as React from 'react';
+import { useEvent } from 'rc-util';
 import { UnstableContext } from '../context';
 import type { Direction, OnStartMove } from '../interface';
 import type { OffsetValues } from './useOffset';

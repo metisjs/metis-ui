@@ -1,6 +1,6 @@
+import React from 'react';
 import { XCircleOutline } from '@metisjs/icons';
 import { Space, Tag } from 'metis-ui';
-import React from 'react';
 
 const log = (e: React.MouseEvent<HTMLElement>) => {
   console.log(e);

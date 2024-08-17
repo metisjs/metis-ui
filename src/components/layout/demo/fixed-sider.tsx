@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   BookmarkOutline,
   BugAntOutline,
@@ -10,7 +11,6 @@ import {
 } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Layout, Menu } from 'metis-ui';
-import React from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
 

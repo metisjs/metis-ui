@@ -1,5 +1,5 @@
-import { Space, Switch } from 'metis-ui';
 import React from 'react';
+import { Space, Switch } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical>

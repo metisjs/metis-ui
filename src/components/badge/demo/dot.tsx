@@ -1,6 +1,6 @@
+import React from 'react';
 import { BellAlertOutline } from '@metisjs/icons';
 import { Badge, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space>

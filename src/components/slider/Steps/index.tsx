@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { InternalMarkObj } from '../Marks';
 import SliderContext from '../context';
+import type { InternalMarkObj } from '../Marks';
 import Dot from './Dot';
 
 export interface StepsProps {

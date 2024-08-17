@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { devUseWarning } from '../../_util/warning';
+
 /**
  * Keep input cursor in the correct position if possible.
  * Is this necessary since we have `formatter` which may mass the content?

@@ -1,5 +1,5 @@
-import { Button, Modal } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Modal } from 'metis-ui';
 
 const App: React.FC = () => {
   const [modal1Open, setModal1Open] = useState(false);

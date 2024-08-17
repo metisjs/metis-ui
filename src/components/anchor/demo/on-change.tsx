@@ -1,5 +1,5 @@
-import { Anchor } from 'metis-ui';
 import React from 'react';
+import { Anchor } from 'metis-ui';
 
 const onChange = (link: string) => {
   console.log('Anchor:OnChange', link);

@@ -1,7 +1,7 @@
+import React from 'react';
 import { FaceSmileOutline } from '@metisjs/icons';
 import type { CascaderProps } from 'metis-ui';
 import { Cascader } from 'metis-ui';
-import React from 'react';
 
 interface Option {
   value: string;

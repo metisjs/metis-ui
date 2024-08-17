@@ -1,5 +1,5 @@
-import { Space, Spin } from 'metis-ui';
 import React from 'react';
+import { Space, Spin } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space size={16}>

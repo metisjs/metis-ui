@@ -1,16 +1,16 @@
-import findDOMNode from 'rc-util/lib/Dom/findDOMNode';
-import { fillRef, supportRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useRef } from 'react';
+import findDOMNode from 'rc-util/lib/Dom/findDOMNode';
+import { fillRef, supportRef } from 'rc-util/lib/ref';
 import useLatestValue from '../_util/hooks/useLatestValue';
 import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
-import {
+import type {
   TransitionBeforeEventHandler,
   TransitionEventHandler,
-  TransitionStatus,
   TransitionStyle,
 } from './interface';
+import { TransitionStatus } from './interface';
 
 export interface TransitionProps {
   visible?: boolean;

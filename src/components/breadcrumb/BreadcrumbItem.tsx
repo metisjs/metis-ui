@@ -1,5 +1,5 @@
-import { ChevronDownOutline } from '@metisjs/icons';
 import * as React from 'react';
+import { ChevronDownOutline } from '@metisjs/icons';
 import type { DropdownProps } from '../dropdown/Dropdown';
 import Dropdown from '../dropdown/Dropdown';
 import BreadcrumbSeparator from './BreadcrumbSeparator';

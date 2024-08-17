@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import {
   ChevronDoubleLeftOutline,
   ChevronDoubleRightOutline,
@@ -5,10 +6,9 @@ import {
   ChevronRightOutline,
 } from '@metisjs/icons';
 import { isInteger } from 'lodash';
-import KeyCode from 'rc-util/lib/KeyCode';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import React, { useEffect } from 'react';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
 import { devUseWarning } from '../_util/warning';
@@ -16,10 +16,10 @@ import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import Input from '../input';
 import { useLocale } from '../locale';
+import type { PaginationProps } from './interface';
 import Options from './Options';
 import type { PagerProps } from './Pager';
 import Pager from './Pager';
-import type { PaginationProps } from './interface';
 
 const defaultItemRender: PaginationProps['itemRender'] = (page, type, element) => element;
 

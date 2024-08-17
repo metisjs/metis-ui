@@ -1,5 +1,5 @@
-import { Button, Tooltip } from 'metis-ui';
 import React from 'react';
+import { Button, Tooltip } from 'metis-ui';
 
 const App: React.FC = () => {
   React.useEffect(() => {

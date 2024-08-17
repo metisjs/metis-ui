@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import { CalendarOutline, FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import { Divider, Menu, Switch } from 'metis-ui';
 import type { MenuProps, MenuTheme } from 'metis-ui/es/menu';
-import React, { useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

@@ -1,5 +1,5 @@
-import { Slider, Switch } from 'metis-ui';
 import React, { useState } from 'react';
+import { Slider, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [reverse, setReverse] = useState(true);

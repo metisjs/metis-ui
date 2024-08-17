@@ -1,9 +1,9 @@
 import * as React from 'react';
+import type { ItemType } from '../interface';
 import MenuDivider from '../MenuDivider';
 import MenuItem from '../MenuItem';
 import MenuItemGroup from '../MenuItemGroup';
 import SubMenu from '../SubMenu';
-import type { ItemType } from '../interface';
 import { parseChildren } from './commonUtil';
 
 function convertItemsToNodes(list: ItemType[]) {

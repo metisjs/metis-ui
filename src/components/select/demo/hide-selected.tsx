@@ -1,5 +1,5 @@
-import { Select } from 'metis-ui';
 import React, { useState } from 'react';
+import { Select } from 'metis-ui';
 
 const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
 

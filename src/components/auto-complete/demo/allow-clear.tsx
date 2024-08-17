@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { XMarkOutline } from '@metisjs/icons';
 import { AutoComplete } from 'metis-ui';
-import React, { useState } from 'react';
 
 const mockVal = (str: string, repeat = 1) => ({
   value: str.repeat(repeat),

@@ -1,5 +1,5 @@
-import { Input, Space } from 'metis-ui';
 import React from 'react';
+import { Input, Space } from 'metis-ui';
 
 const { TextArea } = Input;
 

@@ -1,5 +1,5 @@
-import { useMergedState } from 'rc-util';
 import { useMemo } from 'react';
+import { useMergedState } from 'rc-util';
 import type { Color } from '../color';
 import type { ColorGenInput } from '../interface';
 import { generateColor } from '../util';

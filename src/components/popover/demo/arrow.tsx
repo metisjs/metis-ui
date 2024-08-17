@@ -1,5 +1,5 @@
-import { Button, Divider, Popover, Segmented } from 'metis-ui';
 import React, { useMemo, useState } from 'react';
+import { Button, Divider, Popover, Segmented } from 'metis-ui';
 
 const text = <span>Title</span>;
 const content = (

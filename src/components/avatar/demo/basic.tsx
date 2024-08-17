@@ -1,6 +1,6 @@
+import React from 'react';
 import { UserOutline } from '@metisjs/icons';
 import { Avatar, Space } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Space vertical size={16}>

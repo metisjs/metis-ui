@@ -1,5 +1,5 @@
-import { Slider } from 'metis-ui';
 import React from 'react';
+import { Slider } from 'metis-ui';
 
 const onChange = (value: number | number[]) => {
   console.log('onChange: ', value);

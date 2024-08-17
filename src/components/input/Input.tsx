@@ -1,5 +1,3 @@
-import { useMergedState } from 'rc-util';
-import omit from 'rc-util/lib/omit';
 import React, {
   forwardRef,
   useContext,
@@ -8,8 +6,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import ContextIsolator from '../_util/ContextIsolator';
+import { useMergedState } from 'rc-util';
+import omit from 'rc-util/lib/omit';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import ContextIsolator from '../_util/ContextIsolator';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -18,10 +18,11 @@ import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariant';
 import { useCompactItemContext } from '../space/Compact';
-import BaseInput, { HolderRef } from './BaseInput';
+import type { HolderRef } from './BaseInput';
+import BaseInput from './BaseInput';
 import useCount from './hooks/useCount';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
-import { ChangeEventInfo, InputFocusOptions, InputProps, InputRef } from './interface';
+import type { ChangeEventInfo, InputFocusOptions, InputProps, InputRef } from './interface';
 import { hasPrefixSuffix, resolveOnChange, triggerFocus } from './utils';
 
 const Input = forwardRef<InputRef, InputProps>((props, ref) => {

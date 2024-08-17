@@ -1,5 +1,5 @@
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';
@@ -13,8 +13,8 @@ import type {
   DisplayValueType,
 } from './BaseSelect';
 import BaseSelect, { isMultiple } from './BaseSelect';
-import OptionList from './OptionList';
-import { SelectContext, SelectContextProps } from './context';
+import type { SelectContextProps } from './context';
+import { SelectContext } from './context';
 import useBuiltinPlacements from './hooks/useBuiltinPlacements';
 import useCache from './hooks/useCache';
 import useFilterOptions from './hooks/useFilterOptions';
@@ -22,7 +22,7 @@ import useIcons from './hooks/useIcons';
 import useId from './hooks/useId';
 import useOptions from './hooks/useOptions';
 import useRequest from './hooks/useRequest';
-import {
+import type {
   BaseOptionType,
   DraftValueType,
   LabeledValueType,
@@ -33,6 +33,7 @@ import {
   SelectCommonPlacement,
   SelectProps,
 } from './interface';
+import OptionList from './OptionList';
 import { hasValue, toArray } from './utils/commonUtil';
 import { fillFieldNames, flattenOptions } from './utils/valueUtil';
 import warningProps, { warningNullOptions } from './utils/warningPropsUtil';

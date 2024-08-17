@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { InputNumberProps } from 'metis-ui';
 import { Col, InputNumber, Row, Slider, Space } from 'metis-ui';
-import React, { useState } from 'react';
 
 const IntegerStep: React.FC = () => {
   const [inputValue, setInputValue] = useState(1);

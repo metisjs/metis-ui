@@ -1,5 +1,5 @@
-import { Button, InputNumber, Space } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, InputNumber, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [value, setValue] = useState<string | number | null>('99');

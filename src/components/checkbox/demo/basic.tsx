@@ -1,6 +1,6 @@
+import React from 'react';
 import { Checkbox } from 'metis-ui';
 import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
-import React from 'react';
 
 const onChange = (e: CheckboxChangeEvent) => {
   console.log(`checked = ${e.target.checked}`);

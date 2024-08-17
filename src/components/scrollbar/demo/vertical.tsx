@@ -1,5 +1,5 @@
-import { Scrollbar } from 'metis-ui';
 import React from 'react';
+import { Scrollbar } from 'metis-ui';
 
 export const Lorem = () => {
   const lorem = `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam

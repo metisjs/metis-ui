@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import type { DrawerProps, RadioChangeEvent } from 'metis-ui';
 import { Button, Drawer, Radio, Space } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);

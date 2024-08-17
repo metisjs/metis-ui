@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react';
 import { useMutateObserver } from '@rc-component/mutate-observer';
 import { useEvent } from 'rc-util';
-import React, { useEffect } from 'react';
 import { clsx } from '../_util/classNameUtils';
 import useTheme from '../theme/useTheme';
 import type { WatermarkContextProps } from './context';

@@ -1,6 +1,6 @@
+import React from 'react';
 import type { ProgressProps } from 'metis-ui';
 import { Progress, Space } from 'metis-ui';
-import React from 'react';
 
 const twoColors: ProgressProps['strokeColor'] = {
   '0%': '#108ee9',

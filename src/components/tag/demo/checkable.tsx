@@ -1,5 +1,5 @@
-import { Space, Tag } from 'metis-ui';
 import React, { useState } from 'react';
+import { Space, Tag } from 'metis-ui';
 
 const { CheckableTag } = Tag;
 

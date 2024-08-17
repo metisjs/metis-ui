@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { ClockOutline } from '@metisjs/icons';
 import { Badge, Space, Switch } from 'metis-ui';
-import React, { useState } from 'react';
 
 const App: React.FC = () => {
   const [show, setShow] = useState(true);

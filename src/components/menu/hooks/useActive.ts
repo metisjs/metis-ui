@@ -27,14 +27,14 @@ export default function useActive(
 
   // Skip when disabled
   if (!disabled) {
-    ret.onMouseEnter = domEvent => {
+    ret.onMouseEnter = (domEvent) => {
       onMouseEnter?.({
         key: eventKey,
         domEvent,
       });
       onActive(eventKey);
     };
-    ret.onMouseLeave = domEvent => {
+    ret.onMouseLeave = (domEvent) => {
       onMouseLeave?.({
         key: eventKey,
         domEvent,

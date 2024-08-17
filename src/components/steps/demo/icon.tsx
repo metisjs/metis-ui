@@ -1,6 +1,6 @@
+import React from 'react';
 import { FaceSmileOutline, LoadingOutline, UserOutline, WalletOutline } from '@metisjs/icons';
 import { Steps } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Steps

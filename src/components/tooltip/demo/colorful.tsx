@@ -1,5 +1,5 @@
-import { Button, Space, Tooltip } from 'metis-ui';
 import React from 'react';
+import { Button, Space, Tooltip } from 'metis-ui';
 
 const customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 

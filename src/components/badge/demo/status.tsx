@@ -1,5 +1,5 @@
-import { Badge, Space } from 'metis-ui';
 import React from 'react';
+import { Badge, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <>

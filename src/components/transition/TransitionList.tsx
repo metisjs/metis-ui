@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { TransitionProps } from './Transition';
 import Transition from './Transition';
 import type { KeyObject } from './util/diff';
-import { STATUS_ADD, STATUS_KEEP, STATUS_REMOVED, diffKeys, parseKeys } from './util/diff';
+import { diffKeys, parseKeys, STATUS_ADD, STATUS_KEEP, STATUS_REMOVED } from './util/diff';
 
 const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
   'eventProps',

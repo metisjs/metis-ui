@@ -1,5 +1,5 @@
-import { Cascader } from 'metis-ui';
 import React from 'react';
+import { Cascader } from 'metis-ui';
 import { fetchChildrenData } from './services';
 
 export default () => (

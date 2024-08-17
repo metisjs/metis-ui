@@ -1,5 +1,5 @@
-import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
+import toArray from 'rc-util/lib/Children/toArray';
 import { clsx } from '../_util/classNameUtils';
 import type { SizeType } from '../config-provider/SizeContext';
 

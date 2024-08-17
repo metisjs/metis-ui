@@ -1,19 +1,21 @@
+import * as React from 'react';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
-import * as React from 'react';
-import ZIndexContext from '../_util/ZIndexContext';
-import { SemanticClassName, clsx, getSemanticCls } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import type { AdjustOverflow } from '../_util/placements';
 import getPlacements from '../_util/placements';
 import { cloneElement } from '../_util/reactNode';
+import ZIndexContext from '../_util/ZIndexContext';
 import { ConfigContext } from '../config-provider';
 import type { MenuProps } from '../menu';
 import Menu from '../menu';
-import Trigger, { ActionType, AlignType } from '../trigger';
-import Overlay from './Overlay';
+import type { ActionType, AlignType } from '../trigger';
+import Trigger from '../trigger';
 import useAccessibility from './hooks/useAccessibility';
+import Overlay from './Overlay';
 
 const Placements = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'top', 'bottom'] as const;
 

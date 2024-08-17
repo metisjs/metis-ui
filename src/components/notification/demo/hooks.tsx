@@ -1,6 +1,6 @@
+import React, { useMemo } from 'react';
 import type { NotificationArgsProps } from 'metis-ui';
 import { Button, Divider, notification, Space } from 'metis-ui';
-import React, { useMemo } from 'react';
 
 type NotificationPlacement = NotificationArgsProps['placement'];
 

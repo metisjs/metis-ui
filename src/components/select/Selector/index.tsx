@@ -8,10 +8,11 @@
  * - https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
  */
 
-import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import { useRef } from 'react';
-import { SemanticClassName, clsx, getSemanticCls } from '../../_util/classNameUtils';
+import KeyCode from 'rc-util/lib/KeyCode';
+import type { SemanticClassName } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import useLock from '../../_util/hooks/useLock';
 import type { CustomTagProps, DisplayValueType, Mode, RenderNode } from '../BaseSelect';
 import { isValidateOpenKey } from '../utils/keyUtil';

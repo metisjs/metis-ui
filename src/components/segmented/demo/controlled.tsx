@@ -1,5 +1,5 @@
-import { Segmented } from 'metis-ui';
 import React, { useState } from 'react';
+import { Segmented } from 'metis-ui';
 
 const Demo: React.FC = () => {
   const [value, setValue] = useState<string | number>('Map');

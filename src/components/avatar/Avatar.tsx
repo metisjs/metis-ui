@@ -1,6 +1,6 @@
+import * as React from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import { composeRef } from 'rc-util/lib/ref';
-import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { AvatarSize } from './SizeContext';

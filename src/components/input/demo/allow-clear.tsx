@@ -1,6 +1,6 @@
+import React from 'react';
 import { EyeDropperSolid } from '@metisjs/icons';
 import { Input, Space } from 'metis-ui';
-import React from 'react';
 
 const { TextArea } = Input;
 

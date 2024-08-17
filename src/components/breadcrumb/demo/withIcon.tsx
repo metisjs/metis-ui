@@ -1,6 +1,6 @@
+import React from 'react';
 import { HomeOutline, UserOutline } from '@metisjs/icons';
 import { Breadcrumb } from 'metis-ui';
-import React from 'react';
 
 const App: React.FC = () => (
   <Breadcrumb

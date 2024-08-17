@@ -1,13 +1,14 @@
-import { useEvent } from 'rc-util';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { FC } from 'react';
 import React, { useContext, useRef } from 'react';
+import { useEvent } from 'rc-util';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { clsx } from '../../_util/classNameUtils';
 import Segmented from '../../segmented';
-import { AggregationColor, Color } from '../color';
+import type { Color } from '../color';
+import { AggregationColor } from '../color';
 import { PanelPickerContext } from '../context';
 import useColorDrag from '../hooks/useColorDrag';
-import { ModeOptions } from '../hooks/useMode';
+import type { ModeOptions } from '../hooks/useMode';
 import type { ModeType, TransformOffset } from '../interface';
 import { calcOffset, calculateColor, genAlphaColor, generateColor, genHueColor } from '../util';
 import ColorBlock from './ColorBlock';

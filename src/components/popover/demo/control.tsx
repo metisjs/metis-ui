@@ -1,5 +1,5 @@
-import { Button, Popover } from 'metis-ui';
 import React, { useState } from 'react';
+import { Button, Popover } from 'metis-ui';
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
