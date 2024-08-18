@@ -259,7 +259,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.input,
   );
   const affixWrapperCls = clsx(
-    'relative inline-flex w-full items-center gap-x-2 rounded-md bg-container text-sm text-text-secondary ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'relative inline-flex w-full items-center gap-x-2 rounded-md bg-container text-sm text-text ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
       'gap-x-1 px-2 py-1.5': mergedSize === 'small',
       'px-3 py-1.5 leading-6': mergedSize === 'middle',
@@ -322,13 +322,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
+    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base text-text-secondary',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
+    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base  text-text-secondary',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.suffix,
   );
