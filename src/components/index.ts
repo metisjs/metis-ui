@@ -83,5 +83,7 @@ export { default as Transition } from './transition';
 export type { TransitionProps } from './transition';
 export { default as Watermark } from './watermark';
 export type { WatermarkProps } from './watermark';
+export { default as Collapse } from './collapse';
+export type { CollapsePanelProps, CollapseProps } from './collapse';
 
 export * from './_util/classNameUtils';
