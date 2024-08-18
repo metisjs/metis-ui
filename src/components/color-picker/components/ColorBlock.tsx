@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../../_util/classNameUtils';
 
 export type ColorBlockProps = {
   color: string;
@@ -13,9 +13,13 @@ export type ColorBlockProps = {
 const ColorBlock: FC<ColorBlockProps> = ({ color, prefixCls, className, style, onClick }) => {
   const colorBlockCls = `${prefixCls}-color-block`;
   return (
-    <div className={classNames(colorBlockCls, className)} style={style} onClick={onClick}>
+    <div
+      className={clsx(colorBlockCls, 'relative rounded-md w-7 h-7', className)}
+      style={style}
+      onClick={onClick}
+    >
       <div
-        className={`${colorBlockCls}-inner`}
+        className={clsx(`${colorBlockCls}-inner`, 'w-full h-full rounded-md shadow-inner')}
         style={{
           background: color,
         }}

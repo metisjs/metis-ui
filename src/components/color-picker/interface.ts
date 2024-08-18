@@ -1,8 +1,8 @@
-import { CSSProperties, FC, ReactNode } from 'react';
-import { SemanticClassName } from '../_util/classNameUtils';
-import { SizeType } from '../config-provider/SizeContext';
-import { PopoverProps } from '../popover';
-import { TooltipPlacement } from '../tooltip';
+import type { CSSProperties, FC, ReactNode } from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SizeType } from '../config-provider/SizeContext';
+import type { PopoverProps } from '../popover';
+import type { TooltipPlacement } from '../tooltip';
 import type { AggregationColor, Color } from './color';
 
 export interface HSB {
@@ -70,8 +70,8 @@ export type ModeType = 'single' | 'gradient';
 
 export interface ColorPickerProps
   extends Pick<PopoverProps, 'getPopupContainer' | 'autoAdjustOverflow' | 'destroyTooltipOnHide'> {
-  prefixCls: string;
-  className?: SemanticClassName<'popup' | 'popupOverlayInner'>;
+  prefixCls?: string;
+  className?: SemanticClassName<'popup' | 'overlay'>;
   style?: CSSProperties;
   mode?: ModeType | ModeType[];
   value?: ColorValueType;
@@ -92,7 +92,6 @@ export interface ColorPickerProps
   ) => React.ReactNode;
   showText?: boolean | ((color: AggregationColor) => React.ReactNode);
   size?: SizeType;
-  rootClassName?: string;
   disabledAlpha?: boolean;
   [key: `data-${string}`]: string;
   onOpenChange?: (open: boolean) => void;

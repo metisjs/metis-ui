@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { AggregationColor } from '../../color';
-import { RGB } from '../../interface';
+import type { AggregationColor } from '../../color';
+import type { RGB } from '../../interface';
 import { generateColor } from '../../util';
 import Steppers from './Steppers';
 

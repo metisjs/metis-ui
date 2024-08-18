@@ -1,4 +1,5 @@
-import { ColorInput, HSV, TinyColor } from '@ctrl/tinycolor';
+import type { ColorInput, HSV } from '@ctrl/tinycolor';
+import { TinyColor } from '@ctrl/tinycolor';
 import type { ColorGenInput, Colors, HSB } from './interface';
 import { getRoundNumber } from './util';
 
