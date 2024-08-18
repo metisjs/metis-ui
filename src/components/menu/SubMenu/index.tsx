@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Overflow from 'rc-overflow';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import ExpandIcon from '../../_util/ExpandIcon';
 import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../../_util/hooks/useZIndex';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
@@ -360,9 +361,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
           }}
         >
           {mode !== 'horizontal' ? (
-            <svg
-              viewBox="0 0 20 20"
-              aria-hidden="true"
+            <ExpandIcon
+              open={open && mode === 'inline'}
               className={clsx(
                 `${subMenuPrefixCls}-arrow`,
                 'h-5 w-5 transition-transform',
@@ -373,21 +373,13 @@ const InternalSubMenu = (props: SubMenuProps) => {
                 },
                 contextTheme !== 'dark' && 'text-text-tertiary',
                 contextTheme !== 'dark' && childrenSelected && 'text-primary',
-                open && mode === 'inline' && 'rotate-90',
                 firstLevel && isInlineCollapsed && 'opacity-0',
                 mergedDisabled && {
                   'text-text-tertiary': contextTheme === 'light',
                   'text-gray-500': contextTheme === 'dark',
                 },
               )}
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
+            />
           ) : null}
         </Icon>
       </span>
