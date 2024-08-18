@@ -53,59 +53,10 @@ const THEME_KEYS = [
   'textQuaternary',
   'textSecondary',
   'textTertiary',
-];
+] as const;
 
 type Theme = {
-  primary: string;
-  primaryActive: string;
-  primaryBg: string;
-  primaryBgHover: string;
-  primaryHover: string;
-  primaryBorder: string;
-  primaryBorderSecondary: string;
-  error: string;
-  errorActive: string;
-  errorBg: string;
-  errorBgHover: string;
-  errorHover: string;
-  errorBorder: string;
-  errorBorderSecondary: string;
-  info: string;
-  infoActive: string;
-  infoBg: string;
-  infoBgHover: string;
-  infoHover: string;
-  infoBorder: string;
-  infoBorderSecondary: string;
-  success: string;
-  successActive: string;
-  successBg: string;
-  successBgHover: string;
-  successHover: string;
-  successBorder: string;
-  successBorderSecondary: string;
-  warning: string;
-  warningActive: string;
-  warningBg: string;
-  warningBgHover: string;
-  warningHover: string;
-  warningBorder: string;
-  warningBorderSecondary: string;
-  container: string;
-  elevated: string;
-  layout: string;
-  bgMask: string;
-  spotlight: string;
-  border: string;
-  borderSecondary: string;
-  fill: string;
-  fillQuaternary: string;
-  fillSecondary: string;
-  fillTertiary: string;
-  text: string;
-  textQuaternary: string;
-  textSecondary: string;
-  textTertiary: string;
+  [key in (typeof THEME_KEYS)[number]]: string;
 };
 
 const genTheme = () => {
