@@ -1,5 +1,4 @@
 ---
-category: Components
 group: Data Display
 title: Collapse
 description: A content area which can be collapsed and expanded.

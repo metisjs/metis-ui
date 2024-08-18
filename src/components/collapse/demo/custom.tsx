@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import React from 'react';
+import { MinusOutline, PlusOutline } from '@metisjs/icons';
 import type { CollapseProps } from 'metis-ui';
 import { Collapse } from 'metis-ui';
 
@@ -33,8 +34,6 @@ const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelSt
 const App: React.FC = () => {
   const panelStyle: React.CSSProperties = {
     marginBottom: 24,
-    // background: token.colorFillAlter,
-    // borderRadius: token.borderRadiusLG,
     border: 'none',
   };
 
@@ -42,8 +41,7 @@ const App: React.FC = () => {
     <Collapse
       bordered={false}
       defaultActiveKey={['1']}
-      // expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-      // style={{ background: token.colorBgContainer }}
+      expandIcon={({ isActive }) => (isActive ? <PlusOutline /> : <MinusOutline />)}
       items={getItems(panelStyle)}
     />
   );
