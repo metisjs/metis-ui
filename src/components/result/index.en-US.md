@@ -1,5 +1,4 @@
 ---
-category: Components
 title: Result
 description: Used to feedback the processing results of a series of operations.
 group: Feedback
