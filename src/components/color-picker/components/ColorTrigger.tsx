@@ -1,7 +1,8 @@
 import type { CSSProperties, MouseEventHandler } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../../_util/classNameUtils';
+import type { SemanticClassName } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { useLocale } from '../../locale';
 import type { AggregationColor } from '../color';
 import type { ColorFormatType, ColorPickerProps } from '../interface';
@@ -16,7 +17,7 @@ export interface ColorTriggerProps {
   color: AggregationColor;
   open?: boolean;
   showText?: ColorPickerProps['showText'];
-  className?: string;
+  className?: SemanticClassName<'container' | 'text'>;
   style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLDivElement>;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
@@ -27,6 +28,7 @@ export interface ColorTriggerProps {
 const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) => {
   const { color, prefixCls, open, disabled, format, className, showText, activeIndex, ...rest } =
     props;
+  const semanticCls = getSemanticCls(className);
 
   const colorTriggerPrefixCls = `${prefixCls}-trigger`;
   const colorTextPrefixCls = `${colorTriggerPrefixCls}-text`;
@@ -79,36 +81,38 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
     }
   }, [color, format, showText, activeIndex]);
 
+  // ============================= Style =============================
+  const rootCls = clsx(
+    colorTriggerPrefixCls,
+
+    {
+      [`${colorTriggerPrefixCls}-active`]: open,
+      [`${colorTriggerPrefixCls}-disabled`]: disabled,
+    },
+    'w-fit inline-flex p-1 ring-1 ring-inset ring-border rounded-md items-start justify-center gap-2 bg-elevated transition-all duration-200 cursor-pointer text-sm text-text',
+    { 'ring-2 ring-primary': open },
+    semanticCls.root,
+  );
+
+  const textCls = clsx(colorTextPrefixCls, 'mr-1.5 self-center flex-1', semanticCls.text);
+
+  const containerCls = clsx('w-7 h-7', semanticCls.container);
+
   // ============================= Render =============================
   const containerNode = useMemo<React.ReactNode>(
     () =>
       color.cleared ? (
-        <ColorClear prefixCls={prefixCls} />
+        <ColorClear prefixCls={prefixCls} className={containerCls} />
       ) : (
-        <ColorBlock prefixCls={prefixCls} color={color.toCssString()} />
+        <ColorBlock prefixCls={prefixCls} color={color.toCssString()} className={containerCls} />
       ),
     [color, prefixCls],
   );
 
   return (
-    <div
-      ref={ref}
-      className={clsx(
-        colorTriggerPrefixCls,
-
-        {
-          [`${colorTriggerPrefixCls}-active`]: open,
-          [`${colorTriggerPrefixCls}-disabled`]: disabled,
-        },
-        'w-fit inline-flex p-1 ring-1 ring-border rounded-md items-start justify-center gap-2 bg-elevated transition-all duration-200 cursor-pointer text-sm text-text',
-        className,
-      )}
-      {...pickAttrs(rest)}
-    >
+    <div ref={ref} className={rootCls} {...pickAttrs(rest)}>
       {containerNode}
-      {showText && (
-        <div className={clsx(colorTextPrefixCls, 'mr-1.5 self-center flex-1')}>{desc}</div>
-      )}
+      {showText && <div className={textCls}>{desc}</div>}
     </div>
   );
 });

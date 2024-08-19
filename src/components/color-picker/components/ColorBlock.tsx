@@ -14,12 +14,23 @@ const ColorBlock: FC<ColorBlockProps> = ({ color, prefixCls, className, style, o
   const colorBlockCls = `${prefixCls}-color-block`;
   return (
     <div
-      className={clsx(colorBlockCls, 'relative rounded-md w-7 h-7', className)}
-      style={style}
+      className={clsx(
+        colorBlockCls,
+        'relative rounded w-7 h-7 bg-[length:50%_50%] flex-none',
+        className,
+      )}
+      style={{
+        backgroundImage:
+          'conic-gradient(hsla(var(--fill-quaternary)) 0 25%, transparent 0 50%, hsla(var(--fill-quaternary)) 0 75%, transparent 0)',
+        ...style,
+      }}
       onClick={onClick}
     >
       <div
-        className={clsx(`${colorBlockCls}-inner`, 'w-full h-full rounded-md shadow-inner')}
+        className={clsx(
+          `${colorBlockCls}-inner`,
+          'w-full h-full rounded ring-1 ring-inset ring-fill-tertiary',
+        )}
         style={{
           background: color,
         }}

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
+import { clsx } from '../_util/classNameUtils';
 import Divider from '../divider';
 import Picker from './components/Picker';
 import Presets from './components/Presets';
@@ -87,9 +88,12 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
     [prefixCls, value, presets, onChange],
   );
 
+  // ====================== Style ======================
+  const contentCls = clsx(`${colorPickerPanelPrefixCls}-content`, 'flex flex-col w-60');
+
   // ====================== Render ======================
   const innerPanel = (
-    <div className={`${colorPickerPanelPrefixCls}-content`}>
+    <div className={contentCls}>
       <Picker />
       {Array.isArray(presets) && <Divider />}
       <Presets />

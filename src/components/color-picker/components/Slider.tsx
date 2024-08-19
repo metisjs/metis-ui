@@ -16,9 +16,9 @@ export interface BaseSliderProps {
   min: number;
   max: number;
   color: AggregationColor;
-  value: number[];
-  onChange?: (value: number[]) => void;
-  onChangeComplete: (value: number[]) => void;
+  value: number | number[];
+  onChange?: (value: number | number[]) => void;
+  onChangeComplete: (value: number | number[]) => void;
   range?: boolean;
   className?: string;
   activeIndex?: number;
@@ -64,6 +64,10 @@ export const BaseSlider = (props: BaseSliderProps) => {
 
     onDragStart,
     onDragChange,
+
+    value,
+    onChange,
+    onChangeComplete,
 
     ...restProps
   } = props;
@@ -140,10 +144,27 @@ export const BaseSlider = (props: BaseSliderProps) => {
       <UnstableContext.Provider value={unstableContext}>
         <Slider
           {...restProps}
-          className={clsx(className, `${prefixCls}-slider`)}
+          value={value as any}
+          onChange={onChange as any}
+          onChangeComplete={onChangeComplete as any}
+          className={{
+            root: clsx(`${prefixCls}-slider`, 'h-2 p-0 m-0 bg-[length:0.5rem_0.5rem]', className),
+            rail: 'h-2 ring-1 ring-inset ring-fill-quaternary',
+            handle: clsx(
+              'top-0 ring-1 ring-fill-quaternary ring-offset-2',
+              'after:ring-elevated after:bg-transparent',
+              'focus:ring-primary',
+              'hover:after:ring-elevated hover:after:w-2 hover:after:h-2 hover:after:top-0 hover:after:left-0',
+              'focus:after:ring-elevated focus:after:w-2 focus:after:h-2 focus:after:top-0 focus:after:left-0',
+            ),
+          }}
           track={false}
           tooltip={{ open: false }}
-          range={range as any}
+          range={range}
+          style={{
+            backgroundImage:
+              'conic-gradient(hsla(var(--fill-quaternary)) 0 25%, transparent 0 50%, hsla(var(--fill-quaternary)) 0 75%, transparent 0)',
+          }}
           railStyle={{
             background: linearCss,
           }}
@@ -161,20 +182,7 @@ export const BaseSlider = (props: BaseSliderProps) => {
 };
 
 const SingleSlider = (props: SingleSliderProps) => {
-  const { value, onChange, onChangeComplete } = props;
-
-  const singleOnChange = (v: number[]) => onChange(v[0]);
-  const singleOnChangeComplete = (v: number[]) => onChangeComplete(v[0]);
-
-  return (
-    <BaseSlider
-      {...props}
-      range={false}
-      value={[value]}
-      onChange={singleOnChange}
-      onChangeComplete={singleOnChangeComplete}
-    />
-  );
+  return <BaseSlider {...props} range={false} />;
 };
 
 export const GradientSlider = (props: GradientSliderProps) => {

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { clsx } from '../../../_util/classNameUtils';
 import Select from '../../../select';
 import type { AggregationColor } from '../../color';
 import type { ColorFormatType } from '../../interface';
@@ -51,7 +52,7 @@ const ColorInput: FC<ColorInputProps> = (props) => {
   }, [colorFormat, prefixCls, value, onChange]);
 
   return (
-    <div className={`${colorInputPrefixCls}-container`}>
+    <div className={clsx(`${colorInputPrefixCls}-container`, 'flex gap-1')}>
       <Select
         value={colorFormat}
         variant="borderless"
@@ -63,7 +64,7 @@ const ColorInput: FC<ColorInputProps> = (props) => {
         size="small"
         options={selectOptions}
       />
-      <div className={colorInputPrefixCls}>{steppersNode}</div>
+      <div className={clsx(colorInputPrefixCls, 'flex-1')}>{steppersNode}</div>
       {!disabledAlpha && <AlphaInput prefixCls={prefixCls} value={value} onChange={onChange} />}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
-import { clsx, ColorPicker, Space } from 'metis-ui';
+import { ColorPicker, Space } from 'metis-ui';
 
 const Demo = () => {
   const [open, setOpen] = useState(false);
@@ -16,7 +16,7 @@ const Demo = () => {
         open={open}
         onOpenChange={setOpen}
         showText={() => (
-          <ChevronDownOutline className={clsx('text-text-tertiary')} rotate={open ? 180 : 0} />
+          <ChevronDownOutline className="text-text-tertiary w-5 h-5" rotate={open ? 180 : 0} />
         )}
       />
     </Space>

@@ -21,7 +21,7 @@ Used when the user needs to make a customized color selection.
 <code src="./demo/text-render.tsx">Rendering Trigger Text</code>
 <code src="./demo/disabled.tsx">Disable</code>
 <code src="./demo/disabled-alpha.tsx">Disabled Alpha</code>
-<code src="./demo/allowClear.tsx">Clear Color</code>
+<code src="./demo/allow-clear.tsx">Clear Color</code>
 <code src="./demo/trigger.tsx">Custom Trigger</code>
 <code src="./demo/trigger-event.tsx">Custom Trigger Event</code>
 <code src="./demo/format.tsx">Color Format</code>

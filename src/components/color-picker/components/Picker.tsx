@@ -72,7 +72,7 @@ const Palette: FC<{
 }> = ({ children, style, prefixCls }) => {
   return (
     <div
-      className={`${prefixCls}-palette`}
+      className={clsx(`${prefixCls}-palette`, 'min-h-40 overflow-hidden rounded')}
       style={{
         position: 'relative',
         ...style,
@@ -89,7 +89,10 @@ const Handler: FC<{
 }> = ({ color, prefixCls }) => {
   return (
     <div
-      className={clsx(`${prefixCls}-handler`)}
+      className={clsx(
+        `${prefixCls}-handler`,
+        'w-4 h-4 rounded-full relative cursor-pointer ring-2 ring-elevated ring-inset',
+      )}
       style={{
         backgroundColor: color,
       }}
@@ -289,8 +292,23 @@ const Picker: FC = () => {
     }
   };
 
+  // ============================ Style ============================
+  const panelCls = clsx(`${prefixCls}-panel`, 'select-none');
+  const panelSelectCls = clsx(`${prefixCls}-select`, 'mb-3');
+  const saturationCls = clsx(
+    `${prefixCls}-saturation`,
+    'absolute rounded inset-0 ring-1 ring-inset ring-fill-tertiary',
+  );
+  const sliderContainerCls = clsx(`${prefixCls}-slider-container`, 'flex gap-3 mb-3');
+  const sliderGroupCls = clsx(
+    `${prefixCls}-slider-group`,
+    {
+      [`${prefixCls}-slider-group-disabled-alpha`]: disabledAlpha,
+    },
+    'flex-1 flex flex-col justify-between',
+  );
+
   // ============================ Render ============================
-  const mergeCls = clsx(`${prefixCls}-panel`);
 
   const sharedSliderProps = {
     prefixCls,
@@ -333,10 +351,10 @@ const Picker: FC = () => {
         />
       )}
 
-      <div className={mergeCls}>
+      <div className={panelCls}>
         <div
           ref={pickerRef}
-          className={`${prefixCls}-select`}
+          className={panelSelectCls}
           onMouseDown={dragStartHandle}
           onTouchStart={dragStartHandle}
         >
@@ -345,7 +363,7 @@ const Picker: FC = () => {
               <Handler color={activeColor.toRgbString()} prefixCls={prefixCls} />
             </Transform>
             <div
-              className={`${prefixCls}-saturation`}
+              className={saturationCls}
               style={{
                 backgroundColor: `hsl(${activeColor.toHsb().h},100%, 50%)`,
                 backgroundImage:
@@ -354,12 +372,8 @@ const Picker: FC = () => {
             />
           </Palette>
         </div>
-        <div className={`${prefixCls}-slider-container`}>
-          <div
-            className={clsx(`${prefixCls}-slider-group`, {
-              [`${prefixCls}-slider-group-disabled-alpha`]: disabledAlpha,
-            })}
-          >
+        <div className={sliderContainerCls}>
+          <div className={sliderGroupCls}>
             <Slider
               {...sharedSliderProps}
               type="hue"

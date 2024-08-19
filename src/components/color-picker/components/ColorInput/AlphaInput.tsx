@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { AggregationColor } from '../../color';
 import { generateColor, getColorAlpha } from '../../util';
 import Steppers from './Steppers';
@@ -11,7 +12,6 @@ interface AlphaInputProps {
 }
 
 const AlphaInput: FC<AlphaInputProps> = ({ prefixCls, value, onChange }) => {
-  const alphaInputPrefixCls = `${prefixCls}-alpha-input`;
   const [alphaValue, setAlphaValue] = useState<AggregationColor>(generateColor(value || '#000'));
 
   // Update step value
@@ -31,12 +31,14 @@ const AlphaInput: FC<AlphaInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
+  const cls = clsx(`${prefixCls}-alpha-input`, 'basis-12');
+
   return (
     <Steppers
       value={getColorAlpha(alphaValue)}
       prefixCls={prefixCls}
       formatter={(step) => `${step}%`}
-      className={alphaInputPrefixCls}
+      className={cls}
       onChange={handleAlphaChange}
     />
   );
