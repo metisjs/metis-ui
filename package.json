@@ -108,6 +108,7 @@
     "wangjianming.x@gmail.com"
   ],
   "dependencies": {
+    "@ant-design/fast-color": "^2.0.6",
     "@ctrl/tinycolor": "^4.1.0",
     "@metisjs/icons": "^0.0.2-alpha.0",
     "@rc-component/mini-decimal": "^1.1.0",

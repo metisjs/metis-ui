@@ -3,7 +3,6 @@ import type {
   Options as RequestOptions,
   Service as RequestService,
 } from 'ahooks/lib/useRequest/src/types';
-import type { SemanticClassName } from '../_util/classNameUtils';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import type { SelectPlacements } from './Select';
 
@@ -104,10 +103,9 @@ export interface SelectProps<
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
   ValueType = ModeType extends 'default' ? RawValueType : RawValueType[],
-> extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'className' | 'showSearch'> {
+> extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'showSearch'> {
   prefixCls?: string;
   id?: string;
-  className?: SemanticClassName<'popup' | 'selector'>;
   displayRender?: (selectedOption: OptionType) => React.ReactNode;
 
   disabled?: boolean;

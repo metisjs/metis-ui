@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import Input from '../../../input';
-import type { AggregationColor } from '../../color';
+import { toHexFormat, type AggregationColor } from '../../color';
 import { generateColor } from '../../util';
 
 interface HexInputProps {
@@ -12,9 +12,6 @@ interface HexInputProps {
 
 const hexReg = /(^#[\da-f]{6}$)|(^#[\da-f]{8}$)/i;
 const isHexString = (hex?: string) => hexReg.test(`#${hex}`);
-
-const toHexFormat = (value?: string, alpha?: boolean) =>
-  value?.replace(/[^\w/]/gi, '').slice(0, alpha ? 8 : 6) || '';
 
 const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
   const colorHexInputPrefixCls = `${prefixCls}-hex-input`;

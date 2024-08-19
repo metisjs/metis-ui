@@ -135,7 +135,7 @@ export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSele
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
   className?: SemanticClassName<
-    'popup' | 'selector' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
+    'popup' | 'selector' | 'arrow' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
   >;
   style?: React.CSSProperties;
   title?: string;
@@ -719,6 +719,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
             'group-hover/select:opacity-0': !!clearNode,
             'opacity-0': !!clearNode && mode === 'combobox',
           },
+          semanticCls.arrow,
         )}
         customizeIcon={suffixIcon}
         customizeIconProps={{
@@ -781,7 +782,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   const selectorCls = clsx(
     !customizeInputElement && {
-      'truncate rounded-md px-3 py-1 leading-6': true,
+      'rounded-md px-3 py-1 leading-6': true,
       'py-0.5 pe-9 ps-1 leading-7 after:my-0.5': multiple,
       'px-2 after:leading-6': mergedSize === 'small',
       'after:leading-8': mergedSize === 'large',

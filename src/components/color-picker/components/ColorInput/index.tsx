@@ -60,7 +60,12 @@ const ColorInput: FC<ColorInputProps> = (props) => {
         popupMatchSelectWidth={96}
         placement="bottomRight"
         onChange={handleFormatChange}
-        className={`${prefixCls}-format-select`}
+        className={{
+          root: `${prefixCls}-format-select`,
+          selector: 'p-0 after:leading-3',
+          selectorItem: 'text-xs pr-6',
+          arrow: 'pr-1',
+        }}
         size="small"
         options={selectOptions}
       />

@@ -1,10 +1,18 @@
-import type { ColorInput, HSV } from '@ctrl/tinycolor';
-import { TinyColor } from '@ctrl/tinycolor';
+import type { ColorInput, HSV } from '@ant-design/fast-color';
+import { FastColor } from '@ant-design/fast-color';
 import type { ColorGenInput, Colors, HSB } from './interface';
 import { getRoundNumber } from './util';
 
+export const toHexFormat = (value?: string, alpha?: boolean) =>
+  value
+    ?.toLowerCase()
+    .replace(/[^\w/]/gi, '')
+    .slice(0, alpha ? 8 : 6) || '';
+
+export const getHex = (value?: string, alpha?: boolean) => (value ? toHexFormat(value, alpha) : '');
+
 const convertHsb2Hsv = (color?: ColorGenInput): ColorInput => {
-  if (color instanceof TinyColor) {
+  if (color instanceof FastColor) {
     return color;
   }
 
@@ -21,7 +29,7 @@ const convertHsb2Hsv = (color?: ColorGenInput): ColorInput => {
   return color as ColorInput;
 };
 
-export class Color extends TinyColor {
+export class Color extends FastColor {
   constructor(color?: ColorGenInput) {
     super(convertHsb2Hsv(color));
   }
@@ -46,10 +54,6 @@ export class Color extends TinyColor {
       b: v,
       a: this.a,
     };
-  }
-
-  clone(): Color {
-    return new Color(this.toString());
   }
 }
 
@@ -91,7 +95,7 @@ export class AggregationColor {
     }
 
     if (!color || (isArray && !this.colors)) {
-      this.metaColor.setAlpha(0);
+      this.metaColor.setA(0);
       this.cleared = true;
     }
   }
@@ -105,7 +109,7 @@ export class AggregationColor {
   }
 
   toHex() {
-    return this.metaColor.toHex();
+    return getHex(this.toHexString(), this.metaColor.a < 1);
   }
 
   toHexString() {
