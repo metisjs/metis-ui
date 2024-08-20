@@ -49,6 +49,9 @@ dependencies:
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
+  dayjs:
+    specifier: ^1.11.12
+    version: 1.11.12
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -384,7 +387,7 @@ packages:
       '@chenshuai2144/sketch-color': 1.0.9(react@18.2.0)
       antd: 5.18.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
-      dayjs: 1.11.11
+      dayjs: 1.11.12
       lodash.tonumber: 4.0.3
       omit.js: 2.0.2
       rc-util: 5.43.0(react-dom@18.2.0)(react@18.2.0)
@@ -469,7 +472,7 @@ packages:
       '@babel/runtime': 7.24.7
       antd: 5.18.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
-      dayjs: 1.11.11
+      dayjs: 1.11.12
       rc-resize-observer: 1.4.0(react-dom@18.2.0)(react@18.2.0)
       rc-util: 4.21.1
       react: 18.2.0
@@ -531,7 +534,7 @@ packages:
       '@dnd-kit/utilities': 3.2.1(react@18.2.0)
       antd: 5.18.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
-      dayjs: 1.11.11
+      dayjs: 1.11.12
       omit.js: 2.0.2
       rc-field-form: 1.31.0(react-dom@18.2.0)(react@18.2.0)
       rc-resize-observer: 1.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -555,7 +558,7 @@ packages:
       '@babel/runtime': 7.24.7
       antd: 5.18.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
-      dayjs: 1.11.11
+      dayjs: 1.11.12
       rc-util: 5.43.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -4203,11 +4206,11 @@ packages:
       '@tanstack/react-query-devtools': 4.29.12(@tanstack/react-query@4.29.12)(react-dom@18.2.0)(react@18.2.0)
       '@umijs/bundler-utils': 4.3.1
       '@umijs/valtio': 1.0.4(@types/react@18.0.38)(react@18.2.0)
-      antd-dayjs-webpack-plugin: 1.0.6(dayjs@1.11.11)
+      antd-dayjs-webpack-plugin: 1.0.6(dayjs@1.11.12)
       axios: 0.27.2
       babel-plugin-import: 1.13.8
       babel-plugin-styled-components: 2.1.4(@babel/core@7.24.7)(styled-components@6.1.1)
-      dayjs: 1.11.11
+      dayjs: 1.11.12
       dva-core: 2.0.4(redux@4.2.1)
       dva-immer: 1.0.1(dva@2.5.0-beta.2)
       dva-loading: 3.0.24(dva-core@2.0.4)
@@ -4656,7 +4659,7 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime': 7.24.7
-      dayjs: 1.11.7
+      dayjs: 1.11.12
       intersection-observer: 0.12.2
       js-cookie: 2.2.1
       lodash: 4.17.21
@@ -4756,12 +4759,12 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
-  /antd-dayjs-webpack-plugin@1.0.6(dayjs@1.11.11):
+  /antd-dayjs-webpack-plugin@1.0.6(dayjs@1.11.12):
     resolution: {integrity: sha512-UlK3BfA0iE2c5+Zz/Bd2iPAkT6cICtrKG4/swSik5MZweBHtgmu1aUQCHvICdiv39EAShdZy/edfP6mlkS/xXg==}
     peerDependencies:
       dayjs: '*'
     dependencies:
-      dayjs: 1.11.11
+      dayjs: 1.11.12
     dev: true
 
   /antd@5.18.3(react-dom@18.2.0)(react@18.2.0):
@@ -6484,9 +6487,8 @@ packages:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
     dev: true
 
-  /dayjs@1.11.7:
-    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
-    dev: false
+  /dayjs@1.11.12:
+    resolution: {integrity: sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==}
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

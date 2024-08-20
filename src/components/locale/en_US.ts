@@ -155,7 +155,6 @@ const localeValues: Locale = {
     scanned: 'Scanned',
   },
   ColorPicker: {
-    presetEmpty: 'Empty',
     transparent: 'Transparent',
     singleColor: 'Single',
     gradientColor: 'Gradient',

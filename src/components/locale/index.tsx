@@ -49,7 +49,6 @@ export interface Locale {
     scanned?: string;
   };
   ColorPicker?: {
-    presetEmpty: string;
     transparent: string;
     singleColor: string;
     gradientColor: string;
