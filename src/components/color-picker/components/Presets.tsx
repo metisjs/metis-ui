@@ -4,7 +4,6 @@ import { useMergedState } from 'rc-util';
 import { clsx } from '../../_util/classNameUtils';
 import type { CollapseProps } from '../../collapse';
 import Collapse from '../../collapse';
-import { useLocale } from '../../locale';
 import useTheme from '../../theme/useTheme';
 import { Color, type AggregationColor } from '../color';
 import { PanelPresetsContext } from '../context';
@@ -36,7 +35,6 @@ const InternalPresets: FC<InternalPresetsProps> = ({
   value: color,
   onChange,
 }) => {
-  const [locale] = useLocale('ColorPicker');
   const [presetsValue] = useMergedState(genPresetColor(presets), {
     value: genPresetColor(presets),
     postState: genPresetColor,
@@ -60,17 +58,18 @@ const InternalPresets: FC<InternalPresetsProps> = ({
 
   const itemsCls = clsx(`${colorPresetsPrefixCls}-items`, 'flex gap-1.5 flex-wrap');
 
-  const items: CollapseProps['items'] = presetsValue.map((preset) => ({
-    key: genCollapsePanelKey(preset),
-    label: (
-      <div className={clsx(`${colorPresetsPrefixCls}-label`, 'text-xs text-text')}>
-        {preset?.label}
-      </div>
-    ),
-    children: (
-      <div className={itemsCls}>
-        {Array.isArray(preset?.colors) && preset.colors?.length > 0 ? (
-          (preset.colors as AggregationColor[]).map((presetColor, index) => (
+  const items: CollapseProps['items'] = presetsValue
+    .filter((preset) => Array.isArray(preset?.colors) && preset.colors?.length > 0)
+    .map((preset) => ({
+      key: genCollapsePanelKey(preset),
+      label: (
+        <div className={clsx(`${colorPresetsPrefixCls}-label`, 'text-xs text-text')}>
+          {preset?.label}
+        </div>
+      ),
+      children: (
+        <div className={itemsCls}>
+          {(preset.colors as AggregationColor[]).map((presetColor, index) => (
             <ColorBlock
               key={`preset-${index}-${presetColor.toHexString()}`}
               color={generateColor(presetColor).toRgbString()}
@@ -86,13 +85,10 @@ const InternalPresets: FC<InternalPresetsProps> = ({
               )}
               onClick={() => handleClick(presetColor)}
             />
-          ))
-        ) : (
-          <span className={`${colorPresetsPrefixCls}-empty`}>{locale.presetEmpty}</span>
-        )}
-      </div>
-    ),
-  }));
+          ))}
+        </div>
+      ),
+    }));
 
   return (
     <div className={colorPresetsPrefixCls}>
