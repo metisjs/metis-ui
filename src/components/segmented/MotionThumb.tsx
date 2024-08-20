@@ -11,6 +11,7 @@ type ThumbReact = {
 } | null;
 
 export interface MotionThumbInterface {
+  prefixCls: string;
   containerRef: React.RefObject<HTMLDivElement>;
   value: SegmentedValue;
   getValueIndex: (value: SegmentedValue) => number;
@@ -33,7 +34,7 @@ const calcThumbStyle = (targetElement: HTMLElement | null | undefined): ThumbRea
 const toPX = (value?: number) => (value !== undefined ? `${value}px` : undefined);
 
 export default function MotionThumb(props: MotionThumbInterface) {
-  const { containerRef, value, getValueIndex, onMotionStart, onMotionEnd } = props;
+  const { prefixCls, containerRef, value, getValueIndex, onMotionStart, onMotionEnd } = props;
 
   const [prevValue, setPrevValue] = React.useState(value);
 
@@ -41,7 +42,7 @@ export default function MotionThumb(props: MotionThumbInterface) {
   const findValueElement = (val: SegmentedValue) => {
     const index = getValueIndex(val);
 
-    const ele = containerRef.current?.querySelectorAll<HTMLDivElement>(`.segmented-item`)[index];
+    const ele = containerRef.current?.querySelectorAll<HTMLDivElement>(`.${prefixCls}-item`)[index];
 
     return ele?.offsetParent && ele;
   };

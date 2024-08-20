@@ -32,3 +32,4 @@ group: Data Display
 | options | Set children optional | string\[] \| number\[] \| Array<{ label: ReactNode value: string icon? ReactNode disabled?: boolean className?: string }> | [] |  |
 | size | The size of the Segmented. | `large` \| `middle` \| `small` | `middle` |  |
 | value | Currently selected value | string \| number |  |  |
+| className | Semantic DOM class class | string \| Record<'root' \| 'option', string> | - |  |

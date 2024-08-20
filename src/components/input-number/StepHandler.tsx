@@ -23,6 +23,7 @@ export interface StepHandlerProps {
   downDisabled?: boolean;
   variant?: Variant;
   onStep: (up: boolean) => void;
+  className?: string;
 }
 
 export default function StepHandler({
@@ -33,6 +34,7 @@ export default function StepHandler({
   downDisabled,
   variant,
   onStep,
+  className,
 }: StepHandlerProps) {
   // ======================== Step ========================
   const stepTimeoutRef = React.useRef<any>();
@@ -88,6 +90,7 @@ export default function StepHandler({
       'bg-container': variant === 'borderless',
     },
     'group-hover/affix:opacity-100 group-hover/input:opacity-100',
+    className,
   );
 
   const upClassName = clsx(

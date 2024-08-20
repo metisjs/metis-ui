@@ -22,6 +22,7 @@ export interface SelectContextProps {
   virtual?: boolean;
   listHeight?: number;
   listItemHeight?: number;
+  className?: SelectProps['className'];
 }
 
 const noop = () => {};

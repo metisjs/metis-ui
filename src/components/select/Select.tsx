@@ -564,6 +564,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
       virtual: mergedVirtual,
       listHeight,
       listItemHeight,
+      className,
     };
   }, [
     mergedVirtual,
@@ -578,6 +579,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     mergedFieldNames,
     listHeight,
     listItemHeight,
+    JSON.stringify(className),
   ]);
 
   // ========================== Warning ===========================

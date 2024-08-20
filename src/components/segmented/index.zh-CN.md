@@ -33,3 +33,4 @@ group: 数据展示
 | options | 数据化配置选项内容 | string\[] \| number\[] \| Array<{ label: ReactNode value: string icon? ReactNode disabled?: boolean className?: string }> | [] |  |
 | size | 控件尺寸 | `large` \| `middle` \| `small` | - |  |
 | value | 当前选中的值 | string \| number |  |  |
+| className | 语义化结构 class | string \| Record<'root' \| 'option', string> | - |  |

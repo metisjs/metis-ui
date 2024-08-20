@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
-import { clsx } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
@@ -35,7 +36,8 @@ export type SegmentedLabeledOption =
 
 export type SegmentedOptions = (SegmentedRawOption | SegmentedLabeledOption)[];
 
-export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'size'> {
+export interface SegmentedProps
+  extends Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'size' | 'className'> {
   prefixCls?: string;
   options: SegmentedOptions;
   defaultValue?: SegmentedValue;
@@ -44,6 +46,7 @@ export interface SegmentedProps extends Omit<React.HTMLProps<HTMLDivElement>, 'o
   disabled?: boolean;
   block?: boolean;
   size?: SizeType;
+  className?: SemanticClassName<'option'>;
 }
 
 function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
@@ -60,6 +63,7 @@ function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
 }
 
 const InternalSegmentedOption: React.FC<{
+  prefixCls: string;
   className?: string;
   disabled?: boolean;
   block?: boolean;
@@ -72,6 +76,7 @@ const InternalSegmentedOption: React.FC<{
   value: SegmentedRawOption;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
 }> = ({
+  prefixCls,
   className,
   size,
   block,
@@ -84,8 +89,7 @@ const InternalSegmentedOption: React.FC<{
   value,
   onChange,
 }) => {
-  const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('segmented-item');
+  const optionPrefixCls = `${prefixCls}-item`;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) {
@@ -96,8 +100,8 @@ const InternalSegmentedOption: React.FC<{
   };
 
   const clsString = clsx(
-    prefixCls,
-    'segmented-item relative flex cursor-pointer justify-center rounded-md text-sm text-text-secondary',
+    optionPrefixCls,
+    'relative flex cursor-pointer justify-center rounded-md text-sm text-text-secondary',
     disabled ? 'cursor-not-allowed text-text-quaternary' : 'hover:text-text',
     {
       'px-2.5 py-1': size === 'small',
@@ -115,7 +119,7 @@ const InternalSegmentedOption: React.FC<{
     <label className={clsString}>
       <input
         className={clsx(
-          `${prefixCls}-input`,
+          `${optionPrefixCls}-input`,
           'pointer-events-none absolute inset-0 h-0 w-0 opacity-0',
         )}
         type="radio"
@@ -124,7 +128,10 @@ const InternalSegmentedOption: React.FC<{
         onChange={handleChange}
       />
       <div
-        className={clsx(`${prefixCls}-label`, 'flex w-full items-center justify-center gap-x-2')}
+        className={clsx(
+          `${optionPrefixCls}-label`,
+          'flex w-full items-center justify-center gap-x-2',
+        )}
         title={title}
       >
         {icon && <span className={clsx('flex items-center text-xl/[1.25rem]')}>{icon}</span>}
@@ -149,6 +156,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('segmented', customizePrefixCls);
+  const semanticCls = getSemanticCls(className);
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mergedRef = React.useMemo(
@@ -189,9 +197,9 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
       {...divProps}
       className={clsx(
         prefixCls,
-        'inline-block w-fit rounded-lg bg-layout p-0.5 text-text transition-all duration-300',
-        { 'block-segmented flex w-full': block },
-        className,
+        'inline-block w-fit rounded-md bg-layout p-0.5 text-text transition-all duration-300',
+        { 'flex w-full': block },
+        semanticCls.root,
       )}
       ref={mergedRef}
     >
@@ -202,6 +210,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
         )}
       >
         <MotionThumb
+          prefixCls={prefixCls}
           value={rawValue}
           containerRef={containerRef}
           getValueIndex={(val) => segmentedOptions.findIndex((n) => n.value === val)}
@@ -214,8 +223,9 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
         />
         {segmentedOptions.map((segmentedOption) => (
           <InternalSegmentedOption
+            prefixCls={prefixCls}
             key={segmentedOption.value}
-            className={segmentedOption.className}
+            className={clsx(semanticCls.option, segmentedOption.className)}
             checked={segmentedOption.value === rawValue}
             motionEnd={!thumbShow}
             onChange={handleChange}

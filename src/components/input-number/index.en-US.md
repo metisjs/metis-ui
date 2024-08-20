@@ -59,7 +59,7 @@ When a numeric value needs to be provided.
 | onChange | The callback triggered when the value is changed | function(value: number \| string \| null) | - | - |
 | onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - | - |
 | onStep | The callback function that is triggered when click up or down buttons | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
-| className | Semantic Dom class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix', string> | - |  |
+| className | Semantic Dom class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
 
 ## Ref
 

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
 import type { VirtualListRef } from '../virtual-list';
@@ -51,7 +51,10 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     virtual,
     listHeight,
     listItemHeight,
+    className,
   } = React.useContext(SelectContext);
+
+  const semanticCls = getSemanticCls(className);
 
   const itemPrefixCls = `${prefixCls}-item`;
 
@@ -332,14 +335,20 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
           const optionClassName = clsx(
             itemPrefixCls,
             optionPrefixCls,
-            'relative flex cursor-default select-none items-center py-2 pl-3 pr-10 text-sm',
+            'relative flex cursor-pointer select-none items-center py-2 pl-3 pr-10 text-sm',
             {
-              [`${optionPrefixCls}-grouped pl-6`]: groupOption,
-              [`${optionPrefixCls}-active bg-primary text-white`]:
-                activeIndex === itemIndex && !disabled,
-              [`${optionPrefixCls}-disabled text-text-tertiary`]: disabled,
-              [`${optionPrefixCls}-selected font-semibold`]: selected,
+              [`${optionPrefixCls}-grouped`]: groupOption,
+              [`${optionPrefixCls}-active`]: activeIndex === itemIndex && !disabled,
+              [`${optionPrefixCls}-disabled`]: disabled,
+              [`${optionPrefixCls}-selected`]: selected,
             },
+            {
+              'pl-6': groupOption,
+              'bg-primary text-white': activeIndex === itemIndex && !disabled,
+              'text-text-tertiary cursor-not-allowed': disabled,
+              'font-semibold': selected,
+            },
+            semanticCls.option,
             className,
           );
 

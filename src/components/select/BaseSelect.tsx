@@ -135,7 +135,13 @@ export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSele
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
   className?: SemanticClassName<
-    'popup' | 'selector' | 'arrow' | 'selectorSearch' | 'selectorItem' | 'selectorPlaceholder'
+    | 'popup'
+    | 'selector'
+    | 'arrow'
+    | 'selectorSearch'
+    | 'selectorItem'
+    | 'selectorPlaceholder'
+    | 'option'
   >;
   style?: React.CSSProperties;
   title?: string;

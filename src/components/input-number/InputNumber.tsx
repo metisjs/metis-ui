@@ -50,7 +50,7 @@ export interface InputNumberProps<T extends ValueType = ValueType>
   value?: T | null;
 
   prefixCls?: string;
-  className?: SemanticClassName<'input' | 'prefix' | 'suffix'>;
+  className?: SemanticClassName<'input' | 'prefix' | 'suffix' | 'handler'>;
   style?: React.CSSProperties;
   min?: T;
   max?: T;
@@ -97,6 +97,7 @@ type InternalInputNumberProps = Omit<
   prefixCls: string;
   domRef: React.Ref<HTMLDivElement>;
   className?: string;
+  handlerClassName?: string;
 };
 
 const InternalInputNumber = React.forwardRef(
@@ -104,6 +105,7 @@ const InternalInputNumber = React.forwardRef(
     const {
       prefixCls,
       className,
+      handlerClassName,
       style,
       min,
       max,
@@ -603,6 +605,7 @@ const InternalInputNumber = React.forwardRef(
         {controls && !disabled && !readOnly && (
           <StepHandler
             prefixCls={prefixCls}
+            className={handlerClassName}
             upNode={upHandler}
             downNode={downHandler}
             upDisabled={upDisabled}
@@ -858,6 +861,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
         ref={inputFocusRef}
         domRef={inputNumberDomRef}
         className={inputCls}
+        handlerClassName={semanticCls.handler}
         variant={variant}
         {...rest}
       />

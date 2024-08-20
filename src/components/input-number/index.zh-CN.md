@@ -60,7 +60,7 @@ demo:
 | onChange | 变化回调 | function(value: number \| string \| null) | - | - |
 | onPressEnter | 按下回车的回调 | function(e) | - | - |
 | onStep | 点击上下箭头的回调 | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix', string> | - |  |
+| className | 语义化结构 class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
 
 ## Ref
 
