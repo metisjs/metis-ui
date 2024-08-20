@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { AggregationColor } from '../../color';
 import type { RGB } from '../../interface';
 import { generateColor } from '../../util';
@@ -32,14 +33,16 @@ const RgbInput: FC<RgbInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
+  const stepperCls = clsx(rgbInputPrefixCls, 'flex-1 basis-1/3 w-0');
+
   return (
-    <div className={rgbInputPrefixCls}>
+    <div className={clsx(rgbInputPrefixCls, 'flex gap-1')}>
       <Steppers
         max={255}
         min={0}
         value={Number(rgbValue.toRgb().r)}
         prefixCls={prefixCls}
-        className={rgbInputPrefixCls}
+        className={stepperCls}
         onChange={(step) => handleRgbChange(Number(step), 'r')}
       />
       <Steppers
@@ -47,7 +50,7 @@ const RgbInput: FC<RgbInputProps> = ({ prefixCls, value, onChange }) => {
         min={0}
         value={Number(rgbValue.toRgb().g)}
         prefixCls={prefixCls}
-        className={rgbInputPrefixCls}
+        className={stepperCls}
         onChange={(step) => handleRgbChange(Number(step), 'g')}
       />
       <Steppers
@@ -55,7 +58,7 @@ const RgbInput: FC<RgbInputProps> = ({ prefixCls, value, onChange }) => {
         min={0}
         value={Number(rgbValue.toRgb().b)}
         prefixCls={prefixCls}
-        className={rgbInputPrefixCls}
+        className={stepperCls}
         onChange={(step) => handleRgbChange(Number(step), 'b')}
       />
     </div>

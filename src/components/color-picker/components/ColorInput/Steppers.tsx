@@ -36,7 +36,10 @@ const Steppers: FC<SteppersProps> = ({
 
   return (
     <InputNumber
-      className={clsx(steppersPrefixCls, className)}
+      className={{
+        root: clsx(steppersPrefixCls, 'text-xs px-1 py-1 rounded', className),
+        handler: 'w-4 text-xs group-has-[:focus-within]/input:w-[calc(1rem-1px)]',
+      }}
       min={min}
       max={max}
       value={stepValue}

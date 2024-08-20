@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
+import { clsx } from 'metis-ui/es/_util/classNameUtils';
 import Input from '../../../input';
 import { toHexFormat, type AggregationColor } from '../../color';
 import { generateColor } from '../../util';
@@ -14,7 +15,6 @@ const hexReg = /(^#[\da-f]{6}$)|(^#[\da-f]{8}$)/i;
 const isHexString = (hex?: string) => hexReg.test(`#${hex}`);
 
 const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
-  const colorHexInputPrefixCls = `${prefixCls}-hex-input`;
   const [hexValue, setHexValue] = useState(() => (value ? value.toHex() : undefined));
 
   // Update step value
@@ -34,7 +34,7 @@ const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
 
   return (
     <Input
-      className={colorHexInputPrefixCls}
+      className={{ root: clsx(`${prefixCls}-hex-input`, 'py-0.5 rounded'), input: 'text-xs' }}
       value={hexValue}
       prefix="#"
       onChange={handleHexChange}

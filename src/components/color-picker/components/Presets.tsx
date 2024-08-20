@@ -58,22 +58,32 @@ const InternalPresets: FC<InternalPresetsProps> = ({
     onChange?.(colorValue);
   };
 
+  const itemsCls = clsx(`${colorPresetsPrefixCls}-items`, 'flex gap-1.5 flex-wrap');
+
   const items: CollapseProps['items'] = presetsValue.map((preset) => ({
     key: genCollapsePanelKey(preset),
-    label: <div className={`${colorPresetsPrefixCls}-label`}>{preset?.label}</div>,
+    label: (
+      <div className={clsx(`${colorPresetsPrefixCls}-label`, 'text-xs text-text')}>
+        {preset?.label}
+      </div>
+    ),
     children: (
-      <div className={`${colorPresetsPrefixCls}-items`}>
+      <div className={itemsCls}>
         {Array.isArray(preset?.colors) && preset.colors?.length > 0 ? (
           (preset.colors as AggregationColor[]).map((presetColor, index) => (
             <ColorBlock
               key={`preset-${index}-${presetColor.toHexString()}`}
               color={generateColor(presetColor).toRgbString()}
               prefixCls={prefixCls}
-              className={clsx(`${colorPresetsPrefixCls}-color`, {
-                [`${colorPresetsPrefixCls}-color-checked`]:
-                  presetColor.toHexString() === color?.toHexString(),
-                [`${colorPresetsPrefixCls}-color-light`]: isLight(presetColor, bgColor),
-              })}
+              className={clsx(
+                `${colorPresetsPrefixCls}-color`,
+                {
+                  [`${colorPresetsPrefixCls}-color-checked`]:
+                    presetColor.toHexString() === color?.toHexString(),
+                  [`${colorPresetsPrefixCls}-color-light`]: isLight(presetColor, bgColor),
+                },
+                'w-6 h-6',
+              )}
               onClick={() => handleClick(presetColor)}
             />
           ))
@@ -86,7 +96,15 @@ const InternalPresets: FC<InternalPresetsProps> = ({
 
   return (
     <div className={colorPresetsPrefixCls}>
-      <Collapse defaultActiveKey={activeKeys} ghost items={items} />
+      <Collapse
+        defaultActiveKey={activeKeys}
+        ghost
+        items={items}
+        className={{
+          panelHeader: 'p-0 gap-0.5 text-text-tertiary',
+          panelContent: 'px-0 py-2',
+        }}
+      />
     </div>
   );
 };

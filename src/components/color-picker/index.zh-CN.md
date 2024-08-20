@@ -57,6 +57,7 @@ group:
 | onFormatChange | 颜色格式变化的回调 | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - | |
 | onOpenChange | 当 `open` 被改变时的回调 | `(open: boolean) => void` | - | |
 | onClear | 清除的回调 | `() => void` | - |  |
+| className | 语义化结构 class | string \| Record<'root' \| 'popup' \| 'overlay', string> | - |  |
 
 ### Color
 

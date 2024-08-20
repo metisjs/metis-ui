@@ -52,15 +52,24 @@ const Operation: FC<{
   options: ModeOptions;
   mode: ModeType;
   color: AggregationColor;
+  allowClear?: boolean;
   onModeChange: (mode: ModeType) => void;
   onClear?: (color: AggregationColor) => void;
-}> = ({ prefixCls, options, mode, color, onModeChange, onClear }) => {
+}> = ({ prefixCls, options, mode, color, allowClear, onModeChange, onClear }) => {
   return (
-    <div className={`${prefixCls}-operation`}>
-      {!!options.length && (
-        <Segmented size="small" options={options} value={mode} onChange={onModeChange} />
+    <div className={clsx(`${prefixCls}-operation`, 'flex mb-2 items-center')}>
+      {options.length > 1 && (
+        <Segmented
+          size="small"
+          options={options}
+          value={mode}
+          onChange={onModeChange}
+          className={{ root: 'rounded', option: 'rounded px-2 py-0.5' }}
+        />
       )}
-      <ColorClear prefixCls={prefixCls} value={color} onChange={onClear} />
+      {allowClear && (
+        <ColorClear prefixCls={prefixCls} value={color} onChange={onClear} className="ml-auto" />
+      )}
     </div>
   );
 };
@@ -306,6 +315,7 @@ const Picker: FC = () => {
       [`${prefixCls}-slider-group-disabled-alpha`]: disabledAlpha,
     },
     'flex-1 flex flex-col justify-between',
+    disabledAlpha && 'justify-center',
   );
 
   // ============================ Render ============================
@@ -325,6 +335,7 @@ const Picker: FC = () => {
     <>
       {(allowClear || modeOptions.length > 1) && (
         <Operation
+          allowClear={allowClear}
           options={modeOptions}
           prefixCls={prefixCls}
           mode={mode}

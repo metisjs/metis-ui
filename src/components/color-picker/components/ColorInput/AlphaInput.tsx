@@ -31,7 +31,7 @@ const AlphaInput: FC<AlphaInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
-  const cls = clsx(`${prefixCls}-alpha-input`, 'basis-12');
+  const cls = clsx(`${prefixCls}-alpha-input`, 'basis-11');
 
   return (
     <Steppers

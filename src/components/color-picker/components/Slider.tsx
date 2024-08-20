@@ -257,13 +257,15 @@ export const GradientSlider = (props: GradientSliderProps) => {
     onDragging(false);
   };
 
+  const sliderCls = clsx(`${prefixCls}-gradient-slider`, 'mb-2');
+
   // ============================= Render =============================
   return (
     <BaseSlider
       min={0}
       max={100}
       prefixCls={prefixCls}
-      className={`${prefixCls}-gradient-slider`}
+      className={sliderCls}
       colors={colorList}
       color={null!}
       value={values}

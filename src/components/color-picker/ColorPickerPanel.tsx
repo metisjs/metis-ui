@@ -95,7 +95,7 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
   const innerPanel = (
     <div className={contentCls}>
       <Picker />
-      {Array.isArray(presets) && <Divider />}
+      {Array.isArray(presets) && <Divider className="mt-3 mb-2" />}
       <Presets />
     </div>
   );

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
+import { CheckOutline } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { clsx } from '../../../_util/classNameUtils';
 import Select from '../../../select';
@@ -52,22 +53,24 @@ const ColorInput: FC<ColorInputProps> = (props) => {
   }, [colorFormat, prefixCls, value, onChange]);
 
   return (
-    <div className={clsx(`${colorInputPrefixCls}-container`, 'flex gap-1')}>
+    <div className={clsx(`${colorInputPrefixCls}-container`, 'flex gap-1 items-start')}>
       <Select
         value={colorFormat}
         variant="borderless"
         getPopupContainer={(current) => current}
-        popupMatchSelectWidth={96}
+        popupMatchSelectWidth={76}
         placement="bottomRight"
         onChange={handleFormatChange}
+        size="small"
+        options={selectOptions}
         className={{
           root: `${prefixCls}-format-select`,
           selector: 'p-0 after:leading-3',
           selectorItem: 'text-xs pr-6',
           arrow: 'pr-1',
+          option: 'text-xs pr-9',
         }}
-        size="small"
-        options={selectOptions}
+        menuItemSelectedIcon={<CheckOutline className="h-4 w-4" />}
       />
       <div className={clsx(colorInputPrefixCls, 'flex-1')}>{steppersNode}</div>
       {!disabledAlpha && <AlphaInput prefixCls={prefixCls} value={value} onChange={onChange} />}

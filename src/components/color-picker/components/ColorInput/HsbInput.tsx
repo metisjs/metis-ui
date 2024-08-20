@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { AggregationColor } from '../../color';
 import type { HSB } from '../../interface';
 import { generateColor, getRoundNumber } from '../../util';
@@ -32,14 +33,16 @@ const HsbInput: FC<HsbInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
+  const stepperCls = clsx(hsbInputPrefixCls, 'flex-1 basis-1/3 w-0');
+
   return (
-    <div className={hsbInputPrefixCls}>
+    <div className={clsx(hsbInputPrefixCls, 'flex gap-1')}>
       <Steppers
         max={360}
         min={0}
         value={Number(hsbValue.toHsb().h)}
         prefixCls={prefixCls}
-        className={hsbInputPrefixCls}
+        className={stepperCls}
         formatter={(step) => getRoundNumber(step || 0).toString()}
         onChange={(step) => handleHsbChange(Number(step), 'h')}
       />
@@ -48,7 +51,7 @@ const HsbInput: FC<HsbInputProps> = ({ prefixCls, value, onChange }) => {
         min={0}
         value={Number(hsbValue.toHsb().s) * 100}
         prefixCls={prefixCls}
-        className={hsbInputPrefixCls}
+        className={stepperCls}
         formatter={(step) => `${getRoundNumber(step || 0)}%`}
         onChange={(step) => handleHsbChange(Number(step), 's')}
       />
@@ -57,7 +60,7 @@ const HsbInput: FC<HsbInputProps> = ({ prefixCls, value, onChange }) => {
         min={0}
         value={Number(hsbValue.toHsb().b) * 100}
         prefixCls={prefixCls}
-        className={hsbInputPrefixCls}
+        className={stepperCls}
         formatter={(step) => `${getRoundNumber(step || 0)}%`}
         onChange={(step) => handleHsbChange(Number(step), 'b')}
       />

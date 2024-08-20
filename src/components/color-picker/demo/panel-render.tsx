@@ -4,25 +4,7 @@ import { ColorPicker, Divider, Space, useTheme } from 'metis-ui';
 import type { ColorPickerProps } from 'metis-ui';
 import twColors from 'tailwindcss/colors';
 
-const colors = [
-  'red',
-  'orange',
-  'amber',
-  'yellow',
-  'lime',
-  'green',
-  'emerald',
-  'teal',
-  'cyan',
-  'sky',
-  'blue',
-  'indigo',
-  'violet',
-  'purple',
-  'fuchsia',
-  'pink',
-  'rose',
-];
+const colors = ['amber', 'lime', 'teal', 'sky', 'indigo', 'rose'];
 
 const HorizontalLayoutDemo = () => {
   const theme = useTheme();

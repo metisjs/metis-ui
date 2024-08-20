@@ -17,7 +17,7 @@ export interface ColorTriggerProps {
   color: AggregationColor;
   open?: boolean;
   showText?: ColorPickerProps['showText'];
-  className?: SemanticClassName<'container' | 'text'>;
+  className?: SemanticClassName<'colorBlock' | 'text'>;
   style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLDivElement>;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
@@ -60,6 +60,7 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
             className={clsx(
               colorTextCellPrefixCls,
               inactive && `${colorTextCellPrefixCls}-inactive`,
+              'after:content-[",_"] last:after:content-[""]',
             )}
           >
             {c.color.toRgbString()} {c.percent}%
@@ -91,20 +92,19 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
     },
     'w-fit inline-flex p-1 ring-1 ring-inset ring-border rounded-md items-start justify-center gap-2 bg-elevated transition-all duration-200 cursor-pointer text-sm text-text',
     { 'ring-2 ring-primary': open },
+    disabled && 'cursor-not-allowed text-text-tertiary bg-fill-quaternary',
     semanticCls.root,
   );
-
   const textCls = clsx(colorTextPrefixCls, 'mr-1.5 self-center flex-1', semanticCls.text);
-
-  const containerCls = clsx('w-7 h-7', semanticCls.container);
+  const blockCls = clsx('w-7 h-7', semanticCls.colorBlock);
 
   // ============================= Render =============================
   const containerNode = useMemo<React.ReactNode>(
     () =>
       color.cleared ? (
-        <ColorClear prefixCls={prefixCls} className={containerCls} />
+        <ColorClear prefixCls={prefixCls} className={blockCls} />
       ) : (
-        <ColorBlock prefixCls={prefixCls} color={color.toCssString()} className={containerCls} />
+        <ColorBlock prefixCls={prefixCls} color={color.toCssString()} className={blockCls} />
       ),
     [color, prefixCls],
   );

@@ -56,6 +56,7 @@ Used when the user needs to make a customized color selection.
 | onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - | |
 | onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - | |
 | onClear | Called when clear | `() => void` | - |  |
+| className | Semantic DOM class class | string \| Record<'root' \| 'popup' \| 'overlay', string> | - |  |
 
 ### Color
 

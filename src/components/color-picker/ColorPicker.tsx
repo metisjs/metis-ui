@@ -177,7 +177,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   const triggerTextCls = clsx({
     'text-base': mergedSize === 'large',
   });
-  const triggerContainerCls = clsx({
+  const triggerColorBlockCls = clsx({
     'w-6 h-6': mergedSize === 'small',
     'w-8 h-8': mergedSize === 'large',
   });
@@ -243,7 +243,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
         <ColorTrigger
           activeIndex={popupOpen ? activeIndex : -1}
           open={popupOpen}
-          className={{ root: triggerCls, text: triggerTextCls, container: triggerContainerCls }}
+          className={{ root: triggerCls, text: triggerTextCls, colorBlock: triggerColorBlockCls }}
           style={style}
           prefixCls={prefixCls}
           disabled={mergedDisabled}
