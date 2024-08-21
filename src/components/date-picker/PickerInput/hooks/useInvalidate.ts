@@ -41,15 +41,9 @@ export default function useInvalidate<DateType extends object = any>(
             from: outsideInfo.from,
           }) || {};
 
-        const {
-          disabledHours: legacyDisabledHours,
-          disabledMinutes: legacyDisabledMinutes,
-          disabledSeconds: legacyDisabledSeconds,
-        } = showTime;
-
-        const mergedDisabledHours = disabledHours || legacyDisabledHours;
-        const mergedDisabledMinutes = disabledMinutes || legacyDisabledMinutes;
-        const mergedDisabledSeconds = disabledSeconds || legacyDisabledSeconds;
+        const mergedDisabledHours = disabledHours;
+        const mergedDisabledMinutes = disabledMinutes;
+        const mergedDisabledSeconds = disabledSeconds;
 
         const hour = generateConfig.getHour(date);
         const minute = generateConfig.getMinute(date);

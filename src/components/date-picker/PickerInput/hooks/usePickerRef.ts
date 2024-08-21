@@ -9,7 +9,7 @@ export default function usePickerRef<OptionType>(ref: React.Ref<PickerRefType<Op
   const selectorRef = React.useRef<PickerRefType<OptionType>>();
 
   React.useImperativeHandle(ref, () => ({
-    nativeElement: selectorRef.current?.nativeElement,
+    nativeElement: selectorRef.current!.nativeElement,
     focus: (options) => {
       selectorRef.current?.focus(options);
     },

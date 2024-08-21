@@ -44,3 +44,5 @@ export type GenerateConfig<DateType> = {
     getShortMonths?: (locale: string) => string[];
   };
 };
+
+export { default as dayjsGenerateConfig } from './dayjs';

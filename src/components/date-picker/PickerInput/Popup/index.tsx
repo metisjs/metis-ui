@@ -1,6 +1,6 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import ResizeObserver, { type ResizeObserverProps } from 'rc-resize-observer';
-import * as React from 'react';
 import type {
   RangeTimeProps,
   SharedPickerProps,
@@ -8,7 +8,7 @@ import type {
   ValueDate,
 } from '../../interface';
 import { toArray } from '../../utils/miscUtil';
-import { getRealPlacement, getoffsetUnit } from '../../utils/uiUtil';
+import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
 import PickerContext from '../context';
 import Footer, { type FooterProps } from './Footer';
 import PopupPanel, { type PopupPanelProps } from './PopupPanel';
@@ -34,8 +34,6 @@ export interface PopupProps<DateType extends object = any, PresetValue = DateTyp
   // Range
   activeOffset?: number;
   placement?: string;
-  // Direction
-  direction?: 'ltr' | 'rtl';
 
   // Fill
   /** TimePicker or showTime only */
@@ -72,9 +70,6 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
     onBlur,
     onPanelMouseDown,
 
-    // Direction
-    direction,
-
     // Change
     value,
     onSelect,
@@ -86,8 +81,6 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
 
   const { prefixCls } = React.useContext(PickerContext);
   const panelPrefixCls = `${prefixCls}-panel`;
-
-  const rtl = direction === 'rtl';
 
   // ========================= Refs =========================
   const arrowRef = React.useRef<HTMLDivElement>(null);
@@ -149,7 +142,7 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   const onFooterSubmit = () => {
     // For TimePicker, we will additional trigger the value update
     if (isTimePickerEmptyValue) {
-      onSelect(defaultOpenValue);
+      onSelect?.(defaultOpenValue);
     }
 
     onOk();
@@ -184,9 +177,6 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   // ======================== Render ========================
   const containerPrefixCls = `${panelPrefixCls}-container`;
 
-  const marginLeft = 'marginLeft';
-  const marginRight = 'marginRight';
-
   // Container
   let renderNode = (
     <div
@@ -198,8 +188,8 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
         `${prefixCls}-${internalMode}-panel-container`,
       )}
       style={{
-        [rtl ? marginRight : marginLeft]: containerOffset,
-        [rtl ? marginLeft : marginRight]: 'auto',
+        marginLeft: containerOffset,
+        marginRight: 'auto',
       }}
       // Still wish not to lose focus on mouse down
       // onMouseDown={(e) => {
@@ -213,8 +203,8 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   );
 
   if (range) {
-    const realPlacement = getRealPlacement(placement, rtl);
-    const offsetUnit = getoffsetUnit(realPlacement, rtl);
+    const realPlacement = getRealPlacement(placement);
+    const offsetUnit = getOffsetUnit(realPlacement);
     renderNode = (
       <div
         onMouseDown={onPanelMouseDown}

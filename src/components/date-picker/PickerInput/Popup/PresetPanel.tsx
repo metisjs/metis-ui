@@ -5,7 +5,7 @@ export interface PresetPanelProps<ValueType = any> {
   prefixCls: string;
   presets: ValueDate<ValueType>[];
   onClick: (value: ValueType) => void;
-  onHover: (value: ValueType) => void;
+  onHover: (value: ValueType | null) => void;
 }
 
 function executeValue<ValueType extends object>(value: ValueDate<ValueType>['value']): ValueType {

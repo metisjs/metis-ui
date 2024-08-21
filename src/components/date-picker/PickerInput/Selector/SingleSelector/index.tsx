@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
+import { pickProps } from 'metis-ui/es/date-picker/utils/miscUtil';
 import type { InternalMode, PickerRef, SelectorProps } from '../../../interface';
 import { isSame } from '../../../utils/dateUtil';
 import PickerContext from '../../context';
@@ -39,19 +40,12 @@ function SingleSelector<DateType extends object = any>(
   ref: React.Ref<PickerRef>,
 ) {
   const {
-    id,
-
     open,
 
     clearIcon,
     suffixIcon,
-    activeHelp,
-    allHelp,
 
     focused,
-    onFocus,
-    onBlur,
-    onKeyDown,
     locale,
     generateConfig,
 
@@ -71,41 +65,21 @@ function SingleSelector<DateType extends object = any>(
     value,
     onChange,
     onSubmit,
-    onInputChange,
     multiple,
     maxTagCount,
-
-    // Valid
-    format,
-    maskFormat,
-    preserveInvalidOnBlur,
-    onInvalid,
 
     // Disabled
     disabled,
     invalid,
-    inputReadOnly,
-
-    // Direction
-    direction,
-
-    // Open
-    onOpenChange,
 
     // Native
     onMouseDown,
 
     // Input
-    required,
-    'aria-required': ariaRequired,
     autoFocus,
 
     removeIcon,
-
-    ...restProps
   } = props;
-
-  const rtl = direction === 'rtl';
 
   // ======================== Prefix ========================
   const { prefixCls } = React.useContext(PickerContext);
@@ -115,7 +89,7 @@ function SingleSelector<DateType extends object = any>(
   const inputRef = React.useRef<InputRef>();
 
   React.useImperativeHandle(ref, () => ({
-    nativeElement: rootRef.current,
+    nativeElement: rootRef.current!,
     focus: (options) => {
       inputRef.current?.focus(options);
     },
@@ -123,9 +97,6 @@ function SingleSelector<DateType extends object = any>(
       inputRef.current?.blur();
     },
   }));
-
-  // ======================== Props =========================
-  const rootProps = useRootProps(restProps);
 
   // ======================== Change ========================
   const onSingleChange = (date: DateType) => {
@@ -196,7 +167,7 @@ function SingleSelector<DateType extends object = any>(
   // ======================== Render ========================
   return (
     <div
-      {...rootProps}
+      {...pickProps(props, ['onMouseEnter', 'onMouseLeave'])}
       className={classNames(
         prefixCls,
         {
@@ -227,9 +198,5 @@ function SingleSelector<DateType extends object = any>(
 }
 
 const RefSingleSelector = React.forwardRef(SingleSelector);
-
-if (process.env.NODE_ENV !== 'production') {
-  RefSingleSelector.displayName = 'SingleSelector';
-}
 
 export default RefSingleSelector;

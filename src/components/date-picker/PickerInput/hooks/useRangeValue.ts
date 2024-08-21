@@ -1,5 +1,5 @@
-import { useEvent, useMergedState } from 'rc-util';
 import * as React from 'react';
+import { useEvent, useMergedState } from 'rc-util';
 import type { GenerateConfig } from '../../generate';
 import useSyncState from '../../hooks/useSyncState';
 import type { BaseInfo, FormatType, Locale, ReplaceListType } from '../../interface';
@@ -167,11 +167,13 @@ export function useInnerValue<ValueType extends DateType[], DateType extends obj
 }
 
 export default function useRangeValue<ValueType extends DateType[], DateType extends object = any>(
-  info: Pick<
-    RangePickerProps<DateType>,
-    'generateConfig' | 'locale' | 'allowEmpty' | 'order' | 'picker'
-  > &
-    ReplacedPickerProps<DateType>,
+  info: Required<
+    Pick<
+      RangePickerProps<DateType>,
+      'generateConfig' | 'locale' | 'allowEmpty' | 'order' | 'picker'
+    > &
+      ReplacedPickerProps<DateType>
+  >,
   mergedValue: ValueType,
   setInnerValue: (nextValue: ValueType) => void,
   getCalendarValue: () => ValueType,
@@ -192,7 +194,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
     generateConfig,
     locale,
 
-    picker,
+    picker = 'date',
 
     onChange,
 
@@ -232,7 +234,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
 
       for (let i = 0; i < maxLen; i += 1) {
         if (!disabled[i]) {
-          clone[i] = null;
+          clone[i] = null as unknown as DateType;
         }
       }
     }
@@ -254,9 +256,9 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
 
     const validateEmptyDateRange = allowEmpty
       ? // Validate empty start
-        (!startEmpty || allowEmpty[0]) &&
+        (!startEmpty || (allowEmpty as [boolean, boolean])[0]) &&
         // Validate empty end
-        (!endEmpty || allowEmpty[1])
+        (!endEmpty || (allowEmpty as [boolean, boolean])[1])
       : true;
 
     // >>> Order

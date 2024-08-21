@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { InternalMode } from '../../interface';
 import PickerPanel, { type PickerPanelProps } from '../../PickerPanel';
 import { PickerHackContext, type PickerHackContextProps } from '../../PickerPanel/context';
 import PickerContext from '../context';
@@ -14,6 +15,8 @@ export type PopupPanelProps<DateType extends object = any> = MustProp<DateType> 
   FooterProps<DateType> & {
     multiplePanel?: boolean;
     range?: boolean;
+    pickerValue: DateType;
+    picker: InternalMode;
 
     onPickerValueChange: (date: DateType) => void;
   };
@@ -63,15 +66,13 @@ export default function PopupPanel<DateType extends object = any>(
   const hideHeader = picker === 'time';
 
   // ======================== Props =========================
-  const pickerProps = {
+  const pickerProps: PickerPanelProps<DateType> = {
     ...props,
-    hoverValue: null,
-    hoverRangeValue: null,
     hideHeader,
   };
 
   if (range) {
-    pickerProps.hoverRangeValue = hoverValue;
+    pickerProps.hoverRangeValue = hoverValue as [start: DateType, end: DateType];
   } else {
     pickerProps.hoverValue = hoverValue;
   }

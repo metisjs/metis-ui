@@ -1,14 +1,14 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
-import * as React from 'react';
 import type { RangePickerRef, SelectorProps } from '../../interface';
+import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
 import PickerContext from '../context';
 import useInputProps from './hooks/useInputProps';
 import useRootProps from './hooks/useRootProps';
 import Icon, { ClearIcon } from './Icon';
 import Input, { type InputRef } from './Input';
-import { getoffsetUnit, getRealPlacement } from '../../utils/uiUtil';
 
 export type SelectorIdType =
   | string
@@ -172,7 +172,7 @@ function RangeSelector<DateType extends object = any>(
 
   // ====================== ActiveBar =======================
   const realPlacement = getRealPlacement(placement, rtl);
-  const offsetUnit = getoffsetUnit(realPlacement, rtl);
+  const offsetUnit = getOffsetUnit(realPlacement, rtl);
   const placementRight = realPlacement?.toLowerCase().endsWith('right');
   const [activeBarStyle, setActiveBarStyle] = React.useState<React.CSSProperties>({
     position: 'absolute',
@@ -184,7 +184,7 @@ function RangeSelector<DateType extends object = any>(
     if (input) {
       const { offsetWidth, offsetLeft, offsetParent } = input.nativeElement;
       const parentWidth = (offsetParent as HTMLElement)?.offsetWidth || 0;
-      const activeOffset = placementRight ? (parentWidth - offsetWidth - offsetLeft) : offsetLeft;
+      const activeOffset = placementRight ? parentWidth - offsetWidth - offsetLeft : offsetLeft;
       setActiveBarStyle((ori) => ({
         ...ori,
         width: offsetWidth,

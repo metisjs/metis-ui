@@ -1,8 +1,9 @@
+import * as React from 'react';
+import { ValueType } from '@rc-component/mini-decimal';
 import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import * as React from 'react';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,
@@ -24,7 +25,6 @@ import useFieldsInvalidate from './hooks/useFieldsInvalidate';
 import useFilledProps from './hooks/useFilledProps';
 import useOpen from './hooks/useOpen';
 import usePickerRef from './hooks/usePickerRef';
-import usePresets from './hooks/usePresets';
 import useRangeActive from './hooks/useRangeActive';
 import useRangePickerValue from './hooks/useRangePickerValue';
 import useRangeValue, { useInnerValue } from './hooks/useRangeValue';
@@ -103,7 +103,7 @@ export interface PickerProps<DateType extends object = any>
 
 /** Internal usage. For cross function get same aligned props */
 export type ReplacedPickerProps<DateType extends object = any> = {
-  onChange?: (date: DateType | DateType[], dateString: string | string[]) => void;
+  onChange?: (date: DateType | DateType[] | null, dateString: string | string[]) => void;
   onCalendarChange?: (
     date: DateType | DateType[],
     dateString: string | string[],
@@ -149,7 +149,6 @@ function Picker<DateType extends object = any>(
     generateConfig,
     picker,
     showNow,
-    showToday,
     showTime,
 
     // Mode
@@ -261,7 +260,7 @@ function Picker<DateType extends object = any>(
   const internalMode: InternalMode = mergedMode === 'date' && showTime ? 'datetime' : mergedMode;
 
   // ======================= Show Now =======================
-  const mergedShowNow = useShowNow(picker, mergedMode, showNow, showToday);
+  const mergedShowNow = useShowNow(picker, mergedMode, showNow);
 
   // ======================== Value =========================
   const onInternalChange: PickerProps<DateType>['onChange'] =
@@ -314,7 +313,7 @@ function Picker<DateType extends object = any>(
     }
   };
 
-  const [currentPickerValue, setCurrentPickerValue] = useRangePickerValue(
+  const [currentPickerValue, setCurrentPickerValue] = useRangePickerValue<DateType, DateType[]>(
     generateConfig,
     locale,
     calendarValue,
@@ -403,8 +402,6 @@ function Picker<DateType extends object = any>(
   // ========================================================
   // ==                       Panels                       ==
   // ========================================================
-  // ======================= Presets ========================
-  const presetList = usePresets(presets);
 
   const onPresetHover = (nextValue: DateType | null) => {
     setInternalHoverValue(nextValue);
@@ -515,7 +512,7 @@ function Picker<DateType extends object = any>(
       onSubmit={triggerConfirm}
       onOk={triggerOk}
       // Preset
-      presets={presetList}
+      presets={presets}
       onPresetHover={onPresetHover}
       onPresetSubmit={onPresetSubmit}
       onNow={onNow}

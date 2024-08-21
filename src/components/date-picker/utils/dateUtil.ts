@@ -122,7 +122,7 @@ export function isSameTimestamp<DateType>(
     () =>
       isSameDate(generateConfig, time1, time2) &&
       isSameTime(generateConfig, time1, time2) &&
-      generateConfig.getMillisecond(time1) === generateConfig.getMillisecond(time2),
+      generateConfig.getMillisecond(time1!) === generateConfig.getMillisecond(time2!),
   );
 }
 
@@ -133,12 +133,13 @@ export function isSameWeek<DateType>(
   date2: NullableDateType<DateType>,
 ) {
   return nullableCompare(date1, date2, () => {
-    const weekStartDate1 = generateConfig.locale.getWeekFirstDate(locale, date1);
-    const weekStartDate2 = generateConfig.locale.getWeekFirstDate(locale, date2);
+    const weekStartDate1 = generateConfig.locale.getWeekFirstDate(locale, date1!);
+    const weekStartDate2 = generateConfig.locale.getWeekFirstDate(locale, date2!);
 
     return (
       isSameYear(generateConfig, weekStartDate1, weekStartDate2) &&
-      generateConfig.locale.getWeek(locale, date1) === generateConfig.locale.getWeek(locale, date2)
+      generateConfig.locale.getWeek(locale, date1!) ===
+        generateConfig.locale.getWeek(locale, date2!)
     );
   });
 }

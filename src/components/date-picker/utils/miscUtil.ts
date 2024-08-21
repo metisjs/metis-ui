@@ -11,7 +11,7 @@ export function leftPad(str: string | number, length: number, fill: string = '0'
 /**
  * Convert `value` to array. Will provide `[]` if is null or undefined.
  */
-export function toArray<T>(val: T | T[]): T[] {
+export function toArray<T>(val?: T | T[] | null): T[] {
   if (val === null || val === undefined) {
     return [];
   }

@@ -1,6 +1,6 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import { useEvent, useMergedState, warning } from 'rc-util';
-import * as React from 'react';
 import useLocale from '../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../hooks/useTimeConfig';
 import useToggleDates from '../hooks/useToggleDates';
@@ -67,8 +67,6 @@ export interface BasePickerPanelProps<DateType extends object = any>
   // Style
   prefixCls?: string;
 
-  direction?: 'ltr' | 'rtl';
-
   // Value
   onSelect?: (date: DateType) => void;
 
@@ -97,11 +95,6 @@ export interface BasePickerPanelProps<DateType extends object = any>
 
   // Cell
   cellRender?: CellRender<DateType>;
-
-  /** @deprecated use cellRender instead of dateRender */
-  dateRender?: (currentDate: DateType, today: DateType) => React.ReactNode;
-  /** @deprecated use cellRender instead of monthCellRender */
-  monthCellRender?: (currentDate: DateType, locale: Locale) => React.ReactNode;
 
   // Hover
   /** @private Used for Picker passing */
@@ -143,8 +136,6 @@ function PickerPanel<DateType extends object = any>(
   const {
     locale,
     generateConfig,
-
-    direction,
 
     // Style
     prefixCls,

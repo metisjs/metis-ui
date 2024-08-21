@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import * as React from 'react';
 import type { GenerateConfig } from '../../generate';
 import type { InternalMode, Locale, PanelMode } from '../../interface';
 import { fillTime, isSame } from '../../utils/dateUtil';
@@ -32,7 +32,7 @@ export function offsetPanelDate<DateType = any>(
   }
 }
 
-const EMPTY_LIST = [];
+const EMPTY_LIST = [] as any[];
 
 export default function useRangePickerValue<DateType extends object, ValueType extends DateType[]>(
   generateConfig: GenerateConfig<DateType>,
@@ -159,11 +159,11 @@ export default function useRangePickerValue<DateType extends object, ValueType e
   };
 
   // >>> When switch field, reset the picker value as prev field picker value
-  const prevActiveIndexRef = React.useRef<number>(null);
+  const prevActiveIndexRef = React.useRef<number | null>(null);
   useLayoutEffect(() => {
     if (open) {
       if (!defaultPickerValue[mergedActiveIndex]) {
-        let nextPickerValue: DateType = isTimePicker ? null : generateConfig.getNow();
+        let nextPickerValue: DateType | null = isTimePicker ? null : generateConfig.getNow();
 
         /**
          * 1. If has prevActiveIndex, use it to avoid panel jump

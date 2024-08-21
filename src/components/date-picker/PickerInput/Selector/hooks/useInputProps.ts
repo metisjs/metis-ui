@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { warning } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import * as React from 'react';
 import type { SelectorProps } from '../../../interface';
 import { formatValue } from '../../../utils/dateUtil';
 import type { InputProps } from '../Input';
@@ -66,7 +66,7 @@ export default function useInputProps<DateType extends object = any>(
     autoComplete,
 
     id,
-    value,
+    value = [],
     invalid,
     placeholder,
     disabled,
@@ -127,8 +127,10 @@ export default function useInputProps<DateType extends object = any>(
 
   // ======================== Input =========================
   const getInputProps = (index?: number): InputProps => {
-    function getProp<T>(propValue: T | T[]): T {
-      return index !== undefined ? propValue[index] : propValue;
+    function getProp<T>(propValue?: T | T[]) {
+      if (propValue === undefined) return propValue;
+
+      return index !== undefined ? (propValue as T[])[index] : (propValue as T);
     }
 
     const pickedAttrs = pickAttrs(props, {
@@ -170,10 +172,10 @@ export default function useInputProps<DateType extends object = any>(
 
       disabled: getProp(disabled),
 
-      onFocus: (event) => {
+      onFocus: (event: React.FocusEvent<HTMLInputElement>) => {
         onFocus(event, index);
       },
-      onBlur: (event) => {
+      onBlur: (event: React.FocusEvent<HTMLInputElement>) => {
         // Blur do not trigger close
         // Since it may focus to the popup panel
         onBlur(event, index);
@@ -238,7 +240,7 @@ export default function useInputProps<DateType extends object = any>(
     };
 
     // ============== Clean Up ==============
-    Object.keys(inputProps).forEach((key) => {
+    Object.keys(inputProps).forEach((key: keyof typeof inputProps) => {
       if (inputProps[key] === undefined) {
         delete inputProps[key];
       }

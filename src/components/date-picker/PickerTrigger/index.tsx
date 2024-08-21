@@ -1,9 +1,9 @@
+import * as React from 'react';
 import Trigger from '@rc-component/trigger';
 import type { AlignType, BuildInPlacements } from '@rc-component/trigger/lib/interface';
 import classNames from 'classnames';
-import * as React from 'react';
-import { getRealPlacement } from '../utils/uiUtil';
 import PickerContext from '../PickerInput/context';
+import { getRealPlacement } from '../utils/uiUtil';
 
 const BUILT_IN_PLACEMENTS = {
   bottomLeft: {
@@ -53,7 +53,6 @@ export type PickerTriggerProps = {
   popupClassName?: string;
   placement?: string;
   builtinPlacements?: BuildInPlacements;
-  direction?: 'ltr' | 'rtl';
 
   // Visible
   visible: boolean;

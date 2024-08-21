@@ -23,5 +23,5 @@ export default function useOpen(
     }
   }
 
-  return [rafOpen, setOpen];
+  return [!!rafOpen, setOpen];
 }

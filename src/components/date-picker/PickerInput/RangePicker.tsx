@@ -1,9 +1,9 @@
+import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import warning from 'rc-util/lib/warning';
-import * as React from 'react';
 import type {
   BaseInfo,
   InternalMode,
@@ -27,13 +27,13 @@ import useFieldsInvalidate from './hooks/useFieldsInvalidate';
 import useFilledProps from './hooks/useFilledProps';
 import useOpen from './hooks/useOpen';
 import usePickerRef from './hooks/usePickerRef';
-import usePresets from './hooks/usePresets';
 import useRangeActive from './hooks/useRangeActive';
 import useRangeDisabledDate from './hooks/useRangeDisabledDate';
 import useRangePickerValue from './hooks/useRangePickerValue';
 import useRangeValue, { useInnerValue } from './hooks/useRangeValue';
 import useShowNow from './hooks/useShowNow';
-import Popup, { PopupShowTimeConfig } from './Popup';
+import type { PopupShowTimeConfig } from './Popup';
+import Popup from './Popup';
 import RangeSelector, { type SelectorIdType } from './Selector/RangeSelector';
 
 function separateConfig<T>(config: T | [T, T] | null | undefined, defaultConfig: T): [T, T] {
@@ -107,11 +107,6 @@ export interface BaseRangePickerProps<DateType extends object>
 
   // Preset
   presets?: ValueDate<Exclude<RangeValueType<DateType>, null>>[];
-  /** @deprecated Please use `presets` instead */
-  ranges?: Record<
-    string,
-    Exclude<RangeValueType<DateType>, null> | (() => Exclude<RangeValueType<DateType>, null>)
-  >;
 
   // Control
   disabled?: boolean | [boolean, boolean];
@@ -185,7 +180,6 @@ function RangePicker<DateType extends object = any>(
     generateConfig,
     picker,
     showNow,
-    showToday,
     showTime,
 
     // Mode
@@ -210,13 +204,10 @@ function RangePicker<DateType extends object = any>(
 
     // Presets
     presets,
-    ranges,
 
     // Render
     components,
     cellRender,
-    dateRender,
-    monthCellRender,
 
     // Native
     onClick,
@@ -317,7 +308,7 @@ function RangePicker<DateType extends object = any>(
   const multiplePanel = internalMode === picker && internalMode !== 'time';
 
   // ======================= Show Now =======================
-  const mergedShowNow = useShowNow(picker, mergedMode, showNow, showToday, true);
+  const mergedShowNow = useShowNow(picker, mergedMode, showNow, true);
 
   // ======================== Value =========================
   const [
@@ -473,9 +464,6 @@ function RangePicker<DateType extends object = any>(
   // Save the offset with active bar position
   const [activeOffset, setActiveOffset] = React.useState(0);
 
-  // ======================= Presets ========================
-  const presetList = usePresets(presets, ranges);
-
   const onPresetHover = (nextValues: RangeValueType<DateType> | null) => {
     setInternalHoverValues(nextValues);
     setHoverSource('preset');
@@ -603,7 +591,7 @@ function RangePicker<DateType extends object = any>(
       onSubmit={triggerPartConfirm}
       onOk={triggerOk}
       // Preset
-      presets={presetList}
+      presets={presets}
       onPresetHover={onPresetHover}
       onPresetSubmit={onPresetSubmit}
       // Now

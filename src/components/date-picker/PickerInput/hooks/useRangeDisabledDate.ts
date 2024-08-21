@@ -1,8 +1,8 @@
 import type { GenerateConfig } from '../../generate';
-import { isSame } from '../../utils/dateUtil';
 import type { DisabledDate, Locale } from '../../interface';
-import type { RangeValueType } from '../RangePicker';
+import { isSame } from '../../utils/dateUtil';
 import { getFromDate } from '../../utils/miscUtil';
+import type { RangeValueType } from '../RangePicker';
 
 /**
  * RangePicker need additional logic to handle the `disabled` case. e.g.
@@ -54,7 +54,7 @@ export default function useRangeDisabledDate<DateType extends object = any>(
     }
 
     // ============================= Origin =============================
-    return disabledDate?.(date, mergedInfo);
+    return !!disabledDate?.(date, mergedInfo);
   };
 
   return rangeDisabledDate;

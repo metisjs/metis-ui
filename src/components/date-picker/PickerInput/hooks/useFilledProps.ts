@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { ConfigContext } from '../../../config-provider';
+import useSelectIcons from '../../../select/hooks/useIcons';
 import useLocale from '../../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../../hooks/useTimeConfig';
 import type { FormatType, InternalMode, PickerMode } from '../../interface';
 import { toArray } from '../../utils/miscUtil';
 import type { RangePickerProps } from '../RangePicker';
-import { fillClearIcon } from '../Selector/hooks/useClearIcon';
 import useDisabledBoundary from './useDisabledBoundary';
 import { useFieldFormat } from './useFieldFormat';
 import useInputReadOnly from './useInputReadOnly';
@@ -38,6 +39,7 @@ type PickedProps<DateType extends object = any> = Pick<
   defaultValue?: any;
   pickerValue?: any;
   defaultPickerValue?: any;
+  removeIcon?: React.ReactNode;
 };
 
 type ExcludeBooleanType<T> = T extends boolean ? never : T;
@@ -68,7 +70,7 @@ function useList<T>(value: T | T[], fillMode = false) {
 export default function useFilledProps<
   InProps extends PickedProps,
   DateType extends GetGeneric<InProps>,
-  UpdaterProps extends object,
+  UpdaterProps extends Record<string, any>,
 >(
   props: InProps,
   updater?: () => UpdaterProps,
@@ -85,19 +87,18 @@ export default function useFilledProps<
   internalPicker: InternalMode,
   complexPicker: boolean,
   formatList: FormatType<DateType>[],
-  maskFormat: string,
+  maskFormat: string | undefined,
   isInvalidateDate: ReturnType<UseInvalidate<DateType>>,
 ] {
   const {
     generateConfig,
     locale,
     picker = 'date',
-    prefixCls = 'rc-picker',
+    prefixCls: customizePrefixCls,
     styles = {},
     classNames = {},
     order = true,
     components = {},
-    allowClear,
     needConfirm,
     multiple,
     format,
@@ -112,6 +113,9 @@ export default function useFilledProps<
     pickerValue,
     defaultPickerValue,
   } = props;
+
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const prefixCls = getPrefixCls('picker', customizePrefixCls);
 
   const values = useList(value);
   const defaultValues = useList(defaultValue);
@@ -140,25 +144,33 @@ export default function useFilledProps<
     [internalPicker, showTimeFormat, propFormat, timeProps, mergedLocale],
   );
 
+  // ======================== Icons =========================
+  const { clearIcon, removeIcon } = useSelectIcons({
+    ...props,
+    prefixCls,
+  });
+
   // ======================== Props =========================
   const filledProps = React.useMemo(
-    () => ({
-      ...props,
-      prefixCls,
-      locale: mergedLocale,
-      picker,
-      styles,
-      classNames,
-      order,
-      components,
-      clearIcon: fillClearIcon(prefixCls, allowClear, clearIcon),
-      showTime: mergedShowTime,
-      value: values,
-      defaultValue: defaultValues,
-      pickerValue: pickerValues,
-      defaultPickerValue: defaultPickerValues,
-      ...updater?.(),
-    }),
+    () =>
+      ({
+        ...props,
+        prefixCls,
+        locale: mergedLocale,
+        picker,
+        styles,
+        classNames,
+        order,
+        components,
+        clearIcon,
+        removeIcon,
+        showTime: mergedShowTime,
+        value: values,
+        defaultValue: defaultValues,
+        pickerValue: pickerValues,
+        defaultPickerValue: defaultPickerValues,
+        ...updater?.(),
+      } as any),
     [props],
   );
 
@@ -196,5 +208,5 @@ export default function useFilledProps<
     [filledProps, mergedNeedConfirm, mergedInputReadOnly, disabledBoundaryDate],
   );
 
-  return [mergedProps, internalPicker, complexPicker, formatList, maskFormat, isInvalidateDate];
+  return [mergedProps, internalPicker, !!complexPicker, formatList, maskFormat, isInvalidateDate];
 }
