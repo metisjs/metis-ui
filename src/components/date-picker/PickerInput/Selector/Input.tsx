@@ -1,15 +1,15 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import raf from 'rc-util/lib/raf';
-import * as React from 'react';
+import type { PickerRef } from '../../interface';
 import { leftPad } from '../../utils/miscUtil';
 import PickerContext from '../context';
 import useLockEffect from '../hooks/useLockEffect';
 import Icon from './Icon';
 import MaskFormat from './MaskFormat';
 import { getMaskRange } from './util';
-import type { PickerRef } from '../../interface';
 
 // Format logic
 //
@@ -55,10 +55,9 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     active,
     showActiveCls = true,
     suffixIcon,
-    format,
+    format = '',
     validateFormat,
     onChange,
-    onInput,
     helped,
     onHelp,
     onSubmit,
@@ -76,10 +75,10 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
 
   // ======================== Value =========================
   const [focused, setFocused] = React.useState(false);
-  const [internalInputValue, setInputValue] = React.useState<string>(value);
+  const [internalInputValue, setInputValue] = React.useState(value);
   const [focusCellText, setFocusCellText] = React.useState<string>('');
-  const [focusCellIndex, setFocusCellIndex] = React.useState<number>(null);
-  const [forceSelectionSyncMark, forceSelectionSync] = React.useState<object>(null);
+  const [focusCellIndex, setFocusCellIndex] = React.useState<number>(-1);
+  const [forceSelectionSyncMark, forceSelectionSync] = React.useState<object>();
 
   const inputValue = internalInputValue || '';
 
@@ -89,22 +88,22 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   }, [value]);
 
   // ========================= Refs =========================
-  const holderRef = React.useRef<HTMLDivElement>();
-  const inputRef = React.useRef<HTMLInputElement>();
+  const holderRef = React.useRef<HTMLDivElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useImperativeHandle(ref, () => ({
-    nativeElement: holderRef.current,
-    inputElement: inputRef.current,
+    nativeElement: holderRef.current!,
+    inputElement: inputRef.current!,
     focus: (options) => {
-      inputRef.current.focus(options);
+      inputRef.current?.focus(options);
     },
     blur: () => {
-      inputRef.current.blur();
+      inputRef.current?.blur();
     },
   }));
 
   // ======================== Format ========================
-  const maskFormat = React.useMemo(() => new MaskFormat(format || ''), [format]);
+  const maskFormat = React.useMemo(() => new MaskFormat(format), [format]);
 
   const [selectionStart, selectionEnd] = React.useMemo(() => {
     if (helped) {
@@ -167,7 +166,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   const onFormatMouseUp: React.MouseEventHandler<HTMLInputElement> = (event) => {
     const { selectionStart: start } = event.target as HTMLInputElement;
 
-    const closeMaskIndex = maskFormat.getMaskCellIndex(start);
+    const closeMaskIndex = maskFormat.getMaskCellIndex(start ?? 0);
     setFocusCellIndex(closeMaskIndex);
 
     // Force update the selection
@@ -184,11 +183,11 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     setFocusCellIndex(0);
     setFocusCellText('');
 
-    onFocus(event);
+    onFocus?.(event);
   };
 
   const onSharedBlur: React.FocusEventHandler<HTMLInputElement> = (event) => {
-    onBlur(event);
+    onBlur?.(event);
   };
 
   const onFormatBlur: React.FocusEventHandler<HTMLInputElement> = (event) => {
@@ -199,7 +198,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
 
   // ======================== Active ========================
   // Check if blur need reset input value
-  useLockEffect(active, () => {
+  useLockEffect(!!active, () => {
     if (!active && !preserveInvalidOnBlur) {
       setInputValue(value);
     }
@@ -220,14 +219,13 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     const { key } = event;
 
     // Save the cache with cell text
-    let nextCellText: string = null;
+    let nextCellText: string | null = null;
 
     // Fill in the input
-    let nextFillText: string = null;
+    let nextFillText: string | null = null;
 
     const maskCellLen = selectionEnd - selectionStart;
     const cellFormat = format.slice(selectionStart, selectionEnd);
-
     // Cell Index
     const offsetCellIndex = (offset: number) => {
       setFocusCellIndex((idx) => {
@@ -339,15 +337,15 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     }
 
     // Match the selection range
-    inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+    inputRef.current?.setSelectionRange(selectionStart, selectionEnd);
 
     // Chrome has the bug anchor position looks not correct but actually correct
     rafRef.current = raf(() => {
-      inputRef.current.setSelectionRange(selectionStart, selectionEnd);
+      inputRef.current?.setSelectionRange(selectionStart, selectionEnd);
     });
 
     return () => {
-      raf.cancel(rafRef.current);
+      if (rafRef.current) raf.cancel(rafRef.current);
     };
   }, [
     maskFormat,

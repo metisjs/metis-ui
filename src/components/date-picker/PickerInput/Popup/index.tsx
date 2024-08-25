@@ -27,7 +27,7 @@ export interface PopupProps<DateType extends object = any, PresetValue = DateTyp
   panelRender?: SharedPickerProps['panelRender'];
 
   // Presets
-  presets: ValueDate<DateType>[];
+  presets?: ValueDate<DateType>[];
   onPresetHover: (presetValue: PresetValue) => void;
   onPresetSubmit: (presetValue: PresetValue) => void;
 
@@ -61,7 +61,7 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
     placement,
 
     // Presets
-    presets,
+    presets = [],
     onPresetHover,
     onPresetSubmit,
 

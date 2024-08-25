@@ -1,10 +1,11 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
+import type { PopupShowTimeConfig } from '.';
+import Button from '../../../button';
 import type { GenerateConfig } from '../../generate';
 import useTimeInfo from '../../hooks/useTimeInfo';
 import type { DisabledDate, InternalMode, PanelMode, SharedPickerProps } from '../../interface';
 import PickerContext from '../context';
-import type { PopupShowTimeConfig } from '.';
 
 export interface FooterProps<DateType extends object = any> {
   mode: PanelMode;
@@ -42,7 +43,7 @@ export default function Footer(props: FooterProps) {
     disabledDate,
   } = props;
 
-  const { prefixCls, locale, button: Button = 'button' } = React.useContext(PickerContext);
+  const { prefixCls, locale } = React.useContext(PickerContext);
 
   // >>> Now
   const now = generateConfig.getNow();

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ValueType } from '@rc-component/mini-decimal';
 import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
@@ -32,8 +31,6 @@ import useShowNow from './hooks/useShowNow';
 import Popup from './Popup';
 import SingleSelector from './Selector/SingleSelector';
 
-// TODO: isInvalidateDate with showTime.disabledTime should not provide `range` prop
-
 export interface BasePickerProps<DateType extends object = any>
   extends SharedPickerProps<DateType> {
   // Structure
@@ -48,7 +45,7 @@ export interface BasePickerProps<DateType extends object = any>
   // Value
   value?: DateType | DateType[] | null;
   defaultValue?: DateType | DateType[];
-  onChange?: (date: DateType | DateType[], dateString: string | string[]) => void;
+  onChange?: (date: DateType | DateType[] | null, dateString: string | string[]) => void;
   onCalendarChange?: (
     date: DateType | DateType[],
     dateString: string | string[],
@@ -179,8 +176,6 @@ function Picker<DateType extends object = any>(
     // Render
     components,
     cellRender,
-    dateRender,
-    monthCellRender,
 
     // Native
     onClick,
@@ -191,18 +186,18 @@ function Picker<DateType extends object = any>(
   const selectorRef = usePickerRef(ref);
 
   // ========================= Util =========================
-  function pickerParam<T>(values: T | T[]) {
+  function pickerParam<T>(values: null | T | T[]) {
     if (values === null) {
       return null;
     }
 
-    return multiple ? values : values[0];
+    return multiple ? values : (values as T[])[0];
   }
 
   const toggleDates = useToggleDates(generateConfig, locale, internalPicker);
 
   // ========================= Open =========================
-  const [mergedOpen, triggerOpen] = useOpen(open, defaultOpen, [disabled], onOpenChange);
+  const [mergedOpen, triggerOpen] = useOpen(open, defaultOpen, [!!disabled], onOpenChange);
 
   // ======================= Calendar =======================
   const onInternalCalendarChange = (dates: DateType[], dateStrings: string[], info: BaseInfo) => {
@@ -211,12 +206,12 @@ function Picker<DateType extends object = any>(
         ...info,
       };
       delete filteredInfo.range;
-      onCalendarChange(pickerParam(dates), pickerParam(dateStrings), filteredInfo);
+      onCalendarChange(pickerParam(dates)!, pickerParam(dateStrings) ?? '', filteredInfo);
     }
   };
 
   const onInternalOk = (dates: DateType[]) => {
-    onOk?.(pickerParam(dates));
+    onOk?.(pickerParam(dates)!);
   };
 
   // ======================== Values ========================
@@ -226,7 +221,7 @@ function Picker<DateType extends object = any>(
       locale,
       formatList,
       false,
-      order,
+      !!order,
       defaultValue,
       value,
       onInternalCalendarChange,
@@ -237,7 +232,7 @@ function Picker<DateType extends object = any>(
 
   // ======================== Active ========================
   // In SinglePicker, we will always get `activeIndex` is 0.
-  const [focused, triggerFocus, lastOperation, activeIndex] = useRangeActive([disabled]);
+  const [focused, triggerFocus, lastOperation, activeIndex] = useRangeActive([!!disabled]);
 
   const onSharedFocus = (event: React.FocusEvent<HTMLElement>) => {
     triggerFocus(true);
@@ -263,11 +258,9 @@ function Picker<DateType extends object = any>(
   const mergedShowNow = useShowNow(picker, mergedMode, showNow);
 
   // ======================== Value =========================
-  const onInternalChange: PickerProps<DateType>['onChange'] =
-    onChange &&
-    ((dates, dateStrings) => {
-      onChange(pickerParam(dates), pickerParam(dateStrings));
-    });
+  const onInternalChange: PickerProps<DateType>['onChange'] = (dates, dateStrings) => {
+    onChange?.(pickerParam(dates), pickerParam(dateStrings) ?? '');
+  };
 
   const [
     ,
@@ -277,7 +270,7 @@ function Picker<DateType extends object = any>(
     {
       ...filledProps,
       onChange: onInternalChange,
-    },
+    } as any,
     mergedValue,
     setInnerValue,
     getCalendarValue,
@@ -332,7 +325,7 @@ function Picker<DateType extends object = any>(
 
   // >>> Mode need wait for `pickerValue`
   const triggerModeChange = useEvent(
-    (nextPickerValue: DateType, nextMode: PanelMode, triggerEvent?: boolean) => {
+    (nextPickerValue: DateType | null, nextMode: PanelMode, triggerEvent?: boolean) => {
       setMode(nextMode);
 
       // Compatible with `onPanelChange`
@@ -357,9 +350,9 @@ function Picker<DateType extends object = any>(
 
   // ======================== Click =========================
   const onSelectorClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-    if (!disabled && !selectorRef.current.nativeElement.contains(document.activeElement)) {
+    if (!disabled && !selectorRef.current?.nativeElement.contains(document.activeElement)) {
       // Click to focus the enabled input
-      selectorRef.current.focus();
+      selectorRef.current?.focus();
     }
 
     triggerOpen(true);
@@ -373,8 +366,8 @@ function Picker<DateType extends object = any>(
   };
 
   // ======================== Hover =========================
-  const [hoverSource, setHoverSource] = React.useState<'cell' | 'preset'>(null);
-  const [internalHoverValue, setInternalHoverValue] = React.useState<DateType>(null);
+  const [hoverSource, setHoverSource] = React.useState<'cell' | 'preset' | null>(null);
+  const [internalHoverValue, setInternalHoverValue] = React.useState<DateType | null>(null);
 
   const hoverValues = React.useMemo(() => {
     const values = [internalHoverValue, ...calendarValue].filter((date) => date);
@@ -457,7 +450,7 @@ function Picker<DateType extends object = any>(
   };
 
   // >>> cellRender
-  const onInternalCellRender = useCellRender(cellRender, dateRender, monthCellRender);
+  const onInternalCellRender = useCellRender(cellRender);
 
   // >>> invalid
 
@@ -498,7 +491,6 @@ function Picker<DateType extends object = any>(
       format={maskFormat}
       value={calendarValue}
       isInvalid={isInvalidateDate}
-      onChange={null}
       onSelect={onPanelSelect}
       // PickerValue
       pickerValue={currentPickerValue}
@@ -508,7 +500,7 @@ function Picker<DateType extends object = any>(
       hoverValue={hoverValues}
       onHover={onPanelHover}
       // Submit
-      needConfirm={needConfirm}
+      needConfirm={!!needConfirm}
       onSubmit={triggerConfirm}
       onOk={triggerOk}
       // Preset
@@ -567,10 +559,9 @@ function Picker<DateType extends object = any>(
       prefixCls,
       locale,
       generateConfig,
-      button: components.button,
       input: components.input,
     }),
-    [prefixCls, locale, generateConfig, components.button, components.input],
+    [prefixCls, locale, generateConfig, components.input],
   );
 
   // ======================== Effect ========================
@@ -606,8 +597,8 @@ function Picker<DateType extends object = any>(
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupStyle={styles.popup}
-        popupClassName={classNames.popup}
+        popupStyle={styles?.popup}
+        popupClassName={classNames?.popup}
         // Visible
         visible={mergedOpen}
         onClose={onPopupClose}
@@ -638,7 +629,7 @@ function Picker<DateType extends object = any>(
           format={formatList}
           inputReadOnly={inputReadOnly}
           // Disabled
-          disabled={disabled}
+          disabled={!!disabled}
           // Open
           open={mergedOpen}
           onOpenChange={triggerOpen}
@@ -661,9 +652,5 @@ function Picker<DateType extends object = any>(
 const RefPicker = React.forwardRef(Picker) as <DateType extends object = any>(
   props: PickerProps<DateType> & React.RefAttributes<PickerRef>,
 ) => React.ReactElement;
-
-if (process.env.NODE_ENV !== 'production') {
-  (RefPicker as any).displayName = 'RefPicker';
-}
 
 export default RefPicker;

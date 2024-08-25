@@ -7,9 +7,7 @@ export interface PickerContextProps<DateType = any> {
   locale: Locale;
   generateConfig: GenerateConfig<DateType>;
   /** Customize button component */
-  button?: Components['button'];
   input?: Components['input'];
-
 }
 
 const PickerContext = React.createContext<PickerContextProps>(null!);

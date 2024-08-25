@@ -6,7 +6,6 @@ import { isSame } from '../../../utils/dateUtil';
 import PickerContext from '../../context';
 import type { PickerProps } from '../../SinglePicker';
 import useInputProps from '../hooks/useInputProps';
-import useRootProps from '../hooks/useRootProps';
 import Icon, { ClearIcon } from '../Icon';
 import Input, { type InputRef } from '../Input';
 import MultipleDates from './MultipleDates';
@@ -85,8 +84,8 @@ function SingleSelector<DateType extends object = any>(
   const { prefixCls } = React.useContext(PickerContext);
 
   // ========================= Refs =========================
-  const rootRef = React.useRef<HTMLDivElement>();
-  const inputRef = React.useRef<InputRef>();
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const inputRef = React.useRef<InputRef>(null);
 
   React.useImperativeHandle(ref, () => ({
     nativeElement: rootRef.current!,
@@ -104,9 +103,10 @@ function SingleSelector<DateType extends object = any>(
   };
 
   const onMultipleRemove = (date: DateType) => {
-    const nextValues = value.filter(
-      (oriDate) => oriDate && !isSame(generateConfig, locale, oriDate, date, internalPicker),
-    );
+    const nextValues =
+      value?.filter(
+        (oriDate) => oriDate && !isSame(generateConfig, locale, oriDate, date, internalPicker),
+      ) ?? [];
     onChange(nextValues);
 
     // When `open`, it means user is operating the
@@ -128,7 +128,7 @@ function SingleSelector<DateType extends object = any>(
   );
 
   // ======================== Clear =========================
-  const showClear = !!(clearIcon && value.length && !disabled);
+  const showClear = !!(clearIcon && value?.length && !disabled);
 
   // ======================= Multiple =======================
   const selectorNode = multiple ? (
@@ -145,7 +145,7 @@ function SingleSelector<DateType extends object = any>(
       />
       <input
         className={`${prefixCls}-multiple-input`}
-        value={value.map(getText).join(',')}
+        value={value?.map(getText).join(',')}
         ref={inputRef as any}
         readOnly
         autoFocus={autoFocus}
@@ -175,7 +175,6 @@ function SingleSelector<DateType extends object = any>(
           [`${prefixCls}-focused`]: focused,
           [`${prefixCls}-disabled`]: disabled,
           [`${prefixCls}-invalid`]: invalid,
-          [`${prefixCls}-rtl`]: rtl,
         },
         className,
       )}

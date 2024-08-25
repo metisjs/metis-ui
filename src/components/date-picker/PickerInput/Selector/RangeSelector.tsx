@@ -3,10 +3,10 @@ import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
 import type { RangePickerRef, SelectorProps } from '../../interface';
+import { pickProps } from '../../utils/miscUtil';
 import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
 import PickerContext from '../context';
 import useInputProps from './hooks/useInputProps';
-import useRootProps from './hooks/useRootProps';
 import Icon, { ClearIcon } from './Icon';
 import Input, { type InputRef } from './Input';
 
@@ -20,7 +20,7 @@ export type SelectorIdType =
 export interface RangeSelectorProps<DateType = any> extends SelectorProps<DateType> {
   id?: SelectorIdType;
 
-  activeIndex: number | null;
+  activeIndex: number;
 
   separator?: React.ReactNode;
 
@@ -56,15 +56,8 @@ function RangeSelector<DateType extends object = any>(
     suffixIcon,
     separator = '~',
     activeIndex,
-    activeHelp,
-    allHelp,
 
     focused,
-    onFocus,
-    onBlur,
-    onKeyDown,
-    locale,
-    generateConfig,
 
     // Placeholder
     placeholder,
@@ -78,27 +71,11 @@ function RangeSelector<DateType extends object = any>(
     onClear,
 
     // Change
-    value,
-    onChange,
-    onSubmit,
-    onInputChange,
-
-    // Valid
-    format,
-    maskFormat,
-    preserveInvalidOnBlur,
-    onInvalid,
+    value = [],
 
     // Disabled
     disabled,
     invalid,
-    inputReadOnly,
-
-    // Direction
-    direction,
-
-    // Open
-    onOpenChange,
 
     // Offset
     onActiveOffset,
@@ -107,15 +84,8 @@ function RangeSelector<DateType extends object = any>(
     // Native
     onMouseDown,
 
-    // Input
-    required,
-    'aria-required': ariaRequired,
     autoFocus,
-
-    ...restProps
   } = props;
-
-  const rtl = direction === 'rtl';
 
   // ======================== Prefix ========================
   const { prefixCls } = React.useContext(PickerContext);
@@ -132,14 +102,14 @@ function RangeSelector<DateType extends object = any>(
   }, [id]);
 
   // ========================= Refs =========================
-  const rootRef = React.useRef<HTMLDivElement>();
-  const inputStartRef = React.useRef<InputRef>();
-  const inputEndRef = React.useRef<InputRef>();
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const inputStartRef = React.useRef<InputRef>(null);
+  const inputEndRef = React.useRef<InputRef>(null);
 
   const getInput = (index: number) => [inputStartRef, inputEndRef][index]?.current;
 
   React.useImperativeHandle(ref, () => ({
-    nativeElement: rootRef.current,
+    nativeElement: rootRef.current!,
     focus: (options) => {
       if (typeof options === 'object') {
         const { index = 0, ...rest } = options || {};
@@ -154,25 +124,22 @@ function RangeSelector<DateType extends object = any>(
     },
   }));
 
-  // ======================== Props =========================
-  const rootProps = useRootProps(restProps);
-
   // ===================== Placeholder ======================
-  const mergedPlaceholder = React.useMemo<[string, string]>(
+  const mergedPlaceholder = React.useMemo<[string | undefined, string | undefined]>(
     () => (Array.isArray(placeholder) ? placeholder : [placeholder, placeholder]),
     [placeholder],
   );
 
   // ======================== Inputs ========================
   const [getInputProps] = useInputProps({
-    ...props,
+    ...(props as any),
     id: ids,
     placeholder: mergedPlaceholder,
   });
 
   // ====================== ActiveBar =======================
-  const realPlacement = getRealPlacement(placement, rtl);
-  const offsetUnit = getOffsetUnit(realPlacement, rtl);
+  const realPlacement = getRealPlacement(placement);
+  const offsetUnit = getOffsetUnit(realPlacement);
   const placementRight = realPlacement?.toLowerCase().endsWith('right');
   const [activeBarStyle, setActiveBarStyle] = React.useState<React.CSSProperties>({
     position: 'absolute',
@@ -183,7 +150,7 @@ function RangeSelector<DateType extends object = any>(
     const input = getInput(activeIndex);
     if (input) {
       const { offsetWidth, offsetLeft, offsetParent } = input.nativeElement;
-      const parentWidth = (offsetParent as HTMLElement)?.offsetWidth || 0;
+      const parentWidth = (offsetParent as HTMLElement)?.offsetWidth | 0;
       const activeOffset = placementRight ? parentWidth - offsetWidth - offsetLeft : offsetLeft;
       setActiveBarStyle((ori) => ({
         ...ori,
@@ -209,7 +176,7 @@ function RangeSelector<DateType extends object = any>(
   return (
     <ResizeObserver onResize={syncActiveOffset}>
       <div
-        {...rootProps}
+        {...pickProps(props, ['onMouseEnter', 'onMouseLeave'])}
         className={classNames(
           prefixCls,
           `${prefixCls}-range`,
@@ -217,7 +184,6 @@ function RangeSelector<DateType extends object = any>(
             [`${prefixCls}-focused`]: focused,
             [`${prefixCls}-disabled`]: disabled.every((i) => i),
             [`${prefixCls}-invalid`]: invalid.some((i) => i),
-            [`${prefixCls}-rtl`]: rtl,
           },
           className,
         )}
@@ -228,8 +194,8 @@ function RangeSelector<DateType extends object = any>(
         onMouseDown={(e) => {
           const { target } = e;
           if (
-            target !== inputStartRef.current.inputElement &&
-            target !== inputEndRef.current.inputElement
+            target !== inputStartRef.current?.inputElement &&
+            target !== inputEndRef.current?.inputElement
           ) {
             e.preventDefault();
           }

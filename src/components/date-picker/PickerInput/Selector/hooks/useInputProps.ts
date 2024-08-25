@@ -24,15 +24,14 @@ export default function useInputProps<DateType extends object = any>(
     | 'onOpenChange'
     | 'onKeyDown'
     | 'activeHelp'
-    | 'name'
     | 'autoComplete'
     | 'open'
     | 'picker'
   > & {
-    id?: string | string[];
+    id?: string | (string | undefined)[];
     value?: DateType[];
     invalid?: boolean | [boolean, boolean];
-    placeholder?: string | [string, string];
+    placeholder?: string | [string | undefined, string | undefined];
     disabled?: boolean | [boolean, boolean];
     onChange: (value: DateType | null, index?: number) => void;
 

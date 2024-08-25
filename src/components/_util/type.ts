@@ -1,3 +1,5 @@
+export type SomeRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+
 export type LiteralUnion<T extends string> = T | (string & Record<string, never>);
 
 export type AnyObject = Record<PropertyKey, any>;

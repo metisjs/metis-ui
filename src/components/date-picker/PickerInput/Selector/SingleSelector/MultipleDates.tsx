@@ -1,14 +1,14 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import Overflow from 'rc-overflow';
-import * as React from 'react';
 import type { PickerProps } from '../../SinglePicker';
 
 export interface MultipleDatesProps<DateType extends object = any>
   extends Pick<PickerProps, 'maxTagCount'> {
   prefixCls: string;
-  value: DateType[];
+  value?: DateType[];
   onRemove: (value: DateType) => void;
-  removeIcon?: React.ReactNode;
+  removeIcon: React.ReactNode;
   formatDate: (date: DateType) => string;
   disabled?: boolean;
   placeholder?: React.ReactNode;
@@ -19,9 +19,9 @@ export default function MultipleDates<DateType extends object = any>(
 ) {
   const {
     prefixCls,
-    value,
+    value = [],
     onRemove,
-    removeIcon = '×',
+    removeIcon,
     formatDate,
     disabled,
     maxTagCount,
@@ -37,7 +37,7 @@ export default function MultipleDates<DateType extends object = any>(
     return (
       <span
         className={classNames(`${selectionCls}-item`)}
-        title={typeof content === 'string' ? content : null}
+        title={typeof content === 'string' ? content : undefined}
       >
         <span className={`${selectionCls}-item-content`}>{content}</span>
         {!disabled && onClose && (

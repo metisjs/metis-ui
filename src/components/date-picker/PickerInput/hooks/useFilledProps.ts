@@ -1,9 +1,10 @@
 import * as React from 'react';
+import type { SomeRequired } from '../../../_util/type';
 import { ConfigContext } from '../../../config-provider';
 import useSelectIcons from '../../../select/hooks/useIcons';
 import useLocale from '../../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../../hooks/useTimeConfig';
-import type { FormatType, InternalMode, PickerMode } from '../../interface';
+import type { DisabledDate, FormatType, InternalMode, PickerMode } from '../../interface';
 import { toArray } from '../../utils/miscUtil';
 import type { RangePickerProps } from '../RangePicker';
 import useDisabledBoundary from './useDisabledBoundary';
@@ -70,12 +71,15 @@ function useList<T>(value: T | T[], fillMode = false) {
 export default function useFilledProps<
   InProps extends PickedProps,
   DateType extends GetGeneric<InProps>,
-  UpdaterProps extends Record<string, any>,
+  UpdaterProps extends Record<string, any> = object,
 >(
   props: InProps,
   updater?: () => UpdaterProps,
 ): [
-  filledProps: Omit<InProps, keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue'> &
+  filledProps: Omit<
+    SomeRequired<InProps, 'disabledDate' | 'components'>,
+    keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue'
+  > &
     UpdaterProps & {
       picker: PickerMode;
       showTime?: ExcludeBooleanType<InProps['showTime']>;
@@ -83,6 +87,7 @@ export default function useFilledProps<
       defaultValue?: ToArrayType<InProps['value'], DateType>;
       pickerValue?: ToArrayType<InProps['value'], DateType>;
       defaultPickerValue?: ToArrayType<InProps['value'], DateType>;
+      disabledDate: DisabledDate<DateType>;
     },
   internalPicker: InternalMode,
   complexPicker: boolean,

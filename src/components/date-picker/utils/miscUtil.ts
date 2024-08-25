@@ -27,10 +27,13 @@ export function fillIndex<T extends any[]>(ori: T, index: number, value: T[numbe
 }
 
 /** Pick props from the key list. Will filter empty value */
-export function pickProps<T extends object>(props: T, keys?: (keyof T)[] | readonly (keyof T)[]) {
+export function pickProps<T extends Record<string, any>, K extends keyof T>(
+  props: T,
+  keys?: K[] | readonly K[],
+): K extends keyof T ? Pick<T, K> : T {
   const clone = {} as T;
 
-  const mergedKeys = (keys || Object.keys(props)) as typeof keys;
+  const mergedKeys = (keys || Object.keys(props)) as (keyof T)[];
 
   mergedKeys.forEach((key) => {
     if (props[key] !== undefined) {
@@ -38,7 +41,7 @@ export function pickProps<T extends object>(props: T, keys?: (keyof T)[] | reado
     }
   });
 
-  return clone;
+  return clone as any;
 }
 
 export function getRowFormat(

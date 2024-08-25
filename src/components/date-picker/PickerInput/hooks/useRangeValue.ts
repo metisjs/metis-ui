@@ -187,7 +187,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
   /** Trigger `onChange` by check `disabledDate` */
   flushSubmit: (index: number, needTriggerChange: boolean) => void,
   /** Trigger `onChange` directly without check `disabledDate` */
-  triggerSubmitChange: (value: ValueType) => boolean,
+  triggerSubmitChange: (value: ValueType | null) => boolean,
 ] {
   const {
     // MISC
@@ -223,7 +223,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
   }, [mergedValue]);
 
   // ============================ Submit ============================
-  const triggerSubmit = useEvent((nextValue?: ValueType) => {
+  const triggerSubmit = useEvent((nextValue?: ValueType | null) => {
     const isNullValue = nextValue === null;
 
     let clone = [...(nextValue || submitValue())] as ValueType;

@@ -255,7 +255,6 @@ export interface SharedPanelProps<DateType extends object = any> {
 
 export type Components<DateType extends object = any> = Partial<
   Record<InternalMode, React.ComponentType<SharedPanelProps<DateType>>> & {
-    button?: React.ComponentType<any> | string;
     input?: React.ComponentType<any> | string;
   }
 >;
@@ -300,7 +299,7 @@ export interface SharedPickerProps<DateType extends object = any>
       'prevIcon' | 'nextIcon' | 'superPrevIcon' | 'superNextIcon'
     > {
   // Styles
-  prefixCls?: string;
+  prefixCls: string;
   className?: string;
   style?: React.CSSProperties;
 

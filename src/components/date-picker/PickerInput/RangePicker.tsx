@@ -738,7 +738,7 @@ function RangePicker<DateType extends object = any>(
           // Icon
           suffixIcon={suffixIcon}
           // Active
-          activeIndex={focused || mergedOpen ? activeIndex : null}
+          activeIndex={focused || mergedOpen ? activeIndex : -1}
           activeHelp={!!internalHoverValues}
           allHelp={!!internalHoverValues && hoverSource === 'preset'}
           focused={focused}
