@@ -62,7 +62,7 @@ export default function DecadePanel<DateType extends object = any>(
   };
 
   // ======================== Disabled ========================
-  const mergedDisabledDate: DisabledDate<DateType> = disabledDate
+  const mergedDisabledDate: DisabledDate<DateType> | undefined = disabledDate
     ? (currentDate, disabledInfo) => {
         // Start
         const baseStartDate = generateConfig.setDate(currentDate, 1);
@@ -78,7 +78,7 @@ export default function DecadePanel<DateType extends object = any>(
 
         return disabledDate(baseStartYear, disabledInfo) && disabledDate(baseEndDate, disabledInfo);
       }
-    : null;
+    : undefined;
 
   // ========================= Header =========================
   const yearNode = `${formatValue(startYearDate, {

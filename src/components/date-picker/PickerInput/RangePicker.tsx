@@ -4,12 +4,15 @@ import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import warning from 'rc-util/lib/warning';
+import type { SomeRequired } from '../../_util/type';
 import type {
   BaseInfo,
+  DisabledDate,
   InternalMode,
   OnOpenChange,
   OpenConfig,
   PanelMode,
+  PickerMode,
   RangePickerRef,
   RangeTimeProps,
   SelectorProps,
@@ -98,7 +101,7 @@ export interface BaseRangePickerProps<DateType extends object>
    * @param info.mode Next `mode` panel
    */
   onPickerValueChange?: (
-    date: [DateType, DateType],
+    date: RangeValueType<DateType>,
     info: BaseInfo & {
       source: 'reset' | 'panel';
       mode: [PanelMode, PanelMode];
@@ -211,7 +214,20 @@ function RangePicker<DateType extends object = any>(
 
     // Native
     onClick,
-  } = filledProps;
+  } = filledProps as Omit<
+    SomeRequired<RangePickerProps<DateType>, 'disabledDate' | 'components'>,
+    'allowEmpty' | 'disabled' | 'showTime' | 'value' | 'defaultValue'
+  > & {
+    disabled: [boolean, boolean];
+    allowEmpty: [boolean, boolean];
+    picker: PickerMode;
+    showTime?: RangeTimeProps<DateType>;
+    value?: RangeValueType<DateType>;
+    defaultValue?: RangeValueType<DateType>;
+    pickerValue?: RangeValueType<DateType>;
+    defaultPickerValue?: RangeValueType<DateType>;
+    disabledDate: DisabledDate<DateType>;
+  };
 
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);
@@ -272,10 +288,10 @@ function RangePicker<DateType extends object = any>(
   // ======================= ShowTime =======================
   /** Used for Popup panel */
   const mergedShowTime = React.useMemo<
-    PopupShowTimeConfig<DateType> & Pick<RangeTimeProps<DateType>, 'defaultOpenValue'>
+    (PopupShowTimeConfig<DateType> & Pick<RangeTimeProps<DateType>, 'defaultOpenValue'>) | undefined
   >(() => {
     if (!showTime) {
-      return null;
+      return undefined;
     }
 
     const { disabledTime } = showTime;
@@ -283,7 +299,7 @@ function RangePicker<DateType extends object = any>(
     const proxyDisabledTime = disabledTime
       ? (date: DateType) => {
           const range = getActiveRange(activeIndex);
-          const fromDate = getFromDate(calendarValue, activeIndexList, activeIndex);
+          const fromDate = getFromDate(calendarValue, activeIndexList, activeIndex) ?? undefined;
           return disabledTime(date, range, {
             from: fromDate,
           });
@@ -317,7 +333,7 @@ function RangePicker<DateType extends object = any>(
     /** Trigger `onChange` directly without check `disabledDate` */
     triggerSubmitChange,
   ] = useRangeValue<RangeValueType<DateType>, DateType>(
-    filledProps,
+    filledProps as any,
     mergedValue,
     setInnerValue,
     getCalendarValue,
@@ -366,7 +382,7 @@ function RangePicker<DateType extends object = any>(
 
   // >>> Mode need wait for `pickerValue`
   const triggerModeChange = useEvent(
-    (nextPickerValue: DateType, nextMode: PanelMode, triggerEvent?: boolean) => {
+    (nextPickerValue: DateType | null, nextMode: PanelMode, triggerEvent?: boolean) => {
       const clone = fillIndex(modes, activeIndex, nextMode);
 
       if (clone[0] !== modes[0] || clone[1] !== modes[1]) {
@@ -379,7 +395,7 @@ function RangePicker<DateType extends object = any>(
         if (nextPickerValue) {
           clonePickerValue[activeIndex] = nextPickerValue;
         }
-        onPanelChange(clonePickerValue, clone);
+        onPanelChange(clonePickerValue as NoUndefinedRangeValueType<DateType>, clone);
       }
     },
   );
@@ -396,7 +412,7 @@ function RangePicker<DateType extends object = any>(
    * - Selector: enter key
    * - Panel: OK button
    */
-  const triggerPartConfirm = (date?: DateType, skipFocus?: boolean) => {
+  const triggerPartConfirm = (date?: DateType | null, skipFocus?: boolean) => {
     let nextValue = calendarValue;
 
     if (date) {
@@ -413,7 +429,7 @@ function RangePicker<DateType extends object = any>(
     if (nextIndex === null) {
       triggerOpen(false, { force: true });
     } else if (!skipFocus) {
-      selectorRef.current.focus({ index: nextIndex });
+      selectorRef.current?.focus({ index: nextIndex });
     }
   };
 
@@ -421,14 +437,14 @@ function RangePicker<DateType extends object = any>(
   const onSelectorClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
     const rootNode = (event.target as HTMLElement).getRootNode();
     if (
-      !selectorRef.current.nativeElement.contains(
+      !selectorRef.current?.nativeElement.contains(
         (rootNode as Document | ShadowRoot).activeElement ?? document.activeElement,
       )
     ) {
       // Click to focus the enabled input
       const enabledIndex = disabled.findIndex((d) => !d);
       if (enabledIndex >= 0) {
-        selectorRef.current.focus({ index: enabledIndex });
+        selectorRef.current?.focus({ index: enabledIndex });
       }
     }
 
@@ -443,9 +459,9 @@ function RangePicker<DateType extends object = any>(
   };
 
   // ======================== Hover =========================
-  const [hoverSource, setHoverSource] = React.useState<'cell' | 'preset'>(null);
+  const [hoverSource, setHoverSource] = React.useState<'cell' | 'preset' | null>(null);
   const [internalHoverValues, setInternalHoverValues] =
-    React.useState<RangeValueType<DateType>>(null);
+    React.useState<RangeValueType<DateType> | null>(null);
 
   const hoverValues = React.useMemo(() => {
     return internalHoverValues || calendarValue;
@@ -519,12 +535,7 @@ function RangePicker<DateType extends object = any>(
   };
 
   // >>> cellRender
-  const onInternalCellRender = useCellRender(
-    cellRender,
-    dateRender,
-    monthCellRender,
-    getActiveRange(activeIndex),
-  );
+  const onInternalCellRender = useCellRender(cellRender, getActiveRange(activeIndex));
 
   // >>> Value
   const panelValue = calendarValue[activeIndex] || null;
@@ -577,7 +588,6 @@ function RangePicker<DateType extends object = any>(
       format={maskFormat}
       value={panelValue}
       isInvalid={isPopupInvalidateDate}
-      onChange={null}
       onSelect={onPanelSelect}
       // PickerValue
       pickerValue={currentPickerValue}
@@ -587,7 +597,7 @@ function RangePicker<DateType extends object = any>(
       hoverValue={hoverValues}
       onHover={onPanelHover}
       // Submit
-      needConfirm={needConfirm}
+      needConfirm={!!needConfirm}
       onSubmit={triggerPartConfirm}
       onOk={triggerOk}
       // Preset
@@ -626,12 +636,11 @@ function RangePicker<DateType extends object = any>(
 
     // When click input to switch the field, it will not trigger close.
     // Which means it will lose the part confirm and we need fill back.
-    // ref: https://github.com/ant-design/ant-design/issues/49512
     if (activeIndex !== index && mergedOpen && !needConfirm && complexPicker) {
       triggerPartConfirm(null, true);
     }
 
-    setActiveIndex(index);
+    setActiveIndex(index!);
 
     onSharedFocus(event, index);
   };
@@ -660,10 +669,9 @@ function RangePicker<DateType extends object = any>(
       prefixCls,
       locale,
       generateConfig,
-      button: components.button,
       input: components.input,
     }),
-    [prefixCls, locale, generateConfig, components.button, components.input],
+    [prefixCls, locale, generateConfig, components.input],
   );
 
   // ======================== Effect ========================
@@ -722,8 +730,8 @@ function RangePicker<DateType extends object = any>(
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupStyle={styles.popup}
-        popupClassName={classNames.popup}
+        popupStyle={styles?.popup}
+        popupClassName={classNames?.popup}
         // Visible
         visible={mergedOpen}
         onClose={onPopupClose}

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Trigger from '@rc-component/trigger';
-import type { AlignType, BuildInPlacements } from '@rc-component/trigger/lib/interface';
 import classNames from 'classnames';
+import type { AlignType, BuildInPlacements } from '../../trigger';
+import Trigger from '../../trigger';
 import PickerContext from '../PickerInput/context';
 import { getRealPlacement } from '../utils/uiUtil';
 
@@ -70,7 +70,6 @@ function PickerTrigger({
   range,
   placement,
   builtinPlacements = BUILT_IN_PLACEMENTS,
-  direction,
 
   // Visible
   visible,
@@ -79,7 +78,7 @@ function PickerTrigger({
   const { prefixCls } = React.useContext(PickerContext);
   const dropdownPrefixCls = `${prefixCls}-dropdown`;
 
-  const realPlacement = getRealPlacement(placement, direction === 'rtl');
+  const realPlacement = getRealPlacement(placement);
 
   return (
     <Trigger

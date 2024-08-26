@@ -82,5 +82,5 @@ export function getFromDate<DateType>(
     activeIndex !== undefined ? activeIndex : activeIndexList[activeIndexList.length - 1];
   const firstValuedIndex = activeIndexList.find((index) => calendarValues[index]);
 
-  return mergedActiveIndex !== firstValuedIndex ? calendarValues[firstValuedIndex] : undefined;
+  return mergedActiveIndex !== firstValuedIndex ? calendarValues[firstValuedIndex!] : undefined;
 }

@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { GenerateConfig } from '../../generate';
-import type { InternalMode, Locale, PanelMode } from '../../interface';
+import type { BaseInfo, InternalMode, Locale, NullableDateType, PanelMode } from '../../interface';
 import { fillTime, isSame } from '../../utils/dateUtil';
-import type { RangePickerProps } from '../RangePicker';
+import type { RangeValueType } from '../RangePicker';
 
 export function offsetPanelDate<DateType = any>(
   generateConfig: GenerateConfig<DateType>,
@@ -34,7 +34,10 @@ export function offsetPanelDate<DateType = any>(
 
 const EMPTY_LIST = [] as any[];
 
-export default function useRangePickerValue<DateType extends object, ValueType extends DateType[]>(
+export default function useRangePickerValue<
+  DateType extends object,
+  ValueType extends NullableDateType<DateType>[],
+>(
   generateConfig: GenerateConfig<DateType>,
   locale: Locale,
   calendarValue: ValueType,
@@ -48,10 +51,19 @@ export default function useRangePickerValue<DateType extends object, ValueType e
   // This is legacy from origin logic.
   // We will take `showTime.defaultValue` as the part of `pickerValue`
   timeDefaultValue: ValueType = EMPTY_LIST as ValueType,
-  onPickerValueChange?: RangePickerProps<DateType>['onPickerValueChange'],
+  onPickerValueChange?: (
+    date: RangeValueType<DateType> | DateType[],
+    info: BaseInfo & {
+      source: 'reset' | 'panel';
+      mode: [PanelMode, PanelMode];
+    },
+  ) => void,
   minDate?: DateType,
   maxDate?: DateType,
-): [currentIndexPickerValue: DateType, setCurrentIndexPickerValue: (value: DateType) => void] {
+): [
+  currentIndexPickerValue: DateType | null,
+  setCurrentIndexPickerValue: (value: DateType) => void,
+] {
   const isTimePicker = pickerMode === 'time';
 
   // ======================== Active ========================
@@ -107,7 +119,10 @@ export default function useRangePickerValue<DateType extends object, ValueType e
     const updater = [setStartPickerValue, setEndPickerValue][mergedActiveIndex];
     updater(nextPickerValue);
 
-    const clone: [DateType, DateType] = [mergedStartPickerValue, mergedEndPickerValue];
+    const clone: [NullableDateType<DateType>, NullableDateType<DateType>] = [
+      mergedStartPickerValue,
+      mergedEndPickerValue,
+    ];
     clone[mergedActiveIndex] = nextPickerValue;
 
     if (
@@ -130,7 +145,10 @@ export default function useRangePickerValue<DateType extends object, ValueType e
    *   - pickerValue minus one month
    * - Else pass directly
    */
-  const getEndDatePickerValue = (startDate: DateType, endDate: DateType) => {
+  const getEndDatePickerValue = (
+    startDate: NullableDateType<DateType>,
+    endDate: NullableDateType<DateType>,
+  ) => {
     if (multiplePanel) {
       // Basic offset
       const SAME_CHECKER: Partial<Record<InternalMode, PanelMode>> = {
@@ -148,7 +166,7 @@ export default function useRangePickerValue<DateType extends object, ValueType e
       // Year offset
       if (pickerMode === 'year' && startDate) {
         const srcYear = Math.floor(generateConfig.getYear(startDate) / 10);
-        const tgtYear = Math.floor(generateConfig.getYear(endDate) / 10);
+        const tgtYear = Math.floor(generateConfig.getYear(endDate!) / 10);
         if (srcYear !== tgtYear) {
           return offsetPanelDate(generateConfig, pickerMode, endDate, -1);
         }
@@ -163,7 +181,9 @@ export default function useRangePickerValue<DateType extends object, ValueType e
   useLayoutEffect(() => {
     if (open) {
       if (!defaultPickerValue[mergedActiveIndex]) {
-        let nextPickerValue: DateType | null = isTimePicker ? null : generateConfig.getNow();
+        let nextPickerValue: DateType | null | undefined = isTimePicker
+          ? null
+          : generateConfig.getNow();
 
         /**
          * 1. If has prevActiveIndex, use it to avoid panel jump

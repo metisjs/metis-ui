@@ -1,6 +1,6 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import * as React from 'react';
 import { usePanelContext } from '../../context';
 import useScrollTo from './useScrollTo';
 
@@ -14,11 +14,11 @@ export type Unit<ValueType = number | string> = {
 
 export interface TimeUnitColumnProps {
   units: Unit[];
-  value: number | string;
+  value: number | string | null;
   optionalValue?: number | string;
   type: 'hour' | 'minute' | 'second' | 'millisecond' | 'meridiem';
   onChange: (value: number | string) => void;
-  onHover: (value: number | string) => void;
+  onHover: (value: number | string | null) => void;
   onDblClick?: VoidFunction;
   changeOnScroll?: boolean;
 }
@@ -66,7 +66,7 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
     if (!isScrolling() && changeOnScroll) {
       checkDelayRef.current = setTimeout(() => {
         const ul = ulRef.current!;
-        const firstLiTop = ul.querySelector<HTMLLIElement>(`li`).offsetTop;
+        const firstLiTop = ul.querySelector<HTMLLIElement>(`li`)!.offsetTop;
         const liList = Array.from(ul.querySelectorAll<HTMLLIElement>(`li`));
         const liTopList = liList.map((li) => li.offsetTop - firstLiTop);
         const liDistList = liTopList.map((top, index) => {

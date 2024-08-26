@@ -203,7 +203,7 @@ export function isSameOrAfter<DateType>(
     return true;
   }
 
-  return generateConfig.isAfter(date1, date2);
+  return generateConfig.isAfter(date1!, date2!);
 }
 
 export function getWeekStartDate<DateType>(

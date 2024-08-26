@@ -1,11 +1,15 @@
-import { fillIndex } from '../../utils/miscUtil';
 import * as React from 'react';
+import type { NullableDateType } from '../../interface';
+import { fillIndex } from '../../utils/miscUtil';
 import type useInvalidate from './useInvalidate';
 
 /**
  * Used to control each fields invalidate status
  */
-export default function useFieldsInvalidate<DateType extends object, ValueType extends DateType[]>(
+export default function useFieldsInvalidate<
+  DateType extends object,
+  ValueType extends NullableDateType<DateType>[],
+>(
   calendarValue: ValueType,
   isInvalidateDate: ReturnType<typeof useInvalidate<DateType>>,
   allowEmpty: boolean[] = [],

@@ -59,7 +59,7 @@ export default function YearPanel<DateType extends object = any>(
   };
 
   // ======================== Disabled ========================
-  const mergedDisabledDate: DisabledDate<DateType> = disabledDate
+  const mergedDisabledDate: DisabledDate<DateType> | undefined = disabledDate
     ? (currentDate, disabledInfo) => {
         // Start
         const startMonth = generateConfig.setMonth(currentDate, 0);
@@ -70,7 +70,7 @@ export default function YearPanel<DateType extends object = any>(
         const endDate = generateConfig.addDate(endMonth, -1);
         return disabledDate(startDate, disabledInfo) && disabledDate(endDate, disabledInfo);
       }
-    : null;
+    : undefined;
 
   // ========================= Header =========================
   const yearNode: React.ReactNode = (

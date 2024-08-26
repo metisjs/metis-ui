@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { warning } from 'rc-util';
+import { devUseWarning } from 'metis-ui/es/_util/warning';
 import type { GenerateConfig } from '../generate';
 import type { DisabledTimes, SharedTimeProps } from '../interface';
 import { findValidateTime } from '../PickerPanel/TimePanel/TimePanelBody/util';
@@ -45,7 +45,7 @@ function generateUnits(
 export default function useTimeInfo<DateType extends object = any>(
   generateConfig: GenerateConfig<DateType>,
   props: SharedTimeProps<DateType> = {},
-  date?: DateType,
+  date?: DateType | null,
 ) {
   const {
     // Show
@@ -70,13 +70,21 @@ export default function useTimeInfo<DateType extends object = any>(
     const isMinuteStepValid = 60 % minuteStep === 0;
     const isSecondStepValid = 60 % secondStep === 0;
 
-    warning(isHourStepValid, `\`hourStep\` ${hourStep} is invalid. It should be a factor of 24.`);
+    const warning = devUseWarning('DatePicker');
+
+    warning(
+      isHourStepValid,
+      'usage',
+      `\`hourStep\` ${hourStep} is invalid. It should be a factor of 24.`,
+    );
     warning(
       isMinuteStepValid,
+      'usage',
       `\`minuteStep\` ${minuteStep} is invalid. It should be a factor of 60.`,
     );
     warning(
       isSecondStepValid,
+      'usage',
       `\`secondStep\` ${secondStep} is invalid. It should be a factor of 60.`,
     );
   }

@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 import type { PanelMode, SharedPanelProps } from '../../interface';
 import {
   formatValue,
@@ -86,7 +86,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
           </td>
         );
       }
-    : null;
+    : undefined;
 
   // ========================= Cells ==========================
   // >>> Header Cells

@@ -2,7 +2,13 @@ import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import type { GenerateConfig } from '../../generate';
 import useSyncState from '../../hooks/useSyncState';
-import type { BaseInfo, FormatType, Locale, ReplaceListType } from '../../interface';
+import type {
+  BaseInfo,
+  FormatType,
+  Locale,
+  NullableDateType,
+  ReplaceListType,
+} from '../../interface';
 import { formatValue, isSame, isSameTimestamp } from '../../utils/dateUtil';
 import { fillIndex } from '../../utils/miscUtil';
 import type { RangePickerProps } from '../RangePicker';
@@ -32,13 +38,13 @@ const EMPTY_VALUE: any[] = [];
 //    * Update `needSubmit` mark to true
 //    * trigger onChange by `needSubmit` and update stateValue
 
-type TriggerCalendarChange<ValueType extends object[]> = (calendarValues: ValueType) => void;
-
-function useUtil<MergedValueType extends object[], DateType extends MergedValueType[number] = any>(
-  generateConfig: GenerateConfig<DateType>,
-  locale: Locale,
-  formatList: FormatType[],
-) {
+type TriggerCalendarChange<ValueType extends NullableDateType<object>[]> = (
+  calendarValues: ValueType,
+) => void;
+function useUtil<
+  MergedValueType extends NullableDateType<DateType>[],
+  DateType extends object = any,
+>(generateConfig: GenerateConfig<DateType>, locale: Locale, formatList: FormatType[]) {
   const getDateTexts = (dates: MergedValueType) => {
     return dates.map((date) =>
       formatValue(date, { generateConfig, locale, format: formatList[0] }),
@@ -76,7 +82,9 @@ function orderDates<DateType extends object, DatesType extends DateType[]>(
  * Used for internal value management.
  * It should always use `mergedValue` in render logic
  */
-export function useCalendarValue<MergedValueType extends object[]>(mergedValue: MergedValueType) {
+export function useCalendarValue<MergedValueType extends NullableDateType<object>[]>(
+  mergedValue: MergedValueType,
+) {
   const [calendarValue, setCalendarValue] = useSyncState(mergedValue);
 
   /** Sync calendarValue & submitValue back with value */
@@ -95,7 +103,10 @@ export function useCalendarValue<MergedValueType extends object[]>(mergedValue: 
  * Control the internal `value` align with prop `value` and provide a temp `calendarValue` for ui.
  * `calendarValue` will be reset when blur & focus & open.
  */
-export function useInnerValue<ValueType extends DateType[], DateType extends object = any>(
+export function useInnerValue<
+  ValueType extends NullableDateType<DateType>[],
+  DateType extends object = any,
+>(
   generateConfig: GenerateConfig<DateType>,
   locale: Locale,
   formatList: FormatType[],
@@ -137,7 +148,7 @@ export function useInnerValue<ValueType extends DateType[], DateType extends obj
           clone[i] = clone[i] || null;
         }
       } else if (order) {
-        clone = orderDates(clone.filter((date) => date) as ValueType, generateConfig);
+        clone = orderDates(clone.filter((date) => date) as DateType[], generateConfig) as ValueType;
       }
 
       // Update merged value
@@ -166,7 +177,10 @@ export function useInnerValue<ValueType extends DateType[], DateType extends obj
   return [mergedValue, setInnerValue, calendarValue, triggerCalendarChange, triggerOk] as const;
 }
 
-export default function useRangeValue<ValueType extends DateType[], DateType extends object = any>(
+export default function useRangeValue<
+  ValueType extends NullableDateType<DateType>[],
+  DateType extends object = any,
+>(
   info: Required<
     Pick<
       RangePickerProps<DateType>,
@@ -175,7 +189,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
       ReplacedPickerProps<DateType>
   >,
   mergedValue: ValueType,
-  setInnerValue: (nextValue: ValueType) => void,
+  setInnerValue: (nextValue?: ValueType) => void,
   getCalendarValue: () => ValueType,
   triggerCalendarChange: TriggerCalendarChange<ValueType>,
   disabled: ReplaceListType<Required<ValueType>, boolean>,
@@ -241,7 +255,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
 
     // Only when exist value to sort
     if (orderOnChange && clone[0] && clone[1]) {
-      clone = orderDates(clone, generateConfig);
+      clone = orderDates(clone as DateType[], generateConfig) as ValueType;
     }
 
     // Sync `calendarValue`
@@ -274,7 +288,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
       // Validate start
       (!start || !isInvalidateDate(start, { activeIndex: 0 })) &&
       // Validate end
-      (!end || !isInvalidateDate(end, { from: start, activeIndex: 1 }));
+      (!end || !isInvalidateDate(end, { from: start ?? undefined, activeIndex: 1 }));
 
     // >>> Result
     const allPassed =
@@ -293,7 +307,7 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
       if (onChange && !isSameMergedDates) {
         onChange(
           // Return null directly if all date are empty
-          isNullValue && clone.every((val) => !val) ? null : clone,
+          isNullValue && clone.every((val) => !val) ? null : (clone as DateType[]),
           getDateTexts(clone),
         );
       }
@@ -324,7 +338,6 @@ export default function useRangeValue<ValueType extends DateType[], DateType ext
         triggerSubmit();
 
         // Trigger calendar change since this is a effect reset
-        // https://github.com/ant-design/ant-design/issues/22351
         triggerCalendarChange(mergedValue);
 
         // Sync with value anyway

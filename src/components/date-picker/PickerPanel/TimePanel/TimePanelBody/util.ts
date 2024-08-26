@@ -11,8 +11,12 @@ export function findValidateTime<DateType>(
 ) {
   let nextDate = date;
 
-  function alignValidate(getUnitValue: string, setUnitValue: string, units: Unit<number>[]) {
-    let nextValue = generateConfig[getUnitValue](nextDate);
+  function alignValidate(
+    getUnitValue: keyof typeof generateConfig,
+    setUnitValue: keyof typeof generateConfig,
+    units: Unit<number>[],
+  ) {
+    let nextValue = (generateConfig[getUnitValue] as any)(nextDate);
     const nextUnit = units.find((unit) => unit.value === nextValue);
 
     if (!nextUnit || nextUnit.disabled) {
@@ -24,7 +28,7 @@ export function findValidateTime<DateType>(
 
       if (validateUnit) {
         nextValue = validateUnit.value;
-        nextDate = generateConfig[setUnitValue](nextDate, nextValue);
+        nextDate = (generateConfig[setUnitValue] as any)(nextDate, nextValue);
       }
     }
 

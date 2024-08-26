@@ -48,7 +48,6 @@ export interface BasePickerPanelProps<DateType extends object = any>
   extends Pick<
       SharedPanelProps<DateType>,
       // MISC
-      | 'locale'
       | 'generateConfig'
 
       // Disabled
@@ -66,6 +65,8 @@ export interface BasePickerPanelProps<DateType extends object = any>
     Pick<React.HTMLAttributes<HTMLDivElement>, 'tabIndex'> {
   // Style
   prefixCls?: string;
+
+  locale: Locale;
 
   // Value
   onSelect?: (date: DateType) => void;
@@ -165,8 +166,6 @@ function PickerPanel<DateType extends object = any>(
 
     // Cell
     cellRender,
-    dateRender,
-    monthCellRender,
 
     // Components
     components = {},
@@ -174,13 +173,13 @@ function PickerPanel<DateType extends object = any>(
     hideHeader,
   } = props;
 
-  const mergedPrefixCls = React.useContext(PickerContext)?.prefixCls || prefixCls || 'rc-picker';
+  const mergedPrefixCls = React.useContext(PickerContext)?.prefixCls || prefixCls;
 
   // ========================== Refs ==========================
-  const rootRef = React.useRef<HTMLDivElement>();
+  const rootRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => ({
-    nativeElement: rootRef.current,
+    nativeElement: rootRef.current!,
   }));
 
   // ========================== Time ==========================
@@ -347,7 +346,7 @@ function PickerPanel<DateType extends object = any>(
 
   // ======================= Components =======================
   // >>> cellRender
-  const onInternalCellRender = useCellRender(cellRender, dateRender, monthCellRender);
+  const onInternalCellRender = useCellRender(cellRender);
 
   // ======================= Components =======================
   const PanelComponent = (components[internalMode] ||
@@ -393,13 +392,7 @@ function PickerPanel<DateType extends object = any>(
 
   return (
     <PickerHackContext.Provider value={pickerPanelContext}>
-      <div
-        ref={rootRef}
-        tabIndex={tabIndex}
-        className={classNames(panelCls, {
-          [`${panelCls}-rtl`]: direction === 'rtl',
-        })}
-      >
+      <div ref={rootRef} tabIndex={tabIndex} className={classNames(panelCls)}>
         <PanelComponent
           {...panelProps}
           // Time
@@ -430,10 +423,6 @@ function PickerPanel<DateType extends object = any>(
 }
 
 const RefPanelPicker = React.memo(React.forwardRef(PickerPanel));
-
-if (process.env.NODE_ENV !== 'production') {
-  RefPanelPicker.displayName = 'PanelPicker';
-}
 
 // Make support generic
 export default RefPanelPicker as <DateType extends object = any>(

@@ -169,7 +169,7 @@ export type RangeTimeProps<DateType extends object = any> = Omit<
   SharedTimeProps<DateType>,
   'defaultValue' | 'defaultOpenValue' | 'disabledTime'
 > & {
-  defaultOpenValue?: DateType[];
+  defaultOpenValue?: [DateType, DateType];
 
   disabledTime?: (
     date: DateType,
@@ -196,7 +196,7 @@ export interface SharedPanelProps<DateType extends object = any> {
   prefixCls: string;
 
   // Date Library
-  locale: Locale;
+  locale: Required<Locale>;
   generateConfig: GenerateConfig<DateType>;
 
   // Value

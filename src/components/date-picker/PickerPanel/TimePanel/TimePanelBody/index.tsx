@@ -5,8 +5,8 @@ import { formatValue } from '../../../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from '../../context';
 import TimeColumn, { type Unit } from './TimeColumn';
 
-function isAM(hour: number) {
-  return hour < 12;
+function isAM(hour: number | null) {
+  return hour ? hour < 12 : true;
 }
 
 export type TimePanelBodyProps<DateType extends object = any> = SharedPanelProps<DateType>;
@@ -41,7 +41,7 @@ export default function TimePanelBody<DateType extends object = any>(
   // PickerValue will tell which one to align on the top
   const getUnitValue = (
     func: 'getHour' | 'getMinute' | 'getSecond' | 'getMillisecond',
-  ): [valueNum: number, pickerNum: number] => {
+  ): [valueNum: number | null, pickerNum: number] => {
     const valueUnitVal = value && generateConfig[func](value);
     const pickerUnitValue = pickerValue && generateConfig[func](pickerValue);
 
@@ -67,7 +67,7 @@ export default function TimePanelBody<DateType extends object = any>(
   }, [hour, rowHourUnits, showMeridiem]);
 
   // >>> Pick Fallback
-  const getEnabled = (units: Unit<number>[], val: number) => {
+  const getEnabled = (units: Unit<number>[], val: number | null) => {
     const enabledUnits = units.filter((unit) => !unit.disabled);
 
     return (
@@ -147,18 +147,18 @@ export default function TimePanelBody<DateType extends object = any>(
   const triggerDateTmpl = React.useMemo(() => {
     let tmpl = value || pickerValue || generateConfig.getNow();
 
-    const isNotNull = (num: number) => num !== null && num !== undefined;
+    const isNotNull = (num?: number | null): num is number => num !== null && num !== undefined;
 
     if (isNotNull(hour)) {
       tmpl = generateConfig.setHour(tmpl, hour);
-      tmpl = generateConfig.setMinute(tmpl, minute);
-      tmpl = generateConfig.setSecond(tmpl, second);
-      tmpl = generateConfig.setMillisecond(tmpl, millisecond);
+      tmpl = generateConfig.setMinute(tmpl, minute!);
+      tmpl = generateConfig.setSecond(tmpl, second!);
+      tmpl = generateConfig.setMillisecond(tmpl, millisecond!);
     } else if (isNotNull(pickerHour)) {
       tmpl = generateConfig.setHour(tmpl, pickerHour);
-      tmpl = generateConfig.setMinute(tmpl, pickerMinute);
-      tmpl = generateConfig.setSecond(tmpl, pickerSecond);
-      tmpl = generateConfig.setMillisecond(tmpl, pickerMillisecond);
+      tmpl = generateConfig.setMinute(tmpl, pickerMinute!);
+      tmpl = generateConfig.setSecond(tmpl, pickerSecond!);
+      tmpl = generateConfig.setMillisecond(tmpl, pickerMillisecond!);
     } else if (isNotNull(validHour)) {
       tmpl = generateConfig.setHour(tmpl, validHour);
       tmpl = generateConfig.setMinute(tmpl, validMinute);
@@ -189,9 +189,9 @@ export default function TimePanelBody<DateType extends object = any>(
   const fillColumnValue = (
     val: number | string,
     func: 'setHour' | 'setMinute' | 'setSecond' | 'setMillisecond',
-  ) => {
+  ): DateType => {
     if (val === null) {
-      return null;
+      return null as any;
     }
     return generateConfig[func](triggerDateTmpl, val as any);
   };
@@ -200,15 +200,16 @@ export default function TimePanelBody<DateType extends object = any>(
   const getNextMinuteTime = (val: number) => fillColumnValue(val, 'setMinute');
   const getNextSecondTime = (val: number) => fillColumnValue(val, 'setSecond');
   const getNextMillisecondTime = (val: number) => fillColumnValue(val, 'setMillisecond');
-  const getMeridiemTime = (val: string) => {
+  const getMeridiemTime = (val: string): DateType => {
     if (val === null) {
-      return null;
+      return null as any;
     }
 
-    if (val === 'am' && !isAM(hour)) {
-      return generateConfig.setHour(triggerDateTmpl, hour - 12);
-    } else if (val === 'pm' && isAM(hour)) {
-      return generateConfig.setHour(triggerDateTmpl, hour + 12);
+    const mergedHour = hour ?? 0;
+    if (val === 'am' && !isAM(mergedHour)) {
+      return generateConfig.setHour(triggerDateTmpl, mergedHour - 12);
+    } else if (val === 'pm' && isAM(mergedHour)) {
+      return generateConfig.setHour(triggerDateTmpl, mergedHour + 12);
     }
     return triggerDateTmpl;
   };
@@ -235,23 +236,23 @@ export default function TimePanelBody<DateType extends object = any>(
 
   // ====================== Column Hover ======================
   const onHourHover = (val: number) => {
-    onHover(getNextHourTime(val));
+    onHover?.(getNextHourTime(val));
   };
 
   const onMinuteHover = (val: number) => {
-    onHover(getNextMinuteTime(val));
+    onHover?.(getNextMinuteTime(val));
   };
 
   const onSecondHover = (val: number) => {
-    onHover(getNextSecondTime(val));
+    onHover?.(getNextSecondTime(val));
   };
 
   const onMillisecondHover = (val: number) => {
-    onHover(getNextMillisecondTime(val));
+    onHover?.(getNextMillisecondTime(val));
   };
 
   const onMeridiemHover = (val: string) => {
-    onHover(getMeridiemTime(val));
+    onHover?.(getMeridiemTime(val));
   };
 
   // ========================= Render =========================

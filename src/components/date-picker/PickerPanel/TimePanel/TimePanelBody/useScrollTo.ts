@@ -1,27 +1,27 @@
-import { useEvent } from 'rc-util';
-import raf from 'rc-util/lib/raf';
-import isVisible from 'rc-util/lib/Dom/isVisible';
 import * as React from 'react';
+import { useEvent } from 'rc-util';
+import isVisible from 'rc-util/lib/Dom/isVisible';
+import raf from 'rc-util/lib/raf';
 
 const SPEED_PTG = 1 / 3;
 
 export default function useScrollTo(
   ulRef: React.RefObject<HTMLUListElement>,
-  value: number | string,
+  value: number | string | undefined,
 ): [syncScroll: VoidFunction, clearScroll: VoidFunction, isScrolling: () => boolean] {
   // ========================= Scroll =========================
   const scrollingRef = React.useRef<boolean>(false);
-  const scrollRafRef = React.useRef<number>(null);
-  const scrollDistRef = React.useRef<number>(null);
+  const scrollRafRef = React.useRef<number | null>(null);
+  const scrollDistRef = React.useRef<number | null>(null);
 
   const isScrolling = () => scrollingRef.current;
 
   const stopScroll = () => {
-    raf.cancel(scrollRafRef.current);
+    if (scrollRafRef.current) raf.cancel(scrollRafRef.current);
     scrollingRef.current = false;
   };
 
-  const scrollRafTimesRef = React.useRef<number>();
+  const scrollRafTimesRef = React.useRef<number>(0);
 
   const startScroll = () => {
     const ul = ulRef.current;
@@ -29,8 +29,8 @@ export default function useScrollTo(
     scrollRafTimesRef.current = 0;
 
     if (ul) {
-      const targetLi = ul.querySelector<HTMLLIElement>(`[data-value="${value}"]`);
-      const firstLi = ul.querySelector<HTMLLIElement>(`li`);
+      const targetLi = ul.querySelector<HTMLLIElement>(`[data-value="${value}"]`)!;
+      const firstLi = ul.querySelector<HTMLLIElement>(`li`)!;
 
       const doScroll = () => {
         stopScroll();

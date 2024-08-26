@@ -179,8 +179,20 @@ function Picker<DateType extends object = any>(
 
     // Native
     onClick,
-  } = filledProps as Omit<typeof filledProps, keyof ReplacedPickerProps<DateType>> &
-    ReplacedPickerProps<DateType>;
+  } = filledProps as Omit<
+    typeof filledProps,
+    | keyof ReplacedPickerProps<DateType>
+    | 'value'
+    | 'defaultValue'
+    | 'pickerValue'
+    | 'defaultPickerValue'
+  > &
+    ReplacedPickerProps<DateType> & {
+      value?: DateType[];
+      defaultValue?: DateType[];
+      pickerValue?: DateType[];
+      defaultPickerValue?: DateType[];
+    };
 
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);
@@ -266,7 +278,7 @@ function Picker<DateType extends object = any>(
     ,
     /** Trigger `onChange` directly without check `disabledDate` */
     triggerSubmitChange,
-  ] = useRangeValue(
+  ] = useRangeValue<DateType[], DateType>(
     {
       ...filledProps,
       onChange: onInternalChange,

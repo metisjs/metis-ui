@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 import type { SharedPanelProps } from '../../interface';
 import { isInRange, isSameWeek } from '../../utils/dateUtil';
 import DatePanel from '../DatePanel';
@@ -15,7 +15,7 @@ export default function WeekPanel<DateType extends object = any>(
   const rowPrefixCls = `${prefixCls}-week-panel-row`;
 
   const rowClassName = (currentDate: DateType) => {
-    const rangeCls = {};
+    const rangeCls: Record<string, boolean> = {};
 
     if (hoverRangeValue) {
       const [rangeStart, rangeEnd] = hoverRangeValue;

@@ -6,6 +6,7 @@ import type { RangePickerRef, SelectorProps } from '../../interface';
 import { pickProps } from '../../utils/miscUtil';
 import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
 import PickerContext from '../context';
+import type { RangeValueType } from '../RangePicker';
 import useInputProps from './hooks/useInputProps';
 import Icon, { ClearIcon } from './Icon';
 import Input, { type InputRef } from './Input';
@@ -24,7 +25,7 @@ export interface RangeSelectorProps<DateType = any> extends SelectorProps<DateTy
 
   separator?: React.ReactNode;
 
-  value?: [DateType?, DateType?];
+  value?: RangeValueType<DateType>;
   onChange: (date: DateType, index?: number) => void;
 
   disabled: [boolean, boolean];
