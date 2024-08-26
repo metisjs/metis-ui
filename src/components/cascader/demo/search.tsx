@@ -66,7 +66,8 @@ const App: React.FC = () => (
     options={options}
     onChange={onChange}
     placeholder="Please select"
-    showSearch={{ filter }}
+    showSearch
+    filterOption={filter}
     onSearch={(value) => console.log(value)}
   />
 );

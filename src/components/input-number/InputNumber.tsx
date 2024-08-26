@@ -388,7 +388,6 @@ const InternalInputNumber = React.forwardRef(
       onInput?.(inputStr);
 
       // optimize for chinese input experience
-      // https://github.com/ant-design/ant-design/issues/8196
       onNextPromise(() => {
         let nextInputStr = inputStr;
         if (!parser) {

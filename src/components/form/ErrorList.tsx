@@ -54,7 +54,6 @@ export default function ErrorList({
   const rootPrefixCls = getPrefixCls();
 
   // We have to debounce here again since somewhere use ErrorList directly still need no shaking
-  // ref: https://github.com/ant-design/ant-design/issues/36336
   const debounceErrors = useDebounce(errors);
   const debounceWarnings = useDebounce(warnings);
 

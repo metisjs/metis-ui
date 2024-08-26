@@ -72,7 +72,6 @@ const ActionButton: React.FC<ActionButtonProps> = (props) => {
         clickedRef.current = false;
       },
       (e: Error) => {
-        // See: https://github.com/ant-design/ant-design/issues/6183
         setLoading(false, true);
         clickedRef.current = false;
 

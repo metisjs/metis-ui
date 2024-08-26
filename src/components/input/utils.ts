@@ -196,7 +196,6 @@ export function calculateAutoSizeStyle(
   }
 
   // Fix wrap="off" issue
-  // https://github.com/ant-design/ant-design/issues/6577
   if (uiTextNode.getAttribute('wrap')) {
     hiddenTextarea.setAttribute('wrap', uiTextNode.getAttribute('wrap') as string);
   } else {

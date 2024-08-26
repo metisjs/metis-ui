@@ -72,12 +72,10 @@ const Password = React.forwardRef<InputRef, PasswordProps>((props, ref) => {
       key: 'passwordIcon',
       onMouseDown: (e: MouseEvent) => {
         // Prevent focused state lost
-        // https://github.com/ant-design/ant-design/issues/15173
         e.preventDefault();
       },
       onMouseUp: (e: MouseEvent) => {
         // Prevent caret position change
-        // https://github.com/ant-design/ant-design/issues/23524
         e.preventDefault();
       },
     };
