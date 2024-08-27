@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Locale, SharedTimeProps } from '../interface';
+import type { FilledLocale, Locale, SharedTimeProps } from '../interface';
 
 export function fillTimeFormat(
   showHour?: boolean,
@@ -48,7 +48,7 @@ function fillLocale(
   showSecond?: boolean,
   showMillisecond?: boolean,
   use12Hours?: boolean,
-): Locale {
+): FilledLocale {
   // Not fill `monthFormat` since `locale.shortMonths` handle this
   // Not fill `cellMeridiemFormat` since AM & PM by default
   const {
@@ -105,7 +105,7 @@ export default function useLocale<DateType extends object>(
   >,
 ) {
   const { showHour, showMinute, showSecond, showMillisecond, use12Hours } = showProps;
-  return React.useMemo<Locale>(
+  return React.useMemo<FilledLocale>(
     () => fillLocale(locale, showHour, showMinute, showSecond, showMillisecond, use12Hours),
     [locale, showHour, showMinute, showSecond, showMillisecond, use12Hours],
   );

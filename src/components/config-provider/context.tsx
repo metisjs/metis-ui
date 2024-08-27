@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import type { RequiredMark } from '../form/Form';
-import type { InputProps } from 'rc-input';
 import type { ButtonProps } from '../button';
+import type { InputProps } from '../input';
 import type { Locale } from '../locale';
 import type { PaginationProps } from '../pagination';
 import type { SpaceProps } from '../space';

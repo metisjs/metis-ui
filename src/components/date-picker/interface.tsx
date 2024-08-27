@@ -1,3 +1,4 @@
+import type { SomeRequired } from '../_util/type';
 import type { AlignType, BuildInPlacements } from '../trigger';
 import type { GenerateConfig } from './generate';
 
@@ -74,6 +75,21 @@ export type Locale = {
   shortWeekDays?: string[];
   shortMonths?: string[];
 };
+
+export type FilledLocale = SomeRequired<
+  Locale,
+  | 'fieldDateTimeFormat'
+  | 'fieldDateFormat'
+  | 'fieldTimeFormat'
+  | 'fieldMonthFormat'
+  | 'fieldYearFormat'
+  | 'fieldWeekFormat'
+  | 'fieldQuarterFormat'
+  | 'yearFormat'
+  | 'cellYearFormat'
+  | 'cellQuarterFormat'
+  | 'cellDateFormat'
+>;
 
 export type PanelMode = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year' | 'decade';
 
@@ -169,7 +185,7 @@ export type RangeTimeProps<DateType extends object = any> = Omit<
   SharedTimeProps<DateType>,
   'defaultValue' | 'defaultOpenValue' | 'disabledTime'
 > & {
-  defaultOpenValue?: [DateType, DateType];
+  defaultOpenValue?: DateType[];
 
   disabledTime?: (
     date: DateType,
@@ -196,7 +212,7 @@ export interface SharedPanelProps<DateType extends object = any> {
   prefixCls: string;
 
   // Date Library
-  locale: Required<Locale>;
+  locale: FilledLocale;
   generateConfig: GenerateConfig<DateType>;
 
   // Value

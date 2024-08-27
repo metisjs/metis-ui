@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 import { isSameOrAfter } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
 
@@ -97,13 +97,13 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
   // ========================= Offset =========================
   const onOffset = (distance: number) => {
     if (offset) {
-      onChange(offset(distance, pickerValue));
+      onChange?.(offset(distance, pickerValue));
     }
   };
 
   const onSuperOffset = (distance: number) => {
     if (superOffset) {
-      onChange(superOffset(distance, pickerValue));
+      onChange?.(superOffset(distance, pickerValue));
     }
   };
 

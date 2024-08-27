@@ -1,6 +1,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { useEvent, useMergedState, warning } from 'rc-util';
+import { devUseWarning } from 'metis-ui/es/_util/warning';
+import { useEvent, useMergedState } from 'rc-util';
+import { ConfigContext } from '../../config-provider';
 import useLocale from '../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../hooks/useTimeConfig';
 import useToggleDates from '../hooks/useToggleDates';
@@ -99,7 +101,7 @@ export interface BasePickerPanelProps<DateType extends object = any>
 
   // Hover
   /** @private Used for Picker passing */
-  hoverValue?: DateType[];
+  hoverValue: DateType[] | null;
   /** @private Used for Picker passing */
   hoverRangeValue?: [start: DateType, end: DateType];
   /** @private Used for Picker passing */
@@ -127,7 +129,7 @@ export type PickerPanelProps<DateType extends object = any> = BasePickerPanelPro
 
   defaultValue?: DateType | DateType[] | null;
   value?: DateType | DateType[] | null;
-  onChange?: (date: DateType | DateType[]) => void;
+  onChange?: (date: DateType | DateType[] | null) => void;
 };
 
 function PickerPanel<DateType extends object = any>(
@@ -173,8 +175,9 @@ function PickerPanel<DateType extends object = any>(
     hideHeader,
   } = props;
 
-  const mergedPrefixCls = React.useContext(PickerContext)?.prefixCls || prefixCls;
-
+  const { getPrefixCls } = React.useContext(ConfigContext);
+  const rootPrefixCls = getPrefixCls();
+  const mergedPrefixCls = React.useContext(PickerContext)?.prefixCls || prefixCls || rootPrefixCls;
   // ========================== Refs ==========================
   const rootRef = React.useRef<HTMLDivElement>(null);
 
@@ -239,7 +242,7 @@ function PickerPanel<DateType extends object = any>(
           (ori, index) => !isSame(generateConfig, locale, ori, nextValue[index], internalPicker),
         ))
     ) {
-      onChange?.(multiple ? nextValue : nextValue[0]);
+      onChange?.(multiple ? nextValue : nextValue?.[0] ?? null);
     }
   });
 
@@ -273,7 +276,7 @@ function PickerPanel<DateType extends object = any>(
 
   // Both trigger when manually pickerValue or mode change
   const triggerPanelChange = (viewDate?: DateType, nextMode?: PanelMode) => {
-    onPanelChange?.(viewDate || pickerValue, nextMode || mergedMode);
+    onPanelChange?.(viewDate || pickerValue!, nextMode || mergedMode);
   };
 
   const setPickerValue = (nextPickerValue: DateType, triggerPanelEvent = false) => {
@@ -323,8 +326,8 @@ function PickerPanel<DateType extends object = any>(
 
   // ======================= Hover Date =======================
   const hoverRangeDate = React.useMemo<[DateType, DateType] | null>(() => {
-    let start: DateType;
-    let end: DateType;
+    let start: DateType | undefined;
+    let end: DateType | undefined;
 
     if (Array.isArray(hoverRangeValue)) {
       [start, end] = hoverRangeValue;
@@ -341,7 +344,7 @@ function PickerPanel<DateType extends object = any>(
     start = start || end;
     end = end || start;
 
-    return generateConfig.isAfter(start, end) ? [end, start] : [start, end];
+    return generateConfig.isAfter(start!, end!) ? [end!, start!] : [start!, end!];
   }, [hoverRangeValue, generateConfig]);
 
   // ======================= Components =======================
@@ -362,8 +365,10 @@ function PickerPanel<DateType extends object = any>(
 
   // ======================== Warnings ========================
   if (process.env.NODE_ENV !== 'production') {
+    const warning = devUseWarning('DatePicker');
     warning(
       !mergedValue || mergedValue.every((val) => generateConfig.isValidate(val)),
+      'usage',
       'Invalidate date pass to `value` or `defaultValue`.',
     );
   }
@@ -404,7 +409,7 @@ function PickerPanel<DateType extends object = any>(
           // Mode
           onModeChange={triggerModeChange}
           // Value
-          pickerValue={mergedPickerValue}
+          pickerValue={mergedPickerValue!}
           onPickerValueChange={(nextPickerValue) => {
             setPickerValue(nextPickerValue, true);
           }}

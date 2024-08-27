@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import classNames from 'classnames';
 import type { DisabledDate } from '../interface';
 import { formatValue, isInRange, isSame } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
@@ -67,7 +67,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
 
   // ============================== Value ===============================
   const matchValues = (date: DateType) =>
-    values.some(
+    values?.some(
       (singleValue) => singleValue && isSame(generateConfig, locale, date, singleValue, type),
     );
 
