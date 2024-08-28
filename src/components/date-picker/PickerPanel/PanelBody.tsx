@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../../_util/classNameUtils';
 import type { DisabledDate } from '../interface';
 import { formatValue, isInRange, isSame } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
@@ -123,7 +123,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         <td
           key={col}
           title={title}
-          className={classNames(cellPrefixCls, {
+          className={clsx(cellPrefixCls, {
             [`${cellPrefixCls}-disabled`]: disabled,
             [`${cellPrefixCls}-hover`]: (hoverValue || []).some((date) =>
               isSame(generateConfig, locale, currentDate, date, type),

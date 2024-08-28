@@ -3,6 +3,7 @@ import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
+import { getSemanticCls } from '../../_util/classNameUtils';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,
@@ -119,8 +120,7 @@ function Picker<DateType extends object = any>(
   const {
     // Style
     prefixCls,
-    styles,
-    classNames,
+    className,
 
     // Value
     order,
@@ -193,6 +193,8 @@ function Picker<DateType extends object = any>(
       pickerValue?: DateType[];
       defaultPickerValue?: DateType[];
     };
+
+  const semanticCls = getSemanticCls(className);
 
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);
@@ -609,15 +611,14 @@ function Picker<DateType extends object = any>(
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupStyle={styles?.popup}
-        popupClassName={classNames?.popup}
-        // Visible
-        visible={mergedOpen}
+        popupClassName={semanticCls.popup}
+        open={mergedOpen}
         onClose={onPopupClose}
       >
         <SingleSelector
           // Shared
           {...filledProps}
+          className={semanticCls.root}
           // Ref
           ref={selectorRef}
           // Icon

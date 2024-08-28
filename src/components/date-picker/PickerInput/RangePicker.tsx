@@ -4,6 +4,7 @@ import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import warning from 'rc-util/lib/warning';
+import { getSemanticCls } from '../../_util/classNameUtils';
 import type { SomeRequired } from '../../_util/type';
 import type {
   BaseInfo,
@@ -156,9 +157,8 @@ function RangePicker<DateType extends object = any>(
   const {
     // Style
     prefixCls,
-    styles,
-    classNames,
     placement,
+    className,
 
     // Value
     defaultValue,
@@ -228,6 +228,8 @@ function RangePicker<DateType extends object = any>(
     defaultPickerValue?: RangeValueType<DateType>;
     disabledDate: DisabledDate<DateType>;
   };
+
+  const semanticCls = getSemanticCls(className);
 
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);
@@ -374,7 +376,7 @@ function RangePicker<DateType extends object = any>(
     multiplePanel,
     defaultPickerValue,
     pickerValue,
-    mergedShowTime?.defaultOpenValue,
+    mergedShowTime?.defaultOpenValue as RangeValueType<DateType>,
     onPickerValueChange,
     minDate,
     maxDate,
@@ -730,10 +732,8 @@ function RangePicker<DateType extends object = any>(
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupStyle={styles?.popup}
-        popupClassName={classNames?.popup}
-        // Visible
-        visible={mergedOpen}
+        popupClassName={semanticCls.popup}
+        open={mergedOpen}
         onClose={onPopupClose}
         // Range
         range
@@ -741,6 +741,7 @@ function RangePicker<DateType extends object = any>(
         <RangeSelector
           // Shared
           {...filledProps}
+          className={semanticCls.root}
           // Ref
           ref={selectorRef}
           // Icon

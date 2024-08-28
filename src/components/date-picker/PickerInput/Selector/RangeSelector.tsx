@@ -1,7 +1,7 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
+import { clsx } from '../../../_util/classNameUtils';
 import type { RangePickerRef, SelectorProps } from '../../interface';
 import { pickProps } from '../../utils/miscUtil';
 import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
@@ -178,7 +178,7 @@ function RangeSelector<DateType extends object = any>(
     <ResizeObserver onResize={syncActiveOffset}>
       <div
         {...pickProps(props, ['onMouseEnter', 'onMouseLeave'])}
-        className={classNames(
+        className={clsx(
           prefixCls,
           `${prefixCls}-range`,
           {

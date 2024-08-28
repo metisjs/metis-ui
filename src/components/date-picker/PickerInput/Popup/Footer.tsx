@@ -1,6 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import type { PopupShowTimeConfig } from '.';
+import { clsx } from '../../../_util/classNameUtils';
 import Button from '../../../button';
 import type { GenerateConfig } from '../../generate';
 import useTimeInfo from '../../hooks/useTimeInfo';
@@ -71,7 +71,7 @@ export default function Footer(props: FooterProps) {
   const presetNode = showNow && (
     <li className={nowPrefixCls}>
       <a
-        className={classNames(nowBtnPrefixCls, nowDisabled && `${nowBtnPrefixCls}-disabled`)}
+        className={clsx(nowBtnPrefixCls, nowDisabled && `${nowBtnPrefixCls}-disabled`)}
         aria-disabled={nowDisabled}
         onClick={onInternalNow}
       >

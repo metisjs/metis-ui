@@ -1,8 +1,8 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import raf from 'rc-util/lib/raf';
+import { clsx } from '../../../_util/classNameUtils';
 import type { PickerRef } from '../../interface';
 import { leftPad } from '../../utils/miscUtil';
 import PickerContext from '../context';
@@ -375,7 +375,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   return (
     <div
       ref={holderRef}
-      className={classNames(inputPrefixCls, {
+      className={clsx(inputPrefixCls, {
         [`${inputPrefixCls}-active`]: active && showActiveCls,
         [`${inputPrefixCls}-placeholder`]: helped,
       })}

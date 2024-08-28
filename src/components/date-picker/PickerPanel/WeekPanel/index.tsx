@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../../../_util/classNameUtils';
 import type { SharedPanelProps } from '../../interface';
 import { isInRange, isSameWeek } from '../../utils/dateUtil';
 import DatePanel from '../DatePanel';
@@ -37,7 +37,7 @@ export default function WeekPanel<DateType extends object = any>(
       );
     }
 
-    return classNames(
+    return clsx(
       rowPrefixCls,
       {
         [`${rowPrefixCls}-selected`]:

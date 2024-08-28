@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../../_util/classNameUtils';
 import { isSameOrAfter } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
 
@@ -125,7 +125,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
           aria-label="super-prev-year"
           onClick={() => onSuperOffset(-1)}
           tabIndex={-1}
-          className={classNames(
+          className={clsx(
             superPrevBtnCls,
             disabledSuperOffsetPrev && `${superPrevBtnCls}-disabled`,
           )}
@@ -141,7 +141,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
           aria-label="prev-year"
           onClick={() => onOffset(-1)}
           tabIndex={-1}
-          className={classNames(prevBtnCls, disabledOffsetPrev && `${prevBtnCls}-disabled`)}
+          className={clsx(prevBtnCls, disabledOffsetPrev && `${prevBtnCls}-disabled`)}
           disabled={disabledOffsetPrev}
           style={hidePrev ? HIDDEN_STYLE : {}}
         >
@@ -155,7 +155,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
           aria-label="next-year"
           onClick={() => onOffset(1)}
           tabIndex={-1}
-          className={classNames(nextBtnCls, disabledOffsetNext && `${nextBtnCls}-disabled`)}
+          className={clsx(nextBtnCls, disabledOffsetNext && `${nextBtnCls}-disabled`)}
           disabled={disabledOffsetNext}
           style={hideNext ? HIDDEN_STYLE : {}}
         >
@@ -168,7 +168,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
           aria-label="super-next-year"
           onClick={() => onSuperOffset(1)}
           tabIndex={-1}
-          className={classNames(
+          className={clsx(
             superNextBtnCls,
             disabledSuperOffsetNext && `${superNextBtnCls}-disabled`,
           )}

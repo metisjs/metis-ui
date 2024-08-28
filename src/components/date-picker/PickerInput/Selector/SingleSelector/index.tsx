@@ -1,8 +1,8 @@
 import * as React from 'react';
-import classNames from 'classnames';
-import { pickProps } from 'metis-ui/es/date-picker/utils/miscUtil';
+import { clsx } from '../../../../_util/classNameUtils';
 import type { InternalMode, PickerRef, SelectorProps } from '../../../interface';
 import { isSame } from '../../../utils/dateUtil';
+import { pickProps } from '../../../utils/miscUtil';
 import PickerContext from '../../context';
 import type { PickerProps } from '../../SinglePicker';
 import useInputProps from '../hooks/useInputProps';
@@ -168,7 +168,7 @@ function SingleSelector<DateType extends object = any>(
   return (
     <div
       {...pickProps(props, ['onMouseEnter', 'onMouseLeave'])}
-      className={classNames(
+      className={clsx(
         prefixCls,
         {
           [`${prefixCls}-multiple`]: multiple,

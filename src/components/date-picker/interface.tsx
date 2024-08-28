@@ -1,3 +1,4 @@
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { SomeRequired } from '../_util/type';
 import type { AlignType, BuildInPlacements } from '../trigger';
 import type { GenerateConfig } from './generate';
@@ -316,11 +317,8 @@ export interface SharedPickerProps<DateType extends object = any>
     > {
   // Styles
   prefixCls: string;
-  className?: string;
+  className?: SemanticClassName<SemanticStructure>;
   style?: React.CSSProperties;
-
-  styles?: Partial<Record<SemanticStructure, React.CSSProperties>>;
-  classNames?: Partial<Record<SemanticStructure, string>>;
 
   // Config
   locale: Locale;

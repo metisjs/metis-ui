@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { devUseWarning } from 'metis-ui/es/_util/warning';
+import { devUseWarning } from '../../_util/warning';
 import type { GenerateConfig } from '../generate';
 import type { DisabledTimes, SharedTimeProps } from '../interface';
 import { findValidateTime } from '../PickerPanel/TimePanel/TimePanelBody/util';

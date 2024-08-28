@@ -20,8 +20,6 @@ type PickedProps<DateType extends object = any> = Pick<
   | 'locale'
   | 'picker'
   | 'prefixCls'
-  | 'styles'
-  | 'classNames'
   | 'order'
   | 'components'
   | 'allowClear'
@@ -100,8 +98,6 @@ export default function useFilledProps<
     locale,
     picker = 'date',
     prefixCls: customizePrefixCls,
-    styles = {},
-    classNames = {},
     order = true,
     components = {},
     needConfirm,
@@ -163,8 +159,6 @@ export default function useFilledProps<
         prefixCls,
         locale: mergedLocale,
         picker,
-        styles,
-        classNames,
         order,
         components,
         clearIcon,

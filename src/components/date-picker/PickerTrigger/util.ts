@@ -8,6 +8,5 @@ export function pickTriggerProps(props: Omit<SharedPickerProps, 'showTime'>) {
     'popupAlign',
     'getPopupContainer',
     'transitionName',
-    'direction',
   ]);
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import { clsx } from '../../../../_util/classNameUtils';
 import { usePanelContext } from '../../context';
 import useScrollTo from './useScrollTo';
 
@@ -98,7 +98,7 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
         return (
           <li
             key={unitValue}
-            className={classNames(cellPrefixCls, {
+            className={clsx(cellPrefixCls, {
               [`${cellPrefixCls}-selected`]: value === unitValue,
               [`${cellPrefixCls}-disabled`]: disabled,
             })}

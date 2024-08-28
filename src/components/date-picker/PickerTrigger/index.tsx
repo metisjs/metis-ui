@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../../_util/classNameUtils';
 import type { AlignType, BuildInPlacements } from '../../trigger';
 import Trigger from '../../trigger';
 import PickerContext from '../PickerInput/context';
@@ -40,11 +40,15 @@ const BUILT_IN_PLACEMENTS = {
   },
 };
 
+const TRANSITION = {
+  leave: 'transition ease-in duration-100',
+  leaveFrom: 'opacity-100',
+  leaveTo: 'opacity-0',
+};
+
 export type PickerTriggerProps = {
   popupElement: React.ReactElement;
-  popupStyle?: React.CSSProperties;
   children: React.ReactElement;
-  transitionName?: string;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupAlign?: AlignType;
   range?: boolean;
@@ -54,29 +58,25 @@ export type PickerTriggerProps = {
   placement?: string;
   builtinPlacements?: BuildInPlacements;
 
-  // Visible
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 };
 
 function PickerTrigger({
   popupElement,
-  popupStyle,
   popupClassName,
   popupAlign,
-  transitionName,
   getPopupContainer,
   children,
   range,
   placement,
   builtinPlacements = BUILT_IN_PLACEMENTS,
 
-  // Visible
-  visible,
+  open,
   onClose,
 }: PickerTriggerProps) {
   const { prefixCls } = React.useContext(PickerContext);
-  const dropdownPrefixCls = `${prefixCls}-dropdown`;
+  const popupPrefixCls = `${prefixCls}-popup`;
 
   const realPlacement = getRealPlacement(placement);
 
@@ -86,20 +86,20 @@ function PickerTrigger({
       hideAction={['click']}
       popupPlacement={realPlacement}
       builtinPlacements={builtinPlacements}
-      prefixCls={dropdownPrefixCls}
-      popupTransitionName={transitionName}
+      prefixCls={popupPrefixCls}
+      popupTransition={TRANSITION}
       popup={popupElement}
       popupAlign={popupAlign}
-      popupVisible={visible}
-      popupClassName={classNames(popupClassName, {
-        [`${dropdownPrefixCls}-range`]: range,
-        [`${dropdownPrefixCls}-rtl`]: direction === 'rtl',
-      })}
-      popupStyle={popupStyle}
+      popupOpen={open}
+      className={{
+        popup: clsx(popupClassName, {
+          [`${popupPrefixCls}-range`]: range,
+        }),
+      }}
       stretch="minWidth"
       getPopupContainer={getPopupContainer}
-      onPopupVisibleChange={(nextVisible) => {
-        if (!nextVisible) {
+      onPopupOpenChange={(nextOpen) => {
+        if (!nextOpen) {
           onClose();
         }
       }}

@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { SharedPanelProps } from '../../interface';
 import { formatValue } from '../../utils/dateUtil';
 import { PanelContext, useInfo } from '../context';
@@ -19,7 +19,7 @@ export default function TimePanel<DateType extends object = any>(props: TimePane
     showTime,
   } = props;
 
-  const { format } = showTime || {};
+  const { format = '' } = showTime || {};
 
   const panelPrefixCls = `${prefixCls}-time-panel`;
 
@@ -29,7 +29,7 @@ export default function TimePanel<DateType extends object = any>(props: TimePane
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={classNames(panelPrefixCls)}>
+      <div className={clsx(panelPrefixCls)}>
         <PanelHeader>
           {value
             ? formatValue(value, {

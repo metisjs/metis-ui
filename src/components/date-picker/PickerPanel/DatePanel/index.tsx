@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { clsx } from '../../../_util/classNameUtils';
 import type { PanelMode, SharedPanelProps } from '../../interface';
 import {
   formatValue,
@@ -60,7 +60,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
         return (
           <td
             key="week"
-            className={classNames(cellPrefixCls, `${cellPrefixCls}-week`, {
+            className={clsx(cellPrefixCls, `${cellPrefixCls}-week`, {
               [`${cellPrefixCls}-disabled`]: disabled,
             })}
             // Operation: Same as code in PanelBody
@@ -177,7 +177,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={classNames(panelPrefixCls, showWeek && `${panelPrefixCls}-show-week`)}>
+      <div className={clsx(panelPrefixCls, showWeek && `${panelPrefixCls}-show-week`)}>
         {/* Header */}
         <PanelHeader<DateType>
           offset={(distance) => generateConfig.addMonth(pickerValue, distance)}
