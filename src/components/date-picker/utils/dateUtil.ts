@@ -1,5 +1,10 @@
-import type { GenerateConfig } from '../generate';
-import type { CustomFormat, InternalMode, Locale, NullableDateType } from '../interface';
+import type {
+  CustomFormat,
+  GenerateConfig,
+  InternalMode,
+  Locale,
+  NullableDateType,
+} from '../interface';
 
 export const WEEK_DAY_COUNT = 7;
 

@@ -26,6 +26,20 @@ const locale: Locale = {
   nextDecade: 'Next decade',
   previousCentury: 'Last century',
   nextCentury: 'Next century',
+
+  placeholder: 'Select date',
+  yearPlaceholder: 'Select year',
+  quarterPlaceholder: 'Select quarter',
+  monthPlaceholder: 'Select month',
+  weekPlaceholder: 'Select week',
+  timePlaceholder: 'Select time',
+
+  rangePlaceholder: ['Start date', 'End date'],
+  rangeYearPlaceholder: ['Start year', 'End year'],
+  rangeQuarterPlaceholder: ['Start quarter', 'End quarter'],
+  rangeMonthPlaceholder: ['Start month', 'End month'],
+  rangeWeekPlaceholder: ['Start week', 'End week'],
+  rangeTimePlaceholder: ['Start time', 'End time'],
 };
 
 export default locale;

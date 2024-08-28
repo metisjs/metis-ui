@@ -8,7 +8,7 @@ import type {
   ValueDate,
 } from '../../interface';
 import { toArray } from '../../utils/miscUtil';
-import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
+import { getOffsetUnit } from '../../utils/uiUtil';
 import PickerContext from '../context';
 import Footer, { type FooterProps } from './Footer';
 import PopupPanel, { type PopupPanelProps } from './PopupPanel';
@@ -203,8 +203,7 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   );
 
   if (range) {
-    const realPlacement = getRealPlacement(placement);
-    const offsetUnit = getOffsetUnit(realPlacement);
+    const offsetUnit = getOffsetUnit(placement);
     renderNode = (
       <div
         onMouseDown={onPanelMouseDown}

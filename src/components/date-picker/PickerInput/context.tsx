@@ -1,6 +1,5 @@
 import * as React from 'react';
-import type { GenerateConfig } from '../generate';
-import type { Components, Locale } from '../interface';
+import type { Components, GenerateConfig, Locale } from '../interface';
 
 export interface PickerContextProps<DateType = any> {
   prefixCls: string;

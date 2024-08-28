@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
-import { clsx } from '../../../../_util/classNameUtils';
-import { devUseWarning } from '../../../../_util/warning';
+import { clsx } from '../../_util/classNameUtils';
+import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
 import useLocale from '../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../hooks/useTimeConfig';

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { devUseWarning } from '../../_util/warning';
-import type { GenerateConfig } from '../generate';
-import type { DisabledTimes, SharedTimeProps } from '../interface';
+import type { DisabledTimes, GenerateConfig, SharedTimeProps } from '../interface';
 import { findValidateTime } from '../PickerPanel/TimePanel/TimePanelBody/util';
 import { leftPad } from '../utils/miscUtil';
 

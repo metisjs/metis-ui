@@ -188,16 +188,8 @@ export function elementsContains(
   return elements.some((ele) => ele && ele.contains(target));
 }
 
-export function getRealPlacement(placement?: string) {
-  if (placement !== undefined) {
-    return placement;
-  }
-  return 'bottomLeft';
-}
-
-export function getOffsetUnit(placement: string) {
-  const realPlacement = getRealPlacement(placement);
-  const placementRight = realPlacement?.toLowerCase().endsWith('right');
+export function getOffsetUnit(placement: string = 'bottomLeft') {
+  const placementRight = placement?.toLowerCase().endsWith('right');
   let offsetUnit = placementRight ? 'insetInlineEnd' : 'insetInlineStart';
   return offsetUnit;
 }

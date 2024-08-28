@@ -4,7 +4,7 @@ import { useEvent } from 'rc-util';
 import { clsx } from '../../../_util/classNameUtils';
 import type { RangePickerRef, SelectorProps } from '../../interface';
 import { pickProps } from '../../utils/miscUtil';
-import { getOffsetUnit, getRealPlacement } from '../../utils/uiUtil';
+import { getOffsetUnit } from '../../utils/uiUtil';
 import PickerContext from '../context';
 import type { RangeValueType } from '../RangePicker';
 import useInputProps from './hooks/useInputProps';
@@ -139,9 +139,8 @@ function RangeSelector<DateType extends object = any>(
   });
 
   // ====================== ActiveBar =======================
-  const realPlacement = getRealPlacement(placement);
-  const offsetUnit = getOffsetUnit(realPlacement);
-  const placementRight = realPlacement?.toLowerCase().endsWith('right');
+  const offsetUnit = getOffsetUnit(placement);
+  const placementRight = placement?.toLowerCase().endsWith('right');
   const [activeBarStyle, setActiveBarStyle] = React.useState<React.CSSProperties>({
     position: 'absolute',
     width: 0,

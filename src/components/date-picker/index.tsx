@@ -1,16 +1,30 @@
-import type { PickerRef, SharedTimeProps } from './interface';
-import RangePicker, { type RangePickerProps } from './PickerInput/RangePicker';
-import Picker, { type BasePickerProps, type PickerProps } from './PickerInput/SinglePicker';
-import PickerPanel, { type BasePickerPanelProps, type PickerPanelProps } from './PickerPanel';
-
-export { Picker, RangePicker, PickerPanel };
-export type {
-  RangePickerProps,
+import type { Dayjs } from 'dayjs';
+import generatePicker from './generate';
+import dayjsGenerateConfig from './generate/config/dayjs';
+import type {
+  RangePickerProps as BaseRangePickerProps,
   PickerProps,
-  PickerPanelProps,
-  PickerRef,
-  BasePickerProps,
-  BasePickerPanelProps,
-  SharedTimeProps,
+  PickerPropsWithMultiple,
+} from './generate/interface';
+
+export type DatePickerProps<ValueType = Dayjs | Dayjs> = PickerPropsWithMultiple<
+  Dayjs,
+  PickerProps<Dayjs>,
+  ValueType
+>;
+export type MonthPickerProps<ValueType = Dayjs | Dayjs> = Omit<
+  DatePickerProps<ValueType>,
+  'picker'
+>;
+export type WeekPickerProps<ValueType = Dayjs | Dayjs> = Omit<DatePickerProps<ValueType>, 'picker'>;
+export type RangePickerProps = BaseRangePickerProps<Dayjs>;
+
+const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
+
+export type DatePickerType = typeof DatePicker & {
+  generatePicker: typeof generatePicker;
 };
-export default Picker;
+
+(DatePicker as DatePickerType).generatePicker = generatePicker;
+
+export default DatePicker as DatePickerType;

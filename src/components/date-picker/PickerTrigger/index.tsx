@@ -2,8 +2,8 @@ import * as React from 'react';
 import { clsx } from '../../_util/classNameUtils';
 import type { AlignType, BuildInPlacements } from '../../trigger';
 import Trigger from '../../trigger';
+import type { Placement } from '../interface';
 import PickerContext from '../PickerInput/context';
-import { getRealPlacement } from '../utils/uiUtil';
 
 const BUILT_IN_PLACEMENTS = {
   bottomLeft: {
@@ -55,7 +55,7 @@ export type PickerTriggerProps = {
 
   // Placement
   popupClassName?: string;
-  placement?: string;
+  placement?: Placement;
   builtinPlacements?: BuildInPlacements;
 
   open: boolean;
@@ -78,13 +78,11 @@ function PickerTrigger({
   const { prefixCls } = React.useContext(PickerContext);
   const popupPrefixCls = `${prefixCls}-popup`;
 
-  const realPlacement = getRealPlacement(placement);
-
   return (
     <Trigger
       showAction={[]}
       hideAction={['click']}
-      popupPlacement={realPlacement}
+      popupPlacement={placement || 'bottomLeft'}
       builtinPlacements={builtinPlacements}
       prefixCls={popupPrefixCls}
       popupTransition={TRANSITION}

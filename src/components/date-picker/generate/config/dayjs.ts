@@ -1,12 +1,12 @@
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { noteOnce } from 'rc-util/lib/warning';
-import weekday from 'dayjs/plugin/weekday';
-import localeData from 'dayjs/plugin/localeData';
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-import weekYear from 'dayjs/plugin/weekYear';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import localeData from 'dayjs/plugin/localeData';
+import weekday from 'dayjs/plugin/weekday';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import weekYear from 'dayjs/plugin/weekYear';
+import { noteOnce } from 'rc-util/lib/warning';
 import type { GenerateConfig } from '.';
 
 dayjs.extend(customParseFormat);

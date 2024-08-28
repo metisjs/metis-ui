@@ -1,7 +1,53 @@
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { SomeRequired } from '../_util/type';
 import type { AlignType, BuildInPlacements } from '../trigger';
-import type { GenerateConfig } from './generate';
+
+export type GenerateConfig<DateType> = {
+  // Get
+  getWeekDay: (value: DateType) => number;
+  getMillisecond: (value: DateType) => number;
+  getSecond: (value: DateType) => number;
+  getMinute: (value: DateType) => number;
+  getHour: (value: DateType) => number;
+  getDate: (value: DateType) => number;
+  getMonth: (value: DateType) => number;
+  getYear: (value: DateType) => number;
+  getNow: () => DateType;
+  getFixedDate: (fixed: string) => DateType;
+  getEndDate: (value: DateType) => DateType;
+
+  // Set
+  addYear: (value: DateType, diff: number) => DateType;
+  addMonth: (value: DateType, diff: number) => DateType;
+  addDate: (value: DateType, diff: number) => DateType;
+  setYear: (value: DateType, year: number) => DateType;
+  setMonth: (value: DateType, month: number) => DateType;
+  setDate: (value: DateType, date: number) => DateType;
+  setHour: (value: DateType, hour: number) => DateType;
+  setMinute: (value: DateType, minute: number) => DateType;
+  setSecond: (value: DateType, second: number) => DateType;
+  setMillisecond: (value: DateType, millisecond: number) => DateType;
+
+  // Compare
+  isAfter: (date1: DateType, date2: DateType) => boolean;
+  isValidate: (date: DateType) => boolean;
+
+  locale: {
+    getWeekFirstDay: (locale: string) => number;
+    getWeekFirstDate: (locale: string, value: DateType) => DateType;
+    getWeek: (locale: string, value: DateType) => number;
+
+    format: (locale: string, date: DateType, format: string) => string;
+
+    /** Should only return validate date instance */
+    parse: (locale: string, text: string, formats: string[]) => DateType | null;
+
+    /** A proxy for getting locale with moment or other locale library */
+    getShortWeekDays?: (locale: string) => string[];
+    /** A proxy for getting locale with moment or other locale library */
+    getShortMonths?: (locale: string) => string[];
+  };
+};
 
 export type NullableDateType<DateType> = DateType | null | undefined;
 
@@ -75,6 +121,20 @@ export type Locale = {
 
   shortWeekDays?: string[];
   shortMonths?: string[];
+
+  placeholder: string;
+  yearPlaceholder?: string;
+  quarterPlaceholder?: string;
+  monthPlaceholder?: string;
+  weekPlaceholder?: string;
+  timePlaceholder?: string;
+
+  rangeYearPlaceholder?: [string, string];
+  rangeQuarterPlaceholder?: [string, string];
+  rangeMonthPlaceholder?: [string, string];
+  rangeWeekPlaceholder?: [string, string];
+  rangePlaceholder?: [string, string];
+  rangeTimePlaceholder?: [string, string];
 };
 
 export type FilledLocale = SomeRequired<
@@ -91,6 +151,8 @@ export type FilledLocale = SomeRequired<
   | 'cellQuarterFormat'
   | 'cellDateFormat'
 >;
+
+export type Placement = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
 
 export type PanelMode = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year' | 'decade';
 
@@ -299,6 +361,7 @@ export type SharedHTMLAttrs = Omit<
   | 'max'
   | 'onKeyDown'
   | 'size'
+  | 'className'
 >;
 
 export type PickerFocusEventHandler = (e: React.FocusEvent<HTMLElement>, info: BaseInfo) => void;
@@ -379,7 +442,7 @@ export interface SharedPickerProps<DateType extends object = any>
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
 
   // Popup
-  placement?: string;
+  placement?: Placement;
   builtinPlacements?: BuildInPlacements;
 
   /**
