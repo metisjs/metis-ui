@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Overflow from 'rc-overflow';
 import { clsx } from '../../../../_util/classNameUtils';
-import type { PickerProps } from '../../SinglePicker';
+import type { InternalPickerProps } from '../../SinglePicker';
 
 export interface MultipleDatesProps<DateType extends object = any>
-  extends Pick<PickerProps, 'maxTagCount'> {
+  extends Pick<InternalPickerProps, 'maxTagCount'> {
   prefixCls: string;
   value?: DateType[];
   onRemove: (value: DateType) => void;

@@ -1,4 +1,6 @@
-import type { InternalMode, Locale, SharedPickerProps } from '../interface';
+import type { SelectCommonPlacement } from '../../select/interface';
+import type { AlignType } from '../../trigger';
+import type { InternalMode, Locale, PickerMode, SharedPickerProps } from '../interface';
 
 export function leftPad(str: string | number, length: number, fill: string = '0') {
   let current = String(str);
@@ -83,4 +85,102 @@ export function getFromDate<DateType>(
   const firstValuedIndex = activeIndexList.find((index) => calendarValues[index]);
 
   return mergedActiveIndex !== firstValuedIndex ? calendarValues[firstValuedIndex!] : undefined;
+}
+
+export function getPlaceholder(
+  locale: Locale,
+  picker?: PickerMode,
+  customizePlaceholder?: string,
+): string {
+  if (customizePlaceholder !== undefined) {
+    return customizePlaceholder;
+  }
+
+  if (picker === 'year' && locale.yearPlaceholder) {
+    return locale.yearPlaceholder;
+  }
+  if (picker === 'quarter' && locale.quarterPlaceholder) {
+    return locale.quarterPlaceholder;
+  }
+  if (picker === 'month' && locale.monthPlaceholder) {
+    return locale.monthPlaceholder;
+  }
+  if (picker === 'week' && locale.weekPlaceholder) {
+    return locale.weekPlaceholder;
+  }
+  if (picker === 'time' && locale.timePlaceholder) {
+    return locale.timePlaceholder;
+  }
+  return locale.placeholder;
+}
+
+export function getRangePlaceholder(
+  locale: Locale,
+  picker?: PickerMode,
+  customizePlaceholder?: [string, string],
+) {
+  if (customizePlaceholder !== undefined) {
+    return customizePlaceholder;
+  }
+
+  if (picker === 'year' && locale.rangeYearPlaceholder) {
+    return locale.rangeYearPlaceholder;
+  }
+  if (picker === 'quarter' && locale.rangeQuarterPlaceholder) {
+    return locale.rangeQuarterPlaceholder;
+  }
+  if (picker === 'month' && locale.rangeMonthPlaceholder) {
+    return locale.rangeMonthPlaceholder;
+  }
+  if (picker === 'week' && locale.rangeWeekPlaceholder) {
+    return locale.rangeWeekPlaceholder;
+  }
+  if (picker === 'time' && locale.rangeTimePlaceholder) {
+    return locale.rangeTimePlaceholder;
+  }
+  return locale.rangePlaceholder;
+}
+
+export function transPlacement2PopupAlign(placement?: SelectCommonPlacement): AlignType {
+  const overflow = {
+    adjustX: 1,
+    adjustY: 1,
+  };
+  switch (placement) {
+    case 'bottomLeft': {
+      return {
+        points: ['tl', 'bl'],
+        offset: [0, 4],
+        overflow,
+      };
+    }
+    case 'bottomRight': {
+      return {
+        points: ['tr', 'br'],
+        offset: [0, 4],
+        overflow,
+      };
+    }
+    case 'topLeft': {
+      return {
+        points: ['bl', 'tl'],
+        offset: [0, -4],
+        overflow,
+      };
+    }
+    case 'topRight': {
+      return {
+        points: ['br', 'tr'],
+        offset: [0, -4],
+        overflow,
+      };
+    }
+    default: {
+      return {
+        points: ['tl', 'bl'],
+        offset: [0, 4],
+        overflow,
+      };
+    }
+  }
 }

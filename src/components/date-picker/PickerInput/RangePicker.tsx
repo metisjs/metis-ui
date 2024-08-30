@@ -128,7 +128,7 @@ export interface BaseRangePickerProps<DateType extends object>
   ) => void;
 }
 
-export interface RangePickerProps<DateType extends object>
+export interface InternalRangePickerProps<DateType extends object>
   extends BaseRangePickerProps<DateType>,
     Omit<RangeTimeProps<DateType>, 'format' | 'defaultValue' | 'defaultOpenValue'> {}
 
@@ -137,7 +137,7 @@ function getActiveRange(activeIndex: number) {
 }
 
 function RangePicker<DateType extends object = any>(
-  props: RangePickerProps<DateType>,
+  props: InternalRangePickerProps<DateType>,
   ref: React.Ref<RangePickerRef>,
 ) {
   // ========================= Prop =========================
@@ -159,6 +159,7 @@ function RangePicker<DateType extends object = any>(
     prefixCls,
     placement,
     className,
+    popupZIndex,
 
     // Value
     defaultValue,
@@ -215,7 +216,7 @@ function RangePicker<DateType extends object = any>(
     // Native
     onClick,
   } = filledProps as Omit<
-    SomeRequired<RangePickerProps<DateType>, 'disabledDate' | 'components'>,
+    SomeRequired<InternalRangePickerProps<DateType>, 'disabledDate' | 'components'>,
     'allowEmpty' | 'disabled' | 'showTime' | 'value' | 'defaultValue'
   > & {
     disabled: [boolean, boolean];
@@ -737,6 +738,7 @@ function RangePicker<DateType extends object = any>(
         onClose={onPopupClose}
         // Range
         range
+        zIndex={popupZIndex}
       >
         <RangeSelector
           // Shared
@@ -783,7 +785,7 @@ function RangePicker<DateType extends object = any>(
 }
 
 const RefRangePicker = React.forwardRef(RangePicker) as <DateType extends object = any>(
-  props: RangePickerProps<DateType> & React.RefAttributes<RangePickerRef>,
+  props: InternalRangePickerProps<DateType> & React.RefAttributes<RangePickerRef>,
 ) => React.ReactElement;
 
 if (process.env.NODE_ENV !== 'production') {

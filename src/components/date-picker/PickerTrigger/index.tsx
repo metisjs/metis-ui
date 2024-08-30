@@ -52,6 +52,7 @@ export type PickerTriggerProps = {
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupAlign?: AlignType;
   range?: boolean;
+  zIndex?: number;
 
   // Placement
   popupClassName?: string;
@@ -71,6 +72,7 @@ function PickerTrigger({
   range,
   placement,
   builtinPlacements = BUILT_IN_PLACEMENTS,
+  zIndex,
 
   open,
   onClose,
@@ -101,6 +103,7 @@ function PickerTrigger({
           onClose();
         }
       }}
+      zIndex={zIndex}
     >
       {children}
     </Trigger>

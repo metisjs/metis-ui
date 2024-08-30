@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-// import { changeConfirmLocale } from '../modal/locale';
+import type { Locale as DatePickerLocale } from '../date-picker/interface';
 import type { EmptyLocale } from '../empty';
 import type { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
@@ -16,7 +16,7 @@ export const METIS_MARK = 'internalMark';
 export interface Locale {
   locale: string;
   Pagination?: Record<string, any>;
-  // DatePicker?: DatePickerLocale;
+  DatePicker?: DatePickerLocale;
   TimePicker?: Record<string, any>;
   Calendar?: Record<string, any>;
   // Table?: TableLocale;

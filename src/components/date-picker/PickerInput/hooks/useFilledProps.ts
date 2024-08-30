@@ -6,7 +6,7 @@ import useLocale from '../../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../../hooks/useTimeConfig';
 import type { DisabledDate, FormatType, InternalMode, PickerMode } from '../../interface';
 import { toArray } from '../../utils/miscUtil';
-import type { RangePickerProps } from '../RangePicker';
+import type { InternalRangePickerProps } from '../RangePicker';
 import useDisabledBoundary from './useDisabledBoundary';
 import { useFieldFormat } from './useFieldFormat';
 import useInputReadOnly from './useInputReadOnly';
@@ -15,7 +15,7 @@ import useInvalidate from './useInvalidate';
 type UseInvalidate<DateType extends object = any> = typeof useInvalidate<DateType>;
 
 type PickedProps<DateType extends object = any> = Pick<
-  RangePickerProps<DateType>,
+  InternalRangePickerProps<DateType>,
   | 'generateConfig'
   | 'locale'
   | 'picker'

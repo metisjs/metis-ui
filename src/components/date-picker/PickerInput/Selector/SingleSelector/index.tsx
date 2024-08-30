@@ -4,7 +4,7 @@ import type { InternalMode, PickerRef, SelectorProps } from '../../../interface'
 import { isSame } from '../../../utils/dateUtil';
 import { pickProps } from '../../../utils/miscUtil';
 import PickerContext from '../../context';
-import type { PickerProps } from '../../SinglePicker';
+import type { InternalPickerProps } from '../../SinglePicker';
 import useInputProps from '../hooks/useInputProps';
 import Icon, { ClearIcon } from '../Icon';
 import Input, { type InputRef } from '../Input';
@@ -12,7 +12,7 @@ import MultipleDates from './MultipleDates';
 
 export interface SingleSelectorProps<DateType extends object = any>
   extends SelectorProps<DateType>,
-    Pick<PickerProps, 'multiple' | 'maxTagCount'> {
+    Pick<InternalPickerProps, 'multiple' | 'maxTagCount'> {
   id?: string;
 
   value?: DateType[];

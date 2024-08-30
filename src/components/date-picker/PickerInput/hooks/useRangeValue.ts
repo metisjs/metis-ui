@@ -11,7 +11,7 @@ import type {
 } from '../../interface';
 import { formatValue, isSame, isSameTimestamp } from '../../utils/dateUtil';
 import { fillIndex } from '../../utils/miscUtil';
-import type { RangePickerProps } from '../RangePicker';
+import type { InternalRangePickerProps } from '../RangePicker';
 import type { ReplacedPickerProps } from '../SinglePicker';
 import useLockEffect from './useLockEffect';
 
@@ -183,7 +183,7 @@ export default function useRangeValue<
 >(
   info: Required<
     Pick<
-      RangePickerProps<DateType>,
+      InternalRangePickerProps<DateType>,
       'generateConfig' | 'locale' | 'allowEmpty' | 'order' | 'picker'
     > &
       ReplacedPickerProps<DateType>

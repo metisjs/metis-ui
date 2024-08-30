@@ -1,6 +1,11 @@
 import type { SemanticClassName } from '../_util/classNameUtils';
-import type { SomeRequired } from '../_util/type';
+import type { InputStatus } from '../_util/statusUtils';
+import type { AnyObject, SomeRequired } from '../_util/type';
+import type { Variant } from '../config-provider';
+import type { SizeType } from '../config-provider/SizeContext';
 import type { AlignType, BuildInPlacements } from '../trigger';
+import type { InternalRangePickerProps } from './PickerInput/RangePicker';
+import type { InternalPickerProps } from './PickerInput/SinglePicker';
 
 export type GenerateConfig<DateType> = {
   // Get
@@ -458,9 +463,6 @@ export interface SharedPickerProps<DateType extends object = any>
    */
   preserveInvalidOnBlur?: boolean;
 
-  // Motion
-  transitionName?: string;
-
   // Render
   components?: Components<DateType>;
   cellRender?: CellRender<DateType>;
@@ -471,6 +473,8 @@ export interface SharedPickerProps<DateType extends object = any>
   showNow?: boolean;
   panelRender?: (originPanel: React.ReactNode) => React.ReactNode;
   renderExtraFooter?: (mode: PanelMode) => React.ReactNode;
+
+  popupZIndex?: number;
 }
 
 // picker
@@ -560,3 +564,40 @@ export type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>,
 export type ReplaceListType<List, Type> = {
   [P in keyof List]: Type;
 };
+
+type InjectDefaultProps<Props> = Omit<Props, 'locale' | 'generateConfig' | 'hideHeader'> & {
+  locale?: Locale;
+  size?: SizeType;
+  placement?: Placement;
+  status?: InputStatus;
+  variant?: Variant;
+};
+
+type GetValueType<DateType, MultipleType extends boolean = false> = false extends MultipleType
+  ? DateType
+  : DateType[];
+
+export type PickerProps<
+  DateType extends AnyObject = any,
+  MultipleType extends boolean = false,
+> = Omit<
+  InjectDefaultProps<InternalPickerProps<DateType>>,
+  'multiple' | 'defaultValue' | 'value' | 'onChange' | 'onCalendarChange'
+> & {
+  multiple?: MultipleType;
+  defaultValue?: GetValueType<DateType, MultipleType>;
+  value?: GetValueType<DateType, MultipleType>;
+  onChange?: (
+    date: GetValueType<DateType, MultipleType> | null,
+    dateString: GetValueType<string, MultipleType>,
+  ) => void;
+  onCalendarChange?: (
+    date: GetValueType<DateType, MultipleType>,
+    dateString: GetValueType<string, MultipleType>,
+    info: BaseInfo,
+  ) => void;
+};
+
+export type RangePickerProps<DateType extends AnyObject = any> = InjectDefaultProps<
+  InternalRangePickerProps<DateType>
+>;

@@ -95,7 +95,7 @@ export interface BasePickerProps<DateType extends object = any>
   onPanelChange?: (values: DateType, modes: PanelMode) => void;
 }
 
-export interface PickerProps<DateType extends object = any>
+export interface InternalPickerProps<DateType extends object = any>
   extends BasePickerProps<DateType>,
     Omit<SharedTimeProps<DateType>, 'format' | 'defaultValue'> {}
 
@@ -110,7 +110,7 @@ export type ReplacedPickerProps<DateType extends object = any> = {
 };
 
 function Picker<DateType extends object = any>(
-  props: PickerProps<DateType>,
+  props: InternalPickerProps<DateType>,
   ref: React.Ref<PickerRef>,
 ) {
   // ========================= Prop =========================
@@ -121,6 +121,7 @@ function Picker<DateType extends object = any>(
     // Style
     prefixCls,
     className,
+    popupZIndex,
 
     // Value
     order,
@@ -272,7 +273,7 @@ function Picker<DateType extends object = any>(
   const mergedShowNow = useShowNow(picker, mergedMode, showNow);
 
   // ======================== Value =========================
-  const onInternalChange: PickerProps<DateType>['onChange'] = (dates, dateStrings) => {
+  const onInternalChange: InternalPickerProps<DateType>['onChange'] = (dates, dateStrings) => {
     onChange?.(pickerParam(dates), pickerParam(dateStrings) ?? '');
   };
 
@@ -614,6 +615,7 @@ function Picker<DateType extends object = any>(
         popupClassName={semanticCls.popup}
         open={mergedOpen}
         onClose={onPopupClose}
+        zIndex={popupZIndex}
       >
         <SingleSelector
           // Shared
@@ -663,7 +665,7 @@ function Picker<DateType extends object = any>(
 }
 
 const RefPicker = React.forwardRef(Picker) as <DateType extends object = any>(
-  props: PickerProps<DateType> & React.RefAttributes<PickerRef>,
+  props: InternalPickerProps<DateType> & React.RefAttributes<PickerRef>,
 ) => React.ReactElement;
 
 export default RefPicker;
