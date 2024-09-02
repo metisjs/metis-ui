@@ -84,7 +84,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
   // ===================== Size =====================
-  const mergedSize = useSize((ctx) => compactSize ?? customSize ?? ctx);
+  const mergedSize = useSize((ctx) => customSize ?? compactSize ?? ctx);
 
   // ===================== Disabled =====================
   const disabled = React.useContext(DisabledContext);
@@ -328,7 +328,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base  text-text-secondary',
+    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base text-text-secondary',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.suffix,
   );
