@@ -565,7 +565,11 @@ export type ReplaceListType<List, Type> = {
   [P in keyof List]: Type;
 };
 
-type InjectDefaultProps<Props> = Omit<Props, 'locale' | 'generateConfig' | 'hideHeader'> & {
+type InjectDefaultProps<Props> = Omit<
+  Props,
+  'locale' | 'generateConfig' | 'hideHeader' | 'prefixCls'
+> & {
+  prefixCls?: string;
   locale?: Locale;
   size?: SizeType;
   placement?: Placement;
@@ -582,11 +586,11 @@ export type PickerProps<
   MultipleType extends boolean = false,
 > = Omit<
   InjectDefaultProps<InternalPickerProps<DateType>>,
-  'multiple' | 'defaultValue' | 'value' | 'onChange' | 'onCalendarChange'
+  'multiple' | 'defaultValue' | 'value' | 'onChange' | 'onCalendarChange' | 'onOk'
 > & {
   multiple?: MultipleType;
-  defaultValue?: GetValueType<DateType, MultipleType>;
-  value?: GetValueType<DateType, MultipleType>;
+  defaultValue?: GetValueType<DateType, MultipleType> | null;
+  value?: GetValueType<DateType, MultipleType> | null;
   onChange?: (
     date: GetValueType<DateType, MultipleType> | null,
     dateString: GetValueType<string, MultipleType>,
@@ -596,6 +600,7 @@ export type PickerProps<
     dateString: GetValueType<string, MultipleType>,
     info: BaseInfo,
   ) => void;
+  onOk?: (date: GetValueType<DateType, MultipleType>) => void;
 };
 
 export type RangePickerProps<DateType extends AnyObject = any> = Omit<

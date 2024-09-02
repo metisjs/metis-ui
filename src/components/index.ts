@@ -27,6 +27,8 @@ export { default as ColorPicker } from './color-picker';
 export type { ColorPickerProps } from './color-picker';
 export { default as ConfigProvider } from './config-provider';
 export type { ConfigProviderProps } from './config-provider';
+export { default as DatePicker } from './date-picker';
+export type { DatePickerProps } from './date-picker';
 export { default as Divider } from './divider';
 export type { DividerProps } from './divider';
 export { default as Drawer } from './drawer';

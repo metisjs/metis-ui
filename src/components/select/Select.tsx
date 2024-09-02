@@ -641,12 +641,13 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     </SelectContext.Provider>
   );
 }) as unknown as (<
+  ValueType extends RawValueType = RawValueType,
   OptionType extends BaseOptionType = BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
   ShowSearchType extends boolean = false,
-  PaginationType extends boolean = false,
+  LazyLoadType extends boolean = false,
 >(
-  props: SelectProps<OptionType, ModeType, ShowSearchType, PaginationType> & {
+  props: SelectProps<ValueType, OptionType, ModeType, ShowSearchType, LazyLoadType> & {
     ref?: React.Ref<BaseSelectRef>;
   },
 ) => React.ReactElement) & {

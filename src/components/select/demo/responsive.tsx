@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { SelectPropsWithOptions } from 'metis-ui';
+import type { SelectProps } from 'metis-ui';
 import { Select, Space } from 'metis-ui';
 
 interface ItemProps {
@@ -20,7 +20,7 @@ for (let i = 10; i < 36; i++) {
 const App: React.FC = () => {
   const [value, setValue] = useState(['a10', 'c12', 'h17', 'j19', 'k20']);
 
-  const selectProps: SelectPropsWithOptions = {
+  const selectProps: SelectProps<string, ItemProps, 'multiple'> = {
     mode: 'multiple',
     style: { width: '100%' },
     value,

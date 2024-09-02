@@ -98,11 +98,12 @@ export type RequestConfig<TData, ParamsType extends any[]> =
     };
 
 export interface SelectProps<
+  ValueType extends RawValueType = RawValueType,
   OptionType extends BaseOptionType = BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
-  ValueType = ModeType extends 'default' ? RawValueType : RawValueType[],
+  InternalValueType = ModeType extends 'default' ? ValueType : ValueType[],
 > extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'showSearch'> {
   prefixCls?: string;
   id?: string;
@@ -120,8 +121,8 @@ export interface SelectProps<
   autoClearSearchValue?: boolean;
 
   // >>> Select
-  onSelect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
-  onDeselect?: SelectHandler<ArrayElementType<ValueType>, OptionType>;
+  onSelect?: SelectHandler<ArrayElementType<InternalValueType>, OptionType>;
+  onDeselect?: SelectHandler<ArrayElementType<InternalValueType>, OptionType>;
 
   // >>> Options
   filterOption?: FilterFunc<OptionType>;
@@ -150,7 +151,7 @@ export interface SelectProps<
   value?: GetValueType<OptionType, ModeType>;
   defaultValue?: GetValueType<OptionType, ModeType>;
   onChange?: (
-    value: ValueType,
+    value: InternalValueType,
     option: ModeType extends 'default' ? OptionType : OptionType[],
   ) => void;
 

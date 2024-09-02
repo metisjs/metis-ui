@@ -5,14 +5,15 @@ import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import type { SelectProps, SelectRef } from '../select';
 import Select from '../select';
-import type { BaseOptionType } from '../select/interface';
+import type { BaseOptionType, RawValueType } from '../select/interface';
 
 export interface AutoCompleteProps<
+  ValueType extends RawValueType = RawValueType,
   OptionType extends BaseOptionType = BaseOptionType,
   OptionInValueType extends boolean = false,
   LazyLoadType extends boolean = false,
 > extends Omit<
-    SelectProps<OptionType, 'default', OptionInValueType, true, LazyLoadType>,
+    SelectProps<ValueType, OptionType, 'default', OptionInValueType, true, LazyLoadType>,
     'loading' | 'mode' | 'displayRender' | 'optionInValue' | 'showSearch'
   > {
   children?: React.ReactNode;
