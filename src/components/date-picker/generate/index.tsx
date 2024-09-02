@@ -7,7 +7,7 @@ const generatePicker = <DateType extends AnyObject = AnyObject>(
   generateConfig: GenerateConfig<DateType>,
 ) => {
   // ===========================  Picker ===========================
-  const DatePicker = generateSinglePicker(generateConfig);
+  const { DatePicker, TimePicker } = generateSinglePicker(generateConfig);
 
   // ======================== Range Picker ========================
   const RangePicker = generateRangePicker(generateConfig);
@@ -15,12 +15,14 @@ const generatePicker = <DateType extends AnyObject = AnyObject>(
   // =========================== Export ===========================
   type MergedDatePickerType = typeof DatePicker & {
     displayName?: string;
+    TimePicker: typeof TimePicker;
     RangePicker: typeof RangePicker;
   };
 
   const MergedDatePicker = DatePicker as MergedDatePickerType;
 
   MergedDatePicker.RangePicker = RangePicker;
+  MergedDatePicker.TimePicker = TimePicker;
 
   if (process.env.NODE_ENV !== 'production') {
     MergedDatePicker.displayName = 'DatePicker';

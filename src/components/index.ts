@@ -81,6 +81,8 @@ export { default as Switch } from './switch';
 export type { SwitchProps } from './switch';
 export { default as Tag } from './tag';
 export type { TagProps, TagType } from './tag';
+export { default as TimePicker } from './time-picker';
+export type { TimePickerProps, TimeRangePickerProps } from './time-picker';
 export { default as Tooltip } from './tooltip';
 export type { TooltipProps } from './tooltip';
 export { default as Transition } from './transition';
@@ -88,5 +90,5 @@ export type { TransitionProps } from './transition';
 export { default as Watermark } from './watermark';
 export type { WatermarkProps } from './watermark';
 
-export { default as useTheme } from './theme/useTheme';
 export * from './_util/classNameUtils';
+export { default as useTheme } from './theme/useTheme';

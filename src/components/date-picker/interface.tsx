@@ -598,6 +598,14 @@ export type PickerProps<
   ) => void;
 };
 
-export type RangePickerProps<DateType extends AnyObject = any> = InjectDefaultProps<
-  InternalRangePickerProps<DateType>
->;
+export type RangePickerProps<DateType extends AnyObject = any> = Omit<
+  InjectDefaultProps<InternalRangePickerProps<DateType>>,
+  'prefixCls'
+> & {
+  prefixCls?: string;
+};
+
+export type GenericTimePickerProps<
+  DateType extends AnyObject = any,
+  MultipleType extends boolean = false,
+> = Omit<PickerProps<DateType, MultipleType>, 'picker' | 'showTime'>;
