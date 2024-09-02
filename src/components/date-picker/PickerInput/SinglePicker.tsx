@@ -3,7 +3,7 @@ import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { getSemanticCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,
@@ -45,7 +45,7 @@ export interface BasePickerProps<DateType extends object = any>
 
   // Value
   value?: DateType | DateType[] | null;
-  defaultValue?: DateType | DateType[];
+  defaultValue?: DateType | DateType[] | null;
   onChange?: (date: DateType | DateType[] | null, dateString: string | string[]) => void;
   onCalendarChange?: (
     date: DateType | DateType[],
@@ -606,6 +606,15 @@ function Picker<DateType extends object = any>(
     }
   }, [mergedOpen]);
 
+  // ======================== Style ========================
+  const rootCls = clsx(
+    'relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset ring-border px-3 py-1 leading-6',
+    '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+    'focus-within:ring-2 focus-within:ring-primary',
+    disabled && 'bg-fill-quaternary text-text-tertiary',
+    semanticCls.root,
+  );
+
   // ======================== Render ========================
   return (
     <PickerContext.Provider value={context}>
@@ -620,7 +629,7 @@ function Picker<DateType extends object = any>(
         <SingleSelector
           // Shared
           {...filledProps}
-          className={semanticCls.root}
+          className={rootCls}
           // Ref
           ref={selectorRef}
           // Icon

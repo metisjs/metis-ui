@@ -65,6 +65,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     preserveInvalidOnBlur = false,
     invalid,
     clearIcon,
+    className,
     // Pass to input
     ...restProps
   } = props;
@@ -359,6 +360,25 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     triggerInputChange,
   ]);
 
+  // ======================== Style ========================
+  const wrapperCls = clsx(
+    inputPrefixCls,
+    {
+      [`${inputPrefixCls}-active`]: active && showActiveCls,
+      [`${inputPrefixCls}-placeholder`]: helped,
+    },
+    'inline-flex items-center relative w-full',
+    {
+      'text-text-quaternary': helped,
+    },
+  );
+
+  const inputCls = clsx(
+    'h-full w-full flex-auto inline-block appearance-none bg-transparent placeholder:text-text-quaternary p-0 leading-tight outline-0 focus:outline-0 focus:ring-0',
+    restProps.disabled && 'cursor-not-allowed',
+    className,
+  );
+
   // ======================== Render ========================
   // Input props for format
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = format
@@ -373,13 +393,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     : {};
 
   return (
-    <div
-      ref={holderRef}
-      className={clsx(inputPrefixCls, {
-        [`${inputPrefixCls}-active`]: active && showActiveCls,
-        [`${inputPrefixCls}-placeholder`]: helped,
-      })}
-    >
+    <div ref={holderRef} className={wrapperCls}>
       <Component
         ref={inputRef}
         aria-invalid={invalid}
@@ -392,6 +406,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
         // Value
         value={inputValue}
         onChange={onInternalChange}
+        className={inputCls}
       />
       <Icon type="suffix" icon={suffixIcon} />
       {clearIcon}

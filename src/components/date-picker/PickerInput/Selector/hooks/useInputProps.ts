@@ -61,7 +61,6 @@ export default function useInputProps<DateType extends object = any>(
     onKeyDown,
     onChange,
     activeHelp,
-    name,
     autoComplete,
 
     id,
@@ -149,8 +148,6 @@ export default function useInputProps<DateType extends object = any>(
 
       required,
       'aria-required': ariaRequired,
-
-      name,
 
       autoComplete,
 

@@ -92,9 +92,13 @@ function PickerTrigger({
       popupAlign={popupAlign}
       popupOpen={open}
       className={{
-        popup: clsx(popupClassName, {
-          [`${popupPrefixCls}-range`]: range,
-        }),
+        popup: clsx(
+          {
+            [`${popupPrefixCls}-range`]: range,
+          },
+          'absolute rounded-md bg-elevated text-sm shadow-lg ring-1 ring-border-secondary focus:outline-none',
+          popupClassName,
+        ),
       }}
       stretch="minWidth"
       getPopupContainer={getPopupContainer}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { DatePickerProps } from 'metis-ui';
-import { DatePicker, Select, Space } from 'metis-ui';
+import type { DatePickerProps, TimePickerProps } from 'metis-ui';
+import { DatePicker, Select, Space, TimePicker } from 'metis-ui';
 import type { PickerMode } from 'metis-ui/es/date-picker/interface';
 
 const PickerWithType = ({
@@ -8,10 +8,9 @@ const PickerWithType = ({
   onChange,
 }: {
   type: PickerMode;
-  // TODO: TimePicker组件待开发 onChange: TimePickerProps['onChange'] | DatePickerProps['onChange'];
-  onChange: DatePickerProps['onChange'];
+  onChange: TimePickerProps['onChange'] | DatePickerProps['onChange'];
 }) => {
-  // if (type === 'time') return <TimePicker onChange={onChange} />;
+  if (type === 'time') return <TimePicker onChange={onChange} />;
   if (type === 'date') return <DatePicker onChange={onChange} />;
   return <DatePicker picker={type} onChange={onChange} />;
 };
@@ -32,6 +31,7 @@ const App: React.FC = () => {
           { value: 'year', label: 'Year' },
         ]}
         onChange={setType}
+        className="w-28"
       ></Select>
       <PickerWithType type={type} onChange={(value) => console.log(value)} />
     </Space>
