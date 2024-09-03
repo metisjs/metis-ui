@@ -1,10 +1,14 @@
 import * as React from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import toArray from 'rc-util/lib/Children/toArray';
+import type { SemanticClassName } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { cloneElement } from '../../_util/reactNode';
 import type { DisabledDate } from '../interface';
 import { formatValue, isInRange, isSame } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
 
 export interface PanelBodyProps<DateType = any> {
+  className?: SemanticClassName<'content'>;
   rowNum: number;
   colNum: number;
   baseDate: DateType;
@@ -29,6 +33,7 @@ export interface PanelBodyProps<DateType = any> {
 
 export default function PanelBody<DateType extends object = any>(props: PanelBodyProps<DateType>) {
   const {
+    className,
     rowNum,
     colNum,
     baseDate,
@@ -57,6 +62,8 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
     locale,
     onSelect,
   } = usePanelContext<DateType>();
+
+  const semanticCls = getSemanticCls(className);
 
   const mergedDisabledDate = disabledDate || contextDisabledDate;
 
@@ -123,21 +130,25 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         <td
           key={col}
           title={title}
-          className={clsx(cellPrefixCls, {
-            [`${cellPrefixCls}-disabled`]: disabled,
-            [`${cellPrefixCls}-hover`]: (hoverValue || []).some((date) =>
-              isSame(generateConfig, locale, currentDate, date, type),
-            ),
-            [`${cellPrefixCls}-in-range`]: inRange && !rangeStart && !rangeEnd,
-            [`${cellPrefixCls}-range-start`]: rangeStart,
-            [`${cellPrefixCls}-range-end`]: rangeEnd,
-            [`${prefixCls}-cell-selected`]:
-              !hoverRangeValue &&
-              // WeekPicker use row instead
-              type !== 'week' &&
-              matchValues(currentDate),
-            ...getCellClassName(currentDate),
-          })}
+          className={clsx(
+            cellPrefixCls,
+            {
+              [`${cellPrefixCls}-disabled`]: disabled,
+              [`${cellPrefixCls}-hover`]: (hoverValue || []).some((date) =>
+                isSame(generateConfig, locale, currentDate, date, type),
+              ),
+              [`${cellPrefixCls}-in-range`]: inRange && !rangeStart && !rangeEnd,
+              [`${cellPrefixCls}-range-start`]: rangeStart,
+              [`${cellPrefixCls}-range-end`]: rangeEnd,
+              [`${prefixCls}-cell-selected`]:
+                !hoverRangeValue &&
+                // WeekPicker use row instead
+                type !== 'week' &&
+                matchValues(currentDate),
+            },
+            'font-normal relative min-w-6',
+            getCellClassName(currentDate),
+          )}
           onClick={() => {
             if (!disabled) {
               onSelect(currentDate);
@@ -178,14 +189,28 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
       </tr>,
     );
   }
+  // ============================== Style ==============================
+  const bodyCls = clsx(`${prefixCls}-body`, semanticCls.root);
+  const contentCls = clsx(
+    `${prefixCls}-content`,
+    'w-full table-fixed border-collapse',
+    semanticCls.content,
+  );
+  const thCls = 'font-normal relative min-w-6 h-9';
 
   // ============================== Render ==============================
   return (
-    <div className={`${prefixCls}-body`}>
-      <table className={`${prefixCls}-content`}>
+    <div className={bodyCls}>
+      <table className={contentCls}>
         {headerCells && (
           <thead>
-            <tr>{headerCells}</tr>
+            <tr>
+              {toArray(headerCells).map((child) =>
+                cloneElement(child, (origin) => ({
+                  className: clsx(thCls, origin?.className),
+                })),
+              )}
+            </tr>
           </thead>
         )}
         <tbody>{rows}</tbody>

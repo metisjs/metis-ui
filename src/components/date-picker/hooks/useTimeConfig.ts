@@ -169,7 +169,7 @@ export function fillShowTimeConfig<DateType extends object>(
   propFormat: string,
   timeConfig: SharedTimeProps<DateType>,
   locale: Locale,
-): SharedTimeProps<DateType> {
+): SharedTimeProps<DateType> | undefined {
   const isTimePicker = picker === 'time';
 
   if (picker === 'datetime' || isTimePicker) {
@@ -236,5 +236,5 @@ export function fillShowTimeConfig<DateType extends object>(
     };
   }
 
-  return {};
+  return undefined;
 }

@@ -143,7 +143,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
         onModeChange('year', pickerValue);
       }}
       tabIndex={-1}
-      className={`${prefixCls}-year-btn`}
+      className={clsx(`${prefixCls}-year-btn`, 'hover:text-primary')}
     >
       {formatValue(pickerValue, {
         locale,
@@ -161,7 +161,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
         onModeChange('month', pickerValue);
       }}
       tabIndex={-1}
-      className={`${prefixCls}-month-btn`}
+      className={clsx(`${prefixCls}-month-btn`, 'hover:text-primary')}
     >
       {locale.monthFormat
         ? formatValue(pickerValue, {
@@ -176,7 +176,10 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
   const monthYearNodes = locale.monthBeforeYear ? [monthNode, yearNode] : [yearNode, monthNode];
 
   // ========================= Style =========================
-  const panelCls = clsx(panelPrefixCls, showWeek && `${panelPrefixCls}-show-week`, className);
+  const panelCls = clsx(panelPrefixCls, { [`${panelPrefixCls}-show-week`]: showWeek }, className);
+  const bodyCls = clsx('px-[1.125rem] py-2', {
+    'p-2': showWeek,
+  });
 
   // ========================= Render =========================
   return (
@@ -213,6 +216,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
           getCellClassName={getCellClassName}
           prefixColumn={prefixColumn}
           cellSelection={!isWeek}
+          className={{ root: bodyCls }}
         />
       </div>
     </PanelContext.Provider>

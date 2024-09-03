@@ -2,9 +2,14 @@ import * as React from 'react';
 import type { PopupShowTimeConfig } from '.';
 import { clsx } from '../../../_util/classNameUtils';
 import Button from '../../../button';
-import type { GenerateConfig } from '../../generate';
 import useTimeInfo from '../../hooks/useTimeInfo';
-import type { DisabledDate, InternalMode, PanelMode, SharedPickerProps } from '../../interface';
+import type {
+  DisabledDate,
+  GenerateConfig,
+  InternalMode,
+  PanelMode,
+  SharedPickerProps,
+} from '../../interface';
 import PickerContext from '../context';
 
 export interface FooterProps<DateType extends object = any> {
@@ -65,13 +70,27 @@ export default function Footer(props: FooterProps) {
     }
   };
 
+  // ======================== Style ========================
   const nowPrefixCls = `${prefixCls}-now`;
   const nowBtnPrefixCls = `${nowPrefixCls}-btn`;
+
+  const footerCls = clsx(`${prefixCls}-footer`, 'border-t border-border-secondary');
+  const extraCls = clsx(
+    `${prefixCls}-footer-extra`,
+    'px-3 text-start border-b border-border-secondary last:border-b-0 leading-10',
+  );
+  const rangesCls = clsx(
+    `${prefixCls}-ranges`,
+    'px-3 overflow-hidden flex justify-center items-center py-2.5',
+  );
 
   const presetNode = showNow && (
     <li className={nowPrefixCls}>
       <a
-        className={clsx(nowBtnPrefixCls, nowDisabled && `${nowBtnPrefixCls}-disabled`)}
+        className={clsx(nowBtnPrefixCls, nowDisabled && `${nowBtnPrefixCls}-disabled`, {
+          'cursor-pointer': !nowDisabled,
+          'cursor-not-allowed pointer-events-none opacity-disabled': nowDisabled,
+        })}
         aria-disabled={nowDisabled}
         onClick={onInternalNow}
       >
@@ -90,7 +109,7 @@ export default function Footer(props: FooterProps) {
   );
 
   const rangeNode = (presetNode || okNode) && (
-    <ul className={`${prefixCls}-ranges`}>
+    <ul className={rangesCls}>
       {presetNode}
       {okNode}
     </ul>
@@ -102,8 +121,8 @@ export default function Footer(props: FooterProps) {
   }
 
   return (
-    <div className={`${prefixCls}-footer`}>
-      {extraNode && <div className={`${prefixCls}-footer-extra`}>{extraNode}</div>}
+    <div className={footerCls}>
+      {extraNode && <div className={extraCls}>{extraNode}</div>}
       {rangeNode}
     </div>
   );

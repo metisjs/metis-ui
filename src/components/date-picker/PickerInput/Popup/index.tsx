@@ -150,7 +150,10 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   };
 
   // ======================== Style ========================
-  const panelLayoutCls = clsx(`${prefixCls}-panel-layout`, 'flex flex-nowrap items-stretch');
+  const panelLayoutCls = clsx(
+    `${prefixCls}-panel-layout`,
+    'flex flex-nowrap items-stretch text-sm text-text',
+  );
 
   // ======================== Render ========================
   let mergedNodes: React.ReactNode = (
