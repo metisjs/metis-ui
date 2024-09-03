@@ -124,7 +124,16 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         : undefined;
 
       // Render
-      const inner = <div className={`${cellPrefixCls}-inner`}>{getCellText(currentDate)}</div>;
+      const inner = (
+        <div
+          className={clsx(
+            `${cellPrefixCls}-inner`,
+            'min-w-6 h-6 leading-6 rounded-sm inline-block',
+          )}
+        >
+          {getCellText(currentDate)}
+        </div>
+      );
 
       rowNode.push(
         <td
@@ -146,7 +155,10 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
                 type !== 'week' &&
                 matchValues(currentDate),
             },
-            'font-normal relative min-w-6',
+            'font-normal relative min-w-6 text-text-tertiary py-1.5 cursor-pointer',
+            {
+              '': disabled,
+            },
             getCellClassName(currentDate),
           )}
           onClick={() => {
