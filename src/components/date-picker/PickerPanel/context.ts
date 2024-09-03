@@ -112,7 +112,3 @@ export interface PickerHackContextProps {
  * Internal usage for RangePicker to not to show the operation arrow
  */
 export const PickerHackContext = React.createContext<PickerHackContextProps>({});
-
-if (process.env.NODE_ENV !== 'production') {
-  PickerHackContext.displayName = 'PickerHackContext';
-}

@@ -1,9 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 import type { Locale } from '.';
-
 // import Calendar from '../calendar/locale/zh_CN';
-// import DatePicker from '../date-picker/locale/zh_CN';
-// import TimePicker from '../time-picker/locale/zh_CN';
+import DatePicker from '../date-picker/locale/zh_CN';
 
 const typeTemplate = '${label}不是一个有效的${type}';
 
@@ -24,8 +22,7 @@ const localeValues: Locale = {
     next_3: '向后 3 页',
     page_size: '页码',
   },
-  // DatePicker,
-  // TimePicker,
+  DatePicker,
   // Calendar,
   // locales for all components
   global: {

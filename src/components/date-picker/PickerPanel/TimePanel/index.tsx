@@ -11,6 +11,7 @@ export type TimePanelProps<DateType extends object> = SharedPanelProps<DateType>
 export default function TimePanel<DateType extends object = any>(props: TimePanelProps<DateType>) {
   const {
     prefixCls,
+    className,
     value,
     locale,
     generateConfig,
@@ -29,7 +30,7 @@ export default function TimePanel<DateType extends object = any>(props: TimePane
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={clsx(panelPrefixCls)}>
+      <div className={clsx(panelPrefixCls, className)}>
         <PanelHeader>
           {value
             ? formatValue(value, {

@@ -35,10 +35,10 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
     prefixCls,
 
     // Icons
-    prevIcon = '\u2039',
-    nextIcon = '\u203A',
-    superPrevIcon = '\u00AB',
-    superNextIcon = '\u00BB',
+    prevIcon = <span className={`${prefixCls}-prev-icon`} />,
+    nextIcon = <span className={`${prefixCls}-next-icon`} />,
+    superPrevIcon,
+    superNextIcon = <span className={`${prefixCls}-super-next-icon`} />,
 
     // Limitation
     minDate,
@@ -107,6 +107,26 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
     }
   };
 
+  // ========================= Style =========================
+  const rootCls = clsx(
+    headerPrefixCls,
+    'flex px-2 border-b border-border-secondary *:flex-none *:transition-colors',
+  );
+  const viewCls = clsx(`${headerPrefixCls}-view`, 'flex-auto font-semibold leading-10');
+  const superPrevBtnCls = clsx(
+    `${headerPrefixCls}-super-prev-btn`,
+    {
+      [`${headerPrefixCls}-super-prev-btn-disabled`]: disabledSuperOffsetPrev,
+    },
+    'relative text-text-tertiary hover:text-text inline-flex items-center justify-center min-w-[1.6em]',
+  );
+  const superPrevIconCls = clsx(
+    `${headerPrefixCls}-super-prev-icon`,
+    'relative -rotate-45 w-[7px] h-[7px]',
+    'before:absolute before:top-0 before:left-0 before:w-[7px] before:h-[7px] before:border-current before:border-l-[1.5px] before:border-t-[1.5px]',
+    'after:absolute after:top-1 after:left-1 after:w-[7px] after:h-[7px] after:border-current after:border-l-[1.5px] after:border-t-[1.5px] after:inline-block',
+  );
+
   // ========================= Render =========================
   if (hideHeader) {
     return null;
@@ -114,25 +134,21 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
 
   const prevBtnCls = `${headerPrefixCls}-prev-btn`;
   const nextBtnCls = `${headerPrefixCls}-next-btn`;
-  const superPrevBtnCls = `${headerPrefixCls}-super-prev-btn`;
   const superNextBtnCls = `${headerPrefixCls}-super-next-btn`;
 
   return (
-    <div className={headerPrefixCls}>
+    <div className={rootCls}>
       {superOffset && (
         <button
           type="button"
           aria-label="super-prev-year"
           onClick={() => onSuperOffset(-1)}
           tabIndex={-1}
-          className={clsx(
-            superPrevBtnCls,
-            disabledSuperOffsetPrev && `${superPrevBtnCls}-disabled`,
-          )}
+          className={superPrevBtnCls}
           disabled={disabledSuperOffsetPrev}
           style={hidePrev ? HIDDEN_STYLE : {}}
         >
-          {superPrevIcon}
+          {superPrevIcon ?? <span className={superPrevIconCls} />}
         </button>
       )}
       {offset && (
@@ -148,7 +164,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
           {prevIcon}
         </button>
       )}
-      <div className={`${headerPrefixCls}-view`}>{children}</div>
+      <div className={viewCls}>{children}</div>
       {offset && (
         <button
           type="button"

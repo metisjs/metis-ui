@@ -373,9 +373,14 @@ function PickerPanel<DateType extends object = any>(
     );
   }
 
-  // ========================= Render =========================
-  const panelCls = `${mergedPrefixCls}-panel`;
+  // ========================= Style =========================
+  const panelCls = clsx(
+    `${mergedPrefixCls}-panel`,
+    'inline-flex flex-col text-center bg-container rounded-lg',
+  );
+  const componentCls = clsx('flex flex-col w-72');
 
+  // ========================= Render =========================
   const panelProps = pickProps(props, [
     // Week
     'showWeek',
@@ -397,7 +402,7 @@ function PickerPanel<DateType extends object = any>(
 
   return (
     <PickerHackContext.Provider value={pickerPanelContext}>
-      <div ref={rootRef} tabIndex={tabIndex} className={clsx(panelCls)}>
+      <div ref={rootRef} tabIndex={tabIndex} className={panelCls}>
         <PanelComponent
           {...panelProps}
           // Time
@@ -421,6 +426,7 @@ function PickerPanel<DateType extends object = any>(
           // Hover
           hoverRangeValue={hoverRangeDate}
           hoverValue={hoverValue}
+          className={componentCls}
         />
       </div>
     </PickerHackContext.Provider>

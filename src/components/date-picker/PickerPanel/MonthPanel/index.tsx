@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { DisabledDate, SharedPanelProps } from '../../interface';
 import { formatValue } from '../../utils/dateUtil';
 import { PanelContext, useInfo } from '../context';
@@ -10,6 +11,7 @@ export default function MonthPanel<DateType extends object = any>(
 ) {
   const {
     prefixCls,
+    className,
     locale,
     generateConfig,
     pickerValue,
@@ -89,7 +91,7 @@ export default function MonthPanel<DateType extends object = any>(
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={panelPrefixCls}>
+      <div className={clsx(panelPrefixCls, className)}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance)}

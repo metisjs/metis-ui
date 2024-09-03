@@ -1,9 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 import type { Locale } from '.';
-
 // import Calendar from '../calendar/locale/en_US';
-// import DatePicker from '../date-picker/locale/en_US';
-// import TimePicker from '../time-picker/locale/en_US';
+import DatePicker from '../date-picker/locale/en_US';
 
 const typeTemplate = '${label} is not a valid ${type}';
 
@@ -24,8 +22,7 @@ const localeValues: Locale = {
     next_3: 'Next 3 Pages',
     page_size: 'Page Size',
   },
-  // DatePicker,
-  // TimePicker,
+  DatePicker,
   // Calendar,
   global: {
     placeholder: 'Please select',

@@ -7,7 +7,10 @@ import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 import { noteOnce } from 'rc-util/lib/warning';
-import type { GenerateConfig } from '.';
+import type { GenerateConfig } from '../../interface';
+import 'dayjs/locale/zh-cn';
+
+dayjs.locale('zh-cn');
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -26,8 +29,8 @@ dayjs.extend((o, c) => {
   };
 });
 
-type IlocaleMapObject = Record<string, string>;
-const localeMap: IlocaleMapObject = {
+type ILocaleMapObject = Record<string, string>;
+const localeMap: ILocaleMapObject = {
   // ar_EG:
   // az_AZ:
   // bg_BG:

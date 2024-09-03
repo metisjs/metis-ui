@@ -278,6 +278,7 @@ export type LimitDate<DateType extends object = any> =
 export interface SharedPanelProps<DateType extends object = any> {
   // Style
   prefixCls: string;
+  className?: string;
 
   // Date Library
   locale: FilledLocale;

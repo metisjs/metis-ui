@@ -125,10 +125,6 @@ const generatePicker = <DateType extends AnyObject = AnyObject>(
             suffixIcon={suffixNode}
             popupAlign={transPlacement2PopupAlign(placement)}
             placement={placement}
-            prevIcon={<span className={`${prefixCls}-prev-icon`} />}
-            nextIcon={<span className={`${prefixCls}-next-icon`} />}
-            superPrevIcon={<span className={`${prefixCls}-super-prev-icon`} />}
-            superNextIcon={<span className={`${prefixCls}-super-next-icon`} />}
             picker={picker}
             {...additionalProps}
             {...restProps}

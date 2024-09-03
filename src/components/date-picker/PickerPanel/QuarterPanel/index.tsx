@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { SharedPanelProps } from '../../interface';
 import { formatValue } from '../../utils/dateUtil';
 import { PanelContext, useInfo } from '../context';
@@ -8,8 +9,15 @@ import PanelHeader from '../PanelHeader';
 export default function QuarterPanel<DateType extends object = any>(
   props: SharedPanelProps<DateType>,
 ) {
-  const { prefixCls, locale, generateConfig, pickerValue, onPickerValueChange, onModeChange } =
-    props;
+  const {
+    prefixCls,
+    className,
+    locale,
+    generateConfig,
+    pickerValue,
+    onPickerValueChange,
+    onModeChange,
+  } = props;
 
   const panelPrefixCls = `${prefixCls}-quarter-panel`;
 
@@ -57,7 +65,7 @@ export default function QuarterPanel<DateType extends object = any>(
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={panelPrefixCls}>
+      <div className={clsx(panelPrefixCls, className)}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance)}

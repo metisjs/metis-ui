@@ -83,10 +83,6 @@ const generateRangePicker = <DateType extends AnyObject = AnyObject>(
           placement={placement}
           placeholder={getRangePlaceholder(locale, picker, placeholder)}
           suffixIcon={suffixNode}
-          prevIcon={<span className={`${prefixCls}-prev-icon`} />}
-          nextIcon={<span className={`${prefixCls}-next-icon`} />}
-          superPrevIcon={<span className={`${prefixCls}-super-prev-icon`} />}
-          superNextIcon={<span className={`${prefixCls}-super-next-icon`} />}
           picker={picker}
           {...restProps}
           className={classNames(

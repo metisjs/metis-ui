@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { DisabledDate, SharedPanelProps } from '../../interface';
 import { formatValue, isInRange, isSameDecade } from '../../utils/dateUtil';
 import { PanelContext, useInfo } from '../context';
@@ -8,8 +9,15 @@ import PanelHeader from '../PanelHeader';
 export default function DecadePanel<DateType extends object = any>(
   props: SharedPanelProps<DateType>,
 ) {
-  const { prefixCls, locale, generateConfig, pickerValue, disabledDate, onPickerValueChange } =
-    props;
+  const {
+    prefixCls,
+    className,
+    locale,
+    generateConfig,
+    pickerValue,
+    disabledDate,
+    onPickerValueChange,
+  } = props;
 
   const panelPrefixCls = `${prefixCls}-decade-panel`;
 
@@ -94,7 +102,7 @@ export default function DecadePanel<DateType extends object = any>(
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={panelPrefixCls}>
+      <div className={clsx(panelPrefixCls, className)}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance * 100)}

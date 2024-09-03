@@ -149,8 +149,12 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
     onSubmit();
   };
 
+  // ======================== Style ========================
+  const panelLayoutCls = clsx(`${prefixCls}-panel-layout`, 'flex flex-nowrap items-stretch');
+
+  // ======================== Render ========================
   let mergedNodes: React.ReactNode = (
-    <div className={`${prefixCls}-panel-layout`}>
+    <div className={panelLayoutCls}>
       {/* `any` here since PresetPanel is reused for both Single & Range Picker which means return type is not stable */}
       <PresetPanel<any>
         prefixCls={prefixCls}
@@ -174,7 +178,6 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
     mergedNodes = panelRender(mergedNodes);
   }
 
-  // ======================== Render ========================
   const containerPrefixCls = `${panelPrefixCls}-container`;
 
   // Container
