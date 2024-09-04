@@ -37,7 +37,7 @@ export function ClearIcon({ onClear, ...restProps }: ClearIconProps) {
       type="clear"
       role="button"
       className={clsx(
-        'text-text-quaternary transition-colors hover:text-text-tertiary absolute cursor-pointer opacity-100 end-0 top-1/2 -translate-y-1/2',
+        'text-text-quaternary transition-all hover:text-text-tertiary absolute cursor-pointer opacity-0 end-0 top-1/2 -translate-y-1/2 group-hover/selector:opacity-100',
       )}
       onMouseDown={(e) => {
         e.preventDefault();

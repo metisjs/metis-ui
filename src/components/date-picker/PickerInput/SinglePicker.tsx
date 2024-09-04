@@ -608,7 +608,7 @@ function Picker<DateType extends object = any>(
 
   // ======================== Style ========================
   const rootCls = clsx(
-    'relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset ring-border px-3 py-1.5 leading-6',
+    'group/selector relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset ring-border px-3 py-1.5 leading-6',
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
     'focus-within:ring-2 focus-within:ring-primary',
     disabled && 'bg-fill-quaternary text-text-tertiary',

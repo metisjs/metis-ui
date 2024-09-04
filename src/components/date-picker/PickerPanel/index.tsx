@@ -376,7 +376,7 @@ function PickerPanel<DateType extends object = any>(
   // ========================= Style =========================
   const panelCls = clsx(
     `${mergedPrefixCls}-panel`,
-    'inline-flex flex-col text-center bg-container rounded-lg',
+    'inline-flex flex-col text-center rounded-lg bg-transparent',
   );
   const componentCls = clsx('flex flex-col w-72');
 

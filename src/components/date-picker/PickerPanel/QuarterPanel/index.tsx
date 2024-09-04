@@ -38,8 +38,8 @@ export default function QuarterPanel<DateType extends object = any>(
     });
   };
 
-  const getCellClassName = () => ({
-    [`${prefixCls}-cell-in-view`]: true,
+  const getCellInfo = () => ({
+    inView: true,
   });
 
   // ========================= Header =========================
@@ -87,7 +87,7 @@ export default function QuarterPanel<DateType extends object = any>(
           // Body
           getCellDate={getCellDate}
           getCellText={getCellText}
-          getCellClassName={getCellClassName}
+          getCellInfo={getCellInfo}
         />
       </div>
     </PanelContext.Provider>

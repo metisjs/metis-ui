@@ -51,9 +51,9 @@ export default function YearPanel<DateType extends object = any>(
     });
   };
 
-  const getCellClassName = (date: DateType) => {
+  const getCellInfo = (date: DateType) => {
     return {
-      [`${prefixCls}-cell-in-view`]:
+      inView:
         isSameYear(generateConfig, date, startYearDate) ||
         isSameYear(generateConfig, date, endYearDate) ||
         isInRange(generateConfig, startYearDate, endYearDate, date),
@@ -100,10 +100,16 @@ export default function YearPanel<DateType extends object = any>(
     </button>
   );
 
+  // ========================= Style =========================
+  const panelCls = clsx(panelPrefixCls, className);
+  const bodyCls = clsx('px-2');
+  const contentCls = clsx('h-56');
+  const cellInnerCls = clsx('rounded-1/2 w-16');
+
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={clsx(panelPrefixCls, className)}>
+      <div className={panelCls}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance * 10)}
@@ -126,7 +132,8 @@ export default function YearPanel<DateType extends object = any>(
           // Body
           getCellDate={getCellDate}
           getCellText={getCellText}
-          getCellClassName={getCellClassName}
+          getCellInfo={getCellInfo}
+          className={{ root: bodyCls, content: contentCls, cellInner: cellInnerCls }}
         />
       </div>
     </PanelContext.Provider>

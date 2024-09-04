@@ -61,9 +61,14 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
         return (
           <td
             key="week"
-            className={clsx(cellPrefixCls, `${cellPrefixCls}-week`, {
-              [`${cellPrefixCls}-disabled`]: disabled,
-            })}
+            className={clsx(
+              cellPrefixCls,
+              `${cellPrefixCls}-week`,
+              {
+                [`${cellPrefixCls}-disabled`]: disabled,
+              },
+              'font-normal relative min-w-7 text-text-tertiary py-1 cursor-pointer',
+            )}
             // Operation: Same as code in PanelBody
             onClick={() => {
               if (!disabled) {
@@ -81,7 +86,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
               }
             }}
           >
-            <div className={`${cellPrefixCls}-inner`}>
+            <div className={clsx(`${cellPrefixCls}-inner`)}>
               {generateConfig.locale.getWeek(locale.locale, date)}
             </div>
           </td>
@@ -118,13 +123,11 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
     });
   };
 
-  const getCellClassName = (date: DateType) => {
-    const classObj = {
-      [`${prefixCls}-cell-in-view`]: isSameMonth(generateConfig, date, pickerValue),
-      [`${prefixCls}-cell-today`]: isSameDate(generateConfig, date, now),
+  const getCellInfo = (date: DateType) => {
+    return {
+      inView: isSameMonth(generateConfig, date, pickerValue),
+      today: isSameDate(generateConfig, date, now),
     };
-
-    return classObj;
   };
 
   // ========================= Header =========================
@@ -213,7 +216,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
           // Body
           getCellDate={getCellDate}
           getCellText={getCellText}
-          getCellClassName={getCellClassName}
+          getCellInfo={getCellInfo}
           prefixColumn={prefixColumn}
           cellSelection={!isWeek}
           className={{ root: bodyCls }}

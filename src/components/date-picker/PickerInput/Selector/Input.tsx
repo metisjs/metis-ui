@@ -408,7 +408,11 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
         onChange={onInternalChange}
         className={inputCls}
       />
-      <Icon type="suffix" icon={suffixIcon} />
+      <Icon
+        type="suffix"
+        icon={suffixIcon}
+        className="group-hover/selector:opacity-0 group-hover/selector:last:opacity-100 transition-opacity"
+      />
       {clearIcon}
     </div>
   );

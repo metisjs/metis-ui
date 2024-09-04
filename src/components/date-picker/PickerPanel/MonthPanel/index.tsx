@@ -50,8 +50,8 @@ export default function MonthPanel<DateType extends object = any>(
       : monthsLocale[month];
   };
 
-  const getCellClassName = () => ({
-    [`${prefixCls}-cell-in-view`]: true,
+  const getCellInfo = () => ({
+    inView: true,
   });
 
   // ======================== Disabled ========================
@@ -88,10 +88,16 @@ export default function MonthPanel<DateType extends object = any>(
     </button>
   );
 
+  // ========================= Style =========================
+  const panelCls = clsx(panelPrefixCls, className);
+  const bodyCls = clsx('px-2');
+  const contentCls = clsx('h-56');
+  const cellInnerCls = clsx('rounded-1/2 w-16');
+
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={clsx(panelPrefixCls, className)}>
+      <div className={panelCls}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance)}
@@ -114,7 +120,8 @@ export default function MonthPanel<DateType extends object = any>(
           // Body
           getCellDate={getCellDate}
           getCellText={getCellText}
-          getCellClassName={getCellClassName}
+          getCellInfo={getCellInfo}
+          className={{ root: bodyCls, content: contentCls, cellInner: cellInnerCls }}
         />
       </div>
     </PanelContext.Provider>

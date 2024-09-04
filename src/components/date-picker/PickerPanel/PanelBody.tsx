@@ -8,7 +8,7 @@ import { formatValue, isInRange, isSame } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
 
 export interface PanelBodyProps<DateType = any> {
-  className?: SemanticClassName<'content'>;
+  className?: SemanticClassName<'content' | 'cell' | 'cellInner'>;
   rowNum: number;
   colNum: number;
   baseDate: DateType;
@@ -18,7 +18,7 @@ export interface PanelBodyProps<DateType = any> {
   // Render
   getCellDate: (date: DateType, offset: number) => DateType;
   getCellText: (date: DateType) => React.ReactNode;
-  getCellClassName: (date: DateType) => Record<string, any>;
+  getCellInfo: (date: DateType) => { inView?: boolean; today?: boolean };
 
   disabledDate?: DisabledDate<DateType>;
 
@@ -42,7 +42,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
     rowClassName,
     titleFormat,
     getCellText,
-    getCellClassName,
+    getCellInfo,
     headerCells,
     cellSelection = true,
     disabledDate,
@@ -102,6 +102,8 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         }
       }
 
+      const { inView, today } = getCellInfo(currentDate);
+
       // Range
       let inRange = false;
       let rangeStart = false;
@@ -113,6 +115,12 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         rangeStart = isSame(generateConfig, locale, currentDate, hoverStart, type);
         rangeEnd = isSame(generateConfig, locale, currentDate, hoverEnd, type);
       }
+
+      const selected =
+        !hoverRangeValue &&
+        // WeekPicker use row instead
+        type !== 'week' &&
+        matchValues(currentDate);
 
       // Title
       const title = titleFormat
@@ -128,7 +136,12 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         <div
           className={clsx(
             `${cellPrefixCls}-inner`,
-            'min-w-6 h-6 leading-6 rounded-sm inline-block',
+            'min-w-7 h-7 leading-7 rounded-full inline-block transition-colors',
+            {
+              'bg-primary text-white': selected,
+              'group-hover/cell:bg-fill-quaternary': !selected,
+            },
+            semanticCls.cellInner,
           )}
         >
           {getCellText(currentDate)}
@@ -149,17 +162,17 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               [`${cellPrefixCls}-in-range`]: inRange && !rangeStart && !rangeEnd,
               [`${cellPrefixCls}-range-start`]: rangeStart,
               [`${cellPrefixCls}-range-end`]: rangeEnd,
-              [`${prefixCls}-cell-selected`]:
-                !hoverRangeValue &&
-                // WeekPicker use row instead
-                type !== 'week' &&
-                matchValues(currentDate),
+              [`${prefixCls}-cell-selected`]: selected,
+              [`${prefixCls}-cell-today`]: today,
+              [`${prefixCls}-cell-in-view`]: inView,
             },
-            'font-normal relative min-w-6 text-text-tertiary py-1.5 cursor-pointer',
+            'group/cell font-normal relative min-w-7 text-text-tertiary py-1 cursor-pointer',
             {
+              'text-text': inView,
+              'text-primary': today,
               '': disabled,
             },
-            getCellClassName(currentDate),
+            semanticCls.cell,
           )}
           onClick={() => {
             if (!disabled) {

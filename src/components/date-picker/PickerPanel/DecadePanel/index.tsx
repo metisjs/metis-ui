@@ -60,9 +60,9 @@ export default function DecadePanel<DateType extends object = any>(
     return `${startYearStr}-${endYearStr}`;
   };
 
-  const getCellClassName = (date: DateType) => {
+  const getCellInfo = (date: DateType) => {
     return {
-      [`${prefixCls}-cell-in-view`]:
+      inView:
         isSameDecade(generateConfig, date, startYearDate) ||
         isSameDecade(generateConfig, date, endYearDate) ||
         isInRange(generateConfig, startYearDate, endYearDate, date),
@@ -124,7 +124,7 @@ export default function DecadePanel<DateType extends object = any>(
           // Body
           getCellDate={getCellDate}
           getCellText={getCellText}
-          getCellClassName={getCellClassName}
+          getCellInfo={getCellInfo}
         />
       </div>
     </PanelContext.Provider>

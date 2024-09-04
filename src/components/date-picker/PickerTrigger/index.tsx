@@ -100,7 +100,6 @@ function PickerTrigger({
           popupClassName,
         ),
       }}
-      stretch="minWidth"
       getPopupContainer={getPopupContainer}
       onPopupOpenChange={(nextOpen) => {
         if (!nextOpen) {

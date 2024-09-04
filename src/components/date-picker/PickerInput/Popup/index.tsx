@@ -50,7 +50,6 @@ export interface PopupProps<DateType extends object = any, PresetValue = DateTyp
 export default function Popup<DateType extends object = any>(props: PopupProps<DateType>) {
   const {
     panelRender,
-    internalMode,
     picker,
     showNow,
 
@@ -150,6 +149,11 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   };
 
   // ======================== Style ========================
+  const containerCls = clsx(
+    `${panelPrefixCls}-container`,
+    'overflow-hidden bg-elevated rounded-lg',
+  );
+
   const panelLayoutCls = clsx(
     `${prefixCls}-panel-layout`,
     'flex flex-nowrap items-stretch text-sm text-text',
@@ -181,18 +185,12 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
     mergedNodes = panelRender(mergedNodes);
   }
 
-  const containerPrefixCls = `${panelPrefixCls}-container`;
-
   // Container
   let renderNode = (
     <div
       onMouseDown={onPanelMouseDown}
       tabIndex={-1}
-      className={clsx(
-        containerPrefixCls,
-        // Used for Today Button style, safe to remove if no need
-        `${prefixCls}-${internalMode}-panel-container`,
-      )}
+      className={containerCls}
       style={{
         marginLeft: containerOffset,
         marginRight: 'auto',
