@@ -15,38 +15,36 @@ export default function WeekPanel<DateType extends object = any>(
   const rowPrefixCls = `${prefixCls}-week-panel-row`;
 
   const rowClassName = (currentDate: DateType) => {
-    const rangeCls: Record<string, boolean> = {};
+    let isRangeStart = false;
+    let isRangeEnd = false;
+    let isRangeHover = false;
+    let isHover = false;
+    let isSelected = !hoverRangeValue && isSameWeek(generateConfig, localeName, value, currentDate);
 
     if (hoverRangeValue) {
       const [rangeStart, rangeEnd] = hoverRangeValue;
 
-      const isRangeStart = isSameWeek(generateConfig, localeName, rangeStart, currentDate);
-      const isRangeEnd = isSameWeek(generateConfig, localeName, rangeEnd, currentDate);
-
-      rangeCls[`${rowPrefixCls}-range-start`] = isRangeStart;
-      rangeCls[`${rowPrefixCls}-range-end`] = isRangeEnd;
-      rangeCls[`${rowPrefixCls}-range-hover`] =
+      isRangeStart = isSameWeek(generateConfig, localeName, rangeStart, currentDate);
+      isRangeEnd = isSameWeek(generateConfig, localeName, rangeEnd, currentDate);
+      isRangeHover =
         !isRangeStart &&
         !isRangeEnd &&
         isInRange(generateConfig, rangeStart, rangeEnd, currentDate);
     }
 
     if (hoverValue) {
-      rangeCls[`${rowPrefixCls}-hover`] = hoverValue.some((date) =>
+      isHover = hoverValue.some((date) =>
         isSameWeek(generateConfig, localeName, currentDate, date),
       );
     }
 
-    return clsx(
-      rowPrefixCls,
-      {
-        [`${rowPrefixCls}-selected`]:
-          !hoverRangeValue && isSameWeek(generateConfig, localeName, value, currentDate),
-      },
-
-      // Patch for hover range
-      rangeCls,
-    );
+    return clsx(rowPrefixCls, {
+      [`${rowPrefixCls}-range-start`]: isRangeStart,
+      [`${rowPrefixCls}-range-end`]: isRangeEnd,
+      [`${rowPrefixCls}-range-hover`]: isRangeHover,
+      [`${rowPrefixCls}-hover`]: isHover,
+      [`${rowPrefixCls}-selected`]: isSelected,
+    });
   };
 
   // ============================== Render ==============================

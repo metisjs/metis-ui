@@ -4,6 +4,7 @@ import type { PanelMode, SharedPanelProps } from '../../interface';
 import {
   formatValue,
   getWeekStartDate,
+  isSame,
   isSameDate,
   isSameMonth,
   WEEK_DAY_COUNT,
@@ -36,6 +37,9 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
     onSelect,
     onHover,
     showWeek,
+    hoverValue,
+    hoverRangeValue,
+    values,
   } = props;
 
   const panelPrefixCls = `${prefixCls}-${panelName}-panel`;
@@ -57,6 +61,15 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
     ? (date: DateType) => {
         // >>> Additional check for disabled
         const disabled = disabledDate?.(date, { type: 'week' });
+        const hover = (hoverValue || []).some((v) =>
+          isSame(generateConfig, locale, date, v, 'week'),
+        );
+        const selected =
+          !hoverRangeValue &&
+          values?.some(
+            (singleValue) =>
+              singleValue && isSame(generateConfig, locale, date, singleValue, 'week'),
+          );
 
         return (
           <td
@@ -68,6 +81,11 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
                 [`${cellPrefixCls}-disabled`]: disabled,
               },
               'font-normal relative min-w-7 text-text-tertiary py-1 cursor-pointer',
+              'before:absolute before:top-1/2 before:start-0 before:end-0 before:z-[1] before:h-7 before:-translate-y-1/2 first:before:rounded-ss-full last:before:rounded-ee-full first:before:rounded-es-full last:before:rounded-se-full',
+              {
+                'before:bg-fill-quaternary': hover && !selected,
+                'before:bg-primary text-white': selected,
+              },
             )}
             // Operation: Same as code in PanelBody
             onClick={() => {
@@ -86,7 +104,12 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
               }
             }}
           >
-            <div className={clsx(`${cellPrefixCls}-inner`)}>
+            <div
+              className={clsx(
+                `${cellPrefixCls}-inner`,
+                'relative min-w-7 h-7 leading-7 rounded-full inline-block transition-colors z-[2]',
+              )}
+            >
               {generateConfig.locale.getWeek(locale.locale, date)}
             </div>
           </td>
@@ -181,7 +204,10 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
   // ========================= Style =========================
   const panelCls = clsx(panelPrefixCls, { [`${panelPrefixCls}-show-week`]: showWeek }, className);
   const bodyCls = clsx('px-[1.125rem] py-2', {
-    'p-2': showWeek,
+    'px-3': showWeek || isWeek,
+  });
+  const cellInnerCls = clsx({
+    '!bg-transparent': isWeek,
   });
 
   // ========================= Render =========================
@@ -219,7 +245,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
           getCellInfo={getCellInfo}
           prefixColumn={prefixColumn}
           cellSelection={!isWeek}
-          className={{ root: bodyCls }}
+          className={{ root: bodyCls, cellInner: cellInnerCls }}
         />
       </div>
     </PanelContext.Provider>

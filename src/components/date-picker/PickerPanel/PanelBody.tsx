@@ -111,16 +111,17 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
 
       if (cellSelection && hoverRangeValue) {
         const [hoverStart, hoverEnd] = hoverRangeValue;
-        inRange = isInRange(generateConfig, hoverStart, hoverEnd, currentDate);
         rangeStart = isSame(generateConfig, locale, currentDate, hoverStart, type);
         rangeEnd = isSame(generateConfig, locale, currentDate, hoverEnd, type);
+        inRange =
+          isInRange(generateConfig, hoverStart, hoverEnd, currentDate) && !rangeStart && !rangeEnd;
       }
 
-      const selected =
-        !hoverRangeValue &&
-        // WeekPicker use row instead
-        type !== 'week' &&
-        matchValues(currentDate);
+      const selected = !hoverRangeValue && matchValues(currentDate);
+
+      const hover = (hoverValue || []).some((date) =>
+        isSame(generateConfig, locale, currentDate, date, type),
+      );
 
       // Title
       const title = titleFormat
@@ -136,7 +137,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         <div
           className={clsx(
             `${cellPrefixCls}-inner`,
-            'min-w-7 h-7 leading-7 rounded-full inline-block transition-colors',
+            'relative min-w-7 h-7 leading-7 rounded-full inline-block transition-colors z-[2]',
             {
               'bg-primary text-white': selected,
               'group-hover/cell:bg-fill-quaternary': !selected,
@@ -156,10 +157,8 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
             cellPrefixCls,
             {
               [`${cellPrefixCls}-disabled`]: disabled,
-              [`${cellPrefixCls}-hover`]: (hoverValue || []).some((date) =>
-                isSame(generateConfig, locale, currentDate, date, type),
-              ),
-              [`${cellPrefixCls}-in-range`]: inRange && !rangeStart && !rangeEnd,
+              [`${cellPrefixCls}-hover`]: hover,
+              [`${cellPrefixCls}-in-range`]: inRange,
               [`${cellPrefixCls}-range-start`]: rangeStart,
               [`${cellPrefixCls}-range-end`]: rangeEnd,
               [`${prefixCls}-cell-selected`]: selected,
@@ -167,6 +166,11 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               [`${prefixCls}-cell-in-view`]: inView,
             },
             'group/cell font-normal relative min-w-7 text-text-tertiary py-1 cursor-pointer',
+            'before:absolute before:top-1/2 before:start-0 before:end-0 before:z-[1] before:h-7 before:-translate-y-1/2 first:before:rounded-ss-full last:before:rounded-ee-full first:before:rounded-es-full last:before:rounded-se-full',
+            type === 'week' && {
+              'before:bg-fill-quaternary': hover && !selected,
+              'before:bg-primary': selected,
+            },
             {
               'text-text': inView,
               'text-primary': today,
