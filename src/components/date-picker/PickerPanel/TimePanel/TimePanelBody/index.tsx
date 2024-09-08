@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '../../../../_util/classNameUtils';
 import useTimeInfo from '../../../hooks/useTimeInfo';
 import type { SharedPanelProps, SharedTimeProps } from '../../../interface';
 import { formatValue } from '../../../utils/dateUtil';
@@ -255,6 +256,12 @@ export default function TimePanelBody<DateType extends object = any>(
     onHover?.(getMeridiemTime(val));
   };
 
+  // ========================= Style =========================
+  const contentCls = clsx(
+    `${prefixCls}-content`,
+    'flex h-56 flex-auto border-l border-border-secondary text-center',
+  );
+
   // ========================= Render =========================
   const sharedColumnProps = {
     onDblClick: onCellDblClick,
@@ -262,7 +269,7 @@ export default function TimePanelBody<DateType extends object = any>(
   };
 
   return (
-    <div className={`${prefixCls}-content`}>
+    <div className={contentCls}>
       {showHour && (
         <TimeColumn
           units={hourUnits}

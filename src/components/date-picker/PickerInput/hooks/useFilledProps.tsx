@@ -1,10 +1,26 @@
+import { CalendarOutline, ClockOutline } from '@metisjs/icons';
 import * as React from 'react';
+import { useZIndex } from '../../../_util/hooks/useZIndex';
 import type { SomeRequired } from '../../../_util/type';
 import { ConfigContext } from '../../../config-provider';
+import DisabledContext from '../../../config-provider/DisabledContext';
+import useSize from '../../../config-provider/hooks/useSize';
+import { FormItemInputContext } from '../../../form/context';
+import type { ValidateStatus } from '../../../form/FormItem';
+import useVariant from '../../../form/hooks/useVariant';
+import { useLocale } from '../../../locale';
 import useSelectIcons from '../../../select/hooks/useIcons';
-import useLocale from '../../hooks/useLocale';
+import { useCompactItemContext } from '../../../space/Compact';
 import { fillShowTimeConfig, getTimeProps } from '../../hooks/useTimeConfig';
-import type { DisabledDate, FormatType, InternalMode, PickerMode } from '../../interface';
+import type {
+  DisabledDate,
+  FilledLocale,
+  FormatType,
+  InternalMode,
+  Locale,
+  PickerMode,
+} from '../../interface';
+import { fillTimeFormat } from '../../utils/dateUtil';
 import { toArray } from '../../utils/miscUtil';
 import type { InternalRangePickerProps } from '../RangePicker';
 import useDisabledBoundary from './useDisabledBoundary';
@@ -17,9 +33,7 @@ type UseInvalidate<DateType extends object = any> = typeof useInvalidate<DateTyp
 type PickedProps<DateType extends object = any> = Pick<
   InternalRangePickerProps<DateType>,
   | 'generateConfig'
-  | 'locale'
   | 'picker'
-  | 'prefixCls'
   | 'order'
   | 'components'
   | 'allowClear'
@@ -30,7 +44,15 @@ type PickedProps<DateType extends object = any> = Pick<
   | 'minDate'
   | 'maxDate'
   | 'defaultOpenValue'
+  | 'getPopupContainer'
+  | 'size'
+  | 'status'
+  | 'variant'
+  | 'popupZIndex'
+  | 'disabled'
 > & {
+  prefixCls?: string;
+  locale?: Locale;
   multiple?: boolean;
   // RangePicker showTime definition is different with Picker
   showTime?: any;
@@ -60,6 +82,67 @@ function useList<T>(value: T | T[], fillMode = false) {
   return values;
 }
 
+export function fillLocale(
+  locale: Locale,
+  {
+    showHour,
+    showMinute,
+    showSecond,
+    showMillisecond,
+    use12Hours,
+  }: {
+    showHour?: boolean;
+    showMinute?: boolean;
+    showSecond?: boolean;
+    showMillisecond?: boolean;
+    use12Hours?: boolean;
+  },
+): FilledLocale {
+  // Not fill `monthFormat` since `locale.shortMonths` handle this
+  // Not fill `cellMeridiemFormat` since AM & PM by default
+  const {
+    // Input Field
+    fieldDateTimeFormat,
+    fieldDateFormat,
+    fieldTimeFormat,
+    fieldMonthFormat,
+    fieldYearFormat,
+    fieldWeekFormat,
+    fieldQuarterFormat,
+
+    // Header Format
+    yearFormat,
+    // monthFormat,
+
+    // Cell format
+    cellYearFormat,
+    cellQuarterFormat,
+    cellDateFormat,
+
+    // cellMeridiemFormat,
+  } = locale;
+
+  const timeFormat = fillTimeFormat(showHour, showMinute, showSecond, showMillisecond, use12Hours);
+
+  return {
+    ...locale,
+
+    fieldDateTimeFormat: fieldDateTimeFormat || `YYYY-MM-DD ${timeFormat}`,
+    fieldDateFormat: fieldDateFormat || 'YYYY-MM-DD',
+    fieldTimeFormat: fieldTimeFormat || timeFormat,
+    fieldMonthFormat: fieldMonthFormat || 'YYYY-MM',
+    fieldYearFormat: fieldYearFormat || 'YYYY',
+    fieldWeekFormat: fieldWeekFormat || 'gggg-wo',
+    fieldQuarterFormat: fieldQuarterFormat || 'YYYY-[Q]Q',
+
+    yearFormat: yearFormat || 'YYYY',
+
+    cellYearFormat: cellYearFormat || 'YYYY',
+    cellQuarterFormat: cellQuarterFormat || '[Q]Q',
+    cellDateFormat: cellDateFormat || 'D',
+  };
+}
+
 /**
  * Align the outer props with unique typed and fill undefined props.
  * This is shared with both RangePicker and Picker. This will do:
@@ -75,8 +158,8 @@ export default function useFilledProps<
   updater?: () => UpdaterProps,
 ): [
   filledProps: Omit<
-    SomeRequired<InProps, 'disabledDate' | 'components'>,
-    keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue'
+    SomeRequired<InProps, 'disabledDate' | 'components' | 'locale' | 'prefixCls'>,
+    keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue' | 'status'
   > &
     UpdaterProps & {
       picker: PickerMode;
@@ -86,6 +169,10 @@ export default function useFilledProps<
       pickerValue?: ToArrayType<InProps['value'], DateType>;
       defaultPickerValue?: ToArrayType<InProps['value'], DateType>;
       disabledDate: DisabledDate<DateType>;
+      isCompactItem: boolean;
+      compactItemClassnames: string;
+      enableVariantCls: boolean;
+      status: ValidateStatus;
     },
   internalPicker: InternalMode,
   complexPicker: boolean,
@@ -94,10 +181,14 @@ export default function useFilledProps<
   isInvalidateDate: ReturnType<UseInvalidate<DateType>>,
 ] {
   const {
+    prefixCls: customizePrefixCls,
+    size: customizeSize = 'middle',
+    status: customStatus,
+    variant: customVariant,
+    disabled: customDisabled,
     generateConfig,
     locale,
     picker = 'date',
-    prefixCls: customizePrefixCls,
     order = true,
     components = {},
     needConfirm,
@@ -108,15 +199,19 @@ export default function useFilledProps<
     minDate,
     maxDate,
     showTime,
+    popupZIndex,
 
     value,
     defaultValue,
     pickerValue,
     defaultPickerValue,
+
+    getPopupContainer: customizeGetPopupContainer,
   } = props;
 
-  const { getPrefixCls } = React.useContext(ConfigContext);
+  const { getPrefixCls, getPopupContainer } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('picker', customizePrefixCls);
+  const { isCompactItem, compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
   const values = useList(value);
   const defaultValues = useList(defaultValue);
@@ -132,13 +227,19 @@ export default function useFilledProps<
   const complexPicker = multipleInteractivePicker || multiple;
   const mergedNeedConfirm = needConfirm ?? multipleInteractivePicker;
 
+  // ======================= Locales ========================
+  const [contextLocale] = useLocale('DatePicker');
+  let mergedLocale = { ...contextLocale, ...locale };
+
   // ========================== Time ==========================
   // Auto `format` need to check `showTime.showXXX` first.
   // And then merge the `locale` into `mergedShowTime`.
-  const [timeProps, localeTimeProps, showTimeFormat, propFormat] = getTimeProps(props);
+  const [timeProps, localeTimeProps, showTimeFormat, propFormat] = getTimeProps({
+    ...props,
+    locale: mergedLocale,
+  });
 
-  // ======================= Locales ========================
-  const mergedLocale = useLocale(locale, localeTimeProps);
+  mergedLocale = fillLocale(mergedLocale, localeTimeProps);
 
   const mergedShowTime = React.useMemo(
     () => fillShowTimeConfig(internalPicker, showTimeFormat, propFormat, timeProps, mergedLocale),
@@ -151,10 +252,38 @@ export default function useFilledProps<
     prefixCls,
   });
 
+  // ===================== Disabled =====================
+  const disabled = React.useContext(DisabledContext);
+  const mergedDisabled = customDisabled ?? disabled;
+
+  // ===================== Size =====================
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+  // ===================== Variant =====================
+  const [variant, enableVariantCls] = useVariant(customVariant);
+
+  // ===================== FormItemInput =====================
+  const formItemContext = React.useContext(FormItemInputContext);
+  const { hasFeedback, status: contextStatus, feedbackIcon } = formItemContext;
+
+  // ===================== Status =====================
+  const mergedStatus = customStatus ?? contextStatus;
+
+  // ============================ ZIndex ============================
+  const [zIndex] = useZIndex('DatePicker', popupZIndex);
+
+  const suffixIcon = (
+    <>
+      {picker === 'time' ? <ClockOutline /> : <CalendarOutline />}
+      {hasFeedback && feedbackIcon}
+    </>
+  );
+
   // ======================== Props =========================
   const filledProps = React.useMemo(
     () =>
       ({
+        suffixIcon,
         ...props,
         prefixCls,
         locale: mergedLocale,
@@ -168,8 +297,17 @@ export default function useFilledProps<
         defaultValue: defaultValues,
         pickerValue: pickerValues,
         defaultPickerValue: defaultPickerValues,
+        isCompactItem,
+        compactItemClassnames,
+        size: mergedSize,
+        variant,
+        enableVariantCls,
+        status: mergedStatus,
+        popupZIndex: zIndex,
+        disabled: mergedDisabled,
+        getPopupContainer: customizeGetPopupContainer || getPopupContainer,
         ...updater?.(),
-      } as any),
+      }) as any,
     [props],
   );
 
@@ -182,7 +320,7 @@ export default function useFilledProps<
   // ======================= Boundary =======================
   const disabledBoundaryDate = useDisabledBoundary(
     generateConfig,
-    locale,
+    mergedLocale,
     disabledDate,
     minDate,
     maxDate,

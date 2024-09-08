@@ -1,11 +1,12 @@
-import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import warning from 'rc-util/lib/warning';
-import { getSemanticCls } from '../../_util/classNameUtils';
-import type { SomeRequired } from '../../_util/type';
+import * as React from 'react';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { getStatusClassNames } from '../../_util/statusUtils';
+import type { SomePartial } from '../../_util/type';
+import { devUseWarning } from '../../_util/warning';
 import type {
   BaseInfo,
   DisabledDate,
@@ -24,7 +25,7 @@ import type {
 import type { PickerPanelProps } from '../PickerPanel';
 import PickerTrigger from '../PickerTrigger';
 import { pickTriggerProps } from '../PickerTrigger/util';
-import { fillIndex, getFromDate, toArray } from '../utils/miscUtil';
+import { fillIndex, getFromDate, getRangePlaceholder, toArray } from '../utils/miscUtil';
 import PickerContext from './context';
 import useCellRender from './hooks/useCellRender';
 import useFieldsInvalidate from './hooks/useFieldsInvalidate';
@@ -59,7 +60,10 @@ export type RangeValueType<DateType> = [
 export type NoUndefinedRangeValueType<DateType> = [start: DateType | null, end: DateType | null];
 
 export interface BaseRangePickerProps<DateType extends object>
-  extends Omit<SharedPickerProps<DateType>, 'showTime' | 'id'> {
+  extends SomePartial<
+    Omit<SharedPickerProps<DateType>, 'id' | 'showTime'>,
+    'prefixCls' | 'locale'
+  > {
   // Structure
   id?: SelectorIdType;
 
@@ -161,6 +165,19 @@ function RangePicker<DateType extends object = any>(
     className,
     popupZIndex,
 
+    // Misc
+    size,
+    status,
+    placeholder,
+
+    // Compact
+    isCompactItem,
+    compactItemClassnames,
+
+    // Variant
+    variant,
+    enableVariantCls,
+
     // Value
     defaultValue,
     value,
@@ -216,7 +233,7 @@ function RangePicker<DateType extends object = any>(
     // Native
     onClick,
   } = filledProps as Omit<
-    SomeRequired<InternalRangePickerProps<DateType>, 'disabledDate' | 'components'>,
+    typeof filledProps,
     'allowEmpty' | 'disabled' | 'showTime' | 'value' | 'defaultValue'
   > & {
     disabled: [boolean, boolean];
@@ -706,6 +723,7 @@ function RangePicker<DateType extends object = any>(
 
   // ====================== DevWarning ======================
   if (process.env.NODE_ENV !== 'production') {
+    const warning = devUseWarning('DatePicker.RangePicker');
     const isIndexEmpty = (index: number) => {
       return (
         // Value is empty
@@ -722,10 +740,45 @@ function RangePicker<DateType extends object = any>(
     ) {
       warning(
         false,
+        'usage',
         '`disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.',
       );
     }
   }
+
+  // ======================== Style ========================
+  const rootCls = clsx(
+    {
+      [`${prefixCls}-${size}`]: size,
+      [`${prefixCls}-${variant}`]: enableVariantCls,
+    },
+    'group/selector',
+    'relative inline-flex rounded-md bg-container px-3 py-1.5 text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
+    '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+    'focus-within:ring-2 focus-within:ring-primary',
+    {
+      'px-2 py-1.5': size === 'small',
+      'px-3 py-2 text-base': size === 'large',
+    },
+    {
+      'bg-container ring-1': variant === 'outlined',
+      'bg-transparent shadow-none ring-0': variant === 'borderless',
+      'bg-fill-quinary ring-0': variant === 'filled',
+    },
+    compactItemClassnames,
+    (focused || mergedOpen) && {
+      'ring-2 ring-primary': variant === 'outlined',
+      'ring-0': variant === 'borderless',
+      'bg-container': variant === 'filled',
+      'z-[2]': isCompactItem,
+    },
+    getStatusClassNames(status, variant, focused || mergedOpen),
+    disabled.every((i) => i) && {
+      'bg-fill-quaternary text-text-tertiary': true,
+      'not-allowed bg-fill-quaternary text-text-tertiary ring-border': variant !== 'borderless',
+    },
+    semanticCls.root,
+  );
 
   // ======================== Render ========================
   return (
@@ -743,7 +796,8 @@ function RangePicker<DateType extends object = any>(
         <RangeSelector
           // Shared
           {...filledProps}
-          className={semanticCls.root}
+          placeholder={getRangePlaceholder(locale, picker, placeholder)}
+          className={rootCls}
           // Ref
           ref={selectorRef}
           // Icon

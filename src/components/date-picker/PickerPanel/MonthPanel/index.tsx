@@ -90,9 +90,9 @@ export default function MonthPanel<DateType extends object = any>(
 
   // ========================= Style =========================
   const panelCls = clsx(panelPrefixCls, className);
-  const bodyCls = clsx('px-2');
-  const contentCls = clsx('h-56');
-  const cellInnerCls = clsx('rounded-full w-16');
+  const bodyCls = clsx('p-2');
+  const contentCls = clsx('h-40');
+  const cellInnerCls = clsx('w-16');
 
   // ========================= Render =========================
   return (

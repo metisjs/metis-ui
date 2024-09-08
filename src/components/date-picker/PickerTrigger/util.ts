@@ -1,6 +1,9 @@
 import type { SharedPickerProps } from '../interface';
-import { pickProps } from '../utils/miscUtil';
+import { pickProps, transPlacement2PopupAlign } from '../utils/miscUtil';
 
-export function pickTriggerProps(props: Omit<SharedPickerProps, 'showTime'>) {
-  return pickProps(props, ['placement', 'builtinPlacements', 'popupAlign', 'getPopupContainer']);
+export function pickTriggerProps(props: Omit<SharedPickerProps, 'showTime' | 'status'>) {
+  return {
+    popupAlign: transPlacement2PopupAlign(props.placement),
+    ...pickProps(props, ['placement', 'builtinPlacements', 'popupAlign', 'getPopupContainer']),
+  };
 }

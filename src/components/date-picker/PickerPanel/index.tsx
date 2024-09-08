@@ -1,9 +1,8 @@
-import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
+import * as React from 'react';
 import { clsx } from '../../_util/classNameUtils';
 import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
-import useLocale from '../hooks/useLocale';
 import { fillShowTimeConfig, getTimeProps } from '../hooks/useTimeConfig';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
@@ -19,6 +18,7 @@ import type {
 } from '../interface';
 import PickerContext from '../PickerInput/context';
 import useCellRender from '../PickerInput/hooks/useCellRender';
+import { fillLocale } from '../PickerInput/hooks/useFilledProps';
 import { isSame } from '../utils/dateUtil';
 import { pickProps, toArray } from '../utils/miscUtil';
 import { PickerHackContext } from './context';
@@ -191,7 +191,7 @@ function PickerPanel<DateType extends object = any>(
   const [timeProps, localeTimeProps, showTimeFormat, propFormat] = getTimeProps(props);
 
   // ========================= Locale =========================
-  const filledLocale = useLocale(locale, localeTimeProps);
+  const filledLocale = fillLocale(locale, localeTimeProps);
 
   // ========================= Picker =========================
   const internalPicker: InternalMode = picker === 'date' && showTime ? 'datetime' : picker;
@@ -242,7 +242,7 @@ function PickerPanel<DateType extends object = any>(
           (ori, index) => !isSame(generateConfig, locale, ori, nextValue[index], internalPicker),
         ))
     ) {
-      onChange?.(multiple ? nextValue : nextValue?.[0] ?? null);
+      onChange?.(multiple ? nextValue : (nextValue?.[0] ?? null));
     }
   });
 
@@ -376,9 +376,9 @@ function PickerPanel<DateType extends object = any>(
   // ========================= Style =========================
   const panelCls = clsx(
     `${mergedPrefixCls}-panel`,
-    'inline-flex flex-col text-center rounded-lg bg-transparent',
+    'inline-flex flex-col rounded-lg bg-transparent text-center',
   );
-  const componentCls = clsx('flex flex-col w-72');
+  const componentCls = clsx('flex w-72 flex-col');
 
   // ========================= Render =========================
   const panelProps = pickProps(props, [

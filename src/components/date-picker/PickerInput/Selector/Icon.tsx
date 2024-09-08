@@ -16,7 +16,7 @@ export default function Icon(props: IconProps) {
     <span
       className={clsx(
         `${prefixCls}-${type}`,
-        '[&_.metis-icon]:text-base text-text-tertiary inline-flex items-center',
+        'inline-flex items-center text-text-tertiary [&_.metis-icon]:text-base',
         className,
       )}
       {...restProps}
@@ -30,14 +30,15 @@ export interface ClearIconProps extends Omit<IconProps, 'type'> {
   onClear: VoidFunction;
 }
 
-export function ClearIcon({ onClear, ...restProps }: ClearIconProps) {
+export function ClearIcon({ onClear, className, ...restProps }: ClearIconProps) {
   return (
     <Icon
       {...restProps}
       type="clear"
       role="button"
       className={clsx(
-        'text-text-quaternary transition-all hover:text-text-tertiary absolute cursor-pointer opacity-0 end-0 top-1/2 -translate-y-1/2 group-hover/selector:opacity-100',
+        'absolute end-0 top-1/2 -translate-y-1/2 cursor-pointer text-text-tertiary opacity-0 transition-all hover:text-text-secondary group-hover/selector:opacity-100',
+        className,
       )}
       onMouseDown={(e) => {
         e.preventDefault();

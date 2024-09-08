@@ -1,10 +1,10 @@
-import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
+import * as React from 'react';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { cloneElement } from '../../_util/reactNode';
 import type { DisabledDate } from '../interface';
-import { formatValue, isInRange, isSame } from '../utils/dateUtil';
+import { formatValue, isInRange, isSame, isSameWeek } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
 
 export interface PanelBodyProps<DateType = any> {
@@ -109,18 +109,25 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
       let rangeStart = false;
       let rangeEnd = false;
 
-      if (cellSelection && hoverRangeValue) {
+      if (hoverRangeValue) {
         const [hoverStart, hoverEnd] = hoverRangeValue;
-        rangeStart = isSame(generateConfig, locale, currentDate, hoverStart, type);
-        rangeEnd = isSame(generateConfig, locale, currentDate, hoverEnd, type);
+        if (cellSelection) {
+          rangeStart = isSame(generateConfig, locale, currentDate, hoverStart, type);
+          rangeEnd = isSame(generateConfig, locale, currentDate, hoverEnd, type);
+        } else {
+          rangeStart = isSameWeek(generateConfig, locale.locale, hoverStart, currentDate);
+          rangeEnd = isSameWeek(generateConfig, locale.locale, hoverEnd, currentDate);
+        }
         inRange =
-          isInRange(generateConfig, hoverStart, hoverEnd, currentDate) && !rangeStart && !rangeEnd;
+          !rangeStart && !rangeEnd && isInRange(generateConfig, hoverStart, hoverEnd, currentDate);
       }
 
       const selected = !hoverRangeValue && matchValues(currentDate);
 
       const hover = (hoverValue || []).some((date) =>
-        isSame(generateConfig, locale, currentDate, date, type),
+        cellSelection
+          ? isSame(generateConfig, locale, currentDate, date, type)
+          : isSameWeek(generateConfig, locale.locale, currentDate, date),
       );
 
       // Title
@@ -137,10 +144,14 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         <div
           className={clsx(
             `${cellPrefixCls}-inner`,
-            'relative min-w-7 h-7 leading-7 rounded-full inline-block transition-colors z-[2]',
-            {
-              'bg-primary text-white': selected,
-              'group-hover/cell:bg-fill-quaternary': !selected,
+            'relative z-[2] inline-block h-7 min-w-7 rounded leading-7 transition-colors',
+            type !== 'week' && {
+              'bg-primary text-white': inView && (selected || rangeStart || rangeEnd),
+              'group-hover/cell:bg-fill-quaternary':
+                !inView || (!selected && !rangeStart && !rangeEnd),
+            },
+            type === 'week' && {
+              'bg-primary text-white': selected || rangeStart || rangeEnd,
             },
             semanticCls.cellInner,
           )}
@@ -165,16 +176,22 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               [`${prefixCls}-cell-today`]: today,
               [`${prefixCls}-cell-in-view`]: inView,
             },
-            'group/cell font-normal relative min-w-7 text-text-tertiary py-1 cursor-pointer',
-            'before:absolute before:top-1/2 before:start-0 before:end-0 before:z-[1] before:h-7 before:-translate-y-1/2 first:before:rounded-ss-full last:before:rounded-ee-full first:before:rounded-es-full last:before:rounded-se-full',
-            type === 'week' && {
-              'before:bg-fill-quaternary': hover && !selected,
-              'before:bg-primary': selected,
-            },
+            'group/cell relative min-w-7 cursor-pointer py-1 font-normal text-text-tertiary transition-colors',
+            'before:absolute before:end-0 before:start-0 before:top-1/2 before:z-[1] before:h-7 before:-translate-y-1/2 before:transition-colors first:before:rounded-es first:before:rounded-ss last:before:rounded-ee last:before:rounded-se',
             {
               'text-text': inView,
               'text-primary': today,
-              '': disabled,
+            },
+            type !== 'week' && {
+              'before:bg-primary-bg first:before:rounded-none last:before:rounded-none':
+                inView && (inRange || rangeStart || rangeEnd),
+              'before:start-1/2': inView && rangeStart,
+              'before:end-1/2': inView && rangeEnd,
+            },
+            type === 'week' && {
+              'before:bg-fill-quaternary': hover && !selected,
+              'before:bg-primary': selected || rangeStart || rangeEnd,
+              'before:bg-primary-bg': inRange,
             },
             semanticCls.cell,
           )}

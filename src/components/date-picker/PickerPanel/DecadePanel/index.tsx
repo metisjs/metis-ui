@@ -99,10 +99,16 @@ export default function DecadePanel<DateType extends object = any>(
     generateConfig,
   })}`;
 
+  // ========================= Style =========================
+  const panelCls = clsx(panelPrefixCls, className);
+  const bodyCls = clsx('p-2');
+  const contentCls = clsx('h-40');
+  const cellInnerCls = clsx('rounded-1/2 px-1.5');
+
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={clsx(panelPrefixCls, className)}>
+      <div className={panelCls}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance * 100)}
@@ -125,6 +131,7 @@ export default function DecadePanel<DateType extends object = any>(
           getCellDate={getCellDate}
           getCellText={getCellText}
           getCellInfo={getCellInfo}
+          className={{ root: bodyCls, content: contentCls, cellInner: cellInnerCls }}
         />
       </div>
     </PanelContext.Provider>

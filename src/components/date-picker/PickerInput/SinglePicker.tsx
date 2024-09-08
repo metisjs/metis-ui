@@ -1,9 +1,11 @@
-import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
+import * as React from 'react';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { getStatusClassNames } from '../../_util/statusUtils';
+import type { SomePartial } from '../../_util/type';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,
@@ -18,7 +20,7 @@ import type {
 } from '../interface';
 import PickerTrigger from '../PickerTrigger';
 import { pickTriggerProps } from '../PickerTrigger/util';
-import { toArray } from '../utils/miscUtil';
+import { getPlaceholder, toArray } from '../utils/miscUtil';
 import PickerContext from './context';
 import useCellRender from './hooks/useCellRender';
 import useFieldsInvalidate from './hooks/useFieldsInvalidate';
@@ -33,7 +35,7 @@ import Popup from './Popup';
 import SingleSelector from './Selector/SingleSelector';
 
 export interface BasePickerProps<DateType extends object = any>
-  extends SharedPickerProps<DateType> {
+  extends SomePartial<SharedPickerProps<DateType>, 'prefixCls' | 'locale'> {
   // Structure
   id?: string;
 
@@ -122,6 +124,19 @@ function Picker<DateType extends object = any>(
     prefixCls,
     className,
     popupZIndex,
+
+    // Misc
+    size,
+    status,
+    placeholder,
+
+    // Compact
+    isCompactItem,
+    compactItemClassnames,
+
+    // Variant
+    variant,
+    enableVariantCls,
 
     // Value
     order,
@@ -608,10 +623,35 @@ function Picker<DateType extends object = any>(
 
   // ======================== Style ========================
   const rootCls = clsx(
-    'group/selector relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset ring-border px-3 py-1.5 leading-6',
+    {
+      [`${prefixCls}-${size}`]: size,
+      [`${prefixCls}-${variant}`]: enableVariantCls,
+    },
+    'group/selector',
+    'relative inline-block rounded-md bg-container px-3 py-1.5 text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
     'focus-within:ring-2 focus-within:ring-primary',
-    disabled && 'bg-fill-quaternary text-text-tertiary',
+    {
+      'px-2 py-1.5': size === 'small',
+      'px-3 py-2 text-base': size === 'large',
+    },
+    {
+      'bg-container ring-1': variant === 'outlined',
+      'bg-transparent shadow-none ring-0': variant === 'borderless',
+      'bg-fill-quinary ring-0': variant === 'filled',
+    },
+    compactItemClassnames,
+    (focused || mergedOpen) && {
+      'ring-2 ring-primary': variant === 'outlined',
+      'ring-0': variant === 'borderless',
+      'bg-container': variant === 'filled',
+      'z-[2]': isCompactItem,
+    },
+    getStatusClassNames(status, variant, focused || mergedOpen),
+    disabled && {
+      'bg-fill-quaternary text-text-tertiary': true,
+      'not-allowed bg-fill-quaternary text-text-tertiary ring-border': variant !== 'borderless',
+    },
     semanticCls.root,
   );
 
@@ -629,6 +669,7 @@ function Picker<DateType extends object = any>(
         <SingleSelector
           // Shared
           {...filledProps}
+          placeholder={getPlaceholder(locale, picker, placeholder)}
           className={rootCls}
           // Ref
           ref={selectorRef}

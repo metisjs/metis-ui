@@ -389,6 +389,10 @@ export interface SharedPickerProps<DateType extends object = any>
   className?: SemanticClassName<SemanticStructure>;
   style?: React.CSSProperties;
 
+  size?: SizeType;
+  status?: InputStatus;
+  variant?: Variant;
+
   // Config
   locale: Locale;
   generateConfig: GenerateConfig<DateType>;
@@ -566,17 +570,7 @@ export type ReplaceListType<List, Type> = {
   [P in keyof List]: Type;
 };
 
-type InjectDefaultProps<Props> = Omit<
-  Props,
-  'locale' | 'generateConfig' | 'hideHeader' | 'prefixCls'
-> & {
-  prefixCls?: string;
-  locale?: Locale;
-  size?: SizeType;
-  placement?: Placement;
-  status?: InputStatus;
-  variant?: Variant;
-};
+type InjectDefaultProps<Props> = Omit<Props, 'generateConfig' | 'hideHeader'>;
 
 type GetValueType<DateType, MultipleType extends boolean = false> = false extends MultipleType
   ? DateType

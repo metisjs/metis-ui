@@ -1,5 +1,5 @@
-import React from 'react';
 import { DatePicker, Space } from 'metis-ui';
+import React from 'react';
 
 const { RangePicker } = DatePicker;
 

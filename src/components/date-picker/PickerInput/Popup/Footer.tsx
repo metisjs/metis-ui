@@ -77,11 +77,11 @@ export default function Footer(props: FooterProps) {
   const footerCls = clsx(`${prefixCls}-footer`, 'border-t border-border-secondary');
   const extraCls = clsx(
     `${prefixCls}-footer-extra`,
-    'px-3 text-start border-b border-border-secondary last:border-b-0 leading-10',
+    'border-b border-border-secondary px-3 text-start leading-10 last:border-b-0',
   );
   const rangesCls = clsx(
     `${prefixCls}-ranges`,
-    'px-3 overflow-hidden flex justify-center items-center py-2.5',
+    'flex items-center justify-center overflow-hidden px-3 leading-10',
   );
 
   const presetNode = showNow && (
@@ -89,7 +89,7 @@ export default function Footer(props: FooterProps) {
       <a
         className={clsx(nowBtnPrefixCls, nowDisabled && `${nowBtnPrefixCls}-disabled`, {
           'cursor-pointer': !nowDisabled,
-          'cursor-not-allowed pointer-events-none opacity-disabled': nowDisabled,
+          'pointer-events-none cursor-not-allowed opacity-disabled': nowDisabled,
         })}
         aria-disabled={nowDisabled}
         onClick={onInternalNow}
@@ -101,8 +101,8 @@ export default function Footer(props: FooterProps) {
 
   // >>> OK
   const okNode = needConfirm && (
-    <li className={`${prefixCls}-ok`}>
-      <Button disabled={invalid} onClick={onSubmit}>
+    <li className={clsx(`${prefixCls}-ok`, 'ms-auto py-1')}>
+      <Button disabled={invalid} onClick={onSubmit} size="small" type="primary">
         {locale.ok}
       </Button>
     </li>

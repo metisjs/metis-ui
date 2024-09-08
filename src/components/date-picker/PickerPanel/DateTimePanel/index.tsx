@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import useTimeInfo from '../../hooks/useTimeInfo';
 import type { SharedPanelProps } from '../../interface';
 import { fillTime } from '../../utils/dateUtil';
@@ -9,8 +10,6 @@ export default function DateTimePanel<DateType extends object = any>(
   props: SharedPanelProps<DateType>,
 ) {
   const { prefixCls, generateConfig, showTime, onSelect, value, pickerValue, onHover } = props;
-
-  const panelPrefixCls = `${prefixCls}-datetime-panel`;
 
   // =============================== Time ===============================
   const [getValidTime] = useTimeInfo(generateConfig, showTime);
@@ -37,9 +36,12 @@ export default function DateTimePanel<DateType extends object = any>(
     onSelect(getValidTime(cloneDate, cloneDate));
   };
 
+  // ============================== Style ==============================
+  const rootCls = clsx(`${prefixCls}-datetime-panel`, 'flex');
+
   // ============================== Render ==============================
   return (
-    <div className={panelPrefixCls}>
+    <div className={rootCls}>
       <DatePanel {...props} onSelect={onDateSelect} onHover={onDateHover} />
       <TimePanel {...props} />
     </div>

@@ -1,13 +1,13 @@
 module.exports = {
   pluginSearchDirs: false,
   plugins: [
-    require('prettier-plugin-organize-imports'),
-    require('prettier-plugin-packagejson'),
-    require('prettier-plugin-tailwindcss'),
-    require('@ianvs/prettier-plugin-sort-imports'),
+    'prettier-plugin-organize-imports',
+    'prettier-plugin-packagejson',
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
   ],
-  tailwindFunctions: ['classNames', 'classnames', 'clsx'],
   importOrder: ['^(react|react-dom)$', '^([a-z]|@[a-z])', '.*'],
+  tailwindFunctions: ['clsx'],
   printWidth: 100,
   proseWrap: 'never',
   singleQuote: true,

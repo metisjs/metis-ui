@@ -102,8 +102,8 @@ export default function YearPanel<DateType extends object = any>(
 
   // ========================= Style =========================
   const panelCls = clsx(panelPrefixCls, className);
-  const bodyCls = clsx('px-2');
-  const contentCls = clsx('h-56');
+  const bodyCls = clsx('p-2');
+  const contentCls = clsx('h-40');
   const cellInnerCls = clsx('rounded-1/2 w-16');
 
   // ========================= Render =========================

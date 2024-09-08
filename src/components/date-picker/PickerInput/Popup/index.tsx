@@ -1,5 +1,5 @@
-import * as React from 'react';
 import ResizeObserver, { type ResizeObserverProps } from 'rc-resize-observer';
+import * as React from 'react';
 import { clsx } from '../../../_util/classNameUtils';
 import type {
   RangeTimeProps,
@@ -8,7 +8,6 @@ import type {
   ValueDate,
 } from '../../interface';
 import { toArray } from '../../utils/miscUtil';
-import { getOffsetUnit } from '../../utils/uiUtil';
 import PickerContext from '../context';
 import Footer, { type FooterProps } from './Footer';
 import PopupPanel, { type PopupPanelProps } from './PopupPanel';
@@ -57,7 +56,6 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
     range,
     multiple,
     activeOffset = 0,
-    placement,
 
     // Presets
     presets = [],
@@ -151,12 +149,18 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   // ======================== Style ========================
   const containerCls = clsx(
     `${panelPrefixCls}-container`,
-    'overflow-hidden bg-elevated rounded-lg',
+    'overflow-hidden rounded-lg bg-elevated',
   );
 
   const panelLayoutCls = clsx(
     `${prefixCls}-panel-layout`,
     'flex flex-nowrap items-stretch text-sm text-text',
+  );
+
+  const rangeWrapperCls = clsx(
+    `${prefixCls}-range-wrapper`,
+    `${prefixCls}-${picker}-range-wrapper`,
+    'relative flex',
   );
 
   // ======================== Render ========================
@@ -207,19 +211,8 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   );
 
   if (range) {
-    const offsetUnit = getOffsetUnit(placement);
     renderNode = (
-      <div
-        onMouseDown={onPanelMouseDown}
-        ref={wrapperRef}
-        className={clsx(`${prefixCls}-range-wrapper`, `${prefixCls}-${picker}-range-wrapper`)}
-      >
-        <div
-          ref={arrowRef}
-          className={`${prefixCls}-range-arrow`}
-          style={{ [offsetUnit]: activeOffset }}
-        />
-
+      <div onMouseDown={onPanelMouseDown} ref={wrapperRef} className={rangeWrapperCls}>
         {/* Watch for container size */}
         <ResizeObserver onResize={onResize}>{renderNode}</ResizeObserver>
       </div>

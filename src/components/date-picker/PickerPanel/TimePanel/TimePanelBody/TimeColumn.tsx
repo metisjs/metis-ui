@@ -1,6 +1,8 @@
-import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import * as React from 'react';
 import { clsx } from '../../../../_util/classNameUtils';
+import type { ScrollbarProps, ScrollbarRef } from '../../../../scrollbar';
+import Scrollbar from '../../../../scrollbar';
 import { usePanelContext } from '../../context';
 import useScrollTo from './useScrollTo';
 
@@ -29,11 +31,8 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
 
   const { prefixCls, cellRender, now, locale } = usePanelContext<DateType>();
 
-  const panelPrefixCls = `${prefixCls}-time-panel`;
-  const cellPrefixCls = `${prefixCls}-time-panel-cell`;
-
   // ========================== Refs ==========================
-  const ulRef = React.useRef<HTMLUListElement>(null);
+  const scrollbarRef = React.useRef<ScrollbarRef>(null);
 
   // ========================= Scroll =========================
   const checkDelayRef = React.useRef<any>();
@@ -43,7 +42,7 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
   };
 
   // ========================== Sync ==========================
-  const [syncScroll, stopScroll, isScrolling] = useScrollTo(ulRef, value ?? optionalValue);
+  const [syncScroll, stopScroll, isScrolling] = useScrollTo(scrollbarRef, value ?? optionalValue);
 
   // Effect sync value scroll
   useLayoutEffect(() => {
@@ -58,22 +57,20 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
 
   // ========================= Change =========================
   // Scroll event if sync onScroll
-  const onInternalScroll: React.UIEventHandler<HTMLUListElement> = (event) => {
+  const onInternalScroll: ScrollbarProps['onScroll'] = ({ scrollTop }) => {
     clearDelayCheck();
-
-    const target = event.target as HTMLUListElement;
 
     if (!isScrolling() && changeOnScroll) {
       checkDelayRef.current = setTimeout(() => {
-        const ul = ulRef.current!;
-        const firstLiTop = ul.querySelector<HTMLLIElement>(`li`)!.offsetTop;
-        const liList = Array.from(ul.querySelectorAll<HTMLLIElement>(`li`));
+        const view = scrollbarRef.current!.view!;
+        const firstLiTop = view.querySelector<HTMLLIElement>(`li`)!.offsetTop;
+        const liList = Array.from(view.querySelectorAll<HTMLLIElement>(`li`));
         const liTopList = liList.map((li) => li.offsetTop - firstLiTop);
         const liDistList = liTopList.map((top, index) => {
           if (units[index].disabled) {
             return Number.MAX_SAFE_INTEGER;
           }
-          return Math.abs(top - target.scrollTop);
+          return Math.abs(top - scrollTop);
         });
 
         // Find min distance index
@@ -87,52 +84,77 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
     }
   };
 
+  // ========================= Style =========================
+  const cellPrefixCls = `${prefixCls}-time-panel-cell`;
+  const rootCls = clsx(
+    `${prefixCls}-time-panel-column`,
+    'my-1 h-auto w-16 flex-auto overflow-auto border-l border-border-secondary first:border-l-0',
+  );
+  const viewCls = clsx('after:block after:h-[calc(100%-1.75rem)]');
+
   // ========================= Render =========================
-  const columnPrefixCls = `${panelPrefixCls}-column`;
-
   return (
-    <ul className={columnPrefixCls} ref={ulRef} data-type={type} onScroll={onInternalScroll}>
-      {units.map(({ label, value: unitValue, disabled }) => {
-        const inner = <div className={`${cellPrefixCls}-inner`}>{label}</div>;
+    <Scrollbar
+      ref={scrollbarRef}
+      className={{ root: rootCls, view: viewCls }}
+      onScroll={onInternalScroll}
+    >
+      <ul data-type={type}>
+        {units.map(({ label, value: unitValue, disabled }) => {
+          const inner = (
+            <div
+              className={clsx(`${cellPrefixCls}-inner`, 'block cursor-pointer rounded leading-7', {
+                'hover:bg-fill-quaternary': value !== unitValue,
+                'bg-primary-bg': value === unitValue,
+              })}
+            >
+              {label}
+            </div>
+          );
 
-        return (
-          <li
-            key={unitValue}
-            className={clsx(cellPrefixCls, {
-              [`${cellPrefixCls}-selected`]: value === unitValue,
-              [`${cellPrefixCls}-disabled`]: disabled,
-            })}
-            onClick={() => {
-              if (!disabled) {
-                onChange(unitValue);
-              }
-            }}
-            onDoubleClick={() => {
-              if (!disabled && onDblClick) {
-                onDblClick();
-              }
-            }}
-            onMouseEnter={() => {
-              onHover(unitValue);
-            }}
-            onMouseLeave={() => {
-              onHover(null);
-            }}
-            data-value={unitValue}
-          >
-            {cellRender
-              ? cellRender(unitValue, {
-                  prefixCls,
-                  originNode: inner,
-                  today: now,
-                  type: 'time',
-                  subType: type,
-                  locale,
-                })
-              : inner}
-          </li>
-        );
-      })}
-    </ul>
+          return (
+            <li
+              key={unitValue}
+              className={clsx(
+                cellPrefixCls,
+                {
+                  [`${cellPrefixCls}-selected`]: value === unitValue,
+                  [`${cellPrefixCls}-disabled`]: disabled,
+                },
+                'mx-1',
+              )}
+              onClick={() => {
+                if (!disabled) {
+                  onChange(unitValue);
+                }
+              }}
+              onDoubleClick={() => {
+                if (!disabled && onDblClick) {
+                  onDblClick();
+                }
+              }}
+              onMouseEnter={() => {
+                onHover(unitValue);
+              }}
+              onMouseLeave={() => {
+                onHover(null);
+              }}
+              data-value={unitValue}
+            >
+              {cellRender
+                ? cellRender(unitValue, {
+                    prefixCls,
+                    originNode: inner,
+                    today: now,
+                    type: 'time',
+                    subType: type,
+                    locale,
+                  })
+                : inner}
+            </li>
+          );
+        })}
+      </ul>
+    </Scrollbar>
   );
 }

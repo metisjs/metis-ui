@@ -1,6 +1,6 @@
 import type { InternalMode, Locale, SharedPickerProps, SharedTimeProps } from '../interface';
+import { fillTimeFormat } from '../utils/dateUtil';
 import { getRowFormat, pickProps, toArray } from '../utils/miscUtil';
-import { fillTimeFormat } from './useLocale';
 
 function checkShow(format: string, keywords: string[], show?: boolean) {
   return show ?? keywords.some((keyword) => format.includes(keyword));

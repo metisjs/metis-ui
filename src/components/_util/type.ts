@@ -1,4 +1,5 @@
 export type SomeRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+export type SomePartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type LiteralUnion<T extends string> = T | (string & Record<string, never>);
 
@@ -14,13 +15,8 @@ export type AnyObject = Record<PropertyKey, any>;
  * type CheckboxGroupProps = GetProps<typeof Checkbox.Group>
  * ```
  */
-export type GetProps<T extends React.ComponentType<any> | object> = T extends React.ComponentType<
-  infer P
->
-  ? P
-  : T extends object
-  ? T
-  : never;
+export type GetProps<T extends React.ComponentType<any> | object> =
+  T extends React.ComponentType<infer P> ? P : T extends object ? T : never;
 
 /**
  * Get component props by component name
@@ -63,8 +59,8 @@ export type GetRef<T extends ReactRefComponent<any> | React.Component<any>> =
   T extends React.Component<any>
     ? T
     : T extends React.ComponentType<infer P>
-    ? ExtractRefAttributesRef<P>
-    : never;
+      ? ExtractRefAttributesRef<P>
+      : never;
 
 export type GetContextProps<T> = T extends React.Context<infer P> ? P : never;
 

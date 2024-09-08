@@ -22,15 +22,16 @@ export default function TimePanel<DateType extends object = any>(props: TimePane
 
   const { format = '' } = showTime || {};
 
-  const panelPrefixCls = `${prefixCls}-time-panel`;
-
   // ========================== Base ==========================
   const [info] = useInfo(props, 'time');
 
   // ========================= Render =========================
+  const rootCls = clsx(`${prefixCls}-time-panel`, '!w-auto', className);
+
+  // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={clsx(panelPrefixCls, className)}>
+      <div className={rootCls}>
         <PanelHeader>
           {value
             ? formatValue(value, {

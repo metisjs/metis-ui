@@ -62,10 +62,16 @@ export default function QuarterPanel<DateType extends object = any>(
     </button>
   );
 
+  // ========================= Style =========================
+  const panelCls = clsx(panelPrefixCls, className);
+  const bodyCls = clsx('px-2');
+  const contentCls = clsx('h-14');
+  const cellInnerCls = clsx('rounded-1/2 w-16');
+
   // ========================= Render =========================
   return (
     <PanelContext.Provider value={info}>
-      <div className={clsx(panelPrefixCls, className)}>
+      <div className={panelCls}>
         {/* Header */}
         <PanelHeader
           superOffset={(distance) => generateConfig.addYear(pickerValue, distance)}
@@ -88,6 +94,7 @@ export default function QuarterPanel<DateType extends object = any>(
           getCellDate={getCellDate}
           getCellText={getCellText}
           getCellInfo={getCellInfo}
+          className={{ root: bodyCls, content: contentCls, cellInner: cellInnerCls }}
         />
       </div>
     </PanelContext.Provider>

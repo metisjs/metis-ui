@@ -276,3 +276,40 @@ export function fillTime<DateType>(
 
   return tmpDate;
 }
+
+export function fillTimeFormat(
+  showHour?: boolean,
+  showMinute?: boolean,
+  showSecond?: boolean,
+  showMillisecond?: boolean,
+  showMeridiem?: boolean,
+) {
+  let timeFormat = '';
+
+  // Base HH:mm:ss
+  const cells = [];
+
+  if (showHour) {
+    cells.push(showMeridiem ? 'hh' : 'HH');
+  }
+  if (showMinute) {
+    cells.push('mm');
+  }
+  if (showSecond) {
+    cells.push('ss');
+  }
+
+  timeFormat = cells.join(':');
+
+  // Millisecond
+  if (showMillisecond) {
+    timeFormat += '.SSS';
+  }
+
+  // Meridiem
+  if (showMeridiem) {
+    timeFormat += ' A';
+  }
+
+  return timeFormat;
+}

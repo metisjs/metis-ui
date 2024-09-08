@@ -1,6 +1,6 @@
-import * as React from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
+import * as React from 'react';
 import { clsx } from '../../../_util/classNameUtils';
 import type { RangePickerRef, SelectorProps } from '../../interface';
 import { pickProps } from '../../utils/miscUtil';
@@ -10,6 +10,7 @@ import type { RangeValueType } from '../RangePicker';
 import useInputProps from './hooks/useInputProps';
 import Icon, { ClearIcon } from './Icon';
 import Input, { type InputRef } from './Input';
+import SeparatorIcon from './SeparatorIcon';
 
 export type SelectorIdType =
   | string
@@ -55,7 +56,7 @@ function RangeSelector<DateType extends object = any>(
 
     clearIcon,
     suffixIcon,
-    separator = '~',
+    separator,
     activeIndex,
 
     focused,
@@ -172,21 +173,35 @@ function RangeSelector<DateType extends object = any>(
   const startAutoFocus = autoFocus && !disabled[0];
   const endAutoFocus = autoFocus && !startAutoFocus && !disabled[1];
 
+  // ======================== Style ========================
+  const rootCls = clsx(
+    prefixCls,
+    `${prefixCls}-range`,
+    {
+      [`${prefixCls}-focused`]: focused,
+      [`${prefixCls}-disabled`]: disabled.every((i) => i),
+      [`${prefixCls}-invalid`]: invalid.some((i) => i),
+    },
+    className,
+  );
+  const separatorCls = clsx(
+    `${prefixCls}-range-separator`,
+    'flex h-6 items-center px-2 text-lg leading-6 text-text-quaternary',
+  );
+  const activeBarCls = clsx(
+    `${prefixCls}-active-bar`,
+    'pointer-events-none bottom-px h-0.5 rounded-full bg-primary opacity-0 transition-all duration-300 ease-out',
+    {
+      'opacity-100': activeIndex > -1,
+    },
+  );
+
   // ======================== Render ========================
   return (
     <ResizeObserver onResize={syncActiveOffset}>
       <div
         {...pickProps(props, ['onMouseEnter', 'onMouseLeave'])}
-        className={clsx(
-          prefixCls,
-          `${prefixCls}-range`,
-          {
-            [`${prefixCls}-focused`]: focused,
-            [`${prefixCls}-disabled`]: disabled.every((i) => i),
-            [`${prefixCls}-invalid`]: invalid.some((i) => i),
-          },
-          className,
-        )}
+        className={rootCls}
         style={style}
         ref={rootRef}
         onClick={onClick}
@@ -209,11 +224,15 @@ function RangeSelector<DateType extends object = any>(
           autoFocus={startAutoFocus}
           date-range="start"
         />
-        <div className={`${prefixCls}-range-separator`}>{separator}</div>
+        <div className={separatorCls}>{separator ?? <SeparatorIcon />}</div>
         <Input ref={inputEndRef} {...getInputProps(1)} autoFocus={endAutoFocus} date-range="end" />
-        <div className={`${prefixCls}-active-bar`} style={activeBarStyle} />
-        <Icon type="suffix" icon={suffixIcon} />
-        {showClear && <ClearIcon icon={clearIcon} onClear={onClear} />}
+        <div className={activeBarCls} style={activeBarStyle} />
+        <Icon
+          type="suffix"
+          icon={suffixIcon}
+          className="transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100"
+        />
+        {showClear && <ClearIcon icon={clearIcon} onClear={onClear} className="end-3" />}
       </div>
     </ResizeObserver>
   );

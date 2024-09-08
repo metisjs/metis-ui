@@ -1,12 +1,13 @@
-import * as React from 'react';
 import { useEvent } from 'rc-util';
 import isVisible from 'rc-util/lib/Dom/isVisible';
 import raf from 'rc-util/lib/raf';
+import * as React from 'react';
+import type { ScrollbarRef } from '../../../../scrollbar';
 
 const SPEED_PTG = 1 / 3;
 
 export default function useScrollTo(
-  ulRef: React.RefObject<HTMLUListElement>,
+  scrollbarRef: React.RefObject<ScrollbarRef>,
   value: number | string | undefined,
 ): [syncScroll: VoidFunction, clearScroll: VoidFunction, isScrolling: () => boolean] {
   // ========================= Scroll =========================
@@ -24,27 +25,27 @@ export default function useScrollTo(
   const scrollRafTimesRef = React.useRef<number>(0);
 
   const startScroll = () => {
-    const ul = ulRef.current;
+    const view = scrollbarRef.current?.view;
     scrollDistRef.current = null;
     scrollRafTimesRef.current = 0;
 
-    if (ul) {
-      const targetLi = ul.querySelector<HTMLLIElement>(`[data-value="${value}"]`)!;
-      const firstLi = ul.querySelector<HTMLLIElement>(`li`)!;
+    if (view) {
+      const targetLi = view.querySelector<HTMLLIElement>(`[data-value="${value}"]`)!;
+      const firstLi = view.querySelector<HTMLLIElement>(`li`)!;
 
       const doScroll = () => {
         stopScroll();
         scrollingRef.current = true;
         scrollRafTimesRef.current += 1;
 
-        const { scrollTop: currentTop } = ul;
+        const { scrollTop: currentTop } = scrollbarRef.current!.getValues();
 
         const firstLiTop = firstLi.offsetTop;
         const targetLiTop = targetLi.offsetTop;
         const targetTop = targetLiTop - firstLiTop;
 
         // Wait for element exist. 5 frames is enough
-        if ((targetLiTop === 0 && targetLi !== firstLi) || !isVisible(ul)) {
+        if ((targetLiTop === 0 && targetLi !== firstLi) || !isVisible(view)) {
           if (scrollRafTimesRef.current <= 5) {
             scrollRafRef.current = raf(doScroll);
           }
@@ -63,13 +64,12 @@ export default function useScrollTo(
 
         // Stop when dist is less than 1
         if (dist <= 1) {
-          ul.scrollTop = targetTop;
+          scrollbarRef.current?.scrollTo({ top: targetTop });
           stopScroll();
           return;
         }
 
-        // IE not support `scrollTo`
-        ul.scrollTop = nextTop;
+        scrollbarRef.current?.scrollTo({ top: nextTop });
 
         scrollRafRef.current = raf(doScroll);
       };
