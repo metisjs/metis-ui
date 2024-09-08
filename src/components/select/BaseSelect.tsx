@@ -1,7 +1,7 @@
-import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
+import * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
@@ -700,7 +700,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-text-quaternary opacity-0 transition-all hover:text-text-tertiary',
+          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-text-tertiary opacity-0 transition-all hover:text-text-secondary',
           'group-hover/select:opacity-100',
           mode === 'combobox' && 'opacity-100',
         )}

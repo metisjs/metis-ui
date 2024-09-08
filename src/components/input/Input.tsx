@@ -1,3 +1,5 @@
+import { useMergedState } from 'rc-util';
+import omit from 'rc-util/lib/omit';
 import React, {
   forwardRef,
   useContext,
@@ -6,8 +8,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useMergedState } from 'rc-util';
-import omit from 'rc-util/lib/omit';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
@@ -322,13 +322,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base text-text-secondary',
+    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base text-text-secondary',
+    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
     semanticCls.suffix,
   );
@@ -342,7 +342,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.count,
   );
   const clearCls = clsx(
-    'flex items-center text-text-quaternary transition-colors hover:text-text-tertiary',
+    'flex items-center text-text-tertiary transition-colors hover:text-text-secondary',
   );
 
   // ====================== Render ======================

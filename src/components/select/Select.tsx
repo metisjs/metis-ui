@@ -1,5 +1,5 @@
-import * as React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import * as React from 'react';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';
@@ -123,6 +123,8 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     onPopupScroll,
     getInputElement,
 
+    menuItemSelectedIcon,
+
     ...restProps
   } = props;
 
@@ -193,6 +195,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   // ===================== Icons =====================
   const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
     ...props,
+    menuItemSelectedIcon,
     loading: mergedLoading,
     multiple,
     hasFeedback,

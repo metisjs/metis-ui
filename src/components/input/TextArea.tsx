@@ -1,6 +1,6 @@
+import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { forwardRef } from 'react';
-import { useMergedState } from 'rc-util';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
@@ -201,7 +201,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       {
         'ring-1 focus:ring-2': variant === 'outlined',
         'bg-transparent shadow-none ring-0 focus:ring-0': variant === 'borderless',
-        'bg-fill-quinary ring-0 focus:bg-container  focus:ring-2': variant === 'filled',
+        'bg-fill-quinary ring-0 focus:bg-container focus:ring-2': variant === 'filled',
       },
       {
         'pr-8': allowClear,
@@ -239,7 +239,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       semanticCls.count,
     );
     const clearCls = clsx(
-      'absolute right-2 top-1 text-text-quaternary hover:text-text-tertiary',
+      'absolute right-2 top-1 text-text-tertiary hover:text-text-secondary',
       semanticCls.clear,
     );
 

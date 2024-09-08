@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { kebabCase } from 'lodash';
+import * as React from 'react';
 import { PREFERS_COLOR_KEY } from '../../preset/colors/constants';
 
 const THEME_KEYS = [
@@ -65,7 +65,7 @@ const genTheme = () => {
     const value = rootStyles.getPropertyValue(`--${kebabCase(curr)}`).trim();
     return {
       ...prev,
-      [curr]: `hsla(${value.replace(/ \/ | /g, ':string,')})`,
+      [curr]: `hsla(${value.replace(/ \/ | /g, ',')})`,
     };
   }, {} as Theme);
 };
