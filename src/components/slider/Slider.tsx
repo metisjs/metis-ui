@@ -117,8 +117,8 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       mergedValue === null || mergedValue === undefined
         ? []
         : Array.isArray(mergedValue)
-        ? mergedValue
-        : [mergedValue];
+          ? mergedValue
+          : [mergedValue];
 
     const [val0 = mergedMin] = valueList;
     let returnValues = mergedValue === null ? [] : [val0];

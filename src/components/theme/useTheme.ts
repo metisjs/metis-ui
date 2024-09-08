@@ -1,5 +1,5 @@
-import { kebabCase } from 'lodash';
 import * as React from 'react';
+import { kebabCase } from 'lodash';
 import { PREFERS_COLOR_KEY } from '../../preset/colors/constants';
 
 const THEME_KEYS = [

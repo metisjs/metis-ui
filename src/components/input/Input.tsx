@@ -1,5 +1,3 @@
-import { useMergedState } from 'rc-util';
-import omit from 'rc-util/lib/omit';
 import React, {
   forwardRef,
   useContext,
@@ -8,6 +6,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useMergedState } from 'rc-util';
+import omit from 'rc-util/lib/omit';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';

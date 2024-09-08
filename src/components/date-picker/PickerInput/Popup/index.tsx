@@ -1,5 +1,5 @@
-import ResizeObserver, { type ResizeObserverProps } from 'rc-resize-observer';
 import * as React from 'react';
+import ResizeObserver, { type ResizeObserverProps } from 'rc-resize-observer';
 import { clsx } from '../../../_util/classNameUtils';
 import type {
   RangeTimeProps,

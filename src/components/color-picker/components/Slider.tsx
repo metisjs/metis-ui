@@ -148,14 +148,14 @@ export const BaseSlider = (props: BaseSliderProps) => {
           onChange={onChange as any}
           onChangeComplete={onChangeComplete as any}
           className={{
-            root: clsx(`${prefixCls}-slider`, 'h-2 p-0 m-0 bg-[length:0.5rem_0.5rem]', className),
+            root: clsx(`${prefixCls}-slider`, 'm-0 h-2 bg-[length:0.5rem_0.5rem] p-0', className),
             rail: 'h-2 ring-1 ring-inset ring-fill-quaternary',
             handle: clsx(
               'top-0 ring-1 ring-fill-quaternary ring-offset-2',
-              'after:ring-elevated after:bg-transparent',
+              'after:bg-transparent after:ring-elevated',
               'focus:ring-primary',
-              'hover:after:ring-elevated hover:after:w-2 hover:after:h-2 hover:after:top-0 hover:after:left-0',
-              'focus:after:ring-elevated focus:after:w-2 focus:after:h-2 focus:after:top-0 focus:after:left-0',
+              'hover:after:left-0 hover:after:top-0 hover:after:h-2 hover:after:w-2 hover:after:ring-elevated',
+              'focus:after:left-0 focus:after:top-0 focus:after:h-2 focus:after:w-2 focus:after:ring-elevated',
             ),
           }}
           track={false}

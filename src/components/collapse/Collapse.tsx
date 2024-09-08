@@ -54,12 +54,12 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
         typeof expandIcon === 'function' ? (
           expandIcon(panelProps)
         ) : (
-          <ExpandIcon open={panelProps.isActive} className="w-5 h-5" />
+          <ExpandIcon open={panelProps.isActive} className="h-5 w-5" />
         );
       return cloneElement(icon, () => ({
         className: clsx(
           `${prefixCls}-arrow`,
-          'w-5 h-5',
+          'h-5 w-5',
           (icon as React.ReactElement)?.props?.className,
         ),
       }));
@@ -90,8 +90,8 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
       [`${prefixCls}-borderless`]: !bordered,
       [`${prefixCls}-ghost`]: !!ghost,
     },
-    'text-sm text-text rounded-lg border border-border overflow-hidden bg-fill-quinary',
-    { 'border-0': !bordered, 'bg-transparent border-0': !!ghost },
+    'overflow-hidden rounded-lg border border-border bg-fill-quinary text-sm text-text',
+    { 'border-0': !bordered, 'border-0 bg-transparent': !!ghost },
     semanticCls.root,
   );
 
@@ -156,8 +156,8 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
               header: semanticCls.panelHeader,
               content: clsx(
                 {
-                  'bg-transparent border-t-0 pt-1': !bordered,
-                  'bg-transparent border-0 px-4 py-3': !!ghost,
+                  'border-t-0 bg-transparent pt-1': !bordered,
+                  'border-0 bg-transparent px-4 py-3': !!ghost,
                 },
                 semanticCls.panelContent,
               ),

@@ -15,7 +15,7 @@ const App: React.FC = () => {
       <div
         className={clsx(
           'ant-picker-cell-inner',
-          current.date() === 1 && 'border border-primary rounded-1/2',
+          current.date() === 1 && 'rounded-1/2 border border-primary',
         )}
       >
         {current.date()}

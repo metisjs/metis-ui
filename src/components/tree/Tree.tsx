@@ -10,10 +10,9 @@ import type {
   NodeDragEventHandler,
   NodeDragEventParams,
   NodeMouseEventHandler,
-  NodeMouseEventParams} from './contextTypes';
-import {
-  TreeContext,
+  NodeMouseEventParams,
 } from './contextTypes';
+import { TreeContext } from './contextTypes';
 import DropIndicator from './DropIndicator';
 import type {
   BasicDataNode,

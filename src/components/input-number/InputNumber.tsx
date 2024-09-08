@@ -718,7 +718,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     },
     {
       'relative text-text': !hasPrefixSuffix,
-      'rounded-none bg-transparent p-0 ring-0 focus-within:bg-transparent focus-within:ring-0 flex-1':
+      'flex-1 rounded-none bg-transparent p-0 ring-0 focus-within:bg-transparent focus-within:ring-0':
         hasPrefixSuffix,
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
@@ -789,7 +789,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     },
     {
       'text-text-tertiary': mergedDisabled,
-      'bg-fill-quaternary ': mergedDisabled && variant !== 'borderless',
+      'bg-fill-quaternary': mergedDisabled && variant !== 'borderless',
     },
     statusClassName,
     mergedDisabled && {

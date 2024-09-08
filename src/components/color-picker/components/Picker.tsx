@@ -57,7 +57,7 @@ const Operation: FC<{
   onClear?: (color: AggregationColor) => void;
 }> = ({ prefixCls, options, mode, color, allowClear, onModeChange, onClear }) => {
   return (
-    <div className={clsx(`${prefixCls}-operation`, 'flex mb-2 items-center')}>
+    <div className={clsx(`${prefixCls}-operation`, 'mb-2 flex items-center')}>
       {options.length > 1 && (
         <Segmented
           size="small"
@@ -100,7 +100,7 @@ const Handler: FC<{
     <div
       className={clsx(
         `${prefixCls}-handler`,
-        'w-4 h-4 rounded-full relative cursor-pointer ring-2 ring-elevated ring-inset',
+        'relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset ring-elevated',
       )}
       style={{
         backgroundColor: color,
@@ -306,15 +306,15 @@ const Picker: FC = () => {
   const panelSelectCls = clsx(`${prefixCls}-select`, 'mb-3');
   const saturationCls = clsx(
     `${prefixCls}-saturation`,
-    'absolute rounded inset-0 ring-1 ring-inset ring-fill-tertiary',
+    'absolute inset-0 rounded ring-1 ring-inset ring-fill-tertiary',
   );
-  const sliderContainerCls = clsx(`${prefixCls}-slider-container`, 'flex gap-3 mb-3');
+  const sliderContainerCls = clsx(`${prefixCls}-slider-container`, 'mb-3 flex gap-3');
   const sliderGroupCls = clsx(
     `${prefixCls}-slider-group`,
     {
       [`${prefixCls}-slider-group-disabled-alpha`]: disabledAlpha,
     },
-    'flex-1 flex flex-col justify-between',
+    'flex flex-1 flex-col justify-between',
     disabledAlpha && 'justify-center',
   );
 

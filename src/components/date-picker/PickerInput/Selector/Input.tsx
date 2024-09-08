@@ -367,14 +367,14 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
       [`${inputPrefixCls}-active`]: active && showActiveCls,
       [`${inputPrefixCls}-placeholder`]: helped,
     },
-    'inline-flex items-center relative w-full',
+    'relative inline-flex w-full items-center',
     {
       'text-text-quaternary': helped,
     },
   );
 
   const inputCls = clsx(
-    'h-full w-full flex-auto inline-block appearance-none bg-transparent placeholder:text-text-quaternary p-0 leading-tight outline-0 focus:outline-0 focus:ring-0',
+    'inline-block h-full w-full flex-auto appearance-none bg-transparent p-0 leading-tight outline-0 placeholder:text-text-quaternary focus:outline-0 focus:ring-0',
     restProps.disabled && 'cursor-not-allowed',
     className,
   );
@@ -411,7 +411,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
       <Icon
         type="suffix"
         icon={suffixIcon}
-        className="group-hover/selector:opacity-0 group-hover/selector:last:opacity-100 transition-opacity"
+        className="transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100"
       />
       {clearIcon}
     </div>

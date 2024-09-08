@@ -66,16 +66,16 @@ export type GetRequestType<
         ]
       >
   : LazyLoadType extends true
-  ? RequestConfig<
-      OptionType,
-      [
-        {
-          [parentValue: string]: RawValueType;
-        },
-        ...any[],
-      ]
-    >
-  : RequestConfig<OptionType, any[]>;
+    ? RequestConfig<
+        OptionType,
+        [
+          {
+            [parentValue: string]: RawValueType;
+          },
+          ...any[],
+        ]
+      >
+    : RequestConfig<OptionType, any[]>;
 
 export interface FieldNames<OptionType extends DefaultOptionType = DefaultOptionType> {
   value?: keyof OptionType;

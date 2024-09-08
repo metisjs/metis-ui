@@ -141,7 +141,7 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
       [`${handlePrefixCls}-dragging`]: dragging,
     },
     'absolute h-2 w-2 rounded-full outline-none',
-    'after:absolute after:left-0 after:top-0 after:h-2 after:w-2 after:cursor-pointer after:rounded-full after:ring-2 after:ring-primary after:transition-all after:bg-elevated',
+    'after:absolute after:left-0 after:top-0 after:h-2 after:w-2 after:cursor-pointer after:rounded-full after:bg-elevated after:ring-2 after:ring-primary after:transition-all',
     !disabled &&
       'hover:after:-left-[0.0626rem] hover:after:-top-[0.0626rem] hover:after:h-[0.625rem] hover:after:w-[0.625rem] hover:after:ring-primary-hover',
     !disabled &&

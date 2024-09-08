@@ -59,9 +59,12 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
   React.useEffect(() => {
     if (!mergedHovering && duration > 0) {
       const start = Date.now() - spentTime;
-      const timeout = setTimeout(() => {
-        onInternalClose();
-      }, duration * 1000 - spentTime);
+      const timeout = setTimeout(
+        () => {
+          onInternalClose();
+        },
+        duration * 1000 - spentTime,
+      );
 
       return () => {
         if (pauseOnHover) {

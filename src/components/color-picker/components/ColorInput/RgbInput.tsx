@@ -33,7 +33,7 @@ const RgbInput: FC<RgbInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
-  const stepperCls = clsx(rgbInputPrefixCls, 'flex-1 basis-1/3 w-0');
+  const stepperCls = clsx(rgbInputPrefixCls, 'w-0 flex-1 basis-1/3');
 
   return (
     <div className={clsx(rgbInputPrefixCls, 'flex gap-1')}>

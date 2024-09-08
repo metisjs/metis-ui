@@ -252,7 +252,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
                   'h-10 truncate rounded-md p-2 leading-10': true,
                   'pe-4 ps-4 [.item-group_&]:ps-7': !firstLevel,
                   'pe-8': firstLevel && !isInlineCollapsed,
-                  'bg-fill-quaternary text-primary ': selected,
+                  'bg-fill-quaternary text-primary': selected,
                   'hover:bg-fill-quaternary': !selected && !mergedDisabled,
                   'text-text-tertiary': mergedDisabled,
                 },

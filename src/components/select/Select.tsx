@@ -1,5 +1,5 @@
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import * as React from 'react';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';

@@ -289,7 +289,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         onScroll={onPopupScroll}
         virtual={virtual}
         innerProps={virtual ? undefined : a11yProps}
-        className={{ view: ' py-1' }}
+        className={{ view: 'py-1' }}
       >
         {(item, itemIndex) => {
           const { group, groupOption, data, label, value, disabled } = item;
@@ -345,7 +345,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             {
               'pl-6': groupOption,
               'bg-primary text-white': activeIndex === itemIndex && !disabled,
-              'text-text-tertiary cursor-not-allowed': disabled,
+              'cursor-not-allowed text-text-tertiary': disabled,
               'font-semibold': selected,
             },
             semanticCls.option,

@@ -73,7 +73,7 @@ const CopyableIcon: React.FC<CopyableIconProps> = ({ name }) => {
           aria-haspopup="true"
           aria-controls={name}
           aria-expanded={state === 'active'}
-          className="absolute inset-0 flex h-full w-full cursor-pointer items-center justify-center rounded-xl text-text  ring-1 ring-inset ring-border hover:text-primary"
+          className="absolute inset-0 flex h-full w-full cursor-pointer items-center justify-center rounded-xl text-text ring-1 ring-inset ring-border hover:text-primary"
           onClick={copy}
         >
           <span

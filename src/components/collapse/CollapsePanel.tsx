@@ -71,11 +71,11 @@ const CollapsePanel = React.forwardRef<HTMLDivElement, CollapsePanelProps>((prop
       [`${prefixCls}-header-collapsible-only`]: collapsibleHeader,
       [`${prefixCls}-icon-collapsible-only`]: collapsibleIcon,
     },
-    'flex relative flex-nowrap py-3 pr-4 pl-3 items-center cursor-pointer gap-2',
+    'relative flex cursor-pointer flex-nowrap items-center gap-2 py-3 pl-3 pr-4',
     {
       'cursor-default': collapsibleIcon,
       'pl-4 pr-3': expandIconPosition === 'end',
-      'text-text-tertiary cursor-not-allowed': disabled,
+      'cursor-not-allowed text-text-tertiary': disabled,
     },
     semanticCls.header,
   );
@@ -87,7 +87,7 @@ const CollapsePanel = React.forwardRef<HTMLDivElement, CollapsePanelProps>((prop
 
   const contentBoxCls = clsx(
     `${prefixCls}-content-box`,
-    'border-t border-border p-4 bg-container ',
+    'border-t border-border bg-container p-4',
     semanticCls.content,
   );
 

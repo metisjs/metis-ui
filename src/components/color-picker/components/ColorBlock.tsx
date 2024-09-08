@@ -16,7 +16,7 @@ const ColorBlock: FC<ColorBlockProps> = ({ color, prefixCls, className, style, o
     <div
       className={clsx(
         colorBlockCls,
-        'relative rounded w-7 h-7 bg-[length:50%_50%] flex-none',
+        'relative h-7 w-7 flex-none rounded bg-[length:50%_50%]',
         className,
       )}
       style={{
@@ -29,7 +29,7 @@ const ColorBlock: FC<ColorBlockProps> = ({ color, prefixCls, className, style, o
       <div
         className={clsx(
           `${colorBlockCls}-inner`,
-          'w-full h-full rounded ring-1 ring-inset ring-fill-tertiary',
+          'h-full w-full rounded ring-1 ring-inset ring-fill-tertiary',
         )}
         style={{
           background: color,

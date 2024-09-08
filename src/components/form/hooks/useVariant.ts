@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import type { Variant} from '../../config-provider/context';
+import type { Variant } from '../../config-provider/context';
 import { ConfigContext, Variants } from '../../config-provider/context';
 import { VariantContext } from '../context';
 

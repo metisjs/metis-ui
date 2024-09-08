@@ -56,7 +56,7 @@ const InternalPresets: FC<InternalPresetsProps> = ({
     onChange?.(colorValue);
   };
 
-  const itemsCls = clsx(`${colorPresetsPrefixCls}-items`, 'flex gap-1.5 flex-wrap');
+  const itemsCls = clsx(`${colorPresetsPrefixCls}-items`, 'flex flex-wrap gap-1.5');
 
   const items: CollapseProps['items'] = presetsValue
     .filter((preset) => Array.isArray(preset?.colors) && preset.colors?.length > 0)
@@ -81,7 +81,7 @@ const InternalPresets: FC<InternalPresetsProps> = ({
                     presetColor.toHexString() === color?.toHexString(),
                   [`${colorPresetsPrefixCls}-color-light`]: isLight(presetColor, bgColor),
                 },
-                'w-6 h-6',
+                'h-6 w-6',
               )}
               onClick={() => handleClick(presetColor)}
             />
@@ -97,7 +97,7 @@ const InternalPresets: FC<InternalPresetsProps> = ({
         ghost
         items={items}
         className={{
-          panelHeader: 'p-0 gap-0.5 text-text-tertiary',
+          panelHeader: 'gap-0.5 p-0 text-text-tertiary',
           panelContent: 'px-0 py-2',
         }}
       />

@@ -1,10 +1,5 @@
-import type {
-  DecimalClass,
-  ValueType} from '@rc-component/mini-decimal';
-import getMiniDecimal, {
-  num2str,
-  trimNumber
-} from '@rc-component/mini-decimal';
+import type { DecimalClass, ValueType } from '@rc-component/mini-decimal';
+import getMiniDecimal, { num2str, trimNumber } from '@rc-component/mini-decimal';
 
 export function getDecupleSteps(step: string | number) {
   const stepStr = typeof step === 'number' ? num2str(step) : trimNumber(step).fullStr;

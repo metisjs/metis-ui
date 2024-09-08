@@ -115,11 +115,11 @@ const Options: React.FC<OptionsProps> = (props) => {
     const mergedChangerCls = !className?.sizeChanger
       ? `${prefixCls}-size-changer`
       : typeof className.sizeChanger === 'string'
-      ? `${prefixCls}-size-changer ${className?.sizeChanger}`
-      : {
-          ...className.sizeChanger,
-          root: `${prefixCls}-size-changer ${className?.sizeChanger.root}`,
-        };
+        ? `${prefixCls}-size-changer ${className?.sizeChanger}`
+        : {
+            ...className.sizeChanger,
+            root: `${prefixCls}-size-changer ${className?.sizeChanger.root}`,
+          };
 
     changeSelect = (
       <Select
@@ -143,11 +143,11 @@ const Options: React.FC<OptionsProps> = (props) => {
     const mergedJumperCls = !className?.jumper
       ? clsx(`${prefixCls}-quick-jumper`, jumperCls)
       : typeof className.jumper === 'string'
-      ? clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper)
-      : {
-          ...className.jumper,
-          root: clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper.root),
-        };
+        ? clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper)
+        : {
+            ...className.jumper,
+            root: clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper.root),
+          };
 
     goInput = (
       <>

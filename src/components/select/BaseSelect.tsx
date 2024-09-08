@@ -1,7 +1,7 @@
+import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
-import * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';

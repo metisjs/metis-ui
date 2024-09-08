@@ -166,7 +166,7 @@ function ConfirmContent(
   const contentCls = clsx(
     `${confirmPrefixCls}-content`,
     'mt-2 text-sm text-text-secondary',
-    !hasTitle && 'mt-[0.625rem] sm:mt-0 ',
+    !hasTitle && 'mt-[0.625rem] sm:mt-0',
   );
 
   return (

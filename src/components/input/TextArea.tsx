@@ -1,6 +1,6 @@
-import { useMergedState } from 'rc-util';
 import * as React from 'react';
 import { forwardRef } from 'react';
+import { useMergedState } from 'rc-util';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';

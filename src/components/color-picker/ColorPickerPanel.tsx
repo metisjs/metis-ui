@@ -89,13 +89,13 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
   );
 
   // ====================== Style ======================
-  const contentCls = clsx(`${colorPickerPanelPrefixCls}-content`, 'flex flex-col w-60');
+  const contentCls = clsx(`${colorPickerPanelPrefixCls}-content`, 'flex w-60 flex-col');
 
   // ====================== Render ======================
   const innerPanel = (
     <div className={contentCls}>
       <Picker />
-      {Array.isArray(presets) && <Divider className="mt-3 mb-2" />}
+      {Array.isArray(presets) && <Divider className="mb-2 mt-3" />}
       <Presets />
     </div>
   );

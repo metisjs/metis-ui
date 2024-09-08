@@ -90,13 +90,13 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
       [`${colorTriggerPrefixCls}-active`]: open,
       [`${colorTriggerPrefixCls}-disabled`]: disabled,
     },
-    'w-fit inline-flex p-1 ring-1 ring-inset ring-border rounded-md items-start justify-center gap-2 bg-elevated transition-all duration-200 cursor-pointer text-sm text-text',
+    'inline-flex w-fit cursor-pointer items-start justify-center gap-2 rounded-md bg-elevated p-1 text-sm text-text ring-1 ring-inset ring-border transition-all duration-200',
     { 'ring-2 ring-primary': open },
-    disabled && 'cursor-not-allowed text-text-tertiary bg-fill-quaternary',
+    disabled && 'cursor-not-allowed bg-fill-quaternary text-text-tertiary',
     semanticCls.root,
   );
-  const textCls = clsx(colorTextPrefixCls, 'mr-1.5 self-center flex-1', semanticCls.text);
-  const blockCls = clsx('w-7 h-7', semanticCls.colorBlock);
+  const textCls = clsx(colorTextPrefixCls, 'mr-1.5 flex-1 self-center', semanticCls.text);
+  const blockCls = clsx('h-7 w-7', semanticCls.colorBlock);
 
   // ============================= Render =============================
   const containerNode = useMemo<React.ReactNode>(

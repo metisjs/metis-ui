@@ -34,7 +34,7 @@ const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
 
   return (
     <Input
-      className={{ root: clsx(`${prefixCls}-hex-input`, 'py-0.5 rounded'), input: 'text-xs' }}
+      className={{ root: clsx(`${prefixCls}-hex-input`, 'rounded py-0.5'), input: 'text-xs' }}
       value={hexValue}
       prefix="#"
       onChange={handleHexChange}

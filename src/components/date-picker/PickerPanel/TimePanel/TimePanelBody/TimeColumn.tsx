@@ -1,5 +1,5 @@
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import * as React from 'react';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { clsx } from '../../../../_util/classNameUtils';
 import type { ScrollbarProps, ScrollbarRef } from '../../../../scrollbar';
 import Scrollbar from '../../../../scrollbar';

@@ -178,8 +178,8 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
     'text-base': mergedSize === 'large',
   });
   const triggerColorBlockCls = clsx({
-    'w-6 h-6': mergedSize === 'small',
-    'w-8 h-8': mergedSize === 'large',
+    'h-6 w-6': mergedSize === 'small',
+    'h-8 w-8': mergedSize === 'large',
   });
   const popupCls = clsx(prefixCls, semanticCls.popup);
 

@@ -462,8 +462,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     'absolute bottom-0 left-0 right-0 z-[100] h-3 px-1 py-0.5 opacity-0 hover:h-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
-      'hidden ':
-        !scrollbarWidth || !thumbHorizontalStyle?.width || (universal && !didMountUniversal),
+      hidden: !scrollbarWidth || !thumbHorizontalStyle?.width || (universal && !didMountUniversal),
       'h-[14px] bg-scrollbar-track': dragging || trackMouseOver,
     },
     semanticCls.trackHorizontal,
@@ -474,8 +473,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     'absolute bottom-0 right-0 top-0 z-[100] w-3 px-0.5 py-1 opacity-0 hover:w-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
-      'hidden ':
-        !scrollbarWidth || !thumbVerticalStyle?.height || (universal && !didMountUniversal),
+      hidden: !scrollbarWidth || !thumbVerticalStyle?.height || (universal && !didMountUniversal),
       'w-[14px] bg-scrollbar-track': dragging,
     },
     semanticCls.trackVertical,

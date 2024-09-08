@@ -53,7 +53,7 @@ const ColorInput: FC<ColorInputProps> = (props) => {
   }, [colorFormat, prefixCls, value, onChange]);
 
   return (
-    <div className={clsx(`${colorInputPrefixCls}-container`, 'flex gap-1 items-start')}>
+    <div className={clsx(`${colorInputPrefixCls}-container`, 'flex items-start gap-1')}>
       <Select
         value={colorFormat}
         variant="borderless"
@@ -66,9 +66,9 @@ const ColorInput: FC<ColorInputProps> = (props) => {
         className={{
           root: `${prefixCls}-format-select`,
           selector: 'p-0 after:leading-3',
-          selectorItem: 'text-xs pr-6',
+          selectorItem: 'pr-6 text-xs',
           arrow: 'pr-1',
-          option: 'text-xs pr-9',
+          option: 'pr-9 text-xs',
         }}
         menuItemSelectedIcon={<CheckOutline className="h-4 w-4" />}
       />

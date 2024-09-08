@@ -1,5 +1,4 @@
-import type {
-  ModalStaticFunctions} from './confirm';
+import type { ModalStaticFunctions } from './confirm';
 import confirm, {
   modalGlobalConfig,
   withConfirm,

@@ -1,5 +1,5 @@
-import { useEvent, useMergedState } from 'rc-util';
 import * as React from 'react';
+import { useEvent, useMergedState } from 'rc-util';
 import { clsx } from '../../_util/classNameUtils';
 import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';

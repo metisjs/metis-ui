@@ -33,7 +33,7 @@ const HsbInput: FC<HsbInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
-  const stepperCls = clsx(hsbInputPrefixCls, 'flex-1 basis-1/3 w-0');
+  const stepperCls = clsx(hsbInputPrefixCls, 'w-0 flex-1 basis-1/3');
 
   return (
     <div className={clsx(hsbInputPrefixCls, 'flex gap-1')}>

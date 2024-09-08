@@ -109,26 +109,26 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
 
   // ========================= Style =========================
   const commonBtnCLs = clsx(
-    'relative text-text-tertiary enabled:hover:text-text inline-flex items-center justify-center min-w-[1.6em] disabled:opacity-disabled disabled:pointer-events-none',
+    'relative inline-flex min-w-[1.6em] items-center justify-center text-text-tertiary enabled:hover:text-text disabled:pointer-events-none disabled:opacity-disabled',
   );
   const commonIconCls = [
     clsx(
-      'relative -rotate-45 w-[7px] h-[7px]',
-      'before:absolute before:top-0 before:left-0 before:w-[7px] before:h-[7px] before:border-current before:border-l-[1.5px] before:border-t-[1.5px]',
+      'relative h-[7px] w-[7px] -rotate-45',
+      'before:absolute before:left-0 before:top-0 before:h-[7px] before:w-[7px] before:border-l-[1.5px] before:border-t-[1.5px] before:border-current',
     ),
     clsx(
-      'after:absolute after:top-1 after:left-1 after:w-[7px] after:h-[7px] after:border-current after:border-l-[1.5px] after:border-t-[1.5px] after:inline-block',
+      'after:absolute after:left-1 after:top-1 after:inline-block after:h-[7px] after:w-[7px] after:border-l-[1.5px] after:border-t-[1.5px] after:border-current',
     ),
   ];
 
   const rootCls = clsx(
     headerPrefixCls,
-    'flex px-2 border-b border-border-secondary *:transition-colors',
+    'flex border-b border-border-secondary px-2 *:transition-colors',
   );
 
   const viewCls = clsx(
     `${headerPrefixCls}-view`,
-    'flex-auto font-semibold leading-10 flex justify-center gap-2',
+    'flex flex-auto justify-center gap-2 font-semibold leading-10',
   );
 
   const superPrevBtnCls = clsx(
