@@ -150,15 +150,12 @@ devDependencies:
   prettier:
     specifier: ^3.3.3
     version: 3.3.3
-  prettier-plugin-organize-imports:
-    specifier: ^3.2.2
-    version: 3.2.2(prettier@3.3.3)(typescript@5.5.2)
   prettier-plugin-packagejson:
     specifier: ^2.4.3
     version: 2.4.3(prettier@3.3.3)
   prettier-plugin-tailwindcss:
     specifier: ^0.6.6
-    version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.3.1)(prettier-plugin-organize-imports@3.2.2)(prettier@3.3.3)
+    version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.3.1)(prettier@3.3.3)
   qs:
     specifier: ^6.11.2
     version: 6.11.2
@@ -13051,7 +13048,7 @@ packages:
       synckit: 0.8.5
     dev: true
 
-  /prettier-plugin-tailwindcss@0.6.6(@ianvs/prettier-plugin-sort-imports@4.3.1)(prettier-plugin-organize-imports@3.2.2)(prettier@3.3.3):
+  /prettier-plugin-tailwindcss@0.6.6(@ianvs/prettier-plugin-sort-imports@4.3.1)(prettier@3.3.3):
     resolution: {integrity: sha512-OPva5S7WAsPLEsOuOWXATi13QrCKACCiIonFgIR6V4lYv4QLp++UXVhZSzRbZxXGimkQtQT86CC6fQqTOybGng==}
     engines: {node: '>=14.21.3'}
     peerDependencies:
@@ -13108,7 +13105,6 @@ packages:
     dependencies:
       '@ianvs/prettier-plugin-sort-imports': 4.3.1(prettier@3.3.3)
       prettier: 3.3.3
-      prettier-plugin-organize-imports: 3.2.2(prettier@3.3.3)(typescript@5.5.2)
     dev: true
 
   /prettier@3.3.3:

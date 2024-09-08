@@ -1,7 +1,5 @@
 module.exports = {
-  pluginSearchDirs: false,
   plugins: [
-    'prettier-plugin-organize-imports',
     'prettier-plugin-packagejson',
     '@ianvs/prettier-plugin-sort-imports',
     'prettier-plugin-tailwindcss',
