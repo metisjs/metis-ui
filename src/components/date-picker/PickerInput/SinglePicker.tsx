@@ -633,7 +633,7 @@ function Picker<DateType extends object = any>(
     'focus-within:ring-2 focus-within:ring-primary',
     {
       'px-3 py-1.5': size === 'middle',
-      'px-2 py-1.5': size === 'small',
+      'px-2 py-1': size === 'small',
       'px-3 py-2 text-base': size === 'large',
     },
     multiple && [

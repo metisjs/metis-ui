@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '../../../_util/classNameUtils';
 import type { ValueDate } from '../../interface';
 
 export interface PresetPanelProps<ValueType = any> {
@@ -22,11 +23,12 @@ export default function PresetPanel<DateType extends object = any>(
   }
 
   return (
-    <div className={`${prefixCls}-presets`}>
-      <ul>
+    <div className={clsx(`${prefixCls}-presets`, 'flex max-w-48 flex-col')}>
+      <ul className="flex flex-1 flex-col gap-1 border-e border-border-secondary p-2">
         {presets.map(({ label, value }, index) => (
           <li
             key={index}
+            className="cursor-pointer truncate rounded px-2 py-1 transition-all hover:bg-fill-quaternary"
             onClick={() => {
               onClick(executeValue(value));
             }}

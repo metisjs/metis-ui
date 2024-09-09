@@ -54,10 +54,10 @@ const disabled6MonthsDate: DatePickerProps['disabledDate'] = (current, { from, t
 
 const App: React.FC = () => (
   <Space vertical>
-    <h5>7 days range</h5>
+    <h5 className="text-base font-semibold">7 days range</h5>
     <RangePicker disabledDate={disabled7DaysDate} />
 
-    <h5>6 months range</h5>
+    <h5 className="mt-4 text-base font-semibold">6 months range</h5>
     <RangePicker disabledDate={disabled6MonthsDate} picker="month" />
   </Space>
 );

@@ -35,7 +35,7 @@ const MyDatePanel = (props: GetProps<DateComponent>) => {
   // Render
   return (
     <Space vertical block size="small" className="p-4">
-      <h4>The BEST Picker Panel</h4>
+      <h4 className="text-lg font-medium">The BEST Picker Panel</h4>
       <Slider
         min={0}
         max={dateCount}
@@ -50,6 +50,7 @@ const MyDatePanel = (props: GetProps<DateComponent>) => {
         }}
       />
       <Button
+        className="w-full"
         type="primary"
         onClick={() => {
           onSelect(innerValue);

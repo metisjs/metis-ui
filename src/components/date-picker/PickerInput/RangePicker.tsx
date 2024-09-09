@@ -757,7 +757,7 @@ function RangePicker<DateType extends object = any>(
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
     'focus-within:ring-2 focus-within:ring-primary',
     {
-      'px-2 py-1.5': size === 'small',
+      'px-2 py-1': size === 'small',
       'px-3 py-2 text-base': size === 'large',
     },
     {

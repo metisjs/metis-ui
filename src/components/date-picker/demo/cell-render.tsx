@@ -9,15 +9,10 @@ const App: React.FC = () => {
       return info.originNode;
     }
     if (typeof current === 'number' || typeof current === 'string') {
-      return <div className="ant-picker-cell-inner">{current}</div>;
+      return <div>{current}</div>;
     }
     return (
-      <div
-        className={clsx(
-          'ant-picker-cell-inner',
-          current.date() === 1 && 'rounded-1/2 border border-primary',
-        )}
-      >
+      <div className={clsx(current.date() === 1 && 'rounded-full border border-primary')}>
         {current.date()}
       </div>
     );

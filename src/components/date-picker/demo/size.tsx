@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import type { ConfigProviderProps, RadioChangeEvent } from 'metis-ui';
-import { DatePicker, Radio, Space } from 'metis-ui';
-
-type SizeType = ConfigProviderProps['componentSize'];
+import { DatePicker, Segmented, Space } from 'metis-ui';
+import type { SizeType } from 'metis-ui/es/config-provider/SizeContext';
 
 const { RangePicker } = DatePicker;
 
 const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>('middle');
 
-  const handleSizeChange = (e: RadioChangeEvent) => {
-    setSize(e.target.value);
+  const handleSizeChange = (val: string) => {
+    setSize(val as SizeType);
   };
 
   return (
     <Space vertical size={12}>
-      <Radio.Group value={size} onChange={handleSizeChange}>
-        <Radio value="large">Large</Radio>
-        <Radio value="middle">middle</Radio>
-        <Radio value="small">Small</Radio>
-      </Radio.Group>
+      <Segmented
+        value={size}
+        options={[
+          { label: 'Large', value: 'large' },
+          { label: 'Default', value: 'middle' },
+          { label: 'Small', value: 'small' },
+        ]}
+        onChange={handleSizeChange}
+      />
       <DatePicker size={size} />
       <DatePicker size={size} picker="month" />
       <RangePicker size={size} />
