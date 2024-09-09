@@ -324,12 +324,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
     'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
+    mergedDisabled && 'text-text-tertiary',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
     'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
     mergedSize === 'large' && '[&_.metis-icon]:text-xl',
+    mergedDisabled && 'text-text-tertiary',
     semanticCls.suffix,
   );
   const countCls = clsx(
