@@ -153,6 +153,13 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
             type === 'week' && {
               'bg-primary text-white': selected || rangeStart || rangeEnd,
             },
+            disabled && [
+              type !== 'week' && {
+                'opacity-disabled': inView && (selected || rangeStart || rangeEnd || today),
+                'group-hover/cell:bg-transparent':
+                  !inView || (!selected && !rangeStart && !rangeEnd),
+              },
+            ],
             semanticCls.cellInner,
           )}
         >
@@ -193,6 +200,21 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               'before:bg-primary': selected || rangeStart || rangeEnd,
               'before:bg-primary-bg': inRange,
             },
+            disabled && [
+              'cursor-not-allowed text-text-tertiary before:bg-fill-quaternary first:before:rounded-none last:before:rounded-none',
+              {
+                'text-primary': today,
+              },
+              type !== 'week' && {
+                'before:bg-primary-bg before:opacity-disabled':
+                  inView && (inRange || rangeStart || rangeEnd),
+              },
+              type === 'week' && {
+                'before:bg-none': hover && !selected,
+                'before:bg-primary before:opacity-disabled':
+                  selected || rangeStart || rangeEnd || inRange,
+              },
+            ],
             semanticCls.cell,
           )}
           onClick={() => {

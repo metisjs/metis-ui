@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../../_util/classNameUtils';
 import type { RangePickerRef, SelectorProps } from '../../interface';
 import { pickProps } from '../../utils/miscUtil';
 import { getOffsetUnit } from '../../utils/uiUtil';
@@ -91,6 +91,8 @@ function RangeSelector<DateType extends object = any>(
 
   // ======================== Prefix ========================
   const { prefixCls } = React.useContext(PickerContext);
+
+  const semanticCls = getSemanticCls(className);
 
   // ========================== Id ==========================
   const ids = React.useMemo(() => {
@@ -182,7 +184,7 @@ function RangeSelector<DateType extends object = any>(
       [`${prefixCls}-disabled`]: disabled.every((i) => i),
       [`${prefixCls}-invalid`]: invalid.some((i) => i),
     },
-    className,
+    semanticCls.root,
   );
   const separatorCls = clsx(
     `${prefixCls}-range-separator`,

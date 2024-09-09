@@ -16,7 +16,7 @@ export default function Icon(props: IconProps) {
     <span
       className={clsx(
         `${prefixCls}-${type}`,
-        'inline-flex items-center text-text-tertiary [&_.metis-icon]:text-base',
+        'ml-1 inline-flex items-center text-text-tertiary [&_.metis-icon]:text-base',
         className,
       )}
       {...restProps}

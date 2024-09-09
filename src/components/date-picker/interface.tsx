@@ -514,7 +514,7 @@ export interface SelectorProps<DateType = any> extends SharedHTMLAttrs {
 
   clearIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
-  className?: string;
+  className?: SemanticClassName<'item' | 'placeholder' | 'clear'>;
   style?: React.CSSProperties;
   /** Add `-placeholder` className as a help info */
   activeHelp?: boolean;

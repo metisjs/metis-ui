@@ -11,7 +11,7 @@ const onChange: DatePickerProps<Dayjs, true>['onChange'] = (date, dateString) =>
 const defaultValue = [dayjs('2000-01-01'), dayjs('2000-01-03'), dayjs('2000-01-05')];
 
 const App: React.FC = () => (
-  <Space vertical size="small">
+  <Space vertical size="small" block>
     <DatePicker
       multiple
       onChange={onChange}

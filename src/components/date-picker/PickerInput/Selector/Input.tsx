@@ -374,8 +374,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   );
 
   const inputCls = clsx(
-    'inline-block h-full w-full flex-auto appearance-none bg-transparent p-0 leading-tight outline-0 placeholder:text-text-quaternary focus:outline-0 focus:ring-0',
-    restProps.disabled && 'cursor-not-allowed',
+    'inline-block h-auto w-full flex-auto appearance-none bg-transparent p-0 outline-0 placeholder:text-text-quaternary focus:outline-0 focus:ring-0 disabled:cursor-not-allowed disabled:bg-transparent disabled:text-text-tertiary',
     className,
   );
 

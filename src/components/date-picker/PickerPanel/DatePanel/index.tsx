@@ -108,6 +108,14 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
                 'before:bg-primary': selected || rangeStart || rangeEnd,
                 'before:bg-primary-bg': inRange,
               },
+              disabled && [
+                'text-text-tertiary before:bg-fill-quaternary',
+                isWeek && {
+                  'before:bg-none': hover && !selected,
+                  'before:bg-primary before:opacity-disabled':
+                    selected || rangeStart || rangeEnd || inRange,
+                },
+              ],
             )}
             // Operation: Same as code in PanelBody
             onClick={() => {
@@ -129,11 +137,12 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
             <div
               className={clsx(
                 `${cellPrefixCls}-inner`,
-                'relative z-[2] inline-block h-7 min-w-7 rounded leading-7',
+                'relative z-[2] inline-block h-7 min-w-7 rounded leading-7 transition-colors',
                 isWeek && {
                   'bg-primary': selected,
                   'text-white': selected || rangeStart || rangeEnd,
                 },
+                isWeek && disabled && 'bg-transparent',
               )}
             >
               {generateConfig.locale.getWeek(locale.locale, date)}

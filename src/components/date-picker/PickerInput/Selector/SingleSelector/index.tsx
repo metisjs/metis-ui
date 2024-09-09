@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { clsx } from '../../../../_util/classNameUtils';
+import type { SemanticClassName } from '../../../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../../../_util/classNameUtils';
 import type { InternalMode, PickerRef, SelectorProps } from '../../../interface';
 import { isSame } from '../../../utils/dateUtil';
 import { pickProps } from '../../../utils/miscUtil';
@@ -32,6 +33,8 @@ export interface SingleSelectorProps<DateType extends object = any>
   onInvalid: (valid: boolean) => void;
 
   removeIcon?: React.ReactNode;
+
+  multipleClassName?: SemanticClassName<'item' | 'placeholder'>;
 }
 
 function SingleSelector<DateType extends object = any>(
@@ -82,6 +85,8 @@ function SingleSelector<DateType extends object = any>(
 
   // ======================== Prefix ========================
   const { prefixCls } = React.useContext(PickerContext);
+
+  const semanticCls = getSemanticCls(className);
 
   // ========================= Refs =========================
   const rootRef = React.useRef<HTMLDivElement>(null);
@@ -142,16 +147,27 @@ function SingleSelector<DateType extends object = any>(
         disabled={disabled}
         removeIcon={removeIcon}
         placeholder={placeholder}
+        className={className}
       />
       <input
-        className={`${prefixCls}-multiple-input`}
+        className={clsx(`${prefixCls}-multiple-input`, 'invisible absolute -z-[1] h-0 w-0')}
         value={value?.map(getText).join(',')}
         ref={inputRef as any}
         readOnly
         autoFocus={autoFocus}
       />
-      <Icon type="suffix" icon={suffixIcon} />
-      {showClear && <ClearIcon icon={clearIcon} onClear={onClear} />}
+      <Icon
+        type="suffix"
+        icon={suffixIcon}
+        className="transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100"
+      />
+      {showClear && (
+        <ClearIcon
+          icon={clearIcon}
+          onClear={onClear}
+          className={clsx('end-3', semanticCls.clear)}
+        />
+      )}
     </>
   ) : (
     <Input
@@ -159,7 +175,9 @@ function SingleSelector<DateType extends object = any>(
       {...getInputProps()}
       autoFocus={autoFocus}
       suffixIcon={suffixIcon}
-      clearIcon={showClear && <ClearIcon icon={clearIcon} onClear={onClear} />}
+      clearIcon={
+        showClear && <ClearIcon icon={clearIcon} onClear={onClear} className={semanticCls.clear} />
+      }
       showActiveCls={false}
     />
   );
@@ -176,7 +194,7 @@ function SingleSelector<DateType extends object = any>(
           [`${prefixCls}-disabled`]: disabled,
           [`${prefixCls}-invalid`]: invalid,
         },
-        className,
+        semanticCls.root,
       )}
       style={style}
       ref={rootRef}

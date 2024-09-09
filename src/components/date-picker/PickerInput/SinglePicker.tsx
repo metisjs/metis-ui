@@ -628,13 +628,22 @@ function Picker<DateType extends object = any>(
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     'group/selector',
-    'relative inline-block rounded-md bg-container px-3 py-1.5 text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
+    'relative inline-flex rounded-md bg-container text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
     'focus-within:ring-2 focus-within:ring-primary',
     {
+      'px-3 py-1.5': size === 'middle',
       'px-2 py-1.5': size === 'small',
       'px-3 py-2 text-base': size === 'large',
     },
+    multiple && [
+      'w-full cursor-text',
+      {
+        'min-h-8 py-0.5 pe-2 ps-1': size === 'small',
+        'min-h-9 py-0.5 pe-3 ps-1': size === 'middle',
+        'min-h-10 py-0.5 pe-3 ps-1 text-base': size === 'large',
+      },
+    ],
     {
       'bg-container ring-1': variant === 'outlined',
       'bg-transparent shadow-none ring-0': variant === 'borderless',
@@ -655,6 +664,19 @@ function Picker<DateType extends object = any>(
     semanticCls.root,
   );
 
+  const selectorPlaceholderCls = clsx({
+    'end-2 start-2': size === 'small',
+  });
+
+  const selectorItemCls = clsx({
+    'pe-1 ps-2 text-sm leading-6': size === 'small',
+    'leading-8': size === 'large',
+  });
+
+  const clearCls = clsx({
+    'end-2': size === 'small',
+  });
+
   // ======================== Render ========================
   return (
     <PickerContext.Provider value={context}>
@@ -670,7 +692,12 @@ function Picker<DateType extends object = any>(
           // Shared
           {...filledProps}
           placeholder={getPlaceholder(locale, picker, placeholder)}
-          className={rootCls}
+          className={{
+            root: rootCls,
+            item: selectorItemCls,
+            placeholder: selectorPlaceholderCls,
+            clear: clearCls,
+          }}
           // Ref
           ref={selectorRef}
           // Icon

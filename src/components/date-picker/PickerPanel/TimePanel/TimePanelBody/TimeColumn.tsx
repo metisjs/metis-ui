@@ -103,10 +103,21 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
         {units.map(({ label, value: unitValue, disabled }) => {
           const inner = (
             <div
-              className={clsx(`${cellPrefixCls}-inner`, 'block cursor-pointer rounded leading-7', {
-                'hover:bg-fill-quaternary': value !== unitValue,
-                'bg-primary-bg': value === unitValue,
-              })}
+              className={clsx(
+                `${cellPrefixCls}-inner`,
+                'block cursor-pointer rounded leading-7',
+                {
+                  'hover:bg-fill-quaternary': value !== unitValue,
+                  'bg-primary-bg': value === unitValue,
+                },
+                disabled && [
+                  'cursor-not-allowed text-text-tertiary',
+                  {
+                    'hover:bg-transparent': value !== unitValue,
+                    'opacity-disabled': value === unitValue,
+                  },
+                ],
+              )}
             >
               {label}
             </div>
