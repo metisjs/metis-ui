@@ -755,7 +755,6 @@ function RangePicker<DateType extends object = any>(
     'group/selector',
     'relative inline-flex rounded-md bg-container px-3 py-1.5 text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
-    'focus-within:ring-2 focus-within:ring-primary',
     {
       'px-2 py-1': size === 'small',
       'px-3 py-2 text-base': size === 'large',
@@ -769,7 +768,7 @@ function RangePicker<DateType extends object = any>(
     (focused || mergedOpen) && {
       'ring-2 ring-primary': variant === 'outlined',
       'ring-0': variant === 'borderless',
-      'bg-container': variant === 'filled',
+      'bg-container ring-2 ring-primary': variant === 'filled',
       'z-[2]': isCompactItem,
     },
     getStatusClassNames(status, variant, focused || mergedOpen),
@@ -779,6 +778,11 @@ function RangePicker<DateType extends object = any>(
     },
     semanticCls.root,
   );
+
+  const activeBarCls = clsx({
+    'bg-warning': status === 'warning',
+    'bg-error': status === 'error',
+  });
 
   // ======================== Render ========================
   return (
@@ -797,7 +801,7 @@ function RangePicker<DateType extends object = any>(
           // Shared
           {...filledProps}
           placeholder={getRangePlaceholder(locale, picker, placeholder)}
-          className={rootCls}
+          className={{ root: rootCls, activeBar: activeBarCls }}
           // Ref
           ref={selectorRef}
           // Icon

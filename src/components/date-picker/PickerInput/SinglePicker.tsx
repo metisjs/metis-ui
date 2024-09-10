@@ -630,7 +630,6 @@ function Picker<DateType extends object = any>(
     'group/selector',
     'relative inline-flex rounded-md bg-container text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
-    'focus-within:ring-2 focus-within:ring-primary',
     {
       'px-3 py-1.5': size === 'middle',
       'px-2 py-1': size === 'small',
@@ -653,7 +652,7 @@ function Picker<DateType extends object = any>(
     (focused || mergedOpen) && {
       'ring-2 ring-primary': variant === 'outlined',
       'ring-0': variant === 'borderless',
-      'bg-container': variant === 'filled',
+      'bg-container ring-2 ring-primary': variant === 'filled',
       'z-[2]': isCompactItem,
     },
     getStatusClassNames(status, variant, focused || mergedOpen),

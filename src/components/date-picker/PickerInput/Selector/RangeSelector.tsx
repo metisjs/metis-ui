@@ -196,6 +196,7 @@ function RangeSelector<DateType extends object = any>(
     {
       'opacity-100': activeIndex > -1,
     },
+    semanticCls.activeBar,
   );
 
   // ======================== Render ========================

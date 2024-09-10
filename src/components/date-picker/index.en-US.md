@@ -35,7 +35,7 @@ By clicking the input box, you can select a date from a popup calendar.
 <code src="./demo/buddhist-era.tsx">Buddhist Era</code>
 <code src="./demo/status.tsx">Status</code>
 <code src="./demo/variant.tsx">Variants</code>
-<code src="./demo/filled-debug.tsx" debug>Filled Debug</code>
+<code src="./demo/style-debug.tsx" debug>Style Debug</code>
 <code src="./demo/placement.tsx">Placement</code>
 <code src="./demo/mode.tsx" debug>Controlled Panels</code>
 <code src="./demo/start-end.tsx" debug>Customized Range Picker</code>

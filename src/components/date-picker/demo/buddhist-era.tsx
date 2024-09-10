@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
   return (
     <Space vertical>
-      <h4>By locale props</h4>
+      <h5 className="text-base font-semibold">By locale props</h5>
       <DatePicker defaultValue={defaultValue} locale={buddhistLocale} onChange={onChange} />
       <DatePicker
         defaultValue={defaultValue}
@@ -44,7 +44,7 @@ const App: React.FC = () => {
         onChange={onChange}
       />
 
-      <h4>By ConfigProvider</h4>
+      <h5 className="mt-4 text-base font-semibold">By ConfigProvider</h5>
       <ConfigProvider locale={globalBuddhistLocale}>
         <Space vertical>
           <DatePicker defaultValue={defaultValue} onChange={onChange} />

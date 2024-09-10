@@ -36,7 +36,7 @@ demo:
 <code src="./demo/buddhist-era.tsx">佛历格式</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/variant.tsx">多种形态</code>
-<code src="./demo/filled-debug.tsx" debug>Filled Debug</code>
+<code src="./demo/style-debug.tsx" debug>Style Debug</code>
 <code src="./demo/placement.tsx">弹出位置</code>
 <code src="./demo/mode.tsx" debug>受控面板</code>
 <code src="./demo/start-end.tsx" debug>自定义日期范围选择</code>

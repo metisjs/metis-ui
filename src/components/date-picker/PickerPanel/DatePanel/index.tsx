@@ -109,7 +109,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
                 'before:bg-primary-bg': inRange,
               },
               disabled && [
-                'text-text-tertiary before:bg-fill-quaternary',
+                'text-text-tertiarwy before:bg-fill-quaternary',
                 isWeek && {
                   'before:bg-none': hover && !selected,
                   'before:bg-primary before:opacity-disabled':
