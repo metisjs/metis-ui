@@ -619,10 +619,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         }
 
         cancelSetMockFocused();
+        setMockFocused(false);
 
-        if (!popupElement.contains(document.activeElement)) {
-          selectorRef.current?.focus();
-        }
+        // if (!popupElement.contains(document.activeElement)) {
+        //   selectorRef.current?.focus();
+        // }
       });
 
       activeTimeoutIds.push(timeoutId);
@@ -680,7 +681,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   const onClearMouseDown: React.MouseEventHandler<HTMLSpanElement> = () => {
     onClear?.();
 
-    selectorRef.current?.focus();
+    // selectorRef.current?.focus();
 
     onDisplayValuesChange([], {
       type: 'clear',
