@@ -1,21 +1,21 @@
 import type { Dayjs } from 'dayjs';
-import type { AnyObject } from '../_util/type';
 import generatePicker from './generate';
 import dayjsGenerateConfig from './generate/config/dayjs';
 import type { RangePickerProps as BaseRangePickerProps, PickerProps, PickerRef } from './interface';
 
-export type DatePickerProps<
-  DateType extends AnyObject = Dayjs | Dayjs,
-  MultipleType extends boolean = false,
-> = PickerProps<DateType, MultipleType> & React.RefAttributes<PickerRef>;
-export type MonthPickerProps<
-  DateType extends AnyObject = Dayjs | Dayjs,
-  MultipleType extends boolean = false,
-> = Omit<DatePickerProps<DateType, MultipleType>, 'picker'>;
-export type WeekPickerProps<
-  DateType extends AnyObject = Dayjs | Dayjs,
-  MultipleType extends boolean = false,
-> = Omit<DatePickerProps<DateType, MultipleType>, 'picker'>;
+export type DatePickerProps<MultipleType extends boolean = false> = PickerProps<
+  Dayjs,
+  MultipleType
+> &
+  React.RefAttributes<PickerRef>;
+export type MonthPickerProps<MultipleType extends boolean = false> = Omit<
+  DatePickerProps<MultipleType>,
+  'picker'
+>;
+export type WeekPickerProps<MultipleType extends boolean = false> = Omit<
+  DatePickerProps<MultipleType>,
+  'picker'
+>;
 export type RangePickerProps = BaseRangePickerProps<Dayjs>;
 
 const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);

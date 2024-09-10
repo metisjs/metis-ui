@@ -1,6 +1,5 @@
 import { useEvent } from 'rc-util';
-import type { GenerateConfig } from '../../generate';
-import type { DisabledDate, InternalMode, Locale } from '../../interface';
+import type { DisabledDate, GenerateConfig, InternalMode, Locale } from '../../interface';
 import { isSame } from '../../utils/dateUtil';
 
 export type IsInvalidBoundary<DateType> = (

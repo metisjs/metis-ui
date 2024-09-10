@@ -1,8 +1,14 @@
 import * as React from 'react';
 import { useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import type { GenerateConfig } from '../../generate';
-import type { BaseInfo, InternalMode, Locale, NullableDateType, PanelMode } from '../../interface';
+import type {
+  BaseInfo,
+  GenerateConfig,
+  InternalMode,
+  Locale,
+  NullableDateType,
+  PanelMode,
+} from '../../interface';
 import { fillTime, isSame } from '../../utils/dateUtil';
 import type { RangeValueType } from '../RangePicker';
 

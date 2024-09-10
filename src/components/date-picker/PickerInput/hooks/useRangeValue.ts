@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
-import type { GenerateConfig } from '../../generate';
 import useSyncState from '../../hooks/useSyncState';
 import type {
   BaseInfo,
   FormatType,
+  GenerateConfig,
   Locale,
   NullableDateType,
   ReplaceListType,
@@ -121,8 +121,8 @@ export function useInnerValue<
   defaultValue?: ValueType,
   value?: ValueType,
   onCalendarChange?: (
-    dates: ValueType,
     dateStrings: ReplaceListType<Required<ValueType>, string>,
+    dates: ValueType,
     info: BaseInfo,
   ) => void,
   onOk?: (dates: ValueType) => void,
@@ -160,7 +160,7 @@ export function useInnerValue<
         // Trigger calendar change event
         if (onCalendarChange) {
           const cellTexts = getDateTexts(clone);
-          onCalendarChange(clone, cellTexts, {
+          onCalendarChange(cellTexts, clone, {
             range: isSameStart ? 'end' : 'start',
           });
         }
@@ -306,9 +306,9 @@ export default function useRangeValue<
       // Trigger `onChange` if needed
       if (onChange && !isSameMergedDates) {
         onChange(
+          getDateTexts(clone),
           // Return null directly if all date are empty
           isNullValue && clone.every((val) => !val) ? null : (clone as DateType[]),
-          getDateTexts(clone),
         );
       }
     }

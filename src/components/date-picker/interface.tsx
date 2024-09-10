@@ -1,3 +1,4 @@
+import type { Dayjs } from 'dayjs';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
 import type { AnyObject, SomeRequired } from '../_util/type';
@@ -164,6 +165,8 @@ export type PanelMode = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year' 
 export type InternalMode = PanelMode | 'datetime';
 
 export type PickerMode = Exclude<PanelMode, 'datetime' | 'decade'>;
+
+export type DateValue<DateType> = DateType | string | number;
 
 export type DisabledDate<DateType = any> = (
   date: DateType,
@@ -577,22 +580,22 @@ type GetValueType<DateType, MultipleType extends boolean = false> = false extend
   : DateType[];
 
 export type PickerProps<
-  DateType extends AnyObject = any,
+  DateType extends AnyObject = Dayjs,
   MultipleType extends boolean = false,
 > = Omit<
   InjectDefaultProps<InternalPickerProps<DateType>>,
   'multiple' | 'defaultValue' | 'value' | 'onChange' | 'onCalendarChange' | 'onOk'
 > & {
   multiple?: MultipleType;
-  defaultValue?: GetValueType<DateType, MultipleType> | null;
-  value?: GetValueType<DateType, MultipleType> | null;
+  defaultValue?: GetValueType<DateValue<DateType>, MultipleType> | null;
+  value?: GetValueType<DateValue<DateType>, MultipleType> | null;
   onChange?: (
-    date: GetValueType<DateType, MultipleType> | null,
     dateString: GetValueType<string, MultipleType>,
+    date: GetValueType<DateType, MultipleType> | null,
   ) => void;
   onCalendarChange?: (
-    date: GetValueType<DateType, MultipleType>,
     dateString: GetValueType<string, MultipleType>,
+    date: GetValueType<DateType, MultipleType>,
     info: BaseInfo,
   ) => void;
   onOk?: (date: GetValueType<DateType, MultipleType>) => void;

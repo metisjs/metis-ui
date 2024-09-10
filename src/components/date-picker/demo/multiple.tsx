@@ -1,14 +1,12 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'metis-ui';
 import { DatePicker, Space } from 'metis-ui';
 
-const onChange: DatePickerProps<Dayjs, true>['onChange'] = (date, dateString) => {
-  console.log(date, dateString);
+const onChange: DatePickerProps<true>['onChange'] = (dateString, date) => {
+  console.log(dateString, date);
 };
 
-const defaultValue = [dayjs('2000-01-01'), dayjs('2000-01-03'), dayjs('2000-01-05')];
+const defaultValue = ['2000-01-01', '2000-01-03', '2000-01-05'];
 
 const App: React.FC = () => (
   <Space vertical size="small" block>

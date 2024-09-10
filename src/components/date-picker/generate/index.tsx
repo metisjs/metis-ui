@@ -1,16 +1,17 @@
+import type { Dayjs } from 'dayjs';
 import type { AnyObject } from '../../_util/type';
 import type { GenerateConfig } from '../interface';
 import generateRangePicker from './generateRangePicker';
 import generateSinglePicker from './generateSinglePicker';
 
-const generatePicker = <DateType extends AnyObject = AnyObject>(
+const generatePicker = <DateType extends AnyObject = Dayjs>(
   generateConfig: GenerateConfig<DateType>,
 ) => {
   // ===========================  Picker ===========================
-  const { DatePicker, TimePicker } = generateSinglePicker(generateConfig);
+  const { DatePicker, TimePicker } = generateSinglePicker<DateType>(generateConfig);
 
   // ======================== Range Picker ========================
-  const RangePicker = generateRangePicker(generateConfig);
+  const RangePicker = generateRangePicker<DateType>(generateConfig);
 
   // =========================== Export ===========================
   type MergedDatePickerType = typeof DatePicker & {

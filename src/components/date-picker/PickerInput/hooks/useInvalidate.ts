@@ -1,6 +1,6 @@
 import { useEvent } from 'rc-util';
-import type { GenerateConfig } from '../../generate';
 import type {
+  GenerateConfig,
   PanelMode,
   RangeTimeProps,
   SharedPickerProps,

@@ -2,8 +2,8 @@ import React from 'react';
 import type { DatePickerProps } from 'metis-ui';
 import { DatePicker, Space } from 'metis-ui';
 
-const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-  console.log(date, dateString);
+const onChange: DatePickerProps['onChange'] = (dateString, date) => {
+  console.log(dateString, date);
 };
 
 const App: React.FC = () => (

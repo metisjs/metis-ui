@@ -3,7 +3,8 @@ export type SomePartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type LiteralUnion<T extends string> = T | (string & Record<string, never>);
 
-export type AnyObject = Record<PropertyKey, any>;
+/** {length?: never} 排除数组 */
+export type AnyObject = Record<PropertyKey, any> & { length?: never };
 
 /**
  * Get component props

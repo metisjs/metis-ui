@@ -5,8 +5,8 @@ const App: React.FC = () => (
   <DatePicker.RangePicker
     placeholder={['', 'Till Now']}
     allowEmpty={[false, true]}
-    onChange={(date, dateString) => {
-      console.log(date, dateString);
+    onChange={(dateString, date) => {
+      console.log(dateString, date);
     }}
   />
 );

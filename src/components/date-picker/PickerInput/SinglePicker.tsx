@@ -9,6 +9,7 @@ import type { SomePartial } from '../../_util/type';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,
+  DateValue,
   InternalMode,
   PanelMode,
   PickerRef,
@@ -46,12 +47,12 @@ export interface BasePickerProps<DateType extends object = any>
   maxTagCount?: number | 'responsive';
 
   // Value
-  value?: DateType | DateType[] | null;
-  defaultValue?: DateType | DateType[] | null;
-  onChange?: (date: DateType | DateType[] | null, dateString: string | string[]) => void;
+  value?: DateValue<DateType> | DateValue<DateType>[] | null;
+  defaultValue?: DateValue<DateType> | DateValue<DateType>[] | null;
+  onChange?: (dateString: string | string[], date: DateType | DateType[] | null) => void;
   onCalendarChange?: (
-    date: DateType | DateType[],
     dateString: string | string[],
+    date: DateType | DateType[],
     info: BaseInfo,
   ) => void;
   /**  */
@@ -103,10 +104,10 @@ export interface InternalPickerProps<DateType extends object = any>
 
 /** Internal usage. For cross function get same aligned props */
 export type ReplacedPickerProps<DateType extends object = any> = {
-  onChange?: (date: DateType | DateType[] | null, dateString: string | string[]) => void;
+  onChange?: (dateString: string | string[], date: DateType | DateType[] | null) => void;
   onCalendarChange?: (
-    date: DateType | DateType[],
     dateString: string | string[],
+    date: DateType | DateType[],
     info: BaseInfo,
   ) => void;
 };
@@ -230,13 +231,13 @@ function Picker<DateType extends object = any>(
   const [mergedOpen, triggerOpen] = useOpen(open, defaultOpen, [!!disabled], onOpenChange);
 
   // ======================= Calendar =======================
-  const onInternalCalendarChange = (dates: DateType[], dateStrings: string[], info: BaseInfo) => {
+  const onInternalCalendarChange = (dateStrings: string[], dates: DateType[], info: BaseInfo) => {
     if (onCalendarChange) {
       const filteredInfo = {
         ...info,
       };
       delete filteredInfo.range;
-      onCalendarChange(pickerParam(dates)!, pickerParam(dateStrings) ?? '', filteredInfo);
+      onCalendarChange(pickerParam(dateStrings) ?? '', pickerParam(dates)!, filteredInfo);
     }
   };
 
@@ -288,8 +289,8 @@ function Picker<DateType extends object = any>(
   const mergedShowNow = useShowNow(picker, mergedMode, showNow);
 
   // ======================== Value =========================
-  const onInternalChange: InternalPickerProps<DateType>['onChange'] = (dates, dateStrings) => {
-    onChange?.(pickerParam(dates), pickerParam(dateStrings) ?? '');
+  const onInternalChange: InternalPickerProps<DateType>['onChange'] = (dateStrings, dates) => {
+    onChange?.(pickerParam(dateStrings) ?? '', pickerParam(dates));
   };
 
   const [

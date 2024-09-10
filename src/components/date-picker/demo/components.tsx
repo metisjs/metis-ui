@@ -4,8 +4,8 @@ import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'metis-ui';
 import { Button, DatePicker, Slider, Space } from 'metis-ui';
 
-const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-  console.log(date, dateString);
+const onChange: DatePickerProps['onChange'] = (dateString, date) => {
+  console.log(dateString, date);
 };
 
 type DateComponent = Required<NonNullable<DatePickerProps<Dayjs>['components']>>['date'];

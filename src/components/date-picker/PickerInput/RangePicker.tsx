@@ -9,6 +9,7 @@ import type { SomePartial } from '../../_util/type';
 import { devUseWarning } from '../../_util/warning';
 import type {
   BaseInfo,
+  DateValue,
   DisabledDate,
   InternalMode,
   OnOpenChange,
@@ -70,15 +71,15 @@ export interface BaseRangePickerProps<DateType extends object>
   separator?: React.ReactNode;
 
   // Value
-  value?: RangeValueType<DateType> | null;
-  defaultValue?: RangeValueType<DateType>;
+  value?: RangeValueType<DateValue<DateType>> | null;
+  defaultValue?: RangeValueType<DateValue<DateType>>;
   onChange?: (
-    dates: NoUndefinedRangeValueType<DateType> | null,
     dateStrings: [string, string],
+    dates: NoUndefinedRangeValueType<DateType> | null,
   ) => void;
   onCalendarChange?: (
-    dates: NoUndefinedRangeValueType<DateType>,
     dateStrings: [string, string],
+    dates: NoUndefinedRangeValueType<DateType>,
     info: BaseInfo,
   ) => void;
   onOk?: (values: NoUndefinedRangeValueType<DateType>) => void;

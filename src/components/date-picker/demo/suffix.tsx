@@ -7,7 +7,7 @@ const smileIcon = <FaceSmileOutline />;
 const { RangePicker } = DatePicker;
 
 const onChange = (date: Dayjs | (Dayjs | null)[] | null, dateString: string | string[]) => {
-  console.log(date, dateString);
+  console.log(dateString, date);
 };
 
 const App: React.FC = () => (
