@@ -1,13 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DatePicker, Space } from 'metis-ui';
 
-dayjs.extend(customParseFormat);
-
 const { RangePicker } = DatePicker;
-
-const dateFormat = 'YYYY-MM-DD';
 
 const App: React.FC = () => (
   <Space vertical size={12}>
@@ -17,13 +12,10 @@ const App: React.FC = () => (
     <DatePicker multiple defaultValue={[dayjs()]} disabled />
     <DatePicker multiple defaultValue={[dayjs()]} />
     <DatePicker multiple defaultValue={[dayjs()]} status="error" />
-    <RangePicker disabled />
+    <RangePicker defaultValue={[dayjs(), dayjs()]} disabled />
     <RangePicker />
     <RangePicker status="error" />
-    <RangePicker
-      defaultValue={[dayjs('2024-09-03', dateFormat), dayjs('2024-11-22', dateFormat)]}
-      disabled={[false, true]}
-    />
+    <RangePicker defaultValue={['2024-09-03', '2024-11-22']} disabled={[false, true]} />
 
     <DatePicker variant="filled" defaultValue={dayjs()} disabled />
     <DatePicker variant="filled" defaultValue={dayjs()} />
@@ -31,12 +23,12 @@ const App: React.FC = () => (
     <DatePicker variant="filled" multiple defaultValue={[dayjs()]} disabled />
     <DatePicker variant="filled" multiple defaultValue={[dayjs()]} />
     <DatePicker variant="filled" multiple defaultValue={[dayjs()]} status="error" />
-    <RangePicker variant="filled" disabled />
+    <RangePicker variant="filled" defaultValue={[dayjs(), dayjs()]} disabled />
     <RangePicker variant="filled" />
     <RangePicker variant="filled" status="error" />
     <RangePicker
       variant="filled"
-      defaultValue={[dayjs('2024-09-03', dateFormat), dayjs('2024-11-22', dateFormat)]}
+      defaultValue={['2024-09-03', '2024-11-22']}
       disabled={[false, true]}
     />
 
@@ -46,12 +38,12 @@ const App: React.FC = () => (
     <DatePicker variant="borderless" multiple defaultValue={[dayjs()]} disabled />
     <DatePicker variant="borderless" multiple defaultValue={[dayjs()]} />
     <DatePicker variant="borderless" multiple defaultValue={[dayjs()]} status="error" />
-    <RangePicker variant="borderless" disabled />
+    <RangePicker variant="borderless" defaultValue={[dayjs(), dayjs()]} disabled />
     <RangePicker variant="borderless" />
     <RangePicker variant="borderless" status="error" />
     <RangePicker
       variant="borderless"
-      defaultValue={[dayjs('2024-09-03', dateFormat), dayjs('2024-11-22', dateFormat)]}
+      defaultValue={['2024-09-03', '2024-11-22']}
       disabled={[false, true]}
     />
   </Space>

@@ -10,6 +10,7 @@ import type { InternalPickerProps } from './PickerInput/SinglePicker';
 
 export type GenerateConfig<DateType> = {
   // Get
+  get: (config: string | number) => DateType;
   getWeekDay: (value: DateType) => number;
   getMillisecond: (value: DateType) => number;
   getSecond: (value: DateType) => number;
@@ -243,7 +244,7 @@ export interface SharedTimeProps<DateType extends object = any> {
   hideDisabledOptions?: boolean;
 
   /** Set default value template when empty selection */
-  defaultOpenValue?: DateType;
+  defaultOpenValue?: DateValue<DateType>;
 
   /** Only work in picker is `time` */
   disabledTime?: (date: DateType) => DisabledTimes;
@@ -256,7 +257,7 @@ export type RangeTimeProps<DateType extends object = any> = Omit<
   SharedTimeProps<DateType>,
   'defaultValue' | 'defaultOpenValue' | 'disabledTime'
 > & {
-  defaultOpenValue?: DateType[];
+  defaultOpenValue?: DateValue<DateType>[];
 
   disabledTime?: (
     date: DateType,
@@ -442,12 +443,12 @@ export interface SharedPickerProps<DateType extends object = any>
   // Disabled
   disabledDate?: DisabledDate<DateType>;
   /** Limit the selectable range. This will limit picker navigation also */
-  minDate?: DateType;
+  minDate?: DateValue<DateType>;
   /** Limit the selectable range. This will limit picker navigation also */
-  maxDate?: DateType;
+  maxDate?: DateValue<DateType>;
 
   // Open
-  defaultOpenValue?: DateType;
+  defaultOpenValue?: DateValue<DateType>;
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;

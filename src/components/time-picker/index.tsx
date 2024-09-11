@@ -4,7 +4,6 @@ import type { InputStatus } from '../_util/statusUtils';
 import type { AnyObject } from '../_util/type';
 import DatePicker from '../date-picker';
 import type { GenericTimePickerProps, PickerRef, RangePickerProps } from '../date-picker/interface';
-import useVariant from '../form/hooks/useVariant';
 
 export type PickerTimeProps<
   DateType extends AnyObject,
@@ -33,17 +32,11 @@ const RangePicker = React.forwardRef<PickerRef, TimeRangePickerProps>((props, re
 
 export interface TimePickerProps extends Omit<PickerTimeProps<Dayjs>, 'picker'> {
   status?: InputStatus;
-  popupClassName?: string;
-  rootClassName?: string;
 }
 
-const TimePicker = React.forwardRef<PickerRef, TimePickerProps>(
-  ({ variant, ...restProps }, ref) => {
-    const [mergedVariant] = useVariant(variant);
-
-    return <InternalTimePicker {...restProps} mode={undefined} ref={ref} variant={mergedVariant} />;
-  },
-);
+const TimePicker = React.forwardRef<PickerRef, TimePickerProps>((props, ref) => {
+  return <InternalTimePicker {...props} mode={undefined} ref={ref} />;
+});
 
 if (process.env.NODE_ENV !== 'production') {
   TimePicker.displayName = 'TimePicker';

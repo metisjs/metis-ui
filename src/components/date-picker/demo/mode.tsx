@@ -7,7 +7,7 @@ type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 const { RangePicker } = DatePicker;
 
-type RangeValue = [Dayjs | null | undefined, Dayjs | null | undefined] | null;
+type RangeValue = [Dayjs | string | null | undefined, Dayjs | string | null | undefined] | null;
 
 const ControlledDatePicker = () => {
   const [mode, setMode] = useState<DatePickerProps['mode']>('time');

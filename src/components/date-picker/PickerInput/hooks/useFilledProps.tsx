@@ -13,15 +13,17 @@ import useSelectIcons from '../../../select/hooks/useIcons';
 import { useCompactItemContext } from '../../../space/Compact';
 import { fillShowTimeConfig, getTimeProps } from '../../hooks/useTimeConfig';
 import type {
+  DateValue,
   DisabledDate,
   FilledLocale,
   FormatType,
+  GenerateConfig,
   InternalMode,
   Locale,
   PickerMode,
 } from '../../interface';
 import { fillTimeFormat } from '../../utils/dateUtil';
-import { toArray } from '../../utils/miscUtil';
+import { getRowFormat, toArray } from '../../utils/miscUtil';
 import type { InternalRangePickerProps } from '../RangePicker';
 import useDisabledBoundary from './useDisabledBoundary';
 import { useFieldFormat } from './useFieldFormat';
@@ -80,6 +82,48 @@ function useList<T>(value: T | T[], fillMode = false) {
     return list;
   }, [value, fillMode]);
   return values;
+}
+
+function parseDate<T>(
+  value: DateValue<T>,
+  generateConfig: GenerateConfig<T>,
+  locale: Locale,
+  formatList: string[],
+): T | null {
+  let parsed: T | null = null;
+
+  if (typeof value === 'string') {
+    parsed = generateConfig.locale.parse(locale.locale, value, formatList);
+  } else if (typeof value === 'number') {
+    parsed = generateConfig.get(value);
+  } else {
+    parsed = value;
+  }
+
+  return parsed && generateConfig.isValidate(parsed) ? parsed : null;
+}
+
+function useDate<T>(
+  value: DateValue<T> | DateValue<T>[],
+  generateConfig: GenerateConfig<T>,
+  picker: InternalMode,
+  locale: Locale,
+  formatList: FormatType<T>[],
+) {
+  const values = useList<DateValue<T>>(value);
+
+  const stringFormatList = React.useMemo(
+    () =>
+      formatList.map((format) =>
+        typeof format === 'function' ? getRowFormat(picker, locale) : format,
+      ) as string[],
+    [formatList, picker, locale],
+  );
+
+  return React.useMemo(
+    () => values?.map((value) => parseDate(value, generateConfig, locale, stringFormatList)),
+    [values, generateConfig, locale, stringFormatList],
+  );
 }
 
 export function fillLocale(
@@ -159,7 +203,7 @@ export default function useFilledProps<
 ): [
   filledProps: Omit<
     SomeRequired<InProps, 'disabledDate' | 'components' | 'locale' | 'prefixCls'>,
-    keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue' | 'status'
+    keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue' | 'status' | 'minDate' | 'maxDate'
   > &
     UpdaterProps & {
       picker: PickerMode;
@@ -173,6 +217,8 @@ export default function useFilledProps<
       compactItemClassnames: string;
       enableVariantCls: boolean;
       status: ValidateStatus;
+      minDate?: DateType;
+      maxDate?: DateType;
     },
   internalPicker: InternalMode,
   complexPicker: boolean,
@@ -213,8 +259,6 @@ export default function useFilledProps<
   const prefixCls = getPrefixCls('picker', customizePrefixCls);
   const { isCompactItem, compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
-  const values = useList(value);
-  const defaultValues = useList(defaultValue);
   const pickerValues = useList(pickerValue);
   const defaultPickerValues = useList(defaultPickerValue);
 
@@ -241,9 +285,51 @@ export default function useFilledProps<
 
   mergedLocale = fillLocale(mergedLocale, localeTimeProps);
 
-  const mergedShowTime = React.useMemo(
-    () => fillShowTimeConfig(internalPicker, showTimeFormat, propFormat, timeProps, mergedLocale),
-    [internalPicker, showTimeFormat, propFormat, timeProps, mergedLocale],
+  const mergedShowTime = React.useMemo(() => {
+    const config = fillShowTimeConfig(
+      internalPicker,
+      showTimeFormat,
+      propFormat,
+      timeProps,
+      mergedLocale,
+    );
+
+    if (!config || !config.defaultOpenValue) return config;
+
+    const { defaultOpenValue, format } = config;
+
+    let parsedDefaultOpenValue: DateType | DateType[] | undefined = undefined;
+    // RangePicker
+    if (Array.isArray(defaultOpenValue)) {
+      parsedDefaultOpenValue = (defaultOpenValue as DateValue<DateType>[]).map((v) =>
+        parseDate(v, generateConfig, mergedLocale, [format!]),
+      );
+    } else {
+      parsedDefaultOpenValue = parseDate(defaultOpenValue, generateConfig, mergedLocale, [format!]);
+    }
+
+    return { ...config, defaultOpenValue: parsedDefaultOpenValue };
+  }, [internalPicker, showTimeFormat, propFormat, timeProps, mergedLocale, generateConfig]);
+
+  // ======================== Format ========================
+  const [formatList, maskFormat] = useFieldFormat<DateType>(internalPicker, mergedLocale, format);
+
+  // ===================== Value =====================
+  const values = useDate(value, generateConfig, internalPicker, mergedLocale, formatList);
+  const defaultValues = useDate(
+    defaultValue,
+    generateConfig,
+    internalPicker,
+    mergedLocale,
+    formatList,
+  );
+
+  const [mergedMinDate, mergedMaxDate] = useDate(
+    [minDate, maxDate],
+    generateConfig,
+    internalPicker,
+    mergedLocale,
+    formatList,
   );
 
   // ======================== Icons =========================
@@ -295,6 +381,8 @@ export default function useFilledProps<
         showTime: mergedShowTime,
         value: values,
         defaultValue: defaultValues,
+        minDate: mergedMinDate,
+        maxDate: mergedMaxDate,
         pickerValue: pickerValues,
         defaultPickerValue: defaultPickerValues,
         isCompactItem,
@@ -311,9 +399,6 @@ export default function useFilledProps<
     [props],
   );
 
-  // ======================== Format ========================
-  const [formatList, maskFormat] = useFieldFormat<DateType>(internalPicker, mergedLocale, format);
-
   // ======================= ReadOnly =======================
   const mergedInputReadOnly = useInputReadOnly(formatList, inputReadOnly, multiple);
 
@@ -322,8 +407,8 @@ export default function useFilledProps<
     generateConfig,
     mergedLocale,
     disabledDate,
-    minDate,
-    maxDate,
+    mergedMinDate,
+    mergedMaxDate,
   );
 
   // ====================== Invalidate ======================

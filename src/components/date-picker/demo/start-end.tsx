@@ -39,7 +39,7 @@ const App: React.FC = () => {
         format="YYYY-MM-DD HH:mm:ss"
         value={startValue}
         placeholder="Start"
-        onChange={setStartValue}
+        onChange={(_, v) => setStartValue(v)}
         onOpenChange={handleStartOpenChange}
       />
       <DatePicker
@@ -48,7 +48,7 @@ const App: React.FC = () => {
         format="YYYY-MM-DD HH:mm:ss"
         value={endValue}
         placeholder="End"
-        onChange={setEndValue}
+        onChange={(_, v) => setEndValue(v)}
         open={endOpen}
         onOpenChange={handleEndOpenChange}
       />

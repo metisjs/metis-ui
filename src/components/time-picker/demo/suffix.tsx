@@ -7,8 +7,8 @@ import type { TimePickerProps } from 'metis-ui';
 
 dayjs.extend(customParseFormat);
 
-const onChange: TimePickerProps['onChange'] = (time, timeString) => {
-  console.log(time, timeString);
+const onChange: TimePickerProps['onChange'] = (timeString, time) => {
+  console.log(timeString, time);
 };
 
 const App: React.FC = () => (

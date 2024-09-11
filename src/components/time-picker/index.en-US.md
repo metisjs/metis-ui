@@ -23,7 +23,6 @@ By clicking the input box, you can select a time from a popup panel.
 <code src="./demo/addon.tsx">Addon</code>
 <code src="./demo/12hours.tsx">12 hours</code>
 <code src="./demo/change-on-scroll.tsx">Change on scroll</code>
-<code src="./demo/colored-popup.tsx" debug>Colored Popup</code>
 <code src="./demo/range-picker.tsx">Time Range Picker</code>
 <code src="./demo/variant.tsx">Variants</code>
 <code src="./demo/status.tsx">Status</code>
@@ -37,8 +36,8 @@ By clicking the input box, you can select a time from a popup panel.
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | cellRender | Custom rendering function for picker cells | (current: number, info: { originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', subType: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
 | changeOnScroll | Trigger selection when scroll the column | boolean | false |  |
-| className | The className of picker | string | - |  |
-| defaultValue | To set default time | [dayjs](http://day.js.org/) | - |  |
+| className | Semantic DOM class class | string \| Record<'root' \| 'popup', string> | - |  |
+| defaultValue | To set default time | [DateValue](#datevalue) | - |  |
 | disabled | Determine whether the TimePicker is disabled | boolean | false |  |
 | disabledTime | To specify the time that cannot be selected | [DisabledTime](#disabledtime) | - |  |
 | format | To set the time format | string | `HH:mm:ss` |  |
@@ -51,20 +50,25 @@ By clicking the input box, you can select a time from a popup panel.
 | open | Whether to popup panel | boolean | false |  |
 | placeholder | Display when there's no value | string \| \[string, string] | `Select a time` |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
-| popupClassName | The className of panel | string | - |  |
-| popupStyle | The style of panel | CSSProperties | - |  |
 | renderExtraFooter | Called from time picker panel to render some addon to its bottom | () => ReactNode | - |  |
 | secondStep | Interval between seconds in picker | number | 1 |  |
 | showNow | Whether to show `Now` button on panel | boolean | - |  |
-| size | To determine the size of the input box, the height of `large` and `small`, are 40px and 24px respectively, while default size is 32px | `large` \| `middle` \| `small` | - |  |
+| size | To determine the size of the input box | `large` \| `middle` \| `small` | - |  |
 | status | Set validation status | 'error' \| 'warning' \| 'success' \| 'validating' | - |  |
 | suffixIcon | The custom suffix icon | ReactNode | - |  |
 | use12Hours | Display as 12 hours format, with default format `h:mm:ss a` | boolean | false |  |
-| value | To set time | [dayjs](http://day.js.org/) | - |  |
+| value | To set time | [DateValue](#datevalue) | - |  |
 | variant | Variants of picker | `outlined` \| `borderless` \| `filled` | `outlined` |  |
-| onCalendarChange | Callback function, can be executed when the start time or the end time of the range is changing. `info` argument is added in | function(dates: \[dayjs, dayjs], dateStrings: \[string, string], info: { range:`start`\|`end` }) | - |  |
 | onChange | A callback function, can be executed when the selected time is changing | function(time: dayjs, timeString: string): void | - |  |
 | onOpenChange | A callback function which will be called while panel opening/closing | (open: boolean) => void | - |  |
+
+#### DateValue
+
+```typescript
+import type { Dayjs } from 'dayjs';
+
+export type DateValue = Dayjs | string | number;
+```
 
 #### DisabledTime
 

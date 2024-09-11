@@ -24,7 +24,6 @@ demo:
 <code src="./demo/addon.tsx">附加内容</code>
 <code src="./demo/12hours.tsx">12 小时制</code>
 <code src="./demo/change-on-scroll.tsx">滚动即改变</code>
-<code src="./demo/colored-popup.tsx" debug>色付きポップアップ</code>
 <code src="./demo/range-picker.tsx">范围选择器</code>
 <code src="./demo/variant.tsx">多种形态</code>
 <code src="./demo/status.tsx">自定义状态</code>
@@ -38,8 +37,8 @@ demo:
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | cellRender | 自定义单元格的内容 | (current: number, info: { originNode: React.ReactNode, today: dayjs, range?: 'start' \| 'end', subType: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
 | changeOnScroll | 在滚动时改变选择值 | boolean | false |  |
-| className | 选择器类名 | string | - |  |
-| defaultValue | 默认时间 | [dayjs](http://day.js.org/) | - |  |
+| className | 语义化结构 class | string \| Record<'root' \| 'popup', string> | - |  |
+| defaultValue | 默认时间 | [DateValue](#datevalue) | - |  |
 | disabled | 禁用全部操作 | boolean | false |  |
 | disabledTime | 不可选择的时间 | [DisabledTime](#disabledtime) | - |  |
 | format | 展示的时间格式 | string | `HH:mm:ss` |  |
@@ -52,20 +51,28 @@ demo:
 | open | 面板是否打开 | boolean | false |  |
 | placeholder | 没有值的时候显示的内容 | string \| \[string, string] | `请选择时间` |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
-| popupClassName | 弹出层类名 | string | - |  |
-| popupStyle | 弹出层样式对象 | object | - |  |
 | renderExtraFooter | 选择框底部显示自定义的内容 | () => ReactNode | - |  |
 | secondStep | 秒选项间隔 | number | 1 |  |
 | showNow | 面板是否显示“此刻”按钮 | boolean | - |  |
-| size | 输入框大小，`large` 高度为 40px，`small` 为 24px，默认是 32px | `large` \| `middle` \| `small` | - |  |
+| size | 输入框大小 | `large` \| `middle` \| `small` | - |  |
 | status | 设置校验状态 | 'error' \| 'warning' | - |  |
 | suffixIcon | 自定义的选择框后缀图标 | ReactNode | - |  |
 | use12Hours | 使用 12 小时制，为 true 时 `format` 默认为 `h:mm:ss a` | boolean | false |  |
-| value | 当前时间 | [dayjs](http://day.js.org/) | - |  |
+| value | 当前时间 | [DateValue](#datevalue) | - |  |
 | variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
-| onCalendarChange | 待选日期发生变化的回调。`info` 参数自 添加 | function(dates: \[dayjs, dayjs], dateStrings: \[string, string], info: { range:`start`\|`end` }) | - |  |
-| onChange | 时间发生变化的回调 | function(time: dayjs, timeString: string): void | - |  |
+| onChange | 时间发生变化的回调 | function(timeString: string, time: dayjs): void | - |  |
 | onOpenChange | 面板打开/关闭时的回调 | (open: boolean) => void | - |  |
+
+#### DateValue
+
+```typescript
+import type { Dayjs } from 'dayjs';
+
+/**
+ * 日期值类型,支持传入 string 和 number(毫秒) 类型，会自动做一次 dayjs 的转换
+ */
+export type DateValue = Dayjs | string | number;
+```
 
 #### DisabledTime
 
@@ -81,8 +88,6 @@ type DisabledTime = (now: Dayjs) => {
   ) => number[];
 };
 ```
-
-注意：`disabledMilliseconds` 为 `` 新增。
 
 ## 方法
 

@@ -1,18 +1,8 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DatePicker } from 'metis-ui';
 
-dayjs.extend(customParseFormat);
-
-const dateFormat = 'YYYY-MM-DD';
-
 const App: React.FC = () => (
-  <DatePicker
-    defaultValue={dayjs('2019-09-03', dateFormat)}
-    minDate={dayjs('2019-08-01', dateFormat)}
-    maxDate={dayjs('2020-10-31', dateFormat)}
-  />
+  <DatePicker defaultValue="2019-09-03" minDate="2019-08-01" maxDate="2020-10-31" />
 );
 
 export default App;

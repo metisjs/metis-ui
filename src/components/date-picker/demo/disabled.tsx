@@ -1,31 +1,15 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DatePicker, Space } from 'metis-ui';
-
-dayjs.extend(customParseFormat);
 
 const { RangePicker } = DatePicker;
 
-const dateFormat = 'YYYY-MM-DD';
-
 const App: React.FC = () => (
   <Space vertical size={12}>
-    <DatePicker defaultValue={dayjs('2015-06-06', dateFormat)} disabled />
-    <DatePicker picker="month" defaultValue={dayjs('2015-06', 'YYYY-MM')} disabled />
-    <RangePicker
-      defaultValue={[dayjs('2015-06-06', dateFormat), dayjs('2015-06-06', dateFormat)]}
-      disabled
-    />
-    <RangePicker
-      defaultValue={[dayjs('2019-09-03', dateFormat), dayjs('2019-11-22', dateFormat)]}
-      disabled={[false, true]}
-    />
-    <DatePicker
-      defaultValue={dayjs('2019-09-03', dateFormat)}
-      minDate={dayjs('2019-06-01', dateFormat)}
-      maxDate={dayjs('2020-06-30', dateFormat)}
-    />
+    <DatePicker defaultValue="2015-06-06" disabled />
+    <DatePicker picker="month" defaultValue="2015-06" disabled />
+    <RangePicker defaultValue={['2015-06-06', '2015-06-06']} disabled />
+    <RangePicker defaultValue={['2019-09-03', '2019-11-22']} disabled={[false, true]} />
+    <DatePicker defaultValue="2019-09-03" minDate="2019-06-01" maxDate="2020-06-30" />
   </Space>
 );
 

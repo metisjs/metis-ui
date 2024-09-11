@@ -1,12 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { DatePicker, Space } from 'metis-ui';
 import type { GetProps } from 'metis-ui';
+import { DatePicker, Space } from 'metis-ui';
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
-
-dayjs.extend(customParseFormat);
 
 const { RangePicker } = DatePicker;
 
@@ -51,7 +48,7 @@ const App: React.FC = () => (
       format="YYYY-MM-DD HH:mm:ss"
       disabledDate={disabledDate}
       disabledTime={disabledDateTime}
-      showTime={{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }}
+      showTime={{ defaultOpenValue: '00:00:00' }}
     />
     <DatePicker picker="month" disabledDate={disabledDate} />
     <RangePicker disabledDate={disabledDate} />
@@ -60,7 +57,7 @@ const App: React.FC = () => (
       disabledTime={disabledRangeTime}
       showTime={{
         hideDisabledOptions: true,
-        defaultValue: [dayjs('00:00:00', 'HH:mm:ss'), dayjs('11:59:59', 'HH:mm:ss')],
+        defaultOpenValue: ['00:00:00', '11:59:59'],
       }}
       format="YYYY-MM-DD HH:mm:ss"
     />
