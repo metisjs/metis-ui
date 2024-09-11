@@ -24,19 +24,20 @@ export interface CommonInputProps {
   allowClear?: boolean | { clearIcon?: ReactNode };
 }
 
+export type SemanticStructure =
+  | 'affixWrapper'
+  | 'prefix'
+  | 'suffix'
+  | 'groupWrapper'
+  | 'wrapper'
+  | 'clear'
+  | 'addonBefore'
+  | 'addonAfter';
+
 export interface BaseInputProps extends CommonInputProps {
   value?: ValueType;
   prefixCls?: string;
-  className?: SemanticClassName<
-    | 'affixWrapper'
-    | 'prefix'
-    | 'suffix'
-    | 'groupWrapper'
-    | 'wrapper'
-    | 'clear'
-    | 'addonBefore'
-    | 'addonAfter'
-  >;
+  className?: SemanticClassName<SemanticStructure>;
   style?: CSSProperties;
   disabled?: boolean;
   focused?: boolean;
@@ -168,7 +169,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value' | 'clas
   status?: InputStatus;
   variant?: Variant;
 } & Pick<BaseInputProps, 'allowClear'> &
-  Pick<InputProps, 'showCount' | 'count'>;
+  Pick<InputProps, 'showCount' | 'count' | 'onClear'>;
 
 export type TextAreaRef = {
   resizableTextArea: ResizableTextAreaRef;
