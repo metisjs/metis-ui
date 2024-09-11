@@ -18,7 +18,6 @@ export interface SwitchProps {
   prefixCls?: string;
   size?: SwitchSize;
   className?: SemanticClassName<'handle'>;
-  rootClassName?: string;
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: SwitchChangeEventHandler;
