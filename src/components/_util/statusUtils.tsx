@@ -11,8 +11,8 @@ export function getStatusClassNames(status?: ValidateStatus, variant?: Variant, 
   return clsx(
     {
       '1': status === 'success',
-      'text-warning ring-warning-border': status === 'warning',
-      'text-error ring-error-border': status === 'error',
+      'ring-warning-border': status === 'warning',
+      'ring-error-border': status === 'error',
       '4': status === 'validating',
     },
     useFocus
@@ -35,6 +35,10 @@ export function getStatusClassNames(status?: ValidateStatus, variant?: Variant, 
           }
         : 'focus-within:bg-container focus:bg-container',
     ],
+    variant === 'borderless' && {
+      'text-warning': status === 'warning',
+      'text-error': status === 'error',
+    },
   );
 }
 

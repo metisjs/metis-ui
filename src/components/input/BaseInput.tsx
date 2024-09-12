@@ -173,7 +173,7 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
 
   // `className` and `style` are always on the root element
   return React.cloneElement(element, {
-    className: clsx(element.props?.className, semanticCls.root) || null,
+    className: clsx(element.props?.className, semanticCls.root) || undefined,
     style: {
       ...element.props?.style,
       ...style,
