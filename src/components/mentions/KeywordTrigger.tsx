@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import * as React from 'react';
 import { useMemo } from 'react';
+import { clsx } from '../_util/classNameUtils';
 import Trigger from '../trigger';
 import DropdownMenu from './DropdownMenu';
-import type { OptionProps, Placement } from './Mentions';
+import type { MentionPlacement, MentionsOptionProps } from './Mentions';
 
 const BUILT_IN_PLACEMENTS = {
   bottomRight: {
@@ -48,9 +49,9 @@ const TRANSITION = {
 
 interface KeywordTriggerProps {
   loading?: boolean;
-  options: OptionProps[];
+  options: MentionsOptionProps[];
   prefixCls?: string;
-  placement?: Placement;
+  placement?: MentionPlacement;
   open?: boolean;
   children: React.ReactElement;
   getPopupContainer?: () => HTMLElement;
@@ -58,7 +59,7 @@ interface KeywordTriggerProps {
 }
 
 const KeywordTrigger: FC<KeywordTriggerProps> = (props) => {
-  const { prefixCls, options, children, open, getPopupContainer, popupClassName, placement } =
+  const { prefixCls, options, children, open, getPopupContainer, placement, popupClassName } =
     props;
 
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -69,6 +70,11 @@ const KeywordTrigger: FC<KeywordTriggerProps> = (props) => {
     return placement === 'top' ? 'topRight' : 'bottomRight';
   }, [placement]);
 
+  const popupCls = clsx(
+    'absolute rounded-md bg-elevated text-sm shadow-lg ring-1 ring-border-secondary focus:outline-none',
+    popupClassName,
+  );
+
   return (
     <Trigger
       prefixCls={dropdownPrefix}
@@ -78,7 +84,7 @@ const KeywordTrigger: FC<KeywordTriggerProps> = (props) => {
       popupTransition={TRANSITION}
       builtinPlacements={BUILT_IN_PLACEMENTS}
       getPopupContainer={getPopupContainer}
-      className={{ popup: popupClassName }}
+      className={{ popup: popupCls }}
     >
       {children}
     </Trigger>

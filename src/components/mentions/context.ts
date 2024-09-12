@@ -1,11 +1,12 @@
 import * as React from 'react';
-import type { OptionProps } from './Mentions';
+import type { MentionsOptionProps } from './Mentions';
 
 export interface MentionsContextProps {
+  loading?: boolean;
   notFoundContent: React.ReactNode;
   activeIndex: number;
   setActiveIndex: (index: number) => void;
-  selectOption: (option: OptionProps) => void;
+  selectOption: (option: MentionsOptionProps) => void;
   onFocus: React.FocusEventHandler<HTMLElement>;
   onBlur: React.FocusEventHandler<HTMLElement>;
 }

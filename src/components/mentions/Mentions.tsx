@@ -6,16 +6,24 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import classNames from 'classnames';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { getSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
+import {
+  clsx,
+  getSemanticCls,
+  mergeSemanticCls,
+  type SemanticClassName,
+} from '../_util/classNameUtils';
 import useEffectState from '../_util/hooks/useEffectState';
+import toList from '../_util/toList';
 import { devUseWarning } from '../_util/warning';
+import { ConfigContext } from '../config-provider';
+import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import useSize from '../config-provider/hooks/useSize';
 import type { TextAreaProps } from '../input';
 import type { HolderRef } from '../input/BaseInput';
 import BaseInput from '../input/BaseInput';
-import type { SemanticStructure, TextAreaRef } from '../input/interface';
+import type { TextAreaRef } from '../input/interface';
 import TextArea from '../input/TextArea';
 import { MentionsContext } from './context';
 import KeywordTrigger from './KeywordTrigger';
@@ -33,25 +41,27 @@ type BaseTextareaAttrs = Omit<
   'prefix' | 'onChange' | 'onSelect' | 'showCount' | 'className'
 >;
 
-export type Placement = 'top' | 'bottom';
+export type MentionPlacement = 'top' | 'bottom';
 
-export interface OptionProps {
+export interface MentionsOptionProps {
   label?: React.ReactNode;
   value: string;
   key?: string;
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  [key: string]: any;
 }
 
 export interface MentionsProps extends BaseTextareaAttrs {
+  loading?: boolean;
   autoFocus?: boolean;
-  className?: SemanticClassName<SemanticStructure | 'popup' | 'mentions'>;
+  className?: SemanticClassName<'textarea' | 'popup'>;
   defaultValue?: string;
   notFoundContent?: React.ReactNode;
   split?: string;
   style?: React.CSSProperties;
-  placement?: Placement;
+  placement?: MentionPlacement;
   prefix?: string | string[];
   prefixCls?: string;
   value?: string;
@@ -59,14 +69,14 @@ export interface MentionsProps extends BaseTextareaAttrs {
   filterOption?: false | typeof defaultFilterOption;
   validateSearch?: typeof defaultValidateSearch;
   onChange?: (text: string) => void;
-  onSelect?: (option: OptionProps, prefix: string) => void;
+  onSelect?: (option: MentionsOptionProps, prefix: string) => void;
   onSearch?: (text: string, prefix: string) => void;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   getPopupContainer?: () => HTMLElement;
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
-  options: OptionProps[];
+  options?: MentionsOptionProps[];
 }
 
 export interface MentionsRef {
@@ -74,6 +84,16 @@ export interface MentionsRef {
   blur: VoidFunction;
 
   nativeElement: HTMLElement;
+}
+
+interface MentionsConfig {
+  prefix?: string | string[];
+  split?: string;
+}
+
+interface MentionsEntity {
+  prefix: string;
+  value: string;
 }
 
 const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => {
@@ -86,12 +106,14 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     // Misc
     prefix = '@',
     split = ' ',
-    notFoundContent = 'Not Found',
+    notFoundContent,
     value,
     defaultValue,
     options,
     open,
     silent,
+    size,
+    loading,
 
     // Events
     validateSearch = defaultValidateSearch,
@@ -138,7 +160,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
   const [measurePrefix, setMeasurePrefix] = useState('');
   const [measureLocation, setMeasureLocation] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isFocus, setIsFocus] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   // ============================== Value ===============================
   const [mergedValue, setMergedValue] = useMergedState('', {
@@ -183,12 +205,13 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
   // ============================== Option ==============================
   const getOptions = React.useCallback(
     (targetMeasureText: string) => {
-      const list = options.map((item) => ({
-        ...item,
-        key: item?.key ?? item.value,
-      }));
+      const list =
+        options?.map((item) => ({
+          ...item,
+          key: item?.key ?? item.value,
+        })) ?? [];
 
-      return list.filter((option: OptionProps) => {
+      return list.filter((option: MentionsOptionProps) => {
         /** Return all result if `filterOption` is false. */
         if (filterOption === false) {
           return true;
@@ -239,7 +262,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     triggerChange(nextValue);
   };
 
-  const selectOption = (option: OptionProps) => {
+  const selectOption = (option: MentionsOptionProps) => {
     const { value: mentionValue = '' } = option;
     const { text, selectionLocation } = replaceWithMeasure(mergedValue, {
       measureLocation: mergedMeasureLocation,
@@ -366,15 +389,15 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
 
   const onInternalFocus = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
     window.clearTimeout(focusRef.current);
-    if (!isFocus && event && onFocus) {
+    if (!focused && event && onFocus) {
       onFocus(event);
     }
-    setIsFocus(true);
+    setFocused(true);
   };
 
   const onInternalBlur = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
     focusRef.current = window.setTimeout(() => {
-      setIsFocus(false);
+      setFocused(false);
       stopMeasure();
       onBlur?.(event!);
     }, 0);
@@ -388,12 +411,27 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     onInternalBlur();
   };
 
+  // ============================== Style ==============================
+  const rootCls = clsx(prefixCls, 'relative inline-block w-full text-sm', semanticCls.root);
+  const textareaCls = clsx('resize-none', semanticCls.textarea);
+  const measureCls = clsx(
+    `${prefixCls}-measure`,
+    'pointer-events-none absolute inset-0 -z-[1] whitespace-pre-line',
+    {
+      'px-2 py-1': size === 'small',
+      'px-3 py-1.5 leading-6': size === 'middle',
+      'px-3 py-2 text-base': size === 'large',
+    },
+  );
+
   // ============================== Render ==============================
   return (
-    <div className={classNames(prefixCls, className)} style={style} ref={containerRef}>
+    <div className={rootCls} style={style} ref={containerRef}>
       <TextArea
+        prefixCls={prefixCls}
         ref={textareaRef}
         value={mergedValue}
+        size={size}
         {...restProps}
         rows={rows}
         onChange={onInternalChange}
@@ -402,12 +440,14 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
         onPressEnter={onInternalPressEnter}
         onFocus={onInternalFocus}
         onBlur={onInternalBlur}
+        className={textareaCls}
       />
       {mergedMeasuring && (
-        <div ref={measureRef} className={`${prefixCls}-measure`}>
+        <div ref={measureRef} className={measureCls}>
           {mergedValue.slice(0, mergedMeasureLocation)}
           <MentionsContext.Provider
             value={{
+              loading,
               notFoundContent,
               activeIndex,
               setActiveIndex,
@@ -424,7 +464,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
               getPopupContainer={getPopupContainer}
               popupClassName={semanticCls.popup}
             >
-              <span>{mergedMeasurePrefix}</span>
+              <span className="inline-block">{mergedMeasurePrefix}</span>
             </KeywordTrigger>
           </MentionsContext.Provider>
           {mergedValue.slice(mergedMeasureLocation + mergedMeasurePrefix.length)}
@@ -437,18 +477,27 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
 const Mentions = forwardRef<MentionsRef, MentionsProps>(
   (
     {
-      prefixCls = 'rc-mentions',
+      prefixCls: customizePrefixCls,
       defaultValue,
-      value: customValue,
+      value: customizeValue,
       allowClear,
       onChange,
       className,
       disabled,
+      size: customizeSize = 'middle',
       onClear,
+      notFoundContent: customizeNotFoundContent,
+      getPopupContainer,
       ...rest
     },
     ref,
   ) => {
+    const {
+      getPrefixCls,
+      renderEmpty,
+      getPopupContainer: getContextPopupContainer,
+    } = React.useContext(ConfigContext);
+    const prefixCls = getPrefixCls('mentions', customizePrefixCls);
     const semanticCls = getSemanticCls(className);
 
     // =============================== Ref ================================
@@ -463,8 +512,11 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     // ============================== Value ===============================
     const [mergedValue, setMergedValue] = useMergedState('', {
       defaultValue,
-      value: customValue,
+      value: customizeValue,
     });
+
+    // ============================== Size ===============================
+    const mergedSize = useSize(customizeSize);
 
     // ============================== Change ==============================
     const triggerChange = (currentValue: string) => {
@@ -477,23 +529,47 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       triggerChange('');
     };
 
+    // ============================== Style ===============================
+    const affixWrapperCls = clsx('relative inline-flex w-full min-w-0 border-0 text-sm text-text', {
+      'leading-6': mergedSize === 'middle',
+      'text-base': mergedSize === 'large',
+    });
+    const clearCls = clsx('absolute right-2 top-1 text-text-tertiary hover:text-text-secondary');
+    const textareaCls = clsx(
+      {
+        'pe-8': allowClear,
+      },
+      semanticCls.textarea,
+    );
+
+    // ============================== Render ===============================
+    const notFoundContent = React.useMemo<React.ReactNode>(() => {
+      if (customizeNotFoundContent !== undefined) {
+        return customizeNotFoundContent;
+      }
+      return renderEmpty?.('Select') || <DefaultRenderEmpty componentName="Select" />;
+    }, [customizeNotFoundContent, renderEmpty]);
+
     return (
       <BaseInput
         prefixCls={prefixCls}
         value={mergedValue}
         allowClear={allowClear}
         handleReset={handleReset}
-        className={className}
         disabled={disabled}
         ref={holderRef}
         onClear={onClear}
+        className={{ affixWrapper: affixWrapperCls, clear: clearCls }}
       >
         <InternalMentions
-          className={semanticCls.mentions}
+          className={mergeSemanticCls(className, { textarea: textareaCls })}
           prefixCls={prefixCls}
           ref={mentionRef}
           onChange={triggerChange}
           disabled={disabled}
+          size={mergedSize}
+          notFoundContent={notFoundContent}
+          getPopupContainer={getPopupContainer ?? getContextPopupContainer}
           {...rest}
         />
       </BaseInput>
@@ -503,4 +579,43 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
   React.PropsWithoutRef<MentionsProps> & React.RefAttributes<MentionsRef>
 >;
 
-export default Mentions;
+if (process.env.NODE_ENV !== 'production') {
+  Mentions.displayName = 'Mentions';
+}
+
+type CompoundedComponent = typeof Mentions & {
+  getMentions: (value: string, config?: MentionsConfig) => MentionsEntity[];
+};
+
+const _Mentions = Mentions as CompoundedComponent;
+
+_Mentions.getMentions = (value = '', config: MentionsConfig = {}): MentionsEntity[] => {
+  const { prefix = '@', split = ' ' } = config;
+  const prefixList: string[] = toList(prefix);
+
+  return value
+    .split(split)
+    .map((str = ''): MentionsEntity | null => {
+      let hitPrefix: string | null = null;
+
+      prefixList.some((prefixStr) => {
+        const startStr = str.slice(0, prefixStr.length);
+        if (startStr === prefixStr) {
+          hitPrefix = prefixStr;
+          return true;
+        }
+        return false;
+      });
+
+      if (hitPrefix !== null) {
+        return {
+          prefix: hitPrefix,
+          value: str.slice((hitPrefix as string).length),
+        };
+      }
+      return null;
+    })
+    .filter((entity): entity is MentionsEntity => !!entity && !!entity.value);
+};
+
+export default _Mentions;

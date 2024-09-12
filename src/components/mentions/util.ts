@@ -1,4 +1,4 @@
-import type { MentionsProps, OptionProps } from './Mentions';
+import type { MentionsOptionProps, MentionsProps } from './Mentions';
 
 /**
  * Cut input selection into 2 part and return text before selection start
@@ -115,7 +115,7 @@ export function validateSearch(text: string, split: MentionsProps['split']) {
   return !split || text.indexOf(split) === -1;
 }
 
-export function filterOption(input: string, { value = '' }: OptionProps): boolean {
+export function filterOption(input: string, { value = '' }: MentionsOptionProps): boolean {
   const lowerCase = input.toLowerCase();
   return value.toLowerCase().indexOf(lowerCase) !== -1;
 }
