@@ -1,7 +1,7 @@
 export default {
   html: { WebkitTapHighlightColor: 'transparent' },
   body: { color: 'hsla(var(--text))' },
-  svg: { display: 'inline-block' },
+  'svg.metis-icon': { display: 'inline-block' },
   "[type='search']::-webkit-search-cancel-button, [type='search']::-webkit-search-decoration": {
     display: 'none',
     appearance: 'none',

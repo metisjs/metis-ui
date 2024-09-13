@@ -10,20 +10,9 @@ export function getStatusClassNames(status?: ValidateStatus, variant?: Variant, 
 
   return clsx(
     {
-      '1': status === 'success',
-      'ring-warning-border': status === 'warning',
-      'ring-error-border': status === 'error',
-      '4': status === 'validating',
+      'ring-warning focus-within:ring-warning focus:ring-warning': status === 'warning',
+      'ring-error focus-within:ring-error focus:ring-error': status === 'error',
     },
-    useFocus
-      ? {
-          'ring-warning': status === 'warning' && focus,
-          'ring-error': status === 'error' && focus,
-        }
-      : {
-          'focus-within:ring-warning focus:ring-warning': status === 'warning',
-          'focus-within:ring-error focus:ring-error': status === 'error',
-        },
     variant === 'filled' && [
       {
         'bg-warning-bg': status === 'warning',
