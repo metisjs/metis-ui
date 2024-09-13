@@ -109,6 +109,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     className: clsx(
       `${prefixCls}-trigger`,
       mergedOpen && [`${prefixCls}-open`, semanticCls.open],
+      disabled && 'cursor-not-allowed',
       child.props.className,
     ),
     ref: supportRef(child)
@@ -186,7 +187,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
           overlayClassNameCustomized,
         ),
       }}
-      action={trigger}
+      action={triggerActions}
       hideAction={triggerHideAction}
       popupPlacement={placement}
       popupAlign={align}

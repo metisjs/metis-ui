@@ -91,6 +91,8 @@ export { default as TimePicker } from './time-picker';
 export type { TimePickerProps, TimeRangePickerProps } from './time-picker';
 export { default as Tooltip } from './tooltip';
 export type { TooltipProps } from './tooltip';
+export { default as Transfer } from './transfer';
+export type { TransferProps } from './transfer';
 export { default as Transition } from './transition';
 export type { TransitionProps } from './transition';
 export { default as Watermark } from './watermark';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import useSize from './hooks/useSize';
 
-export type SizeType = 'small' | 'middle' | 'large' | undefined;
+export type SizeType = 'mini' | 'small' | 'middle' | 'large' | undefined;
 
 const SizeContext = React.createContext<SizeType>(undefined);
 

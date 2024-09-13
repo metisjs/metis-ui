@@ -19,6 +19,7 @@ export interface ScrollbarProps {
   thumbSize?: number;
   universal?: boolean;
   style?: React.CSSProperties;
+  component?: React.ComponentType<any> | string;
 }
 
 export interface ScrollValues {

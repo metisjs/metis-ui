@@ -49,7 +49,7 @@ export interface PaginationProps extends React.AriaAttributes {
   showTitle?: boolean;
   simple?: boolean | { readOnly?: boolean };
   disabled?: boolean;
-  size?: 'default' | 'small';
+  size?: 'default' | 'small' | 'mini';
   responsive?: boolean;
 
   locale?: PaginationLocale;

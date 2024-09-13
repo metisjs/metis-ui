@@ -31,6 +31,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     thumbMinSize = 20,
     thumbSize,
     universal = false,
+    component: Component = 'div',
     style,
   } = props;
   const { getPrefixCls } = useContext(ConfigContext);
@@ -431,7 +432,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const viewCls = clsx(
     `${prefixCls}-view`,
-    'relative overflow-scroll',
+    'relative block overflow-scroll',
     {
       'overflow-hidden': universal && !didMountUniversal,
       'pointer-events-none': dragging,
@@ -496,9 +497,9 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   return (
     <div className={rootCls} style={rootStyle}>
       <ResizeObserver onResize={() => update()}>
-        <div className={viewCls} ref={viewRef} style={viewStyle} onScroll={handleScroll}>
+        <Component className={viewCls} ref={viewRef} style={viewStyle} onScroll={handleScroll}>
           {children}
-        </div>
+        </Component>
       </ResizeObserver>
       <div className={trackHorizontalCls} ref={trackHorizontalRef} {...sharedTrackProps}>
         <div
