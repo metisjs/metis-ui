@@ -19,6 +19,7 @@ const App: React.FC = () => {
           { label: 'Large', value: 'large' },
           { label: 'Default', value: 'middle' },
           { label: 'Small', value: 'small' },
+          { label: 'Mini', value: 'mini' },
         ]}
         onChange={handleSizeChange}
       />

@@ -18,7 +18,7 @@ group: 数据展示
 <code src="./demo/disabled.tsx">不可用</code>
 <code src="./demo/controlled.tsx">受控模式</code>
 <code src="./demo/dynamic.tsx">动态数据</code>
-<code src="./demo/size.tsx">三种大小</code>
+<code src="./demo/size.tsx">四种大小</code>
 <code src="./demo/with-icon.tsx">设置图标</code>
 <code src="./demo/icon-only.tsx">只设置图标</code>
 

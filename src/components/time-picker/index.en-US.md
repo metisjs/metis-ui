@@ -15,7 +15,7 @@ By clicking the input box, you can select a time from a popup panel.
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
 <code src="./demo/value.tsx">Under Control</code>
-<code src="./demo/size.tsx">Three Sizes</code>
+<code src="./demo/size.tsx">Sizes</code>
 <code src="./demo/need-confirm.tsx">Need Confirm</code>
 <code src="./demo/disabled.tsx">disabled</code>
 <code src="./demo/hide-column.tsx">Hour and minute</code>

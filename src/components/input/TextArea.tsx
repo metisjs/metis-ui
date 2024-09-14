@@ -194,9 +194,10 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       { [`${prefixCls}-${variant}`]: enableVariantCls },
       'relative block h-full w-full appearance-none rounded-md border-0 bg-container text-sm text-text shadow-sm outline-none ring-inset ring-border placeholder:text-text-quaternary focus:ring-inset focus:ring-primary',
       {
-        'px-2 py-1': mergedSize === 'small',
-        'px-3 py-1.5 leading-6': mergedSize === 'middle',
-        'px-3 py-2 text-base': mergedSize === 'large',
+        'rounded px-2 py-1': mergedSize === 'mini',
+        'px-3 py-1.5': mergedSize === 'small',
+        'px-3 py-2': mergedSize === 'middle',
+        'px-3 py-2.5': mergedSize === 'large',
       },
       {
         'ring-1 focus:ring-2': variant === 'outlined',
@@ -221,10 +222,6 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       },
       'group',
       'relative inline-flex w-full min-w-0 border-0 text-sm text-text',
-      {
-        'leading-6': mergedSize === 'middle',
-        'text-base': mergedSize === 'large',
-      },
     );
     const countCls = clsx(
       `${prefixCls}-data-count`,
@@ -234,7 +231,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         'bg-transparent': variant === 'borderless',
         'text-text-quaternary': mergedDisabled,
       },
-      mergedSize === 'small' && 'right-2',
+      mergedSize === 'mini' && 'bottom-1 right-2',
       mergedSize === 'large' && 'bottom-2',
       semanticCls.count,
     );

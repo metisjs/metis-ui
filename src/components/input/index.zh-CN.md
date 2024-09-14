@@ -18,7 +18,7 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本使用</code>
-<code src="./demo/size.tsx">三种大小</code>
+<code src="./demo/size.tsx">四种大小</code>
 <code src="./demo/addon.tsx">前置/后置标签</code>
 <code src="./demo/compact-style.tsx">紧凑模式</code>
 <code src="./demo/textarea.tsx">文本域</code>

@@ -15,6 +15,13 @@ const App: React.FC = () => (
       onChange={onChange}
       maxTagCount="responsive"
       defaultValue={defaultValue}
+      size="mini"
+    />
+    <DatePicker
+      multiple
+      onChange={onChange}
+      maxTagCount="responsive"
+      defaultValue={defaultValue}
       size="small"
     />
     <DatePicker multiple onChange={onChange} maxTagCount="responsive" defaultValue={defaultValue} />

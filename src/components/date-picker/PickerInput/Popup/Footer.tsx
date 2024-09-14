@@ -101,8 +101,8 @@ export default function Footer(props: FooterProps) {
 
   // >>> OK
   const okNode = needConfirm && (
-    <li className={clsx(`${prefixCls}-ok`, 'ms-auto py-1')}>
-      <Button disabled={invalid} onClick={onSubmit} size="small" type="primary">
+    <li className={clsx(`${prefixCls}-ok`, 'ms-auto')}>
+      <Button disabled={invalid} onClick={onSubmit} size="mini" type="primary">
         {locale.ok}
       </Button>
     </li>

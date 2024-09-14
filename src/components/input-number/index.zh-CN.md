@@ -15,7 +15,7 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
-<code src="./demo/size.tsx">三种大小</code>
+<code src="./demo/size.tsx">四种大小</code>
 <code src="./demo/addon.tsx">前置/后置标签</code>
 <code src="./demo/disabled.tsx">不可用</code>
 <code src="./demo/digit.tsx">高精度小数</code>

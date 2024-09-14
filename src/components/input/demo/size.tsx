@@ -7,6 +7,7 @@ const App: React.FC = () => (
     <Input size="large" placeholder="large size" prefix={<UsersSolid />} />
     <Input placeholder="default size" prefix={<UsersSolid />} />
     <Input size="small" placeholder="small size" prefix={<UsersSolid />} />
+    <Input size="mini" placeholder="mini size" prefix={<UsersSolid />} />
   </Space>
 );
 

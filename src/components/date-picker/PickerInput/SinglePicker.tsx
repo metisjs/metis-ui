@@ -348,7 +348,7 @@ function Picker<DateType extends object = any>(
     false, // multiplePanel,
     defaultPickerValue,
     pickerValue,
-    toArray(showTime?.defaultOpenValue),
+    toArray(showTime?.defaultOpenValue as DateType[]),
     onInternalPickerValueChange,
     minDate,
     maxDate,
@@ -632,16 +632,18 @@ function Picker<DateType extends object = any>(
     'relative inline-flex rounded-md bg-container text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
     '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
     {
+      'rounded px-2 py-0.5': size === 'mini',
+      'px-3 py-1': size === 'small',
       'px-3 py-1.5': size === 'middle',
-      'px-2 py-1': size === 'small',
-      'px-3 py-2 text-base': size === 'large',
+      'px-3 py-2': size === 'large',
     },
     multiple && [
       'w-full cursor-text',
       {
-        'min-h-8 py-0.5 pe-2 ps-1': size === 'small',
+        'min-h-7 py-0.5 pe-2 ps-1': size === 'mini',
+        'min-h-8 py-0.5 pe-3 ps-1': size === 'small',
         'min-h-9 py-0.5 pe-3 ps-1': size === 'middle',
-        'min-h-10 py-0.5 pe-3 ps-1 text-base': size === 'large',
+        'min-h-10 py-0.5 pe-3 ps-1': size === 'large',
       },
     ],
     {
@@ -665,16 +667,17 @@ function Picker<DateType extends object = any>(
   );
 
   const selectorPlaceholderCls = clsx({
-    'end-2 start-2': size === 'small',
+    'end-1 start-1': size === 'mini',
   });
 
   const selectorItemCls = clsx({
-    'pe-1 ps-2 text-sm leading-6': size === 'small',
+    'pe-1 ps-2 leading-5': size === 'mini',
+    'leading-6': size === 'small',
     'leading-8': size === 'large',
   });
 
   const clearCls = clsx({
-    'end-2': size === 'small',
+    'end-2': size === 'mini',
   });
 
   // ======================== Render ========================

@@ -115,7 +115,7 @@ export default function MultipleDates<DateType extends object = any>(
         <span
           className={clsx(
             `${prefixCls}-selection-placeholder`,
-            'pointer-events-none absolute end-3 start-3 top-1/2 -translate-y-1/2 truncate text-text-quaternary',
+            'pointer-events-none absolute end-2 start-2 top-1/2 -translate-y-1/2 truncate text-text-quaternary',
             semanticCls.placeholder,
           )}
         >

@@ -30,7 +30,7 @@ demo:
 <code src="./demo/select-in-range.tsx">选择不超过一定的范围</code>
 <code src="./demo/preset-ranges.tsx">预设范围</code>
 <code src="./demo/extra-footer.tsx">额外的页脚</code>
-<code src="./demo/size.tsx">三种大小</code>
+<code src="./demo/size.tsx">四种大小</code>
 <code src="./demo/cell-render.tsx">定制单元格</code>
 <code src="./demo/components.tsx">定制面板</code>
 <code src="./demo/buddhist-era.tsx">佛历格式</code>

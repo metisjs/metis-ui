@@ -58,6 +58,9 @@ const App: React.FC = () => (
     <Cascader className="w-72" size="small" options={options} onChange={onChange} />
     <br />
     <br />
+    <Cascader className="w-72" size="mini" options={options} onChange={onChange} />
+    <br />
+    <br />
   </>
 );
 

@@ -161,7 +161,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
-  const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined };
+  const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined, mini: 'mini' };
 
   const sizeFullName = useSize((ctxSize) => customizeSize ?? compactSize ?? ctxSize);
 
@@ -177,10 +177,11 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const iconCls = clsx(
     {
-      'h-4 w-4': mergedSize === 'small' || mergedSize === 'middle',
+      'h-4 w-4': mergedSize === 'small' || mergedSize === 'middle' || mergedSize === 'mini',
       'h-5 w-5': mergedSize === 'large',
     },
     iconOnly && {
+      'h-4 w-4': mergedSize === 'mini',
       'h-5 w-5': mergedSize === 'small' || mergedSize === 'middle',
       'h-6 w-6': mergedSize === 'large',
     },
@@ -216,7 +217,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
-    'relative inline-flex w-fit items-center justify-center whitespace-nowrap text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
+    'relative inline-flex w-fit items-center justify-center whitespace-nowrap rounded-md text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
     {
       'bg-container text-text ring-1 ring-inset ring-border focus-visible:ring-primary enabled:hover:bg-fill-quinary':
         type === 'default',
@@ -228,11 +229,13 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
         type === 'link',
     },
     {
-      'gap-x-1.5 rounded-md px-3 py-1.5': mergedSize === 'small',
-      'gap-x-1.5 rounded-md px-4 py-2': mergedSize === 'middle',
-      'gap-x-2 rounded-md px-4 py-2 text-base': mergedSize === 'large',
+      'gap-x-1.5 rounded px-3 py-1': mergedSize === 'mini',
+      'gap-x-1.5 px-3 py-1.5': mergedSize === 'small',
+      'gap-x-1.5 px-4 py-2': mergedSize === 'middle',
+      'gap-x-2 px-4 py-2.5': mergedSize === 'large',
     },
     iconOnly && {
+      'h-7 w-7': mergedSize === 'mini',
       'h-8 w-8': mergedSize === 'small',
       'h-9 w-9': mergedSize === 'middle',
       'h-10 w-10': mergedSize === 'large',

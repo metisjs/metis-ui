@@ -231,7 +231,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     showSearch,
     tagRender,
     omitDomProps,
-    size: customizeSize,
+    size: customizeSize = 'middle',
     variant: customizeVariant,
     status: customStatus,
 
@@ -759,12 +759,13 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-show-search`]: showSearch,
       [`${prefixCls}-lg`]: mergedSize === 'large',
       [`${prefixCls}-sm`]: mergedSize === 'small',
+      [`${prefixCls}-mini`]: mergedSize === 'mini',
       [`${prefixCls}-in-form-item`]: isFormItemInput,
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     !customizeInputElement && [
       'group/select relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset ring-border',
-      { 'text-base': mergedSize === 'large' },
+      { ['rounded']: mergedSize === 'mini' },
       {
         'bg-container ring-1': variant === 'outlined',
         'bg-transparent shadow-none ring-0': variant === 'borderless',
@@ -789,38 +790,51 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   const selectorCls = clsx(
     !customizeInputElement && {
-      'rounded-md px-3 py-1 leading-6': true,
-      'py-0.5 pe-9 ps-1 leading-7 after:my-0.5': multiple,
-      'px-2 after:leading-6': mergedSize === 'small',
-      'after:leading-8': mergedSize === 'large',
+      'px-2 py-1 after:leading-5': mergedSize === 'mini',
+      'px-3 py-1 after:leading-6': mergedSize === 'small',
+      'px-3 py-1 after:leading-7': mergedSize === 'middle',
+      'px-3 py-1 after:leading-8': mergedSize === 'large',
+      'py-0.5 pe-9 ps-1 after:my-0.5': multiple,
     },
     semanticCls.selector,
   );
 
   const selectorSearchCls = clsx(
-    !customizeInputElement && {
-      'pe-7': showSuffixIcon && !multiple,
-      'end-2 start-2': mergedSize === 'small' && !multiple,
-      'ms-0.5 h-7': mergedSize === 'small' && multiple,
-    },
+    !customizeInputElement && [
+      {
+        'pe-7': showSuffixIcon && !multiple,
+        'end-2 start-2': mergedSize === 'mini' && !multiple,
+      },
+      multiple && {
+        'ms-1': mergedSize === 'mini' && displayValues.length === 0,
+        'h-6': mergedSize === 'mini',
+        'h-5': mergedSize === 'small',
+      },
+    ],
     semanticCls.selectorSearch,
   );
 
   const selectorPlaceholderCls = clsx(
     {
       'pe-7': showSuffixIcon,
-      'end-2 start-2': mergedSize === 'small' && multiple,
+      'end-2 start-2': mergedSize === 'mini' && multiple,
     },
     semanticCls.selectorPlaceholder,
   );
 
   const selectorItemCls = clsx(
+    { 'pe-7': showSuffixIcon && !multiple },
     {
-      'pe-7': showSuffixIcon && !multiple,
-      'text-base/7': mergedSize === 'large',
-      'text-sm/5': mergedSize === 'small',
-      'leading-8': mergedSize === 'large' && multiple,
-      'pe-1 ps-2 leading-6': mergedSize === 'small' && multiple,
+      'rounded-sm leading-4': mergedSize === 'mini',
+      'leading-5': mergedSize === 'small',
+      'leading-6': mergedSize === 'middle',
+      'leading-7': mergedSize === 'large',
+    },
+    multiple && {
+      'pe-1 ps-2 leading-5': mergedSize === 'mini',
+      'leading-6': mergedSize === 'small',
+      'leading-7': mergedSize === 'middle',
+      'leading-8': mergedSize === 'large',
     },
     semanticCls.selectorItem,
   );

@@ -16,7 +16,7 @@ demo:
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
 <code src="./demo/value.tsx">受控组件</code>
-<code src="./demo/size.tsx">三种大小</code>
+<code src="./demo/size.tsx">四种大小</code>
 <code src="./demo/need-confirm.tsx">选择确认</code>
 <code src="./demo/disabled.tsx">禁用</code>
 <code src="./demo/hide-column.tsx">选择时分</code>

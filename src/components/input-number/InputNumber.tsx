@@ -707,9 +707,10 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   const inputCls = clsx(
     'group/input inline-block w-24 rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
-      'px-2 py-1.5': mergedSize === 'small',
-      'px-3 py-1.5 leading-6': mergedSize === 'middle',
-      'px-3 py-2 text-base': mergedSize === 'large',
+      'rounded px-2 py-1': mergedSize === 'mini',
+      'px-3 py-1.5': mergedSize === 'small',
+      'px-3 py-2': mergedSize === 'middle',
+      'px-3 py-2.5': mergedSize === 'large',
     },
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
@@ -735,9 +736,10 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   const affixWrapperCls = clsx(
     'group/affix relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-container text-sm text-text-secondary ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
-      'gap-x-1 px-2 py-1.5': mergedSize === 'small',
-      'px-3 py-1.5 leading-6': mergedSize === 'middle',
-      'px-3 py-2 text-base': mergedSize === 'large',
+      'gap-x-1 rounded px-2 py-1': mergedSize === 'mini',
+      'px-3 py-1.5': mergedSize === 'small',
+      'px-3 py-2': mergedSize === 'middle',
+      'px-3 py-2.5': mergedSize === 'large',
     },
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
@@ -759,9 +761,10 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   const addonBeforeCls = clsx(
     'input-addon -mr-[1px] inline-flex items-center rounded-s-md bg-container text-sm text-text-secondary ring-inset ring-border',
     {
-      'h-8 px-2': mergedSize === 'small',
+      'h-7 rounded-s px-2': mergedSize === 'small',
+      'h-8 px-3': mergedSize === 'small',
       'h-9 px-3': mergedSize === 'middle',
-      'h-10 px-3 text-base': mergedSize === 'large',
+      'h-10 px-3': mergedSize === 'large',
     },
     {
       'ring-1': variant === 'outlined',
@@ -778,9 +781,10 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   const addonAfterCls = clsx(
     'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-container text-sm text-text-secondary ring-inset ring-border',
     {
-      'h-8 px-2': mergedSize === 'small',
+      'h-7 rounded-e px-2': mergedSize === 'small',
+      'h-8 px-3': mergedSize === 'small',
       'h-9 px-3': mergedSize === 'middle',
-      'h-10 px-3 text-base': mergedSize === 'large',
+      'h-10 px-3': mergedSize === 'large',
     },
     {
       'ring-1': variant === 'outlined',
@@ -801,13 +805,13 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
     'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
-    mergedSize === 'large' && '[&_.metis-icon]:text-xl',
+    mergedSize === 'large' && '[&_.metis-icon]:text-lg',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
     'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
-    mergedSize === 'large' && '[&_.metis-icon]:text-xl',
+    mergedSize === 'large' && '[&_.metis-icon]:text-lg',
     semanticCls.suffix,
   );
 
