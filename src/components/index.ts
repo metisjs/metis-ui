@@ -95,6 +95,8 @@ export { default as Transfer } from './transfer';
 export type { TransferProps } from './transfer';
 export { default as Transition } from './transition';
 export type { TransitionProps } from './transition';
+export { default as Upload } from './upload';
+export type { UploadFile, UploadProps } from './upload';
 export { default as Watermark } from './watermark';
 export type { WatermarkProps } from './watermark';
 
