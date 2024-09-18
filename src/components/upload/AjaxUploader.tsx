@@ -1,11 +1,11 @@
 /* eslint react/no-is-mounted:0,react/sort-comp:0,react/prop-types:0 */
+import React, { Component } from 'react';
 import clsx from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import React, { Component } from 'react';
 import attrAccept from './attr-accept';
 import type {
   BeforeUploadFileType,
-  RcFile,
+  InternalFile,
   UploadProgressEvent,
   UploadProps,
   UploadRequestError,
@@ -15,10 +15,10 @@ import traverseFileTree from './traverseFileTree';
 import getUid from './uid';
 
 interface ParsedFileInfo {
-  origin: RcFile;
+  origin: InternalFile;
   action: string;
   data: Record<string, unknown>;
-  parsedFile: RcFile;
+  parsedFile: InternalFile;
 }
 
 class AjaxUploader extends Component<UploadProps> {
@@ -34,7 +34,7 @@ class AjaxUploader extends Component<UploadProps> {
     const { accept, directory } = this.props;
     const { files } = e.target;
     const acceptedFiles = [...files].filter(
-      (file: RcFile) => !directory || attrAccept(file, accept),
+      (file: InternalFile) => !directory || attrAccept(file, accept),
     );
     this.uploadFiles(acceptedFiles);
     this.reset();
@@ -78,11 +78,11 @@ class AjaxUploader extends Component<UploadProps> {
     if (this.props.directory) {
       const files = await traverseFileTree(
         Array.prototype.slice.call(e.dataTransfer.items),
-        (_file: RcFile) => attrAccept(_file, this.props.accept),
+        (_file: InternalFile) => attrAccept(_file, this.props.accept),
       );
       this.uploadFiles(files);
     } else {
-      let files = [...e.dataTransfer.files].filter((file: RcFile) =>
+      let files = [...e.dataTransfer.files].filter((file: InternalFile) =>
         attrAccept(file, this.props.accept),
       );
 
@@ -104,22 +104,22 @@ class AjaxUploader extends Component<UploadProps> {
   }
 
   uploadFiles = (files: File[]) => {
-    const originFiles = [...files] as RcFile[];
-    const postFiles = originFiles.map((file: RcFile & { uid?: string }) => {
+    const originFiles = [...files] as InternalFile[];
+    const postFiles = originFiles.map((file: InternalFile & { uid?: string }) => {
       // eslint-disable-next-line no-param-reassign
       file.uid = getUid();
       return this.processFile(file, originFiles);
     });
 
     // Batch upload files
-    Promise.all(postFiles).then(fileList => {
+    Promise.all(postFiles).then((fileList) => {
       const { onBatchStart } = this.props;
 
       onBatchStart?.(fileList.map(({ origin, parsedFile }) => ({ file: origin, parsedFile })));
 
       fileList
-        .filter(file => file.parsedFile !== null)
-        .forEach(file => {
+        .filter((file) => file.parsedFile !== null)
+        .forEach((file) => {
           this.post(file);
         });
     });
@@ -128,7 +128,7 @@ class AjaxUploader extends Component<UploadProps> {
   /**
    * Process file before upload. When all the file is ready, we start upload.
    */
-  processFile = async (file: RcFile, fileList: RcFile[]): Promise<ParsedFileInfo> => {
+  processFile = async (file: InternalFile, fileList: InternalFile[]): Promise<ParsedFileInfo> => {
     const { beforeUpload } = this.props;
 
     let transformedFile: BeforeUploadFileType | void = file;
@@ -182,7 +182,7 @@ class AjaxUploader extends Component<UploadProps> {
       parsedFile = new File([parsedData], file.name, { type: file.type });
     }
 
-    const mergedParsedFile: RcFile = parsedFile as RcFile;
+    const mergedParsedFile: InternalFile = parsedFile as InternalFile;
     mergedParsedFile.uid = file.uid;
 
     return {
@@ -248,7 +248,7 @@ class AjaxUploader extends Component<UploadProps> {
       }
       delete reqs[uid];
     } else {
-      Object.keys(reqs).forEach(uid => {
+      Object.keys(reqs).forEach((uid) => {
         if (reqs[uid] && reqs[uid].abort) {
           reqs[uid].abort();
         }
@@ -316,7 +316,7 @@ class AjaxUploader extends Component<UploadProps> {
           disabled={disabled}
           type="file"
           ref={this.saveFileInput}
-          onClick={e => e.stopPropagation()} // https://github.com/ant-design/ant-design/issues/19948
+          onClick={(e) => e.stopPropagation()} // https://github.com/ant-design/ant-design/issues/19948
           key={this.state.uid}
           style={{ display: 'none', ...styles.input }}
           className={classNames.input}

@@ -1,35 +1,44 @@
 import type * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import type { ProgressAriaProps } from '../progress';
 
-export type BeforeUploadFileType = File | Blob | boolean | string;
+export type UploadFileStatus = 'error' | 'done' | 'uploading' | 'removed';
 
-export type Action = string | ((file: RcFile) => string | PromiseLike<string>);
+export type BeforeUploadFileType = InternalFile | Blob | boolean | string;
+
+export type Action = string | ((file: InternalFile) => string | PromiseLike<string>);
 
 export interface UploadProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onError' | 'onProgress'> {
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    'className' | 'onError' | 'onProgress'
+  > {
   name?: string;
   style?: React.CSSProperties;
-  className?: string;
+  className?: SemanticClassName<'input'>;
   disabled?: boolean;
   component?: React.ComponentType<any> | string;
   action?: Action;
   method?: UploadRequestMethod;
   directory?: boolean;
-  data?: Record<string, unknown> | ((file: RcFile | string | Blob) => Record<string, unknown>);
+  data?:
+    | Record<string, unknown>
+    | ((file: InternalFile | string | Blob) => Record<string, unknown>);
   headers?: UploadRequestHeader;
   accept?: string;
   multiple?: boolean;
   onBatchStart?: (
-    fileList: { file: RcFile; parsedFile: Exclude<BeforeUploadFileType, boolean> }[],
+    fileList: { file: InternalFile; parsedFile: Exclude<BeforeUploadFileType, boolean> }[],
   ) => void;
-  onStart?: (file: RcFile) => void;
-  onError?: (error: Error, ret: Record<string, unknown>, file: RcFile) => void;
-  onSuccess?: (response: Record<string, unknown>, file: RcFile, xhr: XMLHttpRequest) => void;
-  onProgress?: (event: UploadProgressEvent, file: RcFile) => void;
+  onStart?: (file: InternalFile) => void;
+  onError?: (error: Error, ret: Record<string, unknown>, file: InternalFile) => void;
+  onSuccess?: (response: Record<string, unknown>, file: InternalFile, xhr: XMLHttpRequest) => void;
+  onProgress?: (event: UploadProgressEvent, file: InternalFile) => void;
   beforeUpload?: (
-    file: RcFile,
-    FileList: RcFile[],
+    file: InternalFile,
+    FileList: InternalFile[],
   ) => BeforeUploadFileType | Promise<void | BeforeUploadFileType> | void;
-  customRequest?: (option: UploadRequestOption) => void | { abort: () => void };
+  customRequest?: (option: UploadRequestOption) => { abort: () => void };
   withCredentials?: boolean;
   openFileDialogOnClick?: boolean;
   prefixCls?: string;
@@ -37,12 +46,6 @@ export interface UploadProps
   onMouseEnter?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onMouseLeave?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
-  classNames?: {
-    input?: string;
-  };
-  styles?: {
-    input?: React.CSSProperties;
-  };
   hasControlInside?: boolean;
 }
 
@@ -54,7 +57,7 @@ export type UploadRequestMethod = 'POST' | 'PUT' | 'PATCH' | 'post' | 'put' | 'p
 
 export type UploadRequestHeader = Record<string, string>;
 
-export type UploadRequestFile = Exclude<BeforeUploadFileType, File | boolean> | RcFile;
+export type UploadRequestFile = Exclude<BeforeUploadFileType, File | boolean> | InternalFile;
 
 export interface UploadRequestError extends Error {
   status?: number;
@@ -75,6 +78,36 @@ export interface UploadRequestOption<T = any> {
   method: UploadRequestMethod;
 }
 
-export interface RcFile extends File {
+export interface InternalFile extends File {
   uid: string;
+}
+
+export interface UploadFile<T = any> extends ProgressAriaProps {
+  uid: string;
+  size?: number;
+  name: string;
+  fileName?: string;
+  lastModified?: number;
+  lastModifiedDate?: Date;
+  url?: string;
+  status?: UploadFileStatus;
+  percent?: number;
+  thumbUrl?: string;
+  crossOrigin?: React.ImgHTMLAttributes<HTMLImageElement>['crossOrigin'];
+  originFileObj?: InternalFile;
+  response?: T;
+  error?: any;
+  linkProps?: any;
+  type?: string;
+  xhr?: T;
+  preview?: string;
+}
+
+export interface UploadRef<T = any> {
+  onBatchStart: UploadProps['onBatchStart'];
+  onSuccess: (response: any, file: InternalFile, xhr: any) => void;
+  onProgress: (e: { percent: number }, file: InternalFile) => void;
+  onError: (error: Error, response: any, file: InternalFile) => void;
+  fileList: UploadFile<T>[];
+  nativeElement: HTMLSpanElement | null;
 }
