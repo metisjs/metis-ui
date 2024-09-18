@@ -1,51 +1,101 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import type { ProgressAriaProps } from '../progress';
+import type { ProgressAriaProps, ProgressProps } from '../progress';
+
+export type BeforeUploadFileType = void | boolean | string | Blob | File;
 
 export type UploadFileStatus = 'error' | 'done' | 'uploading' | 'removed';
 
-export type BeforeUploadFileType = InternalFile | Blob | boolean | string;
+export interface HttpRequestHeader {
+  [key: string]: string;
+}
 
-export type Action = string | ((file: InternalFile) => string | PromiseLike<string>);
+export interface UploadChangeParam<T = UploadFile> {
+  file: T;
+  fileList: T[];
+  event?: UploadProgressEvent;
+}
 
-export interface UploadProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    'className' | 'onError' | 'onProgress'
-  > {
-  name?: string;
-  style?: React.CSSProperties;
+export interface ShowUploadListInterface<T = any> {
+  extra?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  showRemoveIcon?: boolean;
+  showPreviewIcon?: boolean;
+  showDownloadIcon?: boolean;
+  removeIcon?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  downloadIcon?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  previewIcon?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+}
+
+export interface UploadLocale {
+  uploading?: string;
+  removeFile?: string;
+  downloadFile?: string;
+  uploadError?: string;
+  previewFile?: string;
+}
+
+export type UploadType = 'drag' | 'select';
+export type UploadListType = 'text' | 'picture' | 'picture-card' | 'picture-circle';
+export type UploadListProgressProps = Omit<ProgressProps, 'percent' | 'type'>;
+
+export type ItemRender<T = any> = (
+  originNode: React.ReactElement,
+  file: UploadFile<T>,
+  fileList: Array<UploadFile<T>>,
+  actions: {
+    download: () => void;
+    preview: () => void;
+    remove: () => void;
+  },
+) => React.ReactNode;
+
+type PreviewFileHandler = (file: File | Blob) => PromiseLike<string>;
+export interface UploadProps<T = any> {
   className?: SemanticClassName<'input'>;
-  disabled?: boolean;
-  component?: React.ComponentType<any> | string;
-  action?: Action;
-  method?: UploadRequestMethod;
+  type?: UploadType;
+  name?: string;
+  defaultFileList?: Array<UploadFile<T>>;
+  fileList?: Array<UploadFile<T>>;
+  action?:
+    | string
+    | ((file: InternalFile) => string)
+    | ((file: InternalFile) => PromiseLike<string>);
   directory?: boolean;
   data?:
     | Record<string, unknown>
-    | ((file: InternalFile | string | Blob) => Record<string, unknown>);
-  headers?: UploadRequestHeader;
-  accept?: string;
+    | ((file: UploadFile<T>) => Record<string, unknown> | Promise<Record<string, unknown>>);
+  method?: 'POST' | 'PUT' | 'PATCH' | 'post' | 'put' | 'patch';
+  headers?: HttpRequestHeader;
+  showUploadList?: boolean | ShowUploadListInterface;
   multiple?: boolean;
-  onBatchStart?: (
-    fileList: { file: InternalFile; parsedFile: Exclude<BeforeUploadFileType, boolean> }[],
-  ) => void;
-  onStart?: (file: InternalFile) => void;
-  onError?: (error: Error, ret: Record<string, unknown>, file: InternalFile) => void;
-  onSuccess?: (response: Record<string, unknown>, file: InternalFile, xhr: XMLHttpRequest) => void;
-  onProgress?: (event: UploadProgressEvent, file: InternalFile) => void;
+  accept?: string;
   beforeUpload?: (
     file: InternalFile,
-    FileList: InternalFile[],
-  ) => BeforeUploadFileType | Promise<void | BeforeUploadFileType> | void;
-  customRequest?: (option: UploadRequestOption) => { abort: () => void };
+    fileList: InternalFile[],
+  ) => BeforeUploadFileType | Promise<BeforeUploadFileType>;
+  onChange?: (info: UploadChangeParam<UploadFile<T>>) => void;
+  onDrop?: (event: React.DragEvent<HTMLDivElement>) => void;
+  listType?: UploadListType;
+  onPreview?: (file: UploadFile<T>) => void;
+  onDownload?: (file: UploadFile<T>) => void;
+  onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>;
+  style?: React.CSSProperties;
+  disabled?: boolean;
+  prefixCls?: string;
+  customRequest?: (options: UploadRequestOption<T>) => { abort: () => void };
   withCredentials?: boolean;
   openFileDialogOnClick?: boolean;
-  prefixCls?: string;
+  locale?: UploadLocale;
   id?: string;
-  onMouseEnter?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  onClick?: (e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => void;
+  previewFile?: PreviewFileHandler;
+  iconRender?: (file: UploadFile<T>, listType?: UploadListType) => React.ReactNode;
+  isImageUrl?: (file: UploadFile<T>) => boolean;
+  progress?: UploadListProgressProps;
+  itemRender?: ItemRender<T>;
+  /** Config max count of `fileList`. Will replace current one when `maxCount` is 1 */
+  maxCount?: number;
+  children?: React.ReactNode;
+  capture?: boolean | 'user' | 'environment';
   hasControlInside?: boolean;
 }
 
@@ -103,11 +153,31 @@ export interface UploadFile<T = any> extends ProgressAriaProps {
   preview?: string;
 }
 
-export interface UploadRef<T = any> {
-  onBatchStart: UploadProps['onBatchStart'];
-  onSuccess: (response: any, file: InternalFile, xhr: any) => void;
-  onProgress: (e: { percent: number }, file: InternalFile) => void;
-  onError: (error: Error, response: any, file: InternalFile) => void;
-  fileList: UploadFile<T>[];
-  nativeElement: HTMLSpanElement | null;
+export interface UploadListProps<T = any> {
+  listType?: UploadListType;
+  onPreview?: (file: UploadFile<T>) => void;
+  onDownload?: (file: UploadFile<T>) => void;
+  onRemove?: (file: UploadFile<T>) => void | boolean;
+  items?: Array<UploadFile<T>>;
+  progress?: UploadListProgressProps;
+  prefixCls?: string;
+  className?: string;
+  showRemoveIcon?: boolean;
+  showDownloadIcon?: boolean;
+  showPreviewIcon?: boolean;
+  removeIcon?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  downloadIcon?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  previewIcon?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  extra?: React.ReactNode | ((file: UploadFile<T>) => React.ReactNode);
+  locale: UploadLocale;
+  previewFile?: PreviewFileHandler;
+  iconRender?: (file: UploadFile<T>, listType?: UploadListType) => React.ReactNode;
+  isImageUrl?: (file: UploadFile<T>) => boolean;
+  appendAction?: React.ReactNode;
+  appendActionVisible?: boolean;
+  itemRender?: ItemRender<T>;
+  /**
+   * @internal Only the internal remove button is provided for use
+   */
+  disabled?: boolean;
 }

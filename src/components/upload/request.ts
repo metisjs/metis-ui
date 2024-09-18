@@ -1,4 +1,4 @@
-import type { UploadRequestOption, UploadRequestError, UploadProgressEvent } from './interface';
+import type { UploadRequestError, UploadRequestOption } from './interface';
 
 function getError(option: UploadRequestOption, xhr: XMLHttpRequest) {
   const msg = `cannot ${option.method} ${option.action} ${xhr.status}'`;
@@ -23,27 +23,26 @@ function getBody(xhr: XMLHttpRequest) {
 }
 
 export default function upload(option: UploadRequestOption) {
-  // eslint-disable-next-line no-undef
   const xhr = new XMLHttpRequest();
 
   if (option.onProgress && xhr.upload) {
-    xhr.upload.onprogress = function progress(e: UploadProgressEvent) {
+    xhr.upload.onprogress = function progress(e: ProgressEvent) {
+      let percent: number | undefined = undefined;
       if (e.total > 0) {
-        e.percent = (e.loaded / e.total) * 100;
+        percent = (e.loaded / e.total) * 100;
       }
-      option.onProgress(e);
+      option.onProgress?.({ ...e, percent });
     };
   }
 
-  // eslint-disable-next-line no-undef
   const formData = new FormData();
 
   if (option.data) {
-    Object.keys(option.data).forEach(key => {
-      const value = option.data[key];
+    Object.keys(option.data).forEach((key) => {
+      const value = option.data![key];
       // support key-value array data
       if (Array.isArray(value)) {
-        value.forEach(item => {
+        value.forEach((item) => {
           // { list: [ 11, 22 ] }
           // formData.append('list[]', 11);
           formData.append(`${key}[]`, item);
@@ -55,25 +54,23 @@ export default function upload(option: UploadRequestOption) {
     });
   }
 
-  // eslint-disable-next-line no-undef
   if (option.file instanceof Blob) {
-    formData.append(option.filename, option.file, (option.file as any).name);
+    formData.append(option.filename!, option.file, (option.file as any).name);
   } else {
-    formData.append(option.filename, option.file);
+    formData.append(option.filename!, option.file!);
   }
 
   xhr.onerror = function error(e) {
-    option.onError(e);
+    option.onError?.(e);
   };
 
   xhr.onload = function onload() {
     // allow success when 2xx status
-    // see https://github.com/react-component/upload/issues/34
     if (xhr.status < 200 || xhr.status >= 300) {
-      return option.onError(getError(option, xhr), getBody(xhr));
+      return option.onError?.(getError(option, xhr), getBody(xhr));
     }
 
-    return option.onSuccess(getBody(xhr), xhr);
+    return option.onSuccess?.(getBody(xhr), xhr);
   };
 
   xhr.open(option.method, option.action, true);
@@ -86,12 +83,11 @@ export default function upload(option: UploadRequestOption) {
   const headers = option.headers || {};
 
   // when set headers['X-Requested-With'] = null , can close default XHR header
-  // see https://github.com/react-component/upload/issues/33
   if (headers['X-Requested-With'] !== null) {
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
   }
 
-  Object.keys(headers).forEach(h => {
+  Object.keys(headers).forEach((h) => {
     if (headers[h] !== null) {
       xhr.setRequestHeader(h, headers[h]);
     }

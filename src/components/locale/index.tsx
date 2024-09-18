@@ -7,6 +7,7 @@ import type { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
 import type { PopconfirmLocale } from '../popconfirm/Overlay';
 import type { TransferLocale } from '../transfer';
+import type { UploadLocale } from '../upload/interface';
 import type { LocaleContextProps } from './context';
 import LocaleContext from './context';
 
@@ -26,7 +27,7 @@ export interface Locale {
   Popconfirm?: PopconfirmLocale;
   Transfer?: TransferLocale;
   Select?: Record<string, any>;
-  // Upload?: UploadLocale;
+  Upload?: UploadLocale;
   Empty?: EmptyLocale;
   global?: Record<string, any>;
   PageHeader?: { back: string };
