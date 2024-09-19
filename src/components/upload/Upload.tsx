@@ -521,18 +521,44 @@ const Upload: React.FC<UploadProps> = (props) => {
   };
 
   // ======================== Style ========================
-  const rootCls = clsx({
-    [`${prefixCls}-picture-card-wrapper`]: listType === 'picture-card',
-    [`${prefixCls}-picture-circle-wrapper`]: listType === 'picture-circle',
-  });
-  const uploadButtonCls = clsx(prefixCls, `${prefixCls}-select`, {
-    [`${prefixCls}-disabled`]: mergedDisabled,
-  });
+  const rootCls = clsx(
+    `${prefixCls}-wrapper`,
+    {
+      [`${prefixCls}-picture-card-wrapper`]: listType === 'picture-card',
+      [`${prefixCls}-picture-circle-wrapper`]: listType === 'picture-circle',
+    },
+    semanticCls.root,
+  );
+  const uploadButtonCls = clsx(
+    prefixCls,
+    `${prefixCls}-select`,
+    {
+      [`${prefixCls}-disabled`]: mergedDisabled,
+    },
+    'inline-block',
+    {
+      'h-24 w-24 cursor-pointer rounded-lg border border-dashed border-border-secondary bg-fill-quinary text-center align-top transition-colors':
+        listType === 'picture-card' || listType === 'picture-circle',
+      'rounded-full': listType === 'picture-circle',
+      'hover:border-primary':
+        (listType === 'picture-card' || listType === 'picture-circle') && !mergedDisabled,
+    },
+    mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+  );
+  const inputCls = clsx('hidden cursor-pointer', semanticCls.input);
+  const inputWrapCls = clsx(
+    {
+      'flex h-full items-center justify-center':
+        listType === 'picture-card' || listType === 'picture-circle',
+    },
+    mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+  );
 
   // ======================== Render ========================
   const renderUploader = (child: ReactNode) => (
     <span
       tabIndex={mergedDisabled || hasControlInside ? undefined : 0}
+      className={inputWrapCls}
       role={hasControlInside ? undefined : 'button'}
       style={style}
       onClick={onInputClick}
@@ -547,7 +573,7 @@ const Upload: React.FC<UploadProps> = (props) => {
         ref={fileInputRef}
         onClick={(e) => e.stopPropagation()}
         key={inputKey}
-        className={clsx('hidden', semanticCls.input)}
+        className={inputCls}
         accept={accept}
         multiple={multiple}
         onChange={handleInputChange}

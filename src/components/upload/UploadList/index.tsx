@@ -105,14 +105,18 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       return iconRender(file, listType);
     }
     const isLoading = file.status === 'uploading';
-    const fileIcon = isImgUrl?.(file) ? <PhotoOutline /> : <DocumentOutline />;
-    let icon: React.ReactNode = isLoading ? (
-      <LoadingOutline className="animate-spin" />
+    const fileIcon = isImgUrl?.(file) ? (
+      <PhotoOutline className="h-4 w-4" />
     ) : (
-      <PaperClipOutline />
+      <DocumentOutline className="h-4 w-4" />
+    );
+    let icon: React.ReactNode = isLoading ? (
+      <LoadingOutline className="h-4 w-4 animate-spin" />
+    ) : (
+      <PaperClipOutline className="h-4 w-4" />
     );
     if (listType === 'picture') {
-      icon = isLoading ? <LoadingOutline className="animate-spin" /> : fileIcon;
+      icon = isLoading ? <LoadingOutline className="h-4 w-4 animate-spin" /> : fileIcon;
     } else if (listType === 'picture-card' || listType === 'picture-circle') {
       icon = isLoading ? locale.uploading : fileIcon;
     }
@@ -125,10 +129,11 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     prefixCls: string,
     title?: string,
     acceptUploadDisabled?: boolean,
+    error?: boolean,
   ) => {
     const btnProps: ButtonProps = {
-      type: 'text',
-      size: 'small',
+      type: 'link',
+      size: 'mini',
       title,
       onClick: (e: React.MouseEvent<HTMLElement>) => {
         callback();
@@ -136,7 +141,13 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
           customIcon.props.onClick?.(e);
         }
       },
-      className: `${prefixCls}-list-item-action`,
+      className: clsx(
+        `${prefixCls}-list-item-action`,
+        'ml-1 hidden h-5 w-fit p-0 font-normal text-text-tertiary hover:!text-text-secondary group-hover/item:flex',
+        {
+          'flex text-error-hover hover:!text-error': error,
+        },
+      ),
     };
     if (acceptUploadDisabled) {
       btnProps.disabled = disabled;
@@ -168,7 +179,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   // ============================= Render =============================
   const prefixCls = getPrefixCls('upload', customizePrefixCls);
 
-  const listClassNames = clsx(`${prefixCls}-list`, `${prefixCls}-list-${listType}`);
+  const listCls = clsx(`${prefixCls}-list`, `${prefixCls}-list-${listType}`, 'text-sm text-text');
 
   // >>> Transition config
   const transitionKeyList = [...items.map((file) => ({ key: file.uid, file }))];
@@ -187,7 +198,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   }
 
   return (
-    <div className={listClassNames}>
+    <div className={listCls}>
       <TransitionList {...transitionConfig} component={false}>
         {({ key, file, className: transitionCls, style: transitionStyle }) => (
           <ListItem

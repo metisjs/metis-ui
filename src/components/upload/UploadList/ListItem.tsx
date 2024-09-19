@@ -35,6 +35,7 @@ export interface ListItemProps {
     prefixCls: string,
     title?: string,
     acceptUploadDisabled?: boolean,
+    error?: boolean,
   ) => React.ReactNode;
   itemRender?: ItemRender;
   onPreview: (file: UploadFile, e: React.SyntheticEvent<HTMLElement>) => void;
@@ -91,31 +92,66 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       };
     }, []);
 
+    const isPictureType =
+      listType === 'picture' || listType === 'picture-card' || listType === 'picture-circle';
+
+    const containerCls = clsx(`${prefixCls}-list-item-container`, className);
+    const itemCls = clsx(
+      `${prefixCls}-list-item`,
+      `${prefixCls}-list-item-${mergedStatus}`,
+      'group/item',
+      'relative mt-2 flex h-6 items-center rounded-sm hover:bg-fill-quaternary',
+      isPictureType && [
+        'relative h-16 rounded-lg border border-border-secondary p-2',
+        {
+          'border-dashed': mergedStatus === 'uploading',
+        },
+      ],
+      mergedStatus === 'error' && 'text-error',
+    );
+    const itemIconCls = clsx(`${prefixCls}-icon`, 'inline-flex items-center');
+    const itemNameCls = clsx(
+      `${prefixCls}-list-item-name`,
+      'flex-auto truncate px-2 leading-6',
+      mergedStatus === 'error' && '!text-error',
+    );
+    const itemProgressCls = clsx(
+      `${prefixCls}-list-item-progress`,
+      'pointer-events-none absolute -bottom-2 w-full ps-6',
+    );
+    const itemActionsCls = clsx(
+      `${prefixCls}-list-item-actions`,
+      'inline-flex items-center whitespace-nowrap',
+    );
+    const itemExtraCls = clsx(`${prefixCls}-list-item-extra`);
+    const itemThumbnailCls = clsx(
+      `${prefixCls}-list-item-thumbnail`,
+      {
+        [`${prefixCls}-list-item-file`]: mergedStatus !== 'uploading' || !isImgUrl?.(file),
+      },
+      'h-full overflow-hidden rounded',
+    );
+    const itemImageCls = clsx(`${prefixCls}-list-item-image`, 'block h-full w-full');
+
     const iconNode = iconRender(file);
-    let icon = <div className={`${prefixCls}-icon`}>{iconNode}</div>;
-    if (listType === 'picture' || listType === 'picture-card' || listType === 'picture-circle') {
+    let icon = <div className={itemIconCls}>{iconNode}</div>;
+    if (isPictureType) {
       if (mergedStatus === 'uploading' || (!file.thumbUrl && !file.url)) {
-        const uploadingClassName = clsx(`${prefixCls}-list-item-thumbnail`, {
-          [`${prefixCls}-list-item-file`]: mergedStatus !== 'uploading',
-        });
-        icon = <div className={uploadingClassName}>{iconNode}</div>;
+        icon = <div className={itemThumbnailCls}>{iconNode}</div>;
       } else {
         const thumbnail = isImgUrl?.(file) ? (
           <img
             src={file.thumbUrl || file.url}
             alt={file.name}
-            className={`${prefixCls}-list-item-image`}
+            className={itemImageCls}
             crossOrigin={file.crossOrigin}
           />
         ) : (
           iconNode
         );
-        const aClassName = clsx(`${prefixCls}-list-item-thumbnail`, {
-          [`${prefixCls}-list-item-file`]: isImgUrl && !isImgUrl(file),
-        });
         icon = (
           <a
-            className={aClassName}
+            className={itemThumbnailCls}
             onClick={(e) => onPreview(file, e)}
             href={file.url || file.thumbUrl}
             target="_blank"
@@ -127,10 +163,6 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       }
     }
 
-    const listItemClassName = clsx(
-      `${prefixCls}-list-item`,
-      `${prefixCls}-list-item-${mergedStatus}`,
-    );
     const linkProps =
       typeof file.linkProps === 'string' ? JSON.parse(file.linkProps) : file.linkProps;
 
@@ -144,6 +176,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
           locale.removeFile,
           // acceptUploadDisabled is true, only remove icon will follow Upload disabled prop
           true,
+          mergedStatus === 'error',
         )
       : null;
 
@@ -159,29 +192,21 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
           )
         : null;
     const downloadOrDelete = listType !== 'picture-card' && listType !== 'picture-circle' && (
-      <span
-        key="download-delete"
-        className={clsx(`${prefixCls}-list-item-actions`, {
-          picture: listType === 'picture',
-        })}
-      >
+      <span key="download-delete" className={itemActionsCls}>
         {downloadIcon}
         {removeIcon}
       </span>
     );
 
     const extraContent = typeof customExtra === 'function' ? customExtra(file) : customExtra;
-    const extra = extraContent && (
-      <span className={`${prefixCls}-list-item-extra`}>{extraContent}</span>
-    );
+    const extra = extraContent && <span className={itemExtraCls}>{extraContent}</span>;
 
-    const listItemNameClass = clsx(`${prefixCls}-list-item-name`);
     const fileName = file.url ? (
       <a
         key="view"
         target="_blank"
         rel="noopener noreferrer"
-        className={listItemNameClass}
+        className={itemNameCls}
         title={file.name}
         {...linkProps}
         href={file.url}
@@ -193,7 +218,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     ) : (
       <span
         key="view"
-        className={listItemNameClass}
+        className={itemNameCls}
         onClick={(e) => onPreview(file, e)}
         title={file.name}
       >
@@ -219,7 +244,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
 
     const pictureCardActions = (listType === 'picture-card' || listType === 'picture-circle') &&
       mergedStatus !== 'uploading' && (
-        <span className={`${prefixCls}-list-item-actions`}>
+        <span className={itemActionsCls}>
           {previewIcon}
           {mergedStatus === 'done' && downloadIcon}
           {removeIcon}
@@ -227,7 +252,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       );
 
     const dom = (
-      <div className={listItemClassName}>
+      <div className={itemCls}>
         {icon}
         {fileName}
         {downloadOrDelete}
@@ -247,11 +272,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
                   />
                 ) : null;
 
-              return (
-                <div className={clsx(`${prefixCls}-list-item-progress`, transitionCls)}>
-                  {loadingProgress}
-                </div>
-              );
+              return <div className={clsx(itemProgressCls, transitionCls)}>{loadingProgress}</div>;
             }}
           </Transition>
         )}
@@ -272,7 +293,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       );
 
     return (
-      <div className={clsx(`${prefixCls}-list-item-container`, className)} style={style} ref={ref}>
+      <div className={containerCls} style={style} ref={ref}>
         {itemRender
           ? itemRender(item, file, items, {
               download: onDownload.bind(null, file),
