@@ -106,9 +106,9 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     }
     const isLoading = file.status === 'uploading';
     const fileIcon = isImgUrl?.(file) ? (
-      <PhotoOutline className="h-4 w-4" />
+      <PhotoOutline className="h-9 w-9" />
     ) : (
-      <DocumentOutline className="h-4 w-4" />
+      <DocumentOutline className="h-9 w-9" />
     );
     let icon: React.ReactNode = isLoading ? (
       <LoadingOutline className="h-4 w-4 animate-spin" />
@@ -116,7 +116,11 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       <PaperClipOutline className="h-4 w-4" />
     );
     if (listType === 'picture') {
-      icon = isLoading ? <LoadingOutline className="h-4 w-4 animate-spin" /> : fileIcon;
+      icon = isLoading ? (
+        <LoadingOutline className="h-7 w-7 animate-spin text-primary" />
+      ) : (
+        fileIcon
+      );
     } else if (listType === 'picture-card' || listType === 'picture-circle') {
       icon = isLoading ? locale.uploading : fileIcon;
     }
@@ -132,7 +136,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     error?: boolean,
   ) => {
     const btnProps: ButtonProps = {
-      type: 'link',
+      type: listType === 'picture' ? 'text' : 'link',
       size: 'mini',
       title,
       onClick: (e: React.MouseEvent<HTMLElement>) => {
@@ -143,9 +147,15 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       },
       className: clsx(
         `${prefixCls}-list-item-action`,
-        'ml-1 hidden h-5 w-fit p-0 font-normal text-text-tertiary hover:!text-text-secondary group-hover/item:flex',
+        'mr-1 h-5 w-fit p-0 font-normal',
         {
-          'flex text-error-hover hover:!text-error': error,
+          'hidden text-text-tertiary hover:!text-text-secondary group-hover/item:flex':
+            listType === 'text',
+          'px-0.5 text-text-secondary': listType === 'picture',
+        },
+        error && {
+          'flex text-error-hover hover:enabled:!text-error': listType === 'text',
+          'text-text-error hover:enabled:bg-error-bg': listType === 'picture',
         },
       ),
     };

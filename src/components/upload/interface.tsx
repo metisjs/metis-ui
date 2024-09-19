@@ -130,6 +130,7 @@ export interface UploadRequestOption<T = any> {
 
 export interface InternalFile extends File {
   uid: string;
+  lastModifiedDate?: Date;
 }
 
 export interface UploadFile<T = any> extends ProgressAriaProps {

@@ -167,6 +167,12 @@ export const traverseFileTree = async (
 export function file2Obj(file: InternalFile): SomeRequired<UploadFile, 'originFileObj'> {
   return {
     ...file,
+    lastModified: file.lastModified,
+    lastModifiedDate: file.lastModifiedDate,
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    uid: file.uid,
     percent: 0,
     originFileObj: file,
   };

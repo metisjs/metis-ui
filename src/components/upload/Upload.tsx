@@ -424,7 +424,7 @@ const Upload: React.FC<UploadProps> = (props) => {
 
     // Batch upload files
     Promise.all(postFiles).then((fileList) => {
-      onBatchStart?.(fileList.map(({ origin, parsedFile }) => ({ file: origin, parsedFile })));
+      onBatchStart(fileList.map(({ origin, parsedFile }) => ({ file: origin, parsedFile })));
 
       fileList.filter((file) => file.parsedFile).forEach(post);
     });

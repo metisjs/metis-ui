@@ -21,6 +21,7 @@ const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
   'afterEnter',
   'beforeLeave',
   'afterLeave',
+  'deadline',
 ];
 
 export interface TransitionListProps

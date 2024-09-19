@@ -92,32 +92,32 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       };
     }, []);
 
-    const isPictureType =
-      listType === 'picture' || listType === 'picture-card' || listType === 'picture-circle';
-
     const containerCls = clsx(`${prefixCls}-list-item-container`, className);
     const itemCls = clsx(
       `${prefixCls}-list-item`,
       `${prefixCls}-list-item-${mergedStatus}`,
       'group/item',
       'relative mt-2 flex h-6 items-center rounded-sm hover:bg-fill-quaternary',
-      isPictureType && [
-        'relative h-16 rounded-lg border border-border-secondary p-2',
+      listType === 'picture' && [
+        'relative h-16 rounded-lg border border-border-secondary p-[0.4375rem] hover:bg-transparent',
         {
           'border-dashed': mergedStatus === 'uploading',
+          'border-error-border-secondary': mergedStatus === 'error',
         },
       ],
       mergedStatus === 'error' && 'text-error',
     );
     const itemIconCls = clsx(`${prefixCls}-icon`, 'inline-flex items-center');
-    const itemNameCls = clsx(
-      `${prefixCls}-list-item-name`,
-      'flex-auto truncate px-2 leading-6',
-      mergedStatus === 'error' && '!text-error',
-    );
+    const itemNameCls = clsx(`${prefixCls}-list-item-name`, 'flex-auto truncate px-2 leading-6', {
+      '!text-error': mergedStatus === 'error',
+      'mb-3': mergedStatus === 'uploading' && listType === 'picture',
+    });
     const itemProgressCls = clsx(
       `${prefixCls}-list-item-progress`,
       'pointer-events-none absolute -bottom-2 w-full ps-6',
+      {
+        'bottom-3 w-[calc(100%-16px)] ps-14': listType === 'picture',
+      },
     );
     const itemActionsCls = clsx(
       `${prefixCls}-list-item-actions`,
@@ -129,13 +129,14 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       {
         [`${prefixCls}-list-item-file`]: mergedStatus !== 'uploading' || !isImgUrl?.(file),
       },
-      'h-full overflow-hidden rounded',
+      'flex h-full w-12 items-center justify-center overflow-hidden rounded text-primary',
+      { 'text-error': mergedStatus === 'error' },
     );
     const itemImageCls = clsx(`${prefixCls}-list-item-image`, 'block h-full w-full');
 
     const iconNode = iconRender(file);
     let icon = <div className={itemIconCls}>{iconNode}</div>;
-    if (isPictureType) {
+    if (listType === 'picture' || listType === 'picture-card' || listType === 'picture-circle') {
       if (mergedStatus === 'uploading' || (!file.thumbUrl && !file.url)) {
         icon = <div className={itemThumbnailCls}>{iconNode}</div>;
       } else {
