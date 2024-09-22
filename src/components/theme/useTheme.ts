@@ -41,7 +41,7 @@ const THEME_KEYS = [
   'container',
   'elevated',
   'layout',
-  'bgMask',
+  'mask',
   'spotlight',
   'border',
   'borderSecondary',

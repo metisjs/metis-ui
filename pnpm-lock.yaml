@@ -23,8 +23,8 @@ dependencies:
     specifier: ^3.2.2
     version: 3.2.2(react@18.2.0)
   '@metisjs/icons':
-    specifier: ^0.0.2-alpha.0
-    version: 0.0.2-alpha.0(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.0.2-alpha.1
+    version: 0.0.2-alpha.1(react-dom@18.2.0)(react@18.2.0)
   '@rc-component/mini-decimal':
     specifier: ^1.1.0
     version: 1.1.0
@@ -2567,13 +2567,13 @@ packages:
       react: 18.2.0
     dev: true
 
-  /@metisjs/icons@0.0.2-alpha.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-+vEn+QK8hqfUo8ZN5FHmINF0+Xzjd16MvFc/okZU5DBhxgBrv+VRO9jPCzjWwPMcryQ9tqZN7byfuc2iGSNhvQ==}
+  /@metisjs/icons@0.0.2-alpha.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-rbIgVFLBrhKpS5YVh1Ws+EUeqeUAVr9Z03Ub+oV78xzREDSXSZtA7Fx6o06tVWOPD1vI3gr16qCL0octW8m+uw==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      heroicons: 2.1.3
+      heroicons: 2.1.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -2894,7 +2894,7 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
       postcss: 8.4.38
-      postcss-syntax: 0.36.2(postcss@8.4.38)
+      postcss-syntax: 0.36.2(postcss@8.4.24)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4084,7 +4084,7 @@ packages:
       eslint-plugin-react: 7.33.2(eslint@8.39.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.39.0)
       postcss: 8.4.38
-      postcss-syntax: 0.36.2(postcss@8.4.38)
+      postcss-syntax: 0.36.2(postcss@8.4.24)
       stylelint-config-standard: 25.0.0(stylelint@15.6.0)
     transitivePeerDependencies:
       - eslint
@@ -8805,8 +8805,8 @@ packages:
     hasBin: true
     dev: true
 
-  /heroicons@2.1.3:
-    resolution: {integrity: sha512-Fom8AaUho83oeGPCne9oo1F6A+2r4BPmY59qOkML4LIu+xQNS/yv8OmcrxCuiVs7X42oTRAnFbOJHGDwIlI8HA==}
+  /heroicons@2.1.5:
+    resolution: {integrity: sha512-XLq3m45bJphmWdR6im52alaYajp0/fluJa2+7xh3x7CgItumbLsjhKYe+mCf0lErXLy7ZyiEgKIty2gFNxhoyA==}
     dev: false
 
   /heti-findandreplacedomtext@0.5.0:
@@ -12062,8 +12062,7 @@ packages:
     dev: true
 
   /path-to-regexp@1.8.0:
-    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==, tarball: https://registry.npmmirror.com/path-to-regexp/-/path-to-regexp-1.9.0.tgz}
-    deprecated: '[WARNING] Use 1.9.0 instead of 1.8.0, reason: https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-9wv6-86v2-598j'
+    resolution: {integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==}
     dependencies:
       isarray: 0.0.1
     dev: true
@@ -12967,7 +12966,7 @@ packages:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  /postcss-syntax@0.36.2(postcss@8.4.38):
+  /postcss-syntax@0.36.2(postcss@8.4.24):
     resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
     peerDependencies:
       postcss: '>=5.0.0'
@@ -12988,7 +12987,7 @@ packages:
       postcss-scss:
         optional: true
     dependencies:
-      postcss: 8.4.38
+      postcss: 8.4.24
     dev: true
 
   /postcss-value-parser@4.2.0:

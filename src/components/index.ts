@@ -37,6 +37,8 @@ export { default as Dropdown } from './dropdown';
 export type { DropdownProps as DropDownProps, DropdownProps } from './dropdown';
 export { default as Empty } from './empty';
 export type { EmptyProps } from './empty';
+export { default as Image } from './image';
+export type { ImageProps } from './image';
 export { default as Input } from './input';
 export type { InputProps, InputRef } from './input';
 export { default as InputNumber } from './input-number';
