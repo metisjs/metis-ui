@@ -68,7 +68,7 @@ export function diffKeys(prevKeys: KeyObject[] = [], currentKeys: KeyObject[] = 
     if (!hit) {
       list.push({
         ...keyObj,
-        status: STATUS_REMOVED,
+        status: STATUS_REMOVE,
       });
     }
   });
@@ -84,12 +84,15 @@ export function diffKeys(prevKeys: KeyObject[] = [], currentKeys: KeyObject[] = 
    * Merge same key when it remove and add again:
    *    [1 - add, 2 - keep, 1 - remove] -> [1 - keep, 2 - keep]
    */
-  const keys: Record<React.Key, any> = {};
+  const keys: Record<React.Key, number> = {};
   list.forEach(({ key }) => {
     keys[key] = (keys[key] || 0) + 1;
   });
   const duplicatedKeys = Object.keys(keys).filter((key) => keys[key] > 1);
   duplicatedKeys.forEach((matchKey) => {
+    // Remove `STATUS_REMOVE` node.
+    list = list.filter(({ key, status }) => key !== matchKey || status !== STATUS_REMOVE);
+
     // Update `STATUS_ADD` to `STATUS_KEEP`
     list.forEach((node) => {
       if (node.key === matchKey) {

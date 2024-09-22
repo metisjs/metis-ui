@@ -72,25 +72,34 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
   }
 
   removeKey = (removeKey: React.Key) => {
-    const { keyEntities } = this.state;
-    const nextKeyEntities = keyEntities.map((entity) => {
-      if (entity.key !== removeKey) return entity;
-      return {
-        ...entity,
-        status: STATUS_REMOVED,
-      };
-    });
+    this.setState(
+      (prevState) => {
+        const nextKeyEntities = prevState.keyEntities.map((entity) => {
+          if (entity.key !== removeKey) return entity;
+          return {
+            ...entity,
+            status: STATUS_REMOVED,
+          };
+        });
 
-    this.setState({
-      keyEntities: nextKeyEntities,
-    });
+        return {
+          keyEntities: nextKeyEntities,
+        };
+      },
+      () => {
+        const { keyEntities } = this.state;
+        const restKeysCount = keyEntities.filter(({ status }) => status !== STATUS_REMOVED).length;
 
-    return nextKeyEntities.filter(({ status }) => status !== STATUS_REMOVED).length;
+        if (restKeysCount === 0 && this.props.onAllRemoved) {
+          this.props.onAllRemoved();
+        }
+      },
+    );
   };
 
   render() {
     const { keyEntities } = this.state;
-    const { component, children, onVisibleChanged, onAllRemoved, ...restProps } = this.props;
+    const { component, children, onVisibleChanged, ...restProps } = this.props;
 
     const Component = component || React.Fragment;
 
@@ -104,6 +113,8 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
     });
     // @ts-ignore
     delete restProps.keys;
+
+    console.log(keyEntities);
 
     return (
       <Component {...restProps}>
@@ -119,11 +130,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
                 onVisibleChanged?.(changedVisible, { key: eventProps.key });
 
                 if (!changedVisible) {
-                  const restKeysCount = this.removeKey(eventProps.key);
-
-                  if (restKeysCount === 0 && onAllRemoved) {
-                    onAllRemoved();
-                  }
+                  this.removeKey(eventProps.key);
                 }
               }}
             >
