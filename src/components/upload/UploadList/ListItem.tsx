@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ArrowDownTrayOutline, EyeOutline, XMarkOutline } from '@metisjs/icons';
-import { clsx } from '../../_util/classNameUtils';
+import { ArrowDownTrayOutline, EyeOutline, TrashOutline } from '@metisjs/icons';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import Progress from '../../progress';
 import Tooltip from '../../tooltip';
 import Transition from '../../transition';
@@ -8,13 +8,14 @@ import type {
   ItemRender,
   UploadFile,
   UploadListProgressProps,
+  UploadListProps,
   UploadListType,
   UploadLocale,
 } from '../interface';
 
 export interface ListItemProps {
   prefixCls: string;
-  className?: string;
+  className?: UploadListProps['className'];
   style?: React.CSSProperties;
   locale: UploadLocale;
   file: UploadFile;
@@ -31,7 +32,7 @@ export interface ListItemProps {
   iconRender: (file: UploadFile) => React.ReactNode;
   actionIconRender: (
     customIcon: React.ReactNode,
-    callback: () => void,
+    callback: (e: React.MouseEvent<HTMLElement>) => void,
     prefixCls: string,
     title?: string,
     acceptUploadDisabled?: boolean,
@@ -72,6 +73,8 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     },
     ref,
   ) => {
+    const semanticCls = getSemanticCls(className);
+
     // Status: which will ignore `removed` status
     const { status } = file;
     const [mergedStatus, setMergedStatus] = React.useState(status);
@@ -92,47 +95,97 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       };
     }, []);
 
-    const containerCls = clsx(`${prefixCls}-list-item-container`, className);
+    const containerCls = clsx(`${prefixCls}-list-item-container`, semanticCls.root);
+
     const itemCls = clsx(
       `${prefixCls}-list-item`,
       `${prefixCls}-list-item-${mergedStatus}`,
       'group/item',
       'relative mt-2 flex h-6 items-center rounded-sm hover:bg-fill-quaternary',
-      listType === 'picture' && [
-        'relative h-16 rounded-lg border border-border-secondary p-[0.4375rem] hover:bg-transparent',
-        {
-          'border-dashed': mergedStatus === 'uploading',
-          'border-error-border-secondary': mergedStatus === 'error',
-        },
-      ],
-      mergedStatus === 'error' && 'text-error',
+      {
+        'relative h-16 rounded-lg border border-border-secondary p-[0.4375rem] hover:bg-transparent':
+          listType === 'picture',
+        'mt-0 h-28 w-28 flex-col justify-center rounded-lg border border-border-secondary bg-transparent p-[0.4375rem] before:absolute before:inset-[0.4375rem] before:z-[1] before:rounded before:bg-mask before:opacity-0 before:transition-opacity hover:bg-transparent':
+          listType === 'picture-card' || listType === 'picture-circle',
+        'bg-fill-quinary hover:bg-fill-quinary':
+          (listType === 'picture-card' || listType === 'picture-circle') &&
+          mergedStatus === 'uploading',
+        'hover:before:opacity-100':
+          (listType === 'picture-card' || listType === 'picture-circle') &&
+          mergedStatus !== 'uploading',
+        'rounded-full before:rounded-full': listType === 'picture-circle',
+      },
+      {
+        'border-dashed': mergedStatus === 'uploading',
+        'border-error-border-secondary text-error': mergedStatus === 'error',
+      },
+      semanticCls.item,
     );
-    const itemIconCls = clsx(`${prefixCls}-icon`, 'inline-flex items-center');
-    const itemNameCls = clsx(`${prefixCls}-list-item-name`, 'flex-auto truncate px-2 leading-6', {
-      '!text-error': mergedStatus === 'error',
-      'mb-3': mergedStatus === 'uploading' && listType === 'picture',
-    });
+
+    const itemIconCls = clsx(`${prefixCls}-icon`, 'inline-flex items-center', semanticCls.icon);
+
+    const needShowName =
+      (listType !== 'picture-card' && listType !== 'picture-circle') ||
+      (((!file.thumbUrl && !file.url) || !isImgUrl?.(file)) && mergedStatus !== 'uploading');
+
+    const itemNameCls = clsx(
+      `${prefixCls}-list-item-name`,
+      'hidden flex-auto truncate px-2 leading-6',
+      {
+        '!text-error': mergedStatus === 'error',
+        'mb-3': mergedStatus === 'uploading' && listType === 'picture',
+        'mt-1 flex-none': listType === 'picture-card' || listType === 'picture-circle',
+      },
+      needShowName && 'block',
+      semanticCls.name,
+    );
+
     const itemProgressCls = clsx(
       `${prefixCls}-list-item-progress`,
       'pointer-events-none absolute -bottom-2 w-full ps-6',
       {
         'bottom-3 w-[calc(100%-16px)] ps-14': listType === 'picture',
+        'static w-full ps-0': listType === 'picture-card' || listType === 'picture-circle',
       },
+      semanticCls.progress,
     );
+
     const itemActionsCls = clsx(
       `${prefixCls}-list-item-actions`,
-      'inline-flex items-center whitespace-nowrap',
+      'inline-flex items-center gap-1 whitespace-nowrap transition-opacity',
+      {
+        'opacity-0 group-hover/item:opacity-100': listType === 'text',
+        'absolute z-10 opacity-0 *:text-white group-hover/item:opacity-100':
+          listType === 'picture-card' || listType === 'picture-circle',
+      },
+      semanticCls.actions,
     );
+
     const itemExtraCls = clsx(`${prefixCls}-list-item-extra`);
+
     const itemThumbnailCls = clsx(
       `${prefixCls}-list-item-thumbnail`,
       {
-        [`${prefixCls}-list-item-file`]: mergedStatus !== 'uploading' || !isImgUrl?.(file),
+        [`${prefixCls}-list-item-file`]: mergedStatus !== 'uploading' && !isImgUrl?.(file),
       },
       'flex h-full w-12 items-center justify-center overflow-hidden rounded text-primary',
+      {
+        'block w-full text-center text-text':
+          listType === 'picture-card' || listType === 'picture-circle',
+        'h-fit w-fit truncate':
+          (listType === 'picture-card' || listType === 'picture-circle') &&
+          (mergedStatus === 'uploading' || needShowName),
+        'rounded-full': listType === 'picture-circle',
+      },
       { 'text-error': mergedStatus === 'error' },
+      semanticCls.thumbnail,
     );
-    const itemImageCls = clsx(`${prefixCls}-list-item-image`, 'block h-full w-full');
+
+    const itemImageCls = clsx(
+      `${prefixCls}-list-item-image`,
+      'block h-full w-full',
+      semanticCls.image,
+    );
 
     const iconNode = iconRender(file);
     let icon = <div className={itemIconCls}>{iconNode}</div>;
@@ -170,7 +223,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     const removeIcon = showRemoveIcon
       ? actionIconRender(
           (typeof customRemoveIcon === 'function' ? customRemoveIcon(file) : customRemoveIcon) || (
-            <XMarkOutline />
+            <TrashOutline />
           ),
           () => onClose(file),
           prefixCls,
@@ -229,19 +282,16 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     );
 
     const previewIcon =
-      showPreviewIcon && (file.url || file.thumbUrl) ? (
-        <a
-          href={file.url || file.thumbUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => onPreview(file, e)}
-          title={locale.previewFile}
-        >
-          {typeof customPreviewIcon === 'function'
-            ? customPreviewIcon(file)
-            : customPreviewIcon || <EyeOutline />}
-        </a>
-      ) : null;
+      showPreviewIcon && (file.url || file.thumbUrl)
+        ? actionIconRender(
+            typeof customPreviewIcon === 'function'
+              ? customPreviewIcon(file)
+              : customPreviewIcon || <EyeOutline />,
+            (e) => onPreview(file, e),
+            prefixCls,
+            locale.previewFile,
+          )
+        : null;
 
     const pictureCardActions = (listType === 'picture-card' || listType === 'picture-circle') &&
       mergedStatus !== 'uploading' && (
@@ -259,7 +309,16 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
         {downloadOrDelete}
         {pictureCardActions}
         {showProgress && (
-          <Transition visible={mergedStatus === 'uploading'} deadline={2000}>
+          <Transition
+            visible={mergedStatus === 'uploading'}
+            enter="transition-opacity ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            deadline={2000}
+          >
             {({ className: transitionCls }) => {
               // show loading icon if upload progress listener is disabled
               const loadingProgress =

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowUpTrayOutline, InboxArrowDownOutline, PlusOutline } from '@metisjs/icons';
-import { Button, Space, Upload } from 'metis-ui';
+import { ArrowUpTrayOutline, InboxOutline, PlusOutline } from '@metisjs/icons';
 import type { UploadFile } from 'metis-ui';
+import { Button, Space, Upload } from 'metis-ui';
 
 const { Dragger } = Upload;
 
@@ -53,11 +53,11 @@ const App: React.FC = () => {
         {uploadButton}
       </Upload>
       <Dragger disabled>
-        <p className="ant-upload-drag-icon">
-          <InboxArrowDownOutline />
+        <p className="mb-4">
+          <InboxOutline className="h-12 w-12 text-text-tertiary" />
         </p>
-        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-        <p className="ant-upload-hint">
+        <p className="mb-1 text-base">Click or drag file to this area to upload</p>
+        <p className="text-text-tertiary">
           Support for a single or bulk upload. Strictly prohibited from uploading company data or
           other banned files.
         </p>

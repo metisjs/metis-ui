@@ -218,7 +218,12 @@ export const isImageUrl = (file: UploadFile): boolean => {
   if (file.type && !file.thumbUrl) {
     return isImageFileType(file.type);
   }
-  const url = file.thumbUrl || file.url || '';
+  const url = file.thumbUrl || file.url || file.name || '';
+
+  if (!url) {
+    return false;
+  }
+
   const extension = extname(url);
   if (
     /^data:image\//.test(url) ||

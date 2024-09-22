@@ -51,7 +51,7 @@ export type ItemRender<T = any> = (
 
 type PreviewFileHandler = (file: File | Blob) => PromiseLike<string>;
 export interface UploadProps<T = any> {
-  className?: SemanticClassName<'input' | 'list' | 'listItem'>;
+  className?: SemanticClassName<'input' | 'drag', { list?: UploadListProps['className'] }>;
   type?: UploadType;
   name?: string;
   defaultFileList?: Array<UploadFile<T>>;
@@ -162,7 +162,9 @@ export interface UploadListProps<T = any> {
   items?: Array<UploadFile<T>>;
   progress?: UploadListProgressProps;
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<
+    'item' | 'icon' | 'name' | 'actions' | 'thumbnail' | 'progress' | 'image'
+  >;
   showRemoveIcon?: boolean;
   showDownloadIcon?: boolean;
   showPreviewIcon?: boolean;

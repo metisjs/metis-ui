@@ -68,6 +68,7 @@ export interface ImagePreviewType {
     originalNode: React.ReactElement,
     info: Omit<ToolbarRenderInfoType, 'current' | 'total'>,
   ) => React.ReactNode;
+  afterOpenChange?: (open: boolean) => void;
 }
 
 export interface ImageProps

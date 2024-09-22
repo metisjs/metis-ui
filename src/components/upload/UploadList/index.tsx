@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DocumentOutline, LoadingOutline, PaperClipOutline, PhotoOutline } from '@metisjs/icons';
 import { useUpdate } from 'ahooks';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
 import { cloneElement } from '../../_util/reactNode';
 import { collapseTransition } from '../../_util/transition';
 import type { ButtonProps } from '../../button';
@@ -44,7 +44,10 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     appendActionVisible = true,
     itemRender,
     disabled,
+    className,
   } = props;
+  const semanticCls = getSemanticCls(className);
+
   const forceUpdate = useUpdate();
   const [transitionAppear, setTransitionAppear] = React.useState(false);
 
@@ -101,10 +104,22 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   };
 
   const internalIconRender = (file: UploadFile) => {
-    if (iconRender) {
-      return iconRender(file, listType);
-    }
     const isLoading = file.status === 'uploading';
+
+    if (iconRender) {
+      const icon = iconRender(file, listType);
+      return cloneElement(icon, (origin) => ({
+        className: clsx(
+          'h-9 w-9',
+          {
+            'h-7 w-7': isLoading,
+            'h-4 w-4': listType === 'text',
+          },
+          origin.className,
+        ),
+      }));
+    }
+
     const fileIcon = isImgUrl?.(file) ? (
       <PhotoOutline className="h-9 w-9" />
     ) : (
@@ -129,7 +144,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
 
   const actionIconRender = (
     customIcon: React.ReactNode,
-    callback: () => void,
+    callback: (e: React.MouseEvent<HTMLElement>) => void,
     prefixCls: string,
     title?: string,
     acceptUploadDisabled?: boolean,
@@ -137,21 +152,22 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   ) => {
     const btnProps: ButtonProps = {
       type: listType === 'picture' ? 'text' : 'link',
-      size: 'mini',
+      size: listType === 'picture-card' || listType === 'picture-circle' ? 'middle' : 'mini',
       title,
       onClick: (e: React.MouseEvent<HTMLElement>) => {
-        callback();
+        callback(e);
         if (React.isValidElement(customIcon)) {
           customIcon.props.onClick?.(e);
         }
       },
       className: clsx(
         `${prefixCls}-list-item-action`,
-        'mr-1 h-5 w-fit p-0 font-normal',
+        'h-5 w-fit p-0 font-normal focus-visible:ring-0',
         {
-          'hidden text-text-tertiary hover:!text-text-secondary group-hover/item:flex':
-            listType === 'text',
+          'text-text-tertiary hover:!text-text-secondary': listType === 'text',
           'px-0.5 text-text-secondary': listType === 'picture',
+          'text-white hover:!text-white':
+            listType === 'picture-card' || listType === 'picture-circle',
         },
         error && {
           'flex text-error-hover hover:enabled:!text-error': listType === 'text',
@@ -189,7 +205,15 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   // ============================= Render =============================
   const prefixCls = getPrefixCls('upload', customizePrefixCls);
 
-  const listCls = clsx(`${prefixCls}-list`, `${prefixCls}-list-${listType}`, 'text-sm text-text');
+  const listCls = clsx(
+    `${prefixCls}-list`,
+    `${prefixCls}-list-${listType}`,
+    'text-sm text-text',
+    {
+      'flex flex-wrap gap-2': listType === 'picture-card' || listType === 'picture-circle',
+    },
+    semanticCls.root,
+  );
 
   // >>> Transition config
   const transitionKeyList = [...items.map((file) => ({ key: file.uid, file }))];
@@ -198,12 +222,19 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     deadline: 2000,
     keys: transitionKeyList,
     appear: transitionAppear,
+    enter: 'transition-opacity ease-out duration-300',
+    enterFrom: 'opacity-0',
+    enterTo: 'opacity-100',
+    leave: 'transition-opacity ease-in duration-200',
+    leaveFrom: 'opacity-100',
+    leaveTo: 'opacity-0',
   };
 
   if (listType !== 'picture-card' && listType !== 'picture-circle') {
     transitionConfig = {
-      ...collapseTransition,
       ...transitionConfig,
+      ...collapseTransition,
+      deadline: 2000,
     };
   }
 
@@ -215,7 +246,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
             key={key}
             locale={locale}
             prefixCls={prefixCls}
-            className={transitionCls}
+            className={mergeSemanticCls({ ...semanticCls, root: undefined }, transitionCls)}
             style={transitionStyle}
             file={file}
             items={items}

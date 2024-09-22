@@ -529,6 +529,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     },
     semanticCls.root,
   );
+
   const uploadButtonCls = clsx(
     prefixCls,
     `${prefixCls}-select`,
@@ -537,7 +538,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     },
     'inline-block',
     {
-      'h-24 w-24 cursor-pointer rounded-lg border border-dashed border-border-secondary bg-fill-quinary text-center align-top transition-colors':
+      'h-28 w-28 cursor-pointer rounded-lg border border-dashed border-border-secondary bg-fill-quinary text-center align-top transition-colors':
         listType === 'picture-card' || listType === 'picture-circle',
       'rounded-full': listType === 'picture-circle',
       'hover:border-primary':
@@ -545,13 +546,31 @@ const Upload: React.FC<UploadProps> = (props) => {
     },
     mergedDisabled && 'cursor-not-allowed text-text-tertiary',
   );
+
   const inputCls = clsx('hidden cursor-pointer', semanticCls.input);
+
   const inputWrapCls = clsx(
     {
       'flex h-full items-center justify-center':
         listType === 'picture-card' || listType === 'picture-circle',
     },
+    type === 'drag' &&
+      'table h-full w-full rounded-lg p-4 outline-none focus-visible:outline-2 focus-visible:outline-primary',
     mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+  );
+
+  const dragCls = clsx(
+    prefixCls,
+    `${prefixCls}-drag`,
+    {
+      [`${prefixCls}-drag-uploading`]: mergedFileList.some((file) => file.status === 'uploading'),
+      [`${prefixCls}-drag-hover`]: dragState === 'dragover',
+      [`${prefixCls}-disabled`]: mergedDisabled,
+    },
+    'relative h-full w-full rounded-lg border border-dashed border-border-secondary bg-fill-quinary text-center outline-none transition-colors',
+    { 'border-primary': dragState === 'dragover' },
+    { 'text-text-tertiary': mergedDisabled, 'hover:border-primary': !mergedDisabled },
+    semanticCls.drag,
   );
 
   // ======================== Render ========================
@@ -616,12 +635,6 @@ const Upload: React.FC<UploadProps> = (props) => {
   };
 
   if (type === 'drag') {
-    const dragCls = clsx(prefixCls, `${prefixCls}-drag`, {
-      [`${prefixCls}-drag-uploading`]: mergedFileList.some((file) => file.status === 'uploading'),
-      [`${prefixCls}-drag-hover`]: dragState === 'dragover',
-      [`${prefixCls}-disabled`]: mergedDisabled,
-    });
-
     return (
       <div className={rootCls}>
         <div
@@ -631,7 +644,11 @@ const Upload: React.FC<UploadProps> = (props) => {
           onDragOver={onFileDrop}
           onDragLeave={onFileDrop}
         >
-          {renderUploader(<div className={`${prefixCls}-drag-container`}>{children}</div>)}
+          {renderUploader(
+            <div className={clsx(`${prefixCls}-drag-container`, 'table-cell align-middle')}>
+              {children}
+            </div>,
+          )}
         </div>
         {renderUploadList()}
       </div>
