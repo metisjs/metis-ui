@@ -15,12 +15,12 @@ import type {
   KeyEntities,
   NodeElement,
   NodeInstance,
-} from './interface';
-import type { AllowDrop, TreeProps } from './Tree';
-import TreeNode from './TreeNode';
-import getEntity from './utils/keyUtil';
+} from '../interface';
+import type { AllowDrop, TreeProps } from '../Tree';
+import TreeNode from '../TreeNode';
+import getEntity from './keyUtil';
 
-export { getPosition, isTreeNode } from './utils/treeUtil';
+export { getPosition, isTreeNode } from './treeUtil';
 
 export function arrDel(list: Key[], value: Key) {
   if (!list) return [];

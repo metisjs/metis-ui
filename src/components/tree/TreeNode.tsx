@@ -2,10 +2,9 @@ import * as React from 'react';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 // @ts-ignore
-import type { TreeContextProps } from './contextTypes';
-import { TreeContext } from './contextTypes';
+import { TreeContext, TreeContextProps } from './context';
 import Indent from './Indent';
-import type { TreeNodeProps } from './interface';
+import { TreeNodeProps } from './interface';
 import getEntity from './utils/keyUtil';
 import { convertNodePropsToEventData } from './utils/treeUtil';
 

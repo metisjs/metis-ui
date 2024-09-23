@@ -2,11 +2,11 @@
  * Handle virtual list of the TreeNodes.
  */
 
-import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import type { ListRef } from 'rc-virtual-list';
-import VirtualList from 'rc-virtual-list';
-import type {
+import VirtualList, { ListRef } from 'rc-virtual-list';
+import * as React from 'react';
+import MotionTreeNode from './MotionTreeNode';
+import {
   BasicDataNode,
   DataEntity,
   DataNode,
@@ -15,7 +15,6 @@ import type {
   KeyEntities,
   ScrollTo,
 } from './interface';
-import MotionTreeNode from './MotionTreeNode';
 import { findExpandedKeys, getExpandRange } from './utils/diffUtil';
 import { getKey, getTreeNodeProps } from './utils/treeUtil';
 
@@ -180,7 +179,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
   const listRef = React.useRef<ListRef>(null);
   const indentMeasurerRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => ({
-    scrollTo: (scroll) => {
+    scrollTo: scroll => {
       listRef.current.scrollTo(scroll);
     },
     getIndentWidth: () => indentMeasurerRef.current.offsetWidth,
@@ -327,17 +326,17 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
         itemHeight={itemHeight}
         prefixCls={`${prefixCls}-list`}
         ref={listRef}
-        onVisibleChange={(originList, fullList) => {
-          const originSet = new Set(originList);
-          const restList = fullList.filter((item) => !originSet.has(item));
-
-          // Motion node is not render. Skip motion
-          if (restList.some((item) => itemKey(item) === MOTION_KEY)) {
+        onVisibleChange={originList => {
+          // The best match is using `fullList` - `originList` = `restList`
+          // and check the `restList` to see if has the MOTION_KEY node
+          // but this will cause performance issue for long list compare
+          // we just check `originList` and repeat trigger `onMotionEnd`
+          if (originList.every(item => itemKey(item) !== MOTION_KEY)) {
             onMotionEnd();
           }
         }}
       >
-        {(treeNode) => {
+        {treeNode => {
           const {
             pos,
             data: { ...restProps },

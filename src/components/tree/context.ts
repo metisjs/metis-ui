@@ -1,7 +1,3 @@
-/**
- * Webpack has bug for import loop, which is not the same behavior as ES module.
- * When util.js imports the TreeNode for tree generate will cause treeContextTypes be empty.
- */
 import * as React from 'react';
 import type {
   BasicDataNode,
@@ -60,8 +56,8 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   dropIndicatorRender: (props: {
     dropPosition: -1 | 0 | 1;
     dropLevelOffset: number;
-    indent;
-    prefixCls;
+    indent: number;
+    prefixCls: string;
     direction: Direction;
   }) => React.ReactNode;
   dragOverNodeKey: Key | null;
@@ -92,4 +88,4 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   onNodeDrop: NodeDragEventHandler<any, any>;
 }
 
-export const TreeContext: React.Context<TreeContextProps<any> | null> = React.createContext(null);
+export const TreeContext = React.createContext<TreeContextProps<any> | null>(null);

@@ -1,13 +1,13 @@
-import * as React from 'react';
+import * as React from 'react'
 
-export default function DropIndicator({
+export default function DropIndicator ({
   dropPosition,
   dropLevelOffset,
   indent,
 }: {
-  dropPosition: -1 | 0 | 1;
-  dropLevelOffset: number;
-  indent: number;
+  dropPosition: -1 | 0 | 1,
+  dropLevelOffset: number,
+  indent: number,
 }) {
   const style: React.CSSProperties = {
     pointerEvents: 'none',

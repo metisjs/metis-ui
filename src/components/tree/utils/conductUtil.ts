@@ -1,4 +1,4 @@
-import warning from 'rc-util/lib/warning';
+import { warning } from 'rc-util/lib/warning';
 import type {
   BasicDataNode,
   DataEntity,
@@ -63,12 +63,12 @@ function fillConductCheck<TreeDataType extends BasicDataNode = DataNode>(
       const { parent, node } = entity;
 
       // Skip if no need to check
-      if (syntheticGetCheckDisabled(node) || !entity.parent || visitedKeys.has(entity.parent.key)) {
+      if (syntheticGetCheckDisabled(node) || !parent || visitedKeys.has(parent.key)) {
         return;
       }
 
       // Skip if parent is disabled
-      if (syntheticGetCheckDisabled(entity.parent.node)) {
+      if (syntheticGetCheckDisabled(parent.node)) {
         visitedKeys.add(parent.key);
         return;
       }
@@ -119,6 +119,7 @@ function cleanConductCheck<TreeDataType extends BasicDataNode = DataNode>(
   // Remove checked keys from top to bottom
   for (let level = 0; level <= maxLevel; level += 1) {
     const entities = levelEntities.get(level) || new Set();
+    // eslint-disable-next-line @typescript-eslint/no-loop-func
     entities.forEach((entity) => {
       const { key, node, children = [] } = entity;
 
@@ -142,12 +143,12 @@ function cleanConductCheck<TreeDataType extends BasicDataNode = DataNode>(
       const { parent, node } = entity;
 
       // Skip if no need to check
-      if (syntheticGetCheckDisabled(node) || !entity.parent || visitedKeys.has(entity.parent.key)) {
+      if (syntheticGetCheckDisabled(node) || !parent || visitedKeys.has(parent.key)) {
         return;
       }
 
       // Skip if parent is disabled
-      if (syntheticGetCheckDisabled(entity.parent.node)) {
+      if (syntheticGetCheckDisabled(parent.node)) {
         visitedKeys.add(parent.key);
         return;
       }
@@ -224,7 +225,7 @@ export function conductCheck<TreeDataType extends BasicDataNode = DataNode>(
     const entity = keyEntities[key];
     const { level } = entity;
 
-    let levelSet: Set<DataEntity<TreeDataType>> = levelEntities.get(level);
+    let levelSet: Set<DataEntity<TreeDataType>> | undefined = levelEntities.get(level);
     if (!levelSet) {
       levelSet = new Set();
       levelEntities.set(level, levelSet);

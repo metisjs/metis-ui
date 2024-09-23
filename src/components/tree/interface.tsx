@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-export type { ScrollTo } from 'rc-virtual-list/lib/List';
+export type { ScrollTo } from '../virtual-list/VirtualList';
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey?: Key; // Pass by parent `cloneElement`
   prefixCls?: string;
@@ -52,6 +52,8 @@ export interface BasicDataNode {
   /** Set style of TreeNode. This is not recommend if you don't have any force requirement */
   className?: string;
   style?: React.CSSProperties;
+
+  [key: string]: any;
 }
 
 /** Provide a wrap type define for developer to wrap with customize fieldNames data type */
@@ -130,7 +132,7 @@ export interface DataEntity<TreeDataType extends BasicDataNode = DataNode>
 
 export interface FlattenNode<TreeDataType extends BasicDataNode = DataNode> {
   parent: FlattenNode<TreeDataType> | null;
-  children: FlattenNode<TreeDataType>[];
+  children: FlattenNode<TreeDataType>[] | null;
   pos: string;
   data: TreeDataType;
   title: React.ReactNode;
@@ -145,10 +147,17 @@ export type GetCheckDisabled<RecordType> = (record: RecordType) => boolean;
 
 export type Direction = 'ltr' | 'rtl' | undefined;
 
-export interface FieldNames {
-  title?: string;
-  /** @private Internal usage for `rc-tree-select`, safe to remove if no need */
-  _title?: string[];
-  key?: string;
-  children?: string;
+export interface FieldNames<TreeDataType extends BasicDataNode = DataNode> {
+  title?: keyof TreeDataType;
+  /** @private Internal usage for `tree-select`, safe to remove if no need */
+  _title?: (keyof TreeDataType)[];
+  key?: keyof TreeDataType;
+  children?: keyof TreeDataType;
+}
+
+export interface FilledFieldNames {
+  title: string;
+  _title: string[];
+  key: string;
+  children: string;
 }

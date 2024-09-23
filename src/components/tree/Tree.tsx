@@ -1,6 +1,3 @@
-// TODO: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/treeview/treeview-2/treeview-2a.html
-// Fully accessibility support
-
 import * as React from 'react';
 import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
@@ -11,8 +8,8 @@ import type {
   NodeDragEventParams,
   NodeMouseEventHandler,
   NodeMouseEventParams,
-} from './contextTypes';
-import { TreeContext } from './contextTypes';
+} from './context';
+import { TreeContext } from './context';
 import DropIndicator from './DropIndicator';
 import type {
   BasicDataNode,
@@ -31,6 +28,8 @@ import type {
 import type { NodeListRef } from './NodeList';
 import NodeList, { MOTION_KEY, MotionEntity } from './NodeList';
 import TreeNode from './TreeNode';
+import { conductCheck } from './utils/conductUtil';
+import getEntity from './utils/keyUtil';
 import {
   arrAdd,
   arrDel,
@@ -40,9 +39,7 @@ import {
   getDragChildrenKeys,
   parseCheckedKeys,
   posToArr,
-} from './util';
-import { conductCheck } from './utils/conductUtil';
-import getEntity from './utils/keyUtil';
+} from './utils/miscUtil';
 import {
   convertDataToEntities,
   convertNodePropsToEventData,
@@ -89,9 +86,8 @@ export interface TreeProps<TreeDataType extends BasicDataNode = DataNode> {
   focusable?: boolean;
   activeKey?: Key | null;
   tabIndex?: number;
-  children?: React.ReactNode;
-  treeData?: TreeDataType[]; // Generate treeNode by children
-  fieldNames?: FieldNames;
+  treeData?: TreeDataType[];
+  fieldNames?: FieldNames<TreeDataType>;
   showLine?: boolean;
   showIcon?: boolean;
   icon?: IconType;
@@ -231,7 +227,7 @@ interface TreeState<TreeDataType extends BasicDataNode = DataNode> {
 
   prevProps: TreeProps;
 
-  fieldNames: FieldNames;
+  fieldNames: Required<FieldNames<TreeDataType>>;
 }
 
 class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends React.Component<
@@ -349,7 +345,7 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
       prevProps: props,
     };
 
-    function needSync(name: string) {
+    function needSync(name: keyof TreeProps) {
       return (!prevProps && name in props) || (prevProps && prevProps[name] !== props[name]);
     }
 
@@ -366,9 +362,6 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
     // Check if `treeData` or `children` changed and save into the state.
     if (needSync('treeData')) {
       ({ treeData } = props);
-    } else if (needSync('children')) {
-      warning(false, '`children` of Tree is deprecated. Please use `treeData` instead.');
-      treeData = convertTreeToData(props.children);
     }
 
     // Save flatten nodes info and convert `treeData` into keyEntities
@@ -397,7 +390,17 @@ class Tree<TreeDataType extends DataNode | BasicDataNode = DataNode> extends Rea
     } else if (!prevProps && props.defaultExpandAll) {
       const cloneKeyEntities = { ...keyEntities };
       delete cloneKeyEntities[MOTION_KEY];
-      newState.expandedKeys = Object.keys(cloneKeyEntities).map((key) => cloneKeyEntities[key].key);
+
+      // Only take the key who has the children to enhance the performance
+      const nextExpandedKeys: React.Key[] = [];
+      Object.keys(cloneKeyEntities).forEach((key) => {
+        const entity = cloneKeyEntities[key];
+        if (entity.children && entity.children.length) {
+          nextExpandedKeys.push(entity.key);
+        }
+      });
+
+      newState.expandedKeys = nextExpandedKeys;
     } else if (!prevProps && props.defaultExpandedKeys) {
       newState.expandedKeys =
         props.autoExpandParent || props.defaultExpandParent
