@@ -1,10 +1,9 @@
 import React from 'react';
-import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'metis-ui';
 import { clsx, DatePicker, Space } from 'metis-ui';
 
 const App: React.FC = () => {
-  const cellRender: DatePickerProps<Dayjs>['cellRender'] = (current, info) => {
+  const cellRender: DatePickerProps['cellRender'] = (current, info) => {
     if (info.type !== 'date') {
       return info.originNode;
     }

@@ -46,7 +46,17 @@ const AutoComplete = React.forwardRef((props: AutoCompleteProps, ref: React.Ref<
       getInputElement={getInputElement}
     ></Select>
   );
-});
+}) as unknown as (<
+  ValueType extends RawValueType = RawValueType,
+  OptionType extends BaseOptionType = BaseOptionType,
+  LazyLoadType extends boolean = false,
+>(
+  props: AutoCompleteProps<ValueType, OptionType, LazyLoadType> & {
+    ref?: React.Ref<SelectRef>;
+  },
+) => React.ReactElement) & {
+  displayName?: string;
+};
 
 if (process.env.NODE_ENV !== 'production') {
   AutoComplete.displayName = 'AutoComplete';

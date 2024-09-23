@@ -19,7 +19,7 @@ dayjs.extend(localeData);
 dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
-dayjs.extend((o, c) => {
+dayjs.extend((_, c) => {
   // todo support Wo (ISO week)
   const proto = c.prototype;
   const oldFormat = proto.format;

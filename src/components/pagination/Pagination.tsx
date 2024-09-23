@@ -21,7 +21,7 @@ import Options from './Options';
 import type { PagerProps } from './Pager';
 import Pager from './Pager';
 
-const defaultItemRender: PaginationProps['itemRender'] = (page, type, element) => element;
+const defaultItemRender: PaginationProps['itemRender'] = (_, __, element) => element;
 
 const calculatePage = (p: number | undefined, pageSize: number, total: number) => {
   const _pageSize = typeof p === 'undefined' ? pageSize : p;

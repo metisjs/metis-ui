@@ -20,10 +20,10 @@ const App: React.FC = () => (
       status="error"
       showSearch
     />
-    <Select options={options} defaultValue="lucy" placeholder="Outlined" mode="multiple" />
+    <Select options={options} defaultValue={['lucy']} placeholder="Outlined" mode="multiple" />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       allowClear
       showSearch
@@ -31,7 +31,7 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       disabled
       status="error"
@@ -39,7 +39,7 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       status="error"
       mode="multiple"
@@ -71,14 +71,14 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="filled"
       mode="multiple"
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="filled"
       allowClear
@@ -87,7 +87,7 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="filled"
       disabled
@@ -96,7 +96,7 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="filled"
       status="error"
@@ -129,14 +129,14 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="borderless"
       mode="multiple"
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="borderless"
       allowClear
@@ -145,7 +145,7 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="borderless"
       disabled
@@ -154,7 +154,7 @@ const App: React.FC = () => (
     />
     <Select
       options={options}
-      defaultValue="lucy"
+      defaultValue={['lucy']}
       placeholder="Outlined"
       variant="borderless"
       status="error"

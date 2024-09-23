@@ -26,7 +26,7 @@ group: 导航
 <code src="./demo/progress-debug.tsx" debug>Progress Debug</code>
 <code src="./demo/steps-in-steps.tsx" debug>Steps 嵌套 Steps</code>
 
-<!-- TODO: 组件待开发 -->
+<!-- TODO: List组件待开发 -->
 <!-- <code src="./demo/inline.tsx">内联步骤</code> -->
 
 ## API

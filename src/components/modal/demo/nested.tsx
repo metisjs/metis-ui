@@ -41,11 +41,7 @@ const Demo: React.FC = () => {
         onCancel={() => setIsModalOpen(false)}
         maskClosable={false}
         closable={false}
-        styles={{
-          content: {
-            marginBlockStart: 100,
-          },
-        }}
+        className={{ content: 'ms-[100px]' }}
       >
         <Select open value="1" options={options} />
         <Modal
@@ -57,15 +53,7 @@ const Demo: React.FC = () => {
           onCancel={() => setIsModalOpen(false)}
           maskClosable={false}
           closable={false}
-          styles={{
-            content: {
-              marginBlockStart: 250,
-            },
-            body: {
-              display: 'flex',
-              justifyContent: 'center',
-            },
-          }}
+          className={{ content: 'ms-[250px]', body: 'flex justify-center' }}
         >
           <Select open value="1" options={options} />
 
@@ -78,15 +66,7 @@ const Demo: React.FC = () => {
             maskClosable={false}
             onCancel={() => setIsModalOpen(false)}
             closable={false}
-            styles={{
-              content: {
-                marginBlockStart: 400,
-              },
-              body: {
-                display: 'flex',
-                justifyContent: 'flex-end',
-              },
-            }}
+            className={{ content: 'ms-[400px]', body: 'flex justify-center' }}
           >
             <Space wrap>
               <Button

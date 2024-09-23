@@ -125,7 +125,7 @@ export interface SelectProps<
   onDeselect?: SelectHandler<ArrayElementType<InternalValueType>, OptionType>;
 
   // >>> Options
-  filterOption?: FilterFunc<OptionType>;
+  filterOption?: boolean | FilterFunc<OptionType>;
   filterSort?: (optionA: OptionType, optionB: OptionType) => number;
   optionFilterProp?: string;
   options?: OptionType[];

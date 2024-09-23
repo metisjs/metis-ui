@@ -50,7 +50,7 @@ const options: Option[] = [
 
 const handleAreaClick = (
   e: React.MouseEvent<HTMLAnchorElement>,
-  label: string,
+  label: React.ReactNode,
   option: DefaultOptionType,
 ) => {
   e.stopPropagation();

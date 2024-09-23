@@ -81,7 +81,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
 
   const prefixCls = getPrefixCls('breadcrumb', customizePrefixCls);
 
-  const mergedItemRender = useItemRender(prefixCls, itemRender, semanticCls);
+  const mergedItemRender = useItemRender(prefixCls, semanticCls, itemRender);
 
   if (items && items.length > 0) {
     const paths: string[] = [];

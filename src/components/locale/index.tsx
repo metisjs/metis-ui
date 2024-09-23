@@ -37,6 +37,7 @@ export interface Locale {
     copy?: any;
     copied?: any;
     expand?: any;
+    collapse?: any;
   };
   Form?: {
     optional?: string;

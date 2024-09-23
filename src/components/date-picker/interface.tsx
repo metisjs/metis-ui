@@ -178,7 +178,7 @@ export type DisabledDate<DateType = any> = (
      * Tell the first date user selected on this range selection.
      * This is not care about what field user click.
      */
-    from?: DateType;
+    from?: DateType | null;
   },
 ) => boolean;
 

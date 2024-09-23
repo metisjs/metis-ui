@@ -44,7 +44,7 @@ const options: Option[] = [
 ];
 
 const App: React.FC = () => {
-  const onChange: CascaderProps<Option, 'value', true>['onChange'] = (value) => {
+  const onChange: CascaderProps<Option, true>['onChange'] = (value) => {
     console.log(value);
   };
   return (

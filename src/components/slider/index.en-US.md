@@ -14,10 +14,7 @@ To input a value in a range.
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-
-<!-- TODO: Component 待开发 -->
-<!-- <code src="./demo/input-number.tsx">Slider with InputNumber</code> -->
-<!-- prettier-ignore -->
+<code src="./demo/input-number.tsx">Slider with InputNumber</code>
 <code src="./demo/icon-slider.tsx">Slider with icon</code>
 <code src="./demo/tip-formatter.tsx">Customize tooltip</code>
 <code src="./demo/event.tsx">Event</code>

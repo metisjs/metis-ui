@@ -80,8 +80,8 @@ export function renderItem(
 
 export default function useItemRender(
   prefixCls: string,
-  itemRender?: ItemRender,
   semanticCls: BreadcrumbProps['className'],
+  itemRender?: ItemRender,
 ) {
   const mergedItemRender: InternalItemRenderParams = (
     item,

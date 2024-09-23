@@ -15,10 +15,7 @@ group: 数据录入
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
-
-<!-- TODO: Component 待开发 -->
-<!-- <code src="./demo/input-number.tsx">带输入框的滑块</code> -->
-<!-- prettier-ignore -->
+<code src="./demo/input-number.tsx">带输入框的滑块</code>
 <code src="./demo/icon-slider.tsx">带 icon 的滑块</code>
 <code src="./demo/tip-formatter.tsx">自定义提示</code>
 <code src="./demo/event.tsx">事件</code>

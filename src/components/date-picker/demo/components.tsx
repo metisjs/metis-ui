@@ -1,6 +1,5 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
 import type { DatePickerProps } from 'metis-ui';
 import { Button, DatePicker, Slider, Space } from 'metis-ui';
 
@@ -8,7 +7,7 @@ const onChange: DatePickerProps['onChange'] = (dateString, date) => {
   console.log(dateString, date);
 };
 
-type DateComponent = Required<NonNullable<DatePickerProps<Dayjs>['components']>>['date'];
+type DateComponent = Required<NonNullable<DatePickerProps['components']>>['date'];
 type GetProps<T> = T extends React.ComponentType<infer P> ? P : never;
 
 const MyDatePanel = (props: GetProps<DateComponent>) => {

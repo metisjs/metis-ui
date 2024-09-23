@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { InputNumberProps } from 'metis-ui';
-import { Col, InputNumber, Row, Slider, Space } from 'metis-ui';
+import { InputNumber, Slider, Space } from 'metis-ui';
 
 const IntegerStep: React.FC = () => {
   const [inputValue, setInputValue] = useState(1);
@@ -10,25 +10,16 @@ const IntegerStep: React.FC = () => {
   };
 
   return (
-    <Row>
-      <Col span={12}>
-        <Slider
-          min={1}
-          max={20}
-          onChange={onChange}
-          value={typeof inputValue === 'number' ? inputValue : 0}
-        />
-      </Col>
-      <Col span={4}>
-        <InputNumber
-          min={1}
-          max={20}
-          style={{ margin: '0 16px' }}
-          value={inputValue}
-          onChange={onChange}
-        />
-      </Col>
-    </Row>
+    <div className="flex gap-4">
+      <Slider
+        min={1}
+        max={20}
+        onChange={onChange}
+        value={typeof inputValue === 'number' ? inputValue : 0}
+        className="flex-auto"
+      />
+      <InputNumber min={1} max={20} value={inputValue} onChange={onChange} />
+    </div>
   );
 };
 
@@ -43,32 +34,22 @@ const DecimalStep: React.FC = () => {
   };
 
   return (
-    <Row>
-      <Col span={12}>
-        <Slider
-          min={0}
-          max={1}
-          onChange={onChange}
-          value={typeof inputValue === 'number' ? inputValue : 0}
-          step={0.01}
-        />
-      </Col>
-      <Col span={4}>
-        <InputNumber
-          min={0}
-          max={1}
-          style={{ margin: '0 16px' }}
-          step={0.01}
-          value={inputValue}
-          onChange={onChange}
-        />
-      </Col>
-    </Row>
+    <div className="flex gap-4">
+      <Slider
+        min={0}
+        max={1}
+        onChange={onChange}
+        value={typeof inputValue === 'number' ? inputValue : 0}
+        step={0.01}
+        className="flex-auto"
+      />
+      <InputNumber min={0} max={1} step={0.01} value={inputValue} onChange={onChange} />
+    </div>
   );
 };
 
 const App: React.FC = () => (
-  <Space style={{ width: '100%' }} direction="vertical">
+  <Space vertical block>
     <IntegerStep />
     <DecimalStep />
   </Space>

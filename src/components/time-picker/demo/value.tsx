@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import type { Dayjs } from 'dayjs';
 import { TimePicker } from 'metis-ui';
 
 const App: React.FC = () => {
-  const [value, setValue] = useState<Dayjs | null>(null);
+  const [value, setValue] = useState<string | null>(null);
 
-  const onChange = (time: Dayjs) => {
+  const onChange = (time: string) => {
     setValue(time);
   };
 

@@ -17,10 +17,10 @@ const App: React.FC = () => (
     <Tag>
       <a href="https://github.com/metis-oa/metis-ui">Link</a>
     </Tag>
-    <Tag closeIcon onClose={preventDefault}>
+    <Tag closable onClose={preventDefault}>
       Prevent Default
     </Tag>
-    <Tag closeIcon={<XCircleOutline />} onClose={log}>
+    <Tag closable={{ closeIcon: <XCircleOutline /> }} onClose={log}>
       Tag 2
     </Tag>
   </Space>

@@ -41,9 +41,9 @@ const App: React.FC = () => {
     console.log('targetSelectedKeys: ', targetSelectedKeys);
   };
 
-  const handleScroll: TransferProps['onScroll'] = (direction, e) => {
+  const handleScroll: TransferProps['onScroll'] = (direction, values) => {
     console.log('direction:', direction);
-    console.log('target:', e.target);
+    console.log('values:', values);
   };
 
   const handleDisable = (checked: boolean) => {

@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react';
-import type { InputRef } from 'metis-ui';
-import { Button, Input, Space } from 'metis-ui';
+import type { InputRef, TextAreaRef } from 'metis-ui';
+import { Button, Input, Space, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const inputRef = useRef<InputRef>(null);
-  const [input] = useState(true);
+  const textareaRef = useRef<TextAreaRef>(null);
+  const [input, setInput] = useState(true);
 
   const sharedProps = {
-    style: { width: '100%' },
+    className: 'w-full',
     defaultValue: 'love you!',
-    ref: inputRef,
   };
 
   return (
@@ -51,17 +51,21 @@ const App: React.FC = () => {
         >
           Focus prevent scroll
         </Button>
-        {/* <Switch
+        <Switch
           checked={input}
           checkedChildren="Input"
           unCheckedChildren="TextArea"
           onChange={() => {
             setInput(!input);
           }}
-        /> */}
+        />
       </Space>
       <br />
-      {input ? <Input {...sharedProps} /> : <Input.TextArea {...sharedProps} />}
+      {input ? (
+        <Input {...sharedProps} ref={inputRef} />
+      ) : (
+        <Input.TextArea {...sharedProps} ref={textareaRef} />
+      )}
     </Space>
   );
 };

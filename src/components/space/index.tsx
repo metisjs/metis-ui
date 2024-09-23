@@ -27,7 +27,7 @@ const spaceSize = {
 };
 
 function getNumberSize(size: SpaceSize) {
-  return typeof size === 'string' ? spaceSize[size] : size || 0;
+  return typeof size === 'string' ? spaceSize[size as keyof typeof spaceSize] : size || 0;
 }
 
 const Space: React.FC<SpaceProps> = (props) => {

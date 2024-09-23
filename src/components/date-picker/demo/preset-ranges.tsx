@@ -6,14 +6,17 @@ import { DatePicker, Space } from 'metis-ui';
 
 const { RangePicker } = DatePicker;
 
-const onChange = (date: Dayjs) => {
+const onChange = (_: string, date: Dayjs | null) => {
   if (date) {
     console.log('Date: ', date);
   } else {
     console.log('Clear');
   }
 };
-const onRangeChange = (dates: null | (Dayjs | null)[], dateStrings: string[]) => {
+const onRangeChange = (
+  dateStrings: [string, string],
+  dates: [start: Dayjs | null, end: Dayjs | null] | null,
+) => {
   if (dates) {
     console.log('From: ', dates[0], ', to: ', dates[1]);
     console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);

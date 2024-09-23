@@ -5,7 +5,7 @@ import Password from './Password';
 import TextArea from './TextArea';
 
 export type { PasswordProps } from './Password';
-export type { InputProps, InputRef, TextAreaProps } from './interface';
+export type { InputProps, InputRef, TextAreaProps, TextAreaRef } from './interface';
 
 type CompoundedComponent = React.ForwardRefExoticComponent<
   InputProps & React.RefAttributes<InputRef>

@@ -180,7 +180,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
   // ======================= Change ========================
   const [thumbShow, setThumbShow] = React.useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>, val: SegmentedRawOption) => {
+  const handleChange = (_: React.ChangeEvent<HTMLInputElement>, val: SegmentedRawOption) => {
     if (disabled) {
       return;
     }

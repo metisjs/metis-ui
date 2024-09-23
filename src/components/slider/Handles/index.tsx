@@ -108,7 +108,7 @@ const Handles = React.forwardRef<HandlesRef, HandlesProps>((props, ref) => {
     onFocus?.(e);
   };
 
-  const onHandleMouseEnter = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+  const onHandleMouseEnter = (_: React.MouseEvent<HTMLDivElement>, index: number) => {
     onActive(index);
   };
 

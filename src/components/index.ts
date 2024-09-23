@@ -40,7 +40,7 @@ export type { EmptyProps } from './empty';
 export { default as Image } from './image';
 export type { ImageProps } from './image';
 export { default as Input } from './input';
-export type { InputProps, InputRef } from './input';
+export type { InputProps, InputRef, TextAreaProps, TextAreaRef } from './input';
 export { default as InputNumber } from './input-number';
 export type { InputNumberProps } from './input-number';
 export { default as Layout } from './layout';

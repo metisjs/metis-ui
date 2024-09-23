@@ -24,7 +24,7 @@ const App: React.FC = () => {
   return (
     <Dropdown
       menu={{ items }}
-      dropdownRender={(menu) => (
+      popupRender={(menu) => (
         <>
           {menu}
           <Divider style={{ margin: 0 }} />
