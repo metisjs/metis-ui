@@ -10,11 +10,10 @@ import type { BaseOptionType, RawValueType } from '../select/interface';
 export interface AutoCompleteProps<
   ValueType extends RawValueType = RawValueType,
   OptionType extends BaseOptionType = BaseOptionType,
-  OptionInValueType extends boolean = false,
   LazyLoadType extends boolean = false,
 > extends Omit<
-    SelectProps<ValueType, OptionType, 'default', OptionInValueType, true, LazyLoadType>,
-    'loading' | 'mode' | 'displayRender' | 'optionInValue' | 'showSearch'
+    SelectProps<ValueType, OptionType, 'default', true, LazyLoadType>,
+    'loading' | 'mode' | 'displayRender' | 'showSearch'
   > {
   children?: React.ReactNode;
 }

@@ -1,8 +1,7 @@
 import { devUseWarning, noteOnce } from '../../_util/warning';
 import { isMultiple } from '../BaseSelect';
-import type { BaseOptionType, FieldNames, OptionInValueType, RawValueType } from '../interface';
+import type { BaseOptionType, FieldNames } from '../interface';
 import type { InternalSelectProps } from '../Select';
-import { toArray } from './commonUtil';
 import { fillFieldNames } from './valueUtil';
 
 function warningProps(props: InternalSelectProps) {
@@ -14,7 +13,6 @@ function warningProps(props: InternalSelectProps) {
     onSearch,
     defaultOpen,
     autoFocus,
-    optionInValue,
     value,
     displayRender,
   } = props;
@@ -66,13 +64,6 @@ function warningProps(props: InternalSelectProps) {
   );
 
   if (value !== undefined && value !== null) {
-    const values = toArray<RawValueType | OptionInValueType>(value);
-    warning(
-      !optionInValue || values.every((val) => typeof val === 'object'),
-      'usage',
-      '`value` should in shape of `OptionType` when you set `optionInValue` to `true`',
-    );
-
     warning(
       !multiple || Array.isArray(value),
       'usage',

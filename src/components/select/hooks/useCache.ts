@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { RawValueType } from '../BaseSelect';
-import type { BaseOptionType, LabeledValueType, OptionInValueType } from '../interface';
+import type { BaseOptionType, LabeledValueType } from '../interface';
 
 /**
  * Cache `value` related LabeledValue & options.
@@ -10,7 +10,7 @@ export default (
   valueOptions: Map<RawValueType, BaseOptionType>,
 ): [LabeledValueType[], (val: RawValueType) => BaseOptionType] => {
   const cacheRef = React.useRef({
-    values: new Map<RawValueType, OptionInValueType>(),
+    values: new Map<RawValueType, LabeledValueType>(),
     options: new Map<RawValueType, BaseOptionType>(),
   });
 
@@ -30,7 +30,7 @@ export default (
     });
 
     // Refresh cache
-    const valueCache = new Map<RawValueType, OptionInValueType>();
+    const valueCache = new Map<RawValueType, LabeledValueType>();
     const optionCache = new Map<RawValueType, BaseOptionType>();
 
     patchedValues.forEach((item) => {
