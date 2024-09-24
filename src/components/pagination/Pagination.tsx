@@ -55,7 +55,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     itemRender = defaultItemRender,
   } = props;
 
-  const { xs } = useBreakpoint(responsive);
+  const { xs, md } = useBreakpoint(responsive);
 
   const { getPrefixCls, pagination = {} } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('pagination', customizePrefixCls);
@@ -86,8 +86,14 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   const locale = { ...contextLocale, ...customLocale };
 
   const mergedSize = useSize(customizeSize);
-
-  const isSmall = mergedSize === 'small' || !!(xs && !customizeSize && responsive);
+  let size = mergedSize;
+  if (!customizeSize && responsive) {
+    if (md) {
+      size = 'small';
+    } else if (xs) {
+      size = 'mini';
+    }
+  }
 
   const hasOnChange = onChange !== undefined;
   const hasCurrent = 'current' in props;
@@ -330,7 +336,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     showTitle,
     itemRender,
     page: -1,
-    isSmall,
+    size,
     disabled,
     className: semanticCls.item,
   };
@@ -360,7 +366,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             onKeyUp={handleKeyUp}
             onChange={handleKeyUp}
             onBlur={handleBlur}
-            size="small"
+            size={size === 'default' ? 'middle' : size}
             className={clsx('w-12')}
           />
         )}
@@ -399,8 +405,8 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         className={clsx(
           `${prefixCls}-jump-prev`,
           'group/jump flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
           {
-            'h-8 min-w-8': isSmall,
             'cursor-not-allowed': disabled,
           },
         )}
@@ -419,8 +425,8 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         className={clsx(
           `${prefixCls}-jump-next`,
           'group/jump flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
           {
-            'h-8 min-w-8': isSmall,
             'cursor-not-allowed': disabled,
           },
         )}
@@ -486,12 +492,12 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           {
             [`${prefixCls}-disabled`]: prevDisabled,
           },
-          'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md px-2',
+          'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
           {
             'cursor-not-allowed text-text-quaternary': prevDisabled || disabled,
             'hover:bg-fill-tertiary': !prevDisabled && !disabled,
-            'h-8 min-w-8': isSmall || simple,
           },
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
           semanticCls.prev,
         )}
         aria-disabled={prevDisabled}
@@ -524,12 +530,12 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           {
             [`${prefixCls}-disabled`]: nextDisabled,
           },
-          'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md px-2',
+          'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
           {
             'cursor-not-allowed text-text-quaternary': nextDisabled || disabled,
             'hover:bg-fill-tertiary': !nextDisabled && !disabled,
-            'h-8 min-w-8': isSmall || simple,
           },
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
           semanticCls.next,
         )}
         aria-disabled={nextDisabled}
@@ -542,7 +548,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   const rootCls = clsx(
     prefixCls,
     {
-      [`${prefixCls}-mini`]: isSmall,
+      [`${prefixCls}-${size}`]: size !== 'default',
       [`${prefixCls}-simple`]: simple,
       [`${prefixCls}-disabled`]: disabled,
     },
@@ -560,7 +566,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         locale={locale}
         rootPrefixCls={prefixCls}
         disabled={disabled}
-        isSmall={isSmall}
+        size={size}
         changeSize={mergedShowSizeChanger ? changePageSize : undefined}
         pageSize={pageSize}
         pageSizeOptions={pageSizeOptions}

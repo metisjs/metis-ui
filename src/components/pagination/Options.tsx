@@ -5,7 +5,7 @@ import type { InputProps } from '../input';
 import Input from '../input';
 import type { SelectProps } from '../select';
 import Select from '../select';
-import type { PaginationLocale } from './interface';
+import type { PaginationLocale, PaginationProps } from './interface';
 
 interface OptionsProps {
   className?: {
@@ -14,7 +14,7 @@ interface OptionsProps {
     sizeChanger?: SelectProps['className'];
   };
   disabled?: boolean;
-  isSmall?: boolean;
+  size?: PaginationProps['size'];
   locale: PaginationLocale;
   rootPrefixCls: string;
   pageSize: number;
@@ -36,7 +36,7 @@ const Options: React.FC<OptionsProps> = (props) => {
     quickGo,
     rootPrefixCls,
     disabled,
-    isSmall,
+    size,
     buildOptionText,
   } = props;
 
@@ -133,7 +133,7 @@ const Options: React.FC<OptionsProps> = (props) => {
         getPopupContainer={(triggerNode) => triggerNode.parentNode}
         aria-label={locale.page_size}
         defaultOpen={false}
-        size={isSmall ? 'small' : 'middle'}
+        size={size === 'default' ? 'middle' : size}
       />
     );
   }
@@ -159,7 +159,7 @@ const Options: React.FC<OptionsProps> = (props) => {
           onKeyUp={go}
           onBlur={handleBlur}
           aria-label={locale.page}
-          size={isSmall ? 'small' : 'middle'}
+          size={size === 'default' ? 'middle' : size}
           className={mergedJumperCls}
         />
         {locale.page}

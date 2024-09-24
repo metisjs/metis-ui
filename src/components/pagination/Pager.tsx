@@ -2,13 +2,12 @@ import React from 'react';
 import { clsx } from '../_util/classNameUtils';
 import type { PaginationProps } from './interface';
 
-export interface PagerProps extends Pick<PaginationProps, 'itemRender'> {
+export interface PagerProps extends Pick<PaginationProps, 'itemRender' | 'size'> {
   rootPrefixCls: string;
   page: number;
   active?: boolean;
   className?: string;
   showTitle: boolean;
-  isSmall?: boolean;
   disabled?: boolean;
   onClick?: (page: number) => void;
   onKeyPress?: (
@@ -25,7 +24,7 @@ const Pager: React.FC<PagerProps> = (props) => {
     active,
     className,
     showTitle,
-    isSmall,
+    size,
     disabled,
     onClick,
     onKeyPress,
@@ -39,11 +38,14 @@ const Pager: React.FC<PagerProps> = (props) => {
     {
       [`${prefixCls}-active`]: active,
     },
-    'min-w-9 cursor-pointer rounded-md px-2 text-center leading-9',
+    'min-w-9 cursor-pointer rounded-md text-center leading-9',
     {
       'bg-primary-bg font-medium text-primary shadow-sm': active,
       'hover:bg-fill-tertiary': !active,
-      'min-w-8 leading-8': isSmall,
+    },
+    {
+      'min-w-8 leading-8': size === 'small',
+      'min-w-7 rounded leading-7': size === 'mini',
     },
     disabled && {
       'cursor-not-allowed opacity-50': active,
