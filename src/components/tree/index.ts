@@ -1,7 +1,7 @@
+import type { BasicDataNode, FieldDataNode, TreeNodeProps } from './interface';
 import Tree from './Tree';
-import TreeNode from './TreeNode';
 import type { TreeProps } from './Tree';
-import type { TreeNodeProps, BasicDataNode, FieldDataNode } from './interface';
+import TreeNode from './TreeNode';
 
 export { TreeNode };
 export type { TreeProps, TreeNodeProps, BasicDataNode, FieldDataNode };

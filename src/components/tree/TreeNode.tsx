@@ -1,10 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-// @ts-ignore
-import { TreeContext, TreeContextProps } from './context';
+import { TreeContext } from './context';
 import Indent from './Indent';
-import { TreeNodeProps } from './interface';
+import type { TreeNodeProps } from './interface';
 import getEntity from './utils/keyUtil';
 import { convertNodePropsToEventData } from './utils/treeUtil';
 
@@ -13,17 +12,294 @@ const ICON_CLOSE = 'close';
 
 const defaultTitle = '---';
 
-export type { TreeNodeProps } from './interface';
-
-export interface InternalTreeNodeProps extends TreeNodeProps {
-  context?: TreeContextProps;
-}
-
 export interface TreeNodeState {
   dragNodeHighlight: boolean;
 }
 
-class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeState> {
+const InternalTreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) => {
+  const {
+    eventKey,
+    className,
+    style,
+    dragOver,
+    dragOverGapTop,
+    dragOverGapBottom,
+    isLeaf,
+    isStart,
+    isEnd,
+    expanded,
+    selected,
+    checked,
+    halfChecked,
+    loading,
+    active,
+    data,
+    onMouseMove,
+    selectable,
+    disabled,
+    loaded,
+    disableCheckbox,
+    pos,
+    checkable,
+  } = props;
+  const [dragNodeHighlight, setDragNodeHighlight] = React.useState(false);
+
+  const {
+    prefixCls,
+    filterTreeNode,
+    keyEntities,
+    dropContainerKey,
+    dropTargetKey,
+    draggingNodeKey,
+    disabled: treeDisabled,
+    draggable,
+    selectable: treeSelectable,
+    checkable: treeCheckable,
+    onNodeClick,
+    onNodeCheck,
+    onNodeSelect,
+  } = React.useContext(TreeContext);
+
+  // ========================== Disabled ============================
+  const mergedDisabled = !!(treeDisabled || disabled);
+
+  // ========================== Draggable ============================
+  const mergedDraggable = !!(
+    draggable &&
+    (!draggable.nodeDraggable || draggable.nodeDraggable(data))
+  );
+
+  // ========================== Selectable ============================
+  const mergedSelectable = typeof selectable === 'boolean' ? selectable : treeSelectable;
+
+  // ========================== Checkable ============================
+  const mergedCheckable = !treeCheckable || checkable === false ? false : treeCheckable;
+
+  const eventDate = React.useMemo(
+    () =>
+      convertNodePropsToEventData({
+        data,
+        expanded,
+        selected,
+        checked,
+        loaded,
+        loading,
+        halfChecked,
+        dragOver,
+        dragOverGapTop,
+        dragOverGapBottom,
+        pos,
+        active,
+        eventKey,
+      }),
+    [
+      data,
+      expanded,
+      selected,
+      checked,
+      loaded,
+      loading,
+      halfChecked,
+      dragOver,
+      dragOverGapTop,
+      dragOverGapBottom,
+      pos,
+      active,
+      eventKey,
+    ],
+  );
+
+  // ========================== Event ============================
+  const onSelect = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    if (mergedDisabled) return;
+
+    onNodeSelect(e, eventDate);
+  };
+
+  const onCheck = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    if (mergedDisabled) return;
+
+    if (!mergedCheckable || disableCheckbox) return;
+
+    const targetChecked = !checked;
+    onNodeCheck(e, eventDate, targetChecked);
+  };
+
+  const onSelectorClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    // Click trigger before select/check operation
+    onNodeClick(e, eventDate);
+
+    if (mergedSelectable) {
+      onSelect(e);
+    } else {
+      onCheck(e);
+    }
+  };
+
+  const onSelectorDoubleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const {
+      context: { onNodeDoubleClick },
+    } = this.props;
+    onNodeDoubleClick(e, convertNodePropsToEventData(this.props));
+  };
+
+  onMouseEnter = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const {
+      context: { onNodeMouseEnter },
+    } = this.props;
+    onNodeMouseEnter(e, convertNodePropsToEventData(this.props));
+  };
+
+  onMouseLeave = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const {
+      context: { onNodeMouseLeave },
+    } = this.props;
+    onNodeMouseLeave(e, convertNodePropsToEventData(this.props));
+  };
+
+  onContextMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const {
+      context: { onNodeContextMenu },
+    } = this.props;
+    onNodeContextMenu(e, convertNodePropsToEventData(this.props));
+  };
+
+  onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    const {
+      context: { onNodeDragStart },
+    } = this.props;
+
+    e.stopPropagation();
+    this.setState({
+      dragNodeHighlight: true,
+    });
+    onNodeDragStart(e, this);
+
+    try {
+      // ie throw error
+      // firefox-need-it
+      e.dataTransfer.setData('text/plain', '');
+    } catch (error) {
+      // empty
+    }
+  };
+
+  onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    const {
+      context: { onNodeDragEnter },
+    } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+    onNodeDragEnter(e, this);
+  };
+
+  onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    const {
+      context: { onNodeDragOver },
+    } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+    onNodeDragOver(e, this);
+  };
+
+  onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    const {
+      context: { onNodeDragLeave },
+    } = this.props;
+
+    e.stopPropagation();
+    onNodeDragLeave(e, this);
+  };
+
+  onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    const {
+      context: { onNodeDragEnd },
+    } = this.props;
+
+    e.stopPropagation();
+    this.setState({
+      dragNodeHighlight: false,
+    });
+    onNodeDragEnd(e, this);
+  };
+
+  onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const {
+      context: { onNodeDrop },
+    } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({
+      dragNodeHighlight: false,
+    });
+    onNodeDrop(e, this);
+  };
+
+  // Disabled item still can be switch
+  React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const {
+      loading,
+      context: { onNodeExpand },
+    } = this.props;
+    if (loading) return;
+    onNodeExpand(e, convertNodePropsToEventData(this.props));
+  };
+
+  // ========================== Render ============================
+  const isEndNode = isEnd?.[isEnd?.length - 1];
+  const dragging = draggingNodeKey === eventKey;
+  const ariaSelected = selectable !== undefined ? { 'aria-selected': !!selectable } : undefined;
+  const draggableWithoutDisabled = !mergedDisabled && mergedDraggable;
+
+  return (
+    <div
+      ref={ref}
+      className={classNames(className, `${prefixCls}-treenode`, {
+        [`${prefixCls}-treenode-disabled`]: mergedDisabled,
+        [`${prefixCls}-treenode-switcher-${expanded ? 'open' : 'close'}`]: !isLeaf,
+        [`${prefixCls}-treenode-checkbox-checked`]: checked,
+        [`${prefixCls}-treenode-checkbox-indeterminate`]: halfChecked,
+        [`${prefixCls}-treenode-selected`]: selected,
+        [`${prefixCls}-treenode-loading`]: loading,
+        [`${prefixCls}-treenode-active`]: active,
+        [`${prefixCls}-treenode-leaf-last`]: isEndNode,
+        [`${prefixCls}-treenode-draggable`]: mergedDraggable,
+
+        dragging,
+        'drop-target': dropTargetKey === eventKey,
+        'drop-container': dropContainerKey === eventKey,
+        'drag-over': !mergedDisabled && dragOver,
+        'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
+        'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
+        'filter-node': filterTreeNode && filterTreeNode(eventDate),
+      })}
+      style={style}
+      // Draggable config
+      draggable={draggableWithoutDisabled}
+      onDragStart={draggableWithoutDisabled ? this.onDragStart : undefined}
+      // Drop config
+      onDragEnter={mergedDraggable ? this.onDragEnter : undefined}
+      onDragOver={mergedDraggable ? this.onDragOver : undefined}
+      onDragLeave={mergedDraggable ? this.onDragLeave : undefined}
+      onDrop={mergedDraggable ? this.onDrop : undefined}
+      onDragEnd={mergedDraggable ? this.onDragEnd : undefined}
+      onMouseMove={onMouseMove}
+      {...ariaSelected}
+      {...dataOrAriaAttributeProps}
+    >
+      <Indent prefixCls={prefixCls} level={level} isStart={isStart} isEnd={isEnd} />
+      {this.renderDragHandler()}
+      {this.renderSwitcher()}
+      {this.renderCheckbox()}
+      {this.renderSelector()}
+    </div>
+  );
+});
+
+class _InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeState> {
   public state = {
     dragNodeHighlight: false,
   };
@@ -591,7 +867,7 @@ class InternalTreeNode extends React.Component<InternalTreeNodeProps, TreeNodeSt
 
 const ContextTreeNode: React.FC<TreeNodeProps> = (props) => (
   <TreeContext.Consumer>
-    {(context) => <InternalTreeNode {...props} context={context} />}
+    {(context) => <_InternalTreeNode {...props} context={context} />}
   </TreeContext.Consumer>
 );
 

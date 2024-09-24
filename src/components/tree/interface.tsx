@@ -2,8 +2,7 @@ import type * as React from 'react';
 
 export type { ScrollTo } from '../virtual-list/VirtualList';
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
-  eventKey?: Key; // Pass by parent `cloneElement`
-  prefixCls?: string;
+  eventKey: Key; // Pass by parent `cloneElement`
   className?: string;
   style?: React.CSSProperties;
   id?: string;
@@ -19,10 +18,8 @@ export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   dragOver?: boolean;
   dragOverGapTop?: boolean;
   dragOverGapBottom?: boolean;
-  pos?: string;
-  domRef?: React.Ref<HTMLDivElement>;
-  /** New added in Tree for easy data access */
-  data?: TreeDataType;
+  pos: string;
+  data: TreeDataType;
   isStart?: boolean[];
   isEnd?: boolean[];
   active?: boolean;

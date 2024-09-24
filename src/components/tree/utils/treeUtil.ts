@@ -274,8 +274,8 @@ export function convertDataToEntities(
   // Init config
   const mergedExternalGetKey = externalGetKey;
 
-  const posEntities = {};
-  const keyEntities = {};
+  const posEntities: Record<string, DataEntity> = {};
+  const keyEntities: KeyEntities = {};
   let wrapper: Wrapper = {
     posEntities,
     keyEntities,
@@ -297,7 +297,7 @@ export function convertDataToEntities(
       keyEntities[mergedKey as SafeKey] = entity;
 
       // Fill children
-      entity.parent = posEntities[parentPos];
+      entity.parent = posEntities[parentPos ?? ''];
       if (entity.parent) {
         entity.parent.children = entity.parent.children || [];
         entity.parent.children.push(entity);
@@ -389,18 +389,18 @@ export function convertNodePropsToEventData<TreeDataType extends BasicDataNode =
   } = props;
 
   const eventData = {
-    ...data,
-    expanded,
-    selected,
-    checked,
-    loaded,
-    loading,
-    halfChecked,
-    dragOver,
-    dragOverGapTop,
-    dragOverGapBottom,
+    ...data!,
+    expanded: !!expanded,
+    selected: !!selected,
+    checked: !!checked,
+    loaded: !!loaded,
+    loading: !!loading,
+    halfChecked: !!halfChecked,
+    dragOver: !!dragOver,
+    dragOverGapTop: !!dragOverGapTop,
+    dragOverGapBottom: !!dragOverGapBottom,
     pos,
-    active,
+    active: !!active,
     key: eventKey,
   };
 

@@ -3,12 +3,14 @@ import classNames from 'classnames';
 import CSSMotion from 'rc-motion';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { TreeContext } from './context';
-import { FlattenNode, TreeNodeProps } from './interface';
+import type { FlattenNode, TreeNodeProps } from './interface';
 import TreeNode from './TreeNode';
 import useUnmount from './useUnmount';
-import { getTreeNodeProps, TreeNodeRequiredProps } from './utils/treeUtil';
+import type { TreeNodeRequiredProps } from './utils/treeUtil';
+import { getTreeNodeProps } from './utils/treeUtil';
 
-interface MotionTreeNodeProps extends Omit<TreeNodeProps, 'domRef'> {
+interface MotionTreeNodeProps extends Omit<TreeNodeProps, 'domRef' | 'eventKey' | 'pos'> {
+  pos?: string;
   active: boolean;
   motion?: any;
   motionNodes?: FlattenNode[];
