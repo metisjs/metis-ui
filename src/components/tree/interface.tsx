@@ -20,13 +20,13 @@ export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   dragOverGapBottom?: boolean;
   pos: string;
   data: TreeDataType;
-  isStart?: boolean[];
-  isEnd?: boolean[];
+  isStart: boolean[];
+  isEnd: boolean[];
   active?: boolean;
   onMouseMove?: React.MouseEventHandler<HTMLDivElement>;
 
   // By user
-  isLeaf?: boolean;
+  leaf?: boolean;
   checkable?: boolean;
   selectable?: boolean;
   disabled?: boolean;
@@ -103,12 +103,6 @@ export type NodeElement = React.ReactElement<TreeNodeProps> & {
   };
 };
 
-export type NodeInstance<TreeDataType extends BasicDataNode = DataNode> = React.Component<
-  TreeNodeProps<TreeDataType>
-> & {
-  selectHandle?: HTMLSpanElement;
-};
-
 export interface Entity {
   node: NodeElement;
   index: number;
@@ -141,8 +135,6 @@ export interface FlattenNode<TreeDataType extends BasicDataNode = DataNode> {
 export type GetKey<RecordType> = (record: RecordType, index?: number) => Key;
 
 export type GetCheckDisabled<RecordType> = (record: RecordType) => boolean;
-
-export type Direction = 'ltr' | 'rtl' | undefined;
 
 export interface FieldNames<TreeDataType extends BasicDataNode = DataNode> {
   title?: keyof TreeDataType;

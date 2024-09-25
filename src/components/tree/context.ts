@@ -2,12 +2,10 @@ import * as React from 'react';
 import type {
   BasicDataNode,
   DataNode,
-  Direction,
   EventDataNode,
   IconType,
   Key,
   KeyEntities,
-  NodeInstance,
 } from './interface';
 import type { DraggableConfig } from './Tree';
 
@@ -33,7 +31,7 @@ export type NodeMouseEventHandler<
 export type NodeDragEventHandler<
   TreeDataType extends BasicDataNode = DataNode,
   T = HTMLDivElement,
-> = (e: React.DragEvent<T>, node: NodeInstance<TreeDataType>, outsideTree?: boolean) => void;
+> = (e: React.DragEvent<T>, node: EventDataNode<TreeDataType>, outsideTree?: boolean) => void;
 
 export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode> {
   prefixCls: string;
@@ -43,27 +41,25 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   switcherIcon: IconType;
   draggable?: DraggableConfig;
   draggingNodeKey?: Key;
-  checkable: boolean | React.ReactNode;
+  checkable: boolean;
   checkStrictly: boolean;
   disabled: boolean;
   keyEntities: KeyEntities;
   // for details see comment in Tree.state (Tree.tsx)
-  dropLevelOffset?: number;
+  dropLevelOffset: number;
   dropContainerKey: Key | null;
   dropTargetKey: Key | null;
-  dropPosition: -1 | 0 | 1 | null;
-  indent: number | null;
+  dropPosition: -1 | 0 | 1;
+  indent: number;
   dropIndicatorRender: (props: {
     dropPosition: -1 | 0 | 1;
     dropLevelOffset: number;
     indent: number;
     prefixCls: string;
-    direction: Direction;
   }) => React.ReactNode;
   dragOverNodeKey: Key | null;
-  direction: Direction;
 
-  loadData: (treeNode: EventDataNode<TreeDataType>) => Promise<void>;
+  loadData?: (treeNode: EventDataNode<TreeDataType>) => Promise<void>;
   filterTreeNode: (treeNode: EventDataNode<TreeDataType>) => boolean;
   titleRender?: (node: any) => React.ReactNode;
 
@@ -80,12 +76,12 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   onNodeMouseEnter: NodeMouseEventHandler<TreeDataType>;
   onNodeMouseLeave: NodeMouseEventHandler<TreeDataType>;
   onNodeContextMenu: NodeMouseEventHandler<TreeDataType>;
-  onNodeDragStart: NodeDragEventHandler<any, any>;
-  onNodeDragEnter: NodeDragEventHandler<any, any>;
-  onNodeDragOver: NodeDragEventHandler<any, any>;
-  onNodeDragLeave: NodeDragEventHandler<any, any>;
-  onNodeDragEnd: NodeDragEventHandler<any, any>;
-  onNodeDrop: NodeDragEventHandler<any, any>;
+  onNodeDragStart: NodeDragEventHandler<TreeDataType, HTMLDivElement>;
+  onNodeDragEnter: NodeDragEventHandler<TreeDataType, HTMLDivElement>;
+  onNodeDragOver: NodeDragEventHandler<TreeDataType, HTMLDivElement>;
+  onNodeDragLeave: NodeDragEventHandler<TreeDataType, HTMLDivElement>;
+  onNodeDragEnd: NodeDragEventHandler<TreeDataType, HTMLDivElement>;
+  onNodeDrop: NodeDragEventHandler<TreeDataType, HTMLDivElement>;
 }
 
 export const TreeContext = React.createContext<TreeContextProps<any>>(null!);

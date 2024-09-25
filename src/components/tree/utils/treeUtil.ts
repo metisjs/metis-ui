@@ -324,8 +324,8 @@ export interface TreeNodeRequiredProps<TreeDataType extends BasicDataNode = Data
   loadingKeys: Key[];
   checkedKeys: Key[];
   halfCheckedKeys: Key[];
-  dragOverNodeKey: Key;
-  dropPosition: number;
+  dragOverNodeKey: Key | null;
+  dropPosition: number | null;
   keyEntities: KeyEntities<TreeDataType>;
 }
 

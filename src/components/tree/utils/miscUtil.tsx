@@ -96,7 +96,6 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   flattenedNodes: FlattenNode<TreeDataType>[],
   keyEntities: KeyEntities<TreeDataType>,
   expandKeys: Key[],
-  direction: Direction,
 ): {
   dropPosition: -1 | 0 | 1;
   dropLevelOffset: number;
@@ -109,8 +108,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   const { clientX, clientY } = event;
   const { top, height } = (event.target as HTMLElement).getBoundingClientRect();
   // optional chain for testing
-  const horizontalMouseOffset =
-    (direction === 'rtl' ? -1 : 1) * ((startMousePosition?.x || 0) - clientX);
+  const horizontalMouseOffset = (startMousePosition?.x || 0) - clientX;
   const rawDropLevelOffset = (horizontalMouseOffset - 12) / indent;
 
   // Filter the expanded keys to exclude the node that not has children currently (like async nodes).
