@@ -40,27 +40,21 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   icon: IconType;
   switcherIcon: IconType;
   draggable?: DraggableConfig;
-  draggingNodeKey?: Key;
+  draggingNodeKey: Key | null;
   checkable: boolean;
   checkStrictly: boolean;
   disabled: boolean;
   keyEntities: KeyEntities;
   // for details see comment in Tree.state (Tree.tsx)
-  dropLevelOffset: number;
+  dropLevelOffset: number | null;
   dropContainerKey: Key | null;
   dropTargetKey: Key | null;
-  dropPosition: -1 | 0 | 1;
+  dropPosition: -1 | 0 | 1 | null;
   indent: number;
-  dropIndicatorRender: (props: {
-    dropPosition: -1 | 0 | 1;
-    dropLevelOffset: number;
-    indent: number;
-    prefixCls: string;
-  }) => React.ReactNode;
   dragOverNodeKey: Key | null;
 
   loadData?: (treeNode: EventDataNode<TreeDataType>) => Promise<void>;
-  filterTreeNode: (treeNode: EventDataNode<TreeDataType>) => boolean;
+  filterTreeNode?: (treeNode: EventDataNode<TreeDataType>) => boolean;
   titleRender?: (node: any) => React.ReactNode;
 
   onNodeClick: NodeMouseEventHandler<TreeDataType>;

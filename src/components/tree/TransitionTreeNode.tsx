@@ -12,7 +12,6 @@ import { getTreeNodeProps } from './utils/treeUtil';
 interface TransitionTreeNodeProps<TreeDataType extends BasicDataNode = DataNode>
   extends Omit<TreeNodeProps<TreeDataType>, 'domRef'> {
   active: boolean;
-  transition?: any;
   transitionNodes?: FlattenNode[];
   onTransitionStart: () => void;
   onTransitionEnd: () => void;
@@ -26,7 +25,6 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
     {
       className,
       style,
-      transition,
       transitionNodes,
       transitionType,
       onTransitionStart: onOriginTransitionStart,
@@ -82,8 +80,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
         <Transition
           ref={ref}
           visible={visible}
-          {...transition}
-          transitionAppear={transitionType === 'show'}
+          appear={transitionType === 'show'}
           onVisibleChanged={onVisibleChanged}
         >
           {({ className: transitionClassName, style: transitionStyle }, transitionRef) => (

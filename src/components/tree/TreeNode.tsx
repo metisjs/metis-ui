@@ -65,7 +65,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     dropLevelOffset,
     dropPosition,
     titleRender,
-    dropIndicatorRender,
     loadData,
     onNodeClick,
     onNodeCheck,
@@ -297,14 +296,26 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     const mergedIndent = indent ?? cacheIndent.current;
     cacheIndent.current = indent;
 
-    return showIndicator
-      ? dropIndicatorRender({
-          dropPosition,
-          dropLevelOffset,
-          indent: mergedIndent,
-          prefixCls,
-        })
-      : null;
+    if (!showIndicator) return null;
+
+    const offset = 4;
+    const style: React.CSSProperties = {
+      left: -dropLevelOffset! * mergedIndent + offset,
+      right: 0,
+    };
+    switch (dropPosition) {
+      case -1:
+        style.top = -3;
+        break;
+      case 1:
+        style.bottom = -3;
+        break;
+      default:
+        style.bottom = -3;
+        style.left = mergedIndent + offset;
+        break;
+    }
+    return <div style={style} className={`${prefixCls}-drop-indicator`} />;
   };
 
   // ==================== Render: Title + Icon ====================

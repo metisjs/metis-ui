@@ -5,7 +5,7 @@
 import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
-import type { VirtualListRef } from '../virtual-list';
+import type { VirtualListProps, VirtualListRef } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import type {
   BasicDataNode,
@@ -69,9 +69,8 @@ interface NodeListProps<TreeDataType extends BasicDataNode> {
   prefixCls: string;
   style?: React.CSSProperties;
   data: FlattenNode<TreeDataType>[];
-  transition: any;
   focusable?: boolean;
-  activeItem: FlattenNode<TreeDataType>;
+  activeItem: FlattenNode<TreeDataType> | null;
   focused?: boolean;
   tabIndex: number;
   checkable?: boolean;
@@ -95,6 +94,8 @@ interface NodeListProps<TreeDataType extends BasicDataNode> {
   itemHeight?: number;
   virtual?: boolean;
 
+  onScroll?: VirtualListProps<FlattenNode>['onScroll'];
+  onContextMenu?: React.MouseEventHandler<HTMLDivElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
@@ -153,7 +154,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     dragging,
     dragOverNodeKey,
     dropPosition,
-    transition,
 
     height,
     itemHeight,
@@ -164,6 +164,8 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     focused,
     tabIndex,
 
+    onScroll,
+    onContextMenu,
     onKeyDown,
     onFocus,
     onBlur,
@@ -262,8 +264,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     }
   }, [dragging]);
 
-  const mergedData = transition ? transitionData : data;
-
   const treeNodeRequiredProps = {
     expandedKeys,
     selectedKeys,
@@ -318,7 +318,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
 
       <VirtualList<FlattenNode>
         style={style}
-        data={mergedData}
+        data={transitionData}
         itemKey={itemKey}
         height={height}
         fullHeight={false}
@@ -335,6 +335,8 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
             onTransitionEnd();
           }
         }}
+        onContextMenu={onContextMenu}
+        onScroll={onScroll}
       >
         {(treeNode) => {
           const {
@@ -359,7 +361,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
               data={treeNode.data}
               isStart={isStart}
               isEnd={isEnd}
-              transition={transition}
               transitionNodes={key === TRANSITION_KEY ? transitionRange : undefined}
               transitionType={transitionType}
               onTransitionStart={onListChangeStart}
