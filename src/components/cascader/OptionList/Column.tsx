@@ -59,7 +59,7 @@ export default function Column({
         const label = option[FIX_LABEL] ?? option[fieldNames.label];
         const value = option[fieldNames.value];
 
-        const isMergedLeaf = isLeaf(option, fieldNames);
+        const leaf = isLeaf(option, fieldNames);
 
         // Get real value of option. Search option is different way.
         const fullPath = searchOptions
@@ -67,7 +67,7 @@ export default function Column({
           : [...prevValuePath, value];
         const fullPathKey = toPathKey(fullPath);
 
-        const isLoading = loadingKeys.includes(fullPathKey);
+        const loading = loadingKeys.includes(fullPathKey);
 
         // >>>>> checked
         const checked = checkedSet.has(fullPathKey);
@@ -79,8 +79,8 @@ export default function Column({
           disabled,
           label,
           value,
-          isLeaf: isMergedLeaf,
-          isLoading,
+          leaf,
+          loading,
           checked,
           halfChecked,
           option,
@@ -107,8 +107,8 @@ export default function Column({
             disabled,
             label,
             value,
-            isLeaf: isMergedLeaf,
-            isLoading,
+            leaf,
+            loading,
             checked,
             halfChecked,
             option,
@@ -121,7 +121,7 @@ export default function Column({
                 return;
               }
               const nextValueCells = [...fullPath];
-              if (hoverOpen && isMergedLeaf) {
+              if (hoverOpen && leaf) {
                 nextValueCells.pop();
               }
               onActive(nextValueCells);
@@ -130,7 +130,7 @@ export default function Column({
             // >>>>> Selection
             const triggerSelect = () => {
               if (isSelectable(option)) {
-                onSelect(fullPath, isMergedLeaf);
+                onSelect(fullPath, leaf);
               }
             };
 
@@ -148,10 +148,10 @@ export default function Column({
             const menuItemCls = clsx(
               menuItemPrefixCls,
               {
-                [`${menuItemPrefixCls}-expand`]: !isMergedLeaf,
+                [`${menuItemPrefixCls}-expand`]: !leaf,
                 [`${menuItemPrefixCls}-active`]: isActive,
                 [`${menuItemPrefixCls}-disabled`]: disabled,
-                [`${menuItemPrefixCls}-loading`]: isLoading,
+                [`${menuItemPrefixCls}-loading`]: loading,
               },
               'flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded px-3 py-2 transition-all duration-200 hover:bg-fill-quaternary',
               {
@@ -176,7 +176,7 @@ export default function Column({
                 data-path-key={fullPathKey}
                 onClick={() => {
                   triggerOpenPath();
-                  if (!multiple || isMergedLeaf) {
+                  if (!multiple || leaf) {
                     triggerSelect();
                   }
                 }}
@@ -210,12 +210,12 @@ export default function Column({
                 <div className={menuItemContentCls}>
                   {optionRender && option.value !== '__EMPTY__' ? optionRender(option) : label}
                 </div>
-                {!isLoading && expandIcon && !isMergedLeaf && (
+                {!loading && expandIcon && !leaf && (
                   <div className={clsx(`${menuItemPrefixCls}-expand-icon`, menuItemIconCls)}>
                     {expandIcon}
                   </div>
                 )}
-                {isLoading && loadingIcon && (
+                {loading && loadingIcon && (
                   <div className={clsx(`${menuItemPrefixCls}-loading-icon`, menuItemIconCls)}>
                     {loadingIcon}
                   </div>
