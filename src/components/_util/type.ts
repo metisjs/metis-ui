@@ -1,3 +1,8 @@
+import type {
+  Options as RequestOptions,
+  Service as RequestService,
+} from 'ahooks/lib/useRequest/src/types';
+
 export type SomeRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 export type SomePartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
@@ -6,6 +11,16 @@ export type LiteralUnion<T extends string> = T | (string & { IGNORE?: never });
 
 /** {length?: never} 排除数组 */
 export type AnyObject = Record<PropertyKey, any> & { length?: never };
+
+export type RequestConfig<TData, ParamsType extends any[]> =
+  | RequestService<{ data: TData[]; total?: number }, ParamsType>
+  | {
+      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
+      options?: Omit<
+        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
+        'manual' | 'refreshDepsAction'
+      >;
+    };
 
 /**
  * Get component props

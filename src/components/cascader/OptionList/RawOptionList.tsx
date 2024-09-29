@@ -79,7 +79,7 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
   };
 
   const isSelectable = (option: DefaultOptionType) => {
-    const { disabled } = option;
+    const disabled = option[fieldNames.disabled];
 
     const isMergedLeaf = isLeaf(option, fieldNames);
     return !disabled && (isMergedLeaf || changeOnSelect || multiple);
@@ -165,7 +165,7 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
     {
       [fieldNames.value as 'value']: '__EMPTY__',
       [FIX_LABEL as 'label']: notFoundContent,
-      disabled: true,
+      [fieldNames.disabled]: true,
     },
   ];
 

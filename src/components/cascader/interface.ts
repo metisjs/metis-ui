@@ -1,9 +1,10 @@
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
+import type { RequestConfig } from '../_util/type';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { BaseSelectPropsWithoutPrivate } from '../select';
-import type { RawValueType, RequestConfig, SelectCommonPlacement } from '../select/interface';
+import type { RawValueType, SelectCommonPlacement } from '../select/interface';
 import type { SHOW_CHILD, SHOW_PARENT } from './utils/commonUtil';
 
 export interface BaseOptionType {

@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
 import { conductCheck } from '../../tree/utils/conductUtil';
-import type { InternalValueType } from '../Cascader';
+import type { InternalFieldNames, InternalValueType } from '../Cascader';
 import type {
+  DefaultOptionType,
   DraftValueType,
   LabeledValueType,
   MultiValueType,
@@ -23,6 +25,7 @@ export default function useSelect(
   checkedValues: LabeledValueType[],
   halfCheckedValues: LabeledValueType[],
   missingCheckedValues: LabeledValueType[],
+  fieldNames: InternalFieldNames,
   toLabeledValues: (draftValues: DraftValueType) => LabeledValueType[],
   getValueByKeyPath: (pathKeys: React.Key[]) => MultiValueType,
   getPathKeyEntities: GetEntities,
@@ -35,6 +38,11 @@ export default function useSelect(
   const checkedPathKeys = toPathKeys(rawCheckedValues);
   const halfCheckedPathKeys = toPathKeys(rawHalfCheckedValues);
   const missingCheckedPathKeys = toPathKeys(rawMissingCheckedValues);
+
+  const isCheckDisabled = useCallback(
+    (node: DefaultOptionType) => !!node[fieldNames.disabled],
+    [fieldNames],
+  );
 
   return (value: SingleValueType | LabeledValueType) => {
     if (!multiple) {
@@ -72,9 +80,15 @@ export default function useSelect(
             nextRawCheckedKeys,
             { checked: false, halfCheckedKeys: halfCheckedPathKeys },
             pathKeyEntities,
+            isCheckDisabled,
           ));
         } else {
-          ({ checkedKeys } = conductCheck(nextRawCheckedKeys, true, pathKeyEntities));
+          ({ checkedKeys } = conductCheck(
+            nextRawCheckedKeys,
+            true,
+            pathKeyEntities,
+            isCheckDisabled,
+          ));
         }
 
         // Roll up to parent level keys

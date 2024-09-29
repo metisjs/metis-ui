@@ -2,6 +2,7 @@ import * as React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../_util/hooks/useZIndex';
+import type { RequestConfig } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
@@ -29,7 +30,6 @@ import type {
   OnActiveValue,
   OnInternalSelect,
   RawValueType,
-  RequestConfig,
   SelectCommonPlacement,
   SelectProps,
 } from './interface';

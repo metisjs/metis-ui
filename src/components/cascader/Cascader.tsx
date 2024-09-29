@@ -3,6 +3,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { useZIndex } from '../_util/hooks/useZIndex';
+import type { RequestConfig } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import { FormItemInputContext } from '../form/context';
@@ -11,7 +12,7 @@ import BaseSelect from '../select/BaseSelect';
 import useBuiltinPlacements from '../select/hooks/useBuiltinPlacements';
 import useIcons from '../select/hooks/useIcons';
 import useId from '../select/hooks/useId';
-import type { RequestConfig, SelectCommonPlacement } from '../select/interface';
+import type { SelectCommonPlacement } from '../select/interface';
 import CascaderContext from './context';
 import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
@@ -263,6 +264,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     checkedValues,
     halfCheckedValues,
     missingCheckedValues,
+    mergedFieldNames,
     toLabeledValues,
     getValueByKeyPath,
     getPathKeyEntities,

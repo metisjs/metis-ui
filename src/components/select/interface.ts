@@ -1,8 +1,5 @@
 import type * as React from 'react';
-import type {
-  Options as RequestOptions,
-  Service as RequestService,
-} from 'ahooks/lib/useRequest/src/types';
+import type { RequestConfig } from '../_util/type';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import type { SelectPlacements } from './Select';
 
@@ -86,16 +83,6 @@ export type SelectHandler<ValueType, OptionType extends BaseOptionType> = (
   option: OptionType,
 ) => void;
 type ArrayElementType<T> = T extends (infer E)[] ? E : T;
-
-export type RequestConfig<TData, ParamsType extends any[]> =
-  | RequestService<{ data: TData[]; total?: number }, ParamsType>
-  | {
-      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
-      options?: Omit<
-        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
-        'manual' | 'refreshDepsAction'
-      >;
-    };
 
 export interface SelectProps<
   ValueType extends RawValueType = RawValueType,

@@ -81,6 +81,11 @@ export default function useValues(
     return [existsValues, missingValues];
   }, [labeledValues]);
 
+  const isCheckDisabled = React.useCallback(
+    (node: DefaultOptionType) => !!node[fieldNames.disabled],
+    [fieldNames],
+  );
+
   const [checkedValues, halfCheckedValues, missingCheckedValues] = React.useMemo(() => {
     const [existValues, missingValues] = getMissingValues();
 
@@ -91,14 +96,26 @@ export default function useValues(
     const keyPathValues = toPathKeys(toRawValueCells(existValues));
     const keyPathEntities = getPathKeyEntities();
 
-    const { checkedKeys, halfCheckedKeys } = conductCheck(keyPathValues, true, keyPathEntities);
+    const { checkedKeys, halfCheckedKeys } = conductCheck(
+      keyPathValues,
+      true,
+      keyPathEntities,
+      isCheckDisabled,
+    );
 
     return [
       toLabeledValues(getValueByKeyPath(checkedKeys)),
       toLabeledValues(getValueByKeyPath(halfCheckedKeys)),
       missingValues,
     ];
-  }, [multiple, labeledValues, getPathKeyEntities, getValueByKeyPath, getMissingValues]);
+  }, [
+    multiple,
+    labeledValues,
+    getPathKeyEntities,
+    getValueByKeyPath,
+    getMissingValues,
+    isCheckDisabled,
+  ]);
 
   return [
     checkedValues,

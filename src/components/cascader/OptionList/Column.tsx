@@ -54,7 +54,7 @@ export default function Column({
   const optionInfoList = React.useMemo(
     () =>
       options.map((option) => {
-        const { disabled } = option;
+        const disabled = option[fieldNames.disabled];
         const searchOptions: Record<string, any>[] = option[SEARCH_MARK];
         const label = option[FIX_LABEL] ?? option[fieldNames.label];
         const value = option[fieldNames.value];
