@@ -5,6 +5,7 @@ import { TreeContext } from './context';
 import useEventData from './hooks/useEventData';
 import Indent from './Indent';
 import type { BasicDataNode, DataNode, TreeNodeProps } from './interface';
+import SwitcherIcon from './SwitcherIcon';
 import getEntity from './utils/keyUtil';
 
 const ICON_OPEN = 'open';
@@ -57,6 +58,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     checkable: treeCheckable,
     switcherIcon: treeSwitcherIcon,
     showIcon,
+    showLine,
     indent,
     icon: treeIcon,
     dragOverNodeKey,
@@ -234,10 +236,14 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   // ====================== Render: Switcher ======================
   const renderSwitcherIconDom = (leaf: boolean) => {
     const mergedSwitcherIcon = switcherIcon || treeSwitcherIcon;
-    if (typeof mergedSwitcherIcon === 'function') {
-      return mergedSwitcherIcon({ ...props, leaf });
-    }
-    return switcherIcon as React.ReactNode;
+    return (
+      <SwitcherIcon
+        prefixCls={prefixCls}
+        switcherIcon={mergedSwitcherIcon}
+        treeNodeProps={{ ...props, leaf }}
+        showLine={showLine}
+      />
+    );
   };
 
   // Switcher
@@ -246,11 +252,11 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       // if switcherIconDom is null, no render switcher span
       const switcherIconDom = renderSwitcherIconDom(true);
 
-      return switcherIconDom !== false ? (
+      return (
         <span className={clsx(`${prefixCls}-switcher`, `${prefixCls}-switcher-noop`)}>
           {switcherIconDom}
         </span>
-      ) : null;
+      );
     }
 
     const switcherCls = clsx(
@@ -260,11 +266,11 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
     const switcherIconDom = renderSwitcherIconDom(false);
 
-    return switcherIconDom !== false ? (
+    return (
       <span onClick={onExpand} className={switcherCls}>
         {switcherIconDom}
       </span>
-    ) : null;
+    );
   };
 
   // ====================== Render: Checkbox ======================

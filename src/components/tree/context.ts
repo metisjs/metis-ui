@@ -37,6 +37,7 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   prefixCls: string;
   selectable: boolean;
   showIcon: boolean;
+  showLine?: boolean;
   icon: IconType;
   switcherIcon: IconType;
   draggable?: DraggableConfig;

@@ -696,6 +696,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
         prefixCls,
         selectable,
         showIcon,
+        showLine,
         icon,
         switcherIcon,
         draggable: draggableConfig,
