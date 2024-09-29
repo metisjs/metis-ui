@@ -20,19 +20,6 @@ import TransitionTreeNode from './TransitionTreeNode';
 import { findExpandedKeys, getExpandRange } from './utils/diffUtil';
 import { getKey, getTreeNodeProps } from './utils/treeUtil';
 
-const HIDDEN_STYLE = {
-  width: 0,
-  height: 0,
-  display: 'flex',
-  overflow: 'hidden',
-  opacity: 0,
-  border: 0,
-  padding: 0,
-  margin: 0,
-};
-
-const noop = () => {};
-
 export const TRANSITION_KEY = `METIS_TREE_TRANSITION_${Math.random()}`;
 
 const TransitionNode: DataNode = {
@@ -69,13 +56,8 @@ interface NodeListProps<TreeDataType extends BasicDataNode> {
   prefixCls: string;
   style?: React.CSSProperties;
   data: FlattenNode<TreeDataType>[];
-  focusable?: boolean;
-  activeItem: FlattenNode<TreeDataType> | null;
-  focused?: boolean;
-  tabIndex: number;
   checkable?: boolean;
   selectable?: boolean;
-  disabled?: boolean;
 
   expandedKeys: Key[];
   selectedKeys: Key[];
@@ -96,10 +78,6 @@ interface NodeListProps<TreeDataType extends BasicDataNode> {
 
   onScroll?: VirtualListProps<FlattenNode>['onScroll'];
   onContextMenu?: React.MouseEventHandler<HTMLDivElement>;
-  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
-  onFocus?: React.FocusEventHandler<HTMLDivElement>;
-  onBlur?: React.FocusEventHandler<HTMLDivElement>;
-  onActiveChange: (key: Key | null) => void;
 
   onListChangeStart: () => void;
   onListChangeEnd: () => void;
@@ -126,18 +104,6 @@ function itemKey(item: FlattenNode) {
   return getKey(key, pos);
 }
 
-function getAccessibilityPath(item: FlattenNode): string {
-  let path = String(item.data.key);
-  let current = item;
-
-  while (current.parent) {
-    current = current.parent;
-    path = `${current.data.key} > ${path}`;
-  }
-
-  return path;
-}
-
 const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) => {
   const {
     prefixCls,
@@ -149,7 +115,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     loadingKeys,
     halfCheckedKeys,
     keyEntities,
-    disabled,
 
     dragging,
     dragOverNodeKey,
@@ -159,17 +124,8 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     itemHeight,
     virtual,
 
-    focusable,
-    activeItem,
-    focused,
-    tabIndex,
-
     onScroll,
     onContextMenu,
-    onKeyDown,
-    onFocus,
-    onBlur,
-    onActiveChange,
 
     onListChangeStart,
     onListChangeEnd,
@@ -278,26 +234,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
 
   return (
     <>
-      {focused && activeItem && (
-        <span style={HIDDEN_STYLE} aria-live="assertive">
-          {getAccessibilityPath(activeItem)}
-        </span>
-      )}
-
-      <div>
-        <input
-          style={HIDDEN_STYLE}
-          disabled={focusable === false || disabled}
-          tabIndex={focusable !== false ? tabIndex : undefined}
-          onKeyDown={onKeyDown}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          value=""
-          onChange={noop}
-          aria-label="for screen reader"
-        />
-      </div>
-
       <div
         className={`${prefixCls}-treenode`}
         aria-hidden
@@ -344,6 +280,8 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
             data: { ...restProps },
             title,
             key,
+            disabled,
+            leaf,
             isStart,
             isEnd,
           } = treeNode;
@@ -356,7 +294,8 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
               {...omit(restProps, ['key', 'children'])}
               {...treeNodeProps}
               title={title}
-              active={!!activeItem && key === activeItem.key}
+              disabled={disabled}
+              leaf={leaf}
               pos={pos}
               data={treeNode.data}
               isStart={isStart}
@@ -366,9 +305,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
               onTransitionStart={onListChangeStart}
               onTransitionEnd={onTransitionEnd}
               treeNodeRequiredProps={treeNodeRequiredProps}
-              onMouseMove={() => {
-                onActiveChange(null);
-              }}
             />
           );
         }}

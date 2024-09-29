@@ -85,13 +85,15 @@ export function warningWithoutKey(treeData: DataNode[], fieldNames: FilledFieldN
 export function flattenTreeData<TreeDataType extends BasicDataNode = DataNode>(
   treeNodeList: TreeDataType[],
   expandedKeys: Key[] | true,
-  fieldNames: FieldNames<TreeDataType>,
+  fieldNames: FilledFieldNames,
 ): FlattenNode<TreeDataType>[] {
   const {
     _title: fieldTitles,
     key: fieldKey,
     children: fieldChildren,
-  } = fillFieldNames(fieldNames);
+    disabled: fieldDisabled,
+    leaf: fieldLeaf,
+  } = fieldNames;
 
   const expandedKeySet = new Set(expandedKeys === true ? [] : expandedKeys);
   const flattenList: FlattenNode<TreeDataType>[] = [];
@@ -116,7 +118,7 @@ export function flattenTreeData<TreeDataType extends BasicDataNode = DataNode>(
 
       // Add FlattenDataNode into list
       const flattenNode: FlattenNode<TreeDataType> = Object.assign(
-        omit(treeNode, [...fieldTitles, fieldKey, fieldChildren] as any),
+        omit(treeNode, [...fieldTitles, fieldKey, fieldChildren, fieldDisabled, fieldLeaf] as any),
         {
           title: mergedTitle,
           key: mergedKey,
@@ -124,6 +126,8 @@ export function flattenTreeData<TreeDataType extends BasicDataNode = DataNode>(
           pos,
           children: null,
           data: treeNode,
+          disabled: treeNode[fieldDisabled],
+          leaf: treeNode[fieldLeaf],
           isStart: [...(parent ? parent.isStart : []), index === 0],
           isEnd: [...(parent ? parent.isEnd : []), index === list.length - 1],
         },
@@ -156,7 +160,6 @@ interface TraverseDataNodesConfig {
 
 /**
  * Traverse all the data by `treeData`.
- * Please not use it out of the `rc-tree` since we may refactor this code.
  */
 export function traverseDataNodes(
   dataNodes: DataNode[],
@@ -369,25 +372,34 @@ export function getTreeNodeProps<TreeDataType extends BasicDataNode = DataNode>(
   return treeNodeProps;
 }
 
-export function convertNodePropsToEventData<TreeDataType extends BasicDataNode = DataNode>(
-  props: TreeNodeProps<TreeDataType>,
-): EventDataNode<TreeDataType> {
-  const {
-    data,
-    expanded,
-    selected,
-    checked,
-    loaded,
-    loading,
-    halfChecked,
-    dragOver,
-    dragOverGapTop,
-    dragOverGapBottom,
-    pos,
-    active,
-    eventKey,
-  } = props;
-
+export function convertNodePropsToEventData<TreeDataType extends BasicDataNode = DataNode>({
+  data,
+  expanded,
+  selected,
+  checked,
+  loaded,
+  loading,
+  halfChecked,
+  dragOver,
+  dragOverGapTop,
+  dragOverGapBottom,
+  pos,
+  eventKey,
+}: Pick<
+  TreeNodeProps<TreeDataType>,
+  | 'data'
+  | 'expanded'
+  | 'selected'
+  | 'checked'
+  | 'loaded'
+  | 'loading'
+  | 'halfChecked'
+  | 'dragOver'
+  | 'dragOverGapTop'
+  | 'dragOverGapBottom'
+  | 'pos'
+  | 'eventKey'
+>): EventDataNode<TreeDataType> {
   const eventData = {
     ...data!,
     expanded: !!expanded,
@@ -400,21 +412,8 @@ export function convertNodePropsToEventData<TreeDataType extends BasicDataNode =
     dragOverGapTop: !!dragOverGapTop,
     dragOverGapBottom: !!dragOverGapBottom,
     pos,
-    active: !!active,
     key: eventKey,
   };
-
-  if (!('props' in eventData)) {
-    Object.defineProperty(eventData, 'props', {
-      get() {
-        warning(
-          false,
-          'Second param return from event is node data instead of TreeNode instance. Please read value directly instead of reading from `props`.',
-        );
-        return props;
-      },
-    });
-  }
 
   return eventData;
 }

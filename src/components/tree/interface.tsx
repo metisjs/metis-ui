@@ -1,6 +1,138 @@
 import type * as React from 'react';
+import type { RequestConfig } from '../_util/type';
+import type { VirtualListProps } from '../virtual-list';
+import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
+import type { ScrollTo } from './interface';
 
 export type { ScrollTo } from '../virtual-list/VirtualList';
+
+export interface CheckInfo<TreeDataType extends BasicDataNode = DataNode> {
+  event: 'check';
+  node: EventDataNode<TreeDataType>;
+  checked: boolean;
+  nativeEvent: MouseEvent;
+  checkedNodes: TreeDataType[];
+  checkedNodesPositions?: { node: TreeDataType; pos: string }[];
+  halfCheckedKeys?: Key[];
+}
+
+export interface AllowDropOptions<TreeDataType extends BasicDataNode = DataNode> {
+  dragNode: TreeDataType;
+  dropNode: TreeDataType;
+  dropPosition: -1 | 0 | 1;
+}
+export type AllowDrop<TreeDataType extends BasicDataNode = DataNode> = (
+  options: AllowDropOptions<TreeDataType>,
+) => boolean;
+
+export type DraggableFn = (node: DataNode) => boolean;
+export type DraggableConfig = {
+  icon?: React.ReactNode | boolean;
+  nodeDraggable?: DraggableFn;
+};
+
+export type ExpandAction = false | 'click' | 'doubleClick';
+
+export interface TreeProps<
+  TreeDataType extends BasicDataNode = DataNode,
+  LazyLoadType extends boolean = false,
+> {
+  prefixCls?: string;
+  className?: string;
+  style?: React.CSSProperties;
+  treeData?: TreeDataType[];
+  fieldNames?: FieldNames<TreeDataType>;
+  showLine?: boolean;
+  showIcon?: boolean;
+  icon?: IconType;
+  selectable?: boolean;
+  expandAction?: ExpandAction;
+  disabled?: boolean;
+  multiple?: boolean;
+  checkable?: boolean;
+  checkStrictly?: boolean;
+  draggable?: DraggableFn | boolean | DraggableConfig;
+  autoExpandParent?: boolean;
+  defaultExpandAll?: boolean;
+  defaultExpandedKeys?: Key[];
+  expandedKeys?: Key[];
+  defaultCheckedKeys?: Key[];
+  checkedKeys?: Key[] | { checked: Key[]; halfChecked: Key[] };
+  defaultSelectedKeys?: Key[];
+  selectedKeys?: Key[];
+  allowDrop?: AllowDrop<TreeDataType>;
+  titleRender?: (node: TreeDataType) => React.ReactNode;
+  dropIndicatorRender?: (props: {
+    dropPosition: -1 | 0 | 1;
+    dropLevelOffset: number;
+    indent: number;
+    prefixCls: string;
+  }) => React.ReactNode;
+  onContextMenu?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: NodeMouseEventHandler<TreeDataType>;
+  onDoubleClick?: NodeMouseEventHandler<TreeDataType>;
+  onScroll?: VirtualListProps<FlattenNode>['onScroll'];
+  onExpand?: (
+    expandedKeys: Key[],
+    info: {
+      node: EventDataNode<TreeDataType>;
+      expanded: boolean;
+      nativeEvent: MouseEvent;
+    },
+  ) => void;
+  onCheck?: (
+    checked: { checked: Key[]; halfChecked: Key[] } | Key[],
+    info: CheckInfo<TreeDataType>,
+  ) => void;
+  onSelect?: (
+    selectedKeys: Key[],
+    info: {
+      event: 'select';
+      selected: boolean;
+      node: EventDataNode<TreeDataType>;
+      selectedNodes: TreeDataType[];
+      nativeEvent: MouseEvent;
+    },
+  ) => void;
+  onLoad?: (
+    loadedKeys: Key[],
+    info: {
+      event: 'load';
+      node: EventDataNode<TreeDataType>;
+    },
+  ) => void;
+  loadedKeys?: Key[];
+  onMouseEnter?: (info: NodeMouseEventParams<TreeDataType>) => void;
+  onMouseLeave?: (info: NodeMouseEventParams<TreeDataType>) => void;
+  onRightClick?: (info: { event: React.MouseEvent; node: EventDataNode<TreeDataType> }) => void;
+  onDragStart?: (info: NodeDragEventParams<TreeDataType>) => void;
+  onDragEnter?: (info: NodeDragEventParams<TreeDataType> & { expandedKeys: Key[] }) => void;
+  onDragOver?: (info: NodeDragEventParams<TreeDataType>) => void;
+  onDragLeave?: (info: NodeDragEventParams<TreeDataType>) => void;
+  onDragEnd?: (info: NodeDragEventParams<TreeDataType>) => void;
+  onDrop?: (
+    info: NodeDragEventParams<TreeDataType> & {
+      dragNode: EventDataNode<TreeDataType>;
+      dragNodesKeys: Key[];
+      dropPosition: number;
+      dropToGap: boolean;
+    },
+  ) => void;
+  switcherIcon?: IconType;
+
+  // Virtual List
+  height?: number;
+  itemHeight?: number;
+  virtual?: boolean;
+
+  // >>> Request
+  lazyLoad?: LazyLoadType;
+  request?: GetRequestType<TreeDataType, LazyLoadType>;
+}
+
+export type TreeRef = {
+  scrollTo: ScrollTo;
+};
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey: Key; // Pass by parent `cloneElement`
   className?: string;
@@ -22,7 +154,6 @@ export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   data: TreeDataType;
   isStart: boolean[];
   isEnd: boolean[];
-  active?: boolean;
   onMouseMove?: React.MouseEventHandler<HTMLDivElement>;
 
   // By user
@@ -39,10 +170,8 @@ export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
 /** For fieldNames, we provides a abstract interface */
 export interface BasicDataNode {
   checkable?: boolean;
-  disabled?: boolean;
   disableCheckbox?: boolean;
   icon?: IconType;
-  isLeaf?: boolean;
   selectable?: boolean;
   switcherIcon?: IconType;
 
@@ -90,7 +219,6 @@ export type EventDataNode<TreeDataType> = {
   dragOverGapTop: boolean;
   dragOverGapBottom: boolean;
   pos: string;
-  active: boolean;
 } & TreeDataType &
   BasicDataNode;
 
@@ -130,6 +258,8 @@ export interface FlattenNode<TreeDataType extends BasicDataNode = DataNode> {
   key: Key;
   isStart: boolean[];
   isEnd: boolean[];
+  disabled?: boolean;
+  leaf?: boolean;
 }
 
 export type GetKey<RecordType> = (record: RecordType, index?: number) => Key;
@@ -142,6 +272,8 @@ export interface FieldNames<TreeDataType extends BasicDataNode = DataNode> {
   _title?: (keyof TreeDataType)[];
   key?: keyof TreeDataType;
   children?: keyof TreeDataType;
+  leaf?: keyof TreeDataType;
+  disabled?: keyof TreeDataType;
 }
 
 export interface FilledFieldNames {
@@ -149,4 +281,21 @@ export interface FilledFieldNames {
   _title: string[];
   key: string;
   children: string;
+  leaf: string;
+  disabled: string;
 }
+
+export type GetRequestType<
+  TreeDataType extends BasicDataNode = DataNode,
+  LazyLoadType extends boolean = false,
+> = LazyLoadType extends true
+  ? RequestConfig<
+      TreeDataType,
+      [
+        {
+          [parentValue: string]: Key;
+        },
+        ...any[],
+      ]
+    >
+  : RequestConfig<TreeDataType, any[]>;

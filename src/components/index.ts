@@ -46,6 +46,8 @@ export type { InputNumberProps } from './input-number';
 export { default as Layout } from './layout';
 export type { LayoutProps, SiderProps } from './layout';
 export { default as Mentions } from './mentions';
+export { default as Tree } from './tree';
+export type { TreeRef, TreeProps, TreeDataNode } from './tree';
 export type { MentionsProps } from './mentions';
 export { default as Menu } from './menu';
 export type { MenuItemProps, MenuProps, MenuRef, MenuTheme, SubMenuProps } from './menu';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { EllipsisVerticalOutline } from '@metisjs/icons';
-import type { DraggableConfig, DraggableFn } from '../Tree';
+import type { DraggableConfig, DraggableFn } from '../interface';
 
 export default function useDraggableConfig(draggable?: DraggableFn | boolean | DraggableConfig) {
   return React.useMemo(() => {

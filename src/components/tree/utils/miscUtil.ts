@@ -1,23 +1,15 @@
-/* eslint-disable no-lonely-if */
-/**
- * Legacy code. Should avoid to use if you are new to import these code.
- */
-
-import React from 'react';
 import warning from 'rc-util/lib/warning';
 import type {
+  AllowDrop,
   BasicDataNode,
   DataEntity,
   DataNode,
-  Direction,
+  EventDataNode,
   FlattenNode,
   Key,
   KeyEntities,
-  NodeElement,
-  NodeInstance,
+  TreeProps,
 } from '../interface';
-import type { AllowDrop, TreeProps } from '../Tree';
-import TreeNode from '../TreeNode';
 import getEntity from './keyUtil';
 
 export { getPosition, isTreeNode } from './treeUtil';
@@ -50,7 +42,7 @@ export function getDragChildrenKeys<TreeDataType extends BasicDataNode = DataNod
 ): Key[] {
   // not contains self
   // self for left or right drag
-  const dragChildrenKeys = [];
+  const dragChildrenKeys: Key[] = [];
 
   const entity = getEntity(keyEntities, dragNodeKey);
   function dig(list: DataEntity<TreeDataType>[] = []) {
@@ -70,7 +62,7 @@ export function isLastChild<TreeDataType extends BasicDataNode = DataNode>(
 ) {
   if (treeNodeEntity.parent) {
     const posArr = posToArr(treeNodeEntity.pos);
-    return Number(posArr[posArr.length - 1]) === treeNodeEntity.parent.children.length - 1;
+    return Number(posArr[posArr.length - 1]) === treeNodeEntity.parent!.children!.length - 1;
   }
   return false;
 }
@@ -85,8 +77,8 @@ export function isFirstChild<TreeDataType extends BasicDataNode = DataNode>(
 // Only used when drag, not affect SSR.
 export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   event: React.MouseEvent,
-  dragNode: NodeInstance<TreeDataType>,
-  targetNode: NodeInstance<TreeDataType>,
+  dragNode: EventDataNode<TreeDataType>,
+  targetNode: EventDataNode<TreeDataType>,
   indent: number,
   startMousePosition: {
     x: number;
@@ -101,7 +93,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   dropLevelOffset: number;
   dropTargetKey: Key;
   dropTargetPos: string;
-  dropContainerKey: Key;
+  dropContainerKey: Key | null;
   dragOverNodeKey: Key;
   dropAllowed: boolean;
 } {
@@ -142,7 +134,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   if (!filteredExpandKeys.includes(initialAbstractDropNodeKey)) {
     for (let i = 0; i < rawDropLevelOffset; i += 1) {
       if (isLastChild(abstractDropNodeEntity)) {
-        abstractDropNodeEntity = abstractDropNodeEntity.parent;
+        abstractDropNodeEntity = abstractDropNodeEntity.parent!;
         dropLevelOffset += 1;
       } else {
         break;
@@ -278,30 +270,10 @@ export function calcSelectedKeys(selectedKeys: Key[], props: TreeProps) {
   return selectedKeys;
 }
 
-const internalProcessProps = (props: DataNode): any => props;
-export function convertDataToTree(
-  treeData: DataNode[],
-  processor?: { processProps: (prop: DataNode) => any },
-): NodeElement[] {
-  if (!treeData) return [];
-
-  const { processProps = internalProcessProps } = processor || {};
-  const list = Array.isArray(treeData) ? treeData : [treeData];
-  return list.map(({ children, ...props }): NodeElement => {
-    const childrenNodes = convertDataToTree(children, processor);
-
-    return (
-      <TreeNode key={props.key} {...processProps(props)}>
-        {childrenNodes}
-      </TreeNode>
-    );
-  });
-}
-
 /**
  * Parse `checkedKeys` to { checkedKeys, halfCheckedKeys } style
  */
-export function parseCheckedKeys(keys: Key[] | { checked: Key[]; halfChecked: Key[] }) {
+export function parseCheckedKeys(keys?: Key[] | { checked: Key[]; halfChecked: Key[] }) {
   if (!keys) {
     return null;
   }

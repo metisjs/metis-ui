@@ -111,7 +111,7 @@
   "dependencies": {
     "@ant-design/fast-color": "^2.0.6",
     "@ctrl/tinycolor": "^4.1.0",
-    "@metisjs/icons": "^0.0.2-alpha.1",
+    "@metisjs/icons": "^0.0.2-alpha.4",
     "@rc-component/mini-decimal": "^1.1.0",
     "@rc-component/mutate-observer": "^1.1.0",
     "@rc-component/portal": "^1.1.1",

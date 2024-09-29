@@ -17,7 +17,6 @@ export default function useEventData<TreeDataType extends BasicDataNode = DataNo
     dragOverGapTop,
     dragOverGapBottom,
     pos,
-    active,
     eventKey,
   } = props;
   return React.useMemo(
@@ -34,7 +33,6 @@ export default function useEventData<TreeDataType extends BasicDataNode = DataNo
       dragOverGapTop,
       dragOverGapBottom,
       pos,
-      active,
       eventKey,
     ],
   );

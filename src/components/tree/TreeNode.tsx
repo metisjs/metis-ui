@@ -32,7 +32,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     checked,
     halfChecked,
     loading,
-    active,
     data,
     onMouseMove,
     selectable,
@@ -48,7 +47,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
   const {
     prefixCls,
-    filterTreeNode,
     keyEntities,
     dropContainerKey,
     dropTargetKey,
@@ -80,7 +78,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     onNodeDragEnd,
     onNodeDrop,
     onNodeExpand,
-    onNodeLoad,
   } = React.useContext(TreeContext);
 
   const [dragNodeHighlight, setDragNodeHighlight] = React.useState(false);
@@ -126,7 +123,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     if (loadData && expanded && !mergedLeaf && !loaded) {
       // We needn't reload data when has children in sync logic
       // It's only needed in node expanded
-      onNodeLoad(eventDate);
+      loadData(data, eventDate);
     }
   };
 
@@ -235,10 +232,10 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   };
 
   // ====================== Render: Switcher ======================
-  const renderSwitcherIconDom = (isLeaf: boolean) => {
+  const renderSwitcherIconDom = (leaf: boolean) => {
     const mergedSwitcherIcon = switcherIcon || treeSwitcherIcon;
     if (typeof mergedSwitcherIcon === 'function') {
-      return mergedSwitcherIcon({ ...props, leaf: isLeaf });
+      return mergedSwitcherIcon({ ...props, leaf });
     }
     return switcherIcon as React.ReactNode;
   };
@@ -404,7 +401,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         [`${prefixCls}-treenode-checkbox-indeterminate`]: halfChecked,
         [`${prefixCls}-treenode-selected`]: selected,
         [`${prefixCls}-treenode-loading`]: loading,
-        [`${prefixCls}-treenode-active`]: active,
         [`${prefixCls}-treenode-leaf-last`]: isEndNode,
         [`${prefixCls}-treenode-draggable`]: mergedDraggable,
 
@@ -414,7 +410,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         'drag-over': !mergedDisabled && dragOver,
         'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
         'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
-        'filter-node': filterTreeNode && filterTreeNode(eventDate),
       })}
       style={style}
       // Draggable config

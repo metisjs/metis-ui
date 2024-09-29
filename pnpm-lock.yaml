@@ -20,8 +20,8 @@ dependencies:
     specifier: ^4.1.0
     version: 4.1.0
   '@metisjs/icons':
-    specifier: ^0.0.2-alpha.1
-    version: 0.0.2-alpha.1(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.0.2-alpha.4
+    version: 0.0.2-alpha.4(react-dom@18.2.0)(react@18.2.0)
   '@rc-component/mini-decimal':
     specifier: ^1.1.0
     version: 1.1.0
@@ -2571,8 +2571,8 @@ packages:
       react: 18.2.0
     dev: true
 
-  /@metisjs/icons@0.0.2-alpha.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-rbIgVFLBrhKpS5YVh1Ws+EUeqeUAVr9Z03Ub+oV78xzREDSXSZtA7Fx6o06tVWOPD1vI3gr16qCL0octW8m+uw==}
+  /@metisjs/icons@0.0.2-alpha.4(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-C3zfNfEqttIZ+PohIHgBWH3eSpmdFi2pzQxowQd26rF+mC1jHurRJ2PqeH4/rEq44010hpsiqW5Pya/866LBXQ==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'

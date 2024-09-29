@@ -2,12 +2,12 @@ import * as React from 'react';
 import type {
   BasicDataNode,
   DataNode,
+  DraggableConfig,
   EventDataNode,
   IconType,
   Key,
   KeyEntities,
 } from './interface';
-import type { DraggableConfig } from './Tree';
 
 export type NodeMouseEventParams<
   TreeDataType extends BasicDataNode = DataNode,
@@ -53,8 +53,7 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   indent: number;
   dragOverNodeKey: Key | null;
 
-  loadData?: (treeNode: EventDataNode<TreeDataType>) => Promise<void>;
-  filterTreeNode?: (treeNode: EventDataNode<TreeDataType>) => boolean;
+  loadData?: (data: TreeDataType, treeNode: EventDataNode<TreeDataType>) => void;
   titleRender?: (node: any) => React.ReactNode;
 
   onNodeClick: NodeMouseEventHandler<TreeDataType>;
@@ -66,7 +65,6 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
     treeNode: EventDataNode<TreeDataType>,
     checked: boolean,
   ) => void;
-  onNodeLoad: (treeNode: EventDataNode<TreeDataType>) => void;
   onNodeMouseEnter: NodeMouseEventHandler<TreeDataType>;
   onNodeMouseLeave: NodeMouseEventHandler<TreeDataType>;
   onNodeContextMenu: NodeMouseEventHandler<TreeDataType>;

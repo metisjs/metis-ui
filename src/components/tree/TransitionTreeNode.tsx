@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import { collapseTransition } from '../_util/transition';
 import Transition from '../transition';
 import { TreeContext } from './context';
 import useUnmount from './hooks/useUnmount';
@@ -11,7 +12,6 @@ import { getTreeNodeProps } from './utils/treeUtil';
 
 interface TransitionTreeNodeProps<TreeDataType extends BasicDataNode = DataNode>
   extends Omit<TreeNodeProps<TreeDataType>, 'domRef'> {
-  active: boolean;
   transitionNodes?: FlattenNode[];
   onTransitionStart: () => void;
   onTransitionEnd: () => void;
@@ -29,7 +29,6 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
       transitionType,
       onTransitionStart: onOriginTransitionStart,
       onTransitionEnd: onOriginTransitionEnd,
-      active,
       treeNodeRequiredProps,
       ...props
     },
@@ -79,6 +78,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
       return (
         <Transition
           ref={ref}
+          {...collapseTransition}
           visible={visible}
           appear={transitionType === 'show'}
           onVisibleChanged={onVisibleChanged}
@@ -94,6 +94,8 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
                   data: { ...restProps },
                   title,
                   key,
+                  disabled,
+                  leaf,
                   isStart,
                   isEnd,
                 } = treeNode;
@@ -106,7 +108,8 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
                     {...(restProps as Omit<typeof restProps, 'children'>)}
                     {...treeNodeProps}
                     title={title}
-                    active={active}
+                    disabled={disabled}
+                    leaf={leaf}
                     data={treeNode.data}
                     key={key}
                     isStart={isStart}
@@ -119,7 +122,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
         </Transition>
       );
     }
-    return <TreeNode ref={ref} className={className} style={style} {...props} active={active} />;
+    return <TreeNode ref={ref} className={className} style={style} {...props} />;
   },
 ) as unknown as (<TreeDataType extends BasicDataNode = DataNode>(
   props: TransitionTreeNodeProps<TreeDataType> & {
