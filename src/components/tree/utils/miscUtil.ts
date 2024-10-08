@@ -8,7 +8,6 @@ import type {
   FlattenNode,
   Key,
   KeyEntities,
-  TreeProps,
 } from '../interface';
 import getEntity from './keyUtil';
 
@@ -253,20 +252,14 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
 /**
  * Return selectedKeys according with multiple prop
  * @param selectedKeys
- * @param props
+ * @param multiple
  * @returns [string]
  */
-export function calcSelectedKeys(selectedKeys: Key[], props: TreeProps) {
-  if (!selectedKeys) return undefined;
-
-  const { multiple } = props;
-  if (multiple) {
-    return selectedKeys.slice();
-  }
-
-  if (selectedKeys.length) {
+export function calcSelectedKeys(selectedKeys?: Key[], multiple?: boolean) {
+  if (!multiple && selectedKeys?.length) {
     return [selectedKeys[0]];
   }
+
   return selectedKeys;
 }
 

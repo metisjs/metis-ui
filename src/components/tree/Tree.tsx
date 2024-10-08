@@ -505,7 +505,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
     setExpandedKeys(newExpandedKeys);
 
-    onExpand?.(expandedKeys, {
+    onExpand?.(newExpandedKeys, {
       node: treeNode,
       expanded: targetExpanded,
       nativeEvent: e.nativeEvent,
@@ -557,20 +557,24 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
   const onNodeSelect: NodeMouseEventHandler<DataNode> = (e, treeNode) => {
     const { selected } = treeNode;
+
+    if (!multiple && selected) {
+      return;
+    }
+
     const key = treeNode[fieldNames.key];
     const targetSelected = !selected;
 
     // Update selected keys
     let newSelectedKeys: Key[] = [];
-    if (!targetSelected) {
-      newSelectedKeys = arrDel(selectedKeys, key);
-    } else if (!multiple) {
+    if (!multiple) {
       newSelectedKeys = [key];
+    } else if (!targetSelected) {
+      newSelectedKeys = arrDel(selectedKeys, key);
     } else {
       newSelectedKeys = arrAdd(selectedKeys, key);
     }
 
-    // [Legacy] Not found related usage in doc or upper libs
     const selectedNodes = newSelectedKeys
       .map((selectedKey) => {
         const entity = getEntity(keyEntities, selectedKey);
@@ -582,7 +586,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
     setSelectedKeys(newSelectedKeys);
 
-    onSelect?.(selectedKeys, {
+    onSelect?.(newSelectedKeys, {
       event: 'select',
       selected: targetSelected,
       node: treeNode,

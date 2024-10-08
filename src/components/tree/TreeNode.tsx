@@ -150,7 +150,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     onNodeCheck(e, eventDate, targetChecked);
   };
 
-  const onSelectorClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const onClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     // Click trigger before select/check operation
     onNodeClick(e, eventDate);
 
@@ -161,7 +161,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     }
   };
 
-  const onSelectorDoubleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const onDoubleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     onNodeDoubleClick(e, eventDate);
   };
 
@@ -251,11 +251,12 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
       'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
     },
-    'flex items-center rounded pe-2 leading-8 transition-colors',
+    'flex cursor-pointer items-center rounded pe-2 leading-8 transition-colors',
     {
       'hover:bg-fill-quaternary': !selected,
       'bg-fill-quaternary': selected,
     },
+    mergedDisabled && 'cursor-not-allowed',
   );
 
   const switcherCls = clsx(
@@ -274,9 +275,9 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     `${prefixCls}-node-content-wrapper`,
     `${prefixCls}-node-content-wrapper-${nodeState || 'normal'}`,
     !mergedDisabled && (selected || dragNodeHighlight) && `${prefixCls}-node-selected`,
-    'flex-auto cursor-pointer',
+    'flex-auto',
     { 'text-primary': selected },
-    mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+    mergedDisabled && 'text-text-tertiary',
   );
 
   // ==================== Render: Drag Handler ====================
@@ -413,11 +414,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         ref={selectHandle}
         title={typeof title === 'string' ? title : ''}
         className={contentCls}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onContextMenu={onContextMenu}
-        onClick={onSelectorClick}
-        onDoubleClick={onSelectorDoubleClick}
       >
         {$icon}
         {$title}
@@ -447,6 +443,11 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       onDrop={mergedDraggable ? onDrop : undefined}
       onDragEnd={mergedDraggable ? onDragEnd : undefined}
       onMouseMove={onMouseMove}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onContextMenu={onContextMenu}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
       {...ariaSelected}
       {...dataOrAriaAttributeProps}
     >

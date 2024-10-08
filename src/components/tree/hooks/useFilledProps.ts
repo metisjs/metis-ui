@@ -5,7 +5,7 @@ import type { DataNode, Key, KeyEntities } from '../interface';
 import { TRANSITION_KEY, TransitionEntity } from '../NodeList';
 import type { InternalTreeProps } from '../Tree';
 import { conductCheck, isCheckDisabled } from '../utils/conductUtil';
-import { conductExpandParent, parseCheckedKeys } from '../utils/miscUtil';
+import { calcSelectedKeys, conductExpandParent, parseCheckedKeys } from '../utils/miscUtil';
 import { convertDataToEntities, fillFieldNames } from '../utils/treeUtil';
 
 export default function useFilledProps({
@@ -14,6 +14,7 @@ export default function useFilledProps({
   fieldNames,
   showIcon = true,
   selectable = true,
+  multiple = false,
   itemHeight = 32,
   defaultExpandedKeys = [],
   expandedKeys: customizeExpandedKeys,
@@ -122,8 +123,18 @@ export default function useFilledProps({
   );
 
   // ===================================== SelectedKeys =====================================
-  const [selectedKeys, setSelectedKeys] = useMergedState(defaultSelectedKeys, {
-    value: customizeSelectedKeys,
+  const [mergedDefaultSelectedKeys, mergedSelectedKeys] = useMemo(
+    () =>
+      selectable
+        ? [
+            calcSelectedKeys(defaultSelectedKeys, multiple)!,
+            calcSelectedKeys(customizeSelectedKeys, multiple),
+          ]
+        : [[], []],
+    [customizeSelectedKeys, multiple, selectable],
+  );
+  const [selectedKeys, setSelectedKeys] = useMergedState(mergedDefaultSelectedKeys, {
+    value: mergedSelectedKeys,
   });
 
   return {
@@ -133,6 +144,7 @@ export default function useFilledProps({
     fieldNames: filledFieldNames,
     showIcon,
     selectable,
+    multiple,
     expandedKeys,
     checkable,
     checkedKeys,
