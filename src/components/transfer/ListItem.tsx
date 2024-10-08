@@ -45,7 +45,7 @@ const ListItem = <RecordType extends KeyWiseTransferItem>(props: ListItemProps<R
     'flex min-h-8 cursor-pointer items-center gap-2 px-3 py-2',
     {
       'hover:bg-fill-quaternary': !checked && !mergedDisabled,
-      'bg-primary-bg': checked,
+      'bg-fill-quaternary text-primary': checked,
     },
     mergedDisabled && 'cursor-not-allowed text-text-tertiary',
     className,

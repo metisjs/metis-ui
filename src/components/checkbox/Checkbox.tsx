@@ -152,17 +152,17 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
   const prefixCls = getPrefixCls('checkbox', customizePrefixCls);
 
   const classString = clsx(
+    `${prefixCls}-wrapper`,
     'inline-flex cursor-pointer items-center text-sm leading-6',
     {
       'text-text-tertiary': mergedDisabled,
       '': isFormItemInput,
     },
-    `${prefixCls}-wrapper`,
     semanticCls.root,
   );
 
   const innerClass = clsx(
-    'block h-4 w-4 cursor-pointer rounded border border-border text-white',
+    'block h-4 w-4 cursor-pointer rounded border border-border bg-container text-white',
     'peer-focus/checkbox:outline peer-focus/checkbox:outline-2 peer-focus/checkbox:outline-offset-2 peer-focus/checkbox:outline-primary',
     {
       'after:absolute after:start-1/2 after:top-1/2 after:block after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-sm after:bg-primary after:content-[""]':
