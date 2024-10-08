@@ -5,7 +5,7 @@ import {
   MinusSquareOutline,
   PlusSquareOutline,
 } from '@metisjs/icons';
-import classNames from 'classnames';
+import { clsx } from '../_util/classNameUtils';
 import { cloneElement } from '../_util/reactNode';
 import type { IconType, TreeNodeProps } from './interface';
 
@@ -38,7 +38,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
 
   if (React.isValidElement(switcher)) {
     return cloneElement(switcher, {
-      className: classNames(switcher.props.className || '', switcherCls),
+      className: clsx(switcherCls, 'h-4 w-4', switcher.props.className || ''),
     });
   }
 
@@ -47,13 +47,22 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
   }
 
   if (showLine) {
+    const clsString = clsx(`${prefixCls}-switcher-line-icon`, 'h-4 w-4');
     return expanded ? (
-      <MinusSquareOutline className={`${prefixCls}-switcher-line-icon`} />
+      <MinusSquareOutline className={clsString} />
     ) : (
-      <PlusSquareOutline className={`${prefixCls}-switcher-line-icon`} />
+      <PlusSquareOutline className={clsString} />
     );
   }
-  return <CaretDownSolid className={switcherCls} />;
+  return (
+    <CaretDownSolid
+      className={clsx(
+        switcherCls,
+        'h-3 w-3 transition-transform duration-300',
+        !expanded && '-rotate-90',
+      )}
+    />
+  );
 };
 
 export default SwitcherIcon;

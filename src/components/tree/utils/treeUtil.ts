@@ -36,7 +36,7 @@ export function getKey(key: Key, pos: string) {
 export function fillFieldNames<TreeDataType extends BasicDataNode = DataNode>(
   fieldNames?: FieldNames<TreeDataType>,
 ): FilledFieldNames {
-  const { title, _title, key, children } = fieldNames || {};
+  const { title, _title, key, children, leaf, disabled } = fieldNames || {};
   const mergedTitle = title || 'title';
 
   return {
@@ -44,6 +44,8 @@ export function fillFieldNames<TreeDataType extends BasicDataNode = DataNode>(
     _title: _title || [mergedTitle],
     key: key || 'key',
     children: children || 'children',
+    leaf: leaf || 'leaf',
+    disabled: disabled || 'disabled',
   } as FilledFieldNames;
 }
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useSetState } from 'ahooks';
-import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
+import { clsx } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
 import type { NodeDragEventHandler, NodeMouseEventHandler } from './context';
 import { TreeContext } from './context';
@@ -688,7 +688,17 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     });
   };
 
-  // ==================================Render==================================
+  // ================================== Style ==================================
+  const rootCls = clsx(
+    prefixCls,
+    {
+      [`${prefixCls}-show-line`]: showLine,
+    },
+    'text-sm text-text',
+    className,
+  );
+
+  // ================================== Render ==================================
   const domProps = pickAttrs(restProps, { aria: true, data: true });
   return (
     <TreeContext.Provider
@@ -732,12 +742,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
         onNodeDrop: onNodeDrop,
       }}
     >
-      <div
-        role="tree"
-        className={classNames(prefixCls, className, {
-          [`${prefixCls}-show-line`]: showLine,
-        })}
-      >
+      <div role="tree" className={rootCls}>
         <NodeList
           ref={listRef}
           prefixCls={prefixCls}

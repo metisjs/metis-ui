@@ -1,6 +1,7 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx } from '../_util/classNameUtils';
+import Checkbox from '../checkbox';
 import { TreeContext } from './context';
 import useEventData from './hooks/useEventData';
 import Indent from './Indent';
@@ -226,6 +227,58 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     onNodeExpand(e, eventDate);
   };
 
+  // ========================== Style ============================
+  const isEndNode = isEnd?.[isEnd?.length - 1];
+  const dragging = draggingNodeKey === eventKey;
+
+  const nodeCls = clsx(
+    className,
+    `${prefixCls}-treenode`,
+    {
+      [`${prefixCls}-treenode-disabled`]: mergedDisabled,
+      [`${prefixCls}-treenode-switcher-${expanded ? 'open' : 'close'}`]: !leaf,
+      [`${prefixCls}-treenode-checkbox-checked`]: checked,
+      [`${prefixCls}-treenode-checkbox-indeterminate`]: halfChecked,
+      [`${prefixCls}-treenode-selected`]: selected,
+      [`${prefixCls}-treenode-loading`]: loading,
+      [`${prefixCls}-treenode-leaf-last`]: isEndNode,
+      [`${prefixCls}-treenode-draggable`]: mergedDraggable,
+
+      dragging,
+      'drop-target': dropTargetKey === eventKey,
+      'drop-container': dropContainerKey === eventKey,
+      'drag-over': !mergedDisabled && dragOver,
+      'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
+      'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
+    },
+    'flex items-center rounded pe-2 leading-8 transition-colors',
+    {
+      'hover:bg-fill-quaternary': !selected,
+      'bg-fill-quaternary': selected,
+    },
+  );
+
+  const switcherCls = clsx(
+    `${prefixCls}-switcher`,
+    {
+      [`${prefixCls}-switcher-noop`]: mergedLeaf,
+      [`${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`]: !mergedLeaf,
+    },
+    'relative inline-flex w-7 flex-none cursor-pointer select-none items-center justify-center self-stretch',
+    {
+      'w-6 cursor-default': mergedLeaf,
+    },
+  );
+
+  const contentCls = clsx(
+    `${prefixCls}-node-content-wrapper`,
+    `${prefixCls}-node-content-wrapper-${nodeState || 'normal'}`,
+    !mergedDisabled && (selected || dragNodeHighlight) && `${prefixCls}-node-selected`,
+    'flex-auto cursor-pointer',
+    { 'text-primary': selected },
+    mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+  );
+
   // ==================== Render: Drag Handler ====================
   const renderDragHandler = () => {
     return draggable?.icon ? (
@@ -252,17 +305,8 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       // if switcherIconDom is null, no render switcher span
       const switcherIconDom = renderSwitcherIconDom(true);
 
-      return (
-        <span className={clsx(`${prefixCls}-switcher`, `${prefixCls}-switcher-noop`)}>
-          {switcherIconDom}
-        </span>
-      );
+      return <span className={switcherCls}>{switcherIconDom}</span>;
     }
-
-    const switcherCls = clsx(
-      `${prefixCls}-switcher`,
-      `${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`,
-    );
 
     const switcherIconDom = renderSwitcherIconDom(false);
 
@@ -278,15 +322,14 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     if (!mergedCheckable) return null;
 
     return (
-      <span
-        className={clsx(
-          `${prefixCls}-checkbox`,
-          checked && `${prefixCls}-checkbox-checked`,
-          !checked && halfChecked && `${prefixCls}-checkbox-indeterminate`,
-          (mergedDisabled || disableCheckbox) && `${prefixCls}-checkbox-disabled`,
-        )}
+      <Checkbox
+        prefixCls={`${prefixCls}-checkbox`}
+        checked={checked}
+        disabled={mergedDisabled || disableCheckbox}
+        indeterminate={halfChecked}
         onClick={onCheck}
-      ></span>
+        className="me-2"
+      />
     );
   };
 
@@ -336,8 +379,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
   // Icon + Title
   const renderSelector = () => {
-    const wrapClass = `${prefixCls}-node-content-wrapper`;
-
     // Icon - Still show loading icon when loading without showIcon
     let $icon;
 
@@ -371,11 +412,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       <span
         ref={selectHandle}
         title={typeof title === 'string' ? title : ''}
-        className={clsx(
-          `${wrapClass}`,
-          `${wrapClass}-${nodeState || 'normal'}`,
-          !mergedDisabled && (selected || dragNodeHighlight) && `${prefixCls}-node-selected`,
-        )}
+        className={contentCls}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onContextMenu={onContextMenu}
@@ -390,8 +427,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   };
 
   // ========================== Render ============================
-  const isEndNode = isEnd?.[isEnd?.length - 1];
-  const dragging = draggingNodeKey === eventKey;
   const ariaSelected = selectable !== undefined ? { 'aria-selected': !!selectable } : undefined;
   const dataOrAriaAttributeProps = pickAttrs(restProps, { aria: true, data: true });
   const draggableWithoutDisabled = !mergedDisabled && mergedDraggable;
@@ -400,23 +435,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   return (
     <div
       ref={ref}
-      className={clsx(className, `${prefixCls}-treenode`, {
-        [`${prefixCls}-treenode-disabled`]: mergedDisabled,
-        [`${prefixCls}-treenode-switcher-${expanded ? 'open' : 'close'}`]: !leaf,
-        [`${prefixCls}-treenode-checkbox-checked`]: checked,
-        [`${prefixCls}-treenode-checkbox-indeterminate`]: halfChecked,
-        [`${prefixCls}-treenode-selected`]: selected,
-        [`${prefixCls}-treenode-loading`]: loading,
-        [`${prefixCls}-treenode-leaf-last`]: isEndNode,
-        [`${prefixCls}-treenode-draggable`]: mergedDraggable,
-
-        dragging,
-        'drop-target': dropTargetKey === eventKey,
-        'drop-container': dropContainerKey === eventKey,
-        'drag-over': !mergedDisabled && dragOver,
-        'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
-        'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
-      })}
+      className={nodeCls}
       style={style}
       // Draggable config
       draggable={draggableWithoutDisabled}

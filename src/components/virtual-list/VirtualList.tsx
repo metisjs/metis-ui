@@ -29,7 +29,7 @@ export type VirtualListRef = {
 export interface VirtualListProps<T>
   extends Omit<React.HTMLAttributes<any>, 'children' | 'className' | 'onScroll'> {
   prefixCls?: string;
-  className?: SemanticClassName<'view'>;
+  className?: SemanticClassName<'view' | 'outer' | 'inner'>;
   children: RenderFunc<T>;
   data: T[];
   height?: number;
@@ -305,6 +305,7 @@ export function RawVirtualList<T>(props: VirtualListProps<T>, ref: React.Ref<Vir
     >
       <Filler
         prefixCls={prefixCls}
+        className={className}
         height={scrollHeight}
         offsetX={offsetLeft}
         offsetY={fillerOffset}

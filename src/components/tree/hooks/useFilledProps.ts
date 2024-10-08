@@ -17,7 +17,7 @@ export default function useFilledProps({
   itemHeight = 32,
   defaultExpandedKeys = [],
   expandedKeys: customizeExpandedKeys,
-  autoExpandParent,
+  autoExpandParent = true,
   defaultExpandAll,
   checkable,
   defaultCheckedKeys = [],

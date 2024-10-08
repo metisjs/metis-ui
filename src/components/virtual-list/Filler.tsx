@@ -1,10 +1,13 @@
 import * as React from 'react';
 import ResizeObserver from 'rc-resize-observer';
+import { getSemanticCls } from '../_util/classNameUtils';
+import type { VirtualListProps } from './VirtualList';
 
 export type InnerProps = Pick<React.HTMLAttributes<HTMLDivElement>, 'role' | 'id'>;
 
 interface FillerProps {
   prefixCls?: string;
+  className?: VirtualListProps<any>['className'];
   /** Virtual filler height. Should be `count * itemMinHeight` */
   height?: number;
   /** Set offset of visible items. Should be the top of start item position */
@@ -27,9 +30,20 @@ interface FillerProps {
  */
 const Filler = React.forwardRef(
   (
-    { height, offsetY, offsetX, children, onInnerResize, innerProps, extra }: FillerProps,
+    {
+      className,
+      height,
+      offsetY,
+      offsetX,
+      children,
+      onInnerResize,
+      innerProps,
+      extra,
+    }: FillerProps,
     ref: React.Ref<HTMLDivElement>,
   ) => {
+    const semanticCls = getSemanticCls(className);
+
     let outerStyle: React.CSSProperties = {};
 
     let innerStyle: React.CSSProperties = {
@@ -57,7 +71,7 @@ const Filler = React.forwardRef(
     }
 
     return (
-      <div style={outerStyle}>
+      <div style={outerStyle} className={semanticCls.outer}>
         <ResizeObserver
           onResize={({ offsetHeight }) => {
             if (offsetHeight && onInnerResize) {
@@ -65,7 +79,7 @@ const Filler = React.forwardRef(
             }
           }}
         >
-          <div style={innerStyle} ref={ref} {...innerProps}>
+          <div style={innerStyle} ref={ref} {...innerProps} className={semanticCls.inner}>
             {children}
             {extra}
           </div>

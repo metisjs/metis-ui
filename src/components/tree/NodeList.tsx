@@ -261,6 +261,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
         virtual={virtual}
         itemHeight={itemHeight}
         prefixCls={`${prefixCls}-list`}
+        className={{ inner: 'gap-1' }}
         ref={listRef}
         onVisibleChange={(originList) => {
           // The best match is using `fullList` - `originList` = `restList`

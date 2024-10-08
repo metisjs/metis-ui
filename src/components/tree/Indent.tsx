@@ -15,16 +15,23 @@ const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd }) => 
     list.push(
       <span
         key={i}
-        className={clsx(baseClassName, {
-          [`${baseClassName}-start`]: isStart[i],
-          [`${baseClassName}-end`]: isEnd[i],
-        })}
+        className={clsx(
+          baseClassName,
+          {
+            [`${baseClassName}-start`]: isStart[i],
+            [`${baseClassName}-end`]: isEnd[i],
+          },
+          'inline-block w-6',
+        )}
       />,
     );
   }
 
   return (
-    <span aria-hidden="true" className={`${prefixCls}-indent`}>
+    <span
+      aria-hidden="true"
+      className={clsx(`${prefixCls}-indent`, 'select-none whitespace-nowrap')}
+    >
       {list}
     </span>
   );
