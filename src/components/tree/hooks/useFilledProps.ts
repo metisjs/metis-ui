@@ -1,12 +1,12 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ConfigContext } from 'metis-ui/es/config-provider';
 import { useMergedState } from 'rc-util';
-import type { DataNode, Key, KeyEntities } from '../interface';
+import type { DataNode, FlattenNode, Key, KeyEntities } from '../interface';
 import { TRANSITION_KEY, TransitionEntity } from '../NodeList';
 import type { InternalTreeProps } from '../Tree';
 import { conductCheck, isCheckDisabled } from '../utils/conductUtil';
 import { calcSelectedKeys, conductExpandParent, parseCheckedKeys } from '../utils/miscUtil';
-import { convertDataToEntities, fillFieldNames } from '../utils/treeUtil';
+import { convertDataToEntities, fillFieldNames, flattenTreeData } from '../utils/treeUtil';
 import useRequest from './useRequest';
 
 export default function useFilledProps({
@@ -153,10 +153,22 @@ export default function useFilledProps({
     value: mergedSelectedKeys,
   });
 
+  // ===================================== FlattenNodes =====================================
+  const [flattenNodes, setFlattenNodes] = useState<FlattenNode<DataNode>[]>([]);
+
+  useEffect(() => {
+    const flattenNodes: FlattenNode<DataNode>[] = flattenTreeData<DataNode>(
+      mergedTreeData,
+      expandedKeys,
+      filledFieldNames,
+    );
+    setFlattenNodes(flattenNodes);
+  }, [mergedTreeData, expandedKeys, filledFieldNames]);
+
   return {
     prefixCls,
     keyEntities,
-    treeData: mergedTreeData,
+    flattenNodes,
     fieldNames: filledFieldNames,
     expandAction,
     showIcon,

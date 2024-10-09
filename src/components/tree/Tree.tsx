@@ -13,7 +13,6 @@ import type {
   CheckInfo,
   DataNode,
   EventDataNode,
-  FlattenNode,
   Key,
   SafeKey,
   ScrollTo,
@@ -25,7 +24,7 @@ import NodeList from './NodeList';
 import { conductCheck, isCheckDisabled } from './utils/conductUtil';
 import getEntity from './utils/keyUtil';
 import { arrAdd, arrDel, calcDropPosition, getDragChildrenKeys, posToArr } from './utils/miscUtil';
-import { convertNodePropsToEventData, flattenTreeData, getTreeNodeProps } from './utils/treeUtil';
+import { convertNodePropsToEventData, getTreeNodeProps } from './utils/treeUtil';
 
 export type InternalTreeProps = Omit<TreeProps, 'request' | 'lazyLoad'> & {
   request?: RequestConfig<DataNode, any[]>;
@@ -35,7 +34,7 @@ export type InternalTreeProps = Omit<TreeProps, 'request' | 'lazyLoad'> & {
 const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   const {
     prefixCls,
-    treeData,
+    flattenNodes,
     showLine,
     showIcon,
     selectable,
@@ -97,7 +96,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   const delayedDragEnterLogic = React.useRef<Record<SafeKey, number>>();
 
   // ==================================States==================================
-  const [flattenNodes, setFlattenNodes] = React.useState<FlattenNode<DataNode>[]>([]);
   const [indent, setIndent] = React.useState<number>(0);
   const [listChanging, setListChanging] = React.useState<boolean>(false);
   const [dragState, setDragState] = useSetState<{
@@ -145,15 +143,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     }),
     [],
   );
-
-  React.useEffect(() => {
-    const flattenNodes: FlattenNode<DataNode>[] = flattenTreeData<DataNode>(
-      treeData,
-      expandedKeys,
-      fieldNames,
-    );
-    setFlattenNodes(flattenNodes);
-  }, [treeData, expandedKeys, fieldNames]);
 
   const resetDragState = () => {
     setDragState({
