@@ -231,12 +231,13 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const isEndNode = isEnd?.[isEnd?.length - 1];
   const dragging = draggingNodeKey === eventKey;
 
+  const wrapperCls = clsx(`${prefixCls}-treenode-wrapper`, 'pb-1');
   const nodeCls = clsx(
     className,
     `${prefixCls}-treenode`,
     {
       [`${prefixCls}-treenode-disabled`]: mergedDisabled,
-      [`${prefixCls}-treenode-switcher-${expanded ? 'open' : 'close'}`]: !leaf,
+      [`${prefixCls}-treenode-switcher-${expanded ? 'open' : 'close'}`]: !mergedLeaf,
       [`${prefixCls}-treenode-checkbox-checked`]: checked,
       [`${prefixCls}-treenode-checkbox-indeterminate`]: halfChecked,
       [`${prefixCls}-treenode-selected`]: selected,
@@ -251,7 +252,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
       'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
     },
-    'flex cursor-pointer items-center rounded pe-2 leading-8 transition-colors',
+    'flex cursor-pointer items-center rounded px-2 leading-8 transition-colors',
     {
       'hover:bg-fill-quaternary': !selected,
       'bg-fill-quaternary': selected,
@@ -265,9 +266,9 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-switcher-noop`]: mergedLeaf,
       [`${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`]: !mergedLeaf,
     },
-    'relative inline-flex w-7 flex-none cursor-pointer select-none items-center justify-center self-stretch',
+    'relative inline-flex w-5 flex-none cursor-pointer select-none items-center self-stretch',
     {
-      'w-6 cursor-default': mergedLeaf,
+      'cursor-default': mergedLeaf,
     },
   );
 
@@ -429,33 +430,35 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const { level } = getEntity(keyEntities, eventKey) || {};
 
   return (
-    <div
-      ref={ref}
-      className={nodeCls}
-      style={style}
-      // Draggable config
-      draggable={draggableWithoutDisabled}
-      onDragStart={draggableWithoutDisabled ? onDragStart : undefined}
-      // Drop config
-      onDragEnter={mergedDraggable ? onDragEnter : undefined}
-      onDragOver={mergedDraggable ? onDragOver : undefined}
-      onDragLeave={mergedDraggable ? onDragLeave : undefined}
-      onDrop={mergedDraggable ? onDrop : undefined}
-      onDragEnd={mergedDraggable ? onDragEnd : undefined}
-      onMouseMove={onMouseMove}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onContextMenu={onContextMenu}
-      onClick={onClick}
-      onDoubleClick={onDoubleClick}
-      {...ariaSelected}
-      {...dataOrAriaAttributeProps}
-    >
-      <Indent prefixCls={prefixCls} level={level} isStart={isStart} isEnd={isEnd} />
-      {renderDragHandler()}
-      {renderSwitcher()}
-      {renderCheckbox()}
-      {renderSelector()}
+    <div className={wrapperCls}>
+      <div
+        ref={ref}
+        className={nodeCls}
+        style={style}
+        // Draggable config
+        draggable={draggableWithoutDisabled}
+        onDragStart={draggableWithoutDisabled ? onDragStart : undefined}
+        // Drop config
+        onDragEnter={mergedDraggable ? onDragEnter : undefined}
+        onDragOver={mergedDraggable ? onDragOver : undefined}
+        onDragLeave={mergedDraggable ? onDragLeave : undefined}
+        onDrop={mergedDraggable ? onDrop : undefined}
+        onDragEnd={mergedDraggable ? onDragEnd : undefined}
+        onMouseMove={onMouseMove}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onContextMenu={onContextMenu}
+        onClick={onClick}
+        onDoubleClick={onDoubleClick}
+        {...ariaSelected}
+        {...dataOrAriaAttributeProps}
+      >
+        <Indent prefixCls={prefixCls} level={level} isStart={isStart} isEnd={isEnd} />
+        {renderDragHandler()}
+        {renderSwitcher()}
+        {renderCheckbox()}
+        {renderSelector()}
+      </div>
     </div>
   );
 }) as unknown as (<TreeDataType extends BasicDataNode = DataNode>(

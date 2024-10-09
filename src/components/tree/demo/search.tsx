@@ -95,7 +95,7 @@ const App: React.FC = () => {
           index > -1 ? (
             <span key={item.key}>
               {beforeStr}
-              <span className="site-tree-search-value">{searchValue}</span>
+              <span className="text-error">{searchValue}</span>
               {afterStr}
             </span>
           ) : (

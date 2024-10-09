@@ -211,7 +211,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
       setPrevData(data);
       setTransitionData(data);
     }
-  }, [expandedKeys, data]);
+  }, [data]);
 
   // We should clean up transition if is changed by dragging
   React.useEffect(() => {
@@ -261,7 +261,6 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
         virtual={virtual}
         itemHeight={itemHeight}
         prefixCls={`${prefixCls}-list`}
-        className={{ inner: 'gap-1' }}
         ref={listRef}
         onVisibleChange={(originList) => {
           // The best match is using `fullList` - `originList` = `restList`

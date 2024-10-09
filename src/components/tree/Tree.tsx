@@ -8,7 +8,6 @@ import type { NodeDragEventHandler, NodeMouseEventHandler } from './context';
 import { TreeContext } from './context';
 import useDraggableConfig from './hooks/useDraggableConfig';
 import useFilledProps from './hooks/useFilledProps';
-import useRequest from './hooks/useRequest';
 import type {
   BasicDataNode,
   CheckInfo,
@@ -60,9 +59,9 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     halfCheckedKeys,
     selectedKeys,
     keyEntities,
-    loadedKeys: customizeLoadedKeys,
-    request,
-    lazyLoad,
+    loadedKeys,
+    loadingKeys,
+    loadData,
     setExpandedKeys,
     setCheckedKeys,
     setHalfCheckedKeys,
@@ -84,16 +83,8 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     onMouseEnter,
     onMouseLeave,
     onRightClick,
-    onLoad,
     ...restProps
   } = useFilledProps(props);
-
-  const {
-    treeData: requestTreeData,
-    loadingKeys,
-    loadedKeys,
-    loadData,
-  } = useRequest(fieldNames, customizeLoadedKeys, request, lazyLoad, onLoad);
 
   const draggableConfig = useDraggableConfig(draggable);
 
@@ -157,12 +148,12 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
   React.useEffect(() => {
     const flattenNodes: FlattenNode<DataNode>[] = flattenTreeData<DataNode>(
-      request ? requestTreeData : treeData,
+      treeData,
       expandedKeys,
       fieldNames,
     );
     setFlattenNodes(flattenNodes);
-  }, [treeData, requestTreeData, expandedKeys, fieldNames]);
+  }, [treeData, expandedKeys, fieldNames]);
 
   const resetDragState = () => {
     setDragState({
@@ -522,10 +513,16 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   };
 
   const triggerExpandActionExpand: NodeMouseEventHandler = (e, treeNode) => {
-    const { expanded, key } = treeNode;
-    const leaf = treeNode[fieldNames.leaf];
+    const { expanded, key, children, loaded } = treeNode;
 
-    if (leaf || e.shiftKey || e.metaKey || e.ctrlKey) {
+    const hasChildren = !!children?.length;
+    const leaf = treeNode[fieldNames.leaf];
+    const mergedLeaf =
+      leaf === false
+        ? false
+        : leaf || (!loadData && !hasChildren) || (loadData && loaded && !hasChildren);
+
+    if (mergedLeaf || e.shiftKey || e.metaKey || e.ctrlKey) {
       return;
     }
 

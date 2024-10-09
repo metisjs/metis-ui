@@ -7,6 +7,7 @@ import type { InternalTreeProps } from '../Tree';
 import { conductCheck, isCheckDisabled } from '../utils/conductUtil';
 import { calcSelectedKeys, conductExpandParent, parseCheckedKeys } from '../utils/miscUtil';
 import { convertDataToEntities, fillFieldNames } from '../utils/treeUtil';
+import useRequest from './useRequest';
 
 export default function useFilledProps({
   prefixCls: customizePrefixCls,
@@ -16,6 +17,7 @@ export default function useFilledProps({
   selectable = true,
   multiple = false,
   itemHeight = 32,
+  expandAction = 'click',
   defaultExpandedKeys = [],
   expandedKeys: customizeExpandedKeys,
   autoExpandParent = true,
@@ -27,15 +29,29 @@ export default function useFilledProps({
   defaultSelectedKeys = [],
   selectedKeys: customizeSelectedKeys,
   virtual: customizeVirtual,
+  loadedKeys: customizeLoadedKeys,
+  request,
+  lazyLoad,
+  onLoad,
   allowDrop = () => true,
   ...restProps
 }: InternalTreeProps) {
   const { getPrefixCls, virtual } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('tree', customizePrefixCls);
 
-  const mergedTreeData = useMemo(() => treeData || [], [treeData]);
-
   const filledFieldNames = useMemo(() => fillFieldNames(fieldNames), [JSON.stringify(fieldNames)]);
+
+  const {
+    treeData: requestTreeData,
+    loadingKeys,
+    loadedKeys,
+    loadData,
+  } = useRequest(filledFieldNames, customizeLoadedKeys, request, lazyLoad, onLoad);
+
+  const mergedTreeData = useMemo(
+    () => (request ? requestTreeData : treeData || []),
+    [request, requestTreeData, treeData],
+  );
 
   // ===================================== KeyEntities =====================================
   const keyEntities = useMemo(() => {
@@ -142,6 +158,7 @@ export default function useFilledProps({
     keyEntities,
     treeData: mergedTreeData,
     fieldNames: filledFieldNames,
+    expandAction,
     showIcon,
     selectable,
     multiple,
@@ -153,11 +170,14 @@ export default function useFilledProps({
     selectedKeys,
     virtual: customizeVirtual ?? virtual,
     itemHeight,
+    loadedKeys,
+    loadingKeys,
     setExpandedKeys,
     setCheckedKeys,
     setHalfCheckedKeys,
     setSelectedKeys,
     allowDrop,
+    loadData,
     ...restProps,
   };
 }

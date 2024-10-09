@@ -17,6 +17,7 @@ demo:
 <code src="./demo/basic.tsx">基本</code>
 <code src="./demo/basic-controlled.tsx">受控操作示例</code>
 <code src="./demo/draggable.tsx">拖动示例</code>
+<code src="./demo/remote.tsx">远程数据加载</code>
 <code src="./demo/dynamic.tsx">异步数据加载</code>
 <code src="./demo/search.tsx">可搜索</code>
 <code src="./demo/line.tsx">连接线</code>

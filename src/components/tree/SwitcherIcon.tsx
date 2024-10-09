@@ -22,7 +22,9 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
   const { leaf, expanded, loading } = treeNodeProps;
 
   if (loading) {
-    return <LoadingOutline className={`${prefixCls}-switcher-loading-icon`} />;
+    return (
+      <LoadingOutline className={clsx(`${prefixCls}-switcher-loading-icon`, 'animate-spin')} />
+    );
   }
 
   if (leaf) {
@@ -38,7 +40,12 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
 
   if (React.isValidElement(switcher)) {
     return cloneElement(switcher, {
-      className: clsx(switcherCls, 'h-4 w-4', switcher.props.className || ''),
+      className: clsx(
+        switcherCls,
+        'transition-transform duration-300',
+        !expanded && '-rotate-90',
+        switcher.props.className || '',
+      ),
     });
   }
 

@@ -21,7 +21,7 @@ const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd }) => 
             [`${baseClassName}-start`]: isStart[i],
             [`${baseClassName}-end`]: isEnd[i],
           },
-          'inline-block w-6',
+          'inline-block w-5',
         )}
       />,
     );

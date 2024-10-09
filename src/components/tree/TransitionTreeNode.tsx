@@ -1,6 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import { clsx } from '../_util/classNameUtils';
 import { collapseTransition } from '../_util/transition';
 import Transition from '../transition';
 import { TreeContext } from './context';
@@ -86,7 +86,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
           {({ className: transitionClassName, style: transitionStyle }, transitionRef) => (
             <div
               ref={transitionRef}
-              className={classNames(`${prefixCls}-treenode-transition`, transitionClassName)}
+              className={clsx(`${prefixCls}-treenode-transition`, transitionClassName)}
               style={transitionStyle}
             >
               {transitionNodes.map((treeNode: FlattenNode) => {
