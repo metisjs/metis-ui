@@ -54,7 +54,7 @@ export interface TreeContextProps<TreeDataType extends BasicDataNode = DataNode>
   indent: number;
   dragOverNodeKey: Key | null;
 
-  loadData?: (data: TreeDataType, treeNode: EventDataNode<TreeDataType>) => void;
+  loadData?: (data: TreeDataType) => void;
   titleRender?: (node: any) => React.ReactNode;
 
   onNodeClick: NodeMouseEventHandler<TreeDataType>;

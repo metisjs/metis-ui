@@ -1,5 +1,5 @@
 import React from 'react';
-import { DevicePhoneMobileOutline } from '@metisjs/icons';
+import { CalendarOutline } from '@metisjs/icons';
 import type { TreeDataNode, TreeProps } from 'metis-ui';
 import { Switch, Tree } from 'metis-ui';
 
@@ -12,7 +12,7 @@ const generateData = (_level: number, preKey = '0', tns = data): TreeDataNode[] 
   const children: string[] = [];
   for (let i = 0; i < x; i++) {
     const key = `${preKey}-${i}`;
-    tns.push({ title: key, key, icon: <DevicePhoneMobileOutline /> });
+    tns.push({ title: key, key, icon: <CalendarOutline /> });
     if (i < y) {
       children.push(key);
     }
@@ -80,8 +80,8 @@ const App: React.FC = () => {
         item.children.push(dragObj);
       });
     } else if (
-      ((info.node as any).props.children || []).length > 0 && // Has children
-      (info.node as any).props.expanded && // Is expanded
+      (info.node.children || []).length > 0 && // Has children
+      info.node.expanded && // Is expanded
       dropPosition === 1 // On the bottom gap
     ) {
       loop(data, dropKey, (item) => {
@@ -118,7 +118,7 @@ const App: React.FC = () => {
         showIcon={showIcon}
         className="draggable-tree"
         defaultExpandedKeys={expandedKeys}
-        draggable
+        draggable={{ icon: true }}
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}

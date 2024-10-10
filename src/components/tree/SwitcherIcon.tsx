@@ -19,11 +19,13 @@ interface SwitcherIconProps {
 const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
   const { prefixCls, switcherIcon, treeNodeProps, showLine } = props;
 
-  const { leaf, expanded, loading } = treeNodeProps;
+  const { leaf, expanded, loading, isEnd } = treeNodeProps;
 
   if (loading) {
     return (
-      <LoadingOutline className={clsx(`${prefixCls}-switcher-loading-icon`, 'animate-spin')} />
+      <LoadingOutline
+        className={clsx(`${prefixCls}-switcher-loading-icon`, 'animate-spin text-primary')}
+      />
     );
   }
 
@@ -31,7 +33,19 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
     if (!showLine) {
       return null;
     }
-    return <span className={`${prefixCls}-switcher-leaf-line`} />;
+    return (
+      <span
+        className={clsx(
+          `${prefixCls}-switcher-leaf-line`,
+          'relative z-[1] inline-block h-full w-full',
+          'before:absolute before:-bottom-2 before:-top-2 before:start-2 before:border-r before:border-border',
+          'after:absolute after:start-2 after:h-3 after:w-2 after:border-b after:border-border',
+          {
+            'before:bottom-auto before:h-5': isEnd?.[isEnd?.length - 1],
+          },
+        )}
+      />
+    );
   }
 
   const switcherCls = `${prefixCls}-switcher-icon`;

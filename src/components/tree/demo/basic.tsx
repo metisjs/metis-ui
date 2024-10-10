@@ -1,6 +1,6 @@
 import React from 'react';
-import { Tree } from 'metis-ui';
 import type { TreeDataNode, TreeProps } from 'metis-ui';
+import { Tree } from 'metis-ui';
 
 const treeData: TreeDataNode[] = [
   {

@@ -100,7 +100,6 @@ const App: React.FC = () => {
       className="draggable-tree"
       defaultExpandedKeys={expandedKeys}
       draggable
-      blockNode
       onDragEnter={onDragEnter}
       onDrop={onDrop}
       treeData={gData}

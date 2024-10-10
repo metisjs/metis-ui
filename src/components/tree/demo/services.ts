@@ -4,7 +4,7 @@ export interface TreeNode {
   id: string;
   name: string;
   children?: TreeNode[];
-  aabb?: boolean;
+  leaf?: boolean;
 }
 const treeData: TreeNode[] = Array.from({ length: 3 }, (_, i) => ({
   id: `${i + 1}`,
@@ -15,11 +15,11 @@ const treeData: TreeNode[] = Array.from({ length: 3 }, (_, i) => ({
     children: Array.from({ length: 2 }, (_, k) => ({
       id: `${i + 1}-${j + 1}-${k + 1}`,
       name: `Node ${i + 1}-${j + 1}-${k + 1}`,
-      aabb: true,
+      leaf: true,
     })),
-    aabb: false,
+    leaf: false,
   })),
-  aabb: false,
+  leaf: false,
 }));
 
 function getChildrenByParentId(treeData: TreeNode[], parentId?: string): TreeNode[] {

@@ -1,6 +1,7 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { ConfigContext } from 'metis-ui/es/config-provider';
 import { useMergedState } from 'rc-util';
+import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { DataNode, FlattenNode, Key, KeyEntities } from '../interface';
 import { TRANSITION_KEY, TransitionEntity } from '../NodeList';
 import type { InternalTreeProps } from '../Tree';
@@ -13,6 +14,7 @@ export default function useFilledProps({
   prefixCls: customizePrefixCls,
   treeData,
   fieldNames,
+  loading,
   showIcon = true,
   selectable = true,
   multiple = false,
@@ -32,21 +34,21 @@ export default function useFilledProps({
   loadedKeys: customizeLoadedKeys,
   request,
   lazyLoad,
-  onLoad,
   allowDrop = () => true,
   ...restProps
 }: InternalTreeProps) {
-  const { getPrefixCls, virtual } = useContext(ConfigContext);
+  const { getPrefixCls, virtual, renderEmpty } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('tree', customizePrefixCls);
 
   const filledFieldNames = useMemo(() => fillFieldNames(fieldNames), [JSON.stringify(fieldNames)]);
 
   const {
+    loading: requestLoading,
     treeData: requestTreeData,
     loadingKeys,
     loadedKeys,
     loadData,
-  } = useRequest(filledFieldNames, customizeLoadedKeys, request, lazyLoad, onLoad);
+  } = useRequest(filledFieldNames, customizeLoadedKeys, request, lazyLoad);
 
   const mergedTreeData = useMemo(
     () => (request ? requestTreeData : treeData || []),
@@ -156,7 +158,7 @@ export default function useFilledProps({
   // ===================================== FlattenNodes =====================================
   const [flattenNodes, setFlattenNodes] = useState<FlattenNode<DataNode>[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const flattenNodes: FlattenNode<DataNode>[] = flattenTreeData<DataNode>(
       mergedTreeData,
       expandedKeys,
@@ -168,11 +170,13 @@ export default function useFilledProps({
   return {
     prefixCls,
     keyEntities,
+    treeData: mergedTreeData,
     flattenNodes,
     fieldNames: filledFieldNames,
     expandAction,
     showIcon,
     selectable,
+    loading: loading || requestLoading,
     multiple,
     expandedKeys,
     checkable,
@@ -190,6 +194,7 @@ export default function useFilledProps({
     setSelectedKeys,
     allowDrop,
     loadData,
+    renderEmpty,
     ...restProps,
   };
 }

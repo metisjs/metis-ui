@@ -106,10 +106,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
   const filteredExpandKeys = expandKeys.filter((key: string) => keyEntities[key]?.children?.length);
 
   // find abstract drop node by horizontal offset
-  let abstractDropNodeEntity: DataEntity<TreeDataType> = getEntity(
-    keyEntities,
-    targetNode.props.eventKey,
-  );
+  let abstractDropNodeEntity: DataEntity<TreeDataType> = getEntity(keyEntities, targetNode.key);
 
   if (clientY < top + height / 2) {
     // first half, set abstract drop node to previous node
@@ -141,7 +138,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
     }
   }
 
-  const abstractDragDataNode = dragNode.props.data;
+  const abstractDragDataNode = dragNode;
   const abstractDropDataNode = abstractDropNodeEntity.node;
   let dropAllowed = true;
   if (
@@ -153,7 +150,7 @@ export function calcDropPosition<TreeDataType extends BasicDataNode = DataNode>(
       dropNode: abstractDropDataNode,
       dropPosition: -1,
     }) &&
-    abstractDropNodeEntity.key === targetNode.props.eventKey
+    abstractDropNodeEntity.key === targetNode.key
   ) {
     // first half of first node in first level
     dropPosition = -1;

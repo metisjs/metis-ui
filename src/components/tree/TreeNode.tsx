@@ -1,6 +1,6 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import Checkbox from '../checkbox';
 import { TreeContext } from './context';
 import useEventData from './hooks/useEventData';
@@ -23,9 +23,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     eventKey,
     className,
     style,
-    dragOver,
-    dragOverGapTop,
-    dragOverGapBottom,
     leaf,
     isStart,
     isEnd,
@@ -50,8 +47,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const {
     prefixCls,
     keyEntities,
-    dropContainerKey,
-    dropTargetKey,
     draggingNodeKey,
     disabled: treeDisabled,
     draggable,
@@ -126,7 +121,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     if (loadData && expanded && !mergedLeaf && !loaded) {
       // We needn't reload data when has children in sync logic
       // It's only needed in node expanded
-      loadData(data, eventDate);
+      loadData(data);
     }
   };
 
@@ -231,9 +226,16 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const isEndNode = isEnd?.[isEnd?.length - 1];
   const dragging = draggingNodeKey === eventKey;
 
-  const wrapperCls = clsx(`${prefixCls}-treenode-wrapper`, 'pb-1');
+  const semanticCls = getSemanticCls(className, {
+    selected,
+    checked,
+    halfChecked,
+    leaf,
+    expanded,
+  });
+
+  const wrapperCls = clsx(`${prefixCls}-treenode-wrapper`, 'pb-1', semanticCls.wrapper);
   const nodeCls = clsx(
-    className,
     `${prefixCls}-treenode`,
     {
       [`${prefixCls}-treenode-disabled`]: mergedDisabled,
@@ -244,20 +246,18 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-treenode-loading`]: loading,
       [`${prefixCls}-treenode-leaf-last`]: isEndNode,
       [`${prefixCls}-treenode-draggable`]: mergedDraggable,
-
-      dragging,
-      'drop-target': dropTargetKey === eventKey,
-      'drop-container': dropContainerKey === eventKey,
-      'drag-over': !mergedDisabled && dragOver,
-      'drag-over-gap-top': !mergedDisabled && dragOverGapTop,
-      'drag-over-gap-bottom': !mergedDisabled && dragOverGapBottom,
     },
-    'flex cursor-pointer items-center rounded px-2 leading-8 transition-colors',
+    'flex cursor-pointer items-center rounded px-2 py-1 leading-6 transition-colors',
     {
       'hover:bg-fill-quaternary': !selected,
       'bg-fill-quaternary': selected,
     },
+    {
+      'relative after:pointer-events-none after:absolute after:inset-0 after:rounded after:border after:border-dashed after:border-primary':
+        dragging,
+    },
     mergedDisabled && 'cursor-not-allowed',
+    semanticCls.root,
   );
 
   const switcherCls = clsx(
@@ -270,22 +270,41 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     {
       'cursor-default': mergedLeaf,
     },
+    semanticCls.switcher,
   );
 
   const contentCls = clsx(
     `${prefixCls}-node-content-wrapper`,
     `${prefixCls}-node-content-wrapper-${nodeState || 'normal'}`,
     !mergedDisabled && (selected || dragNodeHighlight) && `${prefixCls}-node-selected`,
-    'flex-auto',
+    'relative flex flex-auto',
     { 'text-primary': selected },
     mergedDisabled && 'text-text-tertiary',
+    semanticCls.content,
+  );
+
+  const iconCls = clsx(
+    `${prefixCls}-iconEle`,
+    `${prefixCls}-icon__customize`,
+    'inline-flex h-6 w-5 items-center text-base',
+    semanticCls.icon,
+  );
+
+  const draggableIconCls = clsx(
+    `${prefixCls}-draggable-icon`,
+    'inline-flex cursor-grab items-center text-base text-text-quaternary',
+    mergedDisabled && 'hidden',
+  );
+
+  const dropIndicatorCls = clsx(
+    `${prefixCls}-drop-indicator`,
+    'pointer-events-none absolute z-[1] h-0.5 rounded-full bg-primary',
+    'after:absolute after:-left-[6px] after:-top-[3px] after:h-2 after:w-2 after:rounded-full after:border-2 after:border-primary',
   );
 
   // ==================== Render: Drag Handler ====================
   const renderDragHandler = () => {
-    return draggable?.icon ? (
-      <span className={`${prefixCls}-draggable-icon`}>{draggable.icon}</span>
-    ) : null;
+    return draggable?.icon ? <span className={draggableIconCls}>{draggable.icon}</span> : null;
   };
 
   // ====================== Render: Switcher ======================
@@ -351,6 +370,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       left: -dropLevelOffset! * mergedIndent + offset,
       right: 0,
     };
+
     switch (dropPosition) {
       case -1:
         style.top = -3;
@@ -363,7 +383,8 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         style.left = mergedIndent + offset;
         break;
     }
-    return <div style={style} className={`${prefixCls}-drop-indicator`} />;
+    console.log(dropPosition, dropLevelOffset, mergedIndent);
+    return <div style={style} className={dropIndicatorCls} />;
   };
 
   // ==================== Render: Title + Icon ====================
@@ -388,7 +409,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       const currentIcon = icon || treeIcon;
 
       $icon = currentIcon ? (
-        <span className={clsx(`${prefixCls}-iconEle`, `${prefixCls}-icon__customize`)}>
+        <span className={iconCls}>
           {typeof currentIcon === 'function' ? currentIcon(props) : currentIcon}
         </span>
       ) : (
@@ -453,7 +474,13 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         {...ariaSelected}
         {...dataOrAriaAttributeProps}
       >
-        <Indent prefixCls={prefixCls} level={level} isStart={isStart} isEnd={isEnd} />
+        <Indent
+          prefixCls={prefixCls}
+          level={level}
+          isStart={isStart}
+          isEnd={isEnd}
+          showLine={showLine}
+        />
         {renderDragHandler()}
         {renderSwitcher()}
         {renderCheckbox()}

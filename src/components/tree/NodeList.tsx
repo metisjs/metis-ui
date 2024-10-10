@@ -5,6 +5,7 @@
 import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import type { VirtualListProps, VirtualListRef } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import type {
@@ -15,6 +16,7 @@ import type {
   Key,
   KeyEntities,
   ScrollTo,
+  TreeNodeProps,
 } from './interface';
 import TransitionTreeNode from './TransitionTreeNode';
 import { findExpandedKeys, getExpandRange } from './utils/diffUtil';
@@ -54,6 +56,7 @@ export interface NodeListRef {
 
 interface NodeListProps<TreeDataType extends BasicDataNode> {
   prefixCls: string;
+  className?: TreeNodeProps['className'];
   style?: React.CSSProperties;
   data: FlattenNode<TreeDataType>[];
   checkable?: boolean;
@@ -130,6 +133,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     onListChangeStart,
     onListChangeEnd,
 
+    className,
     style,
   } = props;
 
@@ -235,7 +239,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
   return (
     <>
       <div
-        className={`${prefixCls}-treenode`}
+        className={clsx(`${prefixCls}-treenode`, 'flex')}
         aria-hidden
         style={{
           position: 'absolute',
@@ -247,8 +251,11 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
           padding: 0,
         }}
       >
-        <div className={`${prefixCls}-indent`}>
-          <div ref={indentMeasurerRef} className={`${prefixCls}-indent-unit`} />
+        <div className={clsx(`${prefixCls}-indent`, 'select-none self-stretch whitespace-nowrap')}>
+          <div
+            ref={indentMeasurerRef}
+            className={clsx(`${prefixCls}-indent-unit`, 'relative inline-block h-full w-5')}
+          />
         </div>
       </div>
 
@@ -293,6 +300,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
             <TransitionTreeNode
               {...omit(restProps, ['key', 'children'])}
               {...treeNodeProps}
+              className={mergeSemanticCls(className, restProps.className)}
               title={title}
               disabled={disabled}
               leaf={leaf}

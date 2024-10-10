@@ -107,6 +107,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
                   <TreeNode
                     {...(restProps as Omit<typeof restProps, 'children'>)}
                     {...treeNodeProps}
+                    className={className}
                     title={title}
                     disabled={disabled}
                     leaf={leaf}

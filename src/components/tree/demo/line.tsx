@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DevicePhoneMobileOutline, PencilSquareOutline } from '@metisjs/icons';
+import { CalendarOutline, PencilSquareOutline } from '@metisjs/icons';
 import type { TreeDataNode } from 'metis-ui';
 import { Switch, Tree } from 'metis-ui';
 
@@ -7,14 +7,14 @@ const treeData: TreeDataNode[] = [
   {
     title: 'parent 1',
     key: '0-0',
-    icon: <DevicePhoneMobileOutline />,
+    icon: <CalendarOutline />,
     children: [
       {
         title: 'parent 1-0',
         key: '0-0-0',
-        icon: <DevicePhoneMobileOutline />,
+        icon: <CalendarOutline />,
         children: [
-          { title: 'leaf', key: '0-0-0-0', icon: <DevicePhoneMobileOutline /> },
+          { title: 'leaf', key: '0-0-0-0', icon: <CalendarOutline /> },
           {
             title: (
               <>
@@ -23,27 +23,27 @@ const treeData: TreeDataNode[] = [
               </>
             ),
             key: '0-0-0-1',
-            icon: <DevicePhoneMobileOutline />,
+            icon: <CalendarOutline />,
           },
-          { title: 'leaf', key: '0-0-0-2', icon: <DevicePhoneMobileOutline /> },
+          { title: 'leaf', key: '0-0-0-2', icon: <CalendarOutline /> },
         ],
       },
       {
         title: 'parent 1-1',
         key: '0-0-1',
-        icon: <DevicePhoneMobileOutline />,
-        children: [{ title: 'leaf', key: '0-0-1-0', icon: <DevicePhoneMobileOutline /> }],
+        icon: <CalendarOutline />,
+        children: [{ title: 'leaf', key: '0-0-1-0', icon: <CalendarOutline /> }],
       },
       {
         title: 'parent 1-2',
         key: '0-0-2',
-        icon: <DevicePhoneMobileOutline />,
+        icon: <CalendarOutline />,
         children: [
-          { title: 'leaf', key: '0-0-2-0', icon: <DevicePhoneMobileOutline /> },
+          { title: 'leaf', key: '0-0-2-0', icon: <CalendarOutline /> },
           {
             title: 'leaf',
             key: '0-0-2-1',
-            icon: <DevicePhoneMobileOutline />,
+            icon: <CalendarOutline />,
             switcherIcon: <PencilSquareOutline />,
           },
         ],
@@ -53,15 +53,15 @@ const treeData: TreeDataNode[] = [
   {
     title: 'parent 2',
     key: '0-1',
-    icon: <DevicePhoneMobileOutline />,
+    icon: <CalendarOutline />,
     children: [
       {
         title: 'parent 2-0',
         key: '0-1-0',
-        icon: <DevicePhoneMobileOutline />,
+        icon: <CalendarOutline />,
         children: [
-          { title: 'leaf', key: '0-1-0-0', icon: <DevicePhoneMobileOutline /> },
-          { title: 'leaf', key: '0-1-0-1', icon: <DevicePhoneMobileOutline /> },
+          { title: 'leaf', key: '0-1-0-0', icon: <CalendarOutline /> },
+          { title: 'leaf', key: '0-1-0-1', icon: <CalendarOutline /> },
         ],
       },
     ],

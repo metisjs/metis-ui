@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
 import type { VirtualListProps } from '../virtual-list';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
@@ -38,12 +39,13 @@ export interface TreeProps<
   LazyLoadType extends boolean = false,
 > {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<'', void, { node: TreeNodeProps['className'] }>;
   style?: React.CSSProperties;
   treeData?: TreeDataType[];
   fieldNames?: FieldNames<TreeDataType>;
   showLine?: boolean;
   showIcon?: boolean;
+  loading?: boolean;
   icon?: IconType;
   selectable?: boolean;
   expandAction?: ExpandAction;
@@ -94,13 +96,6 @@ export interface TreeProps<
       nativeEvent: MouseEvent;
     },
   ) => void;
-  onLoad?: (
-    loadedKeys: Key[],
-    info: {
-      event: 'load';
-      node: EventDataNode<TreeDataType>;
-    },
-  ) => void;
   loadedKeys?: Key[];
   onMouseEnter?: (info: NodeMouseEventParams<TreeDataType>) => void;
   onMouseLeave?: (info: NodeMouseEventParams<TreeDataType>) => void;
@@ -135,7 +130,16 @@ export type TreeRef = {
 };
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey: Key; // Pass by parent `cloneElement`
-  className?: string;
+  className?: SemanticClassName<
+    'wrapper' | 'switcher' | 'content' | 'icon',
+    {
+      selected?: boolean;
+      checked?: boolean;
+      halfChecked?: boolean;
+      leaf?: boolean;
+      expanded?: boolean;
+    }
+  >;
   style?: React.CSSProperties;
   id?: string;
 
@@ -176,7 +180,7 @@ export interface BasicDataNode {
   switcherIcon?: IconType;
 
   /** Set style of TreeNode. This is not recommend if you don't have any force requirement */
-  className?: string;
+  className?: TreeNodeProps['className'];
   style?: React.CSSProperties;
 
   [key: string]: any;

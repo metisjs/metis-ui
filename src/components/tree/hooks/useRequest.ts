@@ -1,29 +1,23 @@
 import type { Key } from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
 import { useMergedState } from 'rc-util';
 import type { RequestConfig } from '../../_util/type';
+import { ConfigContext } from '../../config-provider';
 import type { RawValueType } from '../../select/interface';
-import type { BasicDataNode, DataNode, EventDataNode, FilledFieldNames } from '../interface';
+import type { BasicDataNode, DataNode, FilledFieldNames } from '../interface';
 import { arrAdd, arrDel } from '../utils/miscUtil';
-
-export const REQUEST_DEBOUNCE = 200;
 
 export default function <TreeDataType extends BasicDataNode = DataNode>(
   fieldNames: FilledFieldNames,
   customizeLoadedKeys?: Key[],
   request?: RequestConfig<TreeDataType, any[]>,
   lazyLoad?: boolean | string,
-  onLoad?: (
-    loadedKeys: Key[],
-    info: {
-      event: 'load';
-      node: EventDataNode<TreeDataType>;
-    },
-  ) => void,
 ) {
+  const { request: contextRequestOptions } = useContext(ConfigContext);
+
   const parentField =
     typeof lazyLoad === 'string' ? lazyLoad : `parent${upperFirst(fieldNames.key)}`;
 
@@ -45,24 +39,24 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
     refreshDeps = [],
     onFinally,
     onSuccess,
+    onBefore,
+    onError,
     ready,
     defaultParams = [],
-    debounceWait = REQUEST_DEBOUNCE,
     ...restOptions
-  } = requestOptions ?? {};
+  } = { ...contextRequestOptions, ...requestOptions };
 
-  const { run, runAsync, params, cancel } = useRequest(
-    async (parentKey: RawValueType | undefined, ...defaultParams: any[]) => {
+  const { loading, run, params, cancel } = useRequest(
+    (parentKey: RawValueType | undefined, ...defaultParams: any[]) => {
       let firstParam: Record<string, any> | undefined = undefined;
       if (lazyLoad) {
         firstParam = {
           [parentField]: parentKey,
         };
       }
-      return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
+      return requestService!(...[firstParam, ...defaultParams].filter(Boolean));
     },
     {
-      debounceWait,
       ready: !!requestService && ready,
       defaultParams: [undefined, ...defaultParams],
       refreshDeps: [lazyLoad, ...refreshDeps],
@@ -70,12 +64,20 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
         cancel();
         run(...params);
       },
+      onBefore: (params) => {
+        const [, ...defaultParams] = params;
+        return onBefore?.(defaultParams);
+      },
       onSuccess: (d, params) => {
         const [parentValue, ...defaultParams] = params;
         if (!lazyLoad || !parentValue) {
           setTreeData(d.data);
         }
         onSuccess?.(d, defaultParams);
+      },
+      onError: (e, params) => {
+        const [, ...defaultParams] = params;
+        onError?.(e, defaultParams);
       },
       onFinally: ([key, ...defaultParams], data) => {
         onFinally?.(defaultParams, data);
@@ -85,7 +87,7 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
     },
   );
 
-  const loadData = async (data: TreeDataType, treeNode: EventDataNode<TreeDataType>) => {
+  const loadData = async (data: TreeDataType) => {
     const key = data[fieldNames.key];
 
     if (loadedKeys.indexOf(key) !== -1 || loadingKeys.indexOf(key) !== -1) {
@@ -96,22 +98,38 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
 
     // params 第一个参数为parent占位
     const [, ...defaultParams] = params;
-    const { data: children } = await runAsync(key, ...defaultParams);
-    // @ts-ignore
-    data[fieldNames.children] = children;
+    try {
+      onBefore?.(defaultParams);
 
-    setTreeData((oriData) => [...oriData]);
+      const result = await requestService!(
+        {
+          [parentField]: key,
+        },
+        ...defaultParams,
+      );
 
-    const newLoadedKeys = arrAdd(loadedKeys, key);
-    setLoadedKeys(newLoadedKeys);
+      onSuccess?.(result, defaultParams);
 
-    onLoad?.(newLoadedKeys, {
-      event: 'load',
-      node: treeNode,
-    });
+      const { data: children } = result;
+      // @ts-ignore
+      data[fieldNames.children] = children;
+
+      setTreeData((oriData) => [...oriData]);
+
+      setLoadedKeys((keys) => arrAdd(keys, key));
+      setLoadingKeys((keys) => arrDel(keys, key));
+
+      onFinally?.(defaultParams, result);
+    } catch (error) {
+      setLoadingKeys((keys) => arrDel(keys, key));
+      onFinally?.(defaultParams);
+      onError?.(error, defaultParams);
+      throw error;
+    }
   };
 
   return {
+    loading,
     treeData,
     loadingKeys,
     loadedKeys,

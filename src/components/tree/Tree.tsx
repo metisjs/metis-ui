@@ -2,8 +2,10 @@ import * as React from 'react';
 import { useSetState } from 'ahooks';
 import { useEvent } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
+import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import Spin from '../spin';
 import type { NodeDragEventHandler, NodeMouseEventHandler } from './context';
 import { TreeContext } from './context';
 import useDraggableConfig from './hooks/useDraggableConfig';
@@ -34,6 +36,7 @@ export type InternalTreeProps = Omit<TreeProps, 'request' | 'lazyLoad'> & {
 const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   const {
     prefixCls,
+    treeData,
     flattenNodes,
     showLine,
     showIcon,
@@ -60,6 +63,8 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     keyEntities,
     loadedKeys,
     loadingKeys,
+    loading,
+    renderEmpty,
     loadData,
     setExpandedKeys,
     setCheckedKeys,
@@ -296,10 +301,10 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
         if (dragState.draggingNodeKey === null) return;
 
         let newExpandedKeys = [...expandedKeys];
-        const entity = getEntity(keyEntities, node.props.eventKey);
+        const entity = getEntity(keyEntities, node.key);
 
         if (entity && (entity.children || []).length) {
-          newExpandedKeys = arrAdd(expandedKeys, node.props.eventKey);
+          newExpandedKeys = arrAdd(expandedKeys, node.key);
         }
 
         if (!('expandedKeys' in props)) {
@@ -307,7 +312,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
         }
 
         onExpand?.(newExpandedKeys, {
-          node: convertNodePropsToEventData(node.props),
+          node,
           expanded: true,
           nativeEvent: event.nativeEvent,
         });
@@ -422,7 +427,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
       currentMouseOverDroppableNodeKey.current = null;
     }
 
-    onDragLeave?.({ event, node: convertNodePropsToEventData<DataNode>(node.props) });
+    onDragLeave?.({ event, node });
   };
 
   const onNodeDrop = (
@@ -493,7 +498,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
     // Async Load data
     if (targetExpanded && loadData) {
-      const loadPromise = loadData(getEntity(keyEntities, key).node, treeNode);
+      const loadPromise = loadData(getEntity(keyEntities, key).node);
       loadPromise.catch(() => {
         const expandedKeysToRestore = arrDel(expandedKeys, key);
         setExpandedKeys(expandedKeysToRestore);
@@ -502,7 +507,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   };
 
   const triggerExpandActionExpand: NodeMouseEventHandler = (e, treeNode) => {
-    const { expanded, key, children, loaded } = treeNode;
+    const { key, children, loaded } = treeNode;
 
     const hasChildren = !!children?.length;
     const leaf = treeNode[fieldNames.leaf];
@@ -521,7 +526,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
       data: node.data,
     });
 
-    setExpandedKeys(expanded ? arrDel(expandedKeys, key) : arrAdd(expandedKeys, key));
     onNodeExpand(e as React.MouseEvent<HTMLDivElement>, eventNode);
   };
 
@@ -679,80 +683,90 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   };
 
   // ================================== Style ==================================
+  const semanticCls = getSemanticCls(className);
   const rootCls = clsx(
     prefixCls,
     {
       [`${prefixCls}-show-line`]: showLine,
     },
     'text-sm text-text',
-    className,
+    loading && !treeData.length && 'min-h-28',
+    semanticCls.root,
   );
 
   // ================================== Render ==================================
+
   const domProps = pickAttrs(restProps, { aria: true, data: true });
   return (
-    <TreeContext.Provider
-      value={{
-        prefixCls,
-        selectable,
-        showIcon,
-        showLine,
-        icon,
-        switcherIcon,
-        draggable: draggableConfig,
-        draggingNodeKey: dragState.draggingNodeKey,
-        checkable: !!checkable,
-        checkStrictly: !!checkStrictly,
-        disabled: !!disabled,
-        keyEntities,
-        dropLevelOffset: dragState.dropLevelOffset,
-        dropContainerKey: dragState.dropContainerKey,
-        dropTargetKey: dragState.dropTargetKey,
-        dropPosition: dragState.dropPosition,
-        dragOverNodeKey: dragState.dragOverNodeKey,
-        indent,
+    <Spin spinning={loading}>
+      <TreeContext.Provider
+        value={{
+          prefixCls,
+          selectable,
+          showIcon,
+          showLine,
+          icon,
+          switcherIcon,
+          draggable: draggableConfig,
+          draggingNodeKey: dragState.draggingNodeKey,
+          checkable: !!checkable,
+          checkStrictly: !!checkStrictly,
+          disabled: !!disabled,
+          keyEntities,
+          dropLevelOffset: dragState.dropLevelOffset,
+          dropContainerKey: dragState.dropContainerKey,
+          dropTargetKey: dragState.dropTargetKey,
+          dropPosition: dragState.dropPosition,
+          dragOverNodeKey: dragState.dragOverNodeKey,
+          indent,
 
-        loadData,
+          loadData,
 
-        titleRender,
+          titleRender,
 
-        onNodeClick: onNodeClick,
-        onNodeDoubleClick: onNodeDoubleClick,
-        onNodeExpand: onNodeExpand,
-        onNodeSelect: onNodeSelect,
-        onNodeCheck: onNodeCheck,
-        onNodeMouseEnter: onNodeMouseEnter,
-        onNodeMouseLeave: onNodeMouseLeave,
-        onNodeContextMenu: onNodeContextMenu,
-        onNodeDragStart: onNodeDragStart,
-        onNodeDragEnter: onNodeDragEnter,
-        onNodeDragOver: onNodeDragOver,
-        onNodeDragLeave: onNodeDragLeave,
-        onNodeDragEnd: onNodeDragEnd,
-        onNodeDrop: onNodeDrop,
-      }}
-    >
-      <div role="tree" className={rootCls}>
-        <NodeList
-          ref={listRef}
-          prefixCls={prefixCls}
-          style={style}
-          data={flattenNodes}
-          selectable={selectable}
-          checkable={!!checkable}
-          dragging={dragState.draggingNodeKey !== null}
-          height={height}
-          itemHeight={itemHeight}
-          virtual={virtual}
-          onListChangeStart={onListChangeStart}
-          onListChangeEnd={onListChangeEnd}
-          onContextMenu={onContextMenu}
-          onScroll={onScroll}
-          {...treeNodeRequiredProps}
-          {...domProps}
-        />
-      </div>
-    </TreeContext.Provider>
+          onNodeClick,
+          onNodeDoubleClick,
+          onNodeExpand,
+          onNodeSelect,
+          onNodeCheck,
+          onNodeMouseEnter,
+          onNodeMouseLeave,
+          onNodeContextMenu,
+          onNodeDragStart,
+          onNodeDragEnter,
+          onNodeDragOver,
+          onNodeDragLeave,
+          onNodeDragEnd,
+          onNodeDrop,
+        }}
+      >
+        <div role="tree" className={rootCls}>
+          {!loading && !treeData.length ? (
+            renderEmpty?.('Tree') || <DefaultRenderEmpty componentName="Tree" />
+          ) : (
+            <NodeList
+              ref={listRef}
+              prefixCls={prefixCls}
+              style={style}
+              className={semanticCls.node}
+              data={flattenNodes}
+              selectable={selectable}
+              checkable={!!checkable}
+              dragging={dragState.draggingNodeKey !== null}
+              height={height}
+              itemHeight={itemHeight}
+              virtual={virtual}
+              onListChangeStart={onListChangeStart}
+              onListChangeEnd={onListChangeEnd}
+              onContextMenu={onContextMenu}
+              onScroll={onScroll}
+              {...treeNodeRequiredProps}
+              {...domProps}
+            />
+          )}
+        </div>
+      </TreeContext.Provider>
+    </Spin>
   );
 }) as unknown as (<
   TreeDataType extends BasicDataNode = DataNode,
