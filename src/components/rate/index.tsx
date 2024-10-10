@@ -203,7 +203,6 @@ const Rate = React.forwardRef<RateRef, RateProps>((props, ref) => {
   // =========================== Style ===========================
   const rootCls = clsx(
     prefixCls,
-    className,
     {
       [`${prefixCls}-disabled`]: disabled,
     },

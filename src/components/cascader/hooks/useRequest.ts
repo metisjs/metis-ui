@@ -1,14 +1,13 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
 import type { RequestConfig } from '../../_util/type';
+import { ConfigContext } from '../../config-provider';
 import type { RawValueType } from '../../select/interface';
 import type { InternalFieldNames } from '../Cascader';
 import type { CascaderProps, DefaultOptionType } from '../interface';
 import { doFilter } from './useFilterOptions';
-
-export const REQUEST_DEBOUNCE = 200;
 
 export default function <TData extends DefaultOptionType>(
   fieldNames: InternalFieldNames,
@@ -22,6 +21,8 @@ export default function <TData extends DefaultOptionType>(
   filterSort?: CascaderProps['filterSort'],
   changeOnSelect?: boolean,
 ) {
+  const { request: contextRequestOptions } = useContext(ConfigContext);
+
   const parentField =
     typeof lazyLoad === 'string' ? lazyLoad : `parent${upperFirst(fieldNames.value)}`;
 
@@ -41,13 +42,14 @@ export default function <TData extends DefaultOptionType>(
     refreshDeps = [],
     onFinally,
     onSuccess,
+    onBefore,
+    onError,
     ready,
     defaultParams = [],
-    debounceWait = REQUEST_DEBOUNCE,
     ...restOptions
-  } = requestOptions ?? {};
+  } = { ...contextRequestOptions, ...requestOptions };
 
-  const { loading, run, runAsync, params, cancel } = useRequest(
+  const { loading, run, params, cancel } = useRequest(
     async (parentValue: RawValueType | undefined, ...defaultParams: any[]) => {
       let firstParam: Record<string, any> | undefined = undefined;
       if (showSearch) {
@@ -65,13 +67,16 @@ export default function <TData extends DefaultOptionType>(
       return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
     },
     {
-      debounceWait,
       ready: !!requestService && ready,
       defaultParams: [undefined, ...defaultParams],
       refreshDeps: [showSearch, searchValue, lazyLoad, optionFilterProp, ...refreshDeps],
       refreshDepsAction: () => {
         cancel();
         run(...params);
+      },
+      onBefore: (params) => {
+        const [, ...defaultParams] = params;
+        return onBefore?.(defaultParams);
       },
       onSuccess: (d, params) => {
         const [parentValue, ...defaultParams] = params;
@@ -96,6 +101,10 @@ export default function <TData extends DefaultOptionType>(
         }
         onSuccess?.(d, defaultParams);
       },
+      onError: (e, params) => {
+        const [, ...defaultParams] = params;
+        onError?.(e, defaultParams);
+      },
       onFinally: ([, ...defaultParams], data) => {
         setLazyLoading(false);
         onFinally?.(defaultParams, data);
@@ -110,14 +119,34 @@ export default function <TData extends DefaultOptionType>(
 
       // params 第一个参数为parent占位
       const [, ...defaultParams] = params;
-      const parentValue = selectedOption[fieldNames.value];
-      const { data: children } = await runAsync(parentValue, ...defaultParams);
-      // @ts-ignore
-      selectedOption[fieldNames.children] = children;
 
-      setOptions((oriOptions) => [...oriOptions]);
+      try {
+        onBefore?.(defaultParams);
+
+        const parentValue = selectedOption[fieldNames.value];
+
+        const result = await requestService!(
+          {
+            [parentField]: parentValue,
+          },
+          ...defaultParams,
+        );
+        onSuccess?.(result, defaultParams);
+
+        const { data: children } = result;
+        // @ts-ignore
+        selectedOption[fieldNames.children] = children;
+
+        setOptions((oriOptions) => [...oriOptions]);
+        setLazyLoading(false);
+      } catch (error) {
+        setLazyLoading(false);
+        onFinally?.(defaultParams);
+        onError?.(error, defaultParams);
+        throw error;
+      }
     },
-    [run, params, fieldNames],
+    [params, fieldNames, requestService, onFinally, onBefore, onError],
   );
 
   return {

@@ -1,6 +1,6 @@
 import React from 'react';
 import KEYCODE from 'rc-util/lib/KeyCode';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import type { InputProps } from '../input';
 import Input from '../input';
 import type { SelectProps } from '../select';
@@ -112,14 +112,7 @@ const Options: React.FC<OptionsProps> = (props) => {
       value: opt.toString(),
     }));
 
-    const mergedChangerCls = !className?.sizeChanger
-      ? `${prefixCls}-size-changer`
-      : typeof className.sizeChanger === 'string'
-        ? `${prefixCls}-size-changer ${className?.sizeChanger}`
-        : {
-            ...className.sizeChanger,
-            root: `${prefixCls}-size-changer ${className?.sizeChanger.root}`,
-          };
+    const mergedChangerCls = mergeSemanticCls(`${prefixCls}-size-changer`, className?.sizeChanger);
 
     changeSelect = (
       <Select
@@ -139,15 +132,10 @@ const Options: React.FC<OptionsProps> = (props) => {
   }
 
   if (quickGo) {
-    const jumperCls = clsx('w-12');
-    const mergedJumperCls = !className?.jumper
-      ? clsx(`${prefixCls}-quick-jumper`, jumperCls)
-      : typeof className.jumper === 'string'
-        ? clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper)
-        : {
-            ...className.jumper,
-            root: clsx(`${prefixCls}-quick-jumper`, jumperCls, className?.jumper.root),
-          };
+    const mergedJumperCls = mergeSemanticCls(
+      clsx(`${prefixCls}-quick-jumper`, 'w-12'),
+      className?.jumper,
+    );
 
     goInput = (
       <>

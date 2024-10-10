@@ -180,7 +180,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     feedbackIcon,
     prefixCls,
   });
-  const [mergedExpandIcon, loadingIcon] = useColumnIcons(prefixCls, expandIcon);
+  const [mergedExpandIcon, loadingIcon] = useColumnIcons(expandIcon);
 
   const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
 

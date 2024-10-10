@@ -14,7 +14,7 @@ const RESIZE_STABLE = 2;
 
 const ResizableTextArea = React.forwardRef<
   ResizableTextAreaRef,
-  Omit<TextAreaProps, 'className'> & { className?: string }
+  Omit<TextAreaProps, 'className'> & { className?: string; onInternalAutoSize?: VoidFunction }
 >((props, ref) => {
   const {
     prefixCls,
@@ -29,9 +29,7 @@ const ResizableTextArea = React.forwardRef<
     // Test only
     onInternalAutoSize,
     ...restProps
-  } = props as TextAreaProps & {
-    onInternalAutoSize?: VoidFunction;
-  };
+  } = props;
 
   // =============================== Value ================================
   const [mergedValue, setMergedValue] = useMergedState(defaultValue, {

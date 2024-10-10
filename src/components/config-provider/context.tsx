@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { Options as RequestOptions } from 'ahooks/lib/useRequest/src/types';
 // import type { RequiredMark } from '../form/Form';
 import type { ButtonProps } from '../button';
 import type { InputProps } from '../input';
@@ -20,6 +21,7 @@ export type RouteConfig = {
   history: 'browser' | 'hash';
   basename: string;
 };
+export type RequestConfig = Omit<RequestOptions<any, any>, 'manual' | 'refreshDepsAction'>;
 
 export interface ConfigConsumerProps {
   getTargetContainer?: () => HTMLElement;
@@ -40,10 +42,8 @@ export interface ConfigConsumerProps {
   //    requiredMark?: RequiredMark;
   //   colon?: boolean;
   // };
-  route: {
-    history: 'browser' | 'hash';
-    basename: string;
-  };
+  route: RouteConfig;
+  request: RequestConfig;
 }
 
 const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
@@ -56,6 +56,7 @@ const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
   getPrefixCls: defaultGetPrefixCls,
   route: { history: 'hash', basename: '/' },
+  request: { debounceWait: 200 },
 });
 
 export const ConfigConsumer = ConfigContext.Consumer;

@@ -9,7 +9,6 @@ const DefaultRenderEmpty: React.FC<EmptyProps> = (props) => {
   const { componentName } = props;
   switch (componentName) {
     case 'Select':
-    case 'TreeSelect':
     case 'Cascader':
     case 'Transfer':
     case 'Mentions':

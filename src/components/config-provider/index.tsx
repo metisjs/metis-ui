@@ -9,6 +9,7 @@ import type {
   InputConfig,
   PaginationConfig,
   PopupOverflow,
+  RequestConfig,
   RouteConfig,
   SpaceConfig,
   Variant,
@@ -35,6 +36,7 @@ const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPre
   'input',
   'pagination',
   'route',
+  'request',
   // TODO: form组件待开发
   // 'form'
 ];
@@ -64,6 +66,7 @@ export interface ConfigProviderProps {
   popupMatchSelectWidth?: boolean;
   popupOverflow?: PopupOverflow;
   route?: RouteConfig;
+  request?: RequestConfig;
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
@@ -131,6 +134,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     input,
     variant,
     route,
+    request,
     // TODO: form组件待开发
     // form
   } = props;
@@ -163,6 +167,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     pagination,
     variant,
     route,
+    request,
     // TODO: form组件待开发
     // form
   };

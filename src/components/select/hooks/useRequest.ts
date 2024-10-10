@@ -1,7 +1,8 @@
-import { useMemo, useRef, useState } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { useMemoizedFn, useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import type { RequestConfig } from '../../_util/type';
+import { ConfigContext } from '../../config-provider';
 import type { BaseOptionType, FieldNames, SelectProps } from '../interface';
 
 const PAGE_SIZE = 30;
@@ -18,6 +19,8 @@ export default function <TData extends BaseOptionType>(
   onScroll?: SelectProps['onPopupScroll'],
   combobox?: boolean,
 ) {
+  const { request: contextRequestOptions } = useContext(ConfigContext);
+
   const current = useRef(1);
   const target = useRef<HTMLDivElement>();
   const [loadingMore, setLoadingMore] = useState(false);
@@ -38,7 +41,7 @@ export default function <TData extends BaseOptionType>(
     ready,
     debounceWait = REQUEST_DEBOUNCE,
     ...restOptions
-  } = requestOptions ?? {};
+  } = { ...contextRequestOptions, ...requestOptions };
 
   const { loading, run, params, cancel } = useRequest(
     async (...defaultParams: any[]) => {

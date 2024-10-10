@@ -43,6 +43,7 @@ export interface ImgInfo {
 export interface ImagePreviewType {
   className?: SemanticClassName<
     'body' | 'mask' | 'content' | 'image',
+    void,
     { operations?: OperationsProps['className'] }
   >;
   maskClosable?: boolean;

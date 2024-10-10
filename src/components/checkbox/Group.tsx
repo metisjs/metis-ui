@@ -1,7 +1,7 @@
 import * as React from 'react';
 import omit from 'rc-util/lib/omit';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { CheckboxChangeEvent } from './Checkbox';
 import Checkbox from './Checkbox';
@@ -127,7 +127,7 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
         checked={value.includes(option.value)}
         onChange={option.onChange}
         style={option.style}
-        className={clsx(option.className, groupPrefixCls)}
+        className={mergeSemanticCls(groupPrefixCls, option.className)}
       >
         {option.label}
       </Checkbox>
