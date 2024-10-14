@@ -5,7 +5,7 @@ import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { getStatusClassNames } from '../../_util/statusUtils';
-import type { SomePartial } from '../../_util/type';
+import type { PartialWith } from '../../_util/type';
 import { devUseWarning } from '../../_util/warning';
 import type {
   BaseInfo,
@@ -61,7 +61,7 @@ export type RangeValueType<DateType> = [
 export type NoUndefinedRangeValueType<DateType> = [start: DateType | null, end: DateType | null];
 
 export interface BaseRangePickerProps<DateType extends object>
-  extends SomePartial<
+  extends PartialWith<
     Omit<SharedPickerProps<DateType>, 'id' | 'showTime'>,
     'prefixCls' | 'locale'
   > {

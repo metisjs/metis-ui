@@ -3,8 +3,8 @@ import type {
   Service as RequestService,
 } from 'ahooks/lib/useRequest/src/types';
 
-export type SomeRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
-export type SomePartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+export type RequiredWith<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+export type PartialWith<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 /** https://github.com/Microsoft/TypeScript/issues/29729 */
 export type LiteralUnion<T extends string> = T | (string & { IGNORE?: never });

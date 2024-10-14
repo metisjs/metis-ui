@@ -1,7 +1,7 @@
 import type { Dayjs } from 'dayjs';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
-import type { AnyObject, SomeRequired } from '../_util/type';
+import type { AnyObject, RequiredWith } from '../_util/type';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { AlignType, BuildInPlacements } from '../trigger';
@@ -144,7 +144,7 @@ export type Locale = {
   rangeTimePlaceholder?: [string, string];
 };
 
-export type FilledLocale = SomeRequired<
+export type FilledLocale = RequiredWith<
   Locale,
   | 'fieldDateTimeFormat'
   | 'fieldDateFormat'

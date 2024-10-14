@@ -1,4 +1,4 @@
-import type { SomeRequired } from '../_util/type';
+import type { RequiredWith } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
 import type { InternalFile, UploadFile } from './interface';
 
@@ -164,7 +164,7 @@ export const traverseFileTree = async (
   return flattenFileList;
 };
 
-export function file2Obj(file: InternalFile): SomeRequired<UploadFile, 'originFileObj'> {
+export function file2Obj(file: InternalFile): RequiredWith<UploadFile, 'originFileObj'> {
   return {
     ...file,
     lastModified: file.lastModified,

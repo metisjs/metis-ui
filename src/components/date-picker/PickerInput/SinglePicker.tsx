@@ -5,7 +5,7 @@ import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { getStatusClassNames } from '../../_util/statusUtils';
-import type { SomePartial } from '../../_util/type';
+import type { PartialWith } from '../../_util/type';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,
@@ -36,7 +36,7 @@ import Popup from './Popup';
 import SingleSelector from './Selector/SingleSelector';
 
 export interface BasePickerProps<DateType extends object = any>
-  extends SomePartial<SharedPickerProps<DateType>, 'prefixCls' | 'locale'> {
+  extends PartialWith<SharedPickerProps<DateType>, 'prefixCls' | 'locale'> {
   // Structure
   id?: string;
 

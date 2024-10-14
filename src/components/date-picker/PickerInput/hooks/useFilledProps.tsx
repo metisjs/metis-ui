@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CalendarOutline, ClockOutline } from '@metisjs/icons';
 import { useZIndex } from '../../../_util/hooks/useZIndex';
-import type { SomeRequired } from '../../../_util/type';
+import type { RequiredWith } from '../../../_util/type';
 import { ConfigContext } from '../../../config-provider';
 import DisabledContext from '../../../config-provider/DisabledContext';
 import useSize from '../../../config-provider/hooks/useSize';
@@ -202,7 +202,7 @@ export default function useFilledProps<
   updater?: () => UpdaterProps,
 ): [
   filledProps: Omit<
-    SomeRequired<InProps, 'disabledDate' | 'components' | 'locale' | 'prefixCls'>,
+    RequiredWith<InProps, 'disabledDate' | 'components' | 'locale' | 'prefixCls'>,
     keyof UpdaterProps | 'showTime' | 'value' | 'defaultValue' | 'status' | 'minDate' | 'maxDate'
   > &
     UpdaterProps & {
