@@ -38,6 +38,15 @@ description: 展示统计数值。
 | valueStyle       | 设置数值区域的样式 | CSSProperties          | -      |      |
 | tip              | 标题栏提示         | string \| TooltipProps | -      |      |
 
+#### Statistic.Group
+
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| column | 一行的 `Statistic` 数量，可以写成像素值或支持响应式的对象写法 `{ xs: 8, sm: 16, md: 24}` | number \| Record<Breakpoint, number> | 4 |  |
+| expandable | 是否可展开 | `boolean` | true |  |
+| item | 列表项内容 | [StatisticItem](#statistic)[] |  |  |
+| loading | 数值是否加载中 | `boolean` | false |  |
+
 #### Statistic.Countdown
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |

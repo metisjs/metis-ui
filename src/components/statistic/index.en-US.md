@@ -36,6 +36,15 @@ description: Display statistic number.
 | value            | Display value                 | string \| number       | -       |         |
 | tip              | title bar tips                | string \| TooltipProps | -       |         |
 
+#### Statistic.Group
+
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| column | The number of `Statistic` in a row,could be a number or a object like `{ xs: 8, sm: 16, md: 24}` | number \| Record<Breakpoint, number> | 4 |  |
+| expandable | Config expandable content | `boolean` | true |  |
+| item | The contents of the list item | [StatisticItem](#statistic)[] |  |  |
+| loading | Loading status of Statistic | `boolean` | false |  |
+
 #### Statistic.Countdown
 
 | Property | Description | Type | Default | Version |

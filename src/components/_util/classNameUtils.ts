@@ -51,14 +51,19 @@ export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any
 export function mergeSemanticCls<
   T extends SemanticClassName<any, any, any>,
   R extends SemanticClassName<any, any, any>,
->(c1?: T, c2?: R) {
+>(c1?: T, ...classes: (R | undefined)[]) {
   return (
     args: (T extends (...args: any) => any ? Parameters<T>[0] : void) &
       (R extends (...args: any) => any ? Parameters<R>[0] : void),
   ) => {
     const cls1 = getSemanticCls(c1, args);
-    const cls2 = getSemanticCls(c2, args);
 
-    return mergeWith(cls1, cls2, (objValue, srcValue) => clsx(objValue, srcValue));
+    if (!classes || !classes.length) return cls1;
+
+    return classes.reduce((prev, curr) => {
+      if (!curr) return prev;
+      const currCls = getSemanticCls(curr, args);
+      return mergeWith(prev, currCls, (objValue, srcValue) => clsx(objValue, srcValue));
+    }, cls1);
   };
 }

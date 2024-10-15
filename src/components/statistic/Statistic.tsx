@@ -65,7 +65,7 @@ const Statistic: React.FC<StatisticProps> = (props) => {
 
   const semanticCls = getSemanticCls(className);
 
-  const rootCls = clsx(prefixCls, 'text-sm text-text', semanticCls.root);
+  const rootCls = clsx(prefixCls, 'relative text-sm text-text', semanticCls.root);
 
   const titleCls = clsx(
     `${prefixCls}-title`,
