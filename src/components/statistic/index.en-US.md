@@ -23,18 +23,19 @@ description: Display statistic number.
 
 #### Statistic
 
-| Property         | Description                   | Type                   | Default | Version |
-| ---------------- | ----------------------------- | ---------------------- | ------- | ------- |
-| decimalSeparator | The decimal separator         | string                 | `.`     |         |
-| formatter        | Customize value display logic | (value) => ReactNode   | -       |         |
-| groupSeparator   | Group separator               | string                 | `,`     |         |
-| loading          | Loading status of Statistic   | boolean                | false   |         |
-| precision        | The precision of input value  | number                 | -       |         |
-| prefix           | The prefix node of value      | ReactNode              | -       |         |
-| suffix           | The suffix node of value      | ReactNode              | -       |         |
-| title            | Display title                 | ReactNode              | -       |         |
-| value            | Display value                 | string \| number       | -       |         |
-| tip              | title bar tips                | string \| TooltipProps | -       |         |
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| decimalSeparator | The decimal separator | string | `.` |  |
+| formatter | Customize value display logic | (value) => ReactNode | - |  |
+| groupSeparator | Group separator | string | `,` |  |
+| loading | Loading status of Statistic | boolean | false |  |
+| precision | The precision of input value | number | - |  |
+| prefix | The prefix node of value | ReactNode | - |  |
+| suffix | The suffix node of value | ReactNode | - |  |
+| title | Display title | ReactNode | - |  |
+| value | Display value | string \| number | - |  |
+| tip | title bar tips | string \| TooltipProps | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 #### Statistic.Group
 
@@ -44,6 +45,7 @@ description: Display statistic number.
 | expandable | Config expandable content | `boolean` | true |  |
 | item | The contents of the list item | [StatisticItem](#statistic)[] |  |  |
 | loading | Loading status of Statistic | `boolean` | false |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 #### Statistic.Countdown
 
@@ -57,3 +59,4 @@ description: Display statistic number.
 | valueStyle | Set value section style | CSSProperties | - |  |
 | onFinish | Trigger when time's up | () => void | - |  |
 | onChange | Trigger when time's changing | (value: number) => void | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |

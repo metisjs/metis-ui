@@ -24,19 +24,20 @@ description: 展示统计数值。
 
 #### Statistic
 
-| 参数             | 说明               | 类型                   | 默认值 | 版本 |
-| ---------------- | ------------------ | ---------------------- | ------ | ---- |
-| decimalSeparator | 设置小数点         | string                 | `.`    |      |
-| formatter        | 自定义数值展示     | (value) => ReactNode   | -      |      |
-| groupSeparator   | 设置千分位标识符   | string                 | `,`    |      |
-| loading          | 数值是否加载中     | boolean                | false  |      |
-| precision        | 数值精度           | number                 | -      |      |
-| prefix           | 设置数值的前缀     | ReactNode              | -      |      |
-| suffix           | 设置数值的后缀     | ReactNode              | -      |      |
-| title            | 数值的标题         | ReactNode              | -      |      |
-| value            | 数值内容           | string \| number       | -      |      |
-| valueStyle       | 设置数值区域的样式 | CSSProperties          | -      |      |
-| tip              | 标题栏提示         | string \| TooltipProps | -      |      |
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| decimalSeparator | 设置小数点 | string | `.` |  |
+| formatter | 自定义数值展示 | (value) => ReactNode | - |  |
+| groupSeparator | 设置千分位标识符 | string | `,` |  |
+| loading | 数值是否加载中 | boolean | false |  |
+| precision | 数值精度 | number | - |  |
+| prefix | 设置数值的前缀 | ReactNode | - |  |
+| suffix | 设置数值的后缀 | ReactNode | - |  |
+| title | 数值的标题 | ReactNode | - |  |
+| value | 数值内容 | string \| number | - |  |
+| valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
+| tip | 标题栏提示 | string \| TooltipProps | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 #### Statistic.Group
 
@@ -46,6 +47,7 @@ description: 展示统计数值。
 | expandable | 是否可展开 | `boolean` | true |  |
 | item | 列表项内容 | [StatisticItem](#statistic)[] |  |  |
 | loading | 数值是否加载中 | `boolean` | false |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 #### Statistic.Countdown
 
@@ -59,3 +61,4 @@ description: 展示统计数值。
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
 | onFinish | 倒计时完成时触发 | () => void | - |  |
 | onChange | 倒计时时间变化时触发 | (value: number) => void | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |

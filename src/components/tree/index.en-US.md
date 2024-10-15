@@ -72,7 +72,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | onSelect | Callback function for when the user clicks a treeNode | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
 | request | Method to fetch remote options | `RequestConfig` | - |  |
 | lazyLoad | Remote laze load request, effective only when using the `request` configuration. | boolean | false |  |
-| className | Semantic DOM class | [SemanticClassName](#semanticclassname) | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 ### TreeNode props
 
@@ -86,33 +86,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | key | Used with (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys. P.S.: It must be unique in all of treeNodes of the tree | string | (internal calculated position of treeNode) |  |
 | selectable | Set whether the treeNode can be selected | boolean | true |  |
 | title | Title | ReactNode | `---` |  |
-| className | Semantic DOM class | [SemanticClassName](#semanticclassname) | - |  |
-
-### SemanticClassName
-
-```ts
-type TreeNodeClassNameArg = {
-  selected?: boolean;
-  checked?: boolean;
-  halfChecked?: boolean;
-  leaf?: boolean;
-  expanded?: boolean;
-};
-
-type TreeNodeClassName =
-  | string
-  | { root?: string; wrapper?: string; switcher?: string; content?: string; icon?: string }
-  | ((
-      arg: TreeNodeClassNameArg,
-    ) =>
-      | string
-      | { root?: string; wrapper?: string; switcher?: string; content?: string; icon?: string });
-
-type TreeClassName =
-  | string
-  | { root?: string; node?: TreeNodeClassName }
-  | (() => string | { root?: string; node?: TreeNodeClassName });
-```
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 ### Tree Methods
 

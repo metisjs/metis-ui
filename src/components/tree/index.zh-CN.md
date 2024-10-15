@@ -73,7 +73,7 @@ demo:
 | onSelect | 点击树节点触发 | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
 | request | 远程获取 options 方法 | `RequestConfig` | - |  |
 | lazyLoad | 懒加载，点击节点时加载，仅使用 `request` 配置时有效 boolean | false |  |
-| className | 语义化结构 class | [SemanticClassName](#semanticclassname) | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 ### TreeNode props
 
@@ -87,33 +87,7 @@ demo:
 | key | 被树的 (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys 属性所用。注意：整个树范围内的所有节点的 key 值不能重复！ | string | (内部计算出的节点位置) |  |
 | selectable | 设置节点是否可被选中 | boolean | true |  |
 | title | 标题 | ReactNode | `---` |  |
-| className | 语义化结构 class | [SemanticClassName](#semanticclassname) | - |  |
-
-### SemanticClassName
-
-```ts
-type TreeNodeClassNameArg = {
-  selected?: boolean;
-  checked?: boolean;
-  halfChecked?: boolean;
-  leaf?: boolean;
-  expanded?: boolean;
-};
-
-type TreeNodeClassName =
-  | string
-  | { root?: string; wrapper?: string; switcher?: string; content?: string; icon?: string }
-  | ((
-      arg: TreeNodeClassNameArg,
-    ) =>
-      | string
-      | { root?: string; wrapper?: string; switcher?: string; content?: string; icon?: string });
-
-type TreeClassName =
-  | string
-  | { root?: string; node?: TreeNodeClassName }
-  | (() => string | { root?: string; node?: TreeNodeClassName });
-```
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 ### Tree 方法
 
