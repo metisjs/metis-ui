@@ -56,6 +56,10 @@ export interface Locale {
     singleColor: string;
     gradientColor: string;
   };
+  Statistic: {
+    collapse: string;
+    all: string;
+  };
 }
 
 export interface LocaleProviderProps {

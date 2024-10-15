@@ -156,6 +156,10 @@ const localeValues: Locale = {
     singleColor: 'Single',
     gradientColor: 'Gradient',
   },
+  Statistic: {
+    collapse: 'Collapse',
+    all: 'All',
+  },
 };
 
 export default localeValues;
