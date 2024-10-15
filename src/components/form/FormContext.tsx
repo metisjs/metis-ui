@@ -1,0 +1,105 @@
+import * as React from 'react';
+import type { FieldData, FormInstance, Store, ValidateMessages } from './interface';
+
+export type Forms = Record<string, FormInstance>;
+
+export interface FormChangeInfo {
+  changedFields: FieldData[];
+  forms: Forms;
+}
+
+export interface FormFinishInfo {
+  values: Store;
+  forms: Forms;
+}
+
+export interface FormProviderProps {
+  validateMessages?: ValidateMessages;
+  onFormChange?: (name: string | undefined, info: FormChangeInfo) => void;
+  onFormFinish?: (name: string | undefined, info: FormFinishInfo) => void;
+  children?: React.ReactNode;
+}
+
+export interface FormContextProps extends FormProviderProps {
+  triggerFormChange: (name: string | undefined, changedFields: FieldData[]) => void;
+  triggerFormFinish: (name: string | undefined, values: Store) => void;
+  registerForm: (name: string | undefined, form: FormInstance) => void;
+  unregisterForm: (name?: string) => void;
+}
+
+const FormContext = React.createContext<FormContextProps>({
+  triggerFormChange: () => {},
+  triggerFormFinish: () => {},
+  registerForm: () => {},
+  unregisterForm: () => {},
+});
+
+const FormProvider: React.FunctionComponent<FormProviderProps> = ({
+  validateMessages,
+  onFormChange,
+  onFormFinish,
+  children,
+}) => {
+  const formContext = React.useContext(FormContext);
+
+  const formsRef = React.useRef<Forms>({});
+
+  return (
+    <FormContext.Provider
+      value={{
+        ...formContext,
+        validateMessages: {
+          ...formContext.validateMessages,
+          ...validateMessages,
+        },
+
+        // =========================================================
+        // =                  Global Form Control                  =
+        // =========================================================
+        triggerFormChange: (name, changedFields) => {
+          if (onFormChange) {
+            onFormChange(name, {
+              changedFields,
+              forms: formsRef.current,
+            });
+          }
+
+          formContext.triggerFormChange(name, changedFields);
+        },
+        triggerFormFinish: (name, values) => {
+          if (onFormFinish) {
+            onFormFinish(name, {
+              values,
+              forms: formsRef.current,
+            });
+          }
+
+          formContext.triggerFormFinish(name, values);
+        },
+        registerForm: (name, form) => {
+          if (name) {
+            formsRef.current = {
+              ...formsRef.current,
+              [name]: form,
+            };
+          }
+
+          formContext.registerForm(name, form);
+        },
+        unregisterForm: (name) => {
+          const newForms = { ...formsRef.current };
+          delete newForms[name];
+          formsRef.current = newForms;
+
+          formContext.unregisterForm(name);
+        },
+      }}
+    >
+      {children}
+    </FormContext.Provider>
+  );
+};
+
+export { FormProvider };
+
+export default FormContext;

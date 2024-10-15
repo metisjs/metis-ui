@@ -3,6 +3,7 @@
 import * as React from 'react';
 import type { Locale as DatePickerLocale } from '../date-picker/interface';
 import type { EmptyLocale } from '../empty';
+import type { ValidateMessages } from '../form/interface';
 import type { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
 import type { PopconfirmLocale } from '../popconfirm/Overlay';
@@ -41,7 +42,7 @@ export interface Locale {
   };
   Form?: {
     optional?: string;
-    // defaultValidateMessages: ValidateMessages;
+    defaultValidateMessages: ValidateMessages;
   };
   Image?: {
     preview: string;

@@ -22,6 +22,9 @@ dependencies:
   '@metisjs/icons':
     specifier: ^0.0.2-alpha.4
     version: 0.0.2-alpha.4(react-dom@18.2.0)(react@18.2.0)
+  '@rc-component/async-validator':
+    specifier: ^5.0.4
+    version: 5.0.4
   '@rc-component/mini-decimal':
     specifier: ^1.1.0
     version: 1.1.0
@@ -2714,7 +2717,6 @@ packages:
     engines: {node: '>=14.x'}
     dependencies:
       '@babel/runtime': 7.24.7
-    dev: true
 
   /@rc-component/color-picker@1.5.3(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-+tGGH3nLmYXTalVe0L8hSZNs73VTP5ueSHwUlDC77KKRaN7G4DS4wcpG5DTDzdcV/Yas+rzA6UGgIyzd8fS4cw==}
