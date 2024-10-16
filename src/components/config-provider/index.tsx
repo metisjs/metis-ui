@@ -1,11 +1,14 @@
 import * as React from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
-// import ValidateMessagesContext from '../form/validateMessagesContext';
+import { merge } from 'rc-util/lib/utils/set';
+import ValidateMessagesContext from '../form/validateMessagesContext';
 import type { Locale } from '../locale';
 import LocaleProvider, { METIS_MARK } from '../locale';
+import defaultLocale from '../locale/zh_CN';
 import type {
   ButtonConfig,
   ConfigConsumerProps,
+  FormConfig,
   InputConfig,
   PaginationConfig,
   PopupOverflow,
@@ -37,8 +40,7 @@ const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPre
   'pagination',
   'route',
   'request',
-  // TODO: form组件待开发
-  // 'form'
+  'form',
 ];
 
 export interface ConfigProviderProps {
@@ -48,8 +50,7 @@ export interface ConfigProviderProps {
   children?: React.ReactNode;
   renderEmpty?: RenderEmptyHandler;
   variant?: Variant;
-  // TODO: form组件待开发
-  // form?: FormConfig;
+  form?: FormConfig;
   button?: ButtonConfig;
   input?: InputConfig;
   pagination?: PaginationConfig;
@@ -135,8 +136,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     variant,
     route,
     request,
-    // TODO: form组件待开发
-    // form
+    form,
   } = props;
 
   // =================================== Context ===================================
@@ -156,7 +156,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   );
 
   const baseConfig = {
-    locale: locale,
+    locale,
     space,
     virtual,
     popupMatchSelectWidth: popupMatchSelectWidth,
@@ -168,8 +168,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     variant,
     route,
     request,
-    // TODO: form组件待开发
-    // form
+    form,
   };
 
   const config: ConfigConsumerProps = {
@@ -206,25 +205,24 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   let childNode = <>{children}</>;
 
-  // TODO: form组件待开发
-  // const validateMessages = React.useMemo(
-  //   () =>
-  //     merge(
-  //       defaultLocale.Form?.defaultValidateMessages || {},
-  //       memoedConfig.locale?.Form?.defaultValidateMessages || {},
-  //       memoedConfig.form?.validateMessages || {},
-  //       form?.validateMessages || {},
-  //     ),
-  //   [memoedConfig, form?.validateMessages],
-  // );
+  const validateMessages = React.useMemo(
+    () =>
+      merge(
+        defaultLocale.Form?.defaultValidateMessages || {},
+        memoedConfig.locale?.Form?.defaultValidateMessages || {},
+        memoedConfig.form?.validateMessages || {},
+        form?.validateMessages || {},
+      ),
+    [memoedConfig, form?.validateMessages],
+  );
 
-  // if (Object.keys(validateMessages).length > 0) {
-  //   childNode = (
-  //     <ValidateMessagesContext.Provider value={validateMessages}>
-  //       {childNode}
-  //     </ValidateMessagesContext.Provider>
-  //   );
-  // }
+  if (Object.keys(validateMessages).length > 0) {
+    childNode = (
+      <ValidateMessagesContext.Provider value={validateMessages}>
+        {childNode}
+      </ValidateMessagesContext.Provider>
+    );
+  }
 
   if (locale) {
     childNode = (

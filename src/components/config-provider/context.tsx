@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Options as RequestOptions } from 'ahooks/lib/useRequest/src/types';
-// import type { RequiredMark } from '../form/Form';
 import type { ButtonProps } from '../button';
+import type { FormProps } from '../form';
 import type { InputProps } from '../input';
 import type { Locale } from '../locale';
 import type { PaginationProps } from '../pagination';
@@ -17,6 +17,10 @@ export type ButtonConfig = Pick<ButtonProps, 'autoInsertSpace'>;
 export type PaginationConfig = Pick<PaginationProps, 'showSizeChanger'>;
 export type InputConfig = Pick<InputProps, 'autoComplete'>;
 export type SpaceConfig = Pick<SpaceProps, 'size'>;
+export type FormConfig = Pick<
+  FormProps,
+  'requiredMark' | 'colon' | 'scrollToFirstError' | 'validateMessages' | 'variant'
+>;
 export type RouteConfig = {
   history: 'browser' | 'hash';
   basename: string;
@@ -37,11 +41,7 @@ export interface ConfigConsumerProps {
   variant?: Variant;
   popupMatchSelectWidth?: boolean;
   popupOverflow?: PopupOverflow;
-  // TODO: form组件待开发
-  // form?: {
-  //    requiredMark?: RequiredMark;
-  //   colon?: boolean;
-  // };
+  form?: FormConfig;
   route: RouteConfig;
   request: RequestConfig;
 }

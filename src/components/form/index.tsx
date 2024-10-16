@@ -1,38 +1,59 @@
-import * as React from 'react';
-import Field from './Field';
-import FieldContext from './FieldContext';
-import type { FormProps } from './Form';
-import FieldForm from './Form';
-import { FormProvider } from './FormContext';
-import useForm from './hooks/useForm';
-import useWatch from './hooks/useWatch';
-import type { FormInstance, FormRef } from './interface';
-import List from './List';
-import ListContext from './ListContext';
-
-const InternalForm = React.forwardRef<FormRef, FormProps>(FieldForm) as <Values = any>(
-  props: FormProps<Values> & { ref?: React.Ref<FormRef<Values>> },
-) => React.ReactElement;
+import type { Rule, RuleObject, RuleRender } from 'rc-field-form/lib/interface';
+import warning from '../_util/warning';
+import { FormProvider } from './context';
+import ErrorList from './ErrorList';
+import type { ErrorListProps } from './ErrorList';
+import InternalForm, { useForm, useWatch } from './Form';
+import type { FormInstance, FormProps } from './Form';
+import Item from './FormItem';
+import type { FormItemProps } from './FormItem';
+import List from './FormList';
+import type { FormListFieldData, FormListOperation, FormListProps } from './FormList';
+import useFormInstance from './hooks/useFormInstance';
 
 type InternalFormType = typeof InternalForm;
-interface RefFormType extends InternalFormType {
-  FormProvider: typeof FormProvider;
-  Field: typeof Field;
-  List: typeof List;
+
+type CompoundedComponent = InternalFormType & {
   useForm: typeof useForm;
+  useFormInstance: typeof useFormInstance;
   useWatch: typeof useWatch;
-}
+  Item: typeof Item;
+  List: typeof List;
+  ErrorList: typeof ErrorList;
+  Provider: typeof FormProvider;
 
-const RefForm: RefFormType = InternalForm as RefFormType;
+  /** @deprecated Only for warning usage. Do not use. */
+  create: () => void;
+};
 
-RefForm.FormProvider = FormProvider;
-RefForm.Field = Field;
-RefForm.List = List;
-RefForm.useForm = useForm;
-RefForm.useWatch = useWatch;
+const Form = InternalForm as CompoundedComponent;
 
-export { Field, List, useForm, FormProvider, FieldContext, ListContext, useWatch };
+Form.Item = Item;
+Form.List = List;
+Form.ErrorList = ErrorList;
+Form.useForm = useForm;
+Form.useFormInstance = useFormInstance;
+Form.useWatch = useWatch;
+Form.Provider = FormProvider;
+Form.create = () => {
+  warning(
+    false,
+    'Form',
+    'antd v4 removed `Form.create`. Please remove or use `@ant-design/compatible` instead.',
+  );
+};
 
-export type { FormProps, FormInstance, FormRef };
+export type {
+  ErrorListProps,
+  FormInstance,
+  FormItemProps,
+  FormListFieldData,
+  FormListOperation,
+  FormListProps,
+  FormProps,
+  Rule,
+  RuleObject,
+  RuleRender,
+};
 
-export default RefForm;
+export default Form;

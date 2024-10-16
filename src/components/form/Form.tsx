@@ -1,185 +1,233 @@
 import * as React from 'react';
-import FieldContext from './FieldContext';
-import type { FormContextProps } from './FormContext';
-import FormContext from './FormContext';
+import { useMemo } from 'react';
+import classNames from 'classnames';
+import FieldForm, { List, useWatch } from 'rc-field-form';
+import type { FormProps as RcFormProps } from 'rc-field-form/lib/Form';
+import type { FormRef, InternalNamePath, ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import type { Options } from 'scroll-into-view-if-needed';
+import { ConfigContext } from '../config-provider';
+import type { Variant } from '../config-provider';
+import DisabledContext, { DisabledContextProvider } from '../config-provider/DisabledContext';
+import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
+import useSize from '../config-provider/hooks/useSize';
+import type { SizeType } from '../config-provider/SizeContext';
+import SizeContext from '../config-provider/SizeContext';
+import type { ColProps } from '../grid/col';
+import type { FormContextProps } from './context';
+import { FormContext, FormProvider, VariantContext } from './context';
+import type { FeedbackIcons } from './FormItem';
 import useForm from './hooks/useForm';
-import type {
-  Callbacks,
-  FieldData,
-  FormInstance,
-  FormRef,
-  InternalFormInstance,
-  Store,
-  ValidateMessages,
-} from './interface';
-import ListContext from './ListContext';
-import { isSimilar } from './utils/valueUtil';
+import type { FormInstance } from './hooks/useForm';
+import useFormWarning from './hooks/useFormWarning';
+import type { FormLabelAlign } from './interface';
+import useStyle from './style';
+import ValidateMessagesContext from './validateMessagesContext';
 
-type BaseFormProps = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit' | 'children'>;
+export type RequiredMark =
+  | boolean
+  | 'optional'
+  | ((labelNode: React.ReactNode, info: { required: boolean }) => React.ReactNode);
+export type FormLayout = 'horizontal' | 'inline' | 'vertical';
+export type FormItemLayout = 'horizontal' | 'vertical';
 
-type RenderProps = (values: Store, form: FormInstance) => JSX.Element | React.ReactNode;
-
-export interface FormProps<Values = any> extends BaseFormProps {
-  initialValues?: Store;
-  form?: FormInstance<Values>;
-  children?: RenderProps | React.ReactNode;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component?: false | string | React.FC<any> | React.ComponentClass<any>;
-  fields?: FieldData[];
+export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form'> {
+  prefixCls?: string;
+  colon?: boolean;
   name?: string;
-  validateMessages?: ValidateMessages;
-  onValuesChange?: Callbacks<Values>['onValuesChange'];
-  onFieldsChange?: Callbacks<Values>['onFieldsChange'];
-  onFinish?: Callbacks<Values>['onFinish'];
-  onFinishFailed?: Callbacks<Values>['onFinishFailed'];
-  validateTrigger?: string | string[] | false;
-  preserve?: boolean;
-  clearOnDestroy?: boolean;
+  layout?: FormLayout;
+  labelAlign?: FormLabelAlign;
+  labelWrap?: boolean;
+  labelCol?: ColProps;
+  wrapperCol?: ColProps;
+  form?: FormInstance<Values>;
+  feedbackIcons?: FeedbackIcons;
+  size?: SizeType;
+  disabled?: boolean;
+  scrollToFirstError?: Options | boolean;
+  requiredMark?: RequiredMark;
+  /** @deprecated Will warning in future branch. Pls use `requiredMark` instead. */
+  hideRequiredMark?: boolean;
+  rootClassName?: string;
+  variant?: Variant;
 }
 
-const Form: React.ForwardRefRenderFunction<FormRef, FormProps> = (
-  {
-    name,
-    initialValues,
-    fields,
-    form,
-    preserve,
-    children,
-    component: Component = 'form',
-    validateMessages,
-    validateTrigger = 'onChange',
-    onValuesChange,
-    onFieldsChange,
-    onFinish,
-    onFinishFailed,
-    clearOnDestroy,
-    ...restProps
-  }: FormProps,
-  ref,
-) => {
-  const nativeElementRef = React.useRef<HTMLFormElement>(null);
-  const formContext: FormContextProps = React.useContext(FormContext);
+const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props, ref) => {
+  const contextDisabled = React.useContext(DisabledContext);
+  const { getPrefixCls, direction, form: contextForm } = React.useContext(ConfigContext);
 
-  // We customize handle event since Context will makes all the consumer re-render:
-  // https://reactjs.org/docs/context.html#contextprovider
-  const [formInstance] = useForm(form);
   const {
-    useSubscribe,
-    setInitialValues,
-    setCallbacks,
-    setValidateMessages,
-    setPreserve,
-    destroyForm,
-  } = (formInstance as InternalFormInstance)._getInternalHooks();
+    prefixCls: customizePrefixCls,
+    className,
+    rootClassName,
+    size,
+    disabled = contextDisabled,
+    form,
+    colon,
+    labelAlign,
+    labelWrap,
+    labelCol,
+    wrapperCol,
+    hideRequiredMark,
+    layout = 'horizontal',
+    scrollToFirstError,
+    requiredMark,
+    onFinishFailed,
+    name,
+    style,
+    feedbackIcons,
+    variant,
+    ...restFormProps
+  } = props;
 
-  // Pass ref with form instance
+  const mergedSize = useSize(size);
+
+  const contextValidateMessages = React.useContext(ValidateMessagesContext);
+
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useFormWarning(props);
+  }
+
+  const mergedRequiredMark = useMemo(() => {
+    if (requiredMark !== undefined) {
+      return requiredMark;
+    }
+
+    if (hideRequiredMark) {
+      return false;
+    }
+
+    if (contextForm && contextForm.requiredMark !== undefined) {
+      return contextForm.requiredMark;
+    }
+
+    return true;
+  }, [hideRequiredMark, requiredMark, contextForm]);
+
+  const mergedColon = colon ?? contextForm?.colon;
+
+  const prefixCls = getPrefixCls('form', customizePrefixCls);
+
+  // Style
+  const rootCls = useCSSVarCls(prefixCls);
+  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls);
+
+  const formClassName = classNames(
+    prefixCls,
+    `${prefixCls}-${layout}`,
+    {
+      [`${prefixCls}-hide-required-mark`]: mergedRequiredMark === false,
+      [`${prefixCls}-rtl`]: direction === 'rtl',
+      [`${prefixCls}-${mergedSize}`]: mergedSize,
+    },
+    cssVarCls,
+    rootCls,
+    hashId,
+    contextForm?.className,
+    className,
+    rootClassName,
+  );
+
+  const [wrapForm] = useForm(form);
+  const { __INTERNAL__ } = wrapForm;
+  __INTERNAL__.name = name;
+
+  const formContextValue = useMemo<FormContextProps>(
+    () => ({
+      name,
+      labelAlign,
+      labelCol,
+      labelWrap,
+      wrapperCol,
+      vertical: layout === 'vertical',
+      colon: mergedColon,
+      requiredMark: mergedRequiredMark,
+      itemRef: __INTERNAL__.itemRef,
+      form: wrapForm,
+      feedbackIcons,
+    }),
+    [
+      name,
+      labelAlign,
+      labelCol,
+      wrapperCol,
+      layout,
+      mergedColon,
+      mergedRequiredMark,
+      wrapForm,
+      feedbackIcons,
+    ],
+  );
+
+  const nativeElementRef = React.useRef<FormRef>(null);
   React.useImperativeHandle(ref, () => ({
-    ...formInstance,
-    nativeElement: nativeElementRef.current!,
+    ...wrapForm,
+    nativeElement: nativeElementRef.current?.nativeElement,
   }));
 
-  // Register form into Context
-  React.useEffect(() => {
-    formContext.registerForm(name, formInstance);
-    return () => {
-      formContext.unregisterForm(name);
-    };
-  }, [formContext, formInstance, name]);
-
-  // Pass props to store
-  setValidateMessages({
-    ...formContext.validateMessages,
-    ...validateMessages,
-  });
-  setCallbacks({
-    onValuesChange,
-    onFieldsChange: (changedFields: FieldData[], ...rest) => {
-      formContext.triggerFormChange(name, changedFields);
-
-      if (onFieldsChange) {
-        onFieldsChange(changedFields, ...rest);
+  const scrollToField = (options: boolean | Options, fieldName: InternalNamePath) => {
+    if (options) {
+      let defaultScrollToFirstError: Options = { block: 'nearest' };
+      if (typeof options === 'object') {
+        defaultScrollToFirstError = options;
       }
-    },
-    onFinish: (values: Store) => {
-      formContext.triggerFormFinish(name, values);
-
-      if (onFinish) {
-        onFinish(values);
-      }
-    },
-    onFinishFailed,
-  });
-  setPreserve(preserve);
-
-  // Set initial value, init store value when first mount
-  const mountRef = React.useRef(false);
-  setInitialValues(initialValues, !mountRef.current);
-  if (!mountRef.current) {
-    mountRef.current = true;
-  }
-
-  React.useEffect(() => () => destroyForm(clearOnDestroy), []);
-
-  // Prepare children by `children` type
-  let childrenNode: React.ReactNode;
-  const childrenRenderProps = typeof children === 'function';
-  if (childrenRenderProps) {
-    const values = formInstance.getFieldsValue(true);
-    childrenNode = (children as RenderProps)(values, formInstance);
-  } else {
-    childrenNode = children;
-  }
-
-  // Not use subscribe when using render props
-  useSubscribe(!childrenRenderProps);
-
-  // Listen if fields provided. We use ref to save prev data here to avoid additional render
-  const prevFieldsRef = React.useRef<FieldData[] | undefined>();
-  React.useEffect(() => {
-    if (!isSimilar(prevFieldsRef.current || [], fields || [])) {
-      formInstance.setFields(fields || []);
+      wrapForm.scrollToField(fieldName, defaultScrollToFirstError);
     }
-    prevFieldsRef.current = fields;
-  }, [fields, formInstance]);
+  };
 
-  const formContextValue = React.useMemo(
-    () => ({
-      ...(formInstance as InternalFormInstance),
-      validateTrigger,
-    }),
-    [formInstance, validateTrigger],
-  );
+  const onInternalFinishFailed = (errorInfo: ValidateErrorEntity) => {
+    onFinishFailed?.(errorInfo);
+    if (errorInfo.errorFields.length) {
+      const fieldName = errorInfo.errorFields[0].name;
+      if (scrollToFirstError !== undefined) {
+        scrollToField(scrollToFirstError, fieldName);
+        return;
+      }
 
-  const wrapperNode = (
-    <ListContext.Provider value={null}>
-      <FieldContext.Provider value={formContextValue}>{childrenNode}</FieldContext.Provider>
-    </ListContext.Provider>
-  );
+      if (contextForm && contextForm.scrollToFirstError !== undefined) {
+        scrollToField(contextForm.scrollToFirstError, fieldName);
+      }
+    }
+  };
 
-  if (Component === false) {
-    return wrapperNode;
-  }
-
-  return (
-    <Component
-      {...restProps}
-      ref={nativeElementRef}
-      onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        formInstance.submit();
-      }}
-      onReset={(event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        formInstance.resetFields();
-        restProps.onReset?.(event);
-      }}
-    >
-      {wrapperNode}
-    </Component>
+  return wrapCSSVar(
+    <VariantContext.Provider value={variant}>
+      <DisabledContextProvider disabled={disabled}>
+        <SizeContext.Provider value={mergedSize}>
+          <FormProvider
+            {...{
+              // This is not list in API, we pass with spread
+              validateMessages: contextValidateMessages,
+            }}
+          >
+            <FormContext.Provider value={formContextValue}>
+              <FieldForm
+                id={name}
+                {...restFormProps}
+                name={name}
+                onFinishFailed={onInternalFinishFailed}
+                form={wrapForm}
+                ref={nativeElementRef}
+                style={{ ...contextForm?.style, ...style }}
+                className={formClassName}
+              />
+            </FormContext.Provider>
+          </FormProvider>
+        </SizeContext.Provider>
+      </DisabledContextProvider>
+    </VariantContext.Provider>,
   );
 };
+
+const Form = React.forwardRef<FormRef, FormProps>(InternalForm) as (<Values = any>(
+  props: React.PropsWithChildren<FormProps<Values>> & React.RefAttributes<FormRef<Values>>,
+) => React.ReactElement) &
+  Pick<React.FC, 'displayName'>;
+
+if (process.env.NODE_ENV !== 'production') {
+  Form.displayName = 'Form';
+}
+
+export { List, useForm, useWatch, type FormInstance };
 
 export default Form;
