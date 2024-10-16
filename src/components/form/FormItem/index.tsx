@@ -50,7 +50,6 @@ interface MemoInputProps {
   childProps: any[];
 }
 
-// https://github.com/ant-design/ant-design/issues/46417
 // `getValueProps` may modify the value props name,
 // we should check if the control is similar.
 function isSimilarControl(a: object, b: object) {
