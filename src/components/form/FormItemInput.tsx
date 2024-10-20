@@ -7,6 +7,7 @@ import type { ValidateStatus } from './FormItem';
 
 interface FormItemInputMiscProps {
   prefixCls: string;
+  className?: string;
   children: React.ReactNode;
   errors: React.ReactNode[];
   warnings: React.ReactNode[];
@@ -24,6 +25,7 @@ export interface FormItemInputProps {
 const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (props) => {
   const {
     prefixCls,
+    className,
     status,
     children,
     errors,
@@ -36,7 +38,7 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
   } = props;
   const formContext = React.useContext(FormContext);
 
-  const rootCls = clsx(`${prefixCls}-item-control`, 'flex flex-1 flex-col');
+  const rootCls = clsx(`${prefixCls}-item-control`, 'flex flex-1 flex-col', className);
   const inputCls = clsx(`${prefixCls}-item-control-input`, 'relative flex min-h-9 items-center', {
     'min-h-7': formContext.size === 'mini',
     'min-h-8': formContext.size === 'small',

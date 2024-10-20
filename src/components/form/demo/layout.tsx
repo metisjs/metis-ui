@@ -7,7 +7,7 @@ const App: React.FC = () => {
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
 
-  const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
+  const onFormLayoutChange = (_: any, { layout }: { layout: LayoutType }) => {
     setFormLayout(layout);
   };
 

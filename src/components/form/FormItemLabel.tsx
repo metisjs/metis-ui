@@ -45,10 +45,12 @@ export interface FormItemLabelProps {
   requiredMark?: RequiredMark;
   tooltip?: LabelTooltipType;
   layout: FormLayout;
+  className?: string;
 }
 
 const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixCls: string }> = ({
   prefixCls,
+  className,
   label,
   htmlFor,
   labelWidth,
@@ -68,6 +70,7 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
     colon: contextColon,
     size,
     autoLabelWidth,
+    column,
     registerLabelWidth,
     deregisterLabelWidth,
   } = React.useContext<FormContextProps>(FormContext);
@@ -76,7 +79,7 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
   const labelRef = React.useRef<HTMLLabelElement>(null);
 
   const mergedLabelWidth = labelWidth ?? contextLabelWidth;
-  const isAutoWidth = mergedLabelWidth === 'auto' && layout === 'horizontal';
+  const isAutoWidth = mergedLabelWidth === 'auto' && layout === 'horizontal' && !column;
 
   React.useLayoutEffect(() => {
     if (isAutoWidth) {
@@ -125,6 +128,7 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
       'pb-2 text-left': layout === 'vertical',
       'overflow-visible whitespace-normal': labelWrap,
     },
+    className,
   );
   const labelCls = clsx(
     {

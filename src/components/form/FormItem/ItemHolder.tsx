@@ -4,7 +4,8 @@ import isVisible from 'rc-util/lib/Dom/isVisible';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import type { FormItemProps } from '.';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
+import { matchScreen } from '../../_util/responsiveObserver';
 import type { ReportMetaChange } from '../context';
 import { FormContext, NoStyleItemContext } from '../context';
 import FormItemInput from '../FormItemInput';
@@ -15,7 +16,6 @@ import StatusProvider from './StatusProvider';
 
 export interface ItemHolderProps extends FormItemProps {
   prefixCls: string;
-  className?: string;
   style?: React.CSSProperties;
   errors: React.ReactNode[];
   warnings: React.ReactNode[];
@@ -44,14 +44,29 @@ export default function ItemHolder(props: ItemHolderProps) {
     isRequired,
     onSubItemMetaChange,
     layout,
+    span = 1,
     ...restProps
   } = props;
 
   const itemPrefixCls = `${prefixCls}-item`;
-  const { requiredMark, layout: formLayout } = React.useContext(FormContext);
+  const {
+    requiredMark,
+    layout: formLayout,
+    screens,
+    className: formClassName,
+  } = React.useContext(FormContext);
 
   // ======================== Layout ========================
   const mergedLayout = layout ?? formLayout;
+
+  // ======================== Column span ========================
+  const mergedSpan = React.useMemo(() => {
+    if (typeof span === 'number') {
+      return span;
+    }
+
+    return matchScreen(screens, span);
+  }, [screens, span]);
 
   // ======================== Margin ========================
   const itemRef = React.useRef<HTMLDivElement>(null);
@@ -89,6 +104,8 @@ export default function ItemHolder(props: ItemHolderProps) {
   const mergedValidateStatus = getValidateState();
 
   // ======================== Style ========================
+  const semanticCls = mergeSemanticCls(getSemanticCls(formClassName).item, className)();
+
   const itemCls = clsx(
     itemPrefixCls,
     {
@@ -110,7 +127,7 @@ export default function ItemHolder(props: ItemHolderProps) {
       'flex-col': mergedLayout === 'vertical',
       'inline-flex': mergedLayout === 'inline',
     },
-    className,
+    semanticCls.root,
   );
 
   // ======================== Render ========================
@@ -118,13 +135,12 @@ export default function ItemHolder(props: ItemHolderProps) {
   return (
     <div
       className={itemCls}
-      style={style}
+      style={{ ...(mergedSpan && { gridColumn: `span ${mergedSpan}` }), ...style }}
       ref={itemRef}
       {...omit(restProps, [
         'colon',
         'dependencies',
         'extra',
-        'fieldKey',
         'getValueFromEvent',
         'getValueProps',
         'htmlFor',
@@ -156,6 +172,7 @@ export default function ItemHolder(props: ItemHolderProps) {
         required={required ?? isRequired}
         prefixCls={prefixCls}
         layout={mergedLayout}
+        className={semanticCls.label}
       />
       {/* Input Group */}
       <FormItemInput
@@ -168,6 +185,7 @@ export default function ItemHolder(props: ItemHolderProps) {
         help={help}
         marginBottom={marginBottom}
         onErrorVisibleChanged={onErrorVisibleChanged}
+        className={semanticCls.field}
       >
         <NoStyleItemContext.Provider value={onSubItemMetaChange}>
           <StatusProvider

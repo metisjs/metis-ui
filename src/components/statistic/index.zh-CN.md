@@ -37,7 +37,7 @@ description: 展示统计数值。
 | value | 数值内容 | string \| number | - |  |
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
 | tooltip | 标题栏提示 | string \| TooltipProps | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 #### Statistic.Group
 
@@ -47,7 +47,7 @@ description: 展示统计数值。
 | expandable | 是否可展开 | `boolean` | true |  |
 | item | 列表项内容 | [StatisticItem](#statistic)[] |  |  |
 | loading | 数值是否加载中 | `boolean` | false |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 #### Statistic.Countdown
 
@@ -61,4 +61,4 @@ description: 展示统计数值。
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
 | onFinish | 倒计时完成时触发 | () => void | - |  |
 | onChange | 倒计时时间变化时触发 | (value: number) => void | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |

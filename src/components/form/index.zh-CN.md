@@ -16,6 +16,7 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 <code src="./demo/basic.tsx">基本使用</code>
 <code src="./demo/control-hooks.tsx">表单方法调用</code>
 <code src="./demo/layout.tsx">表单布局</code>
+<code src="./demo/layout-grid.tsx">栅格化布局</code>
 <code src="./demo/layout-multiple.tsx">表单混合布局</code>
 <code src="./demo/disabled.tsx">表单禁用</code>
 <code src="./demo/variant.tsx">表单变体</code>
@@ -59,22 +60,22 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | colon | 配置 Form.Item 的 `colon` 的默认值。表示是否显示 label 后面的冒号 (只有在属性 layout 为 horizontal 时有效) | boolean | true |  |
-| disabled | 设置表单组件禁用，仅对 antd 组件有效 | boolean | false |  |
+| disabled | 设置表单组件禁用，仅对内部组件有效 | boolean | false |  |
 | component | 设置 Form 渲染元素，为 `false` 则不创建 DOM 节点 | ComponentType \| false | form |  |
 | fields | 通过状态管理（如 redux）控制表单字段，如非强需求不推荐使用。查看[示例](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | 经 `Form.useForm()` 创建的 form 控制实例，不提供时会自动创建 | [FormInstance](#forminstance) | - |  |
 | feedbackIcons | 当 `Form.Item` 有 `hasFeedback` 属性时可以自定义图标 | [FeedbackIcons](#feedbackicons) | - |  |
 | initialValues | 表单默认值，只有初始化以及重置时生效 | object | - |  |
 | labelAlign | label 标签的文本对齐方式 | `left` \| `right` | `right` |  |
-| labelWrap | label 标签的文本换行方式 | boolean | false |  |
-| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](/components/grid-cn#col) | - |  |
+| labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string \| number | 'auto' |  |
+| column | 栅格显示, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record<Breakpoint, number> | 'auto' |  |
 | layout | 表单布局 | `horizontal` \| `vertical` \| `inline` | `horizontal` |  |
 | name | 表单名称，会作为表单字段 `id` 前缀使用 | string | - |  |
 | preserve | 当字段被删除时保留字段值。你可以通过 `getFieldsValue(true)` 来获取保留字段值 | boolean | true |  |
-| requiredMark | 必选样式，可以切换为必选或者可选展示样式。此为 Form 配置，Form.Item 无法单独配置 | boolean \| `optional` \| ((label: ReactNode, info: { required: boolean }) => ReactNode) | true | `renderProps`: |
+| requiredMark | 必选样式，可以切换为必选或者可选展示样式。此为 Form 配置，Form.Item 无法单独配置 | boolean \| `optional` \| ((label: ReactNode, info: { required: boolean }) => ReactNode) | true |  |
 | scrollToFirstError | 提交失败自动滚动到第一个错误字段 | boolean \| [Options](https://github.com/stipsan/scroll-into-view-if-needed/tree/ece40bd9143f48caf4b99503425ecb16b0ad8249#options) | false |  |
-| size | 设置字段组件的尺寸（仅限 antd 组件） | `small` \| `middle` \| `large` | - |  |
-| validateMessages | 验证提示模板，说明[见下](#validatemessages) | [ValidateMessages](https://github.com/ant-design/ant-design/blob/6234509d18bac1ac60fbb3f92a5b2c6a6361295a/components/locale/en_US.ts#L88-L134) | - |  |
+| size | 设置字段组件的尺寸（仅限内部组件生效） | `mini` \| `small` \| `middle` \| `large` | - |  |
+| validateMessages | 验证提示模板，说明[见下](#validatemessages) | ValidateMessages | - |  |
 | validateTrigger | 统一设置字段触发验证的时机 | string \| string\[] | `onChange` |  |
 | variant | 表单内控件变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onFieldsChange | 字段更新时触发回调事件 | function(changedFields, allFields) | - |  |
@@ -82,6 +83,7 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | onFinishFailed | 提交表单且数据验证失败后回调事件 | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | 字段值更新时触发回调事件 | function(changedValues, allValues) | - |  |
 | clearOnDestroy | 当表单被卸载时清空表单值 | boolean | false |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 > 支持原生 form 除 `onSubmit` 外的所有属性。
 
@@ -122,14 +124,14 @@ const validateMessages = {
 | extra | 额外的提示信息，和 `help` 类似，当需要错误信息和提示文案同时出现时，可以使用这个。 | ReactNode | - |  |
 | getValueFromEvent | 设置如何将 event 的值转换成字段值 | (..args: any\[]) => any | - |  |
 | getValueProps | 为子元素添加额外的属性 (不建议通过 `getValueProps` 生成动态函数 prop，请直接将其传递给子组件) | (value: any) => Record<string, any> | - |  |
-| hasFeedback | 配合 `validateStatus` 属性使用，展示校验状态图标，建议只配合 Input 组件使用 此外，它还可以通过 Icons 属性获取反馈图标。 | boolean \| { icons: [FeedbackIcons](#feedbackicons) } | false | icons: |
+| labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string \| number | 'auto' |  |
+| hasFeedback | 配合 `validateStatus` 属性使用，展示校验状态图标，建议只配合 Input 组件使用 此外，它还可以通过 Icons 属性获取反馈图标。 | boolean \| { icons: [FeedbackIcons](#feedbackicons) } | false |  |
 | help | 提示信息，如不设置，则会根据校验规则自动生成 | ReactNode | - |  |
 | hidden | 是否隐藏字段（依然会收集和校验字段） | boolean | false |  |
 | htmlFor | 设置子元素 label `htmlFor` 属性 | string | - |  |
 | initialValue | 设置子元素默认值，如果与 Form 的 `initialValues` 冲突则以 Form 为准 | string | - |  |
 | label | `label` 标签的文本 | ReactNode | - |  |
 | labelAlign | 标签文本对齐方式 | `left` \| `right` | `right` |  |
-| labelCol | `label` 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}`。你可以通过 Form 的 `labelCol` 进行统一设置，不会作用于嵌套 Item。当和 Form 同时设置时，以 Item 为准 | [object](/components/grid-cn#col) | - |  |
 | messageVariables | 默认验证字段的信息，查看[详情](#messagevariables) | Record&lt;string, string> | - |  |
 | name | 字段名，支持数组 | [NamePath](#namepath) | - |  |
 | normalize | 组件获取值后进行转换，再放入 Form 中。不支持异步 | (value, prevValue, prevValues) => any | - |  |
@@ -140,13 +142,14 @@ const validateMessages = {
 | shouldUpdate | 自定义字段更新逻辑，说明[见下](#shouldupdate) | boolean \| (prevValue, curValue) => boolean | false |  |
 | tooltip | 配置提示信息 | ReactNode \| [TooltipProps & { icon: ReactNode }](/components/tooltip-cn#api) | - |  |
 | trigger | 设置收集字段值变更的时机。点击[此处](#form-demo-customized-form-controls)查看示例 | string | `onChange` |  |
-| validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验。设置 `parallel` 时会并行校验 | boolean \| `parallel` | false | `parallel`: |
+| validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验。设置 `parallel` 时会并行校验 | boolean \| `parallel` | false |  |
 | validateDebounce | 设置防抖，延迟毫秒数后进行校验 | number | - |  |
 | validateStatus | 校验状态，如不设置，则会根据校验规则自动生成，可选：'success' 'warning' 'error' 'validating' | string | - |  |
 | validateTrigger | 设置字段校验的时机 | string \| string\[] | `onChange` |  |
 | valuePropName | 子节点的值的属性。注意：Switch、Checkbox 的 valuePropName 应该是 `checked`，否则无法获取这个两个组件的值。该属性为 `getValueProps` 的封装，自定义 `getValueProps` 后会失效 | string | `value` |  |
-| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 `labelCol`。你可以通过 Form 的 `wrapperCol` 进行统一设置，不会作用于嵌套 Item。当和 Form 同时设置时，以 Item 为准 | [object](/components/grid-cn#col) | - |  |
 | layout | 表单项布局 | `horizontal` \| `vertical` | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| span | 在栅格中显示列数, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record<Breakpoint, number> | 'auto' |  |
 
 被设置了 `name` 属性的 `Form.Item` 包装的控件，表单控件会自动添加 `value`（或 `valuePropName` 指定的其他属性） `onChange`（或 `trigger` 指定的其他属性），数据同步将被 Form 接管，这会导致以下结果：
 
@@ -169,8 +172,6 @@ const validateMessages = {
 Form 通过增量更新方式，只更新被修改的字段相关组件以达到性能优化目的。大部分场景下，你只需要编写代码或者与 [`dependencies`](#dependencies) 属性配合校验即可。而在某些特定场景，例如修改某个字段值后出现新的字段选项、或者纯粹希望表单任意变化都对某一个区域进行渲染。你可以通过 `shouldUpdate` 修改 Form.Item 的更新逻辑。
 
 当 `shouldUpdate` 为 `true` 时，Form 的任意变化都会使该 Form.Item 重新渲染。这对于自定义渲染一些区域十分有帮助，要注意 Form.Item 里包裹的子组件必须由函数返回，否则 `shouldUpdate` 不会起作用：
-
-相关issue：[#34500](https://github.com/ant-design/ant-design/issues/34500)
 
 ```jsx
 <Form.Item shouldUpdate>
@@ -266,7 +267,7 @@ Form.List 渲染表单相关操作函数。
 
 ## Form.ErrorList
 
-新增。错误展示组件，仅限配合 Form.List 的 rules 一同使用。参考[示例](#form-demo-dynamic-form-item)。
+错误展示组件，仅限配合 Form.List 的 rules 一同使用。参考[示例](#form-demo-dynamic-form-item)。
 
 | 参数   | 说明     | 类型         | 默认值 |
 | ------ | -------- | ------------ | ------ |
@@ -318,11 +319,11 @@ Form.List 渲染表单相关操作函数。
 
 ```tsx
 export interface ValidateConfig {
-  //  新增。仅校验内容而不会将错误信息展示到 UI 上。
+  // 仅校验内容而不会将错误信息展示到 UI 上。
   validateOnly?: boolean;
-  //  新增。对提供的 `nameList` 与其子路径进行递归校验。
+  // 对提供的 `nameList` 与其子路径进行递归校验。
   recursive?: boolean;
-  //  新增。校验 dirty 的字段（touched + validated）。
+  // 校验 dirty 的字段（touched + validated）。
   // 使用 `dirty` 可以很方便的仅校验用户操作过和被校验过的字段。
   dirty?: boolean;
 }
@@ -629,7 +630,7 @@ const MyInput = ({
 
 ### 为什么 Form.List 不支持 `label` 还需要使用 ErrorList 展示错误？
 
-Form.List 本身是 renderProps，内部样式非常自由。因而默认配置 `label` 和 `error` 节点很难与之配合。如果你需要 antd 样式的 `label`，可以通过外部包裹 Form.Item 来实现。
+Form.List 本身是 renderProps，内部样式非常自由。因而默认配置 `label` 和 `error` 节点很难与之配合。如果你需要 metis 样式的 `label`，可以通过外部包裹 Form.Item 来实现。
 
 ### 为什么 Form.Item 的 `dependencies` 对 Form.List 下的字段没有效果？
 

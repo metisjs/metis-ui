@@ -1,10 +1,11 @@
 import * as React from 'react';
+import type { Breakpoint } from 'metis-ui/es/_util/responsiveObserver';
 import { Field, FieldContext, ListContext } from 'rc-field-form';
 import type { FieldProps } from 'rc-field-form/lib/Field';
 import type { InternalNamePath, Meta } from 'rc-field-form/lib/interface';
 import useState from 'rc-util/lib/hooks/useState';
 import { supportRef } from 'rc-util/lib/ref';
-import { clsx } from '../../_util/classNameUtils';
+import type { SemanticClassName } from '../../_util/classNameUtils';
 import { cloneElement } from '../../_util/reactNode';
 import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
@@ -79,14 +80,13 @@ const MemoInput = React.memo(
 );
 
 export interface FormItemProps<Values = any>
-  extends Omit<FormItemLabelProps, 'requiredMark'>,
+  extends Omit<FormItemLabelProps, 'requiredMark' | 'layout' | 'className'>,
     FormItemInputProps,
     RcFieldProps<Values> {
   prefixCls?: string;
   noStyle?: boolean;
   style?: React.CSSProperties;
-  className?: string;
-  rootClassName?: string;
+  className?: SemanticClassName<'label' | 'field'>;
   children?: ChildrenType<Values>;
   id?: string;
   hasFeedback?: boolean | { icons: FeedbackIcons };
@@ -96,9 +96,8 @@ export interface FormItemProps<Values = any>
   initialValue?: any;
   messageVariables?: Record<string, string>;
   tooltip?: LabelTooltipType;
-  /** @deprecated No need anymore */
-  fieldKey?: React.Key | React.Key[];
   layout?: FormItemLayout;
+  span?: number | Partial<Record<Breakpoint, number>>;
 }
 
 function genEmptyMeta(): Meta {
@@ -259,7 +258,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
       <ItemHolder
         key="row"
         {...props}
-        className={clsx(className)}
+        className={className}
         prefixCls={prefixCls}
         fieldId={fieldId}
         isRequired={isRequired}

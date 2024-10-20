@@ -8,8 +8,6 @@ import { FormItemPrefixContext } from './context';
 export interface FormListFieldData {
   name: number;
   key: number;
-  /** @deprecated No need anymore Use key instead */
-  fieldKey?: number;
 }
 
 export interface FormListOperation {
@@ -60,14 +58,10 @@ const FormList: React.FC<FormListProps> = ({
     <List {...props}>
       {(fields, operation, meta) => (
         <FormItemPrefixContext.Provider value={contextValue}>
-          {children(
-            fields.map((field) => ({ ...field, fieldKey: field.key })),
-            operation,
-            {
-              errors: meta.errors,
-              warnings: meta.warnings,
-            },
-          )}
+          {children(fields, operation, {
+            errors: meta.errors,
+            warnings: meta.warnings,
+          })}
         </FormItemPrefixContext.Provider>
       )}
     </List>

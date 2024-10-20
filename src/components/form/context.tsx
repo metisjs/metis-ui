@@ -5,9 +5,10 @@ import { FormProvider as RcFormProvider } from 'rc-field-form';
 import type { FormProviderProps as RcFormProviderProps } from 'rc-field-form/lib/FormContext';
 import type { Meta } from 'rc-field-form/lib/interface';
 import omit from 'rc-util/lib/omit';
+import type { Breakpoint } from '../_util/responsiveObserver';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
-import type { FormInstance, FormLayout, RequiredMark } from './Form';
+import type { FormInstance, FormLayout, FormProps, RequiredMark } from './Form';
 import type { FeedbackIcons, ValidateStatus } from './FormItem';
 import type { FormLabelAlign } from './interface';
 
@@ -21,18 +22,22 @@ export interface FormContextProps {
   labelWidth?: string | number;
   requiredMark?: RequiredMark;
   size?: SizeType;
+  column?: number;
+  screens: Partial<Record<Breakpoint, boolean>>;
   itemRef: (name: (string | number)[]) => (node: React.ReactElement) => void;
   form?: FormInstance;
   feedbackIcons?: FeedbackIcons;
   autoLabelWidth?: number;
   registerLabelWidth?: (val: number, oldVal?: number) => void;
   deregisterLabelWidth?: (val: number) => void;
+  className?: FormProps<any>['className'];
 }
 
 export const FormContext = React.createContext<FormContextProps>({
   labelAlign: 'right',
   layout: 'horizontal',
   itemRef: (() => {}) as any,
+  screens: {},
 });
 
 /** `noStyle` Form Item Context. Used for error collection */

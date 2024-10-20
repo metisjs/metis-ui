@@ -57,6 +57,7 @@ const Statistic: React.FC<StatisticProps> = (props) => {
     /* --- FormatConfig starts --- */
     onMouseEnter,
     onMouseLeave,
+    style,
     ...rest
   } = props;
 
@@ -126,7 +127,13 @@ const Statistic: React.FC<StatisticProps> = (props) => {
 
   const restProps = pickAttrs(rest, { aria: true, data: true });
   return (
-    <div {...restProps} className={rootCls} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div
+      {...restProps}
+      className={rootCls}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={style}
+    >
       {mergedTitle && <div className={titleCls}>{mergedTitle}</div>}
       <Skeleton paragraph={false} loading={loading} className={skeletonCls}>
         <div className={contentCls}>

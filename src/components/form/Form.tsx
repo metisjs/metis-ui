@@ -4,7 +4,10 @@ import FieldForm, { List, useWatch } from 'rc-field-form';
 import type { FormProps as RcFormProps } from 'rc-field-form/lib/Form';
 import type { FormRef, InternalNamePath, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import type { Options } from 'scroll-into-view-if-needed';
-import { clsx } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import useBreakpoint from '../_util/hooks/useBreakpoint';
+import { matchScreen, type Breakpoint } from '../_util/responsiveObserver';
 import { ConfigContext } from '../config-provider';
 import type { Variant } from '../config-provider';
 import DisabledContext, { DisabledContextProvider } from '../config-provider/DisabledContext';
@@ -13,7 +16,7 @@ import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
 import type { FormContextProps } from './context';
 import { FormContext, FormProvider, VariantContext } from './context';
-import type { FeedbackIcons } from './FormItem';
+import type { FeedbackIcons, FormItemProps } from './FormItem';
 import useForm from './hooks/useForm';
 import type { FormInstance } from './hooks/useForm';
 import useFormLabelWidth from './hooks/useFormLabelWidth';
@@ -28,8 +31,9 @@ export type RequiredMark =
 export type FormLayout = 'horizontal' | 'inline' | 'vertical';
 export type FormItemLayout = 'horizontal' | 'vertical';
 
-export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form'> {
+export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form' | 'className'> {
   prefixCls?: string;
+  className?: SemanticClassName<'', void, { item: FormItemProps['className'] }>;
   colon?: boolean;
   name?: string;
   layout?: FormLayout;
@@ -43,6 +47,7 @@ export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form
   scrollToFirstError?: Options | boolean;
   requiredMark?: RequiredMark;
   variant?: Variant;
+  column?: number | Partial<Record<Breakpoint, number>>;
 }
 
 const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props, ref) => {
@@ -67,6 +72,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     style,
     feedbackIcons,
     variant,
+    column,
     ...restFormProps
   } = props;
 
@@ -75,6 +81,15 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
   const contextValidateMessages = React.useContext(ValidateMessagesContext);
 
   const { autoLabelWidth, registerLabelWidth, deregisterLabelWidth } = useFormLabelWidth();
+
+  const screens = useBreakpoint();
+  const mergedColumn = React.useMemo(() => {
+    if (typeof column === 'number') {
+      return column;
+    }
+
+    return matchScreen(screens, column);
+  }, [screens, column]);
 
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -97,6 +112,8 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
 
   const prefixCls = getPrefixCls('form', customizePrefixCls);
 
+  const semanticCls = getSemanticCls(className);
+
   const rootCls = clsx(
     prefixCls,
     `${prefixCls}-${layout}`,
@@ -107,9 +124,16 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     'text-sm text-text',
     {
       'flex flex-wrap gap-x-6': layout === 'inline',
+      'grid gap-x-6': mergedColumn,
     },
-    className,
+    semanticCls.root,
   );
+  const mergedStyle = {
+    ...(!!mergedColumn && {
+      gridTemplateColumns: `repeat(${mergedColumn}, minmax(0, 1fr))`,
+    }),
+    ...style,
+  };
 
   const [wrapForm] = useForm(form);
   const { __INTERNAL__ } = wrapForm;
@@ -128,9 +152,12 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       itemRef: __INTERNAL__.itemRef,
       form: wrapForm,
       feedbackIcons,
+      column: mergedColumn,
+      screens,
       autoLabelWidth,
       registerLabelWidth,
       deregisterLabelWidth,
+      className,
     }),
     [
       name,
@@ -141,10 +168,13 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       mergedRequiredMark,
       mergedSize,
       wrapForm,
+      mergedColumn,
+      screens,
       feedbackIcons,
       autoLabelWidth,
       registerLabelWidth,
       deregisterLabelWidth,
+      JSON.stringify(className),
     ],
   );
 
@@ -197,7 +227,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
                 onFinishFailed={onInternalFinishFailed}
                 form={wrapForm}
                 ref={nativeElementRef}
-                style={style}
+                style={mergedStyle}
                 className={rootCls}
               />
             </FormContext.Provider>
