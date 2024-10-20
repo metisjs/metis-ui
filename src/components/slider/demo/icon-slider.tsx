@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaceFrownOutline, FaceSmileOutline } from '@metisjs/icons';
-import { Slider } from 'metis-ui';
-import { clsx } from 'metis-ui/es/_util/classNameUtils';
+import { clsx, Slider } from 'metis-ui';
 
 interface IconSliderProps {
   max: number;

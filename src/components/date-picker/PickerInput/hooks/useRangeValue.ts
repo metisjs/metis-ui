@@ -305,11 +305,8 @@ export default function useRangeValue<
 
       // Trigger `onChange` if needed
       if (onChange && !isSameMergedDates) {
-        onChange(
-          getDateTexts(clone),
-          // Return null directly if all date are empty
-          isNullValue && clone.every((val) => !val) ? null : (clone as DateType[]),
-        );
+        const isNull = isNullValue && clone.every((val) => !val);
+        onChange(isNull ? null : getDateTexts(clone), isNull ? null : (clone as DateType[]));
       }
     }
 

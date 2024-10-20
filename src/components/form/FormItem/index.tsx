@@ -1,14 +1,13 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import { Field, FieldContext, ListContext } from 'rc-field-form';
 import type { FieldProps } from 'rc-field-form/lib/Field';
 import type { InternalNamePath, Meta } from 'rc-field-form/lib/interface';
 import useState from 'rc-util/lib/hooks/useState';
 import { supportRef } from 'rc-util/lib/ref';
+import { clsx } from '../../_util/classNameUtils';
 import { cloneElement } from '../../_util/reactNode';
 import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
-import useCSSVarCls from '../../config-provider/hooks/useCSSVarCls';
 import { FormContext, NoStyleItemContext } from '../context';
 import type { FormInstance, FormItemLayout } from '../Form';
 import type { FormItemInputProps } from '../FormItemInput';
@@ -17,7 +16,6 @@ import useChildren from '../hooks/useChildren';
 import useFormItemStatus from '../hooks/useFormItemStatus';
 import useFrameState from '../hooks/useFrameState';
 import useItemRef from '../hooks/useItemRef';
-import useStyle from '../style';
 import { getFieldId, toArray } from '../util';
 import type { ItemHolderProps } from './ItemHolder';
 import ItemHolder from './ItemHolder';
@@ -149,10 +147,6 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
 
   const prefixCls = getPrefixCls('form', customizePrefixCls);
 
-  // Style
-  const rootCls = useCSSVarCls(prefixCls);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls);
-
   // ========================= Warn =========================
   const warning = devUseWarning('Form.Item');
 
@@ -265,7 +259,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
       <ItemHolder
         key="row"
         {...props}
-        className={classNames(className, cssVarCls, rootCls, hashId)}
+        className={clsx(className)}
         prefixCls={prefixCls}
         fieldId={fieldId}
         isRequired={isRequired}
@@ -281,7 +275,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   }
 
   if (!hasName && !isRenderProps && !dependencies) {
-    return wrapCSSVar(renderLayout(mergedChildren) as JSX.Element);
+    return renderLayout(mergedChildren) as JSX.Element;
   }
 
   let variables: Record<string, string> = {};
@@ -295,7 +289,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   }
 
   // >>>>> With Field
-  return wrapCSSVar(
+  return (
     <Field
       {...props}
       messageVariables={variables}
@@ -434,7 +428,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
 
         return renderLayout(childNode, fieldId, isRequired);
       }}
-    </Field>,
+    </Field>
   );
 }
 

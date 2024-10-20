@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Radio } from 'antd';
+import { Button, Form, Input, Segmented } from 'metis-ui';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -20,11 +20,13 @@ const App: React.FC = () => {
       style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 }}
     >
       <Form.Item label="Form Layout" name="layout">
-        <Radio.Group value={formLayout}>
-          <Radio.Button value="horizontal">Horizontal</Radio.Button>
-          <Radio.Button value="vertical">Vertical</Radio.Button>
-          <Radio.Button value="inline">Inline</Radio.Button>
-        </Radio.Group>
+        <Segmented
+          options={[
+            { label: 'Horizontal', value: 'horizontal' },
+            { label: 'Vertical', value: 'vertical' },
+            { label: 'Inline', value: 'inline' },
+          ]}
+        ></Segmented>
       </Form.Item>
       <Form.Item label="Field A">
         <Input placeholder="input placeholder" />

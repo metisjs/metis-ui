@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { useMemo } from 'react';
-import classNames from 'classnames';
-import type { CSSMotionProps } from 'rc-motion';
-import CSSMotion, { CSSMotionList } from 'rc-motion';
-import initCollapseMotion from '../_util/motion';
-import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
+import { clsx } from '../_util/classNameUtils';
+import { collapseTransition } from '../_util/transition';
+import Transition, { TransitionList } from '../transition';
 import { FormItemPrefixContext } from './context';
 import type { ValidateStatus } from './FormItem';
 import useDebounce from './hooks/useDebounce';
-import useStyle from './style';
 
 const EMPTY_LIST: React.ReactNode[] = [];
 
@@ -52,12 +48,7 @@ const ErrorList: React.FC<ErrorListProps> = ({
 }) => {
   const { prefixCls } = React.useContext(FormItemPrefixContext);
 
-  const baseClassName = `${prefixCls}-item-explain`;
-
-  const rootCls = useCSSVarCls(prefixCls);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls);
-
-  const collapseMotion: CSSMotionProps = useMemo(() => initCollapseMotion(prefixCls), [prefixCls]);
+  const baseClassName = clsx(`${prefixCls}-item-explain`, 'h-auto text-xs text-text-tertiary');
 
   // We have to debounce here again since somewhere use ErrorList directly still need no shaking
   const debounceErrors = useDebounce(errors);
@@ -82,36 +73,27 @@ const ErrorList: React.FC<ErrorListProps> = ({
     helpProps.id = `${fieldId}_help`;
   }
 
-  return wrapCSSVar(
-    <CSSMotion
-      motionDeadline={collapseMotion.motionDeadline}
-      motionName={`${prefixCls}-show-help`}
+  return (
+    <Transition
+      enter="transition-opacity"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+      deadline={collapseTransition.deadline}
       visible={!!fullKeyList.length}
       onVisibleChanged={onVisibleChanged}
     >
-      {(holderProps) => {
-        const { className: holderClassName, style: holderStyle } = holderProps;
-
+      {({ className: holderClassName, style: holderStyle }) => {
         return (
           <div
             {...helpProps}
-            className={classNames(
-              baseClassName,
-              holderClassName,
-              cssVarCls,
-              rootCls,
-              rootClassName,
-              hashId,
-            )}
+            className={clsx(baseClassName, holderClassName, rootClassName)}
             style={holderStyle}
             role="alert"
           >
-            <CSSMotionList
-              keys={fullKeyList}
-              {...initCollapseMotion(prefixCls)}
-              motionName={`${prefixCls}-show-help-item`}
-              component={false}
-            >
+            <TransitionList keys={fullKeyList} {...collapseTransition} component={false}>
               {(itemProps) => {
                 const {
                   key,
@@ -124,20 +106,27 @@ const ErrorList: React.FC<ErrorListProps> = ({
                 return (
                   <div
                     key={key}
-                    className={classNames(itemClassName, {
-                      [`${baseClassName}-${errorStatus}`]: errorStatus,
-                    })}
+                    className={clsx(
+                      itemClassName,
+                      {
+                        [`${prefixCls}-item-explain-${errorStatus}`]: errorStatus,
+                      },
+                      {
+                        'text-error': errorStatus === 'error',
+                        'text-warning': errorStatus === 'warning',
+                      },
+                    )}
                     style={itemStyle}
                   >
                     {error}
                   </div>
                 );
               }}
-            </CSSMotionList>
+            </TransitionList>
           </div>
         );
       }}
-    </CSSMotion>,
+    </Transition>
   );
 };
 

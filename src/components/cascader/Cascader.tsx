@@ -6,6 +6,7 @@ import { useZIndex } from '../_util/hooks/useZIndex';
 import type { RequestConfig } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
 import type { BaseSelectProps, BaseSelectRef, DisplayValueType } from '../select/BaseSelect';
 import BaseSelect from '../select/BaseSelect';
@@ -13,6 +14,7 @@ import useBuiltinPlacements from '../select/hooks/useBuiltinPlacements';
 import useIcons from '../select/hooks/useIcons';
 import useId from '../select/hooks/useId';
 import type { SelectCommonPlacement } from '../select/interface';
+import { useCompactItemContext } from '../space/Compact';
 import CascaderContext from './context';
 import useColumnIcons from './hooks/useColumnIcons';
 import useDisplayValues from './hooks/useDisplayValues';
@@ -72,6 +74,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   const {
     id,
     prefixCls: customizePrefixCls,
+    size: customizeSize,
     fieldNames,
     className,
     multiple = false,
@@ -173,12 +176,15 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   );
 
   // ===================== Icons ======================
+  const { compactSize } = useCompactItemContext(prefixCls);
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
   const { suffixIcon, removeIcon, clearIcon } = useIcons({
     ...props,
     loading: mergedLoading,
     hasFeedback,
     feedbackIcon,
     prefixCls,
+    size: mergedSize,
   });
   const [mergedExpandIcon, loadingIcon] = useColumnIcons(expandIcon);
 
@@ -368,6 +374,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
         autoClearSearchValue={autoClearSearchValue}
         popupMatchSelectWidth={false}
         zIndex={zIndex}
+        size={mergedSize}
         displayValues={displayValues}
         onDisplayValuesChange={onDisplayValuesChange}
         mode={multiple ? 'multiple' : undefined}

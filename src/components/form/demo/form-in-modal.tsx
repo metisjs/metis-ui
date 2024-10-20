@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Modal, Radio } from 'antd';
+import { Button, Form, Input, Modal, Radio } from 'metis-ui';
 
 interface Values {
   title?: string;

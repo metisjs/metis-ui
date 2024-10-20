@@ -1,24 +1,6 @@
 import React from 'react';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 },
-  },
-};
-
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 },
-  },
-};
+import { MinusCircleOutline, PlusOutline } from '@metisjs/icons';
+import { Button, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => {
   const onFinish = (values: any) => {
@@ -26,12 +8,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Form
-      name="dynamic_form_item"
-      {...formItemLayoutWithOutLabel}
-      onFinish={onFinish}
-      style={{ maxWidth: 600 }}
-    >
+    <Form name="dynamic_form_item" onFinish={onFinish} className="max-w-[600px]" labelWidth="16%">
       <Form.List
         name="names"
         rules={[
@@ -47,12 +24,7 @@ const App: React.FC = () => {
         {(fields, { add, remove }, { errors }) => (
           <>
             {fields.map((field, index) => (
-              <Form.Item
-                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                label={index === 0 ? 'Passengers' : ''}
-                required={false}
-                key={field.key}
-              >
+              <Form.Item label={index === 0 ? 'Passengers' : ''} required={false} key={field.key}>
                 <Form.Item
                   {...field}
                   validateTrigger={['onChange', 'onBlur']}
@@ -68,29 +40,23 @@ const App: React.FC = () => {
                   <Input placeholder="passenger name" style={{ width: '60%' }} />
                 </Form.Item>
                 {fields.length > 1 ? (
-                  <MinusCircleOutlined
-                    className="dynamic-delete-button"
+                  <MinusCircleOutline
+                    className="ml-2 h-6 w-6 cursor-pointer text-text-secondary hover:text-primary"
                     onClick={() => remove(field.name)}
                   />
                 ) : null}
               </Form.Item>
             ))}
             <Form.Item>
-              <Button
-                type="dashed"
-                onClick={() => add()}
-                style={{ width: '60%' }}
-                icon={<PlusOutlined />}
-              >
+              <Button onClick={() => add()} icon={<PlusOutline />} className="w-3/5">
                 Add field
               </Button>
               <Button
-                type="dashed"
                 onClick={() => {
                   add('The head item', 0);
                 }}
-                style={{ width: '60%', marginTop: '20px' }}
-                icon={<PlusOutlined />}
+                className="mt-5 w-3/5"
+                icon={<PlusOutline />}
               >
                 Add field at head
               </Button>

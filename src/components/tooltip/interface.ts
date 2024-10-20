@@ -1,5 +1,7 @@
 import type { SemanticClassName } from '../_util/classNameUtils';
+import type { PresetColorType } from '../_util/colors';
 import type { AdjustOverflow } from '../_util/placements';
+import type { LiteralUnion } from '../_util/type';
 import type { TransitionProps } from '../transition';
 import type { ActionType, AlignType, ArrowType, BuildInPlacements, TriggerProps } from '../trigger';
 
@@ -25,7 +27,7 @@ export interface AbstractTooltipProps
   style?: React.CSSProperties;
   className?: SemanticClassName<'open' | 'overlay' | 'popup' | 'popupInner' | 'arrow'>;
   prefixCls?: string;
-  color?: string;
+  color?: LiteralUnion<PresetColorType>;
   builtinPlacements?: BuildInPlacements;
   arrow?:
     | boolean

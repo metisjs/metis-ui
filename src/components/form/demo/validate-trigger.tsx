@@ -1,9 +1,9 @@
 import React from 'react';
-import { Alert, Form, Input } from 'antd';
+import { Alert, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => (
-  <Form name="trigger" style={{ maxWidth: 600 }} layout="vertical" autoComplete="off">
-    <Alert message="Use 'max' rule, continue type chars to see it" />
+  <Form name="trigger" className="max-w-[600px]" layout="vertical" autoComplete="off">
+    <Alert message="Use 'max' rule, continue type chars to see it" className="mb-6" />
 
     <Form.Item
       hasFeedback

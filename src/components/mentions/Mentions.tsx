@@ -19,6 +19,7 @@ import toList from '../_util/toList';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 import type { TextAreaProps } from '../input';
 import type { HolderRef } from '../input/BaseInput';
@@ -440,7 +441,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
         onPressEnter={onInternalPressEnter}
         onFocus={onInternalFocus}
         onBlur={onInternalBlur}
-        className={textareaCls}
+        className={{ textarea: textareaCls }}
       />
       {mergedMeasuring && (
         <div ref={measureRef} className={measureCls}>
@@ -483,8 +484,8 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       allowClear,
       onChange,
       className,
-      disabled,
-      size: customizeSize = 'middle',
+      disabled: customDisabled,
+      size: customizeSize,
       onClear,
       notFoundContent: customizeNotFoundContent,
       getPopupContainer,
@@ -515,6 +516,10 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       value: customizeValue,
     });
 
+    // ===================== Disabled =====================
+    const disabled = React.useContext(DisabledContext);
+    const mergedDisabled = customDisabled ?? disabled;
+
     // ============================== Size ===============================
     const mergedSize = useSize(customizeSize);
 
@@ -534,7 +539,24 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       'leading-6': mergedSize === 'middle',
       'text-base': mergedSize === 'large',
     });
-    const clearCls = clsx('absolute right-2 top-1 text-text-tertiary hover:text-text-secondary');
+    const suffixCls = clsx(
+      mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
+      'flex flex-none items-center gap-x-1 text-text-secondary',
+      {
+        '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
+        '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+      },
+      mergedDisabled && 'text-text-tertiary',
+    );
+    const clearCls = clsx(
+      'absolute right-2 inline-flex h-5 items-center text-text-tertiary hover:text-text-secondary',
+      {
+        'top-2.5': mergedSize === 'large',
+        'top-2': mergedSize === 'middle',
+        'top-1.5': mergedSize === 'small',
+        'top-1': mergedSize === 'mini',
+      },
+    );
     const textareaCls = clsx(
       {
         'pe-8': allowClear,
@@ -556,17 +578,17 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         value={mergedValue}
         allowClear={allowClear}
         handleReset={handleReset}
-        disabled={disabled}
+        disabled={mergedDisabled}
         ref={holderRef}
         onClear={onClear}
-        className={{ affixWrapper: affixWrapperCls, clear: clearCls }}
+        className={{ affixWrapper: affixWrapperCls, clear: clearCls, suffix: suffixCls }}
       >
         <InternalMentions
           className={mergeSemanticCls(className, { textarea: textareaCls })}
           prefixCls={prefixCls}
           ref={mentionRef}
           onChange={triggerChange}
-          disabled={disabled}
+          disabled={mergedDisabled}
           size={mergedSize}
           notFoundContent={notFoundContent}
           getPopupContainer={getPopupContainer ?? getContextPopupContainer}

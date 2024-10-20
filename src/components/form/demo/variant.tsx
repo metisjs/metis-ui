@@ -9,35 +9,23 @@ import {
   Mentions,
   Segmented,
   Select,
-  TreeSelect,
-} from 'antd';
-import type { FormProps } from 'antd';
+} from 'metis-ui';
+import type { FormProps } from 'metis-ui';
 
 const { RangePicker } = DatePicker;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
-};
 
 const App: React.FC = () => {
   const [componentVariant, setComponentVariant] = useState<FormProps['variant']>('filled');
 
-  const onFormVariantChange = ({ variant }: { variant: FormProps['variant'] }) => {
+  const onFormVariantChange = (_: any, { variant }: { variant: FormProps['variant'] }) => {
     setComponentVariant(variant);
   };
+
   return (
     <Form
-      {...formItemLayout}
       onValuesChange={onFormVariantChange}
       variant={componentVariant}
-      style={{ maxWidth: 600 }}
+      className="max-w-[600px]"
       initialValues={{ variant: componentVariant }}
     >
       <Form.Item label="Form variant" name="variant">
@@ -89,14 +77,6 @@ const App: React.FC = () => {
       </Form.Item>
 
       <Form.Item
-        label="TreeSelect"
-        name="TreeSelect"
-        rules={[{ required: true, message: 'Please input!' }]}
-      >
-        <TreeSelect />
-      </Form.Item>
-
-      <Form.Item
         label="DatePicker"
         name="DatePicker"
         rules={[{ required: true, message: 'Please input!' }]}
@@ -112,7 +92,7 @@ const App: React.FC = () => {
         <RangePicker />
       </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+      <Form.Item>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>

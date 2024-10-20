@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Form, Input, Typography } from 'antd';
+import { Alert, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
@@ -8,10 +8,15 @@ const App: React.FC = () => {
       form={form}
       name="dependencies"
       autoComplete="off"
-      style={{ maxWidth: 600 }}
+      className="max-w-[600px]"
       layout="vertical"
     >
-      <Alert message=" Try modify `Password2` and then modify `Password`" type="info" showIcon />
+      <Alert
+        message=" Try modify `Password2` and then modify `Password`"
+        type="info"
+        showIcon
+        className="mb-6"
+      />
 
       <Form.Item label="Password" name="password" rules={[{ required: true }]}>
         <Input />
@@ -42,12 +47,12 @@ const App: React.FC = () => {
       {/* Render Props */}
       <Form.Item noStyle dependencies={['password2']}>
         {() => (
-          <Typography>
+          <div>
             <p>
               Only Update when <code>password2</code> updated:
             </p>
             <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-          </Typography>
+          </div>
         )}
       </Form.Item>
     </Form>

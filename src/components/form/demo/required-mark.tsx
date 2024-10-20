@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Radio, Tag } from 'antd';
+import { InformationCircleOutline } from '@metisjs/icons';
+import { Button, Form, Input, Radio, Tag } from 'metis-ui';
 
 type RequiredMark = boolean | 'optional' | 'customize';
 
@@ -15,7 +15,10 @@ const App: React.FC = () => {
   const [form] = Form.useForm();
   const [requiredMark, setRequiredMarkType] = useState<RequiredMark>('optional');
 
-  const onRequiredTypeChange = ({ requiredMarkValue }: { requiredMarkValue: RequiredMark }) => {
+  const onRequiredTypeChange = (
+    _: any,
+    { requiredMarkValue }: { requiredMarkValue: RequiredMark },
+  ) => {
     setRequiredMarkType(requiredMarkValue);
   };
 
@@ -29,10 +32,10 @@ const App: React.FC = () => {
     >
       <Form.Item label="Required Mark" name="requiredMarkValue">
         <Radio.Group>
-          <Radio.Button value>Default</Radio.Button>
-          <Radio.Button value="optional">Optional</Radio.Button>
-          <Radio.Button value={false}>Hidden</Radio.Button>
-          <Radio.Button value="customize">Customize</Radio.Button>
+          <Radio value>Default</Radio>
+          <Radio value="optional">Optional</Radio>
+          <Radio value={false}>Hidden</Radio>
+          <Radio value="customize">Customize</Radio>
         </Radio.Group>
       </Form.Item>
       <Form.Item label="Field A" required tooltip="This is a required field">
@@ -40,7 +43,7 @@ const App: React.FC = () => {
       </Form.Item>
       <Form.Item
         label="Field B"
-        tooltip={{ title: 'Tooltip with customize icon', icon: <InfoCircleOutlined /> }}
+        tooltip={{ title: 'Tooltip with customize icon', icon: <InformationCircleOutline /> }}
       >
         <Input placeholder="input placeholder" />
       </Form.Item>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, message, Space } from 'antd';
+import { Button, Form, Input, message, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();

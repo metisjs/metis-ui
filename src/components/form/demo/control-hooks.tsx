@@ -1,16 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Select, Space } from 'antd';
-
-const { Option } = Select;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+import { Button, Form, Input, Select, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
@@ -44,25 +33,26 @@ const App: React.FC = () => {
 
   return (
     <Form
-      {...layout}
       form={form}
       name="control-hooks"
+      labelWidth="30%"
       onFinish={onFinish}
-      style={{ maxWidth: 600 }}
+      className="max-w-[600px]"
     >
       <Form.Item name="note" label="Note" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
       <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
         <Select
+          options={[
+            { value: 'male', label: 'male' },
+            { value: 'female', label: 'female' },
+            { value: 'other', label: 'other' },
+          ]}
           placeholder="Select a option and change input text above"
           onChange={onGenderChange}
           allowClear
-        >
-          <Option value="male">male</Option>
-          <Option value="female">female</Option>
-          <Option value="other">other</Option>
-        </Select>
+        ></Select>
       </Form.Item>
       <Form.Item
         noStyle
@@ -76,7 +66,7 @@ const App: React.FC = () => {
           ) : null
         }
       </Form.Item>
-      <Form.Item {...tailLayout}>
+      <Form.Item>
         <Space>
           <Button type="primary" htmlType="submit">
             Submit

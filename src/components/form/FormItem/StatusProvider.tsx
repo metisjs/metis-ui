@@ -1,20 +1,22 @@
 import * as React from 'react';
-import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
-import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
-import ExclamationCircleFilled from '@ant-design/icons/ExclamationCircleFilled';
-import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
-import classNames from 'classnames';
+import {
+  CheckCircleSolid,
+  ExclamationCircleSolid,
+  LoadingOutline,
+  XCircleSolid,
+} from '@metisjs/icons';
 import type { Meta } from 'rc-field-form/lib/interface';
 import type { FeedbackIcons, ValidateStatus } from '.';
-import { FormContext, FormItemInputContext } from '../context';
+import { clsx } from '../../_util/classNameUtils';
 import type { FormItemStatusContextProps } from '../context';
+import { FormContext, FormItemInputContext } from '../context';
 import { getStatus } from '../util';
 
 const iconMap = {
-  success: CheckCircleFilled,
-  warning: ExclamationCircleFilled,
-  error: CloseCircleFilled,
-  validating: LoadingOutlined,
+  success: <CheckCircleSolid className="text-success" />,
+  warning: <ExclamationCircleSolid className="text-warning" />,
+  error: <XCircleSolid className="text-error" />,
+  validating: <LoadingOutline className="animate-spin text-primary" />,
 };
 
 export interface StatusProviderProps {
@@ -65,16 +67,23 @@ export default function StatusProvider({
       const customIconNode =
         mergedValidateStatus &&
         customIcons?.({ status: mergedValidateStatus, errors, warnings })?.[mergedValidateStatus];
-      const IconNode = mergedValidateStatus && iconMap[mergedValidateStatus];
+      const iconNode = mergedValidateStatus && iconMap[mergedValidateStatus];
       feedbackIcon =
-        customIconNode !== false && IconNode ? (
+        customIconNode !== false && iconNode ? (
           <span
-            className={classNames(
+            className={clsx(
               `${itemPrefixCls}-feedback-icon`,
               `${itemPrefixCls}-feedback-icon-${mergedValidateStatus}`,
+              'inline-flex items-center',
+              {
+                'text-success': mergedValidateStatus === 'success',
+                'text-warning': mergedValidateStatus === 'warning',
+                'text-error': mergedValidateStatus === 'error',
+                'text-primary': mergedValidateStatus === 'validating',
+              },
             )}
           >
-            {customIconNode || <IconNode />}
+            {customIconNode || iconNode}
           </span>
         ) : null;
     }

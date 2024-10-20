@@ -29,7 +29,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
     status: customStatus,
-    size: customSize = 'middle',
+    size: customSize,
     disabled: customDisabled,
     onBlur,
     onFocus,
@@ -326,15 +326,21 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
-    mergedSize === 'large' && '[&_.metis-icon]:text-lg',
+    'flex flex-none items-center gap-x-1 text-text-secondary',
+    {
+      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
+      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+    },
     mergedDisabled && 'text-text-tertiary',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
-    mergedSize === 'large' && '[&_.metis-icon]:text-lg',
+    'flex flex-none items-center gap-x-2 text-text-secondary',
+    {
+      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
+      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+    },
     mergedDisabled && 'text-text-tertiary',
     semanticCls.suffix,
   );

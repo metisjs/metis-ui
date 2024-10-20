@@ -6,7 +6,9 @@ import type { RequestConfig } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import useSize from '../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../form/context';
+import { useCompactItemContext } from '../space/Compact';
 import type {
   BaseSelectProps,
   BaseSelectRef,
@@ -80,6 +82,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     fieldNames,
     allowClear,
     displayRender,
+    size: customizeSize,
 
     // Request
     request,
@@ -193,6 +196,8 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   }
 
   // ===================== Icons =====================
+  const { compactSize } = useCompactItemContext(prefixCls);
+  const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
   const { suffixIcon, itemIcon, removeIcon, clearIcon } = useIcons({
     ...props,
     menuItemSelectedIcon,
@@ -201,6 +206,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     hasFeedback,
     feedbackIcon,
     prefixCls,
+    size: mergedSize,
   });
 
   const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
@@ -607,6 +613,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
         ref={ref}
         omitDomProps={OMIT_DOM_PROPS}
         mode={mergedMode}
+        size={mergedSize}
         builtinPlacements={mergedBuiltinPlacements}
         popupMatchSelectWidth={mergedPopupMatchSelectWidth}
         suffixIcon={suffixIcon}

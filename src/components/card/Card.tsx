@@ -3,6 +3,7 @@ import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
+import type { SizeType } from '../config-provider/SizeContext';
 import Skeleton from '../skeleton';
 
 export type CardSize = 'default' | 'small';
@@ -82,17 +83,20 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   );
 
   let head: React.ReactNode;
-  const mergedSize = useSize(customizeSize);
+  const mergedSize = useSize(customizeSize) as SizeType;
+  const isSmall = mergedSize === 'small' || mergedSize === 'mini';
 
   if (title || extra) {
     const headClasses = clsx(
       `${prefixCls}-head`,
       'flex items-center justify-between border-b border-border-secondary px-6 py-4',
+      isSmall && 'px-4 py-2',
       semanticCLs.header,
     );
     const titleClasses = clsx(
       `${prefixCls}-head-title`,
       'flex-1 truncate text-base font-semibold',
+      isSmall && 'text-sm',
       semanticCLs.title,
     );
     const extraClasses = clsx(`${prefixCls}-extra`, semanticCLs.extra);
@@ -111,7 +115,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
         : cover}
     </div>
   ) : null;
-  const bodyClasses = clsx(`${prefixCls}-body`, 'p-6', semanticCLs.body);
+  const bodyClasses = clsx(`${prefixCls}-body`, 'p-6', isSmall && 'p-4', semanticCLs.body);
   const body = <div className={bodyClasses}>{loading ? loadingBlock : children}</div>;
 
   const actionClasses = clsx(
@@ -129,7 +133,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
       [`${prefixCls}-loading`]: loading,
       [`${prefixCls}-bordered`]: bordered,
       [`${prefixCls}-hoverable`]: hoverable,
-      [`${prefixCls}-${mergedSize}`]: mergedSize,
     },
     'overflow-hidden rounded-lg border border-border-secondary bg-container text-sm text-text',
     {

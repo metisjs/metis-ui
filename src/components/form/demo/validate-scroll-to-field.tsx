@@ -1,18 +1,12 @@
 import React from 'react';
-import { Button, Flex, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, Space } from 'metis-ui';
 
 const App = () => {
   const [form] = Form.useForm();
 
   return (
-    <Form
-      form={form}
-      scrollToFirstError
-      style={{ paddingBlock: 32 }}
-      labelCol={{ span: 6 }}
-      wrapperCol={{ span: 14 }}
-    >
-      <Form.Item wrapperCol={{ offset: 6 }}>
+    <Form form={form} scrollToFirstError labelWidth="30%" className="max-w-[600px] px-6 py-8">
+      <Form.Item>
         <Button onClick={() => form.scrollToField('bio')}>Scroll to Bio</Button>
       </Form.Item>
 
@@ -38,15 +32,15 @@ const App = () => {
         <Input.TextArea rows={6} />
       </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 6 }}>
-        <Flex gap="small">
+      <Form.Item>
+        <Space size="small">
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
           <Button danger onClick={() => form.resetFields()}>
             Reset
           </Button>
-        </Flex>
+        </Space>
       </Form.Item>
     </Form>
   );

@@ -36,7 +36,7 @@ description: 展示统计数值。
 | title | 数值的标题 | ReactNode | - |  |
 | value | 数值内容 | string \| number | - |  |
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
-| tip | 标题栏提示 | string \| TooltipProps | - |  |
+| tooltip | 标题栏提示 | string \| TooltipProps | - |  |
 | className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 #### Statistic.Group

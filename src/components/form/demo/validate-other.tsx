@@ -1,28 +1,19 @@
 import React from 'react';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { ArrowUpOutline, InboxOutline } from '@metisjs/icons';
 import {
   Button,
   Checkbox,
-  Col,
   ColorPicker,
   Form,
   InputNumber,
   Radio,
   Rate,
-  Row,
   Select,
   Slider,
   Space,
   Switch,
   Upload,
-} from 'antd';
-
-const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
-};
+} from 'metis-ui';
 
 const normFile = (e: any) => {
   console.log('Upload event:', e);
@@ -39,7 +30,6 @@ const onFinish = (values: any) => {
 const App: React.FC = () => (
   <Form
     name="validate_other"
-    {...formItemLayout}
     onFinish={onFinish}
     initialValues={{
       'input-number': 3,
@@ -47,7 +37,7 @@ const App: React.FC = () => (
       rate: 3.5,
       'color-picker': null,
     }}
-    style={{ maxWidth: 600 }}
+    className="max-w-[600px]"
   >
     <Form.Item label="Plain Text">
       <span className="ant-form-text">China</span>
@@ -58,10 +48,13 @@ const App: React.FC = () => (
       hasFeedback
       rules={[{ required: true, message: 'Please select your country!' }]}
     >
-      <Select placeholder="Please select a country">
-        <Option value="china">China</Option>
-        <Option value="usa">U.S.A</Option>
-      </Select>
+      <Select
+        options={[
+          { value: 'china', label: 'China' },
+          { value: 'usa', label: 'U.S.A' },
+        ]}
+        placeholder="Please select a country"
+      ></Select>
     </Form.Item>
 
     <Form.Item
@@ -69,11 +62,15 @@ const App: React.FC = () => (
       label="Select[multiple]"
       rules={[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]}
     >
-      <Select mode="multiple" placeholder="Please select favourite colors">
-        <Option value="red">Red</Option>
-        <Option value="green">Green</Option>
-        <Option value="blue">Blue</Option>
-      </Select>
+      <Select
+        mode="multiple"
+        options={[
+          { value: 'red', label: 'Red' },
+          { value: 'green', label: 'Green' },
+          { value: 'blue', label: 'Blue' },
+        ]}
+        placeholder="Please select favourite colors"
+      ></Select>
     </Form.Item>
 
     <Form.Item label="InputNumber">
@@ -102,7 +99,11 @@ const App: React.FC = () => (
       />
     </Form.Item>
 
-    <Form.Item name="radio-group" label="Radio.Group">
+    <Form.Item
+      name="radio-group"
+      label="Radio.Group"
+      rules={[{ required: true, message: 'Please pick an item!' }]}
+    >
       <Radio.Group>
         <Radio value="a">item 1</Radio>
         <Radio value="b">item 2</Radio>
@@ -110,52 +111,26 @@ const App: React.FC = () => (
       </Radio.Group>
     </Form.Item>
 
-    <Form.Item
-      name="radio-button"
-      label="Radio.Button"
-      rules={[{ required: true, message: 'Please pick an item!' }]}
-    >
-      <Radio.Group>
-        <Radio.Button value="a">item 1</Radio.Button>
-        <Radio.Button value="b">item 2</Radio.Button>
-        <Radio.Button value="c">item 3</Radio.Button>
-      </Radio.Group>
-    </Form.Item>
-
     <Form.Item name="checkbox-group" label="Checkbox.Group">
-      <Checkbox.Group>
-        <Row>
-          <Col span={8}>
-            <Checkbox value="A" style={{ lineHeight: '32px' }}>
-              A
-            </Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox value="B" style={{ lineHeight: '32px' }} disabled>
-              B
-            </Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox value="C" style={{ lineHeight: '32px' }}>
-              C
-            </Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox value="D" style={{ lineHeight: '32px' }}>
-              D
-            </Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox value="E" style={{ lineHeight: '32px' }}>
-              E
-            </Checkbox>
-          </Col>
-          <Col span={8}>
-            <Checkbox value="F" style={{ lineHeight: '32px' }}>
-              F
-            </Checkbox>
-          </Col>
-        </Row>
+      <Checkbox.Group className="grid grid-cols-4 grid-rows-subgrid">
+        <Checkbox value="A" className="leading-9">
+          A
+        </Checkbox>
+        <Checkbox value="B" disabled className="leading-9">
+          B
+        </Checkbox>
+        <Checkbox value="C" className="leading-9">
+          C
+        </Checkbox>
+        <Checkbox value="D" className="leading-9">
+          D
+        </Checkbox>
+        <Checkbox value="E" className="leading-9">
+          E
+        </Checkbox>
+        <Checkbox value="F" className="leading-9">
+          F
+        </Checkbox>
       </Checkbox.Group>
     </Form.Item>
 
@@ -171,17 +146,17 @@ const App: React.FC = () => (
       extra="longgggggggggggggggggggggggggggggggggg"
     >
       <Upload name="logo" action="/upload.do" listType="picture">
-        <Button icon={<UploadOutlined />}>Click to upload</Button>
+        <Button icon={<ArrowUpOutline />}>Click to upload</Button>
       </Upload>
     </Form.Item>
     <Form.Item label="Dragger">
       <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
         <Upload.Dragger name="files" action="/upload.do">
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
+          <p className="mb-4">
+            <InboxOutline className="h-12 w-12 text-primary" />
           </p>
-          <p className="ant-upload-text">Click or drag file to this area to upload</p>
-          <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+          <p className="mb-1 text-base">Click or drag file to this area to upload</p>
+          <p className="text-text-tertiary">Support for a single or bulk upload.</p>
         </Upload.Dragger>
       </Form.Item>
     </Form.Item>
@@ -193,12 +168,12 @@ const App: React.FC = () => (
       <ColorPicker />
     </Form.Item>
 
-    <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+    <Form.Item>
       <Space>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
-        <Button htmlType="reset">reset</Button>
+        <Button htmlType="reset">Reset</Button>
       </Space>
     </Form.Item>
   </Form>

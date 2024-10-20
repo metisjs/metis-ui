@@ -1,20 +1,12 @@
 import React from 'react';
-import { Button, Form, Input, Select, Space, Tooltip, Typography } from 'antd';
-
-const { Option } = Select;
+import { Button, Form, Input, Select, Space, Tooltip } from 'metis-ui';
 
 const onFinish = (values: any) => {
   console.log('Received values of form: ', values);
 };
 
 const App: React.FC = () => (
-  <Form
-    name="complex-form"
-    onFinish={onFinish}
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
-    style={{ maxWidth: 600 }}
-  >
+  <Form name="complex-form" onFinish={onFinish} className="max-w-[600px]">
     <Form.Item label="Username">
       <Space>
         <Form.Item
@@ -25,7 +17,7 @@ const App: React.FC = () => (
           <Input style={{ width: 160 }} placeholder="Please input" />
         </Form.Item>
         <Tooltip title="Useful information">
-          <Typography.Link href="#API">Need Help?</Typography.Link>
+          <a href="#API">Need Help?</a>
         </Tooltip>
       </Space>
     </Form.Item>
@@ -36,10 +28,13 @@ const App: React.FC = () => (
           noStyle
           rules={[{ required: true, message: 'Province is required' }]}
         >
-          <Select placeholder="Select province">
-            <Option value="Zhejiang">Zhejiang</Option>
-            <Option value="Jiangsu">Jiangsu</Option>
-          </Select>
+          <Select
+            options={[
+              { value: 'Zhejiang', label: 'Zhejiang' },
+              { value: 'Jiangsu', label: 'Jiangsu' },
+            ]}
+            placeholder="Select province"
+          ></Select>
         </Form.Item>
         <Form.Item
           name={['address', 'street']}
@@ -66,7 +61,7 @@ const App: React.FC = () => (
         <Input placeholder="Input birth month" />
       </Form.Item>
     </Form.Item>
-    <Form.Item label=" " colon={false}>
+    <Form.Item>
       <Button type="primary" htmlType="submit">
         Submit
       </Button>

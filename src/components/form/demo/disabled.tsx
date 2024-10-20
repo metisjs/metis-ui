@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutline } from '@metisjs/icons';
 import {
   Button,
   Cascader,
@@ -14,9 +14,8 @@ import {
   Select,
   Slider,
   Switch,
-  TreeSelect,
   Upload,
-} from 'antd';
+} from 'metis-ui';
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -39,13 +38,7 @@ const FormDisabledDemo: React.FC = () => {
       >
         Form disabled
       </Checkbox>
-      <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
-        layout="horizontal"
-        disabled={componentDisabled}
-        style={{ maxWidth: 600 }}
-      >
+      <Form layout="horizontal" disabled={componentDisabled} className="max-w-[600px]">
         <Form.Item label="Checkbox" name="disabled" valuePropName="checked">
           <Checkbox>Checkbox</Checkbox>
         </Form.Item>
@@ -59,16 +52,7 @@ const FormDisabledDemo: React.FC = () => {
           <Input />
         </Form.Item>
         <Form.Item label="Select">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="TreeSelect">
-          <TreeSelect
-            treeData={[
-              { title: 'Light', value: 'light', children: [{ title: 'Bamboo', value: 'bamboo' }] },
-            ]}
-          />
+          <Select options={[{ value: 'demo', label: 'Demo' }]}></Select>
         </Form.Item>
         <Form.Item label="Cascader">
           <Cascader
@@ -104,7 +88,7 @@ const FormDisabledDemo: React.FC = () => {
         <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
             <button style={{ border: 0, background: 'none' }} type="button">
-              <PlusOutlined />
+              <PlusOutline />
               <div style={{ marginTop: 8 }}>Upload</div>
             </button>
           </Upload>

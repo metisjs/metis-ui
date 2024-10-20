@@ -19,7 +19,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
   (
     {
       prefixCls: customizePrefixCls,
-      size: customizeSize = 'middle',
+      size: customizeSize,
       disabled: customizeDisabled,
       status: customizeStatus,
       allowClear,
@@ -223,6 +223,16 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       'group',
       'relative inline-flex w-full min-w-0 border-0 text-sm text-text',
     );
+    const suffixCls = clsx(
+      `${prefixCls}-textarea-suffix`,
+      'pointer-events-none absolute bottom-0 right-3 top-0 z-[1] inline-flex flex-none items-center gap-x-2 text-text-secondary',
+      {
+        '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
+        '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+        'right-2': mergedSize === 'mini',
+      },
+      mergedDisabled && 'text-text-tertiary',
+    );
     const countCls = clsx(
       `${prefixCls}-data-count`,
       'absolute bottom-1.5 right-3 bg-container pl-1 text-text-tertiary',
@@ -236,16 +246,22 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       semanticCls.count,
     );
     const clearCls = clsx(
-      'absolute right-2 top-1 text-text-tertiary hover:text-text-secondary',
+      'absolute right-2 top-2 inline-flex text-text-tertiary hover:text-text-secondary',
+      {
+        'text-lg': mergedSize === 'large' || mergedSize === 'middle',
+        'text-base': mergedSize === 'small' || mergedSize === 'mini',
+        'right-2 top-1': mergedSize === 'mini',
+        'right-3 top-1.5': mergedSize === 'small',
+        'right-3 top-2': mergedSize === 'middle',
+        'right-3 top-2.5': mergedSize === 'large',
+      },
       semanticCls.clear,
     );
 
     // =============================== Render ================================
     const isPureTextArea = !rest.autoSize && !showCount && !allowClear;
 
-    let suffixNode = hasFeedback && (
-      <span className={`${prefixCls}-textarea-suffix`}>{feedbackIcon}</span>
-    );
+    let suffixNode = hasFeedback && <span className={suffixCls}>{feedbackIcon}</span>;
     let dataCount: React.ReactNode;
     if (countConfig.show) {
       if (countConfig.showFormatter) {

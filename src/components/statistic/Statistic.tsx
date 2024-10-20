@@ -31,7 +31,7 @@ interface StatisticReactProps extends FormatConfig {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   loading?: boolean;
-  tip?: string | TooltipProps;
+  tooltip?: string | TooltipProps;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
@@ -48,7 +48,7 @@ const Statistic: React.FC<StatisticProps> = (props) => {
     prefix,
     suffix,
     loading = false,
-    tip,
+    tooltip,
     /* --- FormatConfig starts --- */
     formatter,
     precision,
@@ -112,8 +112,8 @@ const Statistic: React.FC<StatisticProps> = (props) => {
   );
 
   let mergedTitle: React.ReactNode = title;
-  if (tip) {
-    const tooltipProps: TooltipProps = typeof tip === 'string' ? { title: tip } : tip;
+  if (tooltip) {
+    const tooltipProps: TooltipProps = typeof tooltip === 'string' ? { title: tooltip } : tooltip;
     mergedTitle = (
       <>
         {title}

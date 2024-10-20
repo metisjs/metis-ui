@@ -6,29 +6,32 @@ import type { FormProviderProps as RcFormProviderProps } from 'rc-field-form/lib
 import type { Meta } from 'rc-field-form/lib/interface';
 import omit from 'rc-util/lib/omit';
 import type { Variant } from '../config-provider';
-import type { ColProps } from '../grid/col';
-import type { FormInstance, RequiredMark } from './Form';
+import type { SizeType } from '../config-provider/SizeContext';
+import type { FormInstance, FormLayout, RequiredMark } from './Form';
 import type { FeedbackIcons, ValidateStatus } from './FormItem';
 import type { FormLabelAlign } from './interface';
 
 /** Form Context. Set top form style and pass to Form Item usage. */
 export interface FormContextProps {
-  vertical: boolean;
+  layout: FormLayout;
   name?: string;
   colon?: boolean;
   labelAlign?: FormLabelAlign;
   labelWrap?: boolean;
-  labelCol?: ColProps;
-  wrapperCol?: ColProps;
+  labelWidth?: string | number;
   requiredMark?: RequiredMark;
+  size?: SizeType;
   itemRef: (name: (string | number)[]) => (node: React.ReactElement) => void;
   form?: FormInstance;
   feedbackIcons?: FeedbackIcons;
+  autoLabelWidth?: number;
+  registerLabelWidth?: (val: number, oldVal?: number) => void;
+  deregisterLabelWidth?: (val: number) => void;
 }
 
 export const FormContext = React.createContext<FormContextProps>({
   labelAlign: 'right',
-  vertical: false,
+  layout: 'horizontal',
   itemRef: (() => {}) as any,
 });
 

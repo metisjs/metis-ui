@@ -1,7 +1,7 @@
 import React from 'react';
-import type { FormProps } from 'antd';
-import { Button, DatePicker, Form } from 'antd';
 import dayjs from 'dayjs';
+import type { FormProps } from 'metis-ui';
+import { Button, DatePicker, Form } from 'metis-ui';
 
 const dateTimestamp = dayjs('2024-01-01').valueOf();
 
@@ -16,9 +16,7 @@ const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
 const App: React.FC = () => (
   <Form
     name="getValueProps"
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
-    style={{ maxWidth: 600 }}
+    className="max-w-[600px]"
     initialValues={{ date: dateTimestamp }}
     onFinish={onFinish}
     autoComplete="off"
@@ -33,7 +31,7 @@ const App: React.FC = () => (
       <DatePicker />
     </Form.Item>
 
-    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+    <Form.Item>
       <Button type="primary" htmlType="submit">
         Submit
       </Button>

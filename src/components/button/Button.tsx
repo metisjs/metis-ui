@@ -8,7 +8,6 @@ import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
-import SizeContext from '../config-provider/SizeContext';
 import { useCompactItemContext } from '../space/Compact';
 import LoadingIcon from './LoadingIcon';
 import { isTwoCNChar, isUnBorderedButtonType, spaceChildren } from './utils';
@@ -76,7 +75,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     type = 'default',
     danger,
     shape = 'default',
-    size: customizeSize = 'middle',
+    size: customizeSize,
     disabled: customDisabled,
     className,
     children,
@@ -92,8 +91,6 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
   const mergedInsertSpace = autoInsertSpace ?? button?.autoInsertSpace ?? true;
 
   const prefixCls = getPrefixCls('btn', customizePrefixCls);
-
-  const size = React.useContext(SizeContext);
 
   // ===================== Disabled =====================
   const disabled = React.useContext(DisabledContext);
@@ -163,11 +160,9 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined, mini: 'mini' };
 
-  const sizeFullName = useSize((ctxSize) => customizeSize ?? compactSize ?? ctxSize);
+  const mergedSize = useSize((ctxSize) => customizeSize ?? compactSize ?? ctxSize);
 
-  const sizeCls = sizeFullName ? sizeClassNameMap[sizeFullName] || '' : '';
-
-  const mergedSize = compactSize || customizeSize || size;
+  const sizeCls = mergedSize ? sizeClassNameMap[mergedSize] || '' : '';
 
   const iconType = innerLoading ? 'loading' : icon;
 

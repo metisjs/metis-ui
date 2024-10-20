@@ -5,7 +5,6 @@ import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import { FormItemInputContext } from '../form/context';
 import CheckedIcon from './CheckedIcon';
 import { GroupContext } from './Group';
 
@@ -82,7 +81,6 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
   });
 
   const checkboxGroup = React.useContext(GroupContext);
-  const { isFormItemInput } = React.useContext(FormItemInputContext);
   const contextDisabled = React.useContext(DisabledContext);
   const mergedDisabled = (checkboxGroup?.disabled || disabled) ?? contextDisabled;
   const mergedChecked =
@@ -156,7 +154,6 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     'inline-flex cursor-pointer items-center text-sm leading-6',
     {
       'text-text-tertiary': mergedDisabled,
-      '': isFormItemInput,
     },
     semanticCls.root,
   );

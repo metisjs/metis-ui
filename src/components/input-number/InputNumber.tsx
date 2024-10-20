@@ -641,7 +641,7 @@ const InternalInputNumber = React.forwardRef(
 const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, ref) => {
   const {
     className,
-    size: customizeSize = 'middle',
+    size: customizeSize,
     disabled: customDisabled,
     prefixCls: customizePrefixCls,
     addonBefore,
@@ -705,7 +705,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     compactItemClassnames[0],
   );
   const inputCls = clsx(
-    'group/input inline-block w-24 rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'group/input inline-block w-28 flex-auto rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
       'rounded px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
@@ -734,7 +734,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     semanticCls.input,
   );
   const affixWrapperCls = clsx(
-    'group/affix relative inline-flex w-full items-center gap-x-2 rounded-md border-0 bg-container text-sm text-text-secondary ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'group/affix relative inline-flex items-center gap-x-2 rounded-md border-0 bg-container text-sm text-text-secondary ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
       'gap-x-1 rounded px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
@@ -804,14 +804,20 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
-    mergedSize === 'large' && '[&_.metis-icon]:text-lg',
+    'flex flex-none items-center gap-x-1',
+    {
+      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
+      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+    },
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
-    mergedSize === 'large' && '[&_.metis-icon]:text-lg',
+    'flex flex-none items-center gap-x-2 text-text-secondary',
+    {
+      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
+      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+    },
     semanticCls.suffix,
   );
 

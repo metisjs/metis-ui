@@ -1,26 +1,16 @@
 import React from 'react';
-import { AlertFilled, CloseSquareFilled } from '@ant-design/icons';
-import { Button, Form, Input, Tooltip } from 'antd';
-import { createStyles, css } from 'antd-style';
+import { BellAlertSolid, ShieldExclamationSolid } from '@metisjs/icons';
 import uniqueId from 'lodash/uniqueId';
-
-const useStyle = createStyles(() => ({
-  'custom-feedback-icons': css`
-    .ant-form-item-feedback-icon {
-      pointer-events: all;
-    }
-  `,
-}));
+import { Button, Form, Input, Tooltip } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
-  const { styles } = useStyle();
 
   return (
     <Form
       name="custom-feedback-icons"
       form={form}
-      style={{ maxWidth: 600 }}
+      className="max-w-[600px]"
       feedbackIcons={({ errors }) => ({
         error: (
           <Tooltip
@@ -28,7 +18,7 @@ const App: React.FC = () => {
             title={errors?.map((error) => <div key={uniqueId()}>{error}</div>)}
             color="red"
           >
-            <CloseSquareFilled />
+            <ShieldExclamationSolid />
           </Tooltip>
         ),
       })}
@@ -36,7 +26,6 @@ const App: React.FC = () => {
       <Form.Item
         name="custom-feedback-test-item"
         label="Test"
-        className={styles['custom-feedback-icons']}
         rules={[{ required: true, type: 'email' }, { min: 10 }]}
         help=""
         hasFeedback
@@ -46,7 +35,6 @@ const App: React.FC = () => {
       <Form.Item
         name="custom-feedback-test-item2"
         label="Test"
-        className={styles['custom-feedback-icons']}
         rules={[{ required: true, type: 'email' }, { min: 10 }]}
         help=""
         hasFeedback={{
@@ -57,7 +45,7 @@ const App: React.FC = () => {
                 title={errors?.map((error) => <div key={uniqueId()}>{error}</div>)}
                 color="pink"
               >
-                <AlertFilled />
+                <BellAlertSolid />
               </Tooltip>
             ),
             success: false,

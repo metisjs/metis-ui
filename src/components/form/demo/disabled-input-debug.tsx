@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input } from 'metis-ui';
 
 const App: React.FC = () => (
-  <Form style={{ maxWidth: 600 }}>
+  <Form className="max-w-[600px]">
     <Form.Item label="Normal0">
       <Input placeholder="unavailable choice" value="Buggy!" />
     </Form.Item>

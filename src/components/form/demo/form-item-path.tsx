@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
-import type { FormItemProps } from 'antd';
+import { Button, Form, Input } from 'metis-ui';
+import type { FormItemProps } from 'metis-ui';
 
 const MyFormItemContext = React.createContext<(string | number)[]>([]);
 

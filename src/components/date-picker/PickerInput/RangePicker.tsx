@@ -147,8 +147,8 @@ function RangePicker<DateType extends object = any>(
 ) {
   // ========================= Prop =========================
   const [filledProps, internalPicker, complexPicker, formatList, maskFormat, isInvalidateDate] =
-    useFilledProps(props, () => {
-      const { disabled, allowEmpty } = props;
+    useFilledProps(props, ({ disabled }) => {
+      const { allowEmpty } = props;
 
       const mergedDisabled = separateConfig(disabled, false);
       const mergedAllowEmpty = separateConfig(allowEmpty, false);

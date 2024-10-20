@@ -1,17 +1,15 @@
 import React from 'react';
-import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Space, Typography } from 'antd';
+import { XMarkOutline } from '@metisjs/icons';
+import { Button, Card, Form, Input, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
 
   return (
     <Form
-      labelCol={{ span: 6 }}
-      wrapperCol={{ span: 18 }}
       form={form}
       name="dynamic_form_complex"
-      style={{ maxWidth: 600 }}
+      className="max-w-[600px]"
       autoComplete="off"
       initialValues={{ items: [{}] }}
     >
@@ -24,7 +22,8 @@ const App: React.FC = () => {
                 title={`Item ${field.name + 1}`}
                 key={field.key}
                 extra={
-                  <CloseOutlined
+                  <XMarkOutline
+                    className="h-5 w-5 cursor-pointer text-text-secondary hover:text-primary"
                     onClick={() => {
                       remove(field.name);
                     }}
@@ -39,7 +38,7 @@ const App: React.FC = () => {
                 <Form.Item label="List">
                   <Form.List name={[field.name, 'list']}>
                     {(subFields, subOpt) => (
-                      <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+                      <div className="flex flex-col gap-4">
                         {subFields.map((subField) => (
                           <Space key={subField.key}>
                             <Form.Item noStyle name={[subField.name, 'first']}>
@@ -48,14 +47,15 @@ const App: React.FC = () => {
                             <Form.Item noStyle name={[subField.name, 'second']}>
                               <Input placeholder="second" />
                             </Form.Item>
-                            <CloseOutlined
+                            <XMarkOutline
+                              className="h-5 w-5 flex-shrink-0 cursor-pointer text-text-secondary hover:text-primary"
                               onClick={() => {
                                 subOpt.remove(subField.name);
                               }}
                             />
                           </Space>
                         ))}
-                        <Button type="dashed" onClick={() => subOpt.add()} block>
+                        <Button onClick={() => subOpt.add()} className="w-full">
                           + Add Sub Item
                         </Button>
                       </div>
@@ -65,7 +65,7 @@ const App: React.FC = () => {
               </Card>
             ))}
 
-            <Button type="dashed" onClick={() => add()} block>
+            <Button onClick={() => add()} className="w-full">
               + Add Item
             </Button>
           </div>
@@ -74,9 +74,9 @@ const App: React.FC = () => {
 
       <Form.Item noStyle shouldUpdate>
         {() => (
-          <Typography>
+          <div>
             <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-          </Typography>
+          </div>
         )}
       </Form.Item>
     </Form>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, InputNumber, Typography } from 'antd';
+import { Form, Input, InputNumber } from 'metis-ui';
 
 const Demo: React.FC = () => {
   const [form] = Form.useForm<{ name: string; age: number }>();
@@ -18,10 +18,10 @@ const Demo: React.FC = () => {
         </Form.Item>
       </Form>
 
-      <Typography>
+      <div>
         <pre>Name Value: {nameValue}</pre>
         <pre>Custom Value: {customValue}</pre>
-      </Typography>
+      </div>
     </>
   );
 };

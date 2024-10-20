@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { CalendarOutline, ClockOutline } from '@metisjs/icons';
+import { clsx } from '../../../_util/classNameUtils';
 import { useZIndex } from '../../../_util/hooks/useZIndex';
+import { cloneElement } from '../../../_util/reactNode';
 import type { RequiredWith } from '../../../_util/type';
 import { ConfigContext } from '../../../config-provider';
+import type { DisabledType } from '../../../config-provider/DisabledContext';
 import DisabledContext from '../../../config-provider/DisabledContext';
 import useSize from '../../../config-provider/hooks/useSize';
 import { FormItemInputContext } from '../../../form/context';
@@ -73,7 +76,7 @@ type ToArrayType<T, DateType> = T extends any[] ? T : DateType[];
 
 function useList<T>(value: T | T[], fillMode = false) {
   const values = React.useMemo(() => {
-    const list = (value ? toArray(value) : value) as T[];
+    const list = (value ? toArray(value) : undefined) as T[];
 
     if (fillMode && list) {
       list[1] = list[1] || list[0];
@@ -199,7 +202,7 @@ export default function useFilledProps<
   UpdaterProps extends Record<string, any> = object,
 >(
   props: InProps,
-  updater?: () => UpdaterProps,
+  updater?: (data: { disabled?: [boolean, boolean] | DisabledType }) => UpdaterProps,
 ): [
   filledProps: Omit<
     RequiredWith<InProps, 'disabledDate' | 'components' | 'locale' | 'prefixCls'>,
@@ -228,7 +231,7 @@ export default function useFilledProps<
 ] {
   const {
     prefixCls: customizePrefixCls,
-    size: customizeSize = 'middle',
+    size: customizeSize,
     status: customStatus,
     variant: customVariant,
     disabled: customDisabled,
@@ -332,18 +335,19 @@ export default function useFilledProps<
     formatList,
   );
 
-  // ======================== Icons =========================
-  const { clearIcon, removeIcon } = useSelectIcons({
-    ...props,
-    prefixCls,
-  });
-
   // ===================== Disabled =====================
   const disabled = React.useContext(DisabledContext);
   const mergedDisabled = customDisabled ?? disabled;
 
   // ===================== Size =====================
   const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
+
+  // ======================== Icons =================
+  const { clearIcon, removeIcon } = useSelectIcons({
+    ...props,
+    prefixCls,
+    size: mergedSize,
+  });
 
   // ===================== Variant =====================
   const [variant, enableVariantCls] = useVariant(customVariant);
@@ -358,10 +362,22 @@ export default function useFilledProps<
   // ============================ ZIndex ============================
   const [zIndex] = useZIndex('DatePicker', popupZIndex);
 
+  const suffixIconCls = clsx({
+    'text-lg': mergedSize === 'large' || mergedSize === 'middle',
+    'text-base': mergedSize === 'small' || mergedSize === 'mini',
+  });
   const suffixIcon = (
     <>
-      {picker === 'time' ? <ClockOutline /> : <CalendarOutline />}
-      {hasFeedback && feedbackIcon}
+      {picker === 'time' ? (
+        <ClockOutline className={suffixIconCls} />
+      ) : (
+        <CalendarOutline className={suffixIconCls} />
+      )}
+      {hasFeedback &&
+        cloneElement(feedbackIcon, (origin) => ({
+          ...origin,
+          className: clsx(suffixIconCls, origin.className),
+        }))}
     </>
   );
 
@@ -394,7 +410,7 @@ export default function useFilledProps<
         popupZIndex: zIndex,
         disabled: mergedDisabled,
         getPopupContainer: customizeGetPopupContainer || getPopupContainer,
-        ...updater?.(),
+        ...updater?.({ disabled: mergedDisabled }),
       }) as any,
     [props],
   );

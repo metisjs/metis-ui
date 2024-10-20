@@ -71,7 +71,7 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
         typeof allowClear === 'object' && allowClear?.clearIcon ? (
           allowClear.clearIcon
         ) : (
-          <XCircleSolid className="h-4 w-4" />
+          <XCircleSolid />
         );
 
       clearIcon = (

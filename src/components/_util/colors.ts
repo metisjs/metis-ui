@@ -1,3 +1,5 @@
+// @ts-nocheck
+import colors from 'tailwindcss/lib/public/colors';
 import { clsx } from './classNameUtils';
 
 export const PresetColors = [
@@ -40,11 +42,19 @@ export function getPresetColorCls(
     background,
     outline,
     rawBackground,
-  }: { text?: boolean; background?: boolean; outline?: boolean; rawBackground?: boolean } = {
+    rawColor,
+  }: {
+    text?: boolean;
+    background?: boolean;
+    outline?: boolean;
+    rawBackground?: boolean;
+    rawColor?: boolean;
+  } = {
     text: true,
     background: true,
     outline: true,
     rawBackground: false,
+    rawColor: false,
   },
 ) {
   return clsx(
@@ -116,6 +126,7 @@ export function getPresetColorCls(
       'outline-indigo-600/10': color === 'indigo',
       'outline-violet-600/10': color === 'violet',
     },
+    rawColor && colors[color][600],
   );
 }
 

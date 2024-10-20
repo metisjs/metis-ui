@@ -1,15 +1,14 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => (
   <Form
     name="wrap"
-    labelCol={{ flex: '110px' }}
     labelAlign="left"
     labelWrap
-    wrapperCol={{ flex: 1 }}
+    labelWidth={110}
     colon={false}
-    style={{ maxWidth: 600 }}
+    className="max-w-[600px]"
   >
     <Form.Item label="Normal label" name="username" rules={[{ required: true }]}>
       <Input />
@@ -19,7 +18,7 @@ const App: React.FC = () => (
       <Input />
     </Form.Item>
 
-    <Form.Item label=" ">
+    <Form.Item>
       <Button type="primary" htmlType="submit">
         Submit
       </Button>

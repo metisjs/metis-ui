@@ -1,11 +1,9 @@
 import * as React from 'react';
-import classNames from 'classnames';
-import type { ColProps } from '../grid/col';
-import Col from '../grid/col';
+import omit from 'rc-util/lib/omit';
+import { clsx } from '../_util/classNameUtils';
 import { FormContext, FormItemPrefixContext } from './context';
 import ErrorList from './ErrorList';
 import type { ValidateStatus } from './FormItem';
-import FallbackCmp from './style/fallbackCmp';
 
 interface FormItemInputMiscProps {
   prefixCls: string;
@@ -14,22 +12,9 @@ interface FormItemInputMiscProps {
   warnings: React.ReactNode[];
   marginBottom?: number | null;
   onErrorVisibleChanged?: (visible: boolean) => void;
-  /** @internal do not use in any of your production. */
-  _internalItemRender?: {
-    mark: string;
-    render: (
-      props: FormItemInputProps & FormItemInputMiscProps,
-      domList: {
-        input: JSX.Element;
-        errorList: JSX.Element | null;
-        extra: JSX.Element | null;
-      },
-    ) => React.ReactNode;
-  };
 }
 
 export interface FormItemInputProps {
-  wrapperCol?: ColProps;
   extra?: React.ReactNode;
   status?: ValidateStatus;
   help?: React.ReactNode;
@@ -40,33 +25,43 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
   const {
     prefixCls,
     status,
-    wrapperCol,
     children,
     errors,
     warnings,
-    _internalItemRender: formItemRender,
     extra,
     help,
     fieldId,
     marginBottom,
     onErrorVisibleChanged,
   } = props;
-  const baseClassName = `${prefixCls}-item`;
-
   const formContext = React.useContext(FormContext);
 
-  const mergedWrapperCol: ColProps = wrapperCol || formContext.wrapperCol || {};
+  const rootCls = clsx(`${prefixCls}-item-control`, 'flex flex-1 flex-col');
+  const inputCls = clsx(`${prefixCls}-item-control-input`, 'relative flex min-h-9 items-center', {
+    'min-h-7': formContext.size === 'mini',
+    'min-h-8': formContext.size === 'small',
+    'min-h-10': formContext.size === 'large',
+  });
+  const inputContentCls = clsx(`${prefixCls}-item-control-input-content`, 'max-w-full flex-auto');
+  const errorListCls = clsx(`${prefixCls}-item-explain-connected`, 'w-full');
+  const extraCls = clsx(`${prefixCls}-item-extra`, 'text-text-tertiary');
 
-  const className = classNames(`${baseClassName}-control`, mergedWrapperCol.className);
-
-  // Pass to sub FormItem should not with col info
-  const subFormContext = React.useMemo(() => ({ ...formContext }), [formContext]);
-  delete subFormContext.labelCol;
-  delete subFormContext.wrapperCol;
+  // Pass to sub FormItem should not with width info
+  const subFormContext = React.useMemo(
+    () => ({
+      ...omit(formContext, [
+        'autoLabelWidth',
+        'labelWidth',
+        'registerLabelWidth',
+        'deregisterLabelWidth',
+      ]),
+    }),
+    [formContext],
+  );
 
   const inputDom: React.ReactNode = (
-    <div className={`${baseClassName}-control-input`}>
-      <div className={`${baseClassName}-control-input-content`}>{children}</div>
+    <div className={inputCls}>
+      <div className={inputContentCls}>{children}</div>
     </div>
   );
   const formItemContext = React.useMemo(() => ({ prefixCls, status }), [prefixCls, status]);
@@ -80,7 +75,7 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
             warnings={warnings}
             help={help}
             helpStatus={status}
-            className={`${baseClassName}-explain-connected`}
+            className={errorListCls}
             onVisibleChanged={onErrorVisibleChanged}
           />
         </FormItemPrefixContext.Provider>
@@ -97,27 +92,25 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
   // If extra = 0, && will goes wrong
   // 0&&error -> 0
   const extraDom: React.ReactNode = extra ? (
-    <div {...extraProps} className={`${baseClassName}-extra`}>
+    <div {...extraProps} className={extraCls}>
       {extra}
     </div>
   ) : null;
 
-  const dom: React.ReactNode =
-    formItemRender && formItemRender.mark === 'pro_table_render' && formItemRender.render ? (
-      formItemRender.render(props, { input: inputDom, errorList: errorListDom, extra: extraDom })
-    ) : (
-      <>
+  return (
+    <FormContext.Provider value={subFormContext}>
+      <div className={rootCls}>
         {inputDom}
         {errorListDom}
         {extraDom}
-      </>
-    );
-  return (
-    <FormContext.Provider value={subFormContext}>
-      <Col {...mergedWrapperCol} className={className}>
-        {dom}
-      </Col>
-      <FallbackCmp prefixCls={prefixCls} />
+        {!!marginBottom && (
+          <div
+            style={{
+              marginBottom: -marginBottom,
+            }}
+          />
+        )}
+      </div>
     </FormContext.Provider>
   );
 };

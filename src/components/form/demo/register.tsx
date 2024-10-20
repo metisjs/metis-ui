@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import type { CascaderProps } from 'antd';
+import type { CascaderProps } from 'metis-ui';
 import {
   AutoComplete,
   Button,
   Cascader,
   Checkbox,
-  Col,
   Form,
   Input,
   InputNumber,
-  Row,
   Select,
-} from 'antd';
-
-const { Option } = Select;
+  Space,
+} from 'metis-ui';
 
 interface DataNodeType {
   value: string;
@@ -56,30 +53,6 @@ const residences: CascaderProps<DataNodeType>['options'] = [
   },
 ];
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
-
 const App: React.FC = () => {
   const [form] = Form.useForm();
 
@@ -89,19 +62,24 @@ const App: React.FC = () => {
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
+      <Select
+        options={[
+          { value: '86', label: '+86' },
+          { value: '87', label: '+87' },
+        ]}
+      ></Select>
     </Form.Item>
   );
 
   const suffixSelector = (
     <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
+      <Select
+        options={[
+          { value: 'USD', label: '$' },
+          { value: 'CNY', label: '¥' },
+        ]}
+        className="w-20"
+      ></Select>
     </Form.Item>
   );
 
@@ -122,12 +100,11 @@ const App: React.FC = () => {
 
   return (
     <Form
-      {...formItemLayout}
       form={form}
       name="register"
       onFinish={onFinish}
       initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
-      style={{ maxWidth: 600 }}
+      className="max-w-[600px]"
       scrollToFirstError
     >
       <Form.Item
@@ -208,7 +185,7 @@ const App: React.FC = () => {
         label="Phone Number"
         rules={[{ required: true, message: 'Please input your phone number!' }]}
       >
-        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+        <Input addonBefore={prefixSelector} className="w-full" />
       </Form.Item>
 
       <Form.Item
@@ -216,7 +193,7 @@ const App: React.FC = () => {
         label="Donation"
         rules={[{ required: true, message: 'Please input donation amount!' }]}
       >
-        <InputNumber addonAfter={suffixSelector} style={{ width: '100%' }} />
+        <InputNumber addonAfter={suffixSelector} className="w-full" />
       </Form.Item>
 
       <Form.Item
@@ -242,28 +219,27 @@ const App: React.FC = () => {
         label="Gender"
         rules={[{ required: true, message: 'Please select gender!' }]}
       >
-        <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
-        </Select>
+        <Select
+          options={[
+            { value: 'male', label: 'Male' },
+            { value: 'female', label: 'Female' },
+            { value: 'other', label: 'Other' },
+          ]}
+          placeholder="select your gender"
+        ></Select>
       </Form.Item>
 
       <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-        <Row gutter={8}>
-          <Col span={12}>
-            <Form.Item
-              name="captcha"
-              noStyle
-              rules={[{ required: true, message: 'Please input the captcha you got!' }]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Button>Get captcha</Button>
-          </Col>
-        </Row>
+        <Space size={8}>
+          <Form.Item
+            name="captcha"
+            noStyle
+            rules={[{ required: true, message: 'Please input the captcha you got!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Button>Get captcha</Button>
+        </Space>
       </Form.Item>
 
       <Form.Item
@@ -275,13 +251,12 @@ const App: React.FC = () => {
               value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
           },
         ]}
-        {...tailFormItemLayout}
       >
         <Checkbox>
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
+      <Form.Item>
         <Button type="primary" htmlType="submit">
           Register
         </Button>

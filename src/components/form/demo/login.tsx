@@ -1,6 +1,6 @@
 import React from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Flex, Form, Input } from 'antd';
+import { LockClosedOutline, UserOutline } from '@metisjs/icons';
+import { Button, Checkbox, Form, Input, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const onFinish = (values: any) => {
@@ -18,25 +18,25 @@ const App: React.FC = () => {
         name="username"
         rules={[{ required: true, message: 'Please input your Username!' }]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Username" />
+        <Input prefix={<UserOutline />} placeholder="Username" />
       </Form.Item>
       <Form.Item
         name="password"
         rules={[{ required: true, message: 'Please input your Password!' }]}
       >
-        <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+        <Input prefix={<LockClosedOutline />} type="password" placeholder="Password" />
       </Form.Item>
       <Form.Item>
-        <Flex justify="space-between" align="center">
+        <Space block justify="space-between" align="center">
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
           <a href="">Forgot password</a>
-        </Flex>
+        </Space>
       </Form.Item>
 
       <Form.Item>
-        <Button block type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" className="w-full">
           Log in
         </Button>
         or <a href="">Register now!</a>

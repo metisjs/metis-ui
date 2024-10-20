@@ -4,7 +4,6 @@ import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import { FormItemInputContext } from '../form/context';
 import CheckedIcon from './CheckedIcon';
 import RadioGroupContext from './Context';
 import type { RadioProps, RadioRef } from './interface';
@@ -35,7 +34,6 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   });
 
   const radioGroup = React.useContext(RadioGroupContext);
-  const { isFormItemInput } = React.useContext(FormItemInputContext);
   const contextDisabled = React.useContext(DisabledContext);
   const mergedDisabled = (radioGroup?.disabled || disabled) ?? contextDisabled;
   const mergedChecked = radioGroup ? radioGroup.value === restProps.value : !!rawChecked;
@@ -88,7 +86,6 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
     'inline-flex cursor-pointer items-center text-sm leading-6',
     {
       'text-text-tertiary': mergedDisabled,
-      '': isFormItemInput,
     },
     `${prefixCls}-wrapper`,
     semanticCls.root,

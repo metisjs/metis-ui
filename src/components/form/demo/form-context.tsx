@@ -1,18 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SmileOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Flex, Form, Input, InputNumber, Modal, Space, Typography } from 'antd';
-import type { GetRef } from 'antd';
+import { FaceSmileOutline, UserOutline } from '@metisjs/icons';
+import { Avatar, Button, Form, Input, InputNumber, Modal, Space } from 'metis-ui';
+import type { GetRef } from 'metis-ui';
 
 type FormInstance = GetRef<typeof Form>;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
 
 interface UserType {
   name: string;
@@ -91,7 +82,7 @@ const App: React.FC = () => {
         }
       }}
     >
-      <Form {...layout} name="basicForm" onFinish={onFinish} style={{ maxWidth: 600 }}>
+      <Form name="basicForm" onFinish={onFinish} className="max-w-[600px]">
         <Form.Item name="group" label="Group Name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
@@ -106,22 +97,22 @@ const App: React.FC = () => {
           {({ getFieldValue }) => {
             const users: UserType[] = getFieldValue('users') || [];
             return users.length ? (
-              <Flex vertical gap={8}>
+              <Space vertical size={8}>
                 {users.map((user) => (
                   <Space key={user.name}>
-                    <Avatar icon={<UserOutlined />} />
+                    <Avatar icon={<UserOutline />} />
                     {`${user.name} - ${user.age}`}
                   </Space>
                 ))}
-              </Flex>
+              </Space>
             ) : (
-              <Typography.Text className="ant-form-text" type="secondary">
-                ( <SmileOutlined /> No user yet. )
-              </Typography.Text>
+              <div className="text-text-secondary">
+                ( <FaceSmileOutline className="h-4 w-4" /> No user yet. )
+              </div>
             );
           }}
         </Form.Item>
-        <Form.Item {...tailLayout}>
+        <Form.Item>
           <Button htmlType="submit" type="primary">
             Submit
           </Button>

@@ -6,6 +6,7 @@ import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
+import type { SizeType } from '../config-provider/SizeContext';
 
 export type SwitchSize = 'small' | 'default';
 export type SwitchChangeEventHandler = (
@@ -71,7 +72,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
 
     const semanticCls = getSemanticCls(className);
 
-    const mergedSize = useSize(customizeSize);
+    const mergedSize = useSize(customizeSize) as SizeType;
+    const isSmall = mergedSize === 'small' || mergedSize === 'mini';
 
     function triggerChange(
       newChecked: boolean,
@@ -103,12 +105,12 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     }
 
     const rootCls = clsx(
-      'relative inline-block h-6 min-w-[2.75rem] cursor-pointer select-none rounded-full bg-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
+      'relative inline-block h-6 w-fit min-w-[2.75rem] cursor-pointer select-none rounded-full bg-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
       'focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary',
       'disabled:cursor-not-allowed disabled:opacity-disabled',
       {
         'bg-primary': innerChecked,
-        'h-5 min-w-[2rem]': mergedSize === 'small',
+        'h-5 min-w-[2rem]': isSmall,
         'disabled:opacity-65': loading,
       },
       prefixCls,
@@ -119,8 +121,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       'pointer-events-none absolute start-0.5 top-0.5 inline-flex h-5 w-5 transform items-center justify-center rounded-full bg-white shadow transition-all duration-200 ease-in-out',
       {
         'start-[calc(100%-22px)]': innerChecked,
-        'h-4 w-4': mergedSize === 'small',
-        'start-[calc(100%-18px)]': innerChecked && mergedSize === 'small',
+        'h-4 w-4': isSmall,
+        'start-[calc(100%-18px)]': innerChecked && isSmall,
       },
       `${prefixCls}-handle`,
       semanticCls.handle,
@@ -140,26 +142,23 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         <div className={handleCls}>
           {loading && (
             <LoadingOutline
-              className={clsx(
-                'h-4 w-4 animate-spin text-primary',
-                mergedSize === 'small' && 'h-3 w-3',
-              )}
+              className={clsx('h-4 w-4 animate-spin text-primary', isSmall && 'h-3 w-3')}
             />
           )}
         </div>
         <span
           className={clsx(
             'block h-full w-full overflow-hidden pe-[9px] ps-[26px] leading-6 transition-all duration-200 ease-in-out',
-            mergedSize === 'small' && 'pe-[6px] ps-5 leading-5',
+            isSmall && 'pe-[6px] ps-5 leading-5',
             innerChecked && 'pe-[26px] ps-[9px]',
-            innerChecked && mergedSize === 'small' && 'pe-5 ps-[6px]',
+            innerChecked && isSmall && 'pe-5 ps-[6px]',
             `${prefixCls}-inner`,
           )}
         >
           <span
             className={clsx(
               'pointer-events-none me-[calc(100%-24px+52px)] ms-[calc(-100%+24px-52px)] block text-white transition-all duration-200 ease-in-out',
-              mergedSize === 'small' && 'me-[calc(100%-20px+40px)] ms-[calc(-100%+20px-40px)]',
+              isSmall && 'me-[calc(100%-20px+40px)] ms-[calc(-100%+20px-40px)]',
               innerChecked && 'me-0 ms-0',
               `${prefixCls}-inner-checked`,
             )}
@@ -169,11 +168,9 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           <span
             className={clsx(
               'pointer-events-none -mt-6 me-0 ms-0 block text-text-tertiary transition-all duration-200 ease-in-out',
-              mergedSize === 'small' && '-mt-5',
+              isSmall && '-mt-5',
               innerChecked && 'me-[calc(-100%+24px-52px)] ms-[calc(100%-24px+52px)]',
-              mergedSize === 'small' &&
-                innerChecked &&
-                'me-[calc(-100%+20px-40px)] ms-[calc(100%-20px+40px)]',
+              isSmall && innerChecked && 'me-[calc(-100%+20px-40px)] ms-[calc(100%-20px+40px)]',
               `${prefixCls}-inner-unchecked`,
             )}
           >

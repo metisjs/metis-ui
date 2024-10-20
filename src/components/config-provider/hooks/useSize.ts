@@ -4,18 +4,20 @@ import SizeContext from '../SizeContext';
 
 const useSize = <T>(customSize?: T | ((ctxSize: SizeType) => T)): T => {
   const size = React.useContext<SizeType>(SizeContext);
+
   const mergedSize = React.useMemo<T>(() => {
     if (!customSize) {
-      return size as T;
+      return (size ?? 'middle') as T;
     }
     if (typeof customSize === 'string') {
       return customSize ?? size;
     }
     if (customSize instanceof Function) {
-      return customSize(size);
+      return customSize(size) ?? ('middle' as T);
     }
     return size as T;
   }, [customSize, size]);
+
   return mergedSize;
 };
 

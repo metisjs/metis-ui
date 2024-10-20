@@ -1,10 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, InputNumber } from 'antd';
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+import { Button, Form, Input, InputNumber } from 'metis-ui';
 
 const validateMessages = {
   required: '${label} is required!',
@@ -23,10 +18,9 @@ const onFinish = (values: any) => {
 
 const App: React.FC = () => (
   <Form
-    {...layout}
     name="nest-messages"
     onFinish={onFinish}
-    style={{ maxWidth: 600 }}
+    className="max-w-[600px]"
     validateMessages={validateMessages}
   >
     <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
@@ -44,7 +38,7 @@ const App: React.FC = () => (
     <Form.Item name={['user', 'introduction']} label="Introduction">
       <Input.TextArea />
     </Form.Item>
-    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+    <Form.Item>
       <Button type="primary" htmlType="submit">
         Submit
       </Button>

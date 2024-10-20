@@ -8,10 +8,14 @@ import {
   XCircleSolid,
   XMarkOutline,
 } from '@metisjs/icons';
+import { clsx } from '../../_util/classNameUtils';
+import { cloneElement } from '../../_util/reactNode';
+import type { SizeType } from '../../config-provider/SizeContext';
 
 type RenderNode = React.ReactNode | ((props: any) => React.ReactNode);
 
 export default function useIcons({
+  size = 'middle',
   suffixIcon,
   clearIcon,
   menuItemSelectedIcon,
@@ -30,9 +34,14 @@ export default function useIcons({
   hasFeedback?: boolean;
   feedbackIcon?: ReactNode;
   prefixCls: string;
+  size?: SizeType;
 }) {
+  const sizeCls = clsx({
+    'text-lg': size === 'large' || size === 'middle',
+    'text-base': size === 'small' || size === 'mini',
+  });
   // Clear Icon
-  const mergedClearIcon = clearIcon ?? <XCircleSolid className="h-4 w-4" />;
+  const mergedClearIcon = clearIcon ?? <XCircleSolid className={sizeCls} />;
 
   // Validation Feedback Icon
   const getSuffixIconNode = (arrowIcon?: ReactNode) => {
@@ -42,7 +51,11 @@ export default function useIcons({
     return (
       <>
         {suffixIcon !== null && arrowIcon}
-        {hasFeedback && feedbackIcon}
+        {hasFeedback &&
+          cloneElement(feedbackIcon, (origin) => ({
+            ...origin,
+            className: clsx(sizeCls, origin.className),
+          }))}
       </>
     );
   };
@@ -52,9 +65,11 @@ export default function useIcons({
   if (suffixIcon !== undefined) {
     mergedSuffixIcon = getSuffixIconNode(suffixIcon);
   } else if (loading) {
-    mergedSuffixIcon = getSuffixIconNode(<LoadingOutline className="h-4 w-4 animate-spin" />);
+    mergedSuffixIcon = getSuffixIconNode(
+      <LoadingOutline className={clsx(sizeCls, 'animate-spin text-primary')} />,
+    );
   } else {
-    const iconCls = `${prefixCls}-suffix w-4 h-4`;
+    const iconCls = clsx(`${prefixCls}-suffix`, sizeCls);
     mergedSuffixIcon = ({ open, showSearch }: { open: boolean; showSearch: boolean }) => {
       if (open && showSearch) {
         return getSuffixIconNode(<MagnifyingGlassOutline className={iconCls} />);

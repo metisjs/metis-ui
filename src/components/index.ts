@@ -37,6 +37,15 @@ export { default as Dropdown } from './dropdown';
 export type { DropdownProps as DropDownProps, DropdownProps } from './dropdown';
 export { default as Empty } from './empty';
 export type { EmptyProps } from './empty';
+export { default as Form } from './form';
+export type {
+  FormInstance,
+  FormItemProps,
+  FormListFieldData,
+  FormListOperation,
+  FormProps,
+  Rule as FormRule,
+} from './form';
 export { default as Image } from './image';
 export type { ImageProps } from './image';
 export { default as Input } from './input';

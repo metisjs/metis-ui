@@ -231,7 +231,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     showSearch,
     tagRender,
     omitDomProps,
-    size: customizeSize = 'middle',
+    size: customizeSize,
     variant: customizeVariant,
     status: customStatus,
 
@@ -720,11 +720,12 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-arrow`,
-          'pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-3 text-text-tertiary',
+          'pointer-events-none absolute inset-y-0 right-0 ml-3 inline-flex items-center gap-2 pr-3 text-text-tertiary',
           {
             [`${prefixCls}-arrow-loading`]: loading,
             'group-hover/select:opacity-0': !!clearNode,
             'opacity-0': !!clearNode && mode === 'combobox',
+            'pr-2': mergedSize === 'mini',
           },
           semanticCls.arrow,
         )}
@@ -772,6 +773,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         'bg-fill-quinary ring-0': variant === 'filled',
       },
       '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+      { 'w-full': isFormItemInput },
       compactItemClassnames,
       (mockFocused || mergedOpen) && {
         'ring-2 ring-primary': true,

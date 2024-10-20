@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { LockClosedOutline, UserOutline } from '@metisjs/icons';
+import { Button, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
@@ -21,13 +21,13 @@ const App: React.FC = () => {
         name="username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Username" />
+        <Input prefix={<UserOutline />} placeholder="Username" />
       </Form.Item>
       <Form.Item
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
-        <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+        <Input prefix={<LockClosedOutline />} type="password" placeholder="Password" />
       </Form.Item>
       <Form.Item shouldUpdate>
         {() => (

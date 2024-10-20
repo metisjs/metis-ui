@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { devUseWarning } from 'metis-ui/es/_util/warning';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import { devUseWarning } from '../../_util/warning';
 import { BASE_SCALE_RATIO, WHEEL_MAX_SCALE_RATIO } from '../constant';
 import { getFixScaleEleTransPosition } from '../util';
 import type {

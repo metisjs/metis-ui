@@ -104,7 +104,7 @@ export interface InternalPickerProps<DateType extends object = any>
 
 /** Internal usage. For cross function get same aligned props */
 export type ReplacedPickerProps<DateType extends object = any> = {
-  onChange?: (dateString: string | string[], date: DateType | DateType[] | null) => void;
+  onChange?: (dateString: string | string[] | null, date: DateType | DateType[] | null) => void;
   onCalendarChange?: (
     dateString: string | string[],
     date: DateType | DateType[],
@@ -237,7 +237,7 @@ function Picker<DateType extends object = any>(
         ...info,
       };
       delete filteredInfo.range;
-      onCalendarChange(pickerParam(dateStrings) ?? '', pickerParam(dates)!, filteredInfo);
+      onCalendarChange(pickerParam(dateStrings)!, pickerParam(dates)!, filteredInfo);
     }
   };
 
@@ -290,7 +290,7 @@ function Picker<DateType extends object = any>(
 
   // ======================== Value =========================
   const onInternalChange: InternalPickerProps<DateType>['onChange'] = (dateStrings, dates) => {
-    onChange?.(pickerParam(dateStrings) ?? '', pickerParam(dates));
+    onChange?.(pickerParam(dateStrings), pickerParam(dates));
   };
 
   const [

@@ -1,18 +1,11 @@
 import React from 'react';
-import { Form, Input, Typography } from 'antd';
+import { Form, Input } from 'metis-ui';
 
 const App: React.FC = () => (
-  <Form
-    name="label-ellipsis"
-    labelCol={{ span: 8 }}
-    wrapperCol={{ span: 16 }}
-    style={{ maxWidth: 600 }}
-  >
+  <Form name="label-ellipsis" labelWidth="30%" className="max-w-[600px]">
     <Form.Item
       label={
-        <Typography.Text ellipsis>
-          longtextlongtextlongtextlongtextlongtextlongtextlongtext
-        </Typography.Text>
+        <div className="truncate">longtextlongtextlongtextlongtextlongtextlongtextlongtext</div>
       }
       name="username"
     >
@@ -21,9 +14,9 @@ const App: React.FC = () => (
 
     <Form.Item
       label={
-        <Typography.Text ellipsis>
+        <div className="truncate">
           longtext longtext longtext longtext longtext longtext longtext
-        </Typography.Text>
+        </div>
       }
       name="password"
     >

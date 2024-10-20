@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { clsx } from 'metis-ui/es/_util/classNameUtils';
+import { clsx } from '../../../_util/classNameUtils';
 import Input from '../../../input';
 import { toHexFormat, type AggregationColor } from '../../color';
 import { generateColor } from '../../util';

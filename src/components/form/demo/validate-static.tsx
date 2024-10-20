@@ -1,5 +1,5 @@
 import React from 'react';
-import { SmileOutlined } from '@ant-design/icons';
+import { FaceSmileOutline } from '@metisjs/icons';
 import {
   Cascader,
   DatePicker,
@@ -8,25 +8,12 @@ import {
   InputNumber,
   Mentions,
   Select,
+  Space,
   TimePicker,
-  TreeSelect,
-} from 'antd';
-
-const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
-};
+} from 'metis-ui';
 
 const App: React.FC = () => (
-  <Form {...formItemLayout} style={{ maxWidth: 600 }}>
+  <Form className="max-w-[600px]">
     <Form.Item
       label="Fail"
       validateStatus="error"
@@ -36,7 +23,7 @@ const App: React.FC = () => (
     </Form.Item>
 
     <Form.Item label="Warning" validateStatus="warning">
-      <Input placeholder="Warning" id="warning" prefix={<SmileOutlined />} />
+      <Input placeholder="Warning" id="warning" prefix={<FaceSmileOutline />} />
     </Form.Item>
 
     <Form.Item
@@ -65,24 +52,32 @@ const App: React.FC = () => (
       <Input placeholder="unavailable choice" id="error2" />
     </Form.Item>
 
+    <Form.Item label="Error" hasFeedback validateStatus="error">
+      <InputNumber placeholder="unavailable choice" />
+    </Form.Item>
+
     <Form.Item label="Success" hasFeedback validateStatus="success">
-      <DatePicker style={{ width: '100%' }} />
+      <DatePicker className="w-full" />
     </Form.Item>
 
     <Form.Item label="Warning" hasFeedback validateStatus="warning">
-      <TimePicker style={{ width: '100%' }} />
+      <TimePicker className="w-full" />
     </Form.Item>
 
     <Form.Item label="Error" hasFeedback validateStatus="error">
-      <DatePicker.RangePicker style={{ width: '100%' }} />
+      <DatePicker.RangePicker className="w-full" />
     </Form.Item>
 
     <Form.Item label="Error" hasFeedback validateStatus="error">
-      <Select placeholder="I'm Select" allowClear>
-        <Option value="1">Option 1</Option>
-        <Option value="2">Option 2</Option>
-        <Option value="3">Option 3</Option>
-      </Select>
+      <Select
+        options={[
+          { value: '1', label: 'Option 1' },
+          { value: '2', label: 'Option 2' },
+          { value: '3', label: 'Option 3' },
+        ]}
+        placeholder="I'm Select"
+        allowClear
+      ></Select>
     </Form.Item>
 
     <Form.Item
@@ -94,34 +89,20 @@ const App: React.FC = () => (
       <Cascader placeholder="I'm Cascader" options={[{ value: 'xx', label: 'xx' }]} allowClear />
     </Form.Item>
 
-    <Form.Item label="Warning" hasFeedback validateStatus="warning" help="Need to be checked">
-      <TreeSelect
-        placeholder="I'm TreeSelect"
-        treeData={[{ value: 'xx', label: 'xx' }]}
-        allowClear
-      />
-    </Form.Item>
-
-    <Form.Item label="inline" style={{ marginBottom: 0 }}>
-      <Form.Item
-        validateStatus="error"
-        help="Please select right date"
-        style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-      >
-        <DatePicker />
-      </Form.Item>
-      <span
-        style={{ display: 'inline-block', width: '24px', lineHeight: '32px', textAlign: 'center' }}
-      >
-        -
-      </span>
-      <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
-        <DatePicker />
-      </Form.Item>
+    <Form.Item label="Inline" style={{ marginBottom: 0 }}>
+      <Space block align="start">
+        <Form.Item validateStatus="error" help="Please select right date" className="flex-auto">
+          <DatePicker className="w-full" />
+        </Form.Item>
+        <span className="inline-flex h-9 w-6 flex-shrink-0 items-center justify-center">-</span>
+        <Form.Item className="flex-auto">
+          <DatePicker className="w-full" />
+        </Form.Item>
+      </Space>
     </Form.Item>
 
     <Form.Item label="Success" hasFeedback validateStatus="success">
-      <InputNumber style={{ width: '100%' }} />
+      <InputNumber className="w-full" />
     </Form.Item>
 
     <Form.Item label="Success" hasFeedback validateStatus="success">
@@ -134,17 +115,6 @@ const App: React.FC = () => (
 
     <Form.Item label="Error" hasFeedback validateStatus="error">
       <Input.Password allowClear placeholder="with input password and allowClear" />
-    </Form.Item>
-
-    <Form.Item label="Success" hasFeedback validateStatus="success">
-      <Input.OTP />
-    </Form.Item>
-    <Form.Item label="Warning" hasFeedback validateStatus="warning">
-      <Input.OTP />
-    </Form.Item>
-
-    <Form.Item label="Error" hasFeedback validateStatus="error">
-      <Input.OTP />
     </Form.Item>
 
     <Form.Item label="Fail" validateStatus="error" hasFeedback>

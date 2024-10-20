@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-
-const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
-};
-
-const formTailLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8, offset: 4 },
-};
+import { Button, Checkbox, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
@@ -33,9 +23,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <Form form={form} name="dynamic_rule" style={{ maxWidth: 600 }}>
+    <Form form={form} name="dynamic_rule" labelWidth="30%" className="max-w-[600px]">
       <Form.Item
-        {...formItemLayout}
         name="username"
         label="Name"
         rules={[{ required: true, message: 'Please input your name' }]}
@@ -43,19 +32,18 @@ const App: React.FC = () => {
         <Input placeholder="Please input your name" />
       </Form.Item>
       <Form.Item
-        {...formItemLayout}
         name="nickname"
         label="Nickname"
         rules={[{ required: checkNick, message: 'Please input your nickname' }]}
       >
         <Input placeholder="Please input your nickname" />
       </Form.Item>
-      <Form.Item {...formTailLayout}>
+      <Form.Item>
         <Checkbox checked={checkNick} onChange={onCheckboxChange}>
           Nickname is required
         </Checkbox>
       </Form.Item>
-      <Form.Item {...formTailLayout}>
+      <Form.Item>
         <Button type="primary" onClick={onCheck}>
           Check
         </Button>

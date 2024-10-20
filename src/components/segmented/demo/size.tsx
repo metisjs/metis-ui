@@ -6,6 +6,7 @@ const App: React.FC = () => (
     <Segmented size="large" options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']} />
     <Segmented options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']} />
     <Segmented size="small" options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']} />
+    <Segmented size="mini" options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']} />
   </Space>
 );
 

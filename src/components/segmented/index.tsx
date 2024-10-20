@@ -5,8 +5,8 @@ import { composeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
+import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
-import SizeContext from '../config-provider/SizeContext';
 import MotionThumb from './MotionThumb';
 
 interface SegmentedLabeledOptionWithoutIcon {
@@ -104,9 +104,10 @@ const InternalSegmentedOption: React.FC<{
     'relative flex cursor-pointer justify-center rounded-md text-sm text-text-secondary',
     disabled ? 'cursor-not-allowed text-text-quaternary' : 'hover:text-text',
     {
+      'rounded px-2 py-0.5': size === 'mini',
       'px-2.5 py-1': size === 'small',
       'px-3 py-1.5': size === 'middle',
-      'px-3 py-1.5 text-base': size === 'large',
+      'px-3 py-2': size === 'large',
     },
     {
       'min-w-0 flex-1': block,
@@ -147,7 +148,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
     className,
     block,
     options = [],
-    size: customSize = 'middle',
+    size: customSize,
     disabled,
     defaultValue,
     value,
@@ -174,8 +175,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
   });
 
   // ===================== Size =====================
-  const size = React.useContext(SizeContext);
-  const mergedSize = customSize || size;
+  const mergedSize = useSize(customSize);
 
   // ======================= Change ========================
   const [thumbShow, setThumbShow] = React.useState(false);
@@ -199,6 +199,9 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
         prefixCls,
         'inline-block w-fit rounded-md bg-layout p-0.5 text-text transition-all duration-300',
         { 'flex w-full': block },
+        {
+          rounded: mergedSize === 'mini',
+        },
         semanticCls.root,
       )}
       ref={mergedRef}

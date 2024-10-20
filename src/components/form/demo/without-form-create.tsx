@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { InputNumberProps } from 'antd';
-import { Form, InputNumber } from 'antd';
+import type { InputNumberProps } from 'metis-ui';
+import { Form, InputNumber } from 'metis-ui';
 
 type ValidateStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
 
@@ -22,11 +22,6 @@ const validatePrimeNumber = (
   };
 };
 
-const formItemLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 12 },
-};
-
 const tips =
   'A prime is a natural number greater than 1 that has no positive divisors other than 1 and itself.';
 
@@ -45,9 +40,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <Form style={{ maxWidth: 600 }}>
+    <Form className="max-w-[600px]">
       <Form.Item
-        {...formItemLayout}
         label="Prime between 8 & 12"
         validateStatus={number.validateStatus}
         help={number.errorMsg || tips}

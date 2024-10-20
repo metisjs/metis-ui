@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Select } from 'antd';
-
-const { Option } = Select;
+import { Button, Form, Input, Select } from 'metis-ui';
 
 type Currency = 'rmb' | 'dollar';
 
@@ -49,16 +47,17 @@ const PriceInput: React.FC<PriceInputProps> = (props) => {
         type="text"
         value={value.number || number}
         onChange={onNumberChange}
-        style={{ width: 100 }}
+        className="w-24"
       />
       <Select
+        options={[
+          { label: 'RMB', value: 'rmb' },
+          { label: 'Dollar', value: 'dollar' },
+        ]}
         value={value.currency || currency}
-        style={{ width: 80, margin: '0 8px' }}
+        className="ml-2 w-28"
         onChange={onCurrencyChange}
-      >
-        <Option value="rmb">RMB</Option>
-        <Option value="dollar">Dollar</Option>
-      </Select>
+      ></Select>
     </span>
   );
 };

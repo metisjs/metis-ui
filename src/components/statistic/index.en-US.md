@@ -34,7 +34,7 @@ description: Display statistic number.
 | suffix | The suffix node of value | ReactNode | - |  |
 | title | Display title | ReactNode | - |  |
 | value | Display value | string \| number | - |  |
-| tip | title bar tips | string \| TooltipProps | - |  |
+| tooltip | title bar tips | string \| TooltipProps | - |  |
 | className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 #### Statistic.Group

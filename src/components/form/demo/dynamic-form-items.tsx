@@ -1,6 +1,6 @@
 import React from 'react';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space } from 'antd';
+import { MinusCircleOutline, PlusOutline } from '@metisjs/icons';
+import { Button, Form, Input, Space } from 'metis-ui';
 
 const onFinish = (values: any) => {
   console.log('Received values of form:', values);
@@ -10,14 +10,14 @@ const App: React.FC = () => (
   <Form
     name="dynamic_form_nest_item"
     onFinish={onFinish}
-    style={{ maxWidth: 600 }}
+    className="max-w-[600px]"
     autoComplete="off"
   >
     <Form.List name="users">
       {(fields, { add, remove }) => (
         <>
           {fields.map(({ key, name, ...restField }) => (
-            <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+            <Space key={key} block align="start">
               <Form.Item
                 {...restField}
                 name={[name, 'first']}
@@ -32,11 +32,14 @@ const App: React.FC = () => (
               >
                 <Input placeholder="Last Name" />
               </Form.Item>
-              <MinusCircleOutlined onClick={() => remove(name)} />
+              <MinusCircleOutline
+                className="relative top-1.5 h-6 w-6 cursor-pointer text-text-secondary hover:text-primary"
+                onClick={() => remove(name)}
+              />
             </Space>
           ))}
           <Form.Item>
-            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+            <Button onClick={() => add()} icon={<PlusOutline />} className="w-full">
               Add field
             </Button>
           </Form.Item>

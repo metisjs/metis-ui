@@ -1,26 +1,24 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import classNames from 'classnames';
 import FieldForm, { List, useWatch } from 'rc-field-form';
 import type { FormProps as RcFormProps } from 'rc-field-form/lib/Form';
 import type { FormRef, InternalNamePath, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import type { Options } from 'scroll-into-view-if-needed';
+import { clsx } from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { Variant } from '../config-provider';
 import DisabledContext, { DisabledContextProvider } from '../config-provider/DisabledContext';
-import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
-import type { ColProps } from '../grid/col';
 import type { FormContextProps } from './context';
 import { FormContext, FormProvider, VariantContext } from './context';
 import type { FeedbackIcons } from './FormItem';
 import useForm from './hooks/useForm';
 import type { FormInstance } from './hooks/useForm';
+import useFormLabelWidth from './hooks/useFormLabelWidth';
 import useFormWarning from './hooks/useFormWarning';
 import type { FormLabelAlign } from './interface';
-import useStyle from './style';
 import ValidateMessagesContext from './validateMessagesContext';
 
 export type RequiredMark =
@@ -37,37 +35,30 @@ export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form
   layout?: FormLayout;
   labelAlign?: FormLabelAlign;
   labelWrap?: boolean;
-  labelCol?: ColProps;
-  wrapperCol?: ColProps;
+  labelWidth?: number | string;
   form?: FormInstance<Values>;
   feedbackIcons?: FeedbackIcons;
   size?: SizeType;
   disabled?: boolean;
   scrollToFirstError?: Options | boolean;
   requiredMark?: RequiredMark;
-  /** @deprecated Will warning in future branch. Pls use `requiredMark` instead. */
-  hideRequiredMark?: boolean;
-  rootClassName?: string;
   variant?: Variant;
 }
 
 const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props, ref) => {
   const contextDisabled = React.useContext(DisabledContext);
-  const { getPrefixCls, direction, form: contextForm } = React.useContext(ConfigContext);
+  const { getPrefixCls, form: contextForm } = React.useContext(ConfigContext);
 
   const {
     prefixCls: customizePrefixCls,
     className,
-    rootClassName,
     size,
     disabled = contextDisabled,
     form,
     colon,
     labelAlign,
     labelWrap,
-    labelCol,
-    wrapperCol,
-    hideRequiredMark,
+    labelWidth = 'auto',
     layout = 'horizontal',
     scrollToFirstError,
     requiredMark,
@@ -83,6 +74,8 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
 
   const contextValidateMessages = React.useContext(ValidateMessagesContext);
 
+  const { autoLabelWidth, registerLabelWidth, deregisterLabelWidth } = useFormLabelWidth();
+
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useFormWarning(props);
@@ -93,39 +86,29 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       return requiredMark;
     }
 
-    if (hideRequiredMark) {
-      return false;
-    }
-
     if (contextForm && contextForm.requiredMark !== undefined) {
       return contextForm.requiredMark;
     }
 
     return true;
-  }, [hideRequiredMark, requiredMark, contextForm]);
+  }, [requiredMark, contextForm]);
 
   const mergedColon = colon ?? contextForm?.colon;
 
   const prefixCls = getPrefixCls('form', customizePrefixCls);
 
-  // Style
-  const rootCls = useCSSVarCls(prefixCls);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls);
-
-  const formClassName = classNames(
+  const rootCls = clsx(
     prefixCls,
     `${prefixCls}-${layout}`,
     {
       [`${prefixCls}-hide-required-mark`]: mergedRequiredMark === false,
-      [`${prefixCls}-rtl`]: direction === 'rtl',
       [`${prefixCls}-${mergedSize}`]: mergedSize,
     },
-    cssVarCls,
-    rootCls,
-    hashId,
-    contextForm?.className,
+    'text-sm text-text',
+    {
+      'flex flex-wrap gap-x-6': layout === 'inline',
+    },
     className,
-    rootClassName,
   );
 
   const [wrapForm] = useForm(form);
@@ -136,26 +119,32 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     () => ({
       name,
       labelAlign,
-      labelCol,
+      labelWidth,
       labelWrap,
-      wrapperCol,
-      vertical: layout === 'vertical',
+      layout,
       colon: mergedColon,
       requiredMark: mergedRequiredMark,
+      size: mergedSize,
       itemRef: __INTERNAL__.itemRef,
       form: wrapForm,
       feedbackIcons,
+      autoLabelWidth,
+      registerLabelWidth,
+      deregisterLabelWidth,
     }),
     [
       name,
       labelAlign,
-      labelCol,
-      wrapperCol,
+      labelWidth,
       layout,
       mergedColon,
       mergedRequiredMark,
+      mergedSize,
       wrapForm,
       feedbackIcons,
+      autoLabelWidth,
+      registerLabelWidth,
+      deregisterLabelWidth,
     ],
   );
 
@@ -190,7 +179,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     }
   };
 
-  return wrapCSSVar(
+  return (
     <VariantContext.Provider value={variant}>
       <DisabledContextProvider disabled={disabled}>
         <SizeContext.Provider value={mergedSize}>
@@ -208,14 +197,14 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
                 onFinishFailed={onInternalFinishFailed}
                 form={wrapForm}
                 ref={nativeElementRef}
-                style={{ ...contextForm?.style, ...style }}
-                className={formClassName}
+                style={style}
+                className={rootCls}
               />
             </FormContext.Provider>
           </FormProvider>
         </SizeContext.Provider>
       </DisabledContextProvider>
-    </VariantContext.Provider>,
+    </VariantContext.Provider>
   );
 };
 

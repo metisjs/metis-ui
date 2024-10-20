@@ -1,13 +1,13 @@
 import React from 'react';
-import type { InputRef } from 'antd';
-import { Button, Form, Input } from 'antd';
+import type { InputRef } from 'metis-ui';
+import { Button, Form, Input } from 'metis-ui';
 
 const App: React.FC = () => {
   const [form] = Form.useForm();
   const ref = React.useRef<InputRef>(null);
 
   return (
-    <Form form={form} initialValues={{ list: ['light'] }} style={{ maxWidth: 600 }}>
+    <Form form={form} initialValues={{ list: ['light'] }} className="max-w-[600px]">
       <Form.Item name="test" label="test">
         <Input ref={ref} />
       </Form.Item>

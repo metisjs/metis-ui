@@ -114,8 +114,6 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
     // @ts-ignore
     delete restProps.keys;
 
-    console.log(keyEntities);
-
     return (
       <Component {...restProps}>
         {keyEntities.map(({ status, ...eventProps }, index) => {

@@ -4,7 +4,7 @@ import type { FormProps } from '../Form';
 
 const names: Record<string, number> = {};
 
-export default function useFormWarning({ name }: FormProps) {
+export default function useFormWarning({ name, labelWidth = 'auto', labelWrap }: FormProps) {
   const warning = devUseWarning('Form');
 
   useEffect(() => {
@@ -18,4 +18,12 @@ export default function useFormWarning({ name }: FormProps) {
       };
     }
   }, [name]);
+
+  useEffect(() => {
+    warning(
+      !(labelWidth === 'auto' && labelWrap),
+      'usage',
+      '`labelWrap` is not support when label width is auto.',
+    );
+  }, [labelWidth, labelWrap]);
 }
