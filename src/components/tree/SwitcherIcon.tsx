@@ -19,9 +19,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
 
   if (loading) {
     return (
-      <LoadingOutline
-        className={clsx(`${prefixCls}-switcher-loading-icon`, 'animate-spin text-primary')}
-      />
+      <LoadingOutline className={clsx(`${prefixCls}-switcher-loading-icon`, 'animate-spin')} />
     );
   }
 

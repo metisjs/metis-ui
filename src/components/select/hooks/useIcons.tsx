@@ -66,7 +66,7 @@ export default function useIcons({
     mergedSuffixIcon = getSuffixIconNode(suffixIcon);
   } else if (loading) {
     mergedSuffixIcon = getSuffixIconNode(
-      <LoadingOutline className={clsx(sizeCls, 'animate-spin text-primary')} />,
+      <LoadingOutline className={clsx(sizeCls, 'animate-spin')} />,
     );
   } else {
     const iconCls = clsx(`${prefixCls}-suffix`, sizeCls);
