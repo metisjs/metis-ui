@@ -37,9 +37,9 @@ When a numeric value needs to be provided.
 | autoFocus | If get focus when component mounted | boolean | false | - |
 | changeOnBlur | Trigger `onChange` when blur. e.g. reset value in range by blur | boolean | true |  |
 | changeOnWheel | Allow control with mouse wheel | boolean | - |  |
+| className | Semantic Dom class | string \| Record&lt;'root' \\｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
 | controls | Whether to show `+-` controls, or set custom arrows icon | boolean \| { upIcon?: React.ReactNode; downIcon?: React.ReactNode; } | - |  |
 | decimalSeparator | Decimal separator | string | - | - |
-| placeholder | placeholder | string | - |  |
 | defaultValue | The initial value | number | - | - |
 | disabled | If disable the input | boolean | false | - |
 | formatter | Specifies the format of the value presented | function(value: number \| string, info: { userTyping: boolean, input: string }): string | - | info: |
@@ -47,11 +47,12 @@ When a numeric value needs to be provided.
 | max | The max value | number | [Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER) | - |
 | min | The min value | number | [Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER) | - |
 | parser | Specifies the value extracted from formatter | function(string): number | - | - |
+| placeholder | placeholder | string | - |  |
 | precision | The precision of input value. Will use `formatter` when config of `formatter` | number | - | - |
-| readOnly | If readonly the input | boolean | false | - |
-| status | Set validation status | 'error' \| 'warning' | - |  |
 | prefix | The prefix icon for the Input | ReactNode | - |  |
+| readOnly | If readonly the input | boolean | false | - |
 | size | The height of input box | `large` \| `middle` \| `small` | - | - |
+| status | Set validation status | 'error' \| 'warning' | - |  |
 | step | The number to which the current value is increased or decreased. It can be an integer or decimal | number \| string | 1 | - |
 | stringMode | Set value as string to support high precision decimals. Will return string value by `onChange` | boolean | false |  |
 | value | The current value | number | - | - |
@@ -59,7 +60,6 @@ When a numeric value needs to be provided.
 | onChange | The callback triggered when the value is changed | function(value: number \| string \| null) | - | - |
 | onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - | - |
 | onStep | The callback function that is triggered when click up or down buttons | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
-| className | Semantic Dom class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
 
 ## Ref
 

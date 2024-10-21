@@ -30,10 +30,10 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| bordered | Whether has border style | boolean | true |  |
 | closeIcon | Custom close icon. close button will be hidden when setting to `null` or `false` | ReactNode | false |  |
 | color | Color of the Tag | string | - |  |
 | icon | Set the icon of tag | ReactNode | - |  |
-| bordered | Whether has border style | boolean | true |  |
 | onClose | Callback executed when tag is closed | (e) => void | - |  |
 
 ### Tag.CheckableTag

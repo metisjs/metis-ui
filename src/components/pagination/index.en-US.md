@@ -28,7 +28,7 @@ group:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record<'root' \| 'options' \| 'item' \| 'prev' \| 'next' \| 'total' \| 'jumper' \| 'sizeChanger', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'options' \| 'item' \| 'prev' \| 'next' \| 'total' \| 'jumper' \| 'sizeChanger', string> | - |  |
 | current | Current page number | number | - |  |
 | defaultCurrent | Default initial page number | number | 1 |  |
 | defaultPageSize | Default number of data items per page | number | 10 |  |

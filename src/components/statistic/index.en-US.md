@@ -25,6 +25,7 @@ description: Display statistic number.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 | decimalSeparator | The decimal separator | string | `.` |  |
 | formatter | Customize value display logic | (value) => ReactNode | - |  |
 | groupSeparator | Group separator | string | `,` |  |
@@ -33,30 +34,29 @@ description: Display statistic number.
 | prefix | The prefix node of value | ReactNode | - |  |
 | suffix | The suffix node of value | ReactNode | - |  |
 | title | Display title | ReactNode | - |  |
-| value | Display value | string \| number | - |  |
 | tooltip | title bar tips | string \| TooltipProps | - |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| value | Display value | string \| number | - |  |
 
 #### Statistic.Group
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| column | The number of `Statistic` in a row,could be a number or a object like `{ xs: 8, sm: 16, md: 24}` | number \| Record<Breakpoint, number> | 4 |  |
-| expandable | Config expandable content | `boolean` | true |  |
-| item | The contents of the list item | [StatisticItem](#statistic)[] |  |  |
-| loading | Loading status of Statistic | `boolean` | false |  |
 | className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| column | The number of `Statistic` in a row,could be a number or a object like `{ xs: 8, sm: 16, md: 24}` | number \| Record&lt;Breakpoint, number> | 4 |  |
+| expandable | Config expandable content | `boolean` | true |  |
+| item | The contents of the list item | [StatisticItem](#statistic)\[] |  |  |
+| loading | Loading status of Statistic | `boolean` | false |  |
 
 #### Statistic.Countdown
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
 | format | Format as [dayjs](https://day.js.org/) | string | `HH:mm:ss` |  |
 | prefix | The prefix node of value | ReactNode | - |  |
 | suffix | The suffix node of value | ReactNode | - |  |
 | title | Display title | ReactNode | - |  |
 | value | Set target countdown time | number | - |  |
 | valueStyle | Set value section style | CSSProperties | - |  |
-| onFinish | Trigger when time's up | () => void | - |  |
 | onChange | Trigger when time's changing | (value: number) => void | - |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| onFinish | Trigger when time's up | () => void | - |  |

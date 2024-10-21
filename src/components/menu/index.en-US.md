@@ -29,7 +29,7 @@ More layouts with navigation: [Layout](/components/layout).
 
 | Param | Description | Type | Default value | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| |  |  |
 | defaultOpenKeys | Array with the keys of default opened sub menus | string\[] | - |  |
 | defaultSelectedKeys | Array with the keys of default selected menu items | string\[] | - |  |
 | expandIcon | custom expand icon of submenu | ReactNode \| `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |
@@ -55,7 +55,7 @@ More layouts with navigation: [Layout](/components/layout).
 
 ### ItemType
 
-> type ItemType = [MenuItemType](#MenuItemType) | [SubMenuType](#SubMenuType) | [MenuItemGroupType](#MenuItemGroupType) | [MenuDividerType](#MenuDividerType);
+> type ItemType = [MenuItemType](#MenuItemType) \| [SubMenuType](#SubMenuType) \| [MenuItemGroupType](#MenuItemGroupType) \| [MenuDividerType](#MenuDividerType);
 
 #### MenuItemType
 
@@ -70,15 +70,15 @@ More layouts with navigation: [Layout](/components/layout).
 
 #### SubMenuType
 
-| Property | Description | Type | Default value | Version |
+| Property | Description | Type | Default value | Version |  |
 | --- | --- | --- | --- | --- | --- |
-| children | Sub-menus or sub-menu items | [ItemType\[\]](#itemtype) | - |  |
-| className | Semantic DOM class | string \| Record<'root' \| 'icon' \| 'title' \| 'inner' \| "content" \| 'popup', string> | - |  |
-| disabled | Whether sub-menu is disabled | boolean | false |  |
-| icon | Icon of sub menu | ReactNode | - |  |
-| key | Unique ID of the sub-menu | string | - |  |
-| label | Menu label | ReactNode | - |  |
-| popupOffset | Sub-menu offset, not working when `mode="inline"` | \[number, number] | - |  |
+| children | Sub-menus or sub-menu items | [ItemType\[\]](#itemtype) | - |  |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'icon' \| 'title' \| 'inner' \| "content" \| 'popup', string> | - |  |  |
+| disabled | Whether sub-menu is disabled | boolean | false |  |  |
+| icon | Icon of sub menu | ReactNode | - |  |  |
+| key | Unique ID of the sub-menu | string | - |  |  |
+| label | Menu label | ReactNode | - |  |  |
+| popupOffset | Sub-menu offset, not working when `mode="inline"` | \[number, number] | - |  |  |
 | theme | Color theme of the SubMenu (inherits from Menu by default) |  | `light` \| `dark` | - |  |
 
 #### MenuItemGroupType

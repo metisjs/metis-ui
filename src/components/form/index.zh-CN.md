@@ -59,16 +59,18 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| clearOnDestroy | 当表单被卸载时清空表单值 | boolean | false |  |
 | colon | 配置 Form.Item 的 `colon` 的默认值。表示是否显示 label 后面的冒号 (只有在属性 layout 为 horizontal 时有效) | boolean | true |  |
-| disabled | 设置表单组件禁用，仅对内部组件有效 | boolean | false |  |
+| column | 栅格显示, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record&lt;Breakpoint, number> | 'auto' |  |
 | component | 设置 Form 渲染元素，为 `false` 则不创建 DOM 节点 | ComponentType \| false | form |  |
+| disabled | 设置表单组件禁用，仅对内部组件有效 | boolean | false |  |
+| feedbackIcons | 当 `Form.Item` 有 `hasFeedback` 属性时可以自定义图标 | [FeedbackIcons](#feedbackicons) | - |  |
 | fields | 通过状态管理（如 redux）控制表单字段，如非强需求不推荐使用。查看[示例](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | 经 `Form.useForm()` 创建的 form 控制实例，不提供时会自动创建 | [FormInstance](#forminstance) | - |  |
-| feedbackIcons | 当 `Form.Item` 有 `hasFeedback` 属性时可以自定义图标 | [FeedbackIcons](#feedbackicons) | - |  |
 | initialValues | 表单默认值，只有初始化以及重置时生效 | object | - |  |
 | labelAlign | label 标签的文本对齐方式 | `left` \| `right` | `right` |  |
 | labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string \| number | 'auto' |  |
-| column | 栅格显示, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record<Breakpoint, number> | 'auto' |  |
 | layout | 表单布局 | `horizontal` \| `vertical` \| `inline` | `horizontal` |  |
 | name | 表单名称，会作为表单字段 `id` 前缀使用 | string | - |  |
 | preserve | 当字段被删除时保留字段值。你可以通过 `getFieldsValue(true)` 来获取保留字段值 | boolean | true |  |
@@ -82,8 +84,6 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | onFinish | 提交表单且数据验证成功后回调事件 | function(values) | - |  |
 | onFinishFailed | 提交表单且数据验证失败后回调事件 | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | 字段值更新时触发回调事件 | function(changedValues, allValues) | - |  |
-| clearOnDestroy | 当表单被卸载时清空表单值 | boolean | false |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 > 支持原生 form 除 `onSubmit` 外的所有属性。
 
@@ -119,12 +119,12 @@ const validateMessages = {
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 | colon | 配合 `label` 属性使用，表示是否显示 `label` 后面的冒号 | boolean | true |  |
 | dependencies | 设置依赖字段，说明[见下](#dependencies) | [NamePath](#namepath)\[] | - |  |
 | extra | 额外的提示信息，和 `help` 类似，当需要错误信息和提示文案同时出现时，可以使用这个。 | ReactNode | - |  |
 | getValueFromEvent | 设置如何将 event 的值转换成字段值 | (..args: any\[]) => any | - |  |
-| getValueProps | 为子元素添加额外的属性 (不建议通过 `getValueProps` 生成动态函数 prop，请直接将其传递给子组件) | (value: any) => Record<string, any> | - |  |
-| labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string \| number | 'auto' |  |
+| getValueProps | 为子元素添加额外的属性 (不建议通过 `getValueProps` 生成动态函数 prop，请直接将其传递给子组件) | (value: any) => Record&lt;string, any> | - |  |
 | hasFeedback | 配合 `validateStatus` 属性使用，展示校验状态图标，建议只配合 Input 组件使用 此外，它还可以通过 Icons 属性获取反馈图标。 | boolean \| { icons: [FeedbackIcons](#feedbackicons) } | false |  |
 | help | 提示信息，如不设置，则会根据校验规则自动生成 | ReactNode | - |  |
 | hidden | 是否隐藏字段（依然会收集和校验字段） | boolean | false |  |
@@ -132,6 +132,8 @@ const validateMessages = {
 | initialValue | 设置子元素默认值，如果与 Form 的 `initialValues` 冲突则以 Form 为准 | string | - |  |
 | label | `label` 标签的文本 | ReactNode | - |  |
 | labelAlign | 标签文本对齐方式 | `left` \| `right` | `right` |  |
+| labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string \| number | 'auto' |  |
+| layout | 表单项布局 | `horizontal` \| `vertical` | - |  |
 | messageVariables | 默认验证字段的信息，查看[详情](#messagevariables) | Record&lt;string, string> | - |  |
 | name | 字段名，支持数组 | [NamePath](#namepath) | - |  |
 | normalize | 组件获取值后进行转换，再放入 Form 中。不支持异步 | (value, prevValue, prevValues) => any | - |  |
@@ -140,16 +142,14 @@ const validateMessages = {
 | required | 必填样式设置。如不设置，则会根据校验规则自动生成 | boolean | false |  |
 | rules | 校验规则，设置字段的校验逻辑。点击[此处](#form-demo-basic)查看示例 | [Rule](#rule)\[] | - |  |
 | shouldUpdate | 自定义字段更新逻辑，说明[见下](#shouldupdate) | boolean \| (prevValue, curValue) => boolean | false |  |
+| span | 在栅格中显示列数, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record&lt;Breakpoint, number> | 'auto' |  |
 | tooltip | 配置提示信息 | ReactNode \| [TooltipProps & { icon: ReactNode }](/components/tooltip-cn#api) | - |  |
 | trigger | 设置收集字段值变更的时机。点击[此处](#form-demo-customized-form-controls)查看示例 | string | `onChange` |  |
-| validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验。设置 `parallel` 时会并行校验 | boolean \| `parallel` | false |  |
 | validateDebounce | 设置防抖，延迟毫秒数后进行校验 | number | - |  |
+| validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验。设置 `parallel` 时会并行校验 | boolean \| `parallel` | false |  |
 | validateStatus | 校验状态，如不设置，则会根据校验规则自动生成，可选：'success' 'warning' 'error' 'validating' | string | - |  |
 | validateTrigger | 设置字段校验的时机 | string \| string\[] | `onChange` |  |
 | valuePropName | 子节点的值的属性。注意：Switch、Checkbox 的 valuePropName 应该是 `checked`，否则无法获取这个两个组件的值。该属性为 `getValueProps` 的封装，自定义 `getValueProps` 后会失效 | string | `value` |  |
-| layout | 表单项布局 | `horizontal` \| `vertical` | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
-| span | 在栅格中显示列数, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record<Breakpoint, number> | 'auto' |  |
 
 被设置了 `name` 属性的 `Form.Item` 包装的控件，表单控件会自动添加 `value`（或 `valuePropName` 指定的其他属性） `onChange`（或 `trigger` 指定的其他属性），数据同步将被 Form 接管，这会导致以下结果：
 
@@ -222,7 +222,7 @@ Form 通过增量更新方式，只更新被修改的字段相关组件以达到
 </Form>
 ```
 
-自 ``起，当你希望不要转译`${}` 时，你可以通过 `\\${}` 来略过：
+自 \``起，当你希望不要转译`${}`时，你可以通过`\\${}\` 来略过：
 
 ```jsx
 { required: true, message: '${label} is convert, \\${label} is not convert' }
@@ -310,8 +310,8 @@ Form.List 渲染表单相关操作函数。
 | resetFields | 重置一组字段到 `initialValues` | (fields?: [NamePath](#namepath)\[]) => void |  |
 | scrollToField | 滚动到对应字段位置 | (name: [NamePath](#namepath), options: [ScrollOptions](https://github.com/stipsan/scroll-into-view-if-needed/tree/ece40bd9143f48caf4b99503425ecb16b0ad8249#options)) => void |  |
 | setFields | 设置一组字段状态 | (fields: [FieldData](#fielddata)\[]) => void |  |
-| setFieldValue | 设置表单的值（该值将直接传入 form store 中并且**重置错误信息**。如果你不希望传入对象被修改，请克隆后传入） | (name: [NamePath](#namepath), value: any) => void |  |
 | setFieldsValue | 设置表单的值（该值将直接传入 form store 中并且**重置错误信息**。如果你不希望传入对象被修改，请克隆后传入）。如果你只想修改 Form.List 中单项值，请通过 `setFieldValue` 进行指定 | (values) => void |  |
+| setFieldValue | 设置表单的值（该值将直接传入 form store 中并且**重置错误信息**。如果你不希望传入对象被修改，请克隆后传入） | (name: [NamePath](#namepath), value: any) => void |  |
 | submit | 提交表单，与点击 `submit` 按钮效果相同 | () => void |  |
 | validateFields | 触发表单验证，设置 `recursive` 时会递归校验所有包含的路径 | (nameList?: [NamePath](#namepath)\[], config?: [ValidateConfig](#validatefields)) => Promise |  |
 
@@ -371,7 +371,7 @@ validateFields()
 
 `type Form.useFormInstance = (): FormInstance`
 
-`` 新增，获取当前上下文正在使用的 Form 实例，常见于封装子组件消费无需透传 Form 实例：
+\`\` 新增，获取当前上下文正在使用的 Form 实例，常见于封装子组件消费无需透传 Form 实例：
 
 ```tsx
 const Sub = () => {
@@ -395,7 +395,7 @@ export default () => {
 
 `type Form.useWatch = (namePath: NamePath | (selector: (values: Store)) => any, formInstance?: FormInstance | WatchOptions): Value`
 
-``新增`selector`
+\``新增`selector\`
 
 用于直接获取 form 中字段对应的值。通过该 Hooks 可以与诸如 `useSWR` 进行联动从而降低维护成本：
 
@@ -503,7 +503,7 @@ form.getFieldsValue([
 
 #### getFieldsValue({ strict?: boolean, filter?: FilterFunc })
 
-``新增接受配置参数。当`strict`为`true`时会仅匹配 Item 的值。例如`{ list: [{ bamboo: 1, little: 2 }] }`中，如果 List 仅绑定了`bamboo`字段，那么`getFieldsValue({ strict: true })`会只获得`{ list: [{ bamboo: 1 }] }`。
+\``新增接受配置参数。当`strict`为`true`时会仅匹配 Item 的值。例如`{ list: [{ bamboo: 1, little: 2 }] }`中，如果 List 仅绑定了`bamboo`字段，那么`getFieldsValue({ strict: true })`会只获得`{ list: [{ bamboo: 1 }] }\`。
 
 ### FilterFunc
 
@@ -518,11 +518,11 @@ type FilterFunc = (meta: { touched: boolean; validating: boolean }) => boolean;
 | 名称       | 说明             | 类型                     |
 | ---------- | ---------------- | ------------------------ |
 | errors     | 错误信息         | string\[]                |
-| warnings   | 警告信息         | string\[]                |
 | name       | 字段名称         | [NamePath](#namepath)\[] |
 | touched    | 是否被用户操作过 | boolean                  |
 | validating | 是否正在校验     | boolean                  |
 | value      | 字段对应值       | any                      |
+| warnings   | 警告信息         | string\[]                |
 
 ### Rule
 

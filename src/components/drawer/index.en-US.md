@@ -32,25 +32,25 @@ A Drawer is a panel that is typically overlaid on top of a page and slides in fr
 
 | Props | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| autoFocus | Whether Drawer should get focused after open | boolean | true |  |
 | afterOpenChange | Callback after the animation ends when switching drawers | function(open) | - |  |
-| className | Semantic DOM class class | string \| Record<'root' \| 'mask' \| 'wrapper' \| 'content' \| 'header' \| 'footer' \| 'body', string> | - |  |
+| autoFocus | Whether Drawer should get focused after open | boolean | true |  |
+| className | Semantic DOM class class | string \| Record&lt;'root' \| 'mask' \| 'wrapper' \| 'content' \| 'header' \| 'footer' \| 'body', string> | - |  |
 | closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | destroyOnClose | Whether to unmount child components on closing drawer or not | boolean | false |  |
+| drawerRender | Custom drawer content render | (node: ReactNode) => ReactNode | - |  |
 | footer | The footer for Drawer | ReactNode | - |  |
 | forceRender | Pre-render Drawer component forcibly | boolean | false |  |
 | getContainer | mounted node and display window for Drawer | HTMLElement \| () => HTMLElement \| Selectors \| false | body |  |
 | height | Placement is `top` or `bottom`, height of the Drawer dialog | string \| number | 448 |  |
 | keyboard | Whether support press esc to close | boolean | true |  |
+| loading | Show the Skeleton | boolean | false |  |
 | mask | Whether to show mask or not | boolean | true |  |
 | maskClosable | Clicking on the mask (area outside the Drawer) to close the Drawer or not | boolean | true |  |
+| open | Whether the Drawer dialog is visible or not | boolean | false |  |
 | placement | The placement of the Drawer | `top` \| `right` \| `bottom` \| `left` | `right` |  |
 | push | Nested drawers push behavior | boolean \| { distance: string \| number } | { distance: 180 } | + |
 | style | Style of Drawer panel. Use `bodyStyle` if want to config body only | CSSProperties | - |  |
 | title | The title for Drawer | ReactNode | - |  |
-| loading | Show the Skeleton | boolean | false |  |
-| open | Whether the Drawer dialog is visible or not | boolean | false |  |
 | width | Width of the Drawer dialog | string \| number | 448 |  |
 | zIndex | The `z-index` of the Drawer | number | 1000 |  |
 | onClose | Specify a callback that will be called when a user clicks mask, close button or Cancel button | function(e) | - |  |
-| drawerRender | Custom drawer content render | (node: ReactNode) => ReactNode | - |  |

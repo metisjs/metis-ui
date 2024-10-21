@@ -37,7 +37,7 @@ demo:
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | cellRender | 自定义单元格的内容 | (current: number, info: { originNode: React.ReactNode, today: dayjs, range?: 'start' \| 'end', subType: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
 | changeOnScroll | 在滚动时改变选择值 | boolean | false |  |
-| className | 语义化结构 class | string \| Record<'root' \| 'popup', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'popup', string> | - |  |
 | defaultValue | 默认时间 | [DateValue](#datevalue) | - |  |
 | disabled | 禁用全部操作 | boolean | false |  |
 | disabledTime | 不可选择的时间 | [DisabledTime](#disabledtime) | - |  |

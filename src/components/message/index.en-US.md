@@ -78,8 +78,8 @@ The properties of config are as follows:
 | maxCount | Max message show, drop oldest if exceed limit | number | - |  |
 | prefixCls | The prefix className of message node | string |  |  |
 | top | Distance from top | number | 8 |  |
-| onAllRemoved | trigger on all notification removed | VoidFunction |  |  |
 | transition | transition config | [TransitionProps](/components/transition) |  |  |
+| onAllRemoved | trigger on all notification removed | VoidFunction |  |  |
 
 ### Global static methods
 

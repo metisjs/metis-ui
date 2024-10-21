@@ -38,9 +38,9 @@ demo:
 | autoFocus | 自动获取焦点 | boolean | false | - |
 | changeOnBlur | 是否在失去焦点时，触发 `onChange` 事件（例如值超出范围时，重新限制回范围并触发事件） | boolean | true |  |
 | changeOnWheel | 允许鼠标滚轮改变数值 | boolean | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
 | controls | 是否显示增减按钮，也可设置自定义箭头图标 | boolean \| { upIcon?: React.ReactNode; downIcon?: React.ReactNode; } | - |  |
 | decimalSeparator | 小数点 | string | - | - |
-| placeholder | 占位符 | string | - |  |
 | defaultValue | 初始值 | number | - | - |
 | disabled | 禁用 | boolean | false | - |
 | formatter | 指定输入框展示值的格式 | function(value: number \| string, info: { userTyping: boolean, input: string }): string | - | info: |
@@ -48,11 +48,12 @@ demo:
 | max | 最大值 | number | [Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER) | - |
 | min | 最小值 | number | [Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER) | - |
 | parser | 指定从 `formatter` 里转换回数字的方式，和 `formatter` 搭配使用 | function(string): number | - | - |
+| placeholder | 占位符 | string | - |  |
 | precision | 数值精度，配置 `formatter` 时会以 `formatter` 为准 | number | - | - |
-| readOnly | 只读 | boolean | false | - |
-| status | 设置校验状态 | 'error' \| 'warning' | - |  |
 | prefix | 带有前缀图标的 input | ReactNode | - |  |
+| readOnly | 只读 | boolean | false | - |
 | size | 输入框大小 | `large` \| `middle` \| `small` | - | - |
+| status | 设置校验状态 | 'error' \| 'warning' | - |  |
 | step | 每次改变步数，可以为小数 | number \| string | 1 | - |
 | stringMode | 字符值模式，开启后支持高精度小数。同时 `onChange` 将返回 string 类型 | boolean | false |  |
 | value | 当前值 | number | - | - |
@@ -60,7 +61,6 @@ demo:
 | onChange | 变化回调 | function(value: number \| string \| null) | - | - |
 | onPressEnter | 按下回车的回调 | function(e) | - | - |
 | onStep | 点击上下箭头的回调 | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
 
 ## Ref
 

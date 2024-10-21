@@ -30,7 +30,7 @@ demo:
 | allowHalf | Whether to allow semi selection | boolean | false |  |
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | character | The custom character of rate | ReactNode \| (RateProps) => ReactNode | &lt;StarSolid /> |  |
-| className | Semantic DOM class | string \| Record<'root' \｜ 'star', string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \\｜ 'star', string> | - |  |
 | count | Star count | number | 5 |  |
 | defaultValue | The default value | number | 0 |  |
 | disabled | If read only, unable to interact | boolean | false |  |

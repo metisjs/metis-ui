@@ -49,18 +49,18 @@ demo:
 | allowClear | Show clear button | boolean \| { clearIcon?: ReactNode } | false |  |
 | autoClearSearchValue | Whether the current search will be cleared on selecting an item. Only applies when `mode` is set to `multiple` or `tags` | boolean | true |  |
 | autoFocus | Get focus by default | boolean | false |  |
-| className | Semantic DOM class | string \| Record<'root' \| 'popup' \| 'selector', string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'popup' \| 'selector', string> | - |  |
 | defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
 | defaultOpen | Initial open state of dropdown | boolean | - |  |
 | defaultValue | Initial selected option | string \| string\[] \| <br />number \| number\[] \| <br />Option \| Option\[] | - |  |
 | disabled | Whether disabled select | boolean | false |  |
-| popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
-| popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
+| displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
 | dropdownStyle | The style of dropdown menu | CSSProperties | - |  |
 | fieldNames | Customize node label, value, options，groupLabel field name | [FileNames](#filenames) | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
 | filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns `true`, the option will be included in the filtered set; Otherwise, it will be excluded | function(inputValue, option) | - |  |
 | filterSort | Sort function for search options sorting, see [Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)'s compareFunction | (optionA: Option, optionB: Option) => number | - |  |
 | getPopupContainer | Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. | function(triggerNode) | () => document.body |  |
+| lazyLoad | Remote laze load request, effective only when using the `request` configuration. if `showSearch` is true, will search by remote service | boolean | false |  |
 | listHeight | Config popup height | number | 224 |  |
 | loading | Indicate loading state | boolean | false |  |
 | maxTagCount | Max tag count to show. `responsive` will cost render performance | number \| `responsive` | - | responsive: 4.10 |
@@ -71,12 +71,14 @@ demo:
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
 | optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `fieldNames.label`.If `request` is set, it will be pass to the request method. | string | `fieldNames.label` |  |
-| displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
+| optionRender | Customize the rendering dropdown options | (option: FlattenOptionData\\&lt;BaseOption> , info: { index: number }) => React.ReactNode | - |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
-| optionRender | Customize the rendering dropdown options | (option: FlattenOptionData\<BaseOption\> , info: { index: number }) => React.ReactNode | - |  |
 | placeholder | Placeholder of select | ReactNode | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
+| popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
+| popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
 | removeIcon | The custom remove icon | ReactNode | - |  |
+| request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
 | searchValue | The current input "search" text | string | - |  |
 | showSearch | Whether select is searchable | boolean | single: false, multiple: true |  |
 | size | Size of Select input | `large` \| `middle` \| `small` | `middle` |  |
@@ -91,16 +93,14 @@ demo:
 | onChange | Called when select an option or input value change | function(value, option:Option \| Array&lt;Option>) | - |  |
 | onClear | Called when clear | function | - | 4.6.0 |
 | onDeselect | Called when an option is deselected, param is the selected option's value. Only called for `multiple` or `tags`, effective in multiple or tags mode only | function(value: string \| number) | - |  |
-| onPopupOpenChange | Called when dropdown open | function(open) | - |  |
 | onFocus | Called when focus | function | - |  |
 | onInputKeyDown | Called when key pressed | function | - |  |
 | onMouseEnter | Called when mouse enter | function | - |  |
 | onMouseLeave | Called when mouse leave | function | - |  |
+| onPopupOpenChange | Called when dropdown open | function(open) | - |  |
 | onPopupScroll | Called when dropdown scrolls | function | - |  |
 | onSearch | Callback function that is fired when input changed | function(value: string) | - |  |
 | onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string \| number, option: Option) | - |  |
-| request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
-| lazyLoad | Remote laze load request, effective only when using the `request` configuration. if `showSearch` is true, will search by remote service | boolean | false |  |
 
 > Note, if you find that the drop-down menu scrolls with the page, or you need to trigger Select in other popup layers, please try to use `getPopupContainer={triggerNode => triggerNode.parentElement}` to fix the drop-down popup rendering node in the parent element of the trigger .
 

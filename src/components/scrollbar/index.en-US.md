@@ -24,13 +24,13 @@ group: Other
 | autoHide | Enable auto-hide mode. If `true`, the scrollbar will hide automatically and only show when scrolling | boolean | true |  |
 | autoHideDuration | Duration of the hide animation (ms) | number | 500 |  |
 | autoHideTimeout | Hide delay time (ms) | number | 1000 |  |
-| className | Semantic structure class | string \| Record<'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
-| onScroll | Triggered while scrolling | (values: ScrollValues, event:UIEvent&lt;HTMLElement>) => void | undefined |  |
-| onScrollStart | Called when scrolling starts | () => void | - |  |
-| onScrollStop | Called when scrolling stops | () => void | - |  |
+| className | Semantic structure class | string \| Record&lt;'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
 | thumbMinSize | Set thumb min size | number | 20 |  |
 | thumbSize | fixed a thumb size | number | - |  |
 | universal | App runs on both client and server, activate the universal mode | boolean | false |  |
+| onScroll | Triggered while scrolling | (values: ScrollValues, event:UIEvent&lt;HTMLElement>) => void | undefined |  |
+| onScrollStart | Called when scrolling starts | () => void | - |  |
+| onScrollStop | Called when scrolling stops | () => void | - |  |
 
 #### Methods
 

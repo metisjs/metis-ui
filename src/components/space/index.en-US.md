@@ -12,6 +12,7 @@ group: Layout
 ## Examples
 
 <!-- TODO: Component 待开发 -->
+
 <!-- prettier-ignore -->
 <!-- <code src="./demo/base.tsx">Basic Usage</code>
 <code src="./demo/vertical.tsx">Vertical Space</code>
@@ -32,13 +33,13 @@ group: Layout
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| justify | Justify Content | `start` \| `end` \| `center` \| `space-around` \| `space-between` | `start` |  |
 | align | Align items | `start` \| `end` \|`center` \|`baseline` | - |  |
-| vertical | vertical space | boolean | false |  |
+| block | block-level elements, default is inline elements | boolean | false |  |
+| justify | Justify Content | `start` \| `end` \| `center` \| `space-around` \| `space-between` | `start` |  |
 | size | The space size | [Size](#size) \| [Size\[\]](#size) | `small` |  |
 | split | Set split | ReactNode | - |  |
+| vertical | vertical space | boolean | false |  |
 | wrap | Auto wrap line, when `horizontal` effective | boolean | false |  |
-| block | block-level elements, default is inline elements | boolean | false |  |
 
 ### Size
 
@@ -59,6 +60,6 @@ Use Space.Compact when child form components are compactly connected and the bor
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| block | Option to fit width to its parent\'s width | boolean | false |  |
-| vertical | vertical space | boolean | false |  |
+| block | Option to fit width to its parent\\'s width | boolean | false |  |
 | size | Set child component size | `large` \| `middle` \| `small` | `middle` |  |
+| vertical | vertical space | boolean | false |  |

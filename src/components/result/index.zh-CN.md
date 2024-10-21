@@ -25,9 +25,9 @@ group: 反馈
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| extra | 操作区 | ReactNode | - |
-| icon | 自定义 icon | ReactNode | - |
-| status | 结果的状态，决定图标和颜色 | `success` \| `error` \| `info` \| `warning` \| `404` \| `403` \| `500` | `info` |
-| subTitle | subTitle 文字 | ReactNode | - |
-| title | title 文字 | ReactNode | - |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'icon' \| 'image' \| 'title' \| 'subTitle' \| 'content' \| 'extra', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'icon' \| 'image' \| 'title' \| 'subTitle' \| 'content' \| 'extra', string> | - |  |
+| extra | 操作区 | ReactNode | - |  |
+| icon | 自定义 icon | ReactNode | - |  |
+| status | 结果的状态，决定图标和颜色 | `success` \| `error` \| `info` \| `warning` \| `404` \| `403` \| `500` | `info` |  |
+| subTitle | subTitle 文字 | ReactNode | - |  |
+| title | title 文字 | ReactNode | - |  |

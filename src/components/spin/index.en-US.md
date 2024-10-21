@@ -24,8 +24,8 @@ When part of the page is waiting for asynchronous data or during a rendering pro
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'wrapper' \| 'fullscreen' \| 'indicator' \| 'tip', string> | - |  |
-| delay | Specifies a delay in milliseconds for loading state (prevent flush) | number (milliseconds) | - |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'wrapper' \| 'fullscreen' \| 'indicator' \| 'tip', string> | - |  |
+| delay | Specifies a delay in milliseconds for loading state (prevent flush) | number (milliseconds) | - |  |
 | fullscreen | Display a backdrop with the `Spin` component | boolean | false | 5.11.0 |
 | size | The size of Spin, options: `small`, `default` and `large` | string | `default` |  |
 | spinning | Whether Spin is visible | boolean | true |  |

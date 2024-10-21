@@ -37,7 +37,7 @@ The following APIs are shared by Tooltip, Popconfirm, Popover.
 | align | This value will be merged into placement's config, please refer to the settings [rc-tooltip](https://github.com/react-component/tooltip) | object | - |  |
 | arrow | Change arrow's visible state and change whether the arrow is pointed at the center of target. | boolean \| { pointAtCenter: boolean } | true |  |
 | autoAdjustOverflow | Whether to adjust popup placement automatically when popup is off screen | boolean | true |  |
-| className | Semantic DOM class | string \| Record<'root' \| 'open' \| 'overlay' \| 'popup' \| 'popupInner' \| 'arrow', string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'open' \| 'overlay' \| 'popup' \| 'popupInner' \| 'arrow', string> | - |  |
 | color | The background color | string | - |  |
 | defaultOpen | Whether the floating tooltip card is open by default | boolean | false |  |
 | destroyTooltipOnHide | Whether destroy tooltip when hidden | boolean | false |  |
@@ -45,12 +45,12 @@ The following APIs are shared by Tooltip, Popconfirm, Popover.
 | getPopupContainer | The DOM container of the tip, the default behavior is to create a `div` element in `body` | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
 | mouseEnterDelay | Delay in seconds, before tooltip is shown on mouse enter | number | 0.1 |  |
 | mouseLeaveDelay | Delay in seconds, before tooltip is hidden on mouse leave | number | 0.1 |  |
+| open | Whether the floating tooltip card is open or not | boolean | false |  |
 | overlayClassName | Class name of the tooltip card | string | - |  |
-| overlayStyle | Style of the tooltip card | object | - |  |
 | overlayInnerStyle | Style of the tooltip inner content | object | - |  |
+| overlayStyle | Style of the tooltip card | object | - |  |
 | placement | The position of the tooltip relative to the target, which can be one of `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | string | `top` |  |
 | trigger | Tooltip trigger mode. Could be multiple by passing an array | `hover` \| `focus` \| `click` \| `contextMenu` \| Array&lt;string> | `hover` |  |
-| open | Whether the floating tooltip card is open or not | boolean | false |  |
 | zIndex | Config `z-index` of Tooltip | number | - |  |
 | onOpenChange | Callback executed when visibility of the tooltip card is changed | (open: boolean) => void | - |  |
 

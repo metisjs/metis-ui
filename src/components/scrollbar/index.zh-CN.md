@@ -25,13 +25,13 @@ group: 其他
 | autoHide | 启用自动隐藏模式。为 `true` 时，滚动条会自动隐藏，只在滚动时显示 | boolean | true |  |
 | autoHideDuration | 隐藏动画的持续时间（毫秒） | number | 500 |  |
 | autoHideTimeout | 隐藏延迟时间（毫秒） | number | 1000 |  |
-| className | 语义化结构 class | string \| Record<'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
-| onScroll | 在滚动时运行 | (values: ScrollValues, event:UIEvent&lt;HTMLElement>) => void | undefined |  |
-| onScrollStart | 滚动开始时调用 | () => void | - |  |
-| onScrollStop | 滚动停止时调用 | () => void | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
 | thumbMinSize | 滑块最小尺寸 | number | 20 |  |
 | thumbSize | 滑块尺寸 | number | - |  |
 | universal | 服务端渲染时激活 | boolean | false |  |
+| onScroll | 在滚动时运行 | (values: ScrollValues, event:UIEvent&lt;HTMLElement>) => void | undefined |  |
+| onScrollStart | 滚动开始时调用 | () => void | - |  |
+| onScrollStop | 滚动停止时调用 | () => void | - |  |
 
 #### Methods
 

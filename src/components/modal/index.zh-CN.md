@@ -37,10 +37,11 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | afterClose | Modal 完全关闭后的回调 | function | - |  |
+| afterOpenChange | 打开和关闭 Modal 时动画结束后的回调 | (open: boolean) => void | - |  |
 | cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | cancelText | 取消按钮文字 | ReactNode | `取消` |  |
 | centered | 垂直居中展示 Modal | boolean | false |  |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
 | closable | 是否显示右上角的关闭按钮 | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | confirmLoading | 确定按钮 loading | boolean | false |  |
 | destroyOnClose | 关闭时销毁 Modal 里的子元素 | boolean | false |  |
@@ -49,21 +50,20 @@ demo:
 | forceRender | 强制渲染 Modal | boolean | false |  |
 | getContainer | 指定 Modal 挂载的节点，但依旧为全屏展示，`false` 为挂载在当前位置 | HTMLElement \| () => HTMLElement \| Selectors \| false | document.body |  |
 | keyboard | 是否支持键盘 esc 关闭 | boolean | true |  |
+| loading | 显示骨架屏 | boolean |  |  |
 | mask | 是否展示遮罩 | boolean | true |  |
 | maskClosable | 点击蒙层是否允许关闭 | boolean | true |  |
 | modalRender | 自定义渲染对话框 | (node: ReactNode) => ReactNode | - |  |
 | okButtonProps | ok 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | okText | 确认按钮文字 | ReactNode | `确定` |  |
 | okType | 确认按钮类型 | string | `primary` |  |
-| style | 可用于设置浮层的样式，调整浮层位置等 | CSSProperties | - |  |
-| loading | 显示骨架屏 | boolean |  |  |
-| title | 标题 | ReactNode | - |  |
 | open | 对话框是否可见 | boolean | - |  |
+| style | 可用于设置浮层的样式，调整浮层位置等 | CSSProperties | - |  |
+| title | 标题 | ReactNode | - |  |
 | width | 宽度 | string \| number | 520 |  |
 | zIndex | 设置 Modal 的 `z-index` | number | 1000 |  |
 | onCancel | 点击遮罩层或右上角叉或取消按钮的回调 | function(e) | - |  |
 | onOk | 点击确定回调 | function(e) | - |  |
-| afterOpenChange | 打开和关闭 Modal 时动画结束后的回调 | (open: boolean) => void | - |  |
 
 #### 注意
 
@@ -90,7 +90,7 @@ demo:
 | cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | cancelText | 设置 Modal.confirm 取消按钮文字 | string | `取消` |  |
 | centered | 垂直居中展示 Modal | boolean | false |  |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
 | closable | 是否显示右上角的关闭按钮 | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | content | 内容 | ReactNode | - |  |
 | footer | 底部内容，当不需要默认底部按钮时，可以设为 `footer: null` | React.ReactNode \| ((params:[footerRenderParams](/components/modal-cn#footerrenderparams))=> React.ReactNode) | - | renderFunction: |
@@ -173,8 +173,8 @@ const confirmed = await modal.confirm({ ... });
 <!-- prettier-ignore -->
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| originNode | 默认节点 | React.ReactNode | - |
 | extra | 扩展选项 | { OkBtn: FC; CancelBtn: FC } | - |
+| originNode | 默认节点 | React.ReactNode | - |
 
 ## FAQ
 

@@ -27,6 +27,7 @@ group: 导航
 <code src="./demo/steps-in-steps.tsx" debug>Steps 嵌套 Steps</code>
 
 <!-- TODO: List组件待开发 -->
+
 <!-- <code src="./demo/inline.tsx">内联步骤</code> -->
 
 ## API
@@ -37,17 +38,17 @@ group: 导航
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record<'root' \| 'item' \| 'title' \| 'description', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'item' \| 'title' \| 'description', string> | - |  |
 | current | 指定当前步骤，从 0 开始记数。在子 Step 元素中，可以通过 `status` 属性覆盖状态 | number | 0 |  |
 | direction | 指定步骤条方向。目前支持水平（`horizontal`）和竖直（`vertical`）两种方向 | string | `horizontal` |  |
 | initial | 起始序号，从 0 开始记数 | number | 0 |  |
+| items | 配置选项卡内容 | [StepItem](#stepitem) | \[] |  |
 | percent | 当前 `process` 步骤显示的进度条进度（只对基本类型的 Steps 生效） | number | - |  |
 | responsive | 当屏幕宽度小于 `640px` 时自动变为垂直模式 | boolean | true |  |
 | size | 指定大小，目前支持普通（`default`）和迷你（`small`） | string | `default` |  |
 | status | 指定当前步骤的状态，可选 `wait` `process` `finish` `error` | string | `process` |  |
 | type | 步骤条类型，可选 `default` `navigation` `inline` `simple` | string | `default` |  |
 | onChange | 点击切换步骤时触发 | (current) => void | - |  |
-| items | 配置选项卡内容 | [StepItem](#stepitem) | [] |  |
 
 ### StepItem
 

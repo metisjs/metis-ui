@@ -15,12 +15,14 @@ demo:
 ## 代码演示
 
 <!-- prettier-ignore-start -->
+
 <code src="./demo/basic.tsx">基本</code>
 <code src="./demo/disabled.tsx">不可用</code>
 <code src="./demo/radiogroup.tsx">单选组合</code>
 <code src="./demo/radiogroup-more.tsx">Radio.Group 垂直</code>
 <code src="./demo/radiogroup-options.tsx">Radio.Group 组合 - 配置方式</code>
 <code src="./demo/radiogroup-with-name.tsx">单选组合 - 配合 name 使用</code>
+
 <!-- prettier-ignore-end -->
 
 ## API
@@ -28,22 +30,22 @@ demo:
 ### Radio
 
 <!-- prettier-ignore -->
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| autoFocus | 自动获取焦点 | boolean | false |
-| checked | 指定当前是否选中 | boolean | false |
-| className | 语义化结构 class | string \|Record<'root' \| 'radio', string> | - |  |
-| defaultChecked | 初始是否选中 | boolean | false |
-| disabled | 禁用 Radio | boolean | false |
-| value | 根据 value 进行比较，判断是否选中 | any | - |
+| 参数 | 说明 | 类型 | 默认值 |     |
+| --- | --- | --- | --- | --- |
+| autoFocus | 自动获取焦点 | boolean | false |     |
+| checked | 指定当前是否选中 | boolean | false |     |
+| className | 语义化结构 class | string \|Record&lt;'root' \| 'radio', string> | - |  |
+| defaultChecked | 初始是否选中 | boolean | false |     |
+| disabled | 禁用 Radio | boolean | false |     |
+| value | 根据 value 进行比较，判断是否选中 | any | - |     |
 
 ### Radio.Group
 
 单选框组合，用于包裹一组 `Radio`。
 
 <!-- prettier-ignore -->
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
+| 参数 | 说明 | 类型 | 默认值 | 版本 |     |
+| --- | --- | --- | --- | --- | --- |
 | defaultValue | 默认选中的值 | any | - |  |  |
 | disabled | 禁选所有子单选器 | boolean | false |  |  |
 | name | RadioGroup 下所有 `input[type="radio"]` 的 `name` 属性 | string | - |  |  |

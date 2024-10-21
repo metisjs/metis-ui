@@ -43,15 +43,15 @@ demo:
 | arrow | 下拉框箭头是否显示 | boolean \| { pointAtCenter: boolean } | false |  |
 | autoAdjustOverflow | 下拉框被遮挡时自动调整位置 | boolean | true |  |
 | autoFocus | 打开后自动聚焦下拉框 | boolean | false |  |
-| className | 语义化结构 class | string \| Record<'root' \| 'overlay' \| 'open', string> | - |  |
-| disabled | 菜单是否禁用 | boolean | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'overlay' \| 'open', string> | - |  |
 | destroyPopupOnHide | 关闭后是否销毁 Dropdown | boolean | false |  |
-| popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
+| disabled | 菜单是否禁用 | boolean | - |  |
 | getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
 | menu | 菜单配置项 | [MenuProps](/components/menu-cn#api) | - |  |
-| placement | 菜单弹出位置：`bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight` | string | `bottomLeft` |  |
-| trigger | 触发下拉的行为, 移动端不支持 hover | Array&lt;`click`\|`hover`\|`contextMenu`> | \[`hover`] |  |
 | open | 菜单是否显示 | boolean | - |  |
+| placement | 菜单弹出位置：`bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight` | string | `bottomLeft` |  |
+| popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
+| trigger | 触发下拉的行为, 移动端不支持 hover | Array&lt;`click`\|`hover`\|`contextMenu`> | \[`hover`] |  |
 | onOpenChange | 菜单显示状态改变时调用，点击菜单按钮导致的消失不会触发。 | (open: boolean) => void | - |  |
 
 ### Dropdown.Button
@@ -61,9 +61,9 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | buttonsRender | 自定义左右两个按钮 | (buttons: ReactNode\[]) => ReactNode\[] | - |  |
-| loading | 设置按钮载入状态 | boolean \| { delay: number } | false |  |
 | danger | 设置危险按钮 | boolean | - |  |
 | icon | 右侧的 icon | ReactNode | - |  |
+| loading | 设置按钮载入状态 | boolean \| { delay: number } | false |  |
 | size | 按钮大小，和 [Button](/components/button-cn#api) 一致 | string | `default` |  |
 | type | 按钮类型，和 [Button](/components/button-cn#api) 一致 | string | `default` |  |
 | onClick | 点击左侧按钮的回调，和 [Button](/components/button-cn#api) 一致 | (event) => void | - |  |

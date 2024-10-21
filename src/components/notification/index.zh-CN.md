@@ -44,20 +44,20 @@ config 参数如下：
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | btn | 自定义关闭按钮 | ReactNode | - | - |
-| className | 语义结构 class | string \| Record<'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
+| className | 语义结构 class | string \| Record&lt;'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | 通知提醒内容，必选 | ReactNode | - | - |
 | duration | 默认 4.5 秒后自动关闭，配置为 null 则不自动关闭 | number | 4.5 | - |
-| showProgress | 显示自动关闭通知框的进度条 | boolean |  |  |
-| pauseOnHover | 悬停时是否暂停计时器 | boolean | true |  |
 | icon | 自定义图标 | ReactNode | - | - |
 | key | 当前通知唯一标志 | string | - | - |
 | message | 通知提醒标题，必选 | ReactNode | - | - |
+| pauseOnHover | 悬停时是否暂停计时器 | boolean | true |  |
 | placement | 弹出位置，可选 `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` | - |
+| props | 透传至通知 `div` 上的 props 对象，支持传入 `data-*` `aria-*` 或 `role` 作为对象的属性。需要注意的是，虽然在 TypeScript 类型中声明的类型支持传入 `data-*` 作为对象的属性，但目前只允许传入 `data-testid` 作为对象的属性。 详见 <https://github.com/microsoft/TypeScript/issues/28960> | Object | - | - |
 | role | 供屏幕阅读器识别的通知内容语义，默认为 `alert`。此情况下屏幕阅读器会立即打断当前正在阅读的其他内容，转而阅读通知内容 | `alert \| status` | `alert` |  |
+| showProgress | 显示自动关闭通知框的进度条 | boolean |  |  |
 | onClick | 点击通知时触发的回调函数 | function | - | - |
 | onClose | 当通知关闭时触发 | function | - | - |
-| props | 透传至通知 `div` 上的 props 对象，支持传入 `data-*` `aria-*` 或 `role` 作为对象的属性。需要注意的是，虽然在 TypeScript 类型中声明的类型支持传入 `data-*` 作为对象的属性，但目前只允许传入 `data-testid` 作为对象的属性。 详见 https://github.com/microsoft/TypeScript/issues/28960 | Object | - | - |
 
 - `notification.useNotification(config)`
 
@@ -66,18 +66,18 @@ config 参数如下：
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | bottom | 消息从底部弹出时，距离底部的位置，单位像素 | number | 24 |  |
+| className | 语义结构 class | string \| (placement: Placement) => Record&lt;'root' \| 'wrapper' \| 'collapsedWrapper' \| 'notice' \| 'content' \| 'close' \| 'progress', string> | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | duration | 默认自动关闭延时，单位秒 | number | 4.5 |  |
-| showProgress | 显示自动关闭通知框的进度条 | boolean |  |  |
-| pauseOnHover | 悬停时是否暂停计时器 | boolean | true |  |
 | getContainer | 配置渲染节点的输出位置，但依旧为全屏展示 | () => HTMLNode | () => document.body |  |
-| placement | 弹出位置，可选 `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` |  |
-| top | 消息从顶部弹出时，距离顶部的位置，单位像素 | number | 24 |  |
 | maxCount | 最大显示数，超过限制时，最早的消息会被自动关闭 | number | - |  |
+| pauseOnHover | 悬停时是否暂停计时器 | boolean | true |  |
+| placement | 弹出位置，可选 `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` |  |
+| props | 透传至通知 `div` 上的 props 对象，支持传入 `data-*` `aria-*` 或 `role` 作为对象的属性。需要注意的是，虽然在 TypeScript 类型中声明的类型支持传入 `data-*` 作为对象的属性，但目前只允许传入 `data-testid` 作为对象的属性。 详见 <https://github.com/microsoft/TypeScript/issues/28960> | Object | - | - |
+| showProgress | 显示自动关闭通知框的进度条 | boolean |  |  |
 | stack | 堆叠模式，超过阈值时会将所有消息收起 | boolean \| `{ threshold: number; offset: number; gap: number }` | `{ threshold: 3, offset: 8, gap: 16 }` |  |
+| top | 消息从顶部弹出时，距离顶部的位置，单位像素 | number | 24 |  |
 | transition | 动画配置 | [TransitionProps](/components/transition-cn) \| (placement: Placement) => [TransitionProps](/components/transition-cn) |  |  |
-| props | 透传至通知 `div` 上的 props 对象，支持传入 `data-*` `aria-*` 或 `role` 作为对象的属性。需要注意的是，虽然在 TypeScript 类型中声明的类型支持传入 `data-*` 作为对象的属性，但目前只允许传入 `data-testid` 作为对象的属性。 详见 https://github.com/microsoft/TypeScript/issues/28960 | Object | - | - |
-| className | 语义结构 class | string \| (placement: Placement) => Record<'root' \| 'wrapper' \| 'collapsedWrapper' \| 'notice' \| 'content' \| 'close' \| 'progress', string> | - |  |
 | onAllRemoved | 通知框全消失时触发 | VoidFunction |  |  |
 
 ### 全局配置

@@ -79,8 +79,8 @@ config 参数如下：
 | maxCount | 最大显示数，超过限制时，最早的消息会被自动关闭 | number | - |  |
 | prefixCls | 消息节点的 className 前缀 | string |  |  |
 | top | 消息距离顶部的位置 | number | 8 |  |
-| onAllRemoved | 通知框全消失时触发 | VoidFunction |  |  |
 | transition | 动画配置 | [TransitionProps](/components/transition-cn) |  |  |
+| onAllRemoved | 通知框全消失时触发 | VoidFunction |  |  |
 
 ### 全局方法
 

@@ -33,30 +33,30 @@ Used when the user needs to make a customized color selection.
 <!-- prettier-ignore -->
 | Property | Description | Type | Default | Version |
 | :-- | :-- | :-- | :-- | :-- |
-| allowClear | 	Allow clearing color selected | boolean | false | |
-| arrow | Configuration for popup arrow | `boolean \| { pointAtCenter: boolean }` | true | |
-| children | Trigger of ColorPicker | React.ReactNode | - | |
-| defaultValue | Default value of color | string \| `Color` | - | |
+| allowClear | Allow clearing color selected | boolean | false |  |
+| arrow | Configuration for popup arrow | `boolean \| { pointAtCenter: boolean }` | true |  |
+| children | Trigger of ColorPicker | React.ReactNode | - |  |
+| className | Semantic DOM class class | string \| Record&lt;'root' \| 'popup' \| 'overlay', string> | - |  |
 | defaultFormat | Default format of color | `rgb` \| `hex` \| `hsb` | - |  |
-| disabled | Disable ColorPicker | boolean | - | |
-| disabledAlpha | Disable Alpha | boolean | - |  |
+| defaultValue | Default value of color | string \| `Color` | - |  |
 | destroyTooltipOnHide | Whether destroy popover when hidden | `boolean` | false |  |
-| format | Format of color | `rgb` \| `hex` \| `hsb` | `hex` | |
+| disabled | Disable ColorPicker | boolean | - |  |
+| disabledAlpha | Disable Alpha | boolean | - |  |
+| format | Format of color | `rgb` \| `hex` \| `hsb` | `hex` |  |
 | mode | Configure single or gradient color | `('single' \| 'gradient')[]` | `single` |  |
-| open | Whether to show popup | boolean | - | |
-| presets | Preset colors | `{ label: ReactNode, colors: Array<string \| Color>, defaultOpen?: boolean }[]` | - | `defaultOpen: ` |
-| placement | Placement of popup | The design of the [placement](/components/tooltip/#api) parameter is the same as the `Tooltips` component. | `bottomLeft` | |
+| open | Whether to show popup | boolean | - |  |
 | panelRender | Custom Render Panel | `(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode` | - |  |
+| placement | Placement of popup | The design of the [placement](/components/tooltip/#api) parameter is the same as the `Tooltips` component. | `bottomLeft` |  |
+| presets | Preset colors | `{ label: ReactNode, colors: Array<string \| Color>, defaultOpen?: boolean }[]` | - | `defaultOpen: ` |
 | showText | Show color text | boolean \| `(color: Color) => React.ReactNode` | - |  |
 | size | Setting the trigger size | `large` \| `middle` \| `small` | `middle` |  |
-| trigger | ColorPicker trigger mode | `hover` \| `click` | `click` | |
-| value | Value of color | string \| `Color` | - | |
-| onChange | Callback when `value` is changed | `(value: Color, hex: string) => void` | - | |
-| onChangeComplete | Called when color pick ends   | `(value: Color) => void` | - |  |
-| onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - | |
-| onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - | |
+| trigger | ColorPicker trigger mode | `hover` \| `click` | `click` |  |
+| value | Value of color | string \| `Color` | - |  |
+| onChange | Callback when `value` is changed | `(value: Color, hex: string) => void` | - |  |
+| onChangeComplete | Called when color pick ends | `(value: Color) => void` | - |  |
 | onClear | Called when clear | `() => void` | - |  |
-| className | Semantic DOM class class | string \| Record<'root' \| 'popup' \| 'overlay', string> | - |  |
+| onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - |  |
+| onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - |  |
 
 ### Color
 
@@ -66,9 +66,9 @@ Used when the user needs to make a customized color selection.
 | toCssString | Convert to CSS support format | `() => string` |  |
 | toHex | Convert to `hex` format characters, the return type like: `1677ff` | `() => string` | - |
 | toHexString | Convert to `hex` format color string, the return type like: `#1677ff` | `() => string` | - |
-| toHsb | Convert to `hsb` object  | `() => ({ h: number, s: number, b: number, a number })` | - |
+| toHsb | Convert to `hsb` object | `() => ({ h: number, s: number, b: number, a number })` | - |
 | toHsbString | Convert to `hsb` format color string, the return type like: `hsb(215, 91%, 100%)` | `() => string` | - |
-| toRgb | Convert to `rgb` object  | `() => ({ r: number, g: number, b: number, a number })` | - |
+| toRgb | Convert to `rgb` object | `() => ({ r: number, g: number, b: number, a number })` | - |
 | toRgbString | Convert to `rgb` format color string, the return type like: `rgb(22, 119, 255)` | `() => string` | - |
 
 ## FAQ

@@ -27,10 +27,10 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'item' \| 'separator' , string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'item' \| 'separator' , string> | - |  |
 | itemRender | Custom item renderer | (item, params, items, paths, isLast) => ReactNode | - |  |
-| params | Routing parameters | object | - |  |
 | items | The routing stack information of router | [ItemType\[\]](#ItemType) | - |  |
+| params | Routing parameters | object | - |  |
 | separator | Custom separator | ReactNode | `/` |  |
 
 ### ItemType
@@ -40,10 +40,10 @@ demo:
 | className | The additional css class | string | - |  |
 | dropdownProps | The dropdown props | [Dropdown](/components/dropdown) | - |  |
 | href | Target of hyperlink. Can not work with `path` | string | - |  |
-| path | Connected path. Each path will connect with prev one. Can not work with `href` | string | - |  |
 | menu | The menu props | [MenuProps](/components/menu/#api) | - |  |
-| onClick | Set the handler to handle click event | (e:MouseEvent) => void | - |  |
+| path | Connected path. Each path will connect with prev one. Can not work with `href` | string | - |  |
 | title | item name | ReactNode | - |  |
+| onClick | Set the handler to handle click event | (e:MouseEvent) => void | - |  |
 
 ### Use with browserHistory
 

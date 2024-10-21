@@ -30,7 +30,7 @@ group: 导航
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record<'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| 'groupList', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| 'groupList', string> | - |  |
 | defaultOpenKeys | 初始展开的 SubMenu 菜单项 key 数组 | string\[] | - |  |
 | defaultSelectedKeys | 初始选中的菜单项 key 数组 | string\[] | - |  |
 | expandIcon | 自定义展开图标 | ReactNode \| `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |
@@ -56,7 +56,7 @@ group: 导航
 
 ### ItemType
 
-> type ItemType = [MenuItemType](#MenuItemType) | [SubMenuType](#SubMenuType) | [MenuItemGroupType](#MenuItemGroupType) | [MenuDividerType](#MenuDividerType);
+> type ItemType = [MenuItemType](#MenuItemType) \| [SubMenuType](#SubMenuType) \| [MenuItemGroupType](#MenuItemGroupType) \| [MenuDividerType](#MenuDividerType);
 
 #### MenuItemType
 
@@ -74,14 +74,14 @@ group: 导航
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | children | 子菜单的菜单项 | [ItemType\[\]](#itemtype) | - |  |
-| className | 语义化结构 class | string \| Record<'root' \| 'icon' \| 'title' \| 'inner' \| "content" \| 'popup', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'icon' \| 'title' \| 'inner' \| "content" \| 'popup', string> | - |  |
 | disabled | 是否禁用 | boolean | false |  |
 | icon | 菜单图标 | ReactNode | - |  |
 | key | 唯一标志 | string | - |  |
 | label | 菜单项标题 | ReactNode | - |  |
 | popupOffset | 子菜单偏移量，`mode="inline"` 时无效 | \[number, number] | - |  |
-| onTitleClick | 点击子菜单标题 | function({ key, domEvent }) | - |  |
 | theme | 设置子菜单的主题，默认从 Menu 上继承 | `light` \| `dark` | - |  |
+| onTitleClick | 点击子菜单标题 | function({ key, domEvent }) | - |  |
 
 #### MenuItemGroupType
 

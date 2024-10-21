@@ -24,9 +24,9 @@ Use when important operations need to inform the user to process the results and
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| extra | Operating area | ReactNode | - |
-| icon | Custom back icon | ReactNode | - |
-| status | Result status, decide icons and colors | `success` \| `error` \| `info` \| `warning` \| `404` \| `403` \| `500` | `info` |
-| subTitle | The subTitle | ReactNode | - |
-| title | The title | ReactNode | - |
-| className | Semantic DOM class | string \| Record<'root' \｜ 'icon' \| 'image' \| 'title' \| 'subTitle' \| 'content' \| 'extra', string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \\｜ 'icon' \| 'image' \| 'title' \| 'subTitle' \| 'content' \| 'extra', string> | - |  |
+| extra | Operating area | ReactNode | - |  |
+| icon | Custom back icon | ReactNode | - |  |
+| status | Result status, decide icons and colors | `success` \| `error` \| `info` \| `warning` \| `404` \| `403` \| `500` | `info` |  |
+| subTitle | The subTitle | ReactNode | - |  |
+| title | The title | ReactNode | - |  |

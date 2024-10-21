@@ -30,26 +30,26 @@ For displaying anchor hyperlinks on page and jumping between them.
 | --- | --- | --- | --- | --- |
 | affix | Fixed mode of Anchor | boolean | true |  |
 | bounds | Bounding distance of anchor area | number | 5 |  |
-| className | Semantic DOM class | string \| Record<'root' \| 'ink' \| 'link' \| 'title' , string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'ink' \| 'link' \| 'title' , string> | - |  |
+| direction | Set Anchor direction | `vertical` \| `horizontal` | `vertical` |  |
 | getContainer | Scrolling container | () => HTMLElement | () => window |  |
 | getCurrentAnchor | Customize the anchor highlight | (activeLink: string) => string | - |  |
+| items | Data configuration option content, support nesting through children | { key, href, title, target, className, children }\[] [see](#anchoritem) | - |  |
 | offsetTop | Pixels to offset from top when calculating position of scroll | number | 0 |  |
+| replace | Replace items' href in browser history instead of pushing it | boolean | false |  |
 | showInkInFixed | Whether show ink-square when `affix={false}` | boolean | false |  |
 | targetOffset | Anchor scroll offset, default as `offsetTop`, [example](#components-anchor-demo-targetoffset) | number | - |  |
 | onChange | Listening for anchor link change | (currentActiveLink: string) => void |  |  |
 | onClick | Set the handler to handle `click` event | (e: MouseEvent, link: object) => void | - |  |
-| items | Data configuration option content, support nesting through children | { key, href, title, target, className, children }\[] [see](#anchoritem) | - |  |
-| direction | Set Anchor direction | `vertical` \| `horizontal` | `vertical` |  |
-| replace | Replace items' href in browser history instead of pushing it | boolean | false |  |
 
 ### AnchorItem
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'title' , string> | - |  |
-| key | The unique identifier of the Anchor Link | string \| number | - |  |
+| children | Nested Anchor Link, `Attention: This attribute does not support horizontal orientation` | [AnchorItem](#anchoritem)\[] | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'title' , string> | - |  |
 | href | The target of hyperlink | string |  |  |
+| key | The unique identifier of the Anchor Link | string \| number | - |  |
+| replace | Replace item href in browser history instead of pushing it | boolean | false |  |
 | target | Specifies where to display the linked URL | string |  |  |
 | title | The content of hyperlink | ReactNode |  |  |
-| children | Nested Anchor Link, `Attention: This attribute does not support horizontal orientation` | [AnchorItem](#anchoritem)\[] | - |  |
-| replace | Replace item href in browser history instead of pushing it | boolean | false |  |

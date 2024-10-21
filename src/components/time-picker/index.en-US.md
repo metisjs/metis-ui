@@ -36,7 +36,7 @@ By clicking the input box, you can select a time from a popup panel.
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | cellRender | Custom rendering function for picker cells | (current: number, info: { originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', subType: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
 | changeOnScroll | Trigger selection when scroll the column | boolean | false |  |
-| className | Semantic DOM class class | string \| Record<'root' \| 'popup', string> | - |  |
+| className | Semantic DOM class class | string \| Record&lt;'root' \| 'popup', string> | - |  |
 | defaultValue | To set default time | [DateValue](#datevalue) | - |  |
 | disabled | Determine whether the TimePicker is disabled | boolean | false |  |
 | disabledTime | To specify the time that cannot be selected | [DisabledTime](#disabledtime) | - |  |
@@ -85,7 +85,7 @@ type DisabledTime = (now: Dayjs) => {
 };
 ```
 
-Note: `disabledMilliseconds` is added in ``.
+Note: `disabledMilliseconds` is added in \`\`.
 
 ## Methods
 

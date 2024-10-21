@@ -42,15 +42,15 @@ demo:
 | addonAfter | The label text displayed after (on the right side of) the input field | ReactNode | - |  |
 | addonBefore | The label text displayed before (on the left side of) the input field | ReactNode | - |  |
 | allowClear | If allow to remove input content with clear icon | boolean \| { clearIcon: ReactNode } | false |  |
-| className | Semantic DOM class | string \|Record<'root' \| 'input' \| 'prefix' \| 'suffix' \| 'count', string> | - |  |
+| className | Semantic DOM class | string \|Record&lt;'root' \| 'input' \| 'prefix' \| 'suffix' \| 'count', string> | - |  |
 | defaultValue | The initial input content | string | - |  |
 | disabled | Whether the input is disabled | boolean | false |  |
 | id | The ID for input | string | - |  |
 | maxLength | The maximum number of characters in Input | number | - |  |
 | prefix | The prefix icon for the Input | ReactNode | - |  |
 | showCount | Whether to show character count | boolean \| { formatter: (info: { value: string, count: number, maxLength?: number }) => ReactNode } | false |  |
-| status | Set validation status | 'error' \| 'warning' | - |  |
 | size | The size of the input box. Note: in the context of a form, the `middle` size is used | `large` \| `middle` \| `small` | - |  |
+| status | Set validation status | 'error' \| 'warning' | - |  |
 | suffix | The suffix icon for the Input | ReactNode | - |  |
 | type | The type of input, see: [MDN](https://developer.mozilla.org/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)( use `Input.TextArea` instead of `type="textarea"`) | string | `text` |  |
 | value | The input content value | string | - |  |
@@ -69,7 +69,7 @@ Same as Input, and more:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | autoSize | Height auto size feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| className | Semantic DOM class | string \| Record<'root' \| 'textarea' \| 'count', string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'textarea' \| 'count', string> | - |  |
 
 The rest of the props of `Input.TextArea` are the same as the original [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea).
 

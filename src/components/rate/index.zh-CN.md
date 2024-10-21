@@ -31,7 +31,7 @@ demo:
 | allowHalf | 是否允许半选 | boolean | false |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | character | 自定义字符 | ReactNode \| (RateProps) => ReactNode | &lt;StarSolid /> |  |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'star', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'star', string> | - |  |
 | count | star 总数 | number | 5 |  |
 | defaultValue | 默认值 | number | 0 |  |
 | disabled | 只读，无法进行交互 | boolean | false |  |

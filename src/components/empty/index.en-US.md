@@ -23,6 +23,6 @@ group: Data Display
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'image' \| 'description' \| 'footer', string> | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'image' \| 'description' \| 'footer', string> | - |  |
 | description | Customize description | ReactNode | - |  |
 | image | Customize image. Will treat as image url when string provided | ReactNode | - |  |

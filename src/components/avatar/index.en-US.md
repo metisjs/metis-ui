@@ -26,14 +26,14 @@ demo:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | alt | This attribute defines the alternative text describing the image | string | - |  |
+| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - |  |
+| draggable | Whether the picture is allowed to be dragged | boolean \| `'true'` \| `'false'` | true |  |
 | gap | Letter type unit distance between left and right sides | number | 4 |  |
 | icon | Custom icon type for an icon avatar | ReactNode | - |  |
 | shape | The shape of avatar | `circle` \| `square` | `circle` |  |
 | size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` |  |
 | src | The address of the image for an image avatar or image element | string \| ReactNode | - |  |
 | srcSet | A list of sources to use for different screen resolutions | string | - |  |
-| draggable | Whether the picture is allowed to be dragged | boolean \| `'true'` \| `'false'` | true |  |
-| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - |  |
 | onError | Handler when img load error, return false to prevent default fallback behavior | () => boolean | - |  |
 
 > Tip: You can set `icon` or `children` as the fallback for image load error, with the priority of `icon` > `children`

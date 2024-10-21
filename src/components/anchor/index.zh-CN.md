@@ -31,26 +31,26 @@ group:
 | --- | --- | --- | --- | --- |
 | affix | 固定模式 | boolean | true |  |
 | bounds | 锚点区域边界 | number | 5 |  |
-| className | 语义化结构 class | string \| Record<'root' \| 'ink' \| 'link' \| 'title', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'ink' \| 'link' \| 'title', string> | - |  |
+| direction | 设置导航方向 | `vertical` \| `horizontal` | `vertical` |  |
 | getContainer | 指定滚动的容器 | () => HTMLElement | () => window |  |
 | getCurrentAnchor | 自定义高亮的锚点 | (activeLink: string) => string | - |  |
+| items | 数据化配置选项内容，支持通过 children 嵌套 | { key, href, title, target, className, children }\[] [具体见](#anchoritem) | - |  |
 | offsetTop | 距离窗口顶部达到指定偏移量后触发 | number |  |  |
+| replace | 替换浏览器历史记录中项目的 href 而不是推送它 | boolean | false |  |
 | showInkInFixed | `affix={false}` 时是否显示小方块 | boolean | false |  |
 | targetOffset | 锚点滚动偏移量，默认与 offsetTop 相同，[例子](#components-anchor-demo-targetoffset) | number | - |  |
 | onChange | 监听锚点链接改变 | (currentActiveLink: string) => void | - |  |
 | onClick | `click` 事件的 handler | (e: MouseEvent, link: object) => void | - |  |
-| items | 数据化配置选项内容，支持通过 children 嵌套 | { key, href, title, target, className, children }\[] [具体见](#anchoritem) | - |  |
-| direction | 设置导航方向 | `vertical` \| `horizontal` | `vertical` |  |
-| replace | 替换浏览器历史记录中项目的 href 而不是推送它 | boolean | false |  |
 
 ### AnchorItem
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record<'root' \| 'title', string> | - |  |
-| key | 唯一标志 | string \| number | - |  |
+| children | 嵌套的 Anchor Link，`注意：水平方向该属性不支持` | [AnchorItem](#anchoritem)\[] | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'title', string> | - |  |
 | href | 锚点链接 | string | - |  |
+| key | 唯一标志 | string \| number | - |  |
+| replace | 替换浏览器历史记录中的项目 href 而不是推送它 | boolean | false |  |
 | target | 该属性指定在何处显示链接的资源 | string | - |  |
 | title | 文字内容 | ReactNode | - |  |
-| children | 嵌套的 Anchor Link，`注意：水平方向该属性不支持` | [AnchorItem](#anchoritem)\[] | - |  |
-| replace | 替换浏览器历史记录中的项目 href 而不是推送它 | boolean | false |  |

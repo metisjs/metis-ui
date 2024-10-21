@@ -29,7 +29,7 @@ group:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record<'root' \| 'options' \| 'item' \| 'prev' \| 'next' \| 'total' \| 'jumper' \| 'sizeChanger', string> | - |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \| 'options' \| 'item' \| 'prev' \| 'next' \| 'total' \| 'jumper' \| 'sizeChanger', string> | - |  |
 | current | 当前页数 | number | - |  |
 | defaultCurrent | 默认的当前页数 | number | 1 |  |
 | defaultPageSize | 默认的每页条数 | number | 10 |  |

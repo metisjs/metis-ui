@@ -30,12 +30,12 @@ To input a value in a range.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |  |
-| classNames | Semantic structure class | Record<'root' \| 'tracks' \| 'track' \| 'rail' \| 'handle' \| 'mark', string> | - |  |
+| classNames | Semantic structure class | Record&lt;'root' \| 'tracks' \| 'track' \| 'rail' \| 'handle' \| 'mark', string> | - |  |
 | defaultValue | The default value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
 | disabled | If true, the slider will not be intractable | boolean | false |  |
-| keyboard | Support using keyboard to move handlers | boolean | true | + |
 | dots | Whether the thumb can drag over tick only | boolean | false |  |
 | included | Make effect when `marks` not null, true means containment and false means coordinative | boolean | true |  |
+| keyboard | Support using keyboard to move handlers | boolean | true | + |
 | marks | Tick mark of Slider, type of key must be `number`, and must in closed interval \[min, max], each mark can declare its own style | object | { number: ReactNode } \| { number: { style: CSSProperties, label: ReactNode } } |  |
 | max | The maximum value the slider can slide to | number | 100 |  |
 | min | The minimum value the slider can slide to | number | 0 |  |
@@ -45,8 +45,8 @@ To input a value in a range.
 | tooltip | The tooltip relate props | [tooltip](#tooltip) | - |  |
 | value | The value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | - |  |
 | vertical | If true, the slider will be vertical | boolean | false |  |
-| onChangeComplete | Fire when `mouseup` or `keyup` is fired | (value) => void | - |  |
 | onChange | Callback function that is fired when the user changes the slider's value | (value) => void | - |  |
+| onChangeComplete | Fire when `mouseup` or `keyup` is fired | (value) => void | - |  |
 
 ### range
 
@@ -59,10 +59,10 @@ To input a value in a range.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | autoAdjustOverflow | Whether to automatically adjust the popup position | boolean | true |  |
+| formatter | Slider will pass its value to `formatter`, and display its value in Tooltip, and hide Tooltip when return value is null | value => ReactNode \| null | IDENTITY |  |
+| getPopupContainer | The DOM container of the Tooltip, the default behavior is to create a div element in body | (triggerNode) => HTMLElement | () => document.body |  |
 | open | If true, Tooltip will show always, or it will not show anyway, even if dragging or hovering | boolean | - |  |
 | placement | Set Tooltip display position. Ref [Tooltip](/components/tooltip/) | string | - |  |
-| getPopupContainer | The DOM container of the Tooltip, the default behavior is to create a div element in body | (triggerNode) => HTMLElement | () => document.body |  |
-| formatter | Slider will pass its value to `formatter`, and display its value in Tooltip, and hide Tooltip when return value is null | value => ReactNode \| null | IDENTITY |  |
 
 ## Methods
 

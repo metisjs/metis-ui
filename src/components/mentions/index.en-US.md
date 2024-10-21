@@ -33,10 +33,12 @@ When you need to mention someone or something.
 | allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false |  |
 | autoFocus | Auto get focus when component mounted | boolean | false |  |
 | autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'textarea' \| 'popup', string> | - |  |
 | defaultValue | Default value | string | - |  |
 | filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
 | getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
 | notFoundContent | Set mentions content when not match | ReactNode | `Not Found` |  |
+| options | Option Configuration | [Options](#option) | \[] |  |
 | placement | Set popup placement | `top` \| `bottom` | `bottom` |  |
 | prefix | Set trigger prefix keyword | string \| string\[] | `@` |  |
 | split | Set split string before and after selected mention | string | ` ` |  |
@@ -51,8 +53,6 @@ When you need to mention someone or something.
 | onResize | The callback function that is triggered when textarea resize | function({ width, height }) | - |  |
 | onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |  |
 | onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |  |
-| options | Option Configuration | [Options](#option) | \[] |  |
-| className | Semantic DOM class | string \| Record<'root' \| 'textarea' \| 'popup', string> | - |  |
 
 ### Mention methods
 
@@ -66,10 +66,10 @@ When you need to mention someone or something.
 <!-- prettier-ignore -->
 | Property | Description | Type | Default |
 | --- | --- | --- | --- |
-| label | Title of the option | React.ReactNode | - |
-| key | The key value of the option | string | - |
-| disabled | Optional | boolean | - |
 | className | className | string | - |
+| disabled | Optional | boolean | - |
+| key | The key value of the option | string | - |
+| label | Title of the option | React.ReactNode | - |
 | style | The style of the option | React.CSSProperties | - |
 
 ### Mention.getMentions

@@ -26,6 +26,7 @@ description: 展示统计数值。
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 | decimalSeparator | 设置小数点 | string | `.` |  |
 | formatter | 自定义数值展示 | (value) => ReactNode | - |  |
 | groupSeparator | 设置千分位标识符 | string | `,` |  |
@@ -34,31 +35,30 @@ description: 展示统计数值。
 | prefix | 设置数值的前缀 | ReactNode | - |  |
 | suffix | 设置数值的后缀 | ReactNode | - |  |
 | title | 数值的标题 | ReactNode | - |  |
+| tooltip | 标题栏提示 | string \| TooltipProps | - |  |
 | value | 数值内容 | string \| number | - |  |
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
-| tooltip | 标题栏提示 | string \| TooltipProps | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 #### Statistic.Group
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| column | 一行的 `Statistic` 数量，可以写成像素值或支持响应式的对象写法 `{ xs: 8, sm: 16, md: 24}` | number \| Record<Breakpoint, number> | 4 |  |
-| expandable | 是否可展开 | `boolean` | true |  |
-| item | 列表项内容 | [StatisticItem](#statistic)[] |  |  |
-| loading | 数值是否加载中 | `boolean` | false |  |
 | className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| column | 一行的 `Statistic` 数量，可以写成像素值或支持响应式的对象写法 `{ xs: 8, sm: 16, md: 24}` | number \| Record&lt;Breakpoint, number> | 4 |  |
+| expandable | 是否可展开 | `boolean` | true |  |
+| item | 列表项内容 | [StatisticItem](#statistic)\[] |  |  |
+| loading | 数值是否加载中 | `boolean` | false |  |
 
 #### Statistic.Countdown
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 | format | 格式化倒计时展示，参考 [dayjs](https://day.js.org/) | string | `HH:mm:ss` |  |
 | prefix | 设置数值的前缀 | ReactNode | - |  |
 | suffix | 设置数值的后缀 | ReactNode | - |  |
 | title | 数值的标题 | ReactNode | - |  |
 | value | 数值内容 | number | - |  |
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
-| onFinish | 倒计时完成时触发 | () => void | - |  |
 | onChange | 倒计时时间变化时触发 | (value: number) => void | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| onFinish | 倒计时完成时触发 | () => void | - |  |

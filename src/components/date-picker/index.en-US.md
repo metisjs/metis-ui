@@ -60,28 +60,28 @@ The following APIs are shared by DatePicker, RangePicker.
 | --- | --- | --- | --- | --- |
 | allowClear | Customize clear button | boolean \| { clearIcon?: ReactNode } | true |  |
 | autoFocus | If get focus when component mounted | boolean | false |  |
-| className | Semantic DOM class class | string \| Record<'root' \| 'popup', string> | - |  |
-| dateRender | Custom rendering function for date cells, >= use `cellRender` instead. | function(currentDate: dayjs, today: dayjs) => React.ReactNode | - | < |
 | cellRender | Custom rendering function for picker cells | (current: dayjs, info: { originNode: React.ReactElement,today: DateType, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
-| components | Custom panels | Record<Panel \| 'input', React.ComponentType> | - |  |
+| className | Semantic DOM class class | string \| Record&lt;'root' \| 'popup', string> | - |  |
+| components | Custom panels | Record&lt;Panel \| 'input', React.ComponentType> | - |  |
+| dateRender | Custom rendering function for date cells, >= use `cellRender` instead. | function(currentDate: dayjs, today: dayjs) => React.ReactNode | - | &lt; |
 | disabled | Determine whether the DatePicker is disabled | boolean | false |  |
 | disabledDate | Specify the date that cannot be selected | (currentDate: dayjs, info: { from?: dayjs }) => boolean | - |  |
 | format | To set the date format, support multi-format matching when it is an array, display the first one shall prevail. refer to [dayjs#format](https://day.js.org/docs/en/display/format). for example: [Custom Format](#date-picker-demo-format) | [FormatType](#formattype) |  |  |
-| order | Auto order date when multiple or range selection | boolean | true |  |
-| preserveInvalidOnBlur | Not clean input on blur even when the typing is invalidate | boolean | false |  |
 | getPopupContainer | To set the container of the floating layer, while the default is to create a `div` element in `body` | function(trigger) | - |  |
 | inputReadOnly | Set the `readonly` attribute of the input tag (avoids virtual keyboard on touch devices) | boolean | false |  |
 | locale | Localization configuration | object |  |  |
-| minDate | The minimum date, which also limits the range of panel switching | [DateValue](#datevalue) | - |  |
 | maxDate | The maximum date, which also limits the range of panel switching | [DateValue](#datevalue) | - |  |
+| minDate | The minimum date, which also limits the range of panel switching | [DateValue](#datevalue) | - |  |
 | mode | The picker panel mode | `time` \| `date` \| `month` \| `year` \| `decade` | - |  |
 | needConfirm | Need click confirm button to trigger value change. Default `false` when `multiple` | boolean | - |  |
 | nextIcon | The custom next icon | ReactNode | - |  |
 | open | The open state of picker | boolean | - |  |
+| order | Auto order date when multiple or range selection | boolean | true |  |
 | panelRender | Customize panel render | (panelNode) => ReactNode | - |  |
 | picker | Set picker type | `date` \| `week` \| `month` \| `quarter` \| `year` | `date` |  |
 | placeholder | The placeholder of date input | string \| \[string,string] | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
+| preserveInvalidOnBlur | Not clean input on blur even when the typing is invalidate | boolean | false |  |
 | presets | The preset ranges for quick selection. | { label: React.ReactNode, value: Dayjs \| (() => Dayjs) }\[] | - |  |
 | prevIcon | The custom prev icon | ReactNode | - |  |
 | size | To determine the size of the input box | `large` \| `middle` \| `small` | - |  |
@@ -185,10 +185,10 @@ The following APIs are shared by DatePicker, RangePicker.
 | showTime | To provide an additional time selection | object \| boolean | [TimePicker Options](/components/time-picker/#api) |  |
 | showTime.defaultValue | To set default time of selected date, [demo](#date-picker-demo-disabled-date) | \[[DateValue](#datevalue), [DateValue](#datevalue)] | \[dayjs(), dayjs()] |  |
 | value | To set date | \[[DateValue](#datevalue), [DateValue](#datevalue)] | - |  |
+| onBlur | Trigger when lose focus | function(event, { range: 'start' \| 'end' }) | - |  |
 | onCalendarChange | Callback function, can be executed when the start time or the end time of the range is changing. `info` argument is added in | function(dateStrings: \[string, string], dates: \[dayjs, dayjs], info: { range:`start`\|`end` }) | - |  |
 | onChange | Callback function, can be executed when the selected time is changing | function(dateStrings: \[string, string], dates: \[dayjs, dayjs]) | - |  |
 | onFocus | Trigger when get focus | function(event, { range: 'start' \| 'end' }) | - |  |
-| onBlur | Trigger when lose focus | function(event, { range: 'start' \| 'end' }) | - |  |
 
 #### DateValue
 

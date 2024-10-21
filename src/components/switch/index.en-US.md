@@ -27,7 +27,7 @@ demo:
 | autoFocus | Whether get focus when component mounted | boolean | false |
 | checked | Determine whether the Switch is checked | boolean | false |
 | checkedChildren | The content to be shown when the state is checked | ReactNode | - |
-| className | Semantic DOM class | string \|Record<'root' \| 'handle', string> | - |
+| className | Semantic DOM class | string \|Record&lt;'root' \| 'handle', string> | - |
 | defaultChecked | Whether to set the initial state | boolean | false |
 | disabled | Disable switch | boolean | false |
 | loading | Loading state of switch | boolean | false |

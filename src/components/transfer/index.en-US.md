@@ -33,13 +33,13 @@ One or more elements can be selected from either column, one click on the proper
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | string \| Record&lt;'root' \\｜ 'list' \| 'header' \| 'body' \| 'footer' \| 'item' \| 'operation', string> | - |  |
 | dataSource | Used for setting the source data. The elements that are part of this array will be present the left column. Except the elements whose keys are included in `targetKeys` prop | TransferItem\[] | \[] |  |
 | disabled | Whether disabled transfer | boolean | false |  |
-| selectionsIcon | custom dropdown icon | React.ReactNode |  |  |
 | filterOption | A function to determine whether an item should show in search result list, only works when searching, (add `direction` support since 5.9.0+) | (inputValue, option, direction: `left` \| `right`): boolean | - |  |
 | footer | A function used for rendering the footer | (props, { direction }) => ReactNode | - |  |
 | listStyle | A custom CSS style used for rendering the transfer columns | object \| ({direction: `left` \| `right`}) => object | - |  |
-| locale | The i18n text including filter, empty text, item unit, etc | { itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode \| ReactNode[]; } | { itemUnit: `item`, itemsUnit: `items`, notFoundContent: `The list is empty`, searchPlaceholder: `Search here` } |  |
+| locale | The i18n text including filter, empty text, item unit, etc | { itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode \| ReactNode\[]; } | { itemUnit: `item`, itemsUnit: `items`, notFoundContent: `The list is empty`, searchPlaceholder: `Search here` } |  |
 | oneWay | Display as single direction style | boolean | false |  |
 | operations | A set of operations that are sorted from top to bottom | string\[] | \[`>`, `<`] |  |
 | operationStyle | A custom CSS style used for rendering the operations column | object | - |  |
@@ -47,6 +47,7 @@ One or more elements can be selected from either column, one click on the proper
 | render | The function to generate the item shown on a column. Based on an record (element of the dataSource array), this function should return a React element which is generated from that record. Also, it can return a plain object with `value` and `label`, `label` is a React element and `value` is for title | (record) => ReactNode | - |  |
 | selectAllLabels | A set of customized labels for select all checkboxes on the header | (ReactNode \| (info: { selectedCount: number, totalCount: number }) => ReactNode)\[] | - |  |
 | selectedKeys | A set of keys of selected items | string\[] \| number\[] | \[] |  |
+| selectionsIcon | custom dropdown icon | React.ReactNode |  |  |
 | showSearch | If included, a search box is shown on each column | boolean | false |  |
 | showSelectAll | Show select all checkbox on the header | boolean | true |  |
 | status | Set validation status | 'error' \| 'warning' | - |  |
@@ -56,7 +57,6 @@ One or more elements can be selected from either column, one click on the proper
 | onScroll | A callback function which is executed when scroll options list | (direction, event): void | - |  |
 | onSearch | A callback function which is executed when search field are changed | (direction: `left` \| `right`, value: string): void | - |  |
 | onSelectChange | A callback function which is executed when selected items are changed | (sourceSelectedKeys, targetSelectedKeys): void | - |  |
-| className | Semantic DOM class | string \| Record<'root' \｜ 'list' \| 'header' \| 'body' \| 'footer' \| 'item' \| 'operation', string> | - |  |
 
 ### Render Props
 

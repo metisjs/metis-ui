@@ -33,8 +33,8 @@ cols: 2
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'image', string> | - |  |
 | alt | Image description | string | - |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'image', string> | - |  |
 | fallback | Load failure fault-tolerant src | string | - |  |
 | height | Image height | string \| number | - |  |
 | placeholder | Load placeholder, use default placeholder when set `true` | ReactNode | - |  |
@@ -49,51 +49,51 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record<'root' \| 'body' \| 'mask' \| 'content' \| 'image' \| 'operations', string> | - |  |
-| open | Whether the preview dialog is open or not | boolean | - | - |
-| src | Custom preview src | string | - |  |
-| getContainer | The mounted node for preview dialog but still display at fullScreen | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
-| movable | whether can be moved | boolean | true |  |
-| mask | Thumbnail mask | ReactNode | - |  |
-| scaleStep | `1 + scaleStep` is the step to increase or decrease the scale | number | 0.5 | - |
-| minScale | Min scale | number | 1 |  |
-| maxScale | Max scale | number | 50 |  |
+| className | Semantic DOM class | string \| Record&lt;'root' \| 'body' \| 'mask' \| 'content' \| 'image' \| 'operations', string> | - |  |
 | closeIcon | Custom close icon | React.ReactNode | - |  |
-| forceRender | Force render preview dialog | boolean | - | - |
-| toolbarRender | Custom toolbar render | (originalNode: React.ReactElement, info: Omit<[ToolbarRenderInfoType](#toolbarrenderinfotype), 'current' \| 'total'>) => React.ReactNode | - |  |
-| imageRender | Custom preview content | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo) }) => React.ReactNode | - |  |
 | destroyOnClose | Destroy child elements when closing preview | boolean | false |  |
-| onTransform | Callback when the transform of image changed | { transform: [TransformType](#transformtype), action: [TransformAction](#transformaction) } | - |  |
+| forceRender | Force render preview dialog | boolean | - | - |
+| getContainer | The mounted node for preview dialog but still display at fullScreen | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
+| imageRender | Custom preview content | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo) }) => React.ReactNode | - |  |
+| mask | Thumbnail mask | ReactNode | - |  |
+| maxScale | Max scale | number | 50 |  |
+| minScale | Min scale | number | 1 |  |
+| movable | whether can be moved | boolean | true |  |
+| open | Whether the preview dialog is open or not | boolean | - | - |
+| scaleStep | `1 + scaleStep` is the step to increase or decrease the scale | number | 0.5 | - |
+| src | Custom preview src | string | - |  |
+| toolbarRender | Custom toolbar render | (originalNode: React.ReactElement, info: Omit&lt;[ToolbarRenderInfoType](#toolbarrenderinfotype), 'current' \| 'total'>) => React.ReactNode | - |  |
 | onOpenChange | Callback when `open` changed | (open: boolean, prevOpen: boolean) => void | - | - |
+| onTransform | Callback when the transform of image changed | { transform: [TransformType](#transformtype), action: [TransformAction](#transformaction) } | - |  |
 
 ## PreviewGroup
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| preview | Preview config, `disabled` when false | boolean \| [PreviewGroupType](#previewgrouptype) | true |  |
-| items | Preview items | string[] \| { src: string, crossOrigin: string, ... }[] | - |  |
 | fallback | Load failure fault-tolerant src | string | - |  |
+| items | Preview items | string\[] \| { src: string, crossOrigin: string, ... }\[] | - |  |
+| preview | Preview config, `disabled` when false | boolean \| [PreviewGroupType](#previewgrouptype) | true |  |
 
 ### PreviewGroupType
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| open | Whether the preview dialog is open or not | boolean | - | - |
-| getContainer | The mounted node for preview dialog but still display at fullScreen | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
-| movable | whether can be moved | boolean | true |  |
-| current | The index of the current preview | number | - |  |
-| mask | Thumbnail mask | ReactNode | - |  |
-| scaleStep | `1 + scaleStep` is the step to increase or decrease the scale | number | 0.5 | - |
-| minScale | Min scale | number | 1 |  |
-| maxScale | Max scale | number | 50 |  |
 | closeIcon | Custom close icon | React.ReactNode | - |  |
-| forceRender | Force render preview dialog | boolean | - | - |
 | countRender | Custom preview count content | (current: number, total: number) => React.ReactNode | - |  |
-| toolbarRender | Custom toolbar render | (originalNode: React.ReactElement, info: [ToolbarRenderInfoType](#toolbarrenderinfotype)) => React.ReactNode | - |  |
+| current | The index of the current preview | number | - |  |
+| forceRender | Force render preview dialog | boolean | - | - |
+| getContainer | The mounted node for preview dialog but still display at fullScreen | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
 | imageRender | Custom preview content | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo), current: number }) => React.ReactNode | - |  |
-| onTransform | Callback when the transform of image changed | { transform: [TransformType](#transformtype), action: [TransformAction](#transformaction) } | - |  |
+| mask | Thumbnail mask | ReactNode | - |  |
+| maxScale | Max scale | number | 50 |  |
+| minScale | Min scale | number | 1 |  |
+| movable | whether can be moved | boolean | true |  |
+| open | Whether the preview dialog is open or not | boolean | - | - |
+| scaleStep | `1 + scaleStep` is the step to increase or decrease the scale | number | 0.5 | - |
+| toolbarRender | Custom toolbar render | (originalNode: React.ReactElement, info: [ToolbarRenderInfoType](#toolbarrenderinfotype)) => React.ReactNode | - |  |
 | onChange | Callback when switch preview image | (current: number, prevCurrent: number) => void | - |  |
 | onOpenChange | Callback when `open` changed | (open: boolean, prevOpen: boolean, current: number) => void | - |  |
+| onTransform | Callback when the transform of image changed | { transform: [TransformType](#transformtype), action: [TransformAction](#transformaction) } | - |  |
 
 ## Interface
 

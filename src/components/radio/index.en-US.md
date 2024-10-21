@@ -14,26 +14,28 @@ demo:
 ## Examples
 
 <!-- prettier-ignore-start -->
+
 <code src="./demo/basic.tsx">Basic</code>
 <code src="./demo/disabled.tsx">disabled</code>
 <code src="./demo/radiogroup.tsx">Radio Group</code>
 <code src="./demo/radiogroup-more.tsx">Vertical Radio.Group</code>
 <code src="./demo/radiogroup-options.tsx">Radio.Group group - optional</code>
 <code src="./demo/radiogroup-with-name.tsx">Radio.Group with name</code>
+
 <!-- prettier-ignore-end -->
 
 ## API
 
 ### Radio
 
-| Property | Description | Type | Default |
+| Property | Description | Type | Default |  |
 | --- | --- | --- | --- | --- |
-| autoFocus | Whether get focus when component mounted | boolean | false |
-| checked | Specifies whether the radio is selected | boolean | false |
-| className | Semantic DOM class | string \|Record<'root' \| 'radio', string> | - |  |
-| defaultChecked | Specifies the initial state: whether or not the radio is selected | boolean | false |
-| disabled | Disable radio | boolean | false |
-| value | According to value for comparison, to determine whether the selected | any | - |
+| autoFocus | Whether get focus when component mounted | boolean | false |  |
+| checked | Specifies whether the radio is selected | boolean | false |  |
+| className | Semantic DOM class | string \|Record&lt;'root' \| 'radio', string> | - |  |
+| defaultChecked | Specifies the initial state: whether or not the radio is selected | boolean | false |  |
+| disabled | Disable radio | boolean | false |  |
+| value | According to value for comparison, to determine whether the selected | any | - |  |
 
 ### RadioGroup
 

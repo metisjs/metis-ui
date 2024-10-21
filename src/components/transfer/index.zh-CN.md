@@ -36,13 +36,13 @@ description: 双栏穿梭选择框。
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| dataSource | 数据源，其中的数据将会被渲染到左边一栏中，`targetKeys` 中指定的除外 | TransferItem[] | \[] |  |
+| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'list' \| 'header' \| 'body' \| 'footer' \| 'item' \| 'operation', string> | - |  |
+| dataSource | 数据源，其中的数据将会被渲染到左边一栏中，`targetKeys` 中指定的除外 | TransferItem\[] | \[] |  |
 | disabled | 是否禁用 | boolean | false |  |
-| selectionsIcon | 自定义下拉菜单图标 | React.ReactNode |  |  |
 | filterOption | 根据搜索内容进行筛选，接收 `inputValue` `option` `direction` 三个参数，(`direction` 自5.9.0+支持)，当 `option` 符合筛选条件时，应返回 true，反之则返回 false | (inputValue, option, direction: `left` \| `right`): boolean | - |  |
 | footer | 底部渲染函数 | (props, { direction }) => ReactNode | - |  |
 | listStyle | 两个穿梭框的自定义样式 | object\|({direction: `left` \| `right`}) => object | - |  |
-| locale | 各种语言 | { itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode \| ReactNode[]; } | { itemUnit: `项`, itemsUnit: `项`, searchPlaceholder: `请输入搜索内容` } |  |
+| locale | 各种语言 | { itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode \| ReactNode\[]; } | { itemUnit: `项`, itemsUnit: `项`, searchPlaceholder: `请输入搜索内容` } |  |
 | oneWay | 展示为单向样式 | boolean | false |  |
 | operations | 操作文案集合，顺序从上至下 | string\[] | \[`>`, `<`] |  |
 | operationStyle | 操作栏的自定义样式 | CSSProperties | - |  |
@@ -50,6 +50,7 @@ description: 双栏穿梭选择框。
 | render | 每行数据渲染函数，该函数的入参为 `dataSource` 中的项，返回值为 ReactElement。或者返回一个普通对象，其中 `label` 字段为 ReactElement，`value` 字段为 title | (record) => ReactNode | - |  |
 | selectAllLabels | 自定义顶部多选框标题的集合 | (ReactNode \| (info: { selectedCount: number, totalCount: number }) => ReactNode)\[] | - |  |
 | selectedKeys | 设置哪些项应该被选中 | string\[] \| number\[] | \[] |  |
+| selectionsIcon | 自定义下拉菜单图标 | React.ReactNode |  |  |
 | showSearch | 是否显示搜索框 | boolean | false |  |
 | showSelectAll | 是否展示全选勾选框 | boolean | true |  |
 | status | 设置校验状态 | 'error' \| 'warning' | - |  |
@@ -59,7 +60,6 @@ description: 双栏穿梭选择框。
 | onScroll | 选项列表滚动时的回调函数 | (direction, event): void | - |  |
 | onSearch | 搜索框内容时改变时的回调函数 | (direction: `left` \| `right`, value: string): void | - |  |
 | onSelectChange | 选中项发生改变时的回调函数 | (sourceSelectedKeys, targetSelectedKeys): void | - |  |
-| className | 语义化结构 class | string \| Record<'root' \｜ 'list' \| 'header' \| 'body' \| 'footer' \| 'item' \| 'operation', string> | - |  |
 
 ### Render Props
 

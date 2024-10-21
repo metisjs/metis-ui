@@ -28,7 +28,7 @@ demo:
 | autoFocus | 组件自动获取焦点 | boolean | false |
 | checked | 指定当前是否选中 | boolean | false |
 | checkedChildren | 选中时的内容 | ReactNode | - |
-| className | 语义化结构 class | string \|Record<'root' \| 'handle', string> | - |
+| className | 语义化结构 class | string \|Record&lt;'root' \| 'handle', string> | - |
 | defaultChecked | 初始是否选中 | boolean | false |
 | disabled | 是否禁用 | boolean | false |
 | loading | 加载中的开关 | boolean | false |
