@@ -74,6 +74,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | request | Method to fetch remote options | `RequestConfig` | - |  |
 | lazyLoad | Remote laze load request, effective only when using the `request` configuration. | boolean | false |  |
 | className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| expandAction | Directory open logic, optional: false \| `click` \| `doubleClick` | string \| boolean | `false` |
 
 ### TreeNode props
 

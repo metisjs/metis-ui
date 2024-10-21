@@ -75,6 +75,7 @@ demo:
 | request | 远程获取 options 方法 | `RequestConfig` | - |  |
 | lazyLoad | 懒加载，点击节点时加载，仅使用 `request` 配置时有效 boolean | false |  |
 | className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| expandAction | 展开逻辑，可选：false \| `click` \| `doubleClick` | string \| boolean | `false` |
 
 ### TreeNode props
 
