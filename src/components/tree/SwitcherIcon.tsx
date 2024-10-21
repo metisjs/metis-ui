@@ -1,11 +1,7 @@
 import * as React from 'react';
-import {
-  CaretDownSolid,
-  LoadingOutline,
-  MinusSquareOutline,
-  PlusSquareOutline,
-} from '@metisjs/icons';
+import { LoadingOutline } from '@metisjs/icons';
 import { clsx } from '../_util/classNameUtils';
+import ExpandIcon from '../_util/ExpandIcon';
 import { cloneElement } from '../_util/reactNode';
 import type { IconType, TreeNodeProps } from './interface';
 
@@ -13,13 +9,13 @@ interface SwitcherIconProps {
   prefixCls: string;
   treeNodeProps: TreeNodeProps;
   switcherIcon?: IconType;
-  showLine?: boolean;
+  showLine?: boolean | 'hover';
 }
 
 const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
-  const { prefixCls, switcherIcon, treeNodeProps, showLine } = props;
+  const { prefixCls, switcherIcon, treeNodeProps } = props;
 
-  const { leaf, expanded, loading, isEnd } = treeNodeProps;
+  const { leaf, expanded, loading } = treeNodeProps;
 
   if (loading) {
     return (
@@ -30,22 +26,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
   }
 
   if (leaf) {
-    if (!showLine) {
-      return null;
-    }
-    return (
-      <span
-        className={clsx(
-          `${prefixCls}-switcher-leaf-line`,
-          'relative z-[1] inline-block h-full w-full',
-          'before:absolute before:-bottom-2 before:-top-2 before:start-2 before:border-r before:border-border',
-          'after:absolute after:start-2 after:h-3 after:w-2 after:border-b after:border-border',
-          {
-            'before:bottom-auto before:h-5': isEnd?.[isEnd?.length - 1],
-          },
-        )}
-      />
-    );
+    return null;
   }
 
   const switcherCls = `${prefixCls}-switcher-icon`;
@@ -67,23 +48,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
     return switcher as unknown as React.ReactElement;
   }
 
-  if (showLine) {
-    const clsString = clsx(`${prefixCls}-switcher-line-icon`, 'h-4 w-4');
-    return expanded ? (
-      <MinusSquareOutline className={clsString} />
-    ) : (
-      <PlusSquareOutline className={clsString} />
-    );
-  }
-  return (
-    <CaretDownSolid
-      className={clsx(
-        switcherCls,
-        'h-3 w-3 transition-transform duration-300',
-        !expanded && '-rotate-90',
-      )}
-    />
-  );
+  return <ExpandIcon open={expanded} className={clsx(switcherCls, 'h-4 w-4 duration-300')} />;
 };
 
 export default SwitcherIcon;

@@ -14,6 +14,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/basic-checkable.tsx">Checkable Tree</code>
 <code src="./demo/basic-controlled.tsx">Controlled Tree</code>
 <code src="./demo/draggable.tsx">draggable</code>
 <code src="./demo/remote.tsx">load remote data</code>
@@ -54,7 +55,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | selectable | Whether can be selected | boolean | true |  |
 | selectedKeys | (Controlled) Specifies the keys of the selected treeNodes, multiple selection needs to set `multiple` to true | string\[] | - |  |
 | showIcon | Controls whether to display the `icon` node, no default style | boolean | false |  |
-| showLine | Shows a connecting line | boolean | false |  |
+| showLine | Shows a connecting line | boolean \| 'hover' | `hover` |  |
 | switcherIcon | Customize expand/collapse icons for tree nodes (With default rotate angular style) | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - |  |
 | switcherLoadingIcon | Customize loading icons for tree nodes | ReactNode | - |  |
 | titleRender | Customize tree node title render | (nodeData) => ReactNode | - |  |

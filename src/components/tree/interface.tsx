@@ -43,7 +43,7 @@ export interface TreeProps<
   style?: React.CSSProperties;
   treeData?: TreeDataType[];
   fieldNames?: FieldNames<TreeDataType>;
-  showLine?: boolean;
+  showLine?: boolean | 'hover';
   showIcon?: boolean;
   loading?: boolean;
   icon?: IconType;
@@ -131,7 +131,7 @@ export type TreeRef = {
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey: Key; // Pass by parent `cloneElement`
   className?: SemanticClassName<
-    'wrapper' | 'switcher' | 'content' | 'icon',
+    'switcher' | 'content' | 'icon',
     {
       selected?: boolean;
       checked?: boolean;

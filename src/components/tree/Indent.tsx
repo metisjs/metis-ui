@@ -6,7 +6,7 @@ interface IndentProps {
   level: number;
   isStart: boolean[];
   isEnd: boolean[];
-  showLine?: boolean;
+  showLine?: boolean | 'hover';
 }
 
 const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd, showLine }) => {
@@ -22,11 +22,11 @@ const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd, showL
             [`${baseClassName}-start`]: isStart[i],
             [`${baseClassName}-end`]: isEnd[i],
           },
-          'inline-block w-5',
+          'inline-block w-2',
           showLine && [
-            'relative h-full',
-            'before:absolute before:-bottom-2 before:-top-2 before:start-2 before:border-r before:border-border',
-            isEnd[i] && 'before:hidden',
+            'relative h-full opacity-35',
+            'before:absolute before:bottom-0 before:start-2 before:top-0 before:border-r before:border-border before:transition-opacity before:duration-300',
+            showLine === 'hover' && 'opacity-0 group-hover/tree:opacity-35',
           ],
         )}
       />,

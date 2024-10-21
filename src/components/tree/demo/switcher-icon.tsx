@@ -1,7 +1,7 @@
 import React from 'react';
-import { ChevronDownOutline } from '@metisjs/icons';
-import { Tree } from 'metis-ui';
+import { CaretDownSolid } from '@metisjs/icons';
 import type { TreeDataNode, TreeProps } from 'metis-ui';
+import { Tree } from 'metis-ui';
 
 const treeData: TreeDataNode[] = [
   {
@@ -62,7 +62,7 @@ const App: React.FC = () => {
   return (
     <Tree
       showLine
-      switcherIcon={<ChevronDownOutline />}
+      switcherIcon={<CaretDownSolid className="h-3 w-3" />}
       defaultExpandedKeys={['0-0-0']}
       onSelect={onSelect}
       treeData={treeData}

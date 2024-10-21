@@ -225,16 +225,16 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   // ========================== Style ============================
   const isEndNode = isEnd?.[isEnd?.length - 1];
   const dragging = draggingNodeKey === eventKey;
+  const { level } = getEntity(keyEntities, eventKey) || {};
 
   const semanticCls = getSemanticCls(className, {
     selected,
     checked,
     halfChecked,
-    leaf,
+    leaf: mergedLeaf,
     expanded,
   });
 
-  const wrapperCls = clsx(`${prefixCls}-treenode-wrapper`, 'pb-1', semanticCls.wrapper);
   const nodeCls = clsx(
     `${prefixCls}-treenode`,
     {
@@ -247,7 +247,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-treenode-leaf-last`]: isEndNode,
       [`${prefixCls}-treenode-draggable`]: mergedDraggable,
     },
-    'flex cursor-pointer items-center rounded px-2 py-1 leading-6 transition-colors',
+    'flex cursor-pointer items-center rounded-md leading-6 transition-colors',
     {
       'hover:bg-fill-quaternary': !selected,
       'bg-fill-quaternary': selected,
@@ -266,9 +266,10 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-switcher-noop`]: mergedLeaf,
       [`${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`]: !mergedLeaf,
     },
-    'relative inline-flex w-5 flex-none cursor-pointer select-none items-center self-stretch',
+    'relative inline-flex w-4 flex-none select-none items-center justify-center self-stretch transition-colors',
     {
-      'cursor-default': mergedLeaf,
+      'cursor-pointer hover:bg-fill-tertiary': !mergedLeaf,
+      'rounded-es-md rounded-ss-md': !level,
     },
     semanticCls.switcher,
   );
@@ -277,8 +278,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     `${prefixCls}-node-content-wrapper`,
     `${prefixCls}-node-content-wrapper-${nodeState || 'normal'}`,
     !mergedDisabled && (selected || dragNodeHighlight) && `${prefixCls}-node-selected`,
-    'relative flex flex-auto',
-    { 'text-primary': selected },
+    'relative flex flex-auto gap-2 px-2 py-1',
     mergedDisabled && 'text-text-tertiary',
     semanticCls.content,
   );
@@ -286,7 +286,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const iconCls = clsx(
     `${prefixCls}-iconEle`,
     `${prefixCls}-icon__customize`,
-    'inline-flex h-6 w-5 items-center text-base',
+    'inline-flex h-6 items-center text-base',
     semanticCls.icon,
   );
 
@@ -349,7 +349,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         disabled={mergedDisabled || disableCheckbox}
         indeterminate={halfChecked}
         onClick={onCheck}
-        className="me-2"
       />
     );
   };
@@ -383,26 +382,11 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         style.left = mergedIndent + offset;
         break;
     }
-    console.log(dropPosition, dropLevelOffset, mergedIndent);
     return <div style={style} className={dropIndicatorCls} />;
   };
 
   // ==================== Render: Title + Icon ====================
-  const renderIcon = () => {
-    return (
-      <span
-        className={clsx(
-          `${prefixCls}-iconEle`,
-          `${prefixCls}-icon__${nodeState || 'docu'}`,
-          loading && `${prefixCls}-icon_loading`,
-        )}
-      />
-    );
-  };
-
-  // Icon + Title
   const renderSelector = () => {
-    // Icon - Still show loading icon when loading without showIcon
     let $icon;
 
     if (showIcon) {
@@ -410,13 +394,11 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
       $icon = currentIcon ? (
         <span className={iconCls}>
-          {typeof currentIcon === 'function' ? currentIcon(props) : currentIcon}
+          {typeof currentIcon === 'function'
+            ? currentIcon({ ...props, leaf: mergedLeaf })
+            : currentIcon}
         </span>
-      ) : (
-        renderIcon()
-      );
-    } else if (loadData && loading) {
-      $icon = renderIcon();
+      ) : null;
     }
 
     // Title
@@ -437,6 +419,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         title={typeof title === 'string' ? title : ''}
         className={contentCls}
       >
+        {renderCheckbox()}
         {$icon}
         {$title}
         {renderDropIndicator()}
@@ -448,44 +431,40 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const ariaSelected = selectable !== undefined ? { 'aria-selected': !!selectable } : undefined;
   const dataOrAriaAttributeProps = pickAttrs(restProps, { aria: true, data: true });
   const draggableWithoutDisabled = !mergedDisabled && mergedDraggable;
-  const { level } = getEntity(keyEntities, eventKey) || {};
 
   return (
-    <div className={wrapperCls}>
-      <div
-        ref={ref}
-        className={nodeCls}
-        style={style}
-        // Draggable config
-        draggable={draggableWithoutDisabled}
-        onDragStart={draggableWithoutDisabled ? onDragStart : undefined}
-        // Drop config
-        onDragEnter={mergedDraggable ? onDragEnter : undefined}
-        onDragOver={mergedDraggable ? onDragOver : undefined}
-        onDragLeave={mergedDraggable ? onDragLeave : undefined}
-        onDrop={mergedDraggable ? onDrop : undefined}
-        onDragEnd={mergedDraggable ? onDragEnd : undefined}
-        onMouseMove={onMouseMove}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onContextMenu={onContextMenu}
-        onClick={onClick}
-        onDoubleClick={onDoubleClick}
-        {...ariaSelected}
-        {...dataOrAriaAttributeProps}
-      >
-        <Indent
-          prefixCls={prefixCls}
-          level={level}
-          isStart={isStart}
-          isEnd={isEnd}
-          showLine={showLine}
-        />
-        {renderDragHandler()}
-        {renderSwitcher()}
-        {renderCheckbox()}
-        {renderSelector()}
-      </div>
+    <div
+      ref={ref}
+      className={nodeCls}
+      style={style}
+      // Draggable config
+      draggable={draggableWithoutDisabled}
+      onDragStart={draggableWithoutDisabled ? onDragStart : undefined}
+      // Drop config
+      onDragEnter={mergedDraggable ? onDragEnter : undefined}
+      onDragOver={mergedDraggable ? onDragOver : undefined}
+      onDragLeave={mergedDraggable ? onDragLeave : undefined}
+      onDrop={mergedDraggable ? onDrop : undefined}
+      onDragEnd={mergedDraggable ? onDragEnd : undefined}
+      onMouseMove={onMouseMove}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onContextMenu={onContextMenu}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      {...ariaSelected}
+      {...dataOrAriaAttributeProps}
+    >
+      <Indent
+        prefixCls={prefixCls}
+        level={level}
+        isStart={isStart}
+        isEnd={isEnd}
+        showLine={showLine}
+      />
+      {renderDragHandler()}
+      {renderSwitcher()}
+      {renderSelector()}
     </div>
   );
 }) as unknown as (<TreeDataType extends BasicDataNode = DataNode>(

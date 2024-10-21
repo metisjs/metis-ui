@@ -546,7 +546,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   };
 
   const onNodeSelect: NodeMouseEventHandler<DataNode> = (e, treeNode) => {
-    const { selected } = treeNode;
+    const { selected, expanded } = treeNode;
 
     if (!multiple && selected) {
       return;
@@ -583,6 +583,10 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
       selectedNodes,
       nativeEvent: e.nativeEvent,
     });
+
+    if (targetSelected && !expanded) {
+      triggerExpandActionExpand(e, treeNode);
+    }
   };
 
   const onNodeCheck = (
@@ -689,6 +693,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     {
       [`${prefixCls}-show-line`]: showLine,
     },
+    'group/tree',
     'text-sm text-text',
     loading && !treeData.length && 'min-h-28',
     semanticCls.root,

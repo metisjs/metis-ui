@@ -15,6 +15,7 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
+<code src="./demo/basic-checkable.tsx">可勾选，可选中</code>
 <code src="./demo/basic-controlled.tsx">受控操作示例</code>
 <code src="./demo/draggable.tsx">拖动示例</code>
 <code src="./demo/remote.tsx">远程数据加载</code>
@@ -55,7 +56,7 @@ demo:
 | selectable | 是否可选中 | boolean | true |  |
 | selectedKeys | （受控）设置选中的树节点，多选需设置 `multiple` 为 true | string\[] | - |  |
 | showIcon | 控制是否展示 `icon` 节点，没有默认样式 | boolean | false |  |
-| showLine | 是否展示连接线 | boolean | false |  |
+| showLine | 是否展示连接线 | boolean \| 'hover'| `hover` |  |
 | switcherIcon | 自定义树节点的展开/折叠图标（带有默认 rotate 角度样式） | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - |  |
 | switcherLoadingIcon | 自定义树节点的加载图标 | ReactNode | - |  |
 | titleRender | 自定义渲染节点 | (nodeData) => ReactNode | - |  |

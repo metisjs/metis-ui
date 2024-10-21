@@ -1,5 +1,4 @@
 import React from 'react';
-import { DocumentTextSolid, FolderOpenSolid, FolderSolid } from '@metisjs/icons';
 import type { TreeDataNode, TreeProps } from 'metis-ui';
 import { Tree } from 'metis-ui';
 
@@ -31,36 +30,6 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-  {
-    title: 'parent 2',
-    key: '1-0',
-    children: [
-      {
-        title: 'parent 2-0',
-        key: '1-0-0',
-        children: [
-          {
-            title: 'leaf',
-            key: '1-0-0-0',
-            disableCheckbox: true,
-          },
-          {
-            title: 'leaf',
-            key: '1-0-0-1',
-          },
-        ],
-      },
-      {
-        title: 'parent 2-1',
-        key: '1-0-1',
-        children: [{ title: 'leaf', key: '1-0-1-0', disabled: true }],
-      },
-      {
-        title: 'leaf',
-        key: '1-0-2',
-      },
-    ],
-  },
 ];
 
 const App: React.FC = () => {
@@ -68,24 +37,19 @@ const App: React.FC = () => {
     console.log('selected', selectedKeys, info);
   };
 
+  const onCheck: TreeProps['onCheck'] = (checkedKeys, info) => {
+    console.log('onCheck', checkedKeys, info);
+  };
+
   return (
     <Tree
-      showIcon
+      checkable
       defaultExpandedKeys={['0-0-0', '0-0-1']}
       defaultSelectedKeys={['0-0-0', '0-0-1']}
+      defaultCheckedKeys={['0-0-0', '0-0-1']}
       onSelect={onSelect}
+      onCheck={onCheck}
       treeData={treeData}
-      icon={({ expanded, leaf }) => {
-        if (leaf) {
-          return <DocumentTextSolid className="text-slate-400" />;
-        }
-
-        return expanded ? (
-          <FolderOpenSolid className="text-sky-500" />
-        ) : (
-          <FolderSolid className="text-sky-500" />
-        );
-      }}
     />
   );
 };
