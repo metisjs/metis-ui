@@ -17,6 +17,8 @@ export { default as Button } from './button';
 export type { ButtonProps } from './button';
 export { default as Card } from './card';
 export type { CardProps } from './card';
+export { default as Carousel } from './carousel';
+export type { CarouselProps } from './carousel/interface';
 export { default as Cascader } from './cascader';
 export type { CascaderProps } from './cascader';
 export { default as Checkbox } from './checkbox';
