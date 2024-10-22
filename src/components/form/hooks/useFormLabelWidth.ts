@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
+import { useEvent } from 'rc-util';
 import { devUseWarning } from '../../_util/warning';
 
 export default function useFormLabelWidth() {
@@ -11,7 +11,7 @@ export default function useFormLabelWidth() {
     return max ? max : 0;
   }, [potentialLabelWidthArr]);
 
-  const getLabelWidthIndex = useMemoizedFn((width: number) => {
+  const getLabelWidthIndex = useEvent((width: number) => {
     const index = potentialLabelWidthArr.indexOf(width);
     if (index === -1 && autoLabelWidth === 0) {
       const warning = devUseWarning('Form');

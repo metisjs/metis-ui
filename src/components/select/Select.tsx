@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import type { RequestConfig } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
@@ -342,7 +342,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
 
   // ======================= Display Option =======================
   // Create a placeholder item if not exist in `options`
-  const createTagOption = useMemoizedFn((val: RawValueType, label?: React.ReactNode) => {
+  const createTagOption = useEvent((val: RawValueType, label?: React.ReactNode) => {
     const mergedLabel = label ?? val;
 
     warning(
@@ -473,7 +473,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   };
 
   // Used for OptionList selection
-  const onInternalSelect = useMemoizedFn<OnInternalSelect>((val, info) => {
+  const onInternalSelect = useEvent<OnInternalSelect>((val, info) => {
     let cloneValues: (RawValueType | DisplayValueType)[];
 
     // Single mode always trigger select only with option list

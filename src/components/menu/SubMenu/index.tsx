@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Overflow from 'rc-overflow';
+import { useEvent } from 'rc-util';
 import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import ExpandIcon from '../../_util/ExpandIcon';
-import useMemoizedFn from '../../_util/hooks/useMemoizedFn';
 import { useZIndex } from '../../_util/hooks/useZIndex';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
 import warning from '../../_util/warning';
@@ -200,7 +200,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   };
 
   // >>>> Context for children click
-  const onMergedItemClick = useMemoizedFn((info: MenuInfo) => {
+  const onMergedItemClick = useEvent((info: MenuInfo) => {
     onClick?.(info);
     onItemClick(info);
   });

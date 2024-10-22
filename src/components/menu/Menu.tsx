@@ -3,11 +3,11 @@ import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
 import { EllipsisHorizontalOutline } from '@metisjs/icons';
 import Overflow from 'rc-overflow';
+import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isEqual from 'rc-util/lib/isEqual';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
-import useMemoizedFn from '../_util/hooks/useMemoizedFn';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
 import warning from '../_util/warning';
@@ -342,11 +342,11 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     },
   );
 
-  const onActive = useMemoizedFn((key: string) => {
+  const onActive = useEvent((key: string) => {
     setMergedActiveKey(key);
   });
 
-  const onInactive = useMemoizedFn(() => {
+  const onInactive = useEvent(() => {
     setMergedActiveKey(undefined);
   });
 
@@ -443,13 +443,13 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   /**
    * Click for item. SubMenu do not have selection status
    */
-  const onInternalClick = useMemoizedFn((info: MenuInfo) => {
+  const onInternalClick = useEvent((info: MenuInfo) => {
     onClick?.(info);
     overrideObj.onClick?.();
     triggerSelection(info);
   });
 
-  const onInternalOpenChange = useMemoizedFn((key: string, open: boolean) => {
+  const onInternalOpenChange = useEvent((key: string, open: boolean) => {
     let newOpenKeys = mergedOpenKeys?.filter((k) => k !== key) ?? [];
 
     if (open) {

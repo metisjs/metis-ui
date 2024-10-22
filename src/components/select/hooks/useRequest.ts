@@ -1,8 +1,10 @@
 import { useContext, useMemo, useRef, useState } from 'react';
-import { useMemoizedFn, useRequest } from 'ahooks';
+import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
+import { useEvent } from 'rc-util';
 import type { RequestConfig } from '../../_util/type';
 import { ConfigContext } from '../../config-provider';
+import type { ScrollValues } from '../../scrollbar';
 import type { BaseOptionType, FieldNames, SelectProps } from '../interface';
 
 const PAGE_SIZE = 30;
@@ -102,7 +104,7 @@ export default function <TData extends BaseOptionType>(
 
   const noMore = useMemo(() => options.length >= total, [options, total]);
 
-  const loadMore = useMemoizedFn((c: number) => {
+  const loadMore = useEvent((c: number) => {
     setLoadingMore(true);
 
     let toCurrent = c <= 0 ? 1 : c;
@@ -115,7 +117,7 @@ export default function <TData extends BaseOptionType>(
     run(...params);
   });
 
-  const onInternalScroll: SelectProps['onPopupScroll'] = useMemoizedFn((values, ev) => {
+  const onInternalScroll = useEvent((values: ScrollValues, ev: React.UIEvent<HTMLElement>) => {
     target.current = ev.target as HTMLDivElement;
     const { scrollTop, scrollHeight, clientHeight } = values;
     if (lazyLoad && !noMore && !loadingMore) {
