@@ -254,7 +254,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
         <div className={clsx(`${prefixCls}-indent`, 'select-none self-stretch whitespace-nowrap')}>
           <div
             ref={indentMeasurerRef}
-            className={clsx(`${prefixCls}-indent-unit`, 'relative inline-block h-full w-5')}
+            className={clsx(`${prefixCls}-indent-unit`, 'relative inline-block h-full w-2')}
           />
         </div>
       </div>

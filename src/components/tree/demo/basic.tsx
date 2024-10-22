@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocumentTextSolid, FolderOpenSolid, FolderSolid } from '@metisjs/icons';
+import { DocumentTextSolid, FolderCloseSolid, FolderOpenSolid } from '@metisjs/icons';
 import type { TreeDataNode, TreeProps } from 'metis-ui';
 import { Tree } from 'metis-ui';
 
@@ -83,7 +83,7 @@ const App: React.FC = () => {
         return expanded ? (
           <FolderOpenSolid className="text-sky-500" />
         ) : (
-          <FolderSolid className="text-sky-500" />
+          <FolderCloseSolid className="text-sky-500" />
         );
       }}
     />

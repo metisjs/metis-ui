@@ -247,7 +247,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-treenode-leaf-last`]: isEndNode,
       [`${prefixCls}-treenode-draggable`]: mergedDraggable,
     },
-    'flex cursor-pointer items-center rounded-md leading-6 transition-colors',
+    'flex cursor-pointer items-center overflow-hidden rounded-md leading-6 transition-colors',
     {
       'hover:bg-fill-quaternary': !selected,
       'bg-fill-quaternary': selected,
@@ -266,7 +266,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-switcher-noop`]: mergedLeaf,
       [`${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`]: !mergedLeaf,
     },
-    'relative inline-flex w-4 flex-none select-none items-center justify-center self-stretch transition-colors',
+    'relative inline-flex w-4 flex-none cursor-pointer select-none items-center justify-center self-stretch transition-colors',
     {
       'cursor-pointer hover:bg-fill-tertiary': !mergedLeaf,
       'rounded-es-md rounded-ss-md': !level,
@@ -278,7 +278,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     `${prefixCls}-node-content-wrapper`,
     `${prefixCls}-node-content-wrapper-${nodeState || 'normal'}`,
     !mergedDisabled && (selected || dragNodeHighlight) && `${prefixCls}-node-selected`,
-    'relative flex flex-auto gap-2 px-2 py-1',
+    'relative flex flex-auto gap-2 overflow-hidden px-2 py-1',
     mergedDisabled && 'text-text-tertiary',
     semanticCls.content,
   );
@@ -289,6 +289,8 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     'inline-flex h-6 items-center text-base',
     semanticCls.icon,
   );
+
+  const titleCls = clsx(`${prefixCls}-title`, 'flex-auto', semanticCls.title);
 
   const draggableIconCls = clsx(
     `${prefixCls}-draggable-icon`,
@@ -411,7 +413,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       titleNode = title;
     }
 
-    const $title = <span className={`${prefixCls}-title`}>{titleNode}</span>;
+    const $title = <span className={titleCls}>{titleNode}</span>;
 
     return (
       <span

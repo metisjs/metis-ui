@@ -25,7 +25,7 @@ const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd, showL
           'inline-block w-2',
           showLine && [
             'relative h-full opacity-35',
-            'before:absolute before:bottom-0 before:start-2 before:top-0 before:border-r before:border-border before:transition-opacity before:duration-300',
+            'before:absolute before:bottom-0 before:start-[7.5px] before:top-0 before:border-r before:border-border before:transition-opacity',
             showLine === 'hover' && 'opacity-0 group-hover/tree:opacity-35',
           ],
         )}

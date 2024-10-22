@@ -20,8 +20,8 @@ dependencies:
     specifier: ^4.1.0
     version: 4.1.0
   '@metisjs/icons':
-    specifier: ^0.0.2-alpha.4
-    version: 0.0.2-alpha.4(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.0.2-alpha.5
+    version: 0.0.2-alpha.5(react-dom@18.2.0)(react@18.2.0)
   '@rc-component/async-validator':
     specifier: ^5.0.4
     version: 5.0.4
@@ -2577,8 +2577,8 @@ packages:
       react: 18.2.0
     dev: true
 
-  /@metisjs/icons@0.0.2-alpha.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-C3zfNfEqttIZ+PohIHgBWH3eSpmdFi2pzQxowQd26rF+mC1jHurRJ2PqeH4/rEq44010hpsiqW5Pya/866LBXQ==}
+  /@metisjs/icons@0.0.2-alpha.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Egl5eWsZHBdY7KYD+MUIRvvi/0f5RfejkD7pKLmhtDQrvVFsTJcwawAUq8VU+W57Bkn3ae/PEc4R2j1/oZFe1w==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'

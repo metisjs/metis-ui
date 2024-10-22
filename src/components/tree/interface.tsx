@@ -131,7 +131,7 @@ export type TreeRef = {
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey: Key; // Pass by parent `cloneElement`
   className?: SemanticClassName<
-    'switcher' | 'content' | 'icon',
+    'switcher' | 'content' | 'icon' | 'title',
     {
       selected?: boolean;
       checked?: boolean;

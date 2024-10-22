@@ -1,9 +1,8 @@
 import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { clsx } from '../_util/classNameUtils';
+import { mergeSemanticCls } from '../_util/classNameUtils';
 import { collapseTransition } from '../_util/transition';
 import Transition from '../transition';
-import { TreeContext } from './context';
 import useUnmount from './hooks/useUnmount';
 import type { BasicDataNode, DataNode, FlattenNode, TreeNodeProps } from './interface';
 import TreeNode from './TreeNode';
@@ -35,7 +34,6 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
     ref,
   ) => {
     const [visible, setVisible] = React.useState(true);
-    const { prefixCls } = React.useContext(TreeContext);
 
     // Calculate target visible here.
     // And apply in effect to make `leave` transition work.
@@ -84,11 +82,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
           onVisibleChanged={onVisibleChanged}
         >
           {({ className: transitionClassName, style: transitionStyle }, transitionRef) => (
-            <div
-              ref={transitionRef}
-              className={clsx(`${prefixCls}-treenode-transition`, transitionClassName)}
-              style={transitionStyle}
-            >
+            <div ref={transitionRef} className={transitionClassName} style={transitionStyle}>
               {transitionNodes.map((treeNode: FlattenNode) => {
                 const {
                   data: { ...restProps },
@@ -107,7 +101,7 @@ const TransitionTreeNode = React.forwardRef<HTMLDivElement, TransitionTreeNodePr
                   <TreeNode
                     {...(restProps as Omit<typeof restProps, 'children'>)}
                     {...treeNodeProps}
-                    className={className}
+                    className={mergeSemanticCls(className, restProps.className)}
                     title={title}
                     disabled={disabled}
                     leaf={leaf}
