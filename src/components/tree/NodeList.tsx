@@ -91,7 +91,7 @@ interface NodeListProps<TreeDataType extends BasicDataNode> {
  */
 export function getMinimumRangeTransitionRange(
   list: FlattenNode[],
-  virtual: boolean,
+  virtual?: boolean,
   height?: number,
   itemHeight?: number,
 ) {
@@ -182,7 +182,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
 
         const rangeNodes = getMinimumRangeTransitionRange(
           getExpandRange(prevData, data, diffExpanded.key),
-          !!virtual,
+          virtual,
           height,
           itemHeight,
         );
@@ -198,7 +198,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
 
         const rangeNodes = getMinimumRangeTransitionRange(
           getExpandRange(data, prevData, diffExpanded.key),
-          !!virtual,
+          virtual,
           height,
           itemHeight,
         );

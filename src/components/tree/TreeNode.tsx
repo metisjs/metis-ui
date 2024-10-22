@@ -290,7 +290,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     semanticCls.icon,
   );
 
-  const titleCls = clsx(`${prefixCls}-title`, 'flex-auto', semanticCls.title);
+  const titleCls = clsx(`${prefixCls}-title`, 'flex-auto truncate', semanticCls.title);
 
   const draggableIconCls = clsx(
     `${prefixCls}-draggable-icon`,
