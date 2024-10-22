@@ -27,7 +27,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
     defaultIndex = 0,
     animation = 'slide',
     trigger,
-    speed = 5000,
+    speed = 500,
     timingFunc = 'linear',
     indicatorPosition = 'bottom',
     vertical = indicatorPosition === 'left' || indicatorPosition === 'right',
@@ -275,12 +275,12 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
                   // slide 动画
                   animation === 'slide' && [
                     slideDirection === 'positive' && {
-                      'animate-slide-right-in block': isActive,
-                      'animate-slide-left-out block': i === previousIndex,
+                      'block animate-[slide-right-in]': isActive,
+                      'block animate-[slide-left-out]': i === previousIndex,
                     },
                     slideDirection === 'negative' && {
-                      'animate-slide-left-in block': isActive,
-                      'animate-slide-right-out block': i === previousIndex,
+                      'block animate-[slide-left-in]': isActive,
+                      'block animate-[slide-right-out]': i === previousIndex,
                     },
                     // fade 动画
                     // card 动画
