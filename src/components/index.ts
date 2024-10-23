@@ -104,6 +104,8 @@ export { default as Tag } from './tag';
 export type { TagProps, TagType } from './tag';
 export { default as TimePicker } from './time-picker';
 export type { TimePickerProps, TimeRangePickerProps } from './time-picker';
+export { default as Timeline } from './timeline';
+export type { TimelineItemProps, TimelineProps } from './timeline';
 export { default as Tooltip } from './tooltip';
 export type { TooltipProps } from './tooltip';
 export { default as Transfer } from './transfer';
