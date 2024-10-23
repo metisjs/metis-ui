@@ -1,6 +1,17 @@
 import classNames from 'classnames';
 import { mergeWith } from 'lodash';
-import { twMerge } from 'tailwind-merge';
+import { extendTailwindMerge, fromTheme } from 'tailwind-merge';
+
+const twMerge = extendTailwindMerge<'translate-z'>({
+  extend: {
+    theme: {
+      opacity: ['disabled'],
+    },
+    classGroups: {
+      'translate-z': [{ 'translate-z': [fromTheme('translate')] }],
+    },
+  },
+});
 
 export type SemanticClassName<
   T extends string,

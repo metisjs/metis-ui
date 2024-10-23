@@ -259,19 +259,19 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
                 },
                 animation === 'card' && [
                   !vertical && [
-                    'left-1/2 w-[60%] opacity-0 -translate-x-1/2 -translate-z-[25rem]',
+                    'left-1/2 w-3/5 -translate-x-1/2 opacity-0 -translate-z-[25rem]',
                     {
-                      'opacity-100 -translate-x-1/2 translate-z-0': isActive,
-                      'cursor-pointer opacity-40 -translate-x-full -translate-z-[12.5rem]': isPrev,
-                      'cursor-pointer opacity-40 translate-x-0 -translate-z-[12.5rem]': isNext,
+                      '-translate-x-1/2 opacity-100 translate-z-0': isActive,
+                      '-translate-x-full cursor-pointer opacity-40 -translate-z-[12.5rem]': isPrev,
+                      'translate-x-0 cursor-pointer opacity-40 -translate-z-[12.5rem]': isNext,
                     },
                   ],
                   vertical && [
-                    'top-1/2 !h-[60%] opacity-0 -translate-y-1/2 -translate-z-[25rem]',
+                    'top-1/2 !h-3/5 -translate-y-1/2 opacity-0 -translate-z-[25rem]',
                     {
-                      'opacity-100 -translate-y-1/2 translate-z-0': isActive,
-                      'cursor-pointer opacity-40 -translate-y-full -translate-z-[12.5rem]': isPrev,
-                      'cursor-pointer opacity-40 translate-y-0 -translate-z-[12.5rem]': isNext,
+                      '-translate-y-1/2 opacity-100 translate-z-0': isActive,
+                      '-translate-y-full cursor-pointer opacity-40 -translate-z-[12.5rem]': isPrev,
+                      'translate-y-0 cursor-pointer opacity-40 -translate-z-[12.5rem]': isNext,
                     },
                   ],
                 ],

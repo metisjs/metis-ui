@@ -113,6 +113,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
     });
     // @ts-ignore
     delete restProps.keys;
+    delete restProps.onAllRemoved;
 
     return (
       <Component {...restProps}>
