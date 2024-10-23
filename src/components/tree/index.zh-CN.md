@@ -41,7 +41,7 @@ demo:
 | checkable | 节点前添加 Checkbox 复选框 | boolean | false |  |
 | checkedKeys | （受控）选中复选框的树节点（注意：父子节点有关联，如果传入父节点 key，则子节点自动选中；相应当子节点 key 都传入，父节点也自动选中。当设置 `checkable` 和 `checkStrictly`，它是一个有`checked`和`halfChecked`属性的对象，并且父子节点的选中与否不再关联 | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  |
 | checkStrictly | checkable 状态下节点选择完全受控（父子节点选中状态不再关联） | boolean | false |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 | defaultCheckedKeys | 默认选中复选框的树节点 | string\[] | \[] |  |
 | defaultExpandAll | 默认展开所有树节点 | boolean | false |  |
 | defaultExpandedKeys | 默认展开指定的树节点 | string\[] | \[] |  |
@@ -82,7 +82,7 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | checkable | 当树为 checkable 时，设置独立节点是否展示 Checkbox | boolean | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 | disableCheckbox | 禁掉 checkbox | boolean | false |  |
 | disabled | 禁掉响应 | boolean | false |  |
 | icon | 自定义图标。可接收组件，props 为当前节点 props | ReactNode \| (props) => ReactNode | - |  |
