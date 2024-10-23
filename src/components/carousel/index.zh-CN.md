@@ -17,31 +17,30 @@ demo:
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
-
-<!-- <code src="./demo/position.tsx">位置</code>
+<code src="./demo/position.tsx">位置</code>
 <code src="./demo/autoplay.tsx">自动切换</code>
 <code src="./demo/fade.tsx">渐显</code>
-<code src="./demo/arrows.tsx" version="5.17.0">切换箭头</code> -->
+<code src="./demo/card.tsx">卡片化</code>
+<code src="./demo/arrows.tsx">切换箭头</code>
 
 ## API
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| arrows | 是否显示箭头 | boolean | false | 5.17.0 |
-| autoplay | 是否自动切换 | boolean | false |  |
-| autoplaySpeed | 自动切换的间隔（毫秒） | number | 3000 |  |
-| adaptiveHeight | 高度自适应 | boolean | false |  |
-| dotPosition | 面板指示点位置，可选 `top` `bottom` `left` `right` | string | `bottom` |  |
-| dots | 是否显示面板指示点，如果为 `object` 则可以指定 `dotsClass` | boolean \| { className?: string } | true |  |
-| draggable | 是否启用拖拽切换 | boolean | false |  |
-| fade | 使用渐变切换动效 | boolean | false |  |
-| infinite | 是否无限循环切换（实现方式是复制两份 children 元素，如果子元素有副作用则可能会引发 bug） | boolean | true |  |
-| speed | 切换动效的时间（毫秒） | number | 500 |  |
-| easing | 动画效果 | string | `linear` |  |
-| effect | 动画效果函数 | `scrollx` \| `fade` | `scrollx` |  |
-| afterChange | 切换面板的回调 | (current: number) => void | - |  |
-| beforeChange | 切换面板的回调 | (current: number, next: number) => void | - |  |
-| waitForAnimate | 是否等待切换动画 | boolean | false |  |
+| showArrow | 是否显示箭头 | boolean | false |  |
+| autoPlay | 是否自动切换 | boolean \| { interval?: number; hoverToPause?: boolean } | false |  |
+| defaultIndex | 默认显示位置 | number | 0 |  |
+| speed | 自动切换的间隔（毫秒） | number | 3000 |  |
+| animation | 动画效果 | 'slide' \| 'fade' \| 'card' \| false | `slide` |
+| indicatorPosition | 面板指示点位置 | 'bottom' \| 'top' \| 'left' \| 'right' \| 'outer' | `bottom` |  |
+| indicator | 是否显示面板指示点 | boolean | true |  |
+| timingFunc | 过渡速度曲线, 默认匀速 | string | `cubic-bezier(0.34, 0.69, 0.1, 1)` |  |
+| lazy | 是否仅渲染满足动画效果的最少数量的 children | boolean | false |  |
+| onChange | 切换面板的回调 | (current: number, next: number) => void | - |  |
+| trigger | 切换触发方式, click/hover 指示器 | 'click' \| 'hover' | `click` |  |
+| vertical | 竖向切换 | boolean | false |  |
+| icons | 自定义图标 | {prev?: ReactNode; next?: ReactNode;} | - |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 ## 方法
 

@@ -132,6 +132,7 @@
     "rc-util": "^5.43.0",
     "scroll-into-view-if-needed": "^3.0.10",
     "tailwind-merge": "^2.3.0",
+    "tailwindcss-3d": "^1.0.7",
     "throttle-debounce": "^5.0.0"
   },
   "pnpm": {

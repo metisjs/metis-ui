@@ -1,45 +1,37 @@
 import React, { useState } from 'react';
-import type { CarouselProps, RadioChangeEvent } from 'metis-ui';
-import { Carousel, Radio } from 'metis-ui';
+import type { CarouselProps, GetProp } from 'metis-ui';
+import { Carousel, Segmented } from 'metis-ui';
 
-type DotPosition = CarouselProps['dotPosition'];
+type IndicatorPosition = GetProp<CarouselProps, 'indicatorPosition'>;
 
-const contentStyle: React.CSSProperties = {
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
+const contentCls = 'h-40 bg-indigo-800 text-center text-white text-lg leading-[160px]';
 
 const App: React.FC = () => {
-  const [dotPosition, setDotPosition] = useState<DotPosition>('top');
+  const [indicatorPosition, setIndicatorPosition] = useState<IndicatorPosition>('top');
 
-  const handlePositionChange = ({ target: { value } }: RadioChangeEvent) => {
-    setDotPosition(value);
+  const handlePositionChange = (value: IndicatorPosition) => {
+    setIndicatorPosition(value);
   };
 
   return (
     <>
-      <Radio.Group onChange={handlePositionChange} value={dotPosition} style={{ marginBottom: 8 }}>
-        <Radio.Button value="top">Top</Radio.Button>
-        <Radio.Button value="bottom">Bottom</Radio.Button>
-        <Radio.Button value="left">Left</Radio.Button>
-        <Radio.Button value="right">Right</Radio.Button>
-      </Radio.Group>
-      <Carousel dotPosition={dotPosition}>
-        <div>
-          <h3 style={contentStyle}>1</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>2</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>3</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>4</h3>
-        </div>
+      <Segmented
+        options={[
+          { label: 'Top', value: 'top' },
+          { label: 'Bottom', value: 'bottom' },
+          { label: 'Left', value: 'left' },
+          { label: 'Right', value: 'right' },
+          { label: 'Outer', value: 'outer' },
+        ]}
+        value={indicatorPosition}
+        onChange={handlePositionChange}
+        className="mb-2"
+      />
+      <Carousel indicatorPosition={indicatorPosition}>
+        <div className={contentCls}>1</div>
+        <div className={contentCls}>2</div>
+        <div className={contentCls}>3</div>
+        <div className={contentCls}>4</div>
       </Carousel>
     </>
   );

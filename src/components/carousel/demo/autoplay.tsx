@@ -1,28 +1,14 @@
 import React from 'react';
 import { Carousel } from 'metis-ui';
 
-const contentStyle: React.CSSProperties = {
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
+const contentCls = 'h-40 bg-indigo-800 text-center text-white text-lg leading-[160px]';
 
 const App: React.FC = () => (
-  <Carousel autoplay>
-    <div>
-      <h3 style={contentStyle}>1</h3>
-    </div>
-    <div>
-      <h3 style={contentStyle}>2</h3>
-    </div>
-    <div>
-      <h3 style={contentStyle}>3</h3>
-    </div>
-    <div>
-      <h3 style={contentStyle}>4</h3>
-    </div>
+  <Carousel autoPlay>
+    <div className={contentCls}>1</div>
+    <div className={contentCls}>2</div>
+    <div className={contentCls}>3</div>
+    <div className={contentCls}>4</div>
   </Carousel>
 );
 

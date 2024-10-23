@@ -28,7 +28,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
     animation = 'slide',
     trigger,
     speed = 500,
-    timingFunc = 'linear',
+    timingFunc = 'cubic-bezier(0.34, 0.69, 0.1, 1)',
     indicatorPosition = 'bottom',
     vertical = indicatorPosition === 'left' || indicatorPosition === 'right',
     showArrow,
@@ -65,7 +65,6 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
   const [slideDirection, setSlideDirection] = useState<'positive' | 'negative'>('positive');
   const [computedStyle, setComputedStyle] = useState<{
     sliderWrapper?: CSSProperties;
-    indicatorWrapper?: CSSProperties;
   }>({});
 
   const prevIndex = getValidIndex(index - 1);
@@ -158,7 +157,6 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
         if (!vertical) {
           const totalWidth = sliderWrapperRef.current.clientWidth;
           const sliderWidth = sliderElement.clientWidth;
-          const edge = (totalWidth - sliderWidth) / 2;
 
           // deltaZ is TranslateZ(-Zpx) of prev/next slider's style
           // perspective / (perspective + deltaZ) = x / X
@@ -172,16 +170,10 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
             sliderWrapper: {
               perspective,
             },
-            indicatorWrapper: {
-              width: 'auto',
-              left: edge,
-              right: edge,
-            },
           });
         } else {
           const totalHeight = sliderWrapperRef.current.clientHeight;
           const sliderHeight = sliderElement.clientHeight;
-          const edge = (totalHeight - sliderHeight) / 2;
 
           // deltaZ is TranslateZ(-Zpx) of prev/next slider's style
           // perspective / (perspective + deltaZ) = x / X
@@ -195,18 +187,12 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
             sliderWrapper: {
               perspective,
             },
-            indicatorWrapper: {
-              height: 'auto',
-              top: edge,
-              bottom: edge,
-            },
           });
         }
       }
     } else {
       setComputedStyle({
         sliderWrapper: undefined,
-        indicatorWrapper: undefined,
       });
     }
   };
@@ -271,20 +257,55 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
                   'relative z-[1]': isActive,
                   ['invisible']: animation === 'slide' && !isActive,
                 },
-                isAnimating &&
+                animation === 'card' && [
+                  !vertical && [
+                    'left-1/2 w-[60%] opacity-0 -translate-x-1/2 -translate-z-[25rem]',
+                    {
+                      'opacity-100 -translate-x-1/2 translate-z-0': isActive,
+                      'cursor-pointer opacity-40 -translate-x-full -translate-z-[12.5rem]': isPrev,
+                      'cursor-pointer opacity-40 translate-x-0 -translate-z-[12.5rem]': isNext,
+                    },
+                  ],
+                  vertical && [
+                    'top-1/2 !h-[60%] opacity-0 -translate-y-1/2 -translate-z-[25rem]',
+                    {
+                      'opacity-100 -translate-y-1/2 translate-z-0': isActive,
+                      'cursor-pointer opacity-40 -translate-y-full -translate-z-[12.5rem]': isPrev,
+                      'cursor-pointer opacity-40 translate-y-0 -translate-z-[12.5rem]': isNext,
+                    },
+                  ],
+                ],
+                isAnimating && [
                   // slide 动画
                   animation === 'slide' && [
-                    slideDirection === 'positive' && {
-                      'block animate-[slide-right-in]': isActive,
-                      'block animate-[slide-left-out]': i === previousIndex,
-                    },
-                    slideDirection === 'negative' && {
-                      'block animate-[slide-left-in]': isActive,
-                      'block animate-[slide-right-out]': i === previousIndex,
-                    },
-                    // fade 动画
-                    // card 动画
+                    slideDirection === 'positive' && [
+                      !vertical && {
+                        'block animate-[slide-right-in]': isActive,
+                        'visible block animate-[slide-left-out]': i === previousIndex,
+                      },
+                      vertical && {
+                        'block animate-[slide-bottom-in]': isActive,
+                        'visible block animate-[slide-top-out]': i === previousIndex,
+                      },
+                    ],
+                    slideDirection === 'negative' && [
+                      !vertical && {
+                        'block animate-[slide-left-in]': isActive,
+                        'visible block animate-[slide-right-out]': i === previousIndex,
+                      },
+                      vertical && {
+                        'block animate-[slide-top-in]': isActive,
+                        'visible block animate-[slide-bottom-out]': i === previousIndex,
+                      },
+                    ],
                   ],
+                  // card 动画
+                ],
+                // fade 动画
+                animation === 'fade' && {
+                  'opacity-0': !isActive,
+                  'opacity-100': isActive,
+                },
                 childClassName,
               ),
               onClick: (event: any) => {
@@ -299,28 +320,20 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
         </div>
 
         {indicator && childrenLength > 1 && (
-          <div
-            style={computedStyle.indicatorWrapper}
-            className={clsx(
-              `${prefixCls}-indicator-wrapper`,
-              `${prefixCls}-indicator-wrapper-${indicatorPosition}`,
-            )}
-          >
-            <CarouselIndicator
-              prefixCls={prefixCls}
-              className={semanticCls.indicator}
-              count={childrenLength}
-              activeIndex={index}
-              position={indicatorPosition}
-              trigger={trigger}
-              onSelectIndex={(i) =>
-                slideTo({
-                  targetIndex: i,
-                  isNegative: i < index,
-                })
-              }
-            />
-          </div>
+          <CarouselIndicator
+            prefixCls={prefixCls}
+            className={semanticCls.indicator}
+            count={childrenLength}
+            activeIndex={index}
+            position={indicatorPosition}
+            trigger={trigger}
+            onSelectIndex={(i) =>
+              slideTo({
+                targetIndex: i,
+                isNegative: i < index,
+              })
+            }
+          />
         )}
 
         {showArrow && childrenLength > 1 && (

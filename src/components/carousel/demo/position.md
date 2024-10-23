@@ -1,7 +1,7 @@
 ## zh-CN
 
-位置有 4 个方向。
+位置有 5 个方向。
 
 ## en-US
 
-There are 4 position options available.
+There are 5 position options available.

@@ -19,27 +19,27 @@ demo:
 <code src="./demo/position.tsx">Position</code>
 <code src="./demo/autoplay.tsx">Scroll automatically</code>
 <code src="./demo/fade.tsx">Fade in</code>
+<code src="./demo/card.tsx">Card</code>
 <code src="./demo/arrows.tsx" version="5.17.0">Arrows for switching</code>
 
 ## API
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| arrows | Whether to show switch arrows | boolean | false | 5.17.0 |
-| autoplay | Whether to scroll automatically | boolean | false |  |
-| autoplaySpeed | Delay between each auto scroll (in milliseconds) | number | 3000 |  |
-| adaptiveHeight | Adjust the slide's height automatically | boolean | false |  |
-| dotPosition | The position of the dots, which can be one of `top` `bottom` `left` `right` | string | `bottom` |  |
-| dots | Whether to show the dots at the bottom of the gallery, `object` for `dotsClass` | boolean \| { className?: string } | true |  |
-| draggable | Enable scrollable via dragging on desktop | boolean | false |  |
-| fade | Whether to use fade transition | boolean | false |  |
-| infinite | Infinitely wrap around contents | boolean | true |  |
-| speed | Animation speed in milliseconds | number | 500 |  |
-| easing | Transition interpolation function name | string | `linear` |  |
-| effect | Transition effect | `scrollx` \| `fade` | `scrollx` |  |
-| afterChange | Callback function called after the current index changes | (current: number) => void | - |  |
-| beforeChange | Callback function called before the current index changes | (current: number, next: number) => void | - |  |
-| waitForAnimate | Whether to wait for the animation when switching | boolean | false |  |
+| showArrow | When to show the switch trigger | boolean | false |  |
+| autoPlay | Whether to scroll automatically | boolean \| { interval?: number; hoverToPause?: boolean } | false |  |
+| defaultIndex | The default index of slide which starts from 0 | number | 0 |  |
+| speed | The duration of the slide movement(ms) | number | 3000 |  |
+| animation | The animation of the slide movement | 'slide' \| 'fade' \| 'card' \| false | `slide` |
+| indicatorPosition | Position of indication | 'bottom' \| 'top' \| 'left' \| 'right' \| 'outer' | `bottom` |  |
+| indicator | Whether to render indicator | boolean | true |  |
+| timingFunc | How intermediate values are calculated for CSS properties being affected by a transition effect | string | `cubic-bezier(0.34, 0.69, 0.1, 1)` |  |
+| lazy | Whether to render only the minimum number of children that meet the animation effect | boolean | false |  |
+| onChange | Callback when slide changes. | (current: number, next: number) => void | - |  |
+| trigger | How to trigger the slide switch, click/hover the indicator, click/hover 指示器 | 'click' \| 'hover' | `click` |  |
+| vertical | Vertical mode | boolean | false |  |
+| icons | Customize icons | {prev?: ReactNode; next?: ReactNode;} | - |  |
+| className | Semantic Dom class | [SemanticClassName](/docs/semantic-classname) | - |  |
 
 ## Methods
 

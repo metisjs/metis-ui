@@ -17,6 +17,7 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
   const indicatorContent: ReactNode[] = [];
 
   for (let i = 0; i < count; i++) {
+    const active = i === activeIndex;
     indicatorContent.push(
       <div
         key={i}
@@ -25,12 +26,19 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
         className={clsx(
           `${prefixCls}-item`,
           {
-            [`${prefixCls}-item-active`]: i === activeIndex,
+            [`${prefixCls}-item-active`]: active,
           },
           'relative inline-block h-1 w-4 flex-auto flex-grow-0 rounded-full bg-container opacity-20 transition-all duration-300',
           {
-            'w-6 opacity-100': i === activeIndex,
-            'hover:opacity-65': i !== activeIndex,
+            'w-6 opacity-100': active,
+            'hover:opacity-65': !active,
+            'h-4 w-1': position === 'right' || position === 'left',
+            'h-5': (position === 'right' || position === 'left') && active,
+          },
+          position === 'outer' && {
+            'bg-fill opacity-40': true,
+            'opacity-100': active,
+            'hover:opacity-85': i !== activeIndex,
           },
         )}
       />,
@@ -41,7 +49,14 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
     className: clsx(
       prefixCls,
       `${prefixCls}-${position}`,
-      'absolute bottom-3 left-0 right-0 z-10 flex justify-center gap-2',
+      'absolute z-10 flex justify-center gap-2',
+      {
+        'left-0 right-0 top-3': position === 'top',
+        'bottom-3 left-0 right-0': position === 'bottom',
+        'bottom-0 left-3 top-0 flex-col': position === 'left',
+        'bottom-0 right-3 top-0 flex-col': position === 'right',
+        'relative h-9 items-center': position === 'outer',
+      },
       className,
     ),
     [trigger === 'click' ? 'onClick' : 'onMouseMove']: (event: any) => {

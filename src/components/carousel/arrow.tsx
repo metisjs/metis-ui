@@ -11,8 +11,6 @@ import type { CarouselArrowProps } from './interface';
 const CarouselArrow = (props: CarouselArrowProps) => {
   const { prefixCls, className, vertical, prev, next, icons } = props;
 
-  const arrowClass = clsx(`${prefixCls}-arrow`, className);
-
   const iconPrev =
     icons && icons.hasOwnProperty('prev') ? (
       icons.prev
@@ -32,9 +30,18 @@ const CarouselArrow = (props: CarouselArrowProps) => {
     );
 
   return (
-    <div className={arrowClass}>
+    <>
       <div
-        className={`${prefixCls}-arrow-${vertical ? 'top' : 'left'}`}
+        className={clsx(
+          `${prefixCls}-arrow`,
+          `${prefixCls}-arrow-${vertical ? 'top' : 'left'}`,
+          'absolute z-[2] inline-flex items-center justify-center text-xl text-container opacity-40 transition-opacity hover:opacity-100',
+          {
+            'left-2 top-1/2 -translate-y-1/2': !vertical,
+            'left-1/2 top-2 -translate-x-1/2': vertical,
+          },
+          className,
+        )}
         onClick={prev}
         role="button"
         tabIndex={0}
@@ -42,14 +49,23 @@ const CarouselArrow = (props: CarouselArrowProps) => {
         {iconPrev}
       </div>
       <div
-        className={`${prefixCls}-arrow-${vertical ? 'bottom' : 'right'}`}
+        className={clsx(
+          `${prefixCls}-arrow`,
+          `${prefixCls}-arrow-${vertical ? 'bottom' : 'right'}`,
+          'absolute z-[2] inline-flex items-center justify-center text-xl text-container opacity-40 transition-opacity hover:opacity-100',
+          {
+            'bottom-1/2 right-2 translate-y-1/2': !vertical,
+            'bottom-2 right-1/2 translate-x-1/2': vertical,
+          },
+          className,
+        )}
         onClick={next}
         role="button"
         tabIndex={0}
       >
         {iconNext}
       </div>
-    </div>
+    </>
   );
 };
 

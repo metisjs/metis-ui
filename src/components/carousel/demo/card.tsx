@@ -5,14 +5,14 @@ const contentCls = 'h-40 bg-indigo-800 text-center text-white text-lg leading-[1
 
 const App: React.FC = () => (
   <>
-    <Carousel showArrow>
+    <Carousel animation="card">
       <div className={contentCls}>1</div>
       <div className={contentCls}>2</div>
       <div className={contentCls}>3</div>
       <div className={contentCls}>4</div>
     </Carousel>
     <br />
-    <Carousel showArrow indicatorPosition="left">
+    <Carousel animation="card" indicatorPosition="left" className="h-60">
       <div className={contentCls}>1</div>
       <div className={contentCls}>2</div>
       <div className={contentCls}>3</div>
