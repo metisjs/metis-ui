@@ -3,7 +3,7 @@ title: Notification
 description: Prompt notification message globally.
 demo:
   cols: 2
-  group: Feedback
+group: Feedback
 ---
 
 ## When To Use

@@ -30,7 +30,6 @@ export interface NotificationsRef {
   destroy: () => void;
 }
 
-// ant-notification ant-notification-topRight
 const Notifications = React.forwardRef<NotificationsRef, NotificationsProps>((props, ref) => {
   const {
     prefixCls,
