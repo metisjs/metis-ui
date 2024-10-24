@@ -220,6 +220,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const onExpand = (e: React.MouseEvent<HTMLDivElement>) => {
     if (loading) return;
     onNodeExpand(e, eventDate);
+    e.stopPropagation();
   };
 
   // ========================== Style ============================
