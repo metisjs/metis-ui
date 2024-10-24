@@ -143,6 +143,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
     const targetChecked = !checked;
     onNodeCheck(e, eventDate, targetChecked);
+    e.stopPropagation();
   };
 
   const onClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
