@@ -1,13 +1,23 @@
 import * as React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
-import { clsx, getSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
+import {
+  clsx,
+  getSemanticCls,
+  mergeSemanticCls,
+  type SemanticClassName,
+} from '../_util/classNameUtils';
 import { ConfigContext } from '../config-provider';
 import type { TimelineItemProps } from './TimelineItem';
 import TimelineItem from './TimelineItem';
 
+export type TimelineItemType = Omit<
+  TimelineItemProps,
+  'prefixCls' | 'last' | 'pending' | 'alternate'
+>;
+
 export interface TimelineProps {
   prefixCls?: string;
-  className?: SemanticClassName<''>;
+  className?: SemanticClassName<'', void, { item?: TimelineItemProps['className'] }>;
   /** 指定最后一个幽灵节点是否存在或内容 */
   pending?: React.ReactNode;
   pendingDot?: React.ReactNode;
@@ -38,8 +48,8 @@ const Timeline: React.FC<TimelineProps> = ({
     if (pending) {
       internalItems.push({
         pending: !!pending,
-        dot: pendingDot || <LoadingOutline />,
-        children: pendingNode,
+        dot: pendingDot || <LoadingOutline className="h-3.5 w-3.5 animate-spin" />,
+        content: pendingNode,
       });
     }
 
@@ -66,36 +76,44 @@ const Timeline: React.FC<TimelineProps> = ({
     semanticCls.root,
   );
 
-  const getPositionCls = (position: string, idx: number) => {
+  const getPosition = (position: string, idx: number) => {
     if (mode === 'alternate') {
-      if (position === 'right') return `${prefixCls}-item-right`;
-      if (position === 'left') return `${prefixCls}-item-left`;
-      return idx % 2 === 0 ? `${prefixCls}-item-left` : `${prefixCls}-item-right`;
+      if (position === 'right') return 'right';
+      if (position === 'left') return 'left';
+      return idx % 2 === 0 ? 'left' : 'right';
     }
-    if (mode === 'left') return `${prefixCls}-item-left`;
-    if (mode === 'right') return `${prefixCls}-item-right`;
-    if (position === 'right') return `${prefixCls}-item-right`;
-    return '';
+    if (mode === 'left') return 'left';
+    if (mode === 'right') return 'right';
+    if (position === 'right') return 'right';
+    return 'left';
   };
 
   const itemsCount = mergedItems.length;
-  const lastCls = `${prefixCls}-item-last`;
+  const hasLabel = mergedItems.some((item) => !!item?.label);
 
   const itemsList = mergedItems
     .filter((item: TimelineItemProps) => !!item)
     .map((item: TimelineItemProps, idx: number) => {
-      const pendingClass = idx === itemsCount - 2 ? lastCls : '';
-      const readyClass = idx === itemsCount - 1 ? lastCls : '';
-      const { className: itemClassName, ...itemProps } = item;
+      const { className: itemClassName, position, ...itemProps } = item;
+      const last = !reverse && !!pending ? idx === itemsCount - 2 : idx === itemsCount - 1;
+      const mergedPosition = getPosition(position ?? '', idx);
 
       return (
         <TimelineItem
+          prefixCls={prefixCls}
+          last={last}
+          position={mergedPosition}
+          alternate={mode === 'alternate' || hasLabel}
           {...itemProps}
-          className={clsx([
+          className={mergeSemanticCls(
+            {
+              tail: clsx({
+                ['hidden']: (last && (reverse || !pending)) || (item.pending && !reverse),
+              }),
+            },
+            semanticCls.item,
             itemClassName,
-            !reverse && !!pending ? pendingClass : readyClass,
-            getPositionCls(item?.position ?? '', idx),
-          ])}
+          )}
           key={item?.key || idx}
         />
       );

@@ -33,10 +33,7 @@ export function clsx(...args: classNames.ArgumentArray) {
   return twMerge(classNames(...args));
 }
 
-export function getSemanticCls<T extends SemanticClassName<any, any, any>>(
-  semanticClassName?: T,
-  args?: T extends (args: any) => any ? Parameters<T>[0] : void,
-): T extends string
+type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends string
   ? { root?: string } & {
       [key: string]: string;
     }
@@ -47,6 +44,11 @@ export function getSemanticCls<T extends SemanticClassName<any, any, any>>(
         }
       : ReturnType<T>
     : T;
+
+export function getSemanticCls<T extends SemanticClassName<any, any, any>>(
+  semanticClassName?: T,
+  args?: T extends (args: any) => any ? Parameters<T>[0] : void,
+): SemanticRecord<T>;
 export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any {
   if (typeof semanticClassName === 'string') {
     return { root: semanticClassName };
@@ -62,10 +64,11 @@ export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any
 export function mergeSemanticCls<
   T extends SemanticClassName<any, any, any>,
   R extends SemanticClassName<any, any, any>,
->(c1?: T, ...classes: (R | undefined)[]) {
+>(c1: T, ...classes: (R | undefined)[]) {
   return (
     args: (T extends (...args: any) => any ? Parameters<T>[0] : void) &
-      (R extends (...args: any) => any ? Parameters<R>[0] : void),
+      (R extends (...args: any) => any ? Parameters<R>[0] : void) &
+      Record<string, never>,
   ) => {
     const cls1 = getSemanticCls(c1, args);
 
@@ -75,6 +78,6 @@ export function mergeSemanticCls<
       if (!curr) return prev;
       const currCls = getSemanticCls(curr, args);
       return mergeWith(prev, currCls, (objValue, srcValue) => clsx(objValue, srcValue));
-    }, cls1);
+    }, cls1) as SemanticRecord<T> & SemanticRecord<R>;
   };
 }

@@ -14,7 +14,7 @@ const App: React.FC = () => (
         color: 'green',
       },
       {
-        dot: <ClockOutline className="h-4 w-4" />,
+        dot: <ClockOutline />,
         content: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,
       },
       {
@@ -25,7 +25,7 @@ const App: React.FC = () => (
         content: 'Create a services site 2015-09-01',
       },
       {
-        dot: <ClockOutline className="h-4 w-4" />,
+        dot: <ClockOutline />,
         content: 'Technical testing 2015-09-01',
       },
     ]}

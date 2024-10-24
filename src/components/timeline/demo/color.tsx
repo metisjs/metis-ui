@@ -24,6 +24,7 @@ const App: React.FC = () => (
         ),
       },
       {
+        color: 'blue',
         content: (
           <>
             <p>Technical testing 1</p>

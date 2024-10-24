@@ -43,18 +43,21 @@ export function getPresetColorCls(
     outline,
     rawBackground,
     rawColor,
+    rawOutline,
   }: {
     text?: boolean;
     background?: boolean;
     outline?: boolean;
     rawBackground?: boolean;
     rawColor?: boolean;
+    rawOutline?: boolean;
   } = {
     text: true,
     background: true,
     outline: true,
     rawBackground: false,
     rawColor: false,
+    rawOutline: false,
   },
 ) {
   return clsx(
@@ -125,6 +128,23 @@ export function getPresetColorCls(
       'outline-sky-600/10': color === 'sky',
       'outline-indigo-600/10': color === 'indigo',
       'outline-violet-600/10': color === 'violet',
+    },
+    rawOutline && {
+      'outline-blue-600': color === 'blue',
+      'outline-purple-600': color === 'purple',
+      'outline-cyan-600': color === 'cyan',
+      'outline-green-600': color === 'green',
+      'outline-pink-600': color === 'pink',
+      'outline-red-600': color === 'red',
+      'outline-orange-600': color === 'orange',
+      'outline-yellow-600': color === 'yellow',
+      'outline-lime-600': color === 'lime',
+      'outline-amber-600': color === 'amber',
+      'outline-emerald-600': color === 'emerald',
+      'outline-teal-600': color === 'teal',
+      'outline-sky-600': color === 'sky',
+      'outline-indigo-600': color === 'indigo',
+      'outline-violet-600': color === 'violet',
     },
     rawColor && colors[color][600],
   );

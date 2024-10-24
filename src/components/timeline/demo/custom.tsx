@@ -12,7 +12,7 @@ const App: React.FC = () => (
         content: 'Solve initial network problems 2015-09-01',
       },
       {
-        dot: <ClockOutline className="h-4 w-4" />,
+        dot: <ClockOutline />,
         color: 'red',
         content: 'Technical testing 2015-09-01',
       },
