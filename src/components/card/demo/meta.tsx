@@ -1,6 +1,6 @@
 import React from 'react';
-import { Cog6ToothOutline, EllipsisHorizontalOutline, PencilSquareOutline } from '@metisjs/icons';
-import { Avatar, Card } from 'metis-ui';
+import { EnvelopeSolid, PhoneSolid } from '@metisjs/icons';
+import { Avatar, Card, Space } from 'metis-ui';
 
 const { Meta } = Card;
 
@@ -14,9 +14,14 @@ const App: React.FC = () => (
       />
     }
     actions={[
-      <Cog6ToothOutline key="setting" className="h-4 w-4" />,
-      <PencilSquareOutline key="edit" className="h-4 w-4" />,
-      <EllipsisHorizontalOutline key="ellipsis" className="h-4 w-4" />,
+      <Space key="email" size={12}>
+        <EnvelopeSolid className="h-5 w-5" />
+        <span className="font-medium text-text">Email</span>
+      </Space>,
+      <Space key="call" size={12}>
+        <PhoneSolid className="h-5 w-5" />
+        <span className="font-medium text-text">Call</span>
+      </Space>,
     ]}
   >
     <Meta

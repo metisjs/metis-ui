@@ -27,16 +27,14 @@ const Meta: React.FC<CardMetaProps> = (props) => {
   ) : null;
 
   const titleDom: React.ReactNode = title ? (
-    <div className={clsx(`${prefixCls}-meta-title`, 'text-base font-semibold', semanticCLs.title)}>
-      {title}
-    </div>
+    <div className={clsx(`${prefixCls}-meta-title`, 'font-medium', semanticCLs.title)}>{title}</div>
   ) : null;
 
   const descriptionDom: React.ReactNode = description ? (
     <div
       className={clsx(
         `${prefixCls}-meta-description`,
-        'text-text-tertiary',
+        'text-text-secondary',
         title && 'mt-1',
         semanticCLs.description,
       )}

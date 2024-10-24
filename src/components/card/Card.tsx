@@ -36,19 +36,11 @@ const ActionNode: React.FC<{
         const key = `action-${index}`;
         return (
           <li
-            className="py-3 text-center text-text-tertiary"
+            className="flex items-center justify-center py-4 text-text-tertiary"
             style={{ width: `${100 / actions.length}%` }}
             key={key}
           >
-            <span
-              className={clsx(
-                'relative block cursor-pointer border-r border-border-secondary hover:text-primary',
-                // last item
-                actions.length - 1 === index && 'border-r-0',
-              )}
-            >
-              {action}
-            </span>
+            {action}
           </li>
         );
       })}
@@ -120,7 +112,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 
   const actionClasses = clsx(
     `${prefixCls}-actions`,
-    'flex border-t border-border-secondary',
+    'flex divide-x divide-border-secondary border-t border-border-secondary',
     semanticCLs.actions,
   );
   const actionDom = actions?.length ? (
