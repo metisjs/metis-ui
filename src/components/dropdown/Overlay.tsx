@@ -16,8 +16,8 @@ export type OverlayProps = Pick<DropdownProps, 'arrow' | 'prefixCls'> & {
 const overrideCls = {
   root: 'py-1',
   item: 'px-1',
-  itemInner: 'py-2 px-3 ps-3 pe-3 h-9 leading-9 gap-2 font-normal',
-  itemIcon: 'w-5 h-5',
+  itemInner: 'py-2 px-3 ps-3 pe-3 h-9 leading-9 gap-1 font-normal',
+  itemIcon: 'w-[1.125rem] h-[1.125rem]',
   groupTitle: 'ps-3 pe-3',
   groupList: 'px-2',
 };

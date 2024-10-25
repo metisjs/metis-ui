@@ -177,8 +177,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     },
     iconOnly && {
       'h-4 w-4': mergedSize === 'mini',
-      'h-5 w-5': mergedSize === 'small' || mergedSize === 'middle',
-      'h-6 w-6': mergedSize === 'large',
+      'h-[1.125rem] w-[1.125rem]': mergedSize === 'small' || mergedSize === 'middle',
+      'h-5 w-5': mergedSize === 'large',
     },
     semanticCls.icon,
   );
