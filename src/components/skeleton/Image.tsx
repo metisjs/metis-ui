@@ -12,22 +12,31 @@ const SkeletonImage: React.FC<SkeletonImageProps> = (props) => {
   const { prefixCls: customizePrefixCls, className, style, active } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('skeleton', customizePrefixCls);
+
   const cls = clsx(
     prefixCls,
     `${prefixCls}-element`,
     {
       [`${prefixCls}-active`]: active,
     },
+    'inline-block rounded-md bg-fill-tertiary',
+    active && 'animate-pulse',
+  );
+
+  const imgCls = clsx(
+    `${prefixCls}-image`,
+    'inline-flex h-24 w-24 items-center justify-center',
     className,
   );
 
   return (
     <div className={cls}>
-      <div className={clsx(`${prefixCls}-image`, className)} style={style}>
+      <div className={imgCls} style={style}>
         <svg
           viewBox="0 0 1098 1024"
           xmlns="http://www.w3.org/2000/svg"
-          className={`${prefixCls}-image-svg`}
+          className={clsx(`${prefixCls}-image-svg`, 'h-12 w-12 text-text-tertiary')}
+          fill="currentColor"
         >
           <title>Image placeholder</title>
           <path d={path} className={`${prefixCls}-image-path`} />

@@ -1,24 +1,21 @@
 import * as React from 'react';
 import { clsx } from '../_util/classNameUtils';
+import type { SizeType } from '../config-provider/SizeContext';
 
 export interface SkeletonElementProps {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
-  size?: 'large' | 'small' | 'default' | number;
+  size?: SizeType | number;
   shape?: 'circle' | 'square' | 'round' | 'default';
   active?: boolean;
 }
 
 const Element: React.FC<SkeletonElementProps> = (props) => {
-  const { prefixCls, className, style, size = 'default', shape = 'default', active } = props;
+  const { prefixCls, className, style, size = 'middle', shape = 'default', active } = props;
 
   const cls = clsx(
     prefixCls,
-    {
-      [`${prefixCls}-lg`]: size === 'large',
-      [`${prefixCls}-sm`]: size === 'small',
-    },
     {
       [`${prefixCls}-circle`]: shape === 'circle',
       [`${prefixCls}-square`]: shape === 'square',

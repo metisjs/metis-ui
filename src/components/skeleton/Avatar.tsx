@@ -4,8 +4,9 @@ import { ConfigContext } from '../config-provider';
 import type { SkeletonElementProps } from './Element';
 import Element from './Element';
 
-export interface AvatarProps extends Omit<SkeletonElementProps, 'shape'> {
+export interface AvatarProps extends Omit<SkeletonElementProps, 'shape' | 'size'> {
   shape?: 'circle' | 'square';
+  size?: 'large' | 'small' | 'middle' | number;
 }
 
 const SkeletonAvatar: React.FC<AvatarProps> = (props) => {
@@ -14,7 +15,7 @@ const SkeletonAvatar: React.FC<AvatarProps> = (props) => {
     className,
     active,
     shape = 'circle',
-    size = 'default',
+    size = 'middle',
     ...restProps
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
@@ -27,7 +28,7 @@ const SkeletonAvatar: React.FC<AvatarProps> = (props) => {
     },
     {
       'h-12 w-12 leading-[3rem]': size === 'large',
-      'h-10 w-10 leading-10': size === 'default',
+      'h-10 w-10 leading-10': size === 'middle',
       'h-8 w-8 leading-8': size === 'small',
     },
     className,

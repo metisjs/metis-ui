@@ -172,7 +172,7 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
       </div>
     );
   }
-  return <>{children}</> ?? null;
+  return <>{children ?? null}</>;
 };
 
 Skeleton.Button = SkeletonButton;

@@ -2,23 +2,18 @@ import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'metis-ui';
 import { Divider, Radio, Skeleton, Space, Switch } from 'metis-ui';
 
-type SizeType = 'default' | 'small' | 'large';
+type SizeType = 'middle' | 'small' | 'large';
 type ButtonShapeType = 'circle' | 'square' | 'round' | 'default';
 type AvatarShapeType = 'circle' | 'square';
 
 const App: React.FC = () => {
   const [active, setActive] = useState(false);
-  const [block, setBlock] = useState(false);
-  const [size, setSize] = useState<SizeType>('default');
+  const [size, setSize] = useState<SizeType>('middle');
   const [buttonShape, setButtonShape] = useState<ButtonShapeType>('default');
   const [avatarShape, setAvatarShape] = useState<AvatarShapeType>('circle');
 
   const handleActiveChange = (checked: boolean) => {
     setActive(checked);
-  };
-
-  const handleBlockChange = (checked: boolean) => {
-    setBlock(checked);
   };
 
   const handleSizeChange = (e: RadioChangeEvent) => {
@@ -37,26 +32,13 @@ const App: React.FC = () => {
     <>
       <Space align="center">
         <Skeleton.Avatar active={active} size={size} shape={avatarShape} />
-        <Skeleton.Button
-          active={active}
-          size={size}
-          shape={buttonShape}
-          className={block ? 'w-full' : ''}
-        />
+        <Skeleton.Button active={active} size={size} shape={buttonShape} />
         <Skeleton.Input active={active} size={size} />
       </Space>
       <br />
+      <Skeleton.Button active={active} size={size} shape={buttonShape} />
       <br />
-      <Skeleton.Button
-        active={active}
-        size={size}
-        shape={buttonShape}
-        className={block ? 'w-full' : ''}
-      />
-      <br />
-      <br />
-      <Skeleton.Input active={active} size={size} className={block ? 'w-full' : ''} />
-      <br />
+      <Skeleton.Input active={active} size={size} />
       <br />
       <Space>
         <Skeleton.Image active={active} />
@@ -69,13 +51,9 @@ const App: React.FC = () => {
             <Switch checked={active} onChange={handleActiveChange} />
           </Space>
           <Space>
-            <label>Button and Input Block:</label>
-            <Switch checked={block} onChange={handleBlockChange} />
-          </Space>
-          <Space>
             <label>Size:</label>
             <Radio.Group value={size} onChange={handleSizeChange}>
-              <Radio value="default">Default</Radio>
+              <Radio value="middle">Default</Radio>
               <Radio value="large">Large</Radio>
               <Radio value="small">Small</Radio>
             </Radio.Group>
@@ -84,7 +62,6 @@ const App: React.FC = () => {
             <label>Button Shape:</label>
             <Radio.Group value={buttonShape} onChange={handleShapeButton}>
               <Radio value="default">Default</Radio>
-              <Radio value="square">Square</Radio>
               <Radio value="round">Round</Radio>
               <Radio value="circle">Circle</Radio>
             </Radio.Group>
