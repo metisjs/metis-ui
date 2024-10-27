@@ -33,7 +33,7 @@ export function clsx(...args: classNames.ArgumentArray) {
   return twMerge(classNames(...args));
 }
 
-type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends string
+export type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends string
   ? { root?: string } & {
       [key: string]: string;
     }
@@ -46,7 +46,7 @@ type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends stri
     : T;
 
 export function getSemanticCls<T extends SemanticClassName<any, any, any>>(
-  semanticClassName?: T,
+  semanticClassNames?: T | T[],
   args?: T extends (args: any) => any ? Parameters<T>[0] : void,
 ): SemanticRecord<T>;
 export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any {
@@ -56,6 +56,12 @@ export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any
 
   if (typeof semanticClassName === 'function') {
     return getSemanticCls(semanticClassName(args));
+  }
+
+  if (Array.isArray(semanticClassName)) {
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return getSemanticCls(mergeSemanticCls(...semanticClassName));
   }
 
   return semanticClassName;

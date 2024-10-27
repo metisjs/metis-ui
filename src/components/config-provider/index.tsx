@@ -2,21 +2,9 @@ import * as React from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import { merge } from 'rc-util/lib/utils/set';
 import ValidateMessagesContext from '../form/validateMessagesContext';
-import type { Locale } from '../locale';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/zh_CN';
-import type {
-  ButtonConfig,
-  ConfigConsumerProps,
-  FormConfig,
-  InputConfig,
-  PaginationConfig,
-  PopupOverflow,
-  RequestConfig,
-  RouteConfig,
-  SpaceConfig,
-  Variant,
-} from './context';
+import type { ConfigConsumerProps, Variant } from './context';
 import { ConfigConsumer, ConfigContext, Variants } from './context';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
@@ -43,31 +31,11 @@ const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPre
   'form',
 ];
 
-export interface ConfigProviderProps {
-  getTargetContainer?: () => HTMLElement | Window;
-  getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
+export interface ConfigProviderProps extends ConfigConsumerProps {
   prefixCls?: string;
   children?: React.ReactNode;
-  renderEmpty?: RenderEmptyHandler;
-  variant?: Variant;
-  form?: FormConfig;
-  button?: ButtonConfig;
-  input?: InputConfig;
-  pagination?: PaginationConfig;
-  locale?: Locale;
   componentSize?: SizeType;
   componentDisabled?: boolean;
-  space?: SpaceConfig;
-  /**
-   * @descCN 设置 `false` 时关闭虚拟滚动。
-   * @descEN Close the virtual scrolling when setting `false`.
-   * @default true
-   */
-  virtual?: boolean;
-  popupMatchSelectWidth?: boolean;
-  popupOverflow?: PopupOverflow;
-  route?: RouteConfig;
-  request?: RequestConfig;
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
@@ -122,6 +90,9 @@ export const globalConfig = () => ({
 const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const {
     children,
+    alert,
+    anchor,
+    form,
     locale,
     componentSize,
     space,
@@ -130,13 +101,57 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     popupOverflow,
     parentContext,
     componentDisabled,
+    segmented,
+    statistic,
+    spin,
+    // calendar,
+    carousel,
+    cascader,
+    collapse,
+    checkbox,
+    // descriptions,
+    divider,
+    drawer,
+    skeleton,
+    steps,
+    image,
+    list,
+    mentions,
+    modal,
+    progress,
+    result,
+    slider,
+    breadcrumb,
+    menu,
     pagination,
-    button,
     input,
+    textArea,
+    empty,
+    badge,
+    radio,
+    rate,
+    switch: SWITCH,
+    transfer,
+    avatar,
+    message,
+    tag,
+    // table,
+    card,
+    // tabs,
+    timeline,
+    timePicker,
+    upload,
+    notification,
+    tree,
+    colorPicker,
+    datePicker,
+    rangePicker,
+    dropdown,
+    // tour,
     variant,
+    inputNumber,
     route,
     request,
-    form,
   } = props;
 
   // =================================== Context ===================================
@@ -156,19 +171,66 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   );
 
   const baseConfig = {
+    alert,
+    anchor,
     locale,
+    // direction,
     space,
     virtual,
-    popupMatchSelectWidth: popupMatchSelectWidth,
+    popupMatchSelectWidth,
     popupOverflow,
     getPrefixCls,
-    button,
+    segmented,
+    statistic,
+    spin,
+    // calendar,
+    carousel,
+    cascader,
+    collapse,
+    checkbox,
+    // descriptions,
+    divider,
+    drawer,
+    skeleton,
+    steps,
+    image,
     input,
+    textArea,
+    list,
+    mentions,
+    modal,
+    progress,
+    result,
+    slider,
+    breadcrumb,
+    menu,
     pagination,
+    empty,
+    badge,
+    radio,
+    rate,
+    switch: SWITCH,
+    transfer,
+    avatar,
+    message,
+    tag,
+    // table,
+    card,
+    // tabs,
+    timeline,
+    timePicker,
+    upload,
+    notification,
+    tree,
+    colorPicker,
+    datePicker,
+    rangePicker,
+    dropdown,
+    // tour,
     variant,
+    inputNumber,
     route,
     request,
-    form,
   };
 
   const config: ConfigConsumerProps = {

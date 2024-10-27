@@ -12,6 +12,26 @@ export type LiteralUnion<T extends string> = T | (string & { IGNORE?: never });
 /** {length?: never} 排除数组 */
 export type AnyObject = Record<PropertyKey, any> & { length?: never };
 
+export type GetRequestType<
+  OptionType,
+  ShowSearchType extends boolean = false,
+  LazyLoadType extends boolean = false,
+> = ShowSearchType extends true
+  ? LazyLoadType extends true
+    ? RequestConfig<
+        OptionType,
+        [
+          {
+            current: number;
+            pageSize: number;
+            filters: { [key: string]: string };
+          },
+          ...any[],
+        ]
+      >
+    : RequestConfig<OptionType, any[]>
+  : RequestConfig<OptionType, any[]>;
+
 export type RequestConfig<TData, ParamsType extends any[]> =
   | RequestService<{ data: TData[]; total?: number }, ParamsType>
   | {
