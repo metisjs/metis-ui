@@ -108,7 +108,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     {
       [`${prefixCls}-blur pointer-events-none select-none opacity-50`]: spinning,
     },
-    'relative transition-opacity',
+    'relative h-full transition-opacity',
   );
   const tipCls = clsx(
     `${prefixCls}-text`,

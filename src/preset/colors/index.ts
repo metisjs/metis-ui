@@ -69,6 +69,7 @@ const colorObject = {
   border: {
     DEFAULT: 'hsla(var(--border))',
     secondary: 'hsla(var(--border-secondary))',
+    tertiary: 'hsla(var(--border-tertiary))',
   },
 
   /** 填充色 */

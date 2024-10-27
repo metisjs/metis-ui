@@ -1,6 +1,7 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Checkbox from '../checkbox';
 import { TreeContext } from './context';
 import useEventData from './hooks/useEventData';
@@ -229,7 +230,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const dragging = draggingNodeKey === eventKey;
   const { level } = getEntity(keyEntities, eventKey) || {};
 
-  const semanticCls = getSemanticCls(className, {
+  const semanticCls = useSemanticCls(className, {
     selected,
     checked,
     halfChecked,

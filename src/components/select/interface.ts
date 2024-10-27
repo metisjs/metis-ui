@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import type { RequestConfig } from '../_util/type';
+import type { GetRequestType } from '../_util/type';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import type { SelectPlacements } from './Select';
 
@@ -33,26 +33,6 @@ export type GetValueType<
   OptionType extends BaseOptionType,
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
 > = ModeType extends 'default' ? RawValueType | OptionType : RawValueType[] | OptionType[];
-
-export type GetRequestType<
-  OptionType extends BaseOptionType,
-  ShowSearchType extends boolean = false,
-  LazyLoadType extends boolean = false,
-> = ShowSearchType extends true
-  ? LazyLoadType extends true
-    ? RequestConfig<
-        OptionType,
-        [
-          {
-            current: number;
-            pageSize: number;
-            filters: { [key: string]: string };
-          },
-          ...any[],
-        ]
-      >
-    : RequestConfig<OptionType, any[]>
-  : RequestConfig<OptionType, any[]>;
 
 export type FilterFunc<OptionType> = (inputValue: string, option?: OptionType) => boolean;
 

@@ -9,6 +9,7 @@ export default {
     text: 'white/85',
     border: 'slate-50/10',
     'border-secondary': 'slate-50/6',
+    'border-tertiary': 'slate-50/2',
     fill: 'white/18',
     container: 'slate-900',
     elevated: 'slate-800',

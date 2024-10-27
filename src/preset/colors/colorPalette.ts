@@ -38,7 +38,7 @@ export default {
       tertiary: -5,
       quaternary: -6,
     },
-    border: { secondary: -1 },
+    border: { secondary: -1, tertiary: -2 },
     fill: { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
   },
   dark: {

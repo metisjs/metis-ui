@@ -82,7 +82,10 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
 
   const { autoLabelWidth, registerLabelWidth, deregisterLabelWidth } = useFormLabelWidth();
 
-  const screens = useBreakpoint();
+  const needResponsive = Object.keys(column || {}).some((key) =>
+    ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].includes(key),
+  );
+  const screens = useBreakpoint(needResponsive);
   const mergedColumn = React.useMemo(() => {
     if (typeof column === 'number') {
       return column;
