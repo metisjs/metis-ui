@@ -56,6 +56,8 @@ export { default as InputNumber } from './input-number';
 export type { InputNumberProps } from './input-number';
 export { default as Layout } from './layout';
 export type { LayoutProps, SiderProps } from './layout';
+export { default as List } from './list';
+export type { ListProps } from './list';
 export { default as Mentions } from './mentions';
 export type { MentionsProps } from './mentions';
 export { default as Menu } from './menu';
