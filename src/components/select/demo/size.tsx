@@ -19,10 +19,6 @@ const handleChange = (value: string | string[]) => {
 const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>('middle');
 
-  const handleSizeChange = (val: string) => {
-    setSize(val as SizeType);
-  };
-
   return (
     <>
       <Segmented
@@ -33,7 +29,7 @@ const App: React.FC = () => {
           { label: 'Small', value: 'small' },
           { label: 'Mini', value: 'mini' },
         ]}
-        onChange={handleSizeChange}
+        onChange={setSize}
       />
       <br />
       <br />

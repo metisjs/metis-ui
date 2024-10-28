@@ -9,19 +9,20 @@ import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import MotionThumb from './MotionThumb';
 
-interface SegmentedLabeledOptionWithoutIcon {
+interface SegmentedLabeledOptionWithoutIcon<T = SegmentedValue> {
   className?: string;
   disabled?: boolean;
   label: React.ReactNode;
-  value: SegmentedRawOption;
+  value: T;
   /**
    * html `title` property for label
    */
   title?: string;
 }
 
-interface SegmentedLabeledOptionWithIcon extends Omit<SegmentedLabeledOptionWithoutIcon, 'label'> {
-  label?: SegmentedLabeledOptionWithoutIcon['label'];
+interface SegmentedLabeledOptionWithIcon<T = SegmentedValue>
+  extends Omit<SegmentedLabeledOptionWithoutIcon<T>, 'label'> {
+  label?: SegmentedLabeledOptionWithoutIcon<T>['label'];
   /** Set icon for Segmented item */
   icon: React.ReactNode;
 }
@@ -30,19 +31,22 @@ export type SegmentedValue = string | number;
 
 export type SegmentedRawOption = SegmentedValue;
 
-export type SegmentedLabeledOption =
-  | SegmentedLabeledOptionWithIcon
-  | SegmentedLabeledOptionWithoutIcon;
+export type SegmentedLabeledOption<T = SegmentedValue> =
+  | SegmentedLabeledOptionWithIcon<T>
+  | SegmentedLabeledOptionWithoutIcon<T>;
 
-export type SegmentedOptions = (SegmentedRawOption | SegmentedLabeledOption)[];
+export type SegmentedOptions<T = SegmentedRawOption> = (T | SegmentedLabeledOption<T>)[];
 
-export interface SegmentedProps
-  extends Omit<React.HTMLProps<HTMLDivElement>, 'onChange' | 'size' | 'className'> {
+export interface SegmentedProps<ValueType = SegmentedValue>
+  extends Omit<
+    React.HTMLProps<HTMLDivElement>,
+    'onChange' | 'size' | 'className' | 'value' | 'defaultValue'
+  > {
   prefixCls?: string;
-  options: SegmentedOptions;
-  defaultValue?: SegmentedValue;
-  value?: SegmentedValue;
-  onChange?: (value: SegmentedValue) => void;
+  defaultValue?: ValueType;
+  value?: ValueType;
+  onChange?: (value: ValueType) => void;
+  options: SegmentedOptions<ValueType>;
   disabled?: boolean;
   block?: boolean;
   size?: SizeType;
@@ -142,7 +146,7 @@ const InternalSegmentedOption: React.FC<{
   );
 };
 
-const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) => {
+const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
     className,
@@ -243,8 +247,12 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>((props, ref) 
   );
 });
 
+const Segmented = InternalSegmented as (<ValueType>(
+  props: SegmentedProps<ValueType> & React.RefAttributes<HTMLDivElement>,
+) => ReturnType<typeof InternalSegmented>) &
+  Pick<React.FC, 'displayName'>;
+
 if (process.env.NODE_ENV !== 'production') {
   Segmented.displayName = 'Segmented';
 }
-
 export default Segmented;

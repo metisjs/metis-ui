@@ -32,13 +32,7 @@ const App: React.FC = () => {
 
   return (
     <div className="demo">
-      <Segmented
-        value={arrow}
-        options={options}
-        onChange={(val: string) => {
-          setArrow(val);
-        }}
-      />
+      <Segmented value={arrow} options={options} onChange={setArrow} />
       <Divider orientation="center">Content</Divider>
       <div style={{ marginLeft: buttonWidth, display: 'flex', flexWrap: 'nowrap', columnGap: gap }}>
         <Tooltip placement="topLeft" title={text} arrow={mergedArrow}>

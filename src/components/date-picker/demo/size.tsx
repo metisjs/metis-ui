@@ -7,10 +7,6 @@ const { RangePicker } = DatePicker;
 const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>('middle');
 
-  const handleSizeChange = (val: string) => {
-    setSize(val as SizeType);
-  };
-
   return (
     <Space vertical size={12}>
       <Segmented
@@ -21,7 +17,7 @@ const App: React.FC = () => {
           { label: 'Small', value: 'small' },
           { label: 'Mini', value: 'mini' },
         ]}
-        onChange={handleSizeChange}
+        onChange={setSize}
       />
       <DatePicker size={size} />
       <DatePicker size={size} picker="month" />

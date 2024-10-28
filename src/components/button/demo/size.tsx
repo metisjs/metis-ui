@@ -6,10 +6,6 @@ import type { SizeType } from 'metis-ui/es/config-provider/SizeContext';
 const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>('middle');
 
-  const handleSizeChange = (val: string) => {
-    setSize(val as SizeType);
-  };
-
   return (
     <Space vertical size={20}>
       <Segmented
@@ -20,7 +16,7 @@ const App: React.FC = () => {
           { label: 'Small', value: 'small' },
           { label: 'Mini', value: 'mini' },
         ]}
-        onChange={handleSizeChange}
+        onChange={setSize}
       />
       <Space wrap key={size}>
         <Button type="primary" size={size}>

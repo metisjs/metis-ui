@@ -5,10 +5,6 @@ import type { SelectCommonPlacement } from '../interface';
 const App: React.FC = () => {
   const [placement, setPlacement] = useState<SelectCommonPlacement>('topLeft');
 
-  const placementChange = (value: string) => {
-    setPlacement(value as SelectCommonPlacement);
-  };
-
   return (
     <>
       <Segmented
@@ -19,7 +15,7 @@ const App: React.FC = () => {
           { label: 'bottomLeft', value: 'bottomLeft' },
           { label: 'bottomRight', value: 'bottomRight' },
         ]}
-        onChange={placementChange}
+        onChange={setPlacement}
       />
       <br />
       <br />

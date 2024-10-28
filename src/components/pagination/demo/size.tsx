@@ -7,10 +7,6 @@ const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items
 const App: React.FC = () => {
   const [size, setSize] = useState<'default' | 'small' | 'mini'>('default');
 
-  const handleSizeChange = (val: 'default' | 'small' | 'mini') => {
-    setSize(val);
-  };
-
   return (
     <Space vertical>
       <Segmented
@@ -20,7 +16,7 @@ const App: React.FC = () => {
           { label: 'Small', value: 'small' },
           { label: 'Mini', value: 'mini' },
         ]}
-        onChange={handleSizeChange}
+        onChange={setSize}
         className="mb-4"
       />
       <Pagination size={size} total={50} />
