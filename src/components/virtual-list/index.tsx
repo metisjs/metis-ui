@@ -1,4 +1,3 @@
-import type { HTMLAttributes } from 'react';
 import React, {
   forwardRef,
   Fragment,
@@ -8,14 +7,13 @@ import React, {
   useRef,
 } from 'react';
 import { useEvent } from 'rc-util';
-import omit from 'rc-util/lib/omit';
-import { composeRef } from 'rc-util/lib/ref';
 import type { FlatIndexLocationWithAlign, VirtuosoHandle } from 'react-virtuoso';
 import { Virtuoso, type VirtuosoProps } from 'react-virtuoso';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
 import Scrollbar from '../scrollbar';
 import { VirtualListContext } from './context';
+import Scroller from './Scroller';
 
 export interface VirtualListProps<D, C>
   extends Omit<VirtuosoProps<D, C>, 'className' | 'itemContent' | 'onScroll' | 'computeItemKey'> {
@@ -30,22 +28,12 @@ export interface VirtualListProps<D, C>
 
 export type VirtualListRef = Pick<VirtuosoHandle, 'scrollToIndex' | 'scrollTo'>;
 
-const Scroller = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  const { prefixCls, autoHeight, onScroll, className, style } = useContext(VirtualListContext);
-
-  return (
-    <Scrollbar
-      prefixCls={`${prefixCls}-scrollbar`}
-      className={className}
-      style={style}
-      autoHeight={autoHeight}
-      onScroll={onScroll}
-      renderView={(viewProps) => (
-        <div {...viewProps} {...omit(props, ['style'])} ref={composeRef(ref, viewProps.ref)} />
-      )}
-    />
-  );
-});
+export type VirtualType =
+  | boolean
+  | Omit<
+      VirtualListProps<any, any>,
+      'prefixCls' | 'data' | 'renderItem' | 'className' | 'style' | 'onScroll'
+    >;
 
 const InternalVirtualList = <D, C>(
   props: VirtualListProps<D, C>,

@@ -8,7 +8,7 @@ import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import type { ScrollValues } from '../scrollbar';
 import type { SpinProps } from '../spin';
 import Spin from '../spin';
-import type { VirtualListProps, VirtualListRef } from '../virtual-list';
+import type { VirtualListRef, VirtualType } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import { ListContext } from './context';
 import type { ListItemProps } from './Item';
@@ -37,12 +37,7 @@ export interface ListProps<T, R extends LazyLoadType = false> {
   dataSource?: T[];
   id?: string;
   loading?: boolean | SpinProps;
-  virtual?:
-    | boolean
-    | Omit<
-        VirtualListProps<any, any>,
-        'prefixCls' | 'data' | 'renderItem' | 'className' | 'style' | 'onScroll'
-      >;
+  virtual?: VirtualType;
   prefixCls?: string;
   rowKey?: ((item: T) => React.Key) | keyof T;
   renderItem?: (item: T, index: number) => React.ReactNode;
@@ -181,7 +176,7 @@ function InternalList<T>(
     semanticCls.footer,
   );
 
-  let childrenContent: React.ReactNode = isLoading && <div style={{ minHeight: 53 }} />;
+  let childrenContent: React.ReactNode = isLoading && <div className="max-h-full min-h-16" />;
   if (mergedDataSource.length > 0) {
     childrenContent = (
       <VirtualList

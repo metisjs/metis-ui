@@ -703,49 +703,49 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
   const domProps = pickAttrs(restProps, { aria: true, data: true });
   return (
-    <Spin spinning={loading}>
-      <TreeContext.Provider
-        value={{
-          prefixCls,
-          selectable,
-          showIcon,
-          showLine,
-          icon,
-          switcherIcon,
-          draggable: draggableConfig,
-          draggingNodeKey: dragState.draggingNodeKey,
-          checkable: !!checkable,
-          checkStrictly: !!checkStrictly,
-          disabled: !!disabled,
-          keyEntities,
-          dropLevelOffset: dragState.dropLevelOffset,
-          dropContainerKey: dragState.dropContainerKey,
-          dropTargetKey: dragState.dropTargetKey,
-          dropPosition: dragState.dropPosition,
-          dragOverNodeKey: dragState.dragOverNodeKey,
-          indent,
+    <TreeContext.Provider
+      value={{
+        prefixCls,
+        selectable,
+        showIcon,
+        showLine,
+        icon,
+        switcherIcon,
+        draggable: draggableConfig,
+        draggingNodeKey: dragState.draggingNodeKey,
+        checkable: !!checkable,
+        checkStrictly: !!checkStrictly,
+        disabled: !!disabled,
+        keyEntities,
+        dropLevelOffset: dragState.dropLevelOffset,
+        dropContainerKey: dragState.dropContainerKey,
+        dropTargetKey: dragState.dropTargetKey,
+        dropPosition: dragState.dropPosition,
+        dragOverNodeKey: dragState.dragOverNodeKey,
+        indent,
 
-          loadData,
+        loadData,
 
-          titleRender,
+        titleRender,
 
-          onNodeClick,
-          onNodeDoubleClick,
-          onNodeExpand,
-          onNodeSelect,
-          onNodeCheck,
-          onNodeMouseEnter,
-          onNodeMouseLeave,
-          onNodeContextMenu,
-          onNodeDragStart,
-          onNodeDragEnter,
-          onNodeDragOver,
-          onNodeDragLeave,
-          onNodeDragEnd,
-          onNodeDrop,
-        }}
-      >
-        <div role="tree" className={rootCls}>
+        onNodeClick,
+        onNodeDoubleClick,
+        onNodeExpand,
+        onNodeSelect,
+        onNodeCheck,
+        onNodeMouseEnter,
+        onNodeMouseLeave,
+        onNodeContextMenu,
+        onNodeDragStart,
+        onNodeDragEnter,
+        onNodeDragOver,
+        onNodeDragLeave,
+        onNodeDragEnd,
+        onNodeDrop,
+      }}
+    >
+      <div role="tree" className={rootCls}>
+        <Spin spinning={loading}>
           {!loading && !treeData.length ? (
             renderEmpty?.('Tree') || <DefaultRenderEmpty componentName="Tree" />
           ) : (
@@ -769,9 +769,9 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
               {...domProps}
             />
           )}
-        </div>
-      </TreeContext.Provider>
-    </Spin>
+        </Spin>
+      </div>
+    </TreeContext.Provider>
   );
 }) as unknown as (<
   TreeDataType extends BasicDataNode = DataNode,

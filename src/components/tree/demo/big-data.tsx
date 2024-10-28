@@ -21,6 +21,8 @@ for (let i = 0; i < 100; i += 1) {
   });
 }
 
-const App: React.FC = () => <Tree defaultExpandAll height={400} treeData={treeData} />;
+const App: React.FC = () => (
+  <Tree virtual defaultExpandAll treeData={treeData} className="h-[400px]" />
+);
 
 export default App;

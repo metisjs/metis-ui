@@ -26,9 +26,10 @@ const MemoTooltip = Tooltip || React.memo(Tooltip);
 
 const App: React.FC = () => (
   <Tree
-    treeData={treeData}
-    height={233}
+    virtual
     defaultExpandAll
+    treeData={treeData}
+    className="h-56"
     titleRender={(item) => {
       const title = item.title as React.ReactNode;
       return <MemoTooltip title={title}>{title}</MemoTooltip>;

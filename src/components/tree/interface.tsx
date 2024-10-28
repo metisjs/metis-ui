@@ -1,7 +1,8 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
-import type { VirtualListProps } from '../virtual-list-bak';
+import type { SpinProps } from '../spin';
+import type { VirtualListProps, VirtualType } from '../virtual-list';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
 import type { ScrollTo } from './interface';
 
@@ -39,13 +40,13 @@ export interface TreeProps<
   LazyLoadType extends boolean = false,
 > {
   prefixCls?: string;
-  className?: SemanticClassName<'', void, { node: TreeNodeProps['className'] }>;
+  className?: SemanticClassName<'view', void, { node: TreeNodeProps['className'] }>;
   style?: React.CSSProperties;
   treeData?: TreeDataType[];
   fieldNames?: FieldNames<TreeDataType>;
   showLine?: boolean | 'hover';
   showIcon?: boolean;
-  loading?: boolean;
+  loading?: boolean | SpinProps;
   icon?: IconType;
   selectable?: boolean;
   expandAction?: ExpandAction;
@@ -73,7 +74,7 @@ export interface TreeProps<
   onContextMenu?: React.MouseEventHandler<HTMLDivElement>;
   onClick?: NodeMouseEventHandler<TreeDataType>;
   onDoubleClick?: NodeMouseEventHandler<TreeDataType>;
-  onScroll?: VirtualListProps<FlattenNode>['onScroll'];
+  onScroll?: VirtualListProps<FlattenNode, any>['onScroll'];
   onExpand?: (
     expandedKeys: Key[],
     info: {
@@ -115,10 +116,7 @@ export interface TreeProps<
   ) => void;
   switcherIcon?: IconType;
 
-  // Virtual List
-  height?: number;
-  itemHeight?: number;
-  virtual?: boolean;
+  virtual?: VirtualType;
 
   // >>> Request
   lazyLoad?: LazyLoadType;
