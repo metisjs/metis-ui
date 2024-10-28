@@ -8,7 +8,7 @@ import { ConfigContext } from '../config-provider';
 import type { ScrollValues } from '../scrollbar';
 
 const PAGE_SIZE = 20;
-const SCROLL_THRESHOLD = 100;
+const SCROLL_THRESHOLD = 36;
 
 export default function <TData>(
   request?: RequestConfig<TData, any[]>,

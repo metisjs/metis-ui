@@ -5,10 +5,11 @@ import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { GetRequestType } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
-import type { ScrollbarRef, ScrollValues } from '../scrollbar';
-import Scrollbar from '../scrollbar';
+import type { ScrollValues } from '../scrollbar';
 import type { SpinProps } from '../spin';
 import Spin from '../spin';
+import type { VirtualListProps, VirtualListRef } from '../virtual-list';
+import VirtualList from '../virtual-list';
 import { ListContext } from './context';
 import type { ListItemProps } from './Item';
 import Item from './Item';
@@ -16,6 +17,8 @@ import useRequest from './useRequest';
 
 export type { ListConsumerProps } from './context';
 export type { ListItemMetaProps, ListItemProps } from './Item';
+
+export type ListRef = VirtualListRef;
 
 export type LazyLoadType =
   | boolean
@@ -34,6 +37,12 @@ export interface ListProps<T, R extends LazyLoadType = false> {
   dataSource?: T[];
   id?: string;
   loading?: boolean | SpinProps;
+  virtual?:
+    | boolean
+    | Omit<
+        VirtualListProps<any, any>,
+        'prefixCls' | 'data' | 'renderItem' | 'className' | 'style' | 'onScroll'
+      >;
   prefixCls?: string;
   rowKey?: ((item: T) => React.Key) | keyof T;
   renderItem?: (item: T, index: number) => React.ReactNode;
@@ -69,10 +78,11 @@ function InternalList<T>(
     locale,
     request,
     lazyLoad,
+    virtual = false,
     onScroll,
     ...rest
   }: ListProps<T>,
-  ref: React.ForwardedRef<ScrollbarRef>,
+  ref: React.ForwardedRef<ListRef>,
 ) {
   const { getPrefixCls, renderEmpty } = React.useContext(ConfigContext);
   const semanticCls = useSemanticCls(className, 'list');
@@ -87,9 +97,7 @@ function InternalList<T>(
 
   const mergedDataSource = request ? requestDataSource : dataSource;
 
-  const renderInnerItem = (item: T, index: number) => {
-    if (!renderItem) return null;
-
+  const getKey = (item: T, index: number) => {
     let key: any;
 
     if (typeof rowKey === 'function') {
@@ -104,6 +112,13 @@ function InternalList<T>(
       key = `list-item-${index}`;
     }
 
+    return key;
+  };
+
+  const renderInnerItem = (item: T, index: number) => {
+    if (!renderItem) return null;
+
+    const key = getKey(item, index);
     return <React.Fragment key={key}>{renderItem(item, index)}</React.Fragment>;
   };
 
@@ -115,7 +130,7 @@ function InternalList<T>(
       spinning: loadingProp,
     };
   }
-  loadingProp.spinning = loadingProp.spinning ?? requestLoading;
+  loadingProp.spinning = loadingProp.spinning || requestLoading;
   loadingProp.className = mergeSemanticCls(
     { wrapper: 'flex-1 h-0', indicator: 'h-full' },
     loadingProp.className,
@@ -140,8 +155,12 @@ function InternalList<T>(
   const itemsCls = clsx(
     `${prefixCls}-items`,
     {
-      'divide-y divide-border-tertiary': split,
-      'divide-border-secondary': split && bordered,
+      'divide-y divide-border-tertiary': !virtual && split,
+      'divide-border-secondary': !virtual && split && bordered,
+      '[&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-t [&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-border-tertiary':
+        virtual && split,
+      '[&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-border-secondary':
+        virtual && split && bordered,
     },
     semanticCls.items,
   );
@@ -164,27 +183,35 @@ function InternalList<T>(
 
   let childrenContent: React.ReactNode = isLoading && <div style={{ minHeight: 53 }} />;
   if (mergedDataSource.length > 0) {
-    const items = mergedDataSource.map((item: T, index: number) => renderInnerItem(item, index));
     childrenContent = (
-      <Scrollbar
-        prefixCls={`${prefixCls}-scrollbar`}
-        component="ul"
+      <VirtualList
+        prefixCls={`${prefixCls}-virtual-list`}
         ref={ref}
         className={{ view: itemsCls }}
+        data={mergedDataSource}
+        virtual={!!virtual}
+        increaseViewportBy={200}
+        renderItem={renderInnerItem}
         onScroll={onInternalScroll}
-      >
-        {items}
-        {loadingMore && (
-          <li className="flex items-center justify-center py-5">
-            <Spin />
-          </li>
-        )}
-        {noMore && locale?.noMoreText && (
-          <li className="flex items-center justify-center py-5 text-text-tertiary">
-            {locale.noMoreText}
-          </li>
-        )}
-      </Scrollbar>
+        itemKey={getKey}
+        components={{
+          Footer: () => (
+            <>
+              {loadingMore && (
+                <div className="flex items-center justify-center py-5">
+                  <Spin size={loadingProp.size} />
+                </div>
+              )}
+              {noMore && locale?.noMoreText && (
+                <div className="flex items-center justify-center py-5 text-text-tertiary">
+                  {locale.noMoreText}
+                </div>
+              )}
+            </>
+          ),
+        }}
+        {...(typeof virtual !== 'boolean' && virtual)}
+      />
     );
   } else if (!isLoading) {
     childrenContent = (
@@ -216,7 +243,7 @@ function InternalList<T>(
 
 const ListWithForwardRef = React.forwardRef(InternalList) as (<T, R extends LazyLoadType = false>(
   props: ListProps<T, R> & {
-    ref?: React.ForwardedRef<ScrollbarRef>;
+    ref?: React.ForwardedRef<ListRef>;
   },
 ) => ReturnType<typeof InternalList>) &
   Pick<React.FC, 'displayName'>;

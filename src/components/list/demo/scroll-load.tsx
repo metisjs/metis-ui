@@ -33,8 +33,8 @@ const App: React.FC = () => (
     className="h-80"
     lazyLoad
     request={fakeFetch}
-    renderItem={(item) => (
-      <List.Item key={item.email}>
+    renderItem={(item, i) => (
+      <List.Item key={i}>
         <List.Item.Meta
           avatar={<Avatar src={item.picture.large} />}
           title={<a href="#">{item.name.last}</a>}

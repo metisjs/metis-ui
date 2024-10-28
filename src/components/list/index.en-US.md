@@ -12,6 +12,9 @@ A list can be used to display content related to a single subject. The content c
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic list</code>
+<code src="./demo/remote-load.tsx">Remote load</code>
+<code src="./demo/scroll-load.tsx">Scroll load</code>
+<code src="./demo/virtual-list.tsx">Virtual list</code>
 
 ## API
 
@@ -22,31 +25,30 @@ A list can be used to display content related to a single subject. The content c
 | bordered | Toggles rendering of the border around the list | boolean | false |  |
 | dataSource | DataSource array for list | any\[] | - |  |
 | footer | List footer renderer | ReactNode | - |  |
-| grid | The grid type of list. You can set grid to something like {gutter: 16, column: 4} | [object](#list-grid-props) | - |  |
 | header | List header renderer | ReactNode | - |  |
-| itemLayout | The layout of list | `horizontal` \| `vertical` | `horizontal` |  |
-| loading | Shows a loading indicator while the contents of the list are being fetched | boolean \| [SpinProps](/components/spin/#api) ([more](https://github.com/ant-design/ant-design/issues/8659)) | false |  |
-| loadMore | Shows a load more content | ReactNode | - |  |
-| locale | The i18n text including empty text | object | {emptyText: `No Data`} |  |
-| pagination | Pagination [config](/components/pagination/), hide it by setting it to false | boolean \| object | false |  |
+| loading | Shows a loading indicator while the contents of the list are being fetched | boolean \| [SpinProps](/components/spin/#api) | false |  |
+| locale | The i18n text | {emptyText?: string, noMoreText?: string} | {emptyText: `No Data`} |  |
 | renderItem | Customize list item when using `dataSource` | (item) => ReactNode | - |  |
 | rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T \| (item: T) => `React.Key` | `"key"` |  |
-| size | Size of list | `default` \| `large` \| `small` | `default` |  |
 | split | Toggles rendering of the split under the list item | boolean | true |  |
+| lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean | false |  |
+| request | Method to fetch remote data | `RequestConfig` | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| virtual | Use virtual list | boolean \| [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |
 
 ### List.Item
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| actions | The actions content of list item. If `itemLayout` is `vertical`, shows the content on bottom, otherwise shows content on the far right | Array&lt;ReactNode> | - |  |
-| classNames | Semantic structure className | [`Record<actions \| extra, string>`](#semantic-dom) | - | 5.18.0 |
-| extra | The extra content of list item. If `itemLayout` is `vertical`, shows the content on right, otherwise shows content on the far right | ReactNode | - |  |
-| styles | Semantic DOM style | [`Record<actions \| extra, CSSProperties>`](#semantic-dom) | - | 5.18.0 |
+| actions | The actions content of list item. | Array&lt;ReactNode> | - |  |
+| extra | The extra content of list item. | ReactNode | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 
 ### List.Item.Meta
 
-| Property    | Description                  | Type      | Default | Version |
-| ----------- | ---------------------------- | --------- | ------- | ------- |
-| avatar      | The avatar of list item      | ReactNode | -       |         |
-| description | The description of list item | ReactNode | -       |         |
-| title       | The title of list item       | ReactNode | -       |         |
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| avatar | The avatar of list item | ReactNode | - |  |
+| description | The description of list item | ReactNode | - |  |
+| title | The title of list item | ReactNode | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |

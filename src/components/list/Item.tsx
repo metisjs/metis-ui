@@ -75,6 +75,7 @@ export const Meta: FC<ListItemMetaProps> = ({
 
   const avatarCls = clsx(
     `${prefixCls}-item-meta-avatar`,
+    'inline-flex items-center',
     contextSemanticCls.avatar,
     semanticCls.avatar,
   );
@@ -149,9 +150,9 @@ const InternalItem = React.forwardRef<HTMLDivElement, ListItemProps>((props, ref
   );
 
   return (
-    <li {...(others as any)} ref={ref} className={rootCls}>
+    <div {...(others as any)} ref={ref} className={rootCls}>
       {[children, actionsContent, cloneElement(extra, { key: 'extra' })]}
-    </li>
+    </div>
   );
 });
 
