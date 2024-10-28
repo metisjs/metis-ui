@@ -145,7 +145,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   const prefixCls = getPrefixCls('select', customizePrefixCls);
   const mergedId = useId(id);
   const multiple = isMultiple(mode);
-  const mergedVirtual = virtual ?? contextVirtual;
+  const mergedVirtual = virtual ?? contextVirtual ?? true;
   const mergedMode = combobox ? 'combobox' : mode;
   const mergedPopupMatchSelectWidth = popupMatchSelectWidth ?? contextPopupMatchSelectWidth;
 

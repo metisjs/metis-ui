@@ -20,6 +20,9 @@ export interface ScrollbarProps {
   universal?: boolean;
   style?: React.CSSProperties;
   component?: React.ComponentType<any> | string;
+  renderView?: (
+    props: React.HTMLAttributes<HTMLDivElement> & { ref: React.RefObject<HTMLDivElement> },
+  ) => React.ReactElement;
 }
 
 export interface ScrollValues {

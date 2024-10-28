@@ -1,11 +1,11 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
-import type { VirtualListProps } from '../virtual-list';
+import type { VirtualListProps } from '../virtual-list-bak';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
 import type { ScrollTo } from './interface';
 
-export type { ScrollTo } from '../virtual-list/VirtualList';
+export type { ScrollTo } from '../virtual-list-bak/VirtualList';
 
 export interface CheckInfo<TreeDataType extends BasicDataNode = DataNode> {
   event: 'check';

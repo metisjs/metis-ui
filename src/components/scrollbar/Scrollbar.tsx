@@ -32,6 +32,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     thumbSize,
     universal = false,
     component: Component = 'div',
+    renderView,
     style,
   } = props;
   const { getPrefixCls } = useContext(ConfigContext);
@@ -494,13 +495,24 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const sharedTrackProps: HTMLAttributes<HTMLDivElement> = {
     style: trackStyle,
   };
+
+  const view = renderView ? (
+    renderView({
+      ref: viewRef,
+      style: viewStyle,
+      className: viewCls,
+      onScroll: handleScroll,
+      children,
+    })
+  ) : (
+    <Component className={viewCls} ref={viewRef} style={viewStyle} onScroll={handleScroll}>
+      {children}
+    </Component>
+  );
+
   return (
     <div className={rootCls} style={rootStyle}>
-      <ResizeObserver onResize={() => update()}>
-        <Component className={viewCls} ref={viewRef} style={viewStyle} onScroll={handleScroll}>
-          {children}
-        </Component>
-      </ResizeObserver>
+      <ResizeObserver onResize={() => update()}>{view}</ResizeObserver>
       <div className={trackHorizontalCls} ref={trackHorizontalRef} {...sharedTrackProps}>
         <div
           className={clsx(thumbCls, semanticCls.thumbHorizontal)}
