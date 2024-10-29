@@ -33,7 +33,9 @@ export function clsx(...args: classNames.ArgumentArray) {
   return twMerge(classNames(...args));
 }
 
-export type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends string
+export type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends
+  | string
+  | undefined
   ? { root?: string } & {
       [key: string]: string;
     }
@@ -75,7 +77,7 @@ export function mergeSemanticCls<
     args: (T extends (...args: any) => any ? Parameters<T>[0] : void) &
       (R extends (...args: any) => any ? Parameters<R>[0] : void) &
       Record<string, never>,
-  ) => {
+  ): SemanticRecord<T> & SemanticRecord<R> => {
     const cls1 = getSemanticCls(c1, args);
 
     if (!classes || !classes.length) return cls1;

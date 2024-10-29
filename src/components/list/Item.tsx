@@ -40,43 +40,33 @@ export const Meta: FC<ListItemMetaProps> = ({
   const { getPrefixCls } = useContext(ConfigContext);
   const { metaClassName: contextClassName } = useContext(ListContext);
 
-  const semanticCls = useSemanticCls(className);
-  const contextSemanticCls = useSemanticCls(contextClassName);
+  const semanticCls = useSemanticCls([contextClassName, className]);
 
   const prefixCls = getPrefixCls('list', customizePrefixCls);
 
-  const rootCls = clsx(
-    `${prefixCls}-item-meta`,
-    'flex w-0 flex-1 gap-x-4',
-    contextSemanticCls.root,
-    semanticCls.root,
-  );
+  const rootCls = clsx(`${prefixCls}-item-meta`, 'flex w-0 flex-1 gap-x-4', semanticCls.root);
 
   const contentCls = clsx(
     `${prefixCls}-item-meta-content`,
     'flex-1 overflow-hidden',
-    contextSemanticCls.content,
     semanticCls.content,
   );
 
   const titleCls = clsx(
     `${prefixCls}-item-meta-title`,
     'truncate font-semibold leading-6 [&_a]:!text-text [&_a]:transition-colors [&_a]:hover:!text-primary',
-    contextSemanticCls.title,
     semanticCls.title,
   );
 
   const descriptionCls = clsx(
     `${prefixCls}-item-meta-description truncate`,
     'mt-1 text-text-tertiary',
-    contextSemanticCls.description,
     semanticCls.description,
   );
 
   const avatarCls = clsx(
     `${prefixCls}-item-meta-avatar`,
     'inline-flex items-center',
-    contextSemanticCls.avatar,
     semanticCls.avatar,
   );
 

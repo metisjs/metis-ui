@@ -1,10 +1,11 @@
 import * as React from 'react';
+import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import type { Meta } from 'rc-field-form/lib/interface';
 import isVisible from 'rc-util/lib/Dom/isVisible';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import type { FormItemProps } from '.';
-import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import { matchScreen } from '../../_util/responsiveObserver';
 import type { ReportMetaChange } from '../context';
 import { FormContext, NoStyleItemContext } from '../context';
@@ -104,7 +105,7 @@ export default function ItemHolder(props: ItemHolderProps) {
   const mergedValidateStatus = getValidateState();
 
   // ======================== Style ========================
-  const semanticCls = mergeSemanticCls(getSemanticCls(formClassName).item, className)();
+  const semanticCls = useSemanticCls([getSemanticCls(formClassName).item, className]);
 
   const itemCls = clsx(
     itemPrefixCls,

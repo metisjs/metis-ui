@@ -4,7 +4,7 @@ import { merge } from 'rc-util/lib/utils/set';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/zh_CN';
-import type { ConfigConsumerProps, Variant } from './context';
+import type { ConfigConsumerProps, RequestConfig, RouteConfig, Variant } from './context';
 import { ConfigConsumer, ConfigContext, Variants } from './context';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
@@ -31,11 +31,14 @@ const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPre
   'form',
 ];
 
-export interface ConfigProviderProps extends ConfigConsumerProps {
+export interface ConfigProviderProps
+  extends Omit<ConfigConsumerProps, 'getPrefixCls' | 'route' | 'request'> {
   prefixCls?: string;
   children?: React.ReactNode;
   componentSize?: SizeType;
   componentDisabled?: boolean;
+  route?: RouteConfig;
+  request?: RequestConfig;
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
