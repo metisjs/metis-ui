@@ -17,7 +17,6 @@ import type {
   EventDataNode,
   Key,
   SafeKey,
-  ScrollTo,
   TreeProps,
   TreeRef,
 } from './interface';
@@ -53,8 +52,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     style,
     icon,
     switcherIcon,
-    height,
-    itemHeight,
     virtual,
     expandedKeys,
     checkedKeys,
@@ -63,7 +60,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     keyEntities,
     loadedKeys,
     loadingKeys,
-    loading,
+    loadingProps,
     renderEmpty,
     loadData,
     setExpandedKeys,
@@ -102,7 +99,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 
   // ==================================States==================================
   const [indent, setIndent] = React.useState<number>(0);
-  const [listChanging, setListChanging] = React.useState<boolean>(false);
   const [dragState, setDragState] = useSetState<{
     draggingNodeKey: Key | null;
     dragChildrenKeys: Key[];
@@ -137,7 +133,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     keyEntities: keyEntities,
   };
 
-  const scrollTo: ScrollTo = (scroll) => {
+  const scrollTo: NodeListRef['scrollTo'] = (scroll) => {
     listRef.current?.scrollTo(scroll);
   };
 
@@ -473,11 +469,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     const { expanded } = treeNode;
     const key = treeNode[fieldNames.key];
 
-    // Do nothing when transition is in progress
-    if (listChanging) {
-      return;
-    }
-
     // Update selected keys
     const targetExpanded = !expanded;
 
@@ -676,15 +667,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     }
   };
 
-  const onListChangeStart = () => {
-    setListChanging(true);
-  };
-
-  const onListChangeEnd = () => {
-    setTimeout(() => {
-      setListChanging(false);
-    });
-  };
+  const loading = loadingProps.spinning;
 
   // ================================== Style ==================================
   const semanticCls = getSemanticCls(className);
@@ -695,12 +678,10 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     },
     'group/tree',
     'text-sm text-text',
-    loading && !treeData.length && 'min-h-28',
     semanticCls.root,
   );
 
   // ================================== Render ==================================
-
   const domProps = pickAttrs(restProps, { aria: true, data: true });
   return (
     <TreeContext.Provider
@@ -745,7 +726,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
       }}
     >
       <div role="tree" className={rootCls}>
-        <Spin spinning={loading}>
+        <Spin {...loadingProps}>
           {!loading && !treeData.length ? (
             renderEmpty?.('Tree') || <DefaultRenderEmpty componentName="Tree" />
           ) : (
@@ -758,17 +739,14 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
               selectable={selectable}
               checkable={!!checkable}
               dragging={dragState.draggingNodeKey !== null}
-              height={height}
-              itemHeight={itemHeight}
               virtual={virtual}
-              onListChangeStart={onListChangeStart}
-              onListChangeEnd={onListChangeEnd}
               onContextMenu={onContextMenu}
               onScroll={onScroll}
               {...treeNodeRequiredProps}
               {...domProps}
             />
           )}
+          {loading && !treeData.length && <div className="h-36" />}
         </Spin>
       </div>
     </TreeContext.Provider>

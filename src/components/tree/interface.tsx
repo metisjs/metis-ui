@@ -2,11 +2,8 @@ import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
 import type { SpinProps } from '../spin';
-import type { VirtualListProps, VirtualType } from '../virtual-list';
+import type { VirtualListProps, VirtualListRef, VirtualType } from '../virtual-list';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
-import type { ScrollTo } from './interface';
-
-export type { ScrollTo } from '../virtual-list-bak/VirtualList';
 
 export interface CheckInfo<TreeDataType extends BasicDataNode = DataNode> {
   event: 'check';
@@ -124,8 +121,9 @@ export interface TreeProps<
 }
 
 export type TreeRef = {
-  scrollTo: ScrollTo;
+  scrollTo: VirtualListRef['scrollTo'];
 };
+
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey: Key; // Pass by parent `cloneElement`
   className?: SemanticClassName<

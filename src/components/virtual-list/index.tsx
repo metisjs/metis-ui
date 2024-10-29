@@ -187,7 +187,7 @@ const InternalVirtualList = <D, C>(
   );
 };
 
-const VirtualList = forwardRef(InternalVirtualList) as (<D, C>(
+const VirtualList = forwardRef(InternalVirtualList) as (<D, C = any>(
   props: VirtualListProps<D, C> & {
     ref?: React.ForwardedRef<VirtualListRef>;
   },

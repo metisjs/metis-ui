@@ -1,9 +1,10 @@
 import { useContext, useMemo, useState } from 'react';
-import { ConfigContext } from 'metis-ui/es/config-provider';
 import { useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import { mergeSemanticCls } from '../../_util/classNameUtils';
+import { ConfigContext } from '../../config-provider';
+import type { SpinProps } from '../../spin';
 import type { DataNode, FlattenNode, Key, KeyEntities } from '../interface';
-import { TRANSITION_KEY, TransitionEntity } from '../NodeList';
 import type { InternalTreeProps } from '../Tree';
 import { conductCheck, isCheckDisabled } from '../utils/conductUtil';
 import { calcSelectedKeys, conductExpandParent, parseCheckedKeys } from '../utils/miscUtil';
@@ -14,12 +15,11 @@ export default function useFilledProps({
   prefixCls: customizePrefixCls,
   treeData,
   fieldNames,
-  loading,
+  loading = false,
   showIcon = true,
   showLine = 'hover',
   selectable = true,
   multiple = false,
-  itemHeight = 32,
   defaultExpandedKeys = [],
   expandedKeys: customizeExpandedKeys,
   autoExpandParent = true,
@@ -60,10 +60,7 @@ export default function useFilledProps({
     const entitiesMap = convertDataToEntities(mergedTreeData, {
       fieldNames: filledFieldNames,
     });
-    return {
-      [TRANSITION_KEY]: TransitionEntity,
-      ...entitiesMap.keyEntities,
-    } as KeyEntities<DataNode>;
+    return entitiesMap.keyEntities as KeyEntities<DataNode>;
   }, [mergedTreeData, filledFieldNames]);
 
   // ===================================== ExpandedKeys =====================================
@@ -81,8 +78,8 @@ export default function useFilledProps({
 
     if (defaultExpandAll) {
       _defaultExpandedKeys = [];
-      Object.entries(keyEntities).forEach(([key, entity]) => {
-        if (key !== TRANSITION_KEY && entity.children && entity.children.length) {
+      Object.entries(keyEntities).forEach(([, entity]) => {
+        if (entity.children && entity.children.length) {
           _defaultExpandedKeys.push(entity.key);
         }
       });
@@ -167,6 +164,25 @@ export default function useFilledProps({
     setFlattenNodes(flattenNodes);
   }, [mergedTreeData, expandedKeys, filledFieldNames]);
 
+  // ===================================== Loading =====================================
+  const loadingProps: SpinProps = useMemo(() => {
+    if (typeof loading === 'boolean') {
+      return {
+        spinning: loading || requestLoading,
+        className: { wrapper: 'h-full', indicator: 'h-full' },
+      };
+    }
+
+    return {
+      ...loading,
+      spinning: loading.spinning || requestLoading,
+      className: mergeSemanticCls(
+        { wrapper: 'h-full', indicator: 'h-full' },
+        loadingProps.className,
+      ),
+    };
+  }, [JSON.stringify(loading), requestLoading]);
+
   return {
     prefixCls,
     keyEntities,
@@ -176,7 +192,7 @@ export default function useFilledProps({
     showIcon,
     showLine,
     selectable,
-    loading: loading || requestLoading,
+    loadingProps,
     multiple,
     expandedKeys,
     checkable,
@@ -185,7 +201,6 @@ export default function useFilledProps({
     checkStrictly,
     selectedKeys,
     virtual: customizeVirtual ?? virtual,
-    itemHeight,
     loadedKeys,
     loadingKeys,
     setExpandedKeys,

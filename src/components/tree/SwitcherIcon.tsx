@@ -33,12 +33,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
 
   if (React.isValidElement(switcher)) {
     return cloneElement(switcher, {
-      className: clsx(
-        switcherCls,
-        'transition-transform duration-300',
-        !expanded && '-rotate-90',
-        switcher.props.className || '',
-      ),
+      className: clsx(switcherCls, !expanded && '-rotate-90', switcher.props.className || ''),
     });
   }
 
@@ -46,7 +41,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
     return switcher as unknown as React.ReactElement;
   }
 
-  return <ExpandIcon open={expanded} className={clsx(switcherCls, 'h-4 w-4 duration-300')} />;
+  return <ExpandIcon open={expanded} className={clsx(switcherCls, 'transition-none')} />;
 };
 
 export default SwitcherIcon;
