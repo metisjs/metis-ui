@@ -5,14 +5,14 @@
 import * as React from 'react';
 import omit from 'rc-util/lib/omit';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import type { VirtualListProps, VirtualListRef, VirtualType } from '../virtual-list';
+import type { ScrollTo, VirtualListProps, VirtualListRef, VirtualType } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import type { BasicDataNode, FlattenNode, Key, KeyEntities, TreeNodeProps } from './interface';
 import TreeNode from './TreeNode';
 import { getKey, getTreeNodeProps } from './utils/treeUtil';
 
 export interface NodeListRef {
-  scrollTo: VirtualListRef['scrollTo'];
+  scrollTo: ScrollTo;
   getIndentWidth: () => number;
 }
 

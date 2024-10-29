@@ -108,7 +108,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     defaultActiveFirstOption,
     virtual,
     listHeight = 256,
-    listItemHeight = 24,
+    listItemHeight = 36,
 
     // Value
     value,

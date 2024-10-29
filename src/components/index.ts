@@ -118,6 +118,8 @@ export { default as Tree } from './tree';
 export type { TreeDataNode, TreeProps, TreeRef } from './tree';
 export { default as Upload } from './upload';
 export type { UploadFile, UploadProps } from './upload';
+export { default as VirtualList } from './virtual-list';
+export type { VirtualListProps, VirtualListRef } from './virtual-list';
 export { default as Watermark } from './watermark';
 export type { WatermarkProps } from './watermark';
 

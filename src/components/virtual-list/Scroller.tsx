@@ -6,15 +6,15 @@ import Scrollbar from '../scrollbar';
 import { VirtualListContext } from './context';
 
 const Scroller = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  const { prefixCls, autoHeight, onScroll, className, style } = useContext(VirtualListContext);
+  const { prefixCls, onScroll, className, style, scrollbar } = useContext(VirtualListContext);
 
   return (
     <Scrollbar
       prefixCls={`${prefixCls}-scrollbar`}
       className={className}
       style={style}
-      autoHeight={autoHeight}
       onScroll={onScroll}
+      ref={scrollbar}
       renderView={(viewProps) => (
         <div {...viewProps} {...omit(props, ['style'])} ref={composeRef(ref, viewProps.ref)} />
       )}

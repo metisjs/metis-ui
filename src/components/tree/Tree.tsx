@@ -6,6 +6,7 @@ import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import type { RequestConfig } from '../_util/type';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import Spin from '../spin';
+import type { ScrollTo } from '../virtual-list';
 import type { NodeDragEventHandler, NodeMouseEventHandler } from './context';
 import { TreeContext } from './context';
 import useDraggableConfig from './hooks/useDraggableConfig';
@@ -133,7 +134,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     keyEntities: keyEntities,
   };
 
-  const scrollTo: NodeListRef['scrollTo'] = (scroll) => {
+  const scrollTo: ScrollTo = (scroll) => {
     listRef.current?.scrollTo(scroll);
   };
 

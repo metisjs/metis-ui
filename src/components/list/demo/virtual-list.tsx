@@ -18,7 +18,7 @@ const App: React.FC = () => {
       <Space block>
         <Button
           onClick={() => {
-            listRef.current?.scrollToIndex({
+            listRef.current?.scrollTo({
               index: 1,
               align,
             });
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            listRef.current?.scrollToIndex({
+            listRef.current?.scrollTo({
               index: 500,
               align,
             });
@@ -38,7 +38,7 @@ const App: React.FC = () => {
         </Button>
         <Button
           onClick={() => {
-            listRef.current?.scrollToIndex({
+            listRef.current?.scrollTo({
               index: 1000,
               align,
             });

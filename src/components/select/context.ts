@@ -20,8 +20,8 @@ export interface SelectContextProps {
   rawValues: Set<RawValueType>;
   fieldNames?: SelectProps['fieldNames'];
   virtual?: boolean;
-  listHeight?: number;
-  listItemHeight?: number;
+  listHeight: number;
+  listItemHeight: number;
   className?: SelectProps['className'];
 }
 
@@ -33,5 +33,6 @@ export const SelectContext = React.createContext<SelectContextProps>({
   onActiveValue: noop,
   onSelect: noop,
   rawValues: new Set(),
-  listHeight: 0,
+  listHeight: 256,
+  listItemHeight: 36,
 });

@@ -6,9 +6,8 @@ import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
-import type { VirtualListRef } from '../virtual-list-bak';
-import type { ScrollConfig } from '../virtual-list-bak/VirtualList';
-import VirtualList from '../virtual-list-bak/VirtualList';
+import type { ScrollConfig, VirtualListRef } from '../virtual-list';
+import VirtualList from '../virtual-list';
 import type { RefOptionListProps } from './BaseSelect';
 import { SelectContext } from './context';
 import useBaseProps from './hooks/useBaseProps';
@@ -73,7 +72,9 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
 
   const scrollIntoView = (args: number | ScrollConfig) => {
     if (listRef.current) {
-      listRef.current.scrollTo(typeof args === 'number' ? { index: args } : args);
+      listRef.current.scrollTo(
+        typeof args === 'number' ? { index: args, align: 'center' } : { align: 'center', ...args },
+      );
     }
   };
 
@@ -269,6 +270,8 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     id: `${id}_list`,
   };
 
+  const useVirtual = virtual ? memoFlattenOptions.length > listHeight / listItemHeight + 8 : false;
+
   return (
     <>
       {virtual && (
@@ -282,16 +285,18 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         itemKey="key"
         ref={listRef}
         data={memoFlattenOptions}
-        height={listHeight}
-        itemHeight={listItemHeight}
-        fullHeight={false}
         onMouseDown={onListMouseDown}
         onScroll={onPopupScroll}
-        virtual={virtual}
-        innerProps={virtual ? undefined : a11yProps}
-        className={{ view: 'py-1' }}
-      >
-        {(item, itemIndex) => {
+        virtual={useVirtual}
+        {...(useVirtual && { style: { height: listHeight } })}
+        increaseViewportBy={200}
+        autoHeight={[0, listHeight]}
+        // virtuoso 容器不支持 padding，使用Header,Footer占位解决
+        components={{
+          Header: () => <div className="h-1" />,
+          Footer: () => <div className="h-1" />,
+        }}
+        renderItem={(item, itemIndex) => {
           const { group, groupOption, data, label, value, disabled } = item;
 
           // 远程分页请求 Loading
@@ -406,7 +411,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             </div>
           );
         }}
-      </VirtualList>
+      ></VirtualList>
     </>
   );
 };

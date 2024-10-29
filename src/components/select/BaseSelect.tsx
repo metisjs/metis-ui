@@ -16,7 +16,7 @@ import type { ScrollbarProps } from '../scrollbar';
 import { useCompactItemContext } from '../space/Compact';
 import type { TransitionProps } from '../transition';
 import type { AlignType, BuildInPlacements } from '../trigger';
-import type { ScrollConfig, ScrollTo } from '../virtual-list-bak/VirtualList';
+import type { ScrollConfig, ScrollTo } from '../virtual-list';
 import { BaseSelectContext } from './hooks/useBaseProps';
 import useDelayReset from './hooks/useDelayReset';
 import useLock from './hooks/useLock';

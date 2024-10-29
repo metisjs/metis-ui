@@ -170,7 +170,7 @@ Select will close when it lose focus. You can prevent event to handle this:
 
 ### Why sometime customize Option cause scroll break?
 
-Virtual scroll internal set item height as `24px`. You need to adjust `listItemHeight` when your option height is less and `listHeight` config list container height:
+Virtual scroll internal set item height as `36px`. You need to adjust `listItemHeight` when your option height is less and `listHeight` config list container height:
 
 ```tsx
 <Select listItemHeight={10} listHeight={250} />
