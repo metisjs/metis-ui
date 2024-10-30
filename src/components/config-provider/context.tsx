@@ -14,6 +14,7 @@ import type { CheckboxProps } from '../checkbox';
 import type { CollapseProps } from '../collapse';
 import type { ColorPickerProps } from '../color-picker';
 import type { DatePickerProps, RangePickerProps } from '../date-picker';
+import type { DescriptionsProps } from '../descriptions';
 import type { DividerProps } from '../divider';
 import type { DrawerProps } from '../drawer';
 import type { DropdownProps } from '../dropdown';
@@ -80,6 +81,8 @@ export type CollapseConfig = Pick<CollapseProps, 'className'>;
 export type ColorPickerConfig = Pick<ColorPickerProps, 'className'>;
 
 export type DatePickerConfig = Pick<DatePickerProps, 'className'>;
+
+export type DescriptionsConfig = Pick<DescriptionsProps, 'className'>;
 
 export type DividerConfig = Pick<DividerProps, 'className'>;
 
@@ -203,7 +206,7 @@ export interface ConfigConsumerProps {
   breadcrumb?: BreadcrumbConfig;
   menu?: MenuConfig;
   checkbox?: CheckboxConfig;
-  // descriptions?: DescriptionsConfig;
+  descriptions?: DescriptionsConfig;
   empty?: EmptyConfig;
   badge?: BadgeConfig;
   radio?: RadioConfig;
