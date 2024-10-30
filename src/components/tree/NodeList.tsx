@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import omit from 'rc-util/lib/omit';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import { mergeSemanticCls } from '../_util/classNameUtils';
 import type { ScrollTo, VirtualListProps, VirtualListRef, VirtualType } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import type { BasicDataNode, FlattenNode, Key, KeyEntities, TreeNodeProps } from './interface';
@@ -13,7 +13,6 @@ import { getKey, getTreeNodeProps } from './utils/treeUtil';
 
 export interface NodeListRef {
   scrollTo: ScrollTo;
-  getIndentWidth: () => number;
 }
 
 interface NodeListProps<TreeDataType extends BasicDataNode> {
@@ -89,13 +88,11 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
 
   // =============================== Ref ================================
   const listRef = React.useRef<VirtualListRef>(null);
-  const indentMeasurerRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => ({
     scrollTo: (scroll) => {
       listRef.current?.scrollTo(scroll);
     },
-    getIndentWidth: () => indentMeasurerRef.current!.offsetWidth,
   }));
 
   const treeNodeRequiredProps = {
@@ -111,72 +108,49 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
   };
 
   return (
-    <>
-      <div
-        className={clsx(`${prefixCls}-treenode`, 'flex')}
-        aria-hidden
-        style={{
-          position: 'absolute',
-          pointerEvents: 'none',
-          visibility: 'hidden',
-          height: 0,
-          overflow: 'hidden',
-          border: 0,
-          padding: 0,
-        }}
-      >
-        <div className={clsx(`${prefixCls}-indent`, 'select-none self-stretch whitespace-nowrap')}>
-          <div
-            ref={indentMeasurerRef}
-            className={clsx(`${prefixCls}-indent-unit`, 'relative inline-block h-full w-2')}
+    <VirtualList<FlattenNode>
+      style={style}
+      data={data}
+      itemKey={itemKey}
+      virtual={!!virtual}
+      prefixCls={`${prefixCls}-list`}
+      ref={listRef}
+      increaseViewportBy={100}
+      onContextMenu={onContextMenu}
+      onScroll={onScroll}
+      renderItem={(treeNode) => {
+        const {
+          pos,
+          data: { ...restProps },
+          title,
+          key,
+          disabled,
+          leaf,
+          isStart,
+          isEnd,
+        } = treeNode;
+        const mergedKey = getKey(key, pos);
+
+        const treeNodeProps = getTreeNodeProps(mergedKey, treeNodeRequiredProps);
+
+        const mergedClassName = mergeSemanticCls(className, restProps.className);
+
+        return (
+          <TreeNode
+            {...omit(restProps, ['key', 'children'])}
+            {...treeNodeProps}
+            className={mergedClassName}
+            title={title}
+            disabled={disabled}
+            leaf={leaf}
+            pos={pos}
+            data={treeNode.data}
+            isStart={isStart}
+            isEnd={isEnd}
           />
-        </div>
-      </div>
-
-      <VirtualList<FlattenNode>
-        style={style}
-        data={data}
-        itemKey={itemKey}
-        virtual={!!virtual}
-        prefixCls={`${prefixCls}-list`}
-        ref={listRef}
-        increaseViewportBy={100}
-        onContextMenu={onContextMenu}
-        onScroll={onScroll}
-        renderItem={(treeNode) => {
-          const {
-            pos,
-            data: { ...restProps },
-            title,
-            key,
-            disabled,
-            leaf,
-            isStart,
-            isEnd,
-          } = treeNode;
-          const mergedKey = getKey(key, pos);
-
-          const treeNodeProps = getTreeNodeProps(mergedKey, treeNodeRequiredProps);
-
-          const mergedClassName = mergeSemanticCls(className, restProps.className);
-
-          return (
-            <TreeNode
-              {...omit(restProps, ['key', 'children'])}
-              {...treeNodeProps}
-              className={mergedClassName}
-              title={title}
-              disabled={disabled}
-              leaf={leaf}
-              pos={pos}
-              data={treeNode.data}
-              isStart={isStart}
-              isEnd={isEnd}
-            />
-          );
-        }}
-      />
-    </>
+        );
+      }}
+    />
   );
 });
 

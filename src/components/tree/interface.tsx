@@ -115,6 +115,8 @@ export interface TreeProps<
 
   virtual?: VirtualType;
 
+  indent?: number;
+
   // >>> Request
   lazyLoad?: LazyLoadType;
   request?: GetRequestType<TreeDataType, LazyLoadType>;

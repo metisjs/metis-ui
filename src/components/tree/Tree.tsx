@@ -54,6 +54,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     icon,
     switcherIcon,
     virtual,
+    indent,
     expandedKeys,
     checkedKeys,
     halfCheckedKeys,
@@ -99,7 +100,6 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   const delayedDragEnterLogic = React.useRef<Record<SafeKey, number>>();
 
   // ==================================States==================================
-  const [indent, setIndent] = React.useState<number>(0);
   const [dragState, setDragState] = useSetState<{
     draggingNodeKey: Key | null;
     dragChildrenKeys: Key[];
@@ -197,13 +197,20 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
       y: event.clientY,
     };
 
+    const ghostNode = document.createElement('div');
+    ghostNode.style.width = '1px';
+    ghostNode.style.height = '1px';
+    ghostNode.style.opacity = '0';
+    document.body.appendChild(ghostNode);
+    event.dataTransfer.setDragImage(ghostNode, 0, 0);
+    setTimeout(() => document.body.removeChild(ghostNode), 0);
+
     const newExpandedKeys = arrDel(expandedKeys, node.key);
 
     setDragState({
       draggingNodeKey: node.key,
       dragChildrenKeys: getDragChildrenKeys(node.key, keyEntities),
     });
-    setIndent(listRef.current!.getIndentWidth());
 
     setExpandedKeys(newExpandedKeys);
 

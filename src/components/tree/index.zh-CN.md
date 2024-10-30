@@ -76,6 +76,7 @@ demo:
 | onExpand | 展开/收起节点时触发 | function(expandedKeys, {expanded: boolean, node}) | - |  |
 | onRightClick | 响应右键点击 | function({event, node}) | - |  |
 | onSelect | 点击树节点触发 | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
+| indent | 缩进大小 | number | `8` |  |
 
 ### TreeNode props
 

@@ -82,7 +82,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const [dragNodeHighlight, setDragNodeHighlight] = React.useState(false);
 
   const selectHandle = React.useRef<HTMLSpanElement>(null);
-  const cacheIndent = React.useRef<number>();
 
   const hasChildren = !!getEntity(keyEntities, eventKey)?.children?.length;
 
@@ -250,7 +249,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-treenode-leaf-last`]: isEndNode,
       [`${prefixCls}-treenode-draggable`]: mergedDraggable,
     },
-    'flex cursor-pointer items-center overflow-hidden rounded-md leading-6 transition-colors',
+    'relative flex cursor-pointer items-center overflow-hidden rounded-md leading-6 transition-colors',
     {
       'hover:bg-fill-quaternary': !selected,
       'bg-fill-quaternary': selected,
@@ -363,14 +362,11 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
     // allowDrop is calculated in Tree.tsx, there is no need for calc it here
     const showIndicator = !disabled && treeDraggable && dragOverNodeKey === eventKey;
 
-    const mergedIndent = indent ?? cacheIndent.current;
-    cacheIndent.current = indent;
-
     if (!showIndicator) return null;
 
-    const offset = 8;
+    const offset = 24;
     const style: React.CSSProperties = {
-      left: -dropLevelOffset! * mergedIndent + offset,
+      left: -dropLevelOffset! * indent + offset + level * indent,
       right: 0,
     };
 
@@ -383,7 +379,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         break;
       default:
         style.bottom = 0;
-        style.left = mergedIndent + offset;
+        style.left = (level + 1) * indent + offset;
         break;
     }
     return <div style={style} className={dropIndicatorCls} />;
@@ -426,7 +422,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         {renderCheckbox()}
         {$icon}
         {$title}
-        {renderDropIndicator()}
       </span>
     );
   };
@@ -465,10 +460,12 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         isStart={isStart}
         isEnd={isEnd}
         showLine={showLine}
+        width={indent}
       />
       {renderDragHandler()}
       {renderSwitcher()}
       {renderSelector()}
+      {renderDropIndicator()}
     </div>
   );
 }) as unknown as (<TreeDataType extends BasicDataNode = DataNode>(
