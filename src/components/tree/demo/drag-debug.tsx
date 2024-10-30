@@ -79,16 +79,6 @@ const App: React.FC = () => {
         // where to insert. New item was inserted to the end of the array in this example, but can be anywhere
         item.children.push(dragObj);
       });
-    } else if (
-      (info.node.children || []).length > 0 && // Has children
-      info.node.expanded && // Is expanded
-      dropPosition === 1 // On the bottom gap
-    ) {
-      loop(data, dropKey, (item) => {
-        item.children = item.children || [];
-        // where to insert. New item was inserted to the start of the array in this example, but can be anywhere
-        item.children.unshift(dragObj);
-      });
     } else {
       let ar: TreeDataNode[];
       let i: number;

@@ -304,7 +304,6 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
   const dropIndicatorCls = clsx(
     `${prefixCls}-drop-indicator`,
     'pointer-events-none absolute z-[1] h-0.5 rounded-full bg-primary',
-    'after:absolute after:-left-[6px] after:-top-[3px] after:h-2 after:w-2 after:rounded-full after:border-2 after:border-primary',
   );
 
   // ==================== Render: Drag Handler ====================
@@ -369,7 +368,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
     if (!showIndicator) return null;
 
-    const offset = 4;
+    const offset = 8;
     const style: React.CSSProperties = {
       left: -dropLevelOffset! * mergedIndent + offset,
       right: 0,
@@ -377,13 +376,13 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
     switch (dropPosition) {
       case -1:
-        style.top = -3;
+        style.top = 0;
         break;
       case 1:
-        style.bottom = -3;
+        style.bottom = 0;
         break;
       default:
-        style.bottom = -3;
+        style.bottom = 0;
         style.left = mergedIndent + offset;
         break;
     }
@@ -487,4 +486,4 @@ if (process.env.NODE_ENV !== 'production') {
 
 TreeNode.isTreeNode = 1;
 
-export default TreeNode;
+export default React.memo(TreeNode);
