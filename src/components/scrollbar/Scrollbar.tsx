@@ -9,7 +9,8 @@ import React, {
 } from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import raf from 'rc-util/lib/raf';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
 import getInnerHeight from './utils/getInnerHeight';
@@ -37,7 +38,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   } = props;
   const { getPrefixCls } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('scrollbar', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'scrollbar');
 
   // ======================== Ref ========================
   const viewRef = useRef<HTMLDivElement>(null);

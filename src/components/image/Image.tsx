@@ -3,7 +3,8 @@ import { useContext, useMemo, useState } from 'react';
 import { EyeOutline } from '@metisjs/icons';
 import { getOffset } from 'rc-util/lib/Dom/css';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
@@ -41,7 +42,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('image', customizePrefixCls);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'image');
 
   const isCustomPlaceholder = !!placeholder && placeholder !== true;
   const {
@@ -61,7 +62,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     className: previewClassName,
     ...modalProps
   }: ImagePreviewType = typeof preview === 'object' ? preview : {};
-  const previewSemanticCls = getSemanticCls(previewClassName);
+  const previewSemanticCls = useSemanticCls(previewClassName);
 
   const src = previewSrc ?? imgSrc;
   const [isShowPreview, setShowPreview] = useMergedState(!!previewOpen, {

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
-import { mergeSemanticCls } from '../_util/classNameUtils';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import type { SelectProps, SelectRef } from '../select';
@@ -19,7 +18,7 @@ export interface AutoCompleteProps<
 }
 
 const AutoComplete = React.forwardRef((props: AutoCompleteProps, ref: React.Ref<SelectRef>) => {
-  const { prefixCls: customizePrefixCls, className, children } = props;
+  const { prefixCls: customizePrefixCls, children } = props;
   const childNodes: React.ReactElement[] = toArray(children);
 
   // ============================= Input =============================
@@ -32,7 +31,7 @@ const AutoComplete = React.forwardRef((props: AutoCompleteProps, ref: React.Ref<
   const getInputElement = customizeInput ? (): React.ReactElement => customizeInput! : undefined;
 
   const { getPrefixCls } = React.useContext<ConfigConsumerProps>(ConfigContext);
-  const prefixCls = getPrefixCls('select', customizePrefixCls);
+  const prefixCls = getPrefixCls('select-auto-complete', customizePrefixCls);
 
   return (
     // @ts-ignore
@@ -41,7 +40,6 @@ const AutoComplete = React.forwardRef((props: AutoCompleteProps, ref: React.Ref<
       suffixIcon={null}
       {...props}
       prefixCls={prefixCls}
-      className={mergeSemanticCls(`${prefixCls}-auto-complete`, className)}
       combobox
       getInputElement={getInputElement}
     ></Select>

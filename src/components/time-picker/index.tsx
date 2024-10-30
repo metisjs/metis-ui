@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { Dayjs } from 'dayjs';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { InputStatus } from '../_util/statusUtils';
 import type { AnyObject } from '../_util/type';
 import DatePicker from '../date-picker';
@@ -35,7 +36,8 @@ export interface TimePickerProps extends Omit<PickerTimeProps<Dayjs>, 'picker'> 
 }
 
 const TimePicker = React.forwardRef<PickerRef, TimePickerProps>((props, ref) => {
-  return <InternalTimePicker {...props} mode={undefined} ref={ref} />;
+  const semanticCls = useSemanticCls(props.className, 'timePicker');
+  return <InternalTimePicker {...props} className={semanticCls} mode={undefined} ref={ref} />;
 });
 
 if (process.env.NODE_ENV !== 'production') {

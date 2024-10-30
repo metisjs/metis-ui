@@ -1,9 +1,10 @@
 import type { ChangeEvent, CSSProperties } from 'react';
 import React, { useCallback, useContext, useMemo } from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import type { PrevSelectedIndex } from '../_util/hooks/useMultipleSelect';
 import useMultipleSelect from '../_util/hooks/useMultipleSelect';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { devUseWarning } from '../_util/warning';
@@ -152,7 +153,7 @@ const Transfer = <RecordType extends TransferItem = TransferItem>(
 
   const { getPrefixCls, renderEmpty } = useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('transfer', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'transfer');
 
   // Fill record with `key`
   const [mergedDataSource, leftDataSource, rightDataSource] = useData(

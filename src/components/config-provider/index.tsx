@@ -93,6 +93,7 @@ export const globalConfig = () => ({
 const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const {
     children,
+    affix,
     alert,
     anchor,
     form,
@@ -134,6 +135,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     radio,
     rate,
     switch: SWITCH,
+    scrollbar,
     transfer,
     avatar,
     message,
@@ -174,10 +176,10 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   );
 
   const baseConfig = {
+    affix,
     alert,
     anchor,
     locale,
-    // direction,
     space,
     virtual,
     popupMatchSelectWidth,
@@ -204,6 +206,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     modal,
     progress,
     result,
+    scrollbar,
     slider,
     breadcrumb,
     menu,

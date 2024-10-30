@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SemanticClassName } from '../../../../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../../../../_util/classNameUtils';
+import { clsx } from '../../../../_util/classNameUtils';
+import useSemanticCls from '../../../../_util/hooks/useSemanticCls';
 import type { InternalMode, PickerRef, SelectorProps } from '../../../interface';
 import { isSame } from '../../../utils/dateUtil';
 import { pickProps } from '../../../utils/miscUtil';
@@ -86,7 +87,7 @@ function SingleSelector<DateType extends object = any>(
   // ======================== Prefix ========================
   const { prefixCls } = React.useContext(PickerContext);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   // ========================= Refs =========================
   const rootRef = React.useRef<HTMLDivElement>(null);

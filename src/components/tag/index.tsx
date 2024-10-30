@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
 import type { PresetColorType, PresetStatusColorType } from '../_util/colors';
 import {
@@ -11,15 +12,16 @@ import {
 } from '../_util/colors';
 import type { ClosableType } from '../_util/hooks/useClosable';
 import useClosable from '../_util/hooks/useClosable';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { LiteralUnion } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import CheckableTag from './CheckableTag';
 
 export type { CheckableTagProps } from './CheckableTag';
 
-export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<''>;
   color?: LiteralUnion<PresetColorType | PresetStatusColorType>;
   closable?: ClosableType;
   onClose?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -47,6 +49,8 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     ...restProps
   } = tagProps;
   const { getPrefixCls } = React.useContext(ConfigContext);
+  const semanticCls = useSemanticCls(className, 'tag');
+
   const [visible, setVisible] = React.useState(true);
 
   const isPreset = isPresetColor(color);
@@ -70,7 +74,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
       [`${prefixCls}-hidden hidden`]: !visible,
       [`${prefixCls}-borderless outline-0`]: !bordered,
     },
-    className,
+    semanticCls.root,
   );
 
   const handleCloseClick = (e: React.MouseEvent<any>) => {

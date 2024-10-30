@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useMergedState } from 'rc-util';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -26,7 +27,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('radio', customizePrefixCls);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'radio');
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [rawChecked, setRawChecked] = useMergedState(defaultChecked, {

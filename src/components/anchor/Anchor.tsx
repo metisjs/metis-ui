@@ -3,6 +3,7 @@ import { useEvent } from 'rc-util';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getScroll, scrollTo } from '../_util/scroll';
 import { devUseWarning } from '../_util/warning';
 import Affix from '../affix';
@@ -137,7 +138,7 @@ const Anchor: React.FC<AnchorProps> = (props) => {
   const { getTargetContainer, getPrefixCls } = React.useContext<ConfigConsumerProps>(ConfigContext);
 
   const prefixCls = getPrefixCls('anchor', customPrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'anchor');
 
   const getCurrentContainer = getContainer ?? getTargetContainer ?? getDefaultContainer;
 

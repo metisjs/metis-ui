@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useSetState } from 'ahooks';
 import { useEvent } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { RequestConfig } from '../_util/type';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import Spin from '../spin';
@@ -678,7 +679,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   const loading = loadingProps.spinning;
 
   // ================================== Style ==================================
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'tree');
   const rootCls = clsx(
     prefixCls,
     {

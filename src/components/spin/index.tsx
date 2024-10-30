@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { debounce } from 'throttle-debounce';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import Indicator from './Indicator';
@@ -50,7 +51,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     fullscreen = false,
     ...restProps
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'spin');
   const { getPrefixCls } = React.useContext(ConfigContext);
 
   const prefixCls = getPrefixCls('spin', customizePrefixCls);

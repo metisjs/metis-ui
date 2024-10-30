@@ -1,13 +1,15 @@
 import * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
-import warning from '../_util/warning';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 
 export interface DividerProps {
   prefixCls?: string;
   type?: 'horizontal' | 'vertical';
   orientation?: 'left' | 'right' | 'center';
-  className?: string;
+  className?: SemanticClassName<'text'>;
   children?: React.ReactNode;
   dashed?: boolean;
   style?: React.CSSProperties;
@@ -27,6 +29,7 @@ const Divider: React.FC<DividerProps> = (props) => {
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('divider', customizePrefixCls);
+  const semanticCls = useSemanticCls(className, 'divider');
 
   const hasChildren = !!children;
   const classString = clsx(
@@ -49,14 +52,15 @@ const Divider: React.FC<DividerProps> = (props) => {
       'text-sm font-normal': plain,
       'before:border-dashed after:border-dashed': hasChildren && dashed,
     },
-    className,
+    semanticCls.root,
   );
 
   // Warning children not work in vertical mode
   if (process.env.NODE_ENV !== 'production') {
+    const warning = devUseWarning('Divider');
     warning(
       !children || type !== 'vertical',
-      'Divider',
+      'usage',
       '`children` not working in `vertical` mode.',
     );
   }
@@ -64,7 +68,9 @@ const Divider: React.FC<DividerProps> = (props) => {
   return (
     <div className={classString} {...restProps} role="separator">
       {children && type !== 'vertical' && (
-        <span className={clsx(`${prefixCls}-inner-text`, 'inline-block px-2')}>{children}</span>
+        <span className={clsx(`${prefixCls}-inner-text`, 'inline-block px-2', semanticCls.text)}>
+          {children}
+        </span>
       )}
     </div>
   );

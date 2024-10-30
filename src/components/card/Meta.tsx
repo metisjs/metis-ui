@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 
@@ -18,7 +19,7 @@ const Meta: React.FC<CardMetaProps> = (props) => {
 
   const { getPrefixCls } = React.useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('card', customizePrefixCls);
-  const semanticCLs = getSemanticCls(className);
+  const semanticCLs = useSemanticCls(className);
 
   const classString = clsx(`${prefixCls}-meta`, '-my-1 flex gap-4', semanticCLs.root);
 

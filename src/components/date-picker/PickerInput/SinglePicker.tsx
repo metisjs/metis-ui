@@ -3,7 +3,8 @@ import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { getStatusClassNames } from '../../_util/statusUtils';
 import type { PartialWith } from '../../_util/type';
 import useToggleDates from '../hooks/useToggleDates';
@@ -211,7 +212,7 @@ function Picker<DateType extends object = any>(
       defaultPickerValue?: DateType[];
     };
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'datePicker');
 
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);

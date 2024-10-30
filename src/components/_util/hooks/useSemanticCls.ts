@@ -18,6 +18,8 @@ type OmitType =
   | 'route'
   | 'request';
 
+export const clsxDependency = (arg: any) => (typeof arg === 'function' ? arg : JSON.stringify(arg));
+
 function useSemanticCls<T extends SemanticClassName<any, any, any>>(
   className?: T | T[],
 ): SemanticRecord<T>;
@@ -36,6 +38,7 @@ function useSemanticCls<T extends SemanticClassName<any, any, any>>(
 ): SemanticRecord<T>;
 function useSemanticCls(className: any, arg1?: any, arg2?: any): SemanticRecord<any> {
   const config = useContext(ConfigContext);
+
   const componentName = typeof arg1 === 'string' ? arg1 : undefined;
   const args = typeof arg1 === 'string' ? arg2 : arg1;
 
@@ -46,8 +49,8 @@ function useSemanticCls(className: any, arg1?: any, arg2?: any): SemanticRecord<
         config[componentName as keyof Omit<ConfigConsumerProps, OmitType>]?.className;
       return getSemanticCls([contextCls, ...classNames], args);
     }
-    return getSemanticCls(...classNames, args);
-  }, [JSON.stringify(className), JSON.stringify(args)]);
+    return getSemanticCls(classNames, args);
+  }, [clsxDependency(className), JSON.stringify(args)]);
 }
 
 export default useSemanticCls;

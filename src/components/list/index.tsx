@@ -110,13 +110,6 @@ function InternalList<T>(
     return key;
   };
 
-  const renderInnerItem = (item: T, index: number) => {
-    if (!renderItem) return null;
-
-    const key = getKey(item, index);
-    return <React.Fragment key={key}>{renderItem(item, index)}</React.Fragment>;
-  };
-
   const prefixCls = getPrefixCls('list', customizePrefixCls);
 
   let loadingProp = loading;
@@ -186,7 +179,7 @@ function InternalList<T>(
         data={mergedDataSource}
         virtual={!!virtual}
         increaseViewportBy={200}
-        renderItem={renderInnerItem}
+        renderItem={renderItem}
         onScroll={onInternalScroll}
         itemKey={getKey}
         components={{
@@ -222,7 +215,7 @@ function InternalList<T>(
       itemClassName: semanticCls.item,
       metaClassName: getSemanticCls(semanticCls.item).meta,
     }),
-    [bordered, JSON.stringify(className)],
+    [bordered, semanticCls.item],
   );
 
   return (

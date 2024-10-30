@@ -1,8 +1,9 @@
 import * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import type { PresetColorType } from '../_util/colors';
 import { getPresetColorCls, isPresetColor } from '../_util/colors';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { LiteralUnion } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 
@@ -28,7 +29,7 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('ribbon', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const colorInPreset = isPresetColor(color);
 

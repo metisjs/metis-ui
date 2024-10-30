@@ -2,7 +2,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
 import Checkbox from '../checkbox';
 import Dropdown from '../dropdown';
@@ -124,7 +125,7 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
     render = defaultRender,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const [filterValue, setFilterValue] = useState<string>('');
   const listBodyRef = useRef<ListBodyRef<RecordType>>({});

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { useMergedState } from 'rc-util';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -43,7 +44,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     },
     ref,
   ) => {
-    const semanticCls = getSemanticCls(className);
+    const semanticCls = useSemanticCls(className, 'textArea');
     const { getPrefixCls } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('input', customizePrefixCls);
 

@@ -4,7 +4,8 @@ import Overflow from 'rc-overflow';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { InnerSelectorProps } from '.';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
 import TransBtn from '../TransBtn';
 import { getTitle } from '../utils/commonUtil';
@@ -70,7 +71,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
     onInputCompositionStart,
     onInputCompositionEnd,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const measureRef = React.useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);

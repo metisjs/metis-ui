@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { DocumentOutline, LoadingOutline, PaperClipOutline, PhotoOutline } from '@metisjs/icons';
 import { useUpdate } from 'ahooks';
-import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { cloneElement } from '../../_util/reactNode';
 import { collapseTransition } from '../../_util/transition';
 import type { ButtonProps } from '../../button';
@@ -46,7 +47,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     disabled,
     className,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const forceUpdate = useUpdate();
   const [transitionAppear, setTransitionAppear] = React.useState(false);

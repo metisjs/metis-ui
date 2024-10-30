@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Overflow from 'rc-overflow';
 import { useEvent } from 'rc-util';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
 import ExpandIcon from '../../_util/ExpandIcon';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { useZIndex } from '../../_util/hooks/useZIndex';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
 import warning from '../../_util/warning';
@@ -76,7 +77,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const domDataId = useMenuId(eventKey);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const {
     prefixCls,

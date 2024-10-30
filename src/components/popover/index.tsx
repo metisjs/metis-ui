@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import type { RenderFunction } from '../_util/getRenderPropValue';
 import { getRenderPropValue } from '../_util/getRenderPropValue';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { AbstractTooltipProps, TooltipRef } from '../tooltip';
 import Tooltip from '../tooltip';
@@ -42,7 +43,7 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const prefixCls = getPrefixCls('popover');
 

@@ -2,7 +2,8 @@ import * as React from 'react';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -85,7 +86,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     ...rest
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'button');
   const { getPrefixCls, button } = React.useContext(ConfigContext);
 
   const mergedInsertSpace = autoInsertSpace ?? button?.autoInsertSpace ?? true;

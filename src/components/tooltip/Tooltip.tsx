@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react';
 import * as React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import getArrowClassName from '../_util/placementArrow';
 import getPlacements from '../_util/placements';
@@ -102,7 +103,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     ...restProps
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);

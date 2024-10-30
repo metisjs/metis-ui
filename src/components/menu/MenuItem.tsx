@@ -3,7 +3,8 @@ import Overflow from 'rc-overflow';
 import toArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import warning from '../_util/warning';
 import type { SiderContextProps } from '../layout/Sider';
@@ -65,7 +66,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const domDataId = useMenuId(eventKey);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const {
     prefixCls,

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { EllipsisHorizontalOutline } from '@metisjs/icons';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
-import Button from '../button';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { ButtonProps } from '../button';
+import Button from '../button';
 import type { ButtonHTMLType } from '../button/Button';
 import { ConfigContext } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import Space from '../space';
 import { useCompactItemContext } from '../space/Compact';
-import Dropdown from './Dropdown';
 import type { DropdownProps } from './Dropdown';
+import Dropdown from './Dropdown';
 
 export type DropdownButtonType = 'default' | 'primary' | 'link' | 'text';
 
@@ -71,7 +72,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     ...restProps
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'dropdown');
   const prefixCls = getPrefixCls('dropdown', customizePrefixCls);
   const buttonPrefixCls = `${prefixCls}-button`;
 

@@ -2,12 +2,8 @@ import * as React from 'react';
 import { InformationCircleOutline } from '@metisjs/icons';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { HTMLAriaDataAttributes } from '../_util/aria-data-attrs';
-import {
-  clsx,
-  getSemanticCls,
-  mergeSemanticCls,
-  type SemanticClassName,
-} from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import Skeleton from '../skeleton';
@@ -64,7 +60,7 @@ const Statistic: React.FC<StatisticProps> = (props) => {
   const { getPrefixCls } = React.useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('statistic', customizePrefixCls);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'statistic');
 
   const rootCls = clsx(prefixCls, 'relative text-sm text-text', semanticCls.root);
 

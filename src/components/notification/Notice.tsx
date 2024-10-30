@@ -1,8 +1,9 @@
 import * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { NoticeConfig } from './interface';
 
 export interface NoticeProps extends Omit<NoticeConfig, 'onClose' | 'className'> {
@@ -36,7 +37,7 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
     hovering: forcedHovering,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const [hovering, setHovering] = React.useState(false);
   const [percent, setPercent] = React.useState(0);

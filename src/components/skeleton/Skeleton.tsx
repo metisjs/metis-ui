@@ -1,5 +1,7 @@
 import * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { AvatarProps } from './Avatar';
 import SkeletonAvatar from './Avatar';
@@ -19,7 +21,7 @@ export interface SkeletonProps {
   active?: boolean;
   loading?: boolean;
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<'avatar' | 'title' | 'paragraph'>;
   style?: React.CSSProperties;
   children?: React.ReactNode;
   avatar?: SkeletonAvatarProps | boolean;
@@ -94,6 +96,7 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('skeleton', customizePrefixCls);
+  const semanticCls = useSemanticCls(className, 'skeleton');
 
   if (loading || !('loading' in props)) {
     const hasAvatar = !!avatar;
@@ -127,7 +130,7 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
           prefixCls: `${prefixCls}-title`,
           ...getTitleBasicProps(hasAvatar, hasParagraph),
           ...customizeProps,
-          className: clsx(hasAvatar && 'mt-3', customizeProps.className),
+          className: clsx(hasAvatar && 'mt-3', semanticCls.title, customizeProps.className),
         };
 
         titleNode = <SkeletonTitle {...titleProps} />;
@@ -136,10 +139,12 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
       // Paragraph
       let paragraphNode: React.ReactNode;
       if (hasParagraph) {
+        const customizeProps = getComponentProps(paragraph);
         const paragraphProps: SkeletonParagraphProps = {
           prefixCls: `${prefixCls}-paragraph`,
           ...getParagraphBasicProps(hasAvatar, hasTitle),
-          ...getComponentProps(paragraph),
+          ...customizeProps,
+          className: clsx(semanticCls.paragraph, customizeProps.className),
         };
 
         paragraphNode = <SkeletonParagraph {...paragraphProps} />;
@@ -162,7 +167,7 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
       },
       'flex gap-4',
       active && 'animate-pulse',
-      className,
+      semanticCls.root,
     );
 
     return (

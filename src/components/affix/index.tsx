@@ -1,7 +1,9 @@
 import React from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import omit from 'rc-util/lib/omit';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
@@ -33,7 +35,7 @@ export interface AffixProps {
   /** Set the element that Affix needs to listen to its scroll event, the value is a function that returns the corresponding DOM element */
   target?: () => Window | HTMLElement | null;
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<''>;
   children: React.ReactNode;
 }
 const AFFIX_STATUS_NONE = 0;
@@ -60,6 +62,8 @@ const Affix = React.forwardRef<AffixRef, AffixProps>((props, ref) => {
   const { getPrefixCls, getTargetContainer } = React.useContext<ConfigConsumerProps>(ConfigContext);
 
   const affixPrefixCls = getPrefixCls('affix', prefixCls);
+
+  const semanticCls = useSemanticCls(className, 'affix');
 
   const [lastAffix, setLastAffix] = React.useState(false);
   const [affixStyle, setAffixStyle] = React.useState<React.CSSProperties>();
@@ -230,11 +234,18 @@ const Affix = React.forwardRef<AffixRef, AffixProps>((props, ref) => {
     updatePosition();
   }, [target, offsetTop, offsetBottom]);
 
-  const rootCls = clsx(affixPrefixCls, 'fixed z-10');
+  const rootCls = clsx(affixPrefixCls, 'fixed z-10', semanticCls.root);
 
   const mergedCls = clsx({ [rootCls]: affixStyle });
 
-  let otherProps = omit(props, ['prefixCls', 'offsetTop', 'offsetBottom', 'target', 'onChange']);
+  let otherProps = omit(props, [
+    'prefixCls',
+    'offsetTop',
+    'offsetBottom',
+    'target',
+    'onChange',
+    'className',
+  ]);
 
   if (process.env.NODE_ENV === 'test') {
     otherProps = omit(otherProps, ['onTestUpdatePosition' as any]);
@@ -242,7 +253,7 @@ const Affix = React.forwardRef<AffixRef, AffixProps>((props, ref) => {
 
   return (
     <ResizeObserver onResize={updatePosition}>
-      <div style={style} className={className} ref={placeholderNodeRef} {...otherProps}>
+      <div style={style} ref={placeholderNodeRef} {...otherProps}>
         {affixStyle && <div style={placeholderStyle} aria-hidden="true" />}
         <div className={mergedCls} ref={fixedNodeRef} style={affixStyle}>
           <ResizeObserver onResize={updatePosition}>{children}</ResizeObserver>

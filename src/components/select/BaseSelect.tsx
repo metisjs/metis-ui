@@ -3,7 +3,8 @@ import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import type { Variant } from '../config-provider';
@@ -21,7 +22,7 @@ import { BaseSelectContext } from './hooks/useBaseProps';
 import useDelayReset from './hooks/useDelayReset';
 import useLock from './hooks/useLock';
 import useSelectTriggerControl from './hooks/useSelectTriggerControl';
-import type { RefSelectorProps } from './Selector';
+import type { InnerSelectorProps, RefSelectorProps } from './Selector';
 import Selector from './Selector';
 import type { RefTriggerProps } from './SelectTrigger';
 import SelectTrigger from './SelectTrigger';
@@ -135,13 +136,11 @@ export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSele
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
   className?: SemanticClassName<
-    | 'popup'
-    | 'selector'
-    | 'arrow'
-    | 'selectorSearch'
-    | 'selectorItem'
-    | 'selectorPlaceholder'
-    | 'option'
+    'popup' | 'arrow' | 'option',
+    { open: boolean },
+    {
+      selector?: InnerSelectorProps['className'];
+    }
   >;
   style?: React.CSSProperties;
   title?: string;
@@ -300,7 +299,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   } = props;
 
   // ============================== MISC ==============================
-  const semanticCls = getSemanticCls(className);
   const multiple = isMultiple(mode);
 
   const domProps = {
@@ -712,6 +710,8 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   }
 
   // ============================= Arrow ==============================
+  const semanticCls = useSemanticCls(className, 'select', { open: mockFocused || mergedOpen });
+
   const showSuffixIcon = !!suffixIcon || loading;
   let arrowNode: React.ReactNode;
 
@@ -798,7 +798,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       'px-3 py-1 after:leading-8': mergedSize === 'large',
       'py-0.5 pe-9 ps-1 after:my-0.5': multiple,
     },
-    semanticCls.selector,
   );
 
   const selectorSearchCls = clsx(
@@ -813,16 +812,12 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         'h-5': mergedSize === 'small',
       },
     ],
-    semanticCls.selectorSearch,
   );
 
-  const selectorPlaceholderCls = clsx(
-    {
-      'pe-7': showSuffixIcon,
-      'end-2 start-2': mergedSize === 'mini' && multiple,
-    },
-    semanticCls.selectorPlaceholder,
-  );
+  const selectorPlaceholderCls = clsx({
+    'pe-7': showSuffixIcon,
+    'end-2 start-2': mergedSize === 'mini' && multiple,
+  });
 
   const selectorItemCls = clsx(
     { 'pe-7': showSuffixIcon && !multiple },
@@ -838,7 +833,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       'leading-7': mergedSize === 'middle',
       'leading-8': mergedSize === 'large',
     },
-    semanticCls.selectorItem,
   );
 
   const popupCls = clsx(
@@ -873,12 +867,15 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
         {...props}
         domRef={selectorDomRef}
         prefixCls={prefixCls}
-        className={{
-          root: selectorCls,
-          search: selectorSearchCls,
-          item: selectorItemCls,
-          placeholder: selectorPlaceholderCls,
-        }}
+        className={mergeSemanticCls(
+          {
+            root: selectorCls,
+            search: selectorSearchCls,
+            item: selectorItemCls,
+            placeholder: selectorPlaceholderCls,
+          },
+          semanticCls.selector,
+        )}
         inputElement={customizeInputElement}
         ref={selectorRef}
         id={id}

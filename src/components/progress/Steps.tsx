@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { ProgressProps } from './Progress';
 import { getSize } from './utils';
 
@@ -22,7 +23,7 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
     className,
     status,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const current = Math.round(steps * (percent / 100));
   const stepWidth = size === 'small' ? 2 : 14;

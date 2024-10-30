@@ -1,7 +1,8 @@
 import React, { useContext, useMemo } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getStatusClassNames } from '../_util/statusUtils';
 import { devUseWarning } from '../_util/warning';
 import type { ConfigConsumerProps } from '../config-provider/context';
@@ -55,7 +56,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
 
   const { getPrefixCls } = useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('color-picker', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'colorPicker');
 
   const contextDisabled = useContext(DisabledContext);
   const mergedDisabled = disabled ?? contextDisabled;

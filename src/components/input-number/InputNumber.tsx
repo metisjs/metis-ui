@@ -11,8 +11,9 @@ import { useLayoutUpdateEffect } from 'rc-util/lib/hooks/useLayoutEffect';
 import proxyObject from 'rc-util/lib/proxyObject';
 import { composeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import type { Variant } from '../config-provider';
@@ -657,7 +658,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('input-number', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'inputNumber');
 
   const holderRef = React.useRef<HolderRef>(null!);
   const inputNumberDomRef = React.useRef<HTMLDivElement>(null);

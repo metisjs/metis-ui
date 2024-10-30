@@ -1,8 +1,9 @@
 /* eslint react/no-did-mount-set-state: 0, react/prop-types: 0 */
 import React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import type { StepProps } from './Step';
@@ -33,7 +34,7 @@ export type StepItem = Omit<
 
 export interface StepsProps {
   type?: 'default' | 'navigation' | 'inline' | 'simple';
-  className?: SemanticClassName<'item' | 'title' | 'description'>;
+  className?: SemanticClassName<'', void, { item?: StepProps['className'] }>;
   current?: number;
   direction?: 'horizontal' | 'vertical';
   initial?: number;
@@ -67,7 +68,7 @@ const Steps: React.FC<StepsProps> = (props) => {
   const { xs } = useBreakpoint(responsive);
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('steps', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'steps');
 
   const isNav = type === 'navigation';
   const isInline = type === 'inline';
@@ -113,14 +114,7 @@ const Steps: React.FC<StepsProps> = (props) => {
       }
     }
 
-    const itemCls = mergeSemanticCls(
-      {
-        root: semanticCls.item,
-        title: semanticCls.title,
-        description: semanticCls.description,
-      },
-      mergedItem.className,
-    );
+    const itemCls = mergeSemanticCls(semanticCls.item, mergedItem.className);
 
     return (
       <Step

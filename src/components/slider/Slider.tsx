@@ -1,7 +1,8 @@
 import React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import isEqual from 'rc-util/es/isEqual';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -327,7 +328,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   // ============================== Style ===============================
   const prefixCls = getPrefixCls('slider', customizePrefixCls);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'slider');
 
   const rootCls = clsx(
     prefixCls,
@@ -378,7 +379,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       includedStart,
       includedEnd,
       mergedRange,
-      JSON.stringify(className),
+      clsxDependency(className),
     ],
   );
 

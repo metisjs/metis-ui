@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useMergedState } from 'rc-util';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -71,7 +72,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     onChange,
     ...restProps
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'checkbox');
 
   const { getPrefixCls } = React.useContext(ConfigContext);
 

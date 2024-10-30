@@ -2,7 +2,8 @@ import type { CSSProperties, MouseEventHandler } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { useLocale } from '../../locale';
 import type { AggregationColor } from '../color';
 import type { ColorFormatType, ColorPickerProps } from '../interface';
@@ -28,7 +29,7 @@ export interface ColorTriggerProps {
 const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) => {
   const { color, prefixCls, open, disabled, format, className, showText, activeIndex, ...rest } =
     props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const colorTriggerPrefixCls = `${prefixCls}-trigger`;
   const colorTextPrefixCls = `${colorTriggerPrefixCls}-text`;

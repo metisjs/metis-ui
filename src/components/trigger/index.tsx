@@ -7,7 +7,8 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useId from 'rc-util/lib/hooks/useId';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { TransitionProps } from '../transition';
 import type { TriggerContextProps } from './Context';
 import TriggerContext from './Context';
@@ -160,7 +161,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       ...restProps
     } = props;
 
-    const semanticCls = getSemanticCls(className);
+    const semanticCls = useSemanticCls(className);
 
     const mergedAutoDestroy = autoDestroy || false;
 

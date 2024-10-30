@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useMergedState } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useIsMounted from '../_util/hooks/useIsMounted';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -82,7 +83,7 @@ const Upload: React.FC<UploadProps> = (props) => {
 
   const { getPrefixCls } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('upload', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'upload');
 
   // ======================== Refs ========================
   const fileInputRef = useRef<HTMLInputElement>(null);

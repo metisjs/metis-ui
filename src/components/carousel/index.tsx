@@ -9,8 +9,9 @@ import React, {
 } from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useInterval from '../_util/hooks/useInterval';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import CarouselArrow from './arrow';
 import CarouselIndicator from './indicator';
@@ -197,7 +198,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
     }
   };
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'carousel');
 
   const rootCls = clsx(prefixCls, 'relative', semanticCls.root);
 

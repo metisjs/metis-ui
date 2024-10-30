@@ -1,7 +1,8 @@
 import * as React from 'react';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import type { RequestConfig } from '../_util/type';
 import { ConfigContext } from '../config-provider';
@@ -114,7 +115,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     popupOverflow,
   } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('cascader', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'cascader');
 
   const mergedId = useId(id);
 

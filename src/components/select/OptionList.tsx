@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
 import type { ScrollConfig, VirtualListRef } from '../virtual-list';
@@ -53,7 +54,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     className,
   } = React.useContext(SelectContext);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const itemPrefixCls = `${prefixCls}-item`;
 

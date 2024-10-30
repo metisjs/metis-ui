@@ -1,7 +1,8 @@
 import type { ReactElement, ReactNode } from 'react';
 import React, { cloneElement, useRef } from 'react';
 import { XCircleSolid } from '@metisjs/icons';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { BaseInputProps } from './interface';
 import { hasAddon, hasPrefixSuffix } from './utils';
 
@@ -32,7 +33,7 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
     onClear,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const AffixWrapperComponent = components?.affixWrapper || 'span';
   const GroupWrapperComponent = components?.groupWrapper || 'span';

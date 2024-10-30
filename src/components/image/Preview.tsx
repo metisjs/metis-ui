@@ -8,7 +8,8 @@ import {
 } from '@metisjs/icons';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import Modal from '../modal';
 import { BASE_SCALE_RATIO } from './constant';
 import { PreviewGroupContext } from './context';
@@ -132,7 +133,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
     ...restProps
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const groupContext = useContext(PreviewGroupContext);
@@ -261,7 +262,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
         },
         className,
       ),
-    [JSON.stringify(className)],
+    [clsxDependency(className)],
   );
   const wrapCls = clsx(
     `${prefixCls}-img-wrapper`,

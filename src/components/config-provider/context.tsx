@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { Options as RequestOptions } from 'ahooks/lib/useRequest/src/types';
 import type { ProgressProps } from 'rc-progress';
+import type { AffixProps } from '../affix';
 import type { AlertProps } from '../alert';
 import type { AnchorProps } from '../anchor';
 import type { AvatarProps } from '../avatar';
@@ -34,6 +35,7 @@ import type { PaginationProps } from '../pagination';
 import type { RadioProps } from '../radio';
 import type { RateProps } from '../rate';
 import type { ResultProps } from '../result';
+import type { ScrollbarProps } from '../scrollbar';
 import type { SegmentedProps } from '../segmented';
 import type { SelectProps } from '../select';
 import type { SkeletonProps } from '../skeleton';
@@ -55,6 +57,8 @@ export type PopupOverflow = 'viewport' | 'scroll';
 
 export const Variants = ['outlined', 'borderless', 'filled'] as const;
 export type Variant = (typeof Variants)[number];
+
+export type AffixConfig = Pick<AffixProps, 'className'>;
 
 export type AlertConfig = Pick<AlertProps, 'className'>;
 
@@ -131,6 +135,8 @@ export type SelectConfig = Pick<SelectProps, 'className'>;
 
 export type SegmentedConfig = Pick<SegmentedProps, 'className'>;
 
+export type ScrollbarConfig = Pick<ScrollbarProps, 'className'>;
+
 export type SkeletonConfig = Pick<SkeletonProps, 'className'>;
 
 export type SliderConfig = Pick<SliderBaseProps, 'className'>;
@@ -182,6 +188,7 @@ export interface ConfigConsumerProps {
   popupOverflow?: PopupOverflow;
   form?: FormConfig;
   select?: SelectConfig;
+  affix?: AffixConfig;
   alert?: AlertConfig;
   anchor?: AnchorConfig;
   button?: ButtonConfig;
@@ -215,6 +222,7 @@ export interface ConfigConsumerProps {
   transfer?: TransferConfig;
   avatar?: AvatarConfig;
   message?: MentionsConfig;
+  scrollbar?: ScrollbarConfig;
   tag?: TagConfig;
   // table?: TableConfig;
   card?: CardConfig;

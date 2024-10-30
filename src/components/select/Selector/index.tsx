@@ -12,7 +12,8 @@ import * as React from 'react';
 import { useRef } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import type { ScrollTo } from '../../virtual-list';
 import type { CustomTagProps, DisplayValueType, Mode, RenderNode } from '../BaseSelect';
 import useLock from '../hooks/useLock';
@@ -122,7 +123,7 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
 
     domRef,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   // ======================= Ref =======================
   React.useImperativeHandle(ref, () => ({

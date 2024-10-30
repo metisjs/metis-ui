@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { clsxDependency } from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import type { RequestConfig } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
@@ -588,7 +589,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     mergedFieldNames,
     listHeight,
     listItemHeight,
-    JSON.stringify(className),
+    clsxDependency(className),
   ]);
 
   // ========================== Warning ===========================

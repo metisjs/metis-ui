@@ -3,7 +3,8 @@ import { CheckOutline, XMarkOutline } from '@metisjs/icons';
 import { inline } from '@rc-component/portal/es/mock';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Progress from '../progress';
 import Tooltip from '../tooltip';
 import type { StepsProps, StepsStatus } from './Steps';
@@ -60,7 +61,7 @@ const Step: React.FC<StepProps> = (props) => {
     onClick,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const isNav = type === 'navigation';
   const isInline = type === 'inline';

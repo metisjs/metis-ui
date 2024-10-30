@@ -2,8 +2,9 @@ import * as React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getSkeletonButtons } from '../modal/Footer';
 import Scrollbar from '../scrollbar';
 import Skeleton from '../skeleton';
@@ -63,7 +64,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
     drawerRender,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'drawer');
 
   // ================================ Refs ================================
   const panelRef = React.useRef<HTMLDivElement>(null);

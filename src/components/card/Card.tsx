@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
@@ -66,7 +67,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('card', customizePrefixCls);
-  const semanticCLs = getSemanticCls(className);
+  const semanticCLs = useSemanticCls(className, 'card');
 
   const loadingBlock = (
     <Skeleton loading active paragraph={{ rows: 4 }} title={false}>

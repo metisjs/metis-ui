@@ -5,11 +5,12 @@ import type { FormProps as RcFormProps } from 'rc-field-form/lib/Form';
 import type { FormRef, InternalNamePath, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import type { Options } from 'scroll-into-view-if-needed';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
+import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import { matchScreen, type Breakpoint } from '../_util/responsiveObserver';
-import { ConfigContext } from '../config-provider';
 import type { Variant } from '../config-provider';
+import { ConfigContext } from '../config-provider';
 import DisabledContext, { DisabledContextProvider } from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
@@ -17,8 +18,8 @@ import SizeContext from '../config-provider/SizeContext';
 import type { FormContextProps } from './context';
 import { FormContext, FormProvider, VariantContext } from './context';
 import type { FeedbackIcons, FormItemProps } from './FormItem';
-import useForm from './hooks/useForm';
 import type { FormInstance } from './hooks/useForm';
+import useForm from './hooks/useForm';
 import useFormLabelWidth from './hooks/useFormLabelWidth';
 import useFormWarning from './hooks/useFormWarning';
 import type { FormLabelAlign } from './interface';
@@ -115,7 +116,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
 
   const prefixCls = getPrefixCls('form', customizePrefixCls);
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'form');
 
   const rootCls = clsx(
     prefixCls,
@@ -177,7 +178,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       autoLabelWidth,
       registerLabelWidth,
       deregisterLabelWidth,
-      JSON.stringify(className),
+      clsxDependency(className),
     ],
   );
 

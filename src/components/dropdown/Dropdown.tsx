@@ -3,7 +3,8 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import type { AdjustOverflow } from '../_util/placements';
 import getPlacements from '../_util/placements';
@@ -71,7 +72,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   } = props;
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'dropdown');
 
   const triggerRef = React.useRef(null);
   const overlayRef = React.useRef(null);

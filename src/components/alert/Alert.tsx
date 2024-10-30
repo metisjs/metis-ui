@@ -9,9 +9,10 @@ import {
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import type { ClosableType } from '../_util/hooks/useClosable';
 import useClosable from '../_util/hooks/useClosable';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { replaceElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import Transition from '../transition';
@@ -123,7 +124,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     nativeElement: internalRef.current!,
   }));
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'alert');
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('alert', customizePrefixCls);
 

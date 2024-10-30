@@ -1,7 +1,8 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Scrollbar from '../scrollbar';
 import Transition from '../transition';
 import { usePanelRef } from '../watermark/context';
@@ -71,7 +72,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     onOpenChanged,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const sentinelStartRef = React.useRef<HTMLDivElement>(null);
   const sentinelEndRef = React.useRef<HTMLDivElement>(null);

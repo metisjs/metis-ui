@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../_util/warning';
 import type {
   PercentPositionType,
@@ -87,7 +88,7 @@ const Line: React.FC<LineProps> = (props) => {
     className,
     status,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const { align: infoAlign, type: infoPosition } = percentPosition;
 

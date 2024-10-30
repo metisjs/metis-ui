@@ -9,8 +9,9 @@ import { isInteger } from 'lodash';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
@@ -59,7 +60,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
   const { getPrefixCls, pagination = {} } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('pagination', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'pagination');
 
   const paginationRef = React.useRef<HTMLUListElement>(null);
 

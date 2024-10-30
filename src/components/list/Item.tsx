@@ -1,5 +1,5 @@
 import type { CSSProperties, FC, HTMLAttributes, ReactElement, ReactNode } from 'react';
-import React, { Children, memo, useContext, useMemo } from 'react';
+import React, { Children, useContext, useMemo } from 'react';
 import { clsx, type SemanticClassName } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
@@ -85,66 +85,68 @@ export const Meta: FC<ListItemMetaProps> = ({
   );
 };
 
-const InternalItem = React.forwardRef<HTMLDivElement, ListItemProps>((props, ref) => {
-  const { prefixCls: customizePrefixCls, children, actions, extra, className, ...others } = props;
+const InternalItem = React.memo(
+  React.forwardRef<HTMLDivElement, ListItemProps>((props, ref) => {
+    const { prefixCls: customizePrefixCls, children, actions, extra, className, ...others } = props;
 
-  const { bordered, itemClassName: contextClassName } = useContext(ListContext);
-  const { getPrefixCls } = useContext(ConfigContext);
-  const prefixCls = getPrefixCls('list', customizePrefixCls);
+    const { bordered, itemClassName: contextClassName } = useContext(ListContext);
+    const { getPrefixCls } = useContext(ConfigContext);
+    const prefixCls = getPrefixCls('list', customizePrefixCls);
 
-  const semanticCls = useSemanticCls(className);
-  const contextSemanticCls = useSemanticCls(contextClassName);
+    const semanticCls = useSemanticCls(className);
+    const contextSemanticCls = useSemanticCls(contextClassName);
 
-  const isItemContainsTextNodeAndNotSingular = useMemo(() => {
-    let result = false;
-    Children.forEach(children as ReactElement, (element) => {
-      if (typeof element === 'string') {
-        result = true;
-      }
-    });
-    return result && Children.count(children) > 1;
-  }, [children]);
+    const isItemContainsTextNodeAndNotSingular = useMemo(() => {
+      let result = false;
+      Children.forEach(children as ReactElement, (element) => {
+        if (typeof element === 'string') {
+          result = true;
+        }
+      });
+      return result && Children.count(children) > 1;
+    }, [children]);
 
-  const rootCls = clsx(
-    `${prefixCls}-item`,
-    {
-      [`${prefixCls}-item-no-flex`]: !isItemContainsTextNodeAndNotSingular,
-    },
-    'relative flex items-center justify-between gap-x-6 py-5',
-    { 'px-6': bordered },
-    contextSemanticCls.root,
-    semanticCls.root,
-  );
+    const rootCls = clsx(
+      `${prefixCls}-item`,
+      {
+        [`${prefixCls}-item-no-flex`]: !isItemContainsTextNodeAndNotSingular,
+      },
+      'relative flex items-center justify-between gap-x-6 py-5',
+      { 'px-6': bordered },
+      contextSemanticCls.root,
+      semanticCls.root,
+    );
 
-  const actionsCls = clsx(
-    `${prefixCls}-item-action`,
-    'relative flex gap-4',
-    contextSemanticCls.actions,
-    semanticCls.actions,
-  );
+    const actionsCls = clsx(
+      `${prefixCls}-item-action`,
+      'relative flex gap-4',
+      contextSemanticCls.actions,
+      semanticCls.actions,
+    );
 
-  const actionSplitCls = clsx(
-    `${prefixCls}-item-action-split`,
-    'absolute -end-2 top-1/2 h-3 w-px -translate-y-1/2 bg-border-secondary',
-  );
+    const actionSplitCls = clsx(
+      `${prefixCls}-item-action-split`,
+      'absolute -end-2 top-1/2 h-3 w-px -translate-y-1/2 bg-border-secondary',
+    );
 
-  const actionsContent = actions && actions.length > 0 && (
-    <ul className={actionsCls} key="actions">
-      {actions.map((action: ReactNode, i: number) => (
-        <li key={`${prefixCls}-item-action-${i}`} className="relative">
-          {action}
-          {i !== actions.length - 1 && <em className={actionSplitCls} />}
-        </li>
-      ))}
-    </ul>
-  );
+    const actionsContent = actions && actions.length > 0 && (
+      <ul className={actionsCls} key="actions">
+        {actions.map((action: ReactNode, i: number) => (
+          <li key={`${prefixCls}-item-action-${i}`} className="relative">
+            {action}
+            {i !== actions.length - 1 && <em className={actionSplitCls} />}
+          </li>
+        ))}
+      </ul>
+    );
 
-  return (
-    <div {...(others as any)} ref={ref} className={rootCls}>
-      {[children, actionsContent, cloneElement(extra, { key: 'extra' })]}
-    </div>
-  );
-});
+    return (
+      <div {...(others as any)} ref={ref} className={rootCls}>
+        {[children, actionsContent, cloneElement(extra, { key: 'extra' })]}
+      </div>
+    );
+  }),
+);
 
 export type ListItemTypeProps = typeof InternalItem & {
   Meta: typeof Meta;
@@ -154,4 +156,4 @@ const Item = InternalItem as ListItemTypeProps;
 
 Item.Meta = Meta;
 
-export default memo(Item);
+export default Item;

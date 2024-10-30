@@ -1,7 +1,9 @@
 import * as React from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import { composeRef } from 'rc-util/lib/ref';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { AvatarSize } from './SizeContext';
 import SizeContext from './SizeContext';
@@ -19,7 +21,7 @@ export interface AvatarProps {
   icon?: React.ReactNode;
   style?: React.CSSProperties;
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<''>;
   children?: React.ReactNode;
   alt?: string;
   crossOrigin?: '' | 'anonymous' | 'use-credentials';
@@ -174,6 +176,8 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   delete others.onError;
   delete others.gap;
 
+  const semanticCls = useSemanticCls(className, 'avatar');
+
   const avatarCls = clsx(
     prefixCls,
     'relative inline-block overflow-hidden whitespace-nowrap bg-fill text-center align-middle text-sm text-white [.group_&]:ring-2 [.group_&]:ring-container',
@@ -192,7 +196,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
       'rounded-md': shape === 'square',
     },
     (hasImageElement || (!!src && isImgExist)) && 'bg-transparent',
-    className,
+    semanticCls.root,
   );
 
   return (

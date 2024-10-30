@@ -1,7 +1,8 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { InnerSelectorProps } from '.';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 
@@ -40,7 +41,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
     onInputCompositionEnd,
     title,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const [inputChanged, setInputChanged] = React.useState(false);
 

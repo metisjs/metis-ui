@@ -1,6 +1,7 @@
 import React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { collapseTransition } from '../_util/transition';
 import Transition from '../transition';
 import type { CollapsePanelProps } from './interface';
@@ -25,7 +26,7 @@ const CollapsePanel = React.forwardRef<HTMLDivElement, CollapsePanelProps>((prop
     ...resetProps
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const disabled = collapsible === 'disabled';
   const collapsibleHeader = collapsible === 'header';

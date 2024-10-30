@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
+import { clsx } from '../_util/classNameUtils';
 import type { DropdownProps } from '../dropdown/Dropdown';
 import Dropdown from '../dropdown/Dropdown';
 import BreadcrumbSeparator from './BreadcrumbSeparator';
@@ -58,7 +59,7 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
 
       return (
         <Dropdown placement="bottom" {...mergeDropDownProps}>
-          <span className={`${prefixCls}-overlay-link hover:text-text`}>
+          <span className={clsx(`${prefixCls}-overlay-link`, 'hover:text-text')}>
             {breadcrumbItem}
             <ChevronDownOutline className="h-4 w-4" />
           </span>

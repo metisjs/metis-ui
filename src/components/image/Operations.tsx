@@ -4,7 +4,8 @@ import { TinyColor } from '@ctrl/tinycolor';
 import Portal from '@rc-component/portal';
 import { useSetState } from 'ahooks';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import useTheme from '../theme/useTheme';
 import Transition from '../transition';
 import { PreviewGroupContext } from './context';
@@ -46,7 +47,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
     image,
     className,
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const groupContext = useContext(PreviewGroupContext);
   const { rotateLeft, rotateRight, zoomIn, zoomOut, left, right, flipX, flipY } = icons;
@@ -150,7 +151,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
         </div>
       );
     },
-    [prefixCls, JSON.stringify(className)],
+    [prefixCls, clsxDependency(className)],
   );
 
   const switchPrevNode = showSwitch

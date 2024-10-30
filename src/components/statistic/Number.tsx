@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { getSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
+import { type SemanticClassName } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { FormatConfig, valueType } from './utils';
 
 export interface StatisticNumberProps extends FormatConfig {
@@ -10,7 +11,7 @@ export interface StatisticNumberProps extends FormatConfig {
 const StatisticNumber: React.FC<StatisticNumberProps> = (props) => {
   const { value, formatter, precision, decimalSeparator, groupSeparator = '', className } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   let valueNode: React.ReactNode;
 

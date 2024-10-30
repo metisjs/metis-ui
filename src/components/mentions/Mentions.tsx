@@ -8,13 +8,9 @@ import React, {
 } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
-import {
-  clsx,
-  getSemanticCls,
-  mergeSemanticCls,
-  type SemanticClassName,
-} from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
 import useEffectState from '../_util/hooks/useEffectState';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import toList from '../_util/toList';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -138,7 +134,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     ...restProps
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const mergedPrefix = useMemo(() => (Array.isArray(prefix) ? prefix : [prefix]), [prefix]);
 
@@ -499,7 +495,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       getPopupContainer: getContextPopupContainer,
     } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('mentions', customizePrefixCls);
-    const semanticCls = getSemanticCls(className);
+    const semanticCls = useSemanticCls(className, 'mentions');
 
     // =============================== Ref ================================
     const holderRef = useRef<HolderRef>(null);

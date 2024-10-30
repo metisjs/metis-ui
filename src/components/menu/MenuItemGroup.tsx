@@ -1,6 +1,7 @@
 import * as React from 'react';
 import omit from 'rc-util/lib/omit';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
@@ -27,7 +28,7 @@ const InternalMenuItemGroup = ({
   ...restProps
 }: MenuItemGroupProps) => {
   const { prefixCls, theme, className: contextClassName } = React.useContext(MenuContext);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 

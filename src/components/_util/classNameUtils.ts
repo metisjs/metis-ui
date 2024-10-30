@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { mergeWith } from 'lodash';
+import { cloneDeep, mergeWith } from 'lodash';
 import { extendTailwindMerge, fromTheme } from 'tailwind-merge';
 
 const twMerge = extendTailwindMerge<'translate-z'>({
@@ -84,8 +84,14 @@ export function mergeSemanticCls<
 
     return classes.reduce((prev, curr) => {
       if (!curr) return prev;
-      const currCls = getSemanticCls(curr, args);
-      return mergeWith(prev, currCls, (objValue, srcValue) => clsx(objValue, srcValue));
-    }, cls1) as SemanticRecord<T> & SemanticRecord<R>;
+
+      const currCls = cloneDeep(getSemanticCls(curr, args));
+
+      return mergeWith(prev, currCls, (objValue, srcValue) => {
+        if (typeof objValue === 'string' && typeof srcValue === 'string') {
+          return clsx(objValue, srcValue);
+        }
+      });
+    }, cloneDeep(cls1)) as SemanticRecord<T> & SemanticRecord<R>;
   };
 }

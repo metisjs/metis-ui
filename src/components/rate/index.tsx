@@ -3,7 +3,8 @@ import { StarSolid } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
+import { clsx, type SemanticClassName } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { StarProps } from './Star';
@@ -77,7 +78,7 @@ const Rate = React.forwardRef<RateRef, RateProps>((props, ref) => {
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('rate', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'rate');
 
   const [getStarRef, setStarRef] = useRefs<HTMLElement>();
   const rateRef = React.useRef<HTMLUListElement>(null);

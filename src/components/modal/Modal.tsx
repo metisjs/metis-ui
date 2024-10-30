@@ -3,8 +3,9 @@ import Portal from '@rc-component/portal';
 import contains from 'rc-util/lib/Dom/contains';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import ZIndexContext from '../_util/ZIndexContext';
 import { ConfigContext } from '../config-provider';
@@ -45,7 +46,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   const { getPrefixCls, getPopupContainer: getContextPopupContainer } =
     React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('modal', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'modal');
 
   const mergedGetContainer = getContainer ?? getContextPopupContainer;
 

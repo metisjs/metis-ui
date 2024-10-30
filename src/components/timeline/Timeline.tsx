@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
-import {
-  clsx,
-  getSemanticCls,
-  mergeSemanticCls,
-  type SemanticClassName,
-} from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { TimelineItemProps } from './TimelineItem';
 import TimelineItem from './TimelineItem';
@@ -62,7 +58,7 @@ const Timeline: React.FC<TimelineProps> = ({
   const hasLabelItem = mergedItems.some((item: TimelineItemProps) => !!item?.label);
 
   // ========================= Style ===========================
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'timeline');
 
   const rootCls = clsx(
     prefixCls,

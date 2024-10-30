@@ -3,7 +3,8 @@ import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
@@ -161,7 +162,7 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('segmented', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'segmented');
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mergedRef = React.useMemo(

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ArrowDownTrayOutline, EyeOutline, TrashOutline } from '@metisjs/icons';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import Progress from '../../progress';
 import Tooltip from '../../tooltip';
 import Transition from '../../transition';
@@ -73,7 +74,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     },
     ref,
   ) => {
-    const semanticCls = getSemanticCls(className);
+    const semanticCls = useSemanticCls(className);
 
     // Status: which will ignore `removed` status
     const { status } = file;

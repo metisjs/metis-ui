@@ -4,7 +4,8 @@ import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { composeRef } from 'rc-util/lib/ref';
 import type { TriggerProps } from '../';
 import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';
 import type { AlignType, ArrowPos, ArrowTypeOuter } from '../interface';
@@ -116,7 +117,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     targetHeight,
   } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   const childNode = typeof popup === 'function' ? popup() : popup;
 

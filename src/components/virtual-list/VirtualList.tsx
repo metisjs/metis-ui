@@ -9,6 +9,7 @@ import React, {
 import { useEvent } from 'rc-util';
 import type { FlatIndexLocationWithAlign, VirtuosoHandle } from 'react-virtuoso';
 import { Virtuoso } from 'react-virtuoso';
+import { clsxDependency } from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarRef } from '../scrollbar';
 import Scrollbar from '../scrollbar';
@@ -161,7 +162,7 @@ const InternalVirtualList = <D, C>(
 
   const contextValue = useMemo(
     () => ({ prefixCls, onScroll, className, style, scrollbar: scrollbarRef }),
-    [prefixCls, JSON.stringify(className), JSON.stringify(style), onScroll],
+    [prefixCls, clsxDependency(className), JSON.stringify(style), onScroll],
   );
 
   const Header = components?.Header;

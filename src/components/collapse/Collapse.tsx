@@ -1,8 +1,9 @@
 import React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import ExpandIcon from '../_util/ExpandIcon';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import CollapsePanel from './CollapsePanel';
@@ -39,7 +40,7 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
   } = props;
 
   const prefixCls = getPrefixCls('collapse', customizePrefixCls);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'collapse');
 
   const [activeKey, setActiveKey] = useMergedState<React.Key | React.Key[], React.Key[]>([], {
     value: rawActiveKey,
@@ -146,22 +147,18 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
             onItemClick={handleItemClick}
             destroyInactivePanel={mergeDestroyInactivePanel}
             expandIconPosition={expandIconPosition}
-            className={{
-              root: clsx(
-                {
+            className={mergeSemanticCls(
+              {
+                root: clsx({
                   'border-0': !!ghost,
-                },
-                semanticCls.panel,
-              ),
-              header: semanticCls.panelHeader,
-              content: clsx(
-                {
+                }),
+                content: clsx({
                   'border-t-0 bg-transparent pt-1': !bordered,
                   'border-0 bg-transparent px-4 py-3': !!ghost,
-                },
-                semanticCls.panelContent,
-              ),
-            }}
+                }),
+              },
+              semanticCls.panel,
+            )}
           >
             {children}
           </CollapsePanel>

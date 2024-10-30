@@ -7,7 +7,8 @@ import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isEqual from 'rc-util/lib/isEqual';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
 import warning from '../_util/warning';
@@ -180,7 +181,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   } = props;
 
   const { siderCollapsed } = React.useContext(SiderContext);
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'menu');
 
   // ======================== Warning ==========================
   warning(

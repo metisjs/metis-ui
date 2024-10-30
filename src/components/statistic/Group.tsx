@@ -1,13 +1,9 @@
 import type { Key } from 'react';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Squares2X2Outline } from '@metisjs/icons';
-import {
-  clsx,
-  getSemanticCls,
-  mergeSemanticCls,
-  type SemanticClassName,
-} from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { matchScreen, type Breakpoint } from '../_util/responsiveObserver';
 import { collapseTransition } from '../_util/transition';
 import { ConfigContext } from '../config-provider';
@@ -75,7 +71,7 @@ const StatisticGroup: React.FC<StatisticGroupProps> = ({
 
   const [local] = useLocale('Statistic');
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
   const rootCls = clsx(prefixCls, 'flex gap-4', semanticCls.root);
   const contentCls = clsx(`${prefixCls}-content`, 'flex flex-auto flex-col', semanticCls.content);
   const rowCls = clsx(`${prefixCls}-row`, 'grid gap-6');

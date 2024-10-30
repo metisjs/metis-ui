@@ -8,8 +8,9 @@ import React, {
 } from 'react';
 import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
@@ -50,7 +51,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     onCompositionEnd,
     ...rest
   } = props;
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'input');
   const { getPrefixCls, input } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('input', customizePrefixCls);
 

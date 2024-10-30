@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 
 export interface PopupProps {
   prefixCls?: string;
@@ -14,7 +15,7 @@ export interface PopupProps {
 export default function Popup(props: PopupProps) {
   const { children, prefixCls, id, overlayInnerStyle, className, style } = props;
 
-  const semanticCls = getSemanticCls(className);
+  const semanticCls = useSemanticCls(className);
 
   return (
     <div className={clsx(`${prefixCls}-content`, 'relative', semanticCls.root)} style={style}>

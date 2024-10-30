@@ -2,7 +2,8 @@ import * as React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
 import { useMergedState } from 'rc-util';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
@@ -70,7 +71,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     const disabled = React.useContext(DisabledContext);
     const mergedDisabled = (customDisabled ?? disabled) || loading;
 
-    const semanticCls = getSemanticCls(className);
+    const semanticCls = useSemanticCls(className, 'switch');
 
     const mergedSize = useSize(customizeSize) as SizeType;
     const isSmall = mergedSize === 'small' || mergedSize === 'mini';
