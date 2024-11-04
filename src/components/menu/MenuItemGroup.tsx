@@ -27,8 +27,8 @@ const InternalMenuItemGroup = ({
   children,
   ...restProps
 }: MenuItemGroupProps) => {
-  const { prefixCls, theme, className: contextClassName } = React.useContext(MenuContext);
-  const semanticCls = useSemanticCls(className);
+  const { prefixCls, theme, groupClassName } = React.useContext(MenuContext);
+  const semanticCls = useSemanticCls([groupClassName, className]);
 
   const groupPrefixCls = `${prefixCls}-item-group`;
 
@@ -37,7 +37,7 @@ const InternalMenuItemGroup = ({
       role="presentation"
       {...restProps}
       onClick={(e) => e.stopPropagation()}
-      className={clsx(groupPrefixCls, 'item-group', contextClassName?.group, semanticCls.root)}
+      className={clsx(groupPrefixCls, 'item-group', semanticCls.root)}
     >
       <div
         role="presentation"
@@ -48,7 +48,6 @@ const InternalMenuItemGroup = ({
             'text-text-tertiary': theme === 'light',
             'text-white/[0.65]': theme === 'dark',
           },
-          contextClassName?.groupTitle,
           semanticCls.title,
         )}
         title={typeof title === 'string' ? title : undefined}
@@ -57,12 +56,7 @@ const InternalMenuItemGroup = ({
       </div>
       <ul
         role="group"
-        className={clsx(
-          `${groupPrefixCls}-list`,
-          'flex flex-col gap-1',
-          contextClassName?.groupList,
-          semanticCls.list,
-        )}
+        className={clsx(`${groupPrefixCls}-list`, 'flex flex-col gap-1', semanticCls.list)}
       >
         {children}
       </ul>

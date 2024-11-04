@@ -7,13 +7,16 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   children: ItemType<T>[];
   disabled?: boolean;
   key: string;
-  className?: SemanticClassName<{
-    title?: string;
-    inner?: string;
-    icon?: string;
-    content?: string;
-    popup?: string;
-  }>;
+  className?: SemanticClassName<
+    {
+      title?: string;
+      inner?: string;
+      icon?: string;
+      content?: string;
+      popup?: string;
+    },
+    { disabled?: boolean; active?: boolean; childrenSelected?: boolean }
+  >;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
 
@@ -47,7 +50,10 @@ export interface MenuItemType
   danger?: boolean;
   icon?: React.ReactNode;
   title?: string;
-  className?: SemanticClassName<{ inner?: string; icon?: string }>;
+  className?: SemanticClassName<
+    { inner?: string; icon?: string },
+    { disabled?: boolean; selected?: boolean }
+  >;
 
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;

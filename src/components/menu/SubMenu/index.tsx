@@ -77,13 +77,11 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const domDataId = useMenuId(eventKey);
 
-  const semanticCls = useSemanticCls(className);
-
   const {
     prefixCls,
     mode,
     theme: contextTheme,
-    className: contextClassName,
+    itemClassName,
     openKeys,
 
     // Disabled
@@ -224,6 +222,134 @@ const InternalSubMenu = (props: SubMenuProps) => {
   // ============================ zIndex ============================
   const [zIndex] = useZIndex('Menu');
 
+  // =============================== Style ===============================
+  const semanticCls = useSemanticCls([itemClassName, className], {
+    disabled: mergedDisabled,
+    active: mergedActive,
+    childrenSelected,
+  });
+
+  const rootCls = clsx(
+    subMenuPrefixCls,
+    `${subMenuPrefixCls}-${mode}`,
+    {
+      [`${subMenuPrefixCls}-open`]: open,
+      [`${subMenuPrefixCls}-active`]: mergedActive,
+      [`${subMenuPrefixCls}-selected`]: childrenSelected,
+      [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
+    },
+    'relative block flex-none cursor-pointer',
+    mode === 'horizontal' && mergedTheme === 'light' && 'pe-4 ps-4',
+    mode === 'horizontal' && mergedTheme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
+    mergedDisabled && 'cursor-not-allowed',
+    semanticCls.root,
+  );
+
+  const titleCls = clsx(
+    `${subMenuPrefixCls}-title`,
+    mode === 'horizontal' && 'flex h-[4rem] items-center',
+    mode !== 'horizontal' && 'px-4',
+    '[.submenu-popup_&]:px-1',
+    semanticCls.title,
+  );
+
+  const innerCls = clsx(
+    `${subMenuPrefixCls}-inner`,
+    'flex items-center gap-2 whitespace-nowrap transition-colors',
+    firstLevel && 'gap-3 font-medium',
+    {
+      // >>> Light
+      light: {
+        // >>> Light Horizontal
+        horizontal: {
+          '-mt-[1px] mb-0 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+            true,
+          'text-text-secondary hover:text-text hover:after:border-border': !mergedDisabled,
+          'text-text after:border-border': open,
+          'text-text after:border-primary hover:after:border-primary': childrenSelected,
+          'text-text-tertiary': mergedDisabled,
+        },
+        // >>> Light Vertical
+        vertical: {
+          'h-10 truncate rounded-md p-2': true,
+          'px-4 leading-10 [.item-group_&]:ps-7': !firstLevel,
+          'text-primary': childrenSelected,
+          'hover:bg-fill-quaternary': !mergedDisabled,
+          'text-text-tertiary': mergedDisabled,
+        },
+        // >>> Light Inline
+        inline: {
+          'h-10 rounded-md p-2': true,
+          'text-primary': childrenSelected,
+          'hover:bg-fill-quaternary': !mergedDisabled,
+          'text-text-tertiary': mergedDisabled,
+        },
+      },
+      // >>> Dark
+      dark: {
+        // >>> Dark Horizontal
+        horizontal: {
+          'relative flex h-9 items-center rounded-md px-3 text-sm leading-7': true,
+          'text-gray-300 hover:bg-gray-700 hover:text-white': !mergedDisabled && !childrenSelected,
+          'bg-gray-700 text-white': mergedActive,
+          'bg-gray-900 text-white': childrenSelected,
+          'text-gray-500': mergedDisabled,
+        },
+        // >>> Dark Vertical
+        vertical: {
+          'h-10 truncate rounded-md p-2 text-text-tertiary': true,
+          'px-4 leading-10 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
+          'text-white': childrenSelected,
+          'hover:bg-gray-700': !mergedDisabled,
+          'text-gray-500': mergedDisabled,
+        },
+        // >>> Dark Inline
+        inline: {
+          'h-10 rounded-md p-2 text-text-tertiary': true,
+          'text-white': childrenSelected,
+          'hover:bg-gray-700 hover:text-white': !mergedDisabled,
+          'text-gray-500': mergedDisabled,
+        },
+      },
+    }[contextTheme][mode],
+    semanticCls.inner,
+  );
+
+  const iconCls = clsx(
+    `${prefixCls}-item-icon`,
+    'h-5 w-5 flex-shrink-0 flex-grow-0',
+    firstLevel && 'h-6 w-6',
+    mode !== 'horizontal' && {
+      'text-text-tertiary': firstLevel && contextTheme !== 'dark',
+      'text-primary': childrenSelected && contextTheme !== 'dark',
+    },
+    semanticCls.icon,
+  );
+
+  const contentCls = clsx(
+    `${prefixCls}-title-content`,
+    'flex-1 truncate',
+    firstLevel && isInlineCollapsed && 'opacity-0',
+    semanticCls.content,
+  );
+
+  const expandCls = clsx(
+    `${subMenuPrefixCls}-arrow`,
+    'h-5 w-5 transition-transform',
+    // >>> In Popup
+    {
+      '[.submenu-popup_&]:text-primary': childrenSelected,
+      '[.submenu-popup_&]:text-white': contextTheme === 'dark' && childrenSelected,
+    },
+    contextTheme !== 'dark' && 'text-text-tertiary',
+    contextTheme !== 'dark' && childrenSelected && 'text-primary',
+    firstLevel && isInlineCollapsed && 'opacity-0',
+    mergedDisabled && {
+      'text-text-tertiary': contextTheme === 'light',
+      'text-gray-500': contextTheme === 'dark',
+    },
+  );
+
   // =============================== Render ===============================
   const popupId = domDataId ? `${domDataId}-popup` : undefined;
 
@@ -239,14 +365,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   let titleNode: React.ReactElement = (
     <div
       role="menuitem"
-      className={clsx(
-        `${subMenuPrefixCls}-title`,
-        mode === 'horizontal' && 'flex h-[4rem] items-center',
-        mode !== 'horizontal' && 'px-4',
-        '[.submenu-popup_&]:px-1',
-        contextClassName?.item,
-        semanticCls.title,
-      )}
+      className={titleCls}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : undefined}
@@ -259,97 +378,12 @@ const InternalSubMenu = (props: SubMenuProps) => {
       onFocus={onInternalFocus}
       {...activeProps}
     >
-      <span
-        className={clsx(
-          `${subMenuPrefixCls}-inner`,
-          'flex items-center gap-2 whitespace-nowrap transition-colors',
-          firstLevel && 'gap-3 font-medium',
-          {
-            // >>> Light
-            light: {
-              // >>> Light Horizontal
-              horizontal: {
-                '-mt-[1px] mb-0 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
-                  true,
-                'text-text-secondary hover:text-text hover:after:border-border': !mergedDisabled,
-                'text-text after:border-border': open,
-                'text-text after:border-primary hover:after:border-primary': childrenSelected,
-                'text-text-tertiary': mergedDisabled,
-              },
-              // >>> Light Vertical
-              vertical: {
-                'h-10 truncate rounded-md p-2': true,
-                'px-4 leading-10 [.item-group_&]:ps-7': !firstLevel,
-                'text-primary': childrenSelected,
-                'hover:bg-fill-quaternary': !mergedDisabled,
-                'text-text-tertiary': mergedDisabled,
-              },
-              // >>> Light Inline
-              inline: {
-                'h-10 rounded-md p-2': true,
-                'text-primary': childrenSelected,
-                'hover:bg-fill-quaternary': !mergedDisabled,
-                'text-text-tertiary': mergedDisabled,
-              },
-            },
-            // >>> Dark
-            dark: {
-              // >>> Dark Horizontal
-              horizontal: {
-                'relative flex h-9 items-center rounded-md px-3 text-sm leading-7': true,
-                'text-gray-300 hover:bg-gray-700 hover:text-white':
-                  !mergedDisabled && !childrenSelected,
-                'bg-gray-700 text-white': mergedActive,
-                'bg-gray-900 text-white': childrenSelected,
-                'text-gray-500': mergedDisabled,
-              },
-              // >>> Dark Vertical
-              vertical: {
-                'h-10 truncate rounded-md p-2 text-text-tertiary': true,
-                'px-4 leading-10 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
-                'text-white': childrenSelected,
-                'hover:bg-gray-700': !mergedDisabled,
-                'text-gray-500': mergedDisabled,
-              },
-              // >>> Dark Inline
-              inline: {
-                'h-10 rounded-md p-2 text-text-tertiary': true,
-                'text-white': childrenSelected,
-                'hover:bg-gray-700 hover:text-white': !mergedDisabled,
-                'text-gray-500': mergedDisabled,
-              },
-            },
-          }[contextTheme][mode],
-          contextClassName?.itemInner,
-          semanticCls.inner,
-        )}
-        style={inlineStyle}
-      >
+      <span className={innerCls} style={inlineStyle}>
         {cloneElement(icon, {
-          className: clsx(
-            `${prefixCls}-item-icon`,
-            'h-5 w-5 flex-shrink-0 flex-grow-0',
-            firstLevel && 'h-6 w-6',
-            mode !== 'horizontal' && {
-              'text-text-tertiary': firstLevel && contextTheme !== 'dark',
-              'text-primary': childrenSelected && contextTheme !== 'dark',
-            },
-            contextClassName?.itemIcon,
-            semanticCls.icon,
-            isValidElement(icon) ? icon.props?.className : '',
-          ),
+          className: clsx(iconCls, isValidElement(icon) ? icon.props?.className : ''),
         })}
 
-        <span
-          className={clsx(
-            `${prefixCls}-title-content`,
-            'flex-1 truncate',
-            firstLevel && isInlineCollapsed && 'opacity-0',
-            semanticCls.content,
-          )}
-        >
-          {title}
-        </span>
+        <span className={contentCls}>{title}</span>
 
         {/* Only non-horizontal mode shows the icon */}
         <Icon
@@ -362,25 +396,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
           }}
         >
           {mode !== 'horizontal' ? (
-            <ExpandIcon
-              open={open && mode === 'inline'}
-              className={clsx(
-                `${subMenuPrefixCls}-arrow`,
-                'h-5 w-5 transition-transform',
-                // >>> In Popup
-                {
-                  '[.submenu-popup_&]:text-primary': childrenSelected,
-                  '[.submenu-popup_&]:text-white': contextTheme === 'dark' && childrenSelected,
-                },
-                contextTheme !== 'dark' && 'text-text-tertiary',
-                contextTheme !== 'dark' && childrenSelected && 'text-primary',
-                firstLevel && isInlineCollapsed && 'opacity-0',
-                mergedDisabled && {
-                  'text-text-tertiary': contextTheme === 'light',
-                  'text-gray-500': contextTheme === 'dark',
-                },
-              )}
-            />
+            <ExpandIcon open={open && mode === 'inline'} className={expandCls} />
           ) : null}
         </Icon>
       </span>
@@ -434,21 +450,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       role="none"
       {...restProps}
       component="li"
-      className={clsx(
-        subMenuPrefixCls,
-        `${subMenuPrefixCls}-${mode}`,
-        {
-          [`${subMenuPrefixCls}-open`]: open,
-          [`${subMenuPrefixCls}-active`]: mergedActive,
-          [`${subMenuPrefixCls}-selected`]: childrenSelected,
-          [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
-        },
-        'relative block flex-none cursor-pointer',
-        mode === 'horizontal' && mergedTheme === 'light' && 'pe-4 ps-4',
-        mode === 'horizontal' && mergedTheme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
-        mergedDisabled && 'cursor-not-allowed',
-        semanticCls.root,
-      )}
+      className={rootCls}
       onMouseEnter={onInternalMouseEnter}
       onMouseLeave={onInternalMouseLeave}
     >

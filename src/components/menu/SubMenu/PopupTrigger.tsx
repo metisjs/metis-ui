@@ -49,7 +49,6 @@ export default function PopupTrigger({
     builtinPlacements,
     triggerSubMenuAction,
     forceSubMenuRender,
-    className,
 
     // Transition
     transition,
@@ -103,7 +102,6 @@ export default function PopupTrigger({
           '[.placement-topLeft&]:pb-1 [.placement-topRight&]:pb-1',
           '[.placement-bottomLeft&]:pt-1 [.placement-bottomRight&]:pt-1',
           popupClassName,
-          className,
         ),
       }}
       zIndex={zIndex}

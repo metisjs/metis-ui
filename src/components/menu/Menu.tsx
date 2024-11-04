@@ -28,11 +28,14 @@ import type {
   ItemType,
   MenuClickEventHandler,
   MenuInfo,
+  MenuItemGroupType,
+  MenuItemType,
   MenuMode,
   MenuRef,
   RenderIconType,
   SelectEventHandler,
   SelectInfo,
+  SubMenuType,
   TriggerSubMenuAction,
 } from './interface';
 import MenuItem from './MenuItem';
@@ -42,21 +45,17 @@ import { parseItems } from './utils/nodeUtil';
 // optimize for render
 const EMPTY_LIST: string[] = [];
 
-export type MenuClassNameType =
-  | 'item'
-  | 'itemInner'
-  | 'itemIcon'
-  | 'group'
-  | 'groupTitle'
-  | 'groupList';
-
 export interface MenuProps
   extends Omit<
     React.HTMLAttributes<HTMLUListElement>,
     'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
   > {
   prefixCls?: string;
-  className?: SemanticClassName<{ [K in MenuClassNameType]?: string }>;
+  className?: SemanticClassName<{
+    item?: MenuItemType['className'];
+    group?: MenuItemGroupType['className'];
+    sub?: SubMenuType['className'];
+  }>;
   theme?: MenuTheme;
   items: ItemType[];
 
@@ -181,7 +180,6 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   } = props;
 
   const { siderCollapsed } = React.useContext(SiderContext);
-  const semanticCls = useSemanticCls(className, 'menu');
 
   // ======================== Warning ==========================
   warning(
@@ -493,6 +491,25 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     setMounted(true);
   }, []);
 
+  // ======================== Style ========================
+  const semanticCls = useSemanticCls([overrideObj.className, className], 'menu');
+
+  const rootCls = clsx(
+    prefixCls,
+    `${prefixCls}-${internalMode}`,
+    'flex w-full text-sm text-text transition-[width]',
+    {
+      [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
+      'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
+      'flex-col gap-1 py-2': mergedMode !== 'horizontal',
+      'w-[72px] px-0': internalInlineCollapsed,
+    },
+    // >>> Dark
+    theme === 'dark' && 'bg-gray-800',
+    theme === 'dark' && internalMode === 'horizontal' && 'items-center',
+    semanticCls.root,
+  );
+
   // ======================== Render ========================
 
   // >>>>> Children
@@ -515,22 +532,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       prefixCls={`${prefixCls}-overflow`}
       component="ul"
       itemComponent={MenuItem}
-      className={clsx(
-        prefixCls,
-        `${prefixCls}-${internalMode}`,
-        'flex w-full text-sm text-text transition-[width]',
-        {
-          [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
-          'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',
-          'flex-col gap-1 py-2': mergedMode !== 'horizontal',
-          'w-[72px] px-0': internalInlineCollapsed,
-        },
-        // >>> Dark
-        theme === 'dark' && 'bg-gray-800',
-        theme === 'dark' && internalMode === 'horizontal' && 'items-center',
-        semanticCls.root,
-        overrideObj.className?.root,
-      )}
+      className={rootCls}
       style={style}
       role="menu"
       tabIndex={tabIndex}
@@ -575,7 +577,9 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       <IdContext.Provider value={uuid}>
         <MenuContextProvider
           prefixCls={prefixCls}
-          className={{ ...overrideObj.className, ...semanticCls }}
+          itemClassName={semanticCls.item}
+          groupClassName={semanticCls.group}
+          subClassName={semanticCls.sub}
           inlineCollapsed={mergedInlineCollapsed || false}
           theme={theme}
           mode={internalMode}

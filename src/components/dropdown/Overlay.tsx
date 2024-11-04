@@ -13,15 +13,6 @@ export type OverlayProps = Pick<DropdownProps, 'arrow' | 'prefixCls'> & {
   onClick: () => void;
 };
 
-const overrideCls = {
-  root: 'py-1',
-  item: 'px-1',
-  itemInner: 'py-2 px-3 ps-3 pe-3 h-9 leading-9 gap-1 font-normal',
-  itemIcon: 'w-[1.125rem] h-[1.125rem]',
-  groupTitle: 'ps-3 pe-3',
-  groupList: 'px-2',
-};
-
 const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
   const { arrow, prefixCls, children, onClick } = props;
 
@@ -48,7 +39,18 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
         mode="vertical"
         selectable={false}
         onClick={onClick}
-        className={overrideCls}
+        className={{
+          root: 'py-1',
+          item: {
+            root: 'px-1',
+            inner: 'h-8 gap-1 px-3 py-1 pe-3 ps-3 font-normal leading-6',
+            icon: 'h-[1.125rem] w-[1.125rem]',
+          },
+          group: {
+            title: 'pe-3 ps-3',
+            list: 'px-2',
+          },
+        }}
         validator={({ mode }) => {
           // Warning if use other mode
           warning(

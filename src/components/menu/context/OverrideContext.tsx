@@ -9,7 +9,7 @@ export interface OverrideContextProps {
   expandIcon?: React.ReactNode;
   mode?: MenuProps['mode'];
   selectable?: boolean;
-  className?: { root?: string; item?: string; itemInner?: string; itemIcon?: string };
+  className?: MenuProps['className'];
   validator?: (menuProps: Pick<MenuProps, 'mode'>) => void;
   onClick?: () => void;
 }

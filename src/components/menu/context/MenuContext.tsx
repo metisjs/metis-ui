@@ -5,11 +5,13 @@ import type { TransitionProps } from '../../transition';
 import type {
   BuiltinPlacements,
   MenuClickEventHandler,
+  MenuItemGroupType,
+  MenuItemType,
   MenuMode,
   RenderIconType,
+  SubMenuType,
   TriggerSubMenuAction,
 } from '../interface';
-import type { MenuClassNameType } from '../Menu';
 
 const noop = () => {};
 
@@ -17,9 +19,9 @@ export type MenuTheme = 'light' | 'dark';
 
 export interface MenuContextProps {
   prefixCls: string;
-  className?: {
-    [P in MenuClassNameType]?: string;
-  } & { root?: string };
+  itemClassName?: MenuItemType['className'];
+  groupClassName?: MenuItemGroupType['className'];
+  subClassName?: SubMenuType['className'];
   openKeys: string[];
 
   inlineCollapsed: boolean;

@@ -57,7 +57,7 @@ export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any
   if (Array.isArray(semanticClassName)) {
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return getSemanticCls(mergeSemanticCls(...semanticClassName));
+    return getSemanticCls(mergeSemanticCls(...semanticClassName), args);
   }
 
   return semanticClassName;
@@ -83,6 +83,15 @@ export function mergeSemanticCls<
       return mergeWith(prev, currCls, (objValue, srcValue) => {
         if (typeof objValue === 'string' && typeof srcValue === 'string') {
           return clsx(objValue, srcValue);
+        }
+
+        if (typeof objValue === 'function' || typeof srcValue === 'function') {
+          type ObjType = typeof objValue;
+          type SrcType = typeof srcValue;
+          return (
+            arg2: (ObjType extends (...args: any) => any ? Parameters<ObjType>[0] : {}) &
+              (SrcType extends (...args: any) => any ? Parameters<SrcType>[0] : {}),
+          ) => mergeSemanticCls(objValue, srcValue)(arg2);
         }
       });
     }, cloneDeep(cls1)) as SemanticRecord<T> & SemanticRecord<R>;

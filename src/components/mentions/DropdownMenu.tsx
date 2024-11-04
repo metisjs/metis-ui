@@ -59,8 +59,10 @@ function DropdownMenu(props: DropdownMenuProps) {
       prefixCls={`${prefixCls}-menu`}
       className={{
         root: 'p-1',
-        item: 'min-w-24 p-0',
-        itemInner: 'h-auto rounded-md px-3 py-1 pe-3 font-normal leading-6',
+        item: {
+          root: 'min-w-24 p-0',
+          inner: 'h-auto rounded-md px-3 py-1 pe-3 font-normal leading-6',
+        },
       }}
       activeKey={activeOption.key}
       items={menuItems}
