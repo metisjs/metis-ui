@@ -87,6 +87,7 @@
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
     "react-fast-marquee": "^1.6.4",
+    "react-sticky-box": "^2.0.5",
     "remark-frontmatter": "^2.0.0",
     "remark-parse": "^8.0.0",
     "remark-stringify": "^8.0.0",

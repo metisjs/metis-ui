@@ -183,6 +183,9 @@ devDependencies:
   react-fast-marquee:
     specifier: ^1.6.4
     version: 1.6.4(react-dom@18.2.0)(react@18.2.0)
+  react-sticky-box:
+    specifier: ^2.0.5
+    version: 2.0.5(react@18.2.0)
   remark-frontmatter:
     specifier: ^2.0.0
     version: 2.0.0
@@ -2906,7 +2909,7 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
       postcss: 8.4.38
-      postcss-syntax: 0.36.2(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss@8.4.38)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4096,7 +4099,7 @@ packages:
       eslint-plugin-react: 7.33.2(eslint@8.39.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.39.0)
       postcss: 8.4.38
-      postcss-syntax: 0.36.2(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss@8.4.38)
       stylelint-config-standard: 25.0.0(stylelint@15.6.0)
     transitivePeerDependencies:
       - eslint
@@ -12979,7 +12982,7 @@ packages:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  /postcss-syntax@0.36.2(postcss@8.4.24):
+  /postcss-syntax@0.36.2(postcss@8.4.38):
     resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
     peerDependencies:
       postcss: '>=5.0.0'
@@ -13000,7 +13003,7 @@ packages:
       postcss-scss:
         optional: true
     dependencies:
-      postcss: 8.4.24
+      postcss: 8.4.38
     dev: true
 
   /postcss-value-parser@4.2.0:
@@ -14341,6 +14344,14 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: true
+
+  /react-sticky-box@2.0.5(react@18.2.0):
+    resolution: {integrity: sha512-JEIuN7Q3razU1NNS0vddC12GXCUkj7T4aCpC9ZSTjgBddFsBdTcN1RhYXFLjCE/KDOQqX2Ix308BcdrqtSJbkQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
     dev: true
 
   /react-virtuoso@4.12.0(react-dom@18.2.0)(react@18.2.0):
