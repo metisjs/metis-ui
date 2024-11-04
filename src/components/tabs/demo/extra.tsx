@@ -6,7 +6,7 @@ const CheckboxGroup = Checkbox.Group;
 const operations = <Button>Extra Action</Button>;
 
 const OperationsSlot: Record<PositionType, React.ReactNode> = {
-  left: <Button className="tabs-extra-demo-button">Left Extra Action</Button>,
+  left: <Button>Left Extra Action</Button>,
   right: <Button>Right Extra Action</Button>,
 };
 

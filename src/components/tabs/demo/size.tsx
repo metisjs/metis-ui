@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
-import type { GetProp, RadioChangeEvent, TabsProps } from 'metis-ui';
-import { Radio, Tabs } from 'metis-ui';
+import type { GetProp, TabsProps } from 'metis-ui';
+import { Segmented, Tabs } from 'metis-ui';
 
 type SizeType = GetProp<TabsProps, 'size'>;
 
 const App: React.FC = () => {
-  const [size, setSize] = useState<SizeType>('small');
-
-  const onChange = (e: RadioChangeEvent) => {
-    setSize(e.target.value);
-  };
+  const [size, setSize] = useState<SizeType>('default');
 
   return (
     <div>
-      <Radio.Group value={size} onChange={onChange} style={{ marginBottom: 16 }}>
-        <Radio.Button value="small">Small</Radio.Button>
-        <Radio.Button value="middle">Middle</Radio.Button>
-        <Radio.Button value="large">Large</Radio.Button>
-      </Radio.Group>
+      <Segmented
+        options={['default', 'middle', 'small']}
+        value={size}
+        onChange={setSize}
+        className="mb-4"
+      />
       <Tabs
         defaultActiveKey="1"
         size={size}
