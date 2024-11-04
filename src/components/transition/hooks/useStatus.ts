@@ -123,17 +123,17 @@ export default function useStatus({
     let nextStatus: TransitionStatus = TransitionStatus.None;
 
     // Appear
-    if (!isMounted && visible && appear) {
+    if (!isMounted && visible && appear && styles.current.enter) {
       nextStatus = TransitionStatus.Enter;
     }
 
     // Enter
-    if (isMounted && visible) {
+    if (isMounted && visible && styles.current.enter) {
       nextStatus = TransitionStatus.Enter;
     }
 
     // Leave
-    if (isMounted && !visible) {
+    if (isMounted && !visible && styles.current.leave) {
       nextStatus = TransitionStatus.Leave;
     }
 
