@@ -50,7 +50,11 @@ interface Section {
 
 export interface AnchorProps {
   prefixCls?: string;
-  className?: SemanticClassName<'ink' | 'link' | 'title'>;
+  className?: SemanticClassName<{
+    ink?: string;
+    link?: string;
+    title?: string;
+  }>;
   style?: React.CSSProperties;
   offsetTop?: number;
   bounds?: number;

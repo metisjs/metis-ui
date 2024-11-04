@@ -3,7 +3,10 @@ import { clsx } from '../../_util/classNameUtils';
 import type { TransitionStyle, TransitionStyleFn, TransitionStyleType } from '../interface';
 import { TransitionStatus, TransitionStep } from '../interface';
 
-export function splitStyle(node: HTMLElement, style?: TransitionStyle | TransitionStyleFn) {
+export function splitStyle(
+  node: HTMLElement,
+  style?: TransitionStyle | TransitionStyleFn,
+): TransitionStyleType {
   if (typeof style === 'function') {
     return splitStyle(node, style(node));
   }

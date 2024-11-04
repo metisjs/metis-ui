@@ -19,7 +19,7 @@ export type SwitchClickEventHandler = SwitchChangeEventHandler;
 export interface SwitchProps {
   prefixCls?: string;
   size?: SwitchSize;
-  className?: SemanticClassName<'handle'>;
+  className?: SemanticClassName<{ handle?: string }>;
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: SwitchChangeEventHandler;

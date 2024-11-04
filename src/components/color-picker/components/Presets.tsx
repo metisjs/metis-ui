@@ -97,8 +97,10 @@ const InternalPresets: FC<InternalPresetsProps> = ({
         ghost
         items={items}
         className={{
-          panelHeader: 'gap-0.5 p-0 text-text-tertiary',
-          panelContent: 'px-0 py-2',
+          panel: {
+            header: 'gap-0.5 p-0 text-text-tertiary',
+            content: 'px-0 py-2',
+          },
         }}
       />
     </div>

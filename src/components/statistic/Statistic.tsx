@@ -15,11 +15,13 @@ import type { FormatConfig, valueType } from './utils';
 
 interface StatisticReactProps extends FormatConfig {
   prefixCls?: string;
-  className?: SemanticClassName<
-    'title' | 'suffix' | 'prefix' | 'content',
-    void,
-    { value?: StatisticNumberProps['className'] }
-  >;
+  className?: SemanticClassName<{
+    title?: string;
+    suffix?: string;
+    prefix?: string;
+    content?: string;
+    value?: StatisticNumberProps['className'];
+  }>;
   style?: React.CSSProperties;
   value?: valueType;
   valueRender?: (node: React.ReactNode) => React.ReactNode;

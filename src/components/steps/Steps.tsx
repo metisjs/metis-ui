@@ -34,7 +34,7 @@ export type StepItem = Omit<
 
 export interface StepsProps {
   type?: 'default' | 'navigation' | 'inline' | 'simple';
-  className?: SemanticClassName<'', void, { item?: StepProps['className'] }>;
+  className?: SemanticClassName<{ root?: string; item?: StepProps['className'] }>;
   current?: number;
   direction?: 'horizontal' | 'vertical';
   initial?: number;

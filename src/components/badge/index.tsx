@@ -25,7 +25,7 @@ export interface BadgeProps {
   style?: React.CSSProperties;
   prefixCls?: string;
   scrollNumberPrefixCls?: string;
-  className?: SemanticClassName<'wrapper' | 'text'>;
+  className?: SemanticClassName<{ wrapper?: string; text?: string }>;
   status?: PresetStatusColorType;
   color?: LiteralUnion<PresetColorType>;
   text?: React.ReactNode;

@@ -86,7 +86,7 @@ export interface FormItemProps<Values = any>
   prefixCls?: string;
   noStyle?: boolean;
   style?: React.CSSProperties;
-  className?: SemanticClassName<'label' | 'field'>;
+  className?: SemanticClassName<{ label?: string; field?: string }>;
   children?: ChildrenType<Values>;
   id?: string;
   hasFeedback?: boolean | { icons: FeedbackIcons };

@@ -8,7 +8,7 @@ export interface PopupProps {
   children: (() => React.ReactNode) | React.ReactNode;
   id?: string;
   overlayInnerStyle?: React.CSSProperties;
-  className?: SemanticClassName<'inner'>;
+  className?: SemanticClassName<{ inner?: string }>;
   style?: React.CSSProperties;
 }
 

@@ -29,7 +29,7 @@ export interface CollapseProps {
   destroyInactivePanel?: boolean;
   onChange?: (key: React.Key | React.Key[]) => void;
   style?: React.CSSProperties;
-  className?: SemanticClassName<'', void, { panel?: CollapsePanelProps['className'] }>;
+  className?: SemanticClassName<{ root?: string; panel?: CollapsePanelProps['className'] }>;
   bordered?: boolean;
   prefixCls?: string;
   expandIcon?: (panelProps: CollapsePanelProps) => React.ReactNode;
@@ -44,7 +44,7 @@ export interface CollapsePanelProps {
   panelKey: React.Key;
   isActive?: boolean;
   header?: React.ReactNode;
-  className?: SemanticClassName<'header' | 'content'>;
+  className?: SemanticClassName<{ header?: string; content?: string }>;
   style?: React.CSSProperties;
   showArrow?: boolean;
   forceRender?: boolean;

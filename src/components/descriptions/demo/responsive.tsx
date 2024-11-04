@@ -21,17 +21,17 @@ const items: DescriptionsProps['items'] = [
   },
   {
     label: 'Discount',
-    span: { xl: 2, xxl: 2 },
+    span: { xl: 2, '2xl': 2 },
     content: '$20.00',
   },
   {
     label: 'Official',
-    span: { xl: 2, xxl: 2 },
+    span: { xl: 2, '2xl': 2 },
     content: '$60.00',
   },
   {
     label: 'Config Info',
-    span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, xxl: 2 },
+    span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, '2xl': 2 },
     content: (
       <>
         Data disk type: MongoDB
@@ -44,7 +44,7 @@ const items: DescriptionsProps['items'] = [
   },
   {
     label: 'Hardware Info',
-    span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, xxl: 2 },
+    span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, '2xl': 2 },
     content: (
       <>
         CPU: 6 Core 3.5 GHz
@@ -63,7 +63,7 @@ const App: React.FC = () => (
   <Descriptions
     title="Responsive Descriptions"
     bordered
-    column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}
+    column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, '2xl': 4 }}
     items={items}
   />
 );

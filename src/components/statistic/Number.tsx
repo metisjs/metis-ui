@@ -5,7 +5,7 @@ import type { FormatConfig, valueType } from './utils';
 
 export interface StatisticNumberProps extends FormatConfig {
   value: valueType;
-  className?: SemanticClassName<'int' | 'decimal'>;
+  className?: SemanticClassName<{ int?: string; decimal?: string }>;
 }
 
 const StatisticNumber: React.FC<StatisticNumberProps> = (props) => {

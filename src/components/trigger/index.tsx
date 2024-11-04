@@ -87,7 +87,7 @@ export interface TriggerProps {
   // ==================== Arrow ====================
   arrow?: boolean | ArrowTypeOuter;
 
-  className?: SemanticClassName<'popup' | 'mask'>;
+  className?: SemanticClassName<{ popup?: string; mask?: string }>;
 
   // =================== Private ===================
   /**

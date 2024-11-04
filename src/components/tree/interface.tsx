@@ -37,7 +37,7 @@ export interface TreeProps<
   LazyLoadType extends boolean = false,
 > {
   prefixCls?: string;
-  className?: SemanticClassName<'view', void, { node: TreeNodeProps['className'] }>;
+  className?: SemanticClassName<{ view?: string; node: TreeNodeProps['className'] }>;
   style?: React.CSSProperties;
   treeData?: TreeDataType[];
   fieldNames?: FieldNames<TreeDataType>;
@@ -129,7 +129,12 @@ export type TreeRef = {
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
   eventKey: Key; // Pass by parent `cloneElement`
   className?: SemanticClassName<
-    'switcher' | 'content' | 'icon' | 'title',
+    {
+      switcher?: string;
+      content?: string;
+      icon?: string;
+      title?: string;
+    },
     {
       selected?: boolean;
       checked?: boolean;

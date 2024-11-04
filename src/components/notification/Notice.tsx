@@ -8,7 +8,7 @@ import type { NoticeConfig } from './interface';
 
 export interface NoticeProps extends Omit<NoticeConfig, 'onClose' | 'className'> {
   prefixCls: string;
-  className?: SemanticClassName<'content' | 'close' | 'progress'>;
+  className?: SemanticClassName<{ content?: string; close?: string; progress?: string }>;
   style?: React.CSSProperties;
   eventKey: React.Key;
 

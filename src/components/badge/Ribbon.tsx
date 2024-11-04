@@ -10,7 +10,7 @@ import { ConfigContext } from '../config-provider';
 type RibbonPlacement = 'start' | 'end';
 
 export interface RibbonProps {
-  className?: SemanticClassName<'corner' | 'text'>;
+  className?: SemanticClassName<{ corner?: string; text?: string }>;
   prefixCls?: string;
   color?: LiteralUnion<PresetColorType>;
   text?: React.ReactNode;

@@ -34,7 +34,7 @@ export type FormItemLayout = 'horizontal' | 'vertical';
 
 export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form' | 'className'> {
   prefixCls?: string;
-  className?: SemanticClassName<'', void, { item: FormItemProps['className'] }>;
+  className?: SemanticClassName<{ root?: string; item?: FormItemProps['className'] }>;
   colon?: boolean;
   name?: string;
   layout?: FormLayout;

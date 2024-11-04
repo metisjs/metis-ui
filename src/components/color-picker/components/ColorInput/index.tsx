@@ -65,8 +65,7 @@ const ColorInput: FC<ColorInputProps> = (props) => {
         options={selectOptions}
         className={{
           root: `${prefixCls}-format-select`,
-          selector: 'p-0 after:leading-3',
-          selectorItem: 'pr-6 text-xs',
+          selector: { root: 'p-0 after:leading-3', item: 'pr-6 text-xs' },
           arrow: 'pr-1',
           option: 'pr-9 text-xs',
         }}

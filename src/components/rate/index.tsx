@@ -21,7 +21,7 @@ export interface RateProps
   prefixCls?: string;
   onChange?: (value: number) => void;
   onHoverChange?: (value?: number) => void;
-  className?: SemanticClassName<'star'>;
+  className?: SemanticClassName<{ star?: string }>;
   onFocus?: () => void;
   onBlur?: () => void;
   onKeyDown?: React.KeyboardEventHandler<HTMLUListElement>;

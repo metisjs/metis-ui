@@ -51,7 +51,12 @@ export interface InputNumberProps<T extends ValueType = ValueType>
   value?: T | null;
 
   prefixCls?: string;
-  className?: SemanticClassName<'input' | 'prefix' | 'suffix' | 'handler'>;
+  className?: SemanticClassName<{
+    input?: string;
+    prefix?: string;
+    suffix?: string;
+    handler?: string;
+  }>;
   style?: React.CSSProperties;
   min?: T;
   max?: T;

@@ -16,7 +16,7 @@ import Dropdown from './Dropdown';
 export type DropdownButtonType = 'default' | 'primary' | 'link' | 'text';
 
 export interface DropdownButtonProps extends DropdownProps {
-  className?: SemanticClassName<'overlay' | 'open' | 'button'>;
+  className?: SemanticClassName<{ overlay?: string; open?: string; button?: string }>;
   type?: DropdownButtonType;
   htmlType?: ButtonHTMLType;
   danger?: boolean;

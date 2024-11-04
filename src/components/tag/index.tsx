@@ -21,7 +21,7 @@ export type { CheckableTagProps } from './CheckableTag';
 
 export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> {
   prefixCls?: string;
-  className?: SemanticClassName<''>;
+  className?: SemanticClassName<{ root?: string }>;
   color?: LiteralUnion<PresetColorType | PresetStatusColorType>;
   closable?: ClosableType;
   onClose?: (e: React.MouseEvent<HTMLElement>) => void;

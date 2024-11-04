@@ -7,7 +7,13 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   children: ItemType<T>[];
   disabled?: boolean;
   key: string;
-  className?: SemanticClassName<'title' | 'inner' | 'icon' | 'content' | 'popup'>;
+  className?: SemanticClassName<{
+    title?: string;
+    inner?: string;
+    icon?: string;
+    content?: string;
+    popup?: string;
+  }>;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
 
@@ -29,7 +35,11 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   onTitleMouseLeave?: MenuHoverEventHandler;
 }
 
-export interface MenuItemType {
+export interface MenuItemType
+  extends Omit<
+    React.HTMLAttributes<HTMLLIElement>,
+    'title' | 'onClick' | 'onMouseEnter' | 'onMouseLeave' | 'className'
+  > {
   label?: React.ReactNode;
   disabled?: boolean;
   itemIcon?: RenderIconType;
@@ -37,7 +47,7 @@ export interface MenuItemType {
   danger?: boolean;
   icon?: React.ReactNode;
   title?: string;
-  className?: SemanticClassName<'inner' | 'icon'>;
+  className?: SemanticClassName<{ inner?: string; icon?: string }>;
 
   // >>>>> Active
   onMouseEnter?: MenuHoverEventHandler;
@@ -52,7 +62,7 @@ export interface MenuItemGroupType<T extends MenuItemType = MenuItemType> {
   label?: React.ReactNode;
   children?: ItemType<T>[];
   key?: React.Key;
-  className?: SemanticClassName<'title' | 'list'>;
+  className?: SemanticClassName<{ title?: string; list?: string }>;
 }
 
 export interface MenuDividerType {

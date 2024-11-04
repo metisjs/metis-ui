@@ -23,7 +23,12 @@ import SingleSelector from './SingleSelector';
 
 export interface InnerSelectorProps {
   prefixCls: string;
-  className?: SemanticClassName<'search' | 'item' | 'placeholder' | 'input'>;
+  className?: SemanticClassName<{
+    search?: string;
+    item?: string;
+    placeholder?: string;
+    input?: string;
+  }>;
   id: string;
   mode: Mode;
   title?: string;
@@ -59,7 +64,12 @@ export interface RefSelectorProps {
 export interface SelectorProps {
   id: string;
   prefixCls: string;
-  className?: SemanticClassName<'search' | 'item' | 'placeholder' | 'input'>;
+  className?: SemanticClassName<{
+    search?: string;
+    item?: string;
+    placeholder?: string;
+    input?: string;
+  }>;
   showSearch?: boolean;
   open: boolean;
   /** Display in the Selector value, it's not same as `value` prop */

@@ -15,7 +15,7 @@ import PopupContent from './PopupContent';
 
 export interface PopupProps {
   prefixCls: string;
-  className?: SemanticClassName<'mask'>;
+  className?: SemanticClassName<{ mask?: string }>;
   style?: React.CSSProperties;
   popup?: TriggerProps['popup'];
   target: HTMLElement | null;

@@ -12,7 +12,7 @@ export interface AnchorLinkBaseProps {
   href: string;
   target?: string;
   title: React.ReactNode;
-  className?: SemanticClassName<'title'>;
+  className?: SemanticClassName<{ title?: string }>;
   replace?: boolean;
 }
 

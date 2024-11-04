@@ -16,7 +16,7 @@ export interface EmptyLocale {
 
 export interface EmptyProps {
   prefixCls?: string;
-  className?: SemanticClassName<'image' | 'description' | 'footer'>;
+  className?: SemanticClassName<{ image?: string; description?: string; footer?: string }>;
   style?: React.CSSProperties;
   imageStyle?: React.CSSProperties;
   image?: React.ReactNode;

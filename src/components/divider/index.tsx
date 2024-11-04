@@ -9,7 +9,7 @@ export interface DividerProps {
   prefixCls?: string;
   type?: 'horizontal' | 'vertical';
   orientation?: 'left' | 'right' | 'center';
-  className?: SemanticClassName<'text'>;
+  className?: SemanticClassName<{ text?: string }>;
   children?: React.ReactNode;
   dashed?: boolean;
   style?: React.CSSProperties;

@@ -390,7 +390,7 @@ export interface SharedPickerProps<DateType extends object = any>
     > {
   // Styles
   prefixCls: string;
-  className?: SemanticClassName<SemanticStructure>;
+  className?: SemanticClassName<{ [K in SemanticStructure]?: string }>;
   style?: React.CSSProperties;
 
   size?: SizeType;
@@ -518,7 +518,12 @@ export interface SelectorProps<DateType = any> extends SharedHTMLAttrs {
 
   clearIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
-  className?: SemanticClassName<'item' | 'placeholder' | 'clear' | 'activeBar'>;
+  className?: SemanticClassName<{
+    item?: string;
+    placeholder?: string;
+    clear?: string;
+    activeBar?: string;
+  }>;
   style?: React.CSSProperties;
   /** Add `-placeholder` className as a help info */
   activeHelp?: boolean;

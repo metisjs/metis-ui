@@ -20,7 +20,14 @@ export interface CardProps
   hoverable?: boolean;
   children?: React.ReactNode;
   id?: string;
-  className?: SemanticClassName<'header' | 'body' | 'extra' | 'title' | 'actions' | 'cover'>;
+  className?: SemanticClassName<{
+    header?: string;
+    body?: string;
+    extra?: string;
+    title?: string;
+    actions?: string;
+    cover?: string;
+  }>;
   size?: CardSize;
   cover?: React.ReactNode;
   actions?: React.ReactNode[];

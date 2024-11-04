@@ -13,7 +13,7 @@ export type TimelineItemType = Omit<
 
 export interface TimelineProps {
   prefixCls?: string;
-  className?: SemanticClassName<'', void, { item?: TimelineItemProps['className'] }>;
+  className?: SemanticClassName<{ root?: string; item?: TimelineItemProps['className'] }>;
   /** 指定最后一个幽灵节点是否存在或内容 */
   pending?: React.ReactNode;
   pendingDot?: React.ReactNode;

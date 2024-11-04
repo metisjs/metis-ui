@@ -29,9 +29,14 @@ export interface NoticeListProps {
   onNoticeClose?: (key: React.Key) => void;
 
   // Common
-  className?: SemanticClassName<
-    'wrapper' | 'collapsedWrapper' | 'notice' | 'content' | 'close' | 'progress'
-  >;
+  className?: SemanticClassName<{
+    wrapper?: string;
+    collapsedWrapper?: string;
+    notice?: string;
+    content?: string;
+    close?: string;
+    progress?: string;
+  }>;
   style?: CSSProperties;
 }
 

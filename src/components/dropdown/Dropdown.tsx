@@ -39,7 +39,7 @@ export interface DropdownProps {
   align?: AlignType;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   prefixCls?: string;
-  className?: SemanticClassName<'overlay' | 'open'>;
+  className?: SemanticClassName<{ overlay?: string; open?: string }>;
   placement?: Placement;
   forceRender?: boolean;
   mouseEnterDelay?: number;

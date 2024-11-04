@@ -21,7 +21,7 @@ export interface SkeletonProps {
   active?: boolean;
   loading?: boolean;
   prefixCls?: string;
-  className?: SemanticClassName<'avatar' | 'title' | 'paragraph'>;
+  className?: SemanticClassName<{ avatar?: string; title?: string; paragraph?: string }>;
   style?: React.CSSProperties;
   children?: React.ReactNode;
   avatar?: SkeletonAvatarProps | boolean;

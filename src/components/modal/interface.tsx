@@ -5,7 +5,14 @@ import type { ClosableType } from '../_util/hooks/useClosable';
 import type { ButtonProps, ButtonType } from '../button';
 
 export type ModalProps = {
-  className?: SemanticClassName<'header' | 'body' | 'footer' | 'mask' | 'content' | 'wrapper'>;
+  className?: SemanticClassName<{
+    header?: string;
+    body?: string;
+    footer?: string;
+    mask?: string;
+    content?: string;
+    wrapper?: string;
+  }>;
   keyboard?: boolean;
   style?: CSSProperties;
   mask?: boolean;

@@ -38,7 +38,7 @@ export interface SliderBaseProps {
   disabled?: boolean;
   keyboard?: boolean;
   vertical?: boolean;
-  className?: SemanticClassName<SemanticName>;
+  className?: SemanticClassName<{ [K in SemanticName]?: string }>;
   id?: string;
   style?: React.CSSProperties;
   tooltip?: SliderTooltipProps;

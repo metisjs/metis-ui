@@ -82,7 +82,7 @@ export interface TransferListProps<RecordType> extends TransferLocale {
   showRemove?: boolean;
   pagination?: PaginationType;
   selectionsIcon?: React.ReactNode;
-  className?: SemanticClassName<'header' | 'body' | 'footer' | 'item'>;
+  className?: SemanticClassName<{ header?: string; body?: string; footer?: string; item?: string }>;
 }
 
 export type TransferCustomListBodyProps<T> = TransferListBodyProps<T>;

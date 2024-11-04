@@ -8,9 +8,13 @@ export interface ScrollbarProps {
   autoHide?: boolean;
   autoHideDuration?: number;
   autoHideTimeout?: number;
-  className?: SemanticClassName<
-    'view' | 'trackHorizontal' | 'trackVertical' | 'thumbHorizontal' | 'thumbVertical'
-  >;
+  className?: SemanticClassName<{
+    view?: string;
+    trackHorizontal?: string;
+    trackVertical?: string;
+    thumbHorizontal?: string;
+    thumbVertical?: string;
+  }>;
   id?: string;
   onScroll?: (values: ScrollValues, e: React.UIEvent<HTMLElement>) => void;
   onScrollStart?: () => void;

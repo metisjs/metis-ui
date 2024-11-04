@@ -34,7 +34,7 @@ export type ProgressAriaProps = Pick<React.AriaAttributes, 'aria-label' | 'aria-
 
 export interface ProgressProps extends ProgressAriaProps {
   prefixCls?: string;
-  className?: SemanticClassName<'outer' | 'trail' | 'text'>;
+  className?: SemanticClassName<{ outer?: string; trail?: string; text?: string }>;
   type?: ProgressType;
   percent?: number;
   format?: (percent?: number, successPercent?: number) => React.ReactNode;

@@ -45,6 +45,7 @@ import type { SpinProps } from '../spin';
 import type { StatisticProps } from '../statistic';
 import type { StepsProps } from '../steps';
 import type { SwitchProps } from '../switch';
+import type { TabsProps } from '../tabs';
 import type { TagProps } from '../tag';
 import type { TimePickerProps } from '../time-picker';
 import type { TimelineProps } from '../timeline';
@@ -151,6 +152,8 @@ export type StepsConfig = Pick<StepsProps, 'className'>;
 
 export type SwitchConfig = Pick<SwitchProps, 'className'>;
 
+export type TabsConfig = Pick<TabsProps, 'className'>;
+
 export type TagConfig = Pick<TagProps, 'className'>;
 
 export type TextAreaConfig = Pick<TextAreaProps, 'autoComplete' | 'className'>;
@@ -226,7 +229,7 @@ export interface ConfigConsumerProps {
   tag?: TagConfig;
   // table?: TableConfig;
   card?: CardConfig;
-  // tabs?: TabsConfig;
+  tabs?: TabsConfig;
   timeline?: TimelineConfig;
   timePicker?: TimePickerConfig;
   // tour?: TourConfig;

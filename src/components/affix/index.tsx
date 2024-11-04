@@ -35,7 +35,7 @@ export interface AffixProps {
   /** Set the element that Affix needs to listen to its scroll event, the value is a function that returns the corresponding DOM element */
   target?: () => Window | HTMLElement | null;
   prefixCls?: string;
-  className?: SemanticClassName<''>;
+  className?: SemanticClassName<{ root?: string }>;
   children: React.ReactNode;
 }
 const AFFIX_STATUS_NONE = 0;

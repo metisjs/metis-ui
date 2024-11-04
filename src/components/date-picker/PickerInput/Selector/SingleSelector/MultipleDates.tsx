@@ -14,7 +14,7 @@ export interface MultipleDatesProps<DateType extends object = any>
   formatDate: (date: DateType) => string;
   disabled?: boolean;
   placeholder?: React.ReactNode;
-  className?: SemanticClassName<'item' | 'placeholder'>;
+  className?: SemanticClassName<{ item?: string; placeholder?: string }>;
 }
 
 export default function MultipleDates<DateType extends object = any>(

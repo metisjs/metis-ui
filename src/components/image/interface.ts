@@ -41,11 +41,13 @@ export interface ImgInfo {
 }
 
 export interface ImagePreviewType {
-  className?: SemanticClassName<
-    'body' | 'mask' | 'content' | 'image',
-    void,
-    { operations?: OperationsProps['className'] }
-  >;
+  className?: SemanticClassName<{
+    body?: string;
+    mask?: string;
+    content?: string;
+    image?: string;
+    operations?: OperationsProps['className'];
+  }>;
   maskClosable?: boolean;
   destroyOnClose?: boolean;
   src?: string;
@@ -74,7 +76,7 @@ export interface ImagePreviewType {
 
 export interface ImageProps
   extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder' | 'onClick' | 'className'> {
-  className?: SemanticClassName<'image'>;
+  className?: SemanticClassName<{ image?: string }>;
   // Original
   src: string;
   prefixCls?: string;
@@ -100,7 +102,7 @@ export interface OperationsProps
     PreviewProps,
     'open' | 'getContainer' | 'prefixCls' | 'icons' | 'countRender' | 'closeIcon' | 'onClose'
   > {
-  className?: SemanticClassName<'operation' | 'close' | 'progress'>;
+  className?: SemanticClassName<{ operation?: string; close?: string; progress?: string }>;
   showSwitch: boolean;
   showProgress: boolean;
   current: number;

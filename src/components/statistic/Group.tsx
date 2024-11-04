@@ -16,7 +16,11 @@ type StatisticItem = StatisticProps & { key?: Key };
 
 export interface StatisticGroupProps {
   prefixCls?: string;
-  className?: SemanticClassName<'content' | 'action', void, { item?: StatisticProps['className'] }>;
+  className?: SemanticClassName<{
+    content?: string;
+    action?: string;
+    item?: StatisticProps['className'];
+  }>;
   items: StatisticItem[];
   column?: number | Partial<Record<Breakpoint, number>>;
   expandable?: boolean;

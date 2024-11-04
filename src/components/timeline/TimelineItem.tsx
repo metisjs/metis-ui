@@ -8,7 +8,12 @@ export interface TimelineItemProps {
   key?: React.Key;
   prefixCls?: string;
   className?: SemanticClassName<
-    'label' | 'dot' | 'tail' | 'content',
+    {
+      label?: string;
+      dot?: string;
+      tail?: string;
+      content?: string;
+    },
     { last?: boolean; pending?: boolean }
   >;
   color?: LiteralUnion<PresetColorType>;

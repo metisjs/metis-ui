@@ -9,7 +9,7 @@ import Checkbox from './Checkbox';
 export type CheckboxValueType = string | number | boolean;
 
 export interface CheckboxOptionType {
-  className?: SemanticClassName<'checkbox'>;
+  className?: SemanticClassName<{ checkbox?: string }>;
   label: React.ReactNode;
   value: CheckboxValueType;
   style?: React.CSSProperties;

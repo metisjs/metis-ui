@@ -9,7 +9,7 @@ import { formatValue, isInRange, isSame, isSameWeek } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';
 
 export interface PanelBodyProps<DateType = any> {
-  className?: SemanticClassName<'content' | 'cell' | 'cellInner'>;
+  className?: SemanticClassName<{ content?: string; cell?: string; cellInner?: string }>;
   rowNum: number;
   colNum: number;
   baseDate: DateType;

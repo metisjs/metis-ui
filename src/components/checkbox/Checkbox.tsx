@@ -10,7 +10,7 @@ import CheckedIcon from './CheckedIcon';
 import { GroupContext } from './Group';
 
 export interface AbstractCheckboxProps<T> {
-  className?: SemanticClassName<'checkbox'>;
+  className?: SemanticClassName<{ checkbox?: string }>;
   defaultChecked?: boolean;
   checked?: boolean;
   style?: React.CSSProperties;

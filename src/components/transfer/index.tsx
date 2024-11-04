@@ -77,7 +77,14 @@ export interface TransferLocale {
 
 export interface TransferProps<RecordType = any> {
   prefixCls?: string;
-  className?: SemanticClassName<'list' | 'header' | 'body' | 'footer' | 'item' | 'operation'>;
+  className?: SemanticClassName<{
+    list?: string;
+    header?: string;
+    body?: string;
+    footer?: string;
+    item?: string;
+    operation?: string;
+  }>;
   disabled?: boolean;
   dataSource?: RecordType[];
   targetKeys?: TransferKey[];

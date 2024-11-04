@@ -100,7 +100,7 @@ export interface CascaderProps<
   // >>> MISC
   prefixCls?: string;
   id?: string;
-  className?: SemanticClassName<'popup' | 'selector'>;
+  className?: SemanticClassName<{ popup?: string; selector?: string }>;
   placement?: SelectCommonPlacement;
   status?: InputStatus;
   displayRender?: (labels: React.ReactNode[], selectedOptions?: OptionType[]) => React.ReactNode;

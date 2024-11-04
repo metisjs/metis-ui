@@ -11,7 +11,7 @@ import useItems from './hooks/useItems';
 import useRow from './hooks/useRow';
 import Row from './Row';
 
-export type ItemClassNameType = SemanticClassName<'label' | 'content'>;
+export type ItemClassNameType = SemanticClassName<{ label?: string; content?: string }>;
 
 export interface InternalDescriptionsItemType {
   key?: React.Key;
@@ -28,11 +28,13 @@ export interface DescriptionsItemType extends Omit<InternalDescriptionsItemType,
 
 export interface DescriptionsProps {
   prefixCls?: string;
-  className?: SemanticClassName<
-    'header' | 'title' | 'extra' | 'view',
-    void,
-    { item?: ItemClassNameType }
-  >;
+  className?: SemanticClassName<{
+    header?: string;
+    title?: string;
+    extra?: string;
+    view?: string;
+    item?: ItemClassNameType;
+  }>;
   style?: React.CSSProperties;
   bordered?: boolean;
   size?: 'middle' | 'small' | 'default';

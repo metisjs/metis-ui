@@ -18,7 +18,7 @@ export interface ColorTriggerProps {
   color: AggregationColor;
   open?: boolean;
   showText?: ColorPickerProps['showText'];
-  className?: SemanticClassName<'colorBlock' | 'text'>;
+  className?: SemanticClassName<{ colorBlock?: string; text?: string }>;
   style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLDivElement>;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;

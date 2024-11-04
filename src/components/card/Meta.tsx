@@ -8,7 +8,7 @@ import { ConfigContext } from '../config-provider';
 export interface CardMetaProps {
   prefixCls?: string;
   style?: React.CSSProperties;
-  className?: SemanticClassName<'avatar' | 'title' | 'description'>;
+  className?: SemanticClassName<{ avatar?: string; title?: string; description?: string }>;
   avatar?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;

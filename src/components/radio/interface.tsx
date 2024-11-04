@@ -29,7 +29,7 @@ export interface RadioGroupContextProps {
 
 export interface RadioProps
   extends Omit<AbstractCheckboxProps<RadioChangeEvent>, 'className' | 'skipGroup'> {
-  className?: SemanticClassName<'radio'>;
+  className?: SemanticClassName<{ radio?: string }>;
 }
 
 export interface RadioChangeEventTarget extends RadioProps {

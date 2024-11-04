@@ -41,7 +41,7 @@ export interface BreadcrumbProps<T extends AnyObject = AnyObject> {
   params?: T;
   separator?: React.ReactNode;
   style?: React.CSSProperties;
-  className?: SemanticClassName<'item' | 'separator' | 'icon'>;
+  className?: SemanticClassName<{ item?: string; separator?: string; icon?: string }>;
   items?: ItemType[];
   itemRender?: (
     item: ItemType,

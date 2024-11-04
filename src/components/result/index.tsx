@@ -37,7 +37,14 @@ export interface ResultProps {
   subTitle?: React.ReactNode;
   extra?: React.ReactNode;
   prefixCls?: string;
-  className?: SemanticClassName<'icon' | 'image' | 'title' | 'subTitle' | 'content' | 'extra'>;
+  className?: SemanticClassName<{
+    icon?: string;
+    image?: string;
+    title?: string;
+    subTitle?: string;
+    content?: string;
+    extra?: string;
+  }>;
   style?: React.CSSProperties;
   children?: React.ReactNode;
 }

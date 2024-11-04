@@ -51,7 +51,14 @@ export interface PanelProps extends PanelEvents, PanelAccessibility {
   onClose?: (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => void;
 
   // className
-  className?: SemanticClassName<'mask' | 'wrapper' | 'content' | 'header' | 'footer' | 'body'>;
+  className?: SemanticClassName<{
+    mask?: string;
+    wrapper?: string;
+    content?: string;
+    header?: string;
+    footer?: string;
+    body?: string;
+  }>;
 
   drawerRender?: (node: React.ReactNode) => React.ReactNode;
 }

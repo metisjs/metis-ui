@@ -28,11 +28,13 @@ export type LazyLoadType =
 
 export interface ListProps<T, R extends LazyLoadType = false> {
   bordered?: boolean;
-  className?: SemanticClassName<
-    'items' | 'header' | 'footer' | 'scrollView',
-    void,
-    { item?: ListItemProps['className'] }
-  >;
+  className?: SemanticClassName<{
+    items?: string;
+    header?: string;
+    footer?: string;
+    scrollView?: string;
+    item?: ListItemProps['className'];
+  }>;
   style?: React.CSSProperties;
   dataSource?: T[];
   id?: string;
@@ -112,11 +114,13 @@ function InternalList<T>(
 
   const prefixCls = getPrefixCls('list', customizePrefixCls);
 
-  let loadingProp = loading;
-  if (typeof loadingProp === 'boolean') {
+  let loadingProp: SpinProps = {};
+  if (typeof loading === 'boolean') {
     loadingProp = {
-      spinning: loadingProp,
+      spinning: loading,
     };
+  } else {
+    loadingProp = { ...loading };
   }
   loadingProp.spinning = loadingProp.spinning || requestLoading;
   loadingProp.className = mergeSemanticCls(

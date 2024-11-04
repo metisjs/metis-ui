@@ -40,9 +40,14 @@ export interface AlertProps {
   role?: string;
   style?: React.CSSProperties;
   prefixCls?: string;
-  className?: SemanticClassName<
-    'content' | 'message' | 'description' | 'action' | 'close' | 'icon'
-  >;
+  className?: SemanticClassName<{
+    content?: string;
+    message?: string;
+    description?: string;
+    action?: string;
+    close?: string;
+    icon?: string;
+  }>;
   banner?: boolean;
   icon?: React.ReactNode;
   action?: React.ReactNode;

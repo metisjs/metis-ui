@@ -35,7 +35,7 @@ export interface SingleSelectorProps<DateType extends object = any>
 
   removeIcon?: React.ReactNode;
 
-  multipleClassName?: SemanticClassName<'item' | 'placeholder'>;
+  multipleClassName?: SemanticClassName<{ item?: string; placeholder?: string }>;
 }
 
 function SingleSelector<DateType extends object = any>(

@@ -71,7 +71,7 @@ export type ModeType = 'single' | 'gradient';
 export interface ColorPickerProps
   extends Pick<PopoverProps, 'getPopupContainer' | 'autoAdjustOverflow' | 'destroyTooltipOnHide'> {
   prefixCls?: string;
-  className?: SemanticClassName<'popup' | 'overlay'>;
+  className?: SemanticClassName<{ popup?: string; overlay?: string }>;
   style?: CSSProperties;
   mode?: ModeType | ModeType[];
   value?: ColorValueType;

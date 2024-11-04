@@ -20,21 +20,21 @@ type OmitType =
 
 export const clsxDependency = (arg: any) => (typeof arg === 'function' ? arg : JSON.stringify(arg));
 
-function useSemanticCls<T extends SemanticClassName<any, any, any>>(
+function useSemanticCls<T extends SemanticClassName<any, any>>(
   className?: T | T[],
 ): SemanticRecord<T>;
-function useSemanticCls<T extends SemanticClassName<any, any, any>>(
+function useSemanticCls<T extends SemanticClassName<any, any>>(
   className?: T | T[],
   componentName?: keyof Omit<ConfigConsumerProps, OmitType>,
 ): SemanticRecord<T>;
-function useSemanticCls<T extends SemanticClassName<any, any, any>>(
+function useSemanticCls<T extends SemanticClassName<any, any>>(
   className?: T | T[],
-  args?: T extends (...args: any) => any ? Parameters<T>[0] : never,
+  args?: T extends (...args: infer R) => any ? R[0] : never,
 ): SemanticRecord<T>;
-function useSemanticCls<T extends SemanticClassName<any, any, any>>(
+function useSemanticCls<T extends SemanticClassName<any, any>>(
   className?: T | T[],
   componentName?: keyof Omit<ConfigConsumerProps, OmitType>,
-  args?: T extends (...args: any) => any ? Parameters<T>[0] : never,
+  args?: T extends (...args: infer R) => any ? R[0] : never,
 ): SemanticRecord<T>;
 function useSemanticCls(className: any, arg1?: any, arg2?: any): SemanticRecord<any> {
   const config = useContext(ConfigContext);

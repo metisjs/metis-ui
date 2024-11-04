@@ -11,7 +11,7 @@ import type { StepsProps, StepsStatus } from './Steps';
 
 export interface StepProps {
   prefixCls?: string;
-  className?: SemanticClassName<'item' | 'title' | 'description'>;
+  className?: SemanticClassName<{ item?: string; title?: string; description?: string }>;
   style?: React.CSSProperties;
   active?: boolean;
   disabled?: boolean;

@@ -37,7 +37,7 @@ export type SemanticStructure =
 export interface BaseInputProps extends CommonInputProps {
   value?: ValueType;
   prefixCls?: string;
-  className?: SemanticClassName<SemanticStructure>;
+  className?: SemanticClassName<{ [K in SemanticStructure]?: string }>;
   style?: CSSProperties;
   disabled?: boolean;
   focused?: boolean;
@@ -82,7 +82,12 @@ export interface InputProps
     > {
   value?: ValueType;
   prefixCls?: string;
-  className?: SemanticClassName<'input' | 'prefix' | 'suffix' | 'count'>;
+  className?: SemanticClassName<{
+    input?: string;
+    prefix?: string;
+    suffix?: string;
+    count?: string;
+  }>;
   type?: LiteralUnion<
     | 'button'
     | 'checkbox'
@@ -160,7 +165,7 @@ export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement
 export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value' | 'className'> & {
   value?: HTMLTextareaProps['value'] | bigint;
   prefixCls?: string;
-  className?: SemanticClassName<'textarea' | 'count' | 'clear'>;
+  className?: SemanticClassName<{ textarea?: string; count?: string; clear?: string }>;
   style?: React.CSSProperties;
   autoSize?: boolean | AutoSizeType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;

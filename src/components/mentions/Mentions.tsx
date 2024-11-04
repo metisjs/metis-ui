@@ -53,7 +53,7 @@ export interface MentionsOptionProps {
 export interface MentionsProps extends BaseTextareaAttrs {
   loading?: boolean;
   autoFocus?: boolean;
-  className?: SemanticClassName<'textarea' | 'popup'>;
+  className?: SemanticClassName<{ textarea?: string; popup?: string }>;
   defaultValue?: string;
   notFoundContent?: React.ReactNode;
   split?: string;

@@ -7,11 +7,11 @@ import { ConfigContext } from '../config-provider';
 import { ListContext } from './context';
 
 export interface ListItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
-  className?: SemanticClassName<
-    'meta' | 'actions' | 'extra',
-    void,
-    { meta?: ListItemMetaProps['className'] }
-  >;
+  className?: SemanticClassName<{
+    actions?: string;
+    extra?: string;
+    meta?: ListItemMetaProps['className'];
+  }>;
   children?: ReactNode;
   prefixCls?: string;
   style?: CSSProperties;
@@ -21,7 +21,12 @@ export interface ListItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'cla
 
 export interface ListItemMetaProps {
   avatar?: ReactNode;
-  className?: SemanticClassName<'content' | 'title' | 'description' | 'avatar'>;
+  className?: SemanticClassName<{
+    content?: string;
+    title?: string;
+    description?: string;
+    avatar?: string;
+  }>;
   children?: ReactNode;
   description?: ReactNode;
   prefixCls?: string;

@@ -56,7 +56,7 @@ export interface MenuProps
     'onClick' | 'onSelect' | 'dir' | 'children' | 'className'
   > {
   prefixCls?: string;
-  className?: SemanticClassName<MenuClassNameType>;
+  className?: SemanticClassName<{ [K in MenuClassNameType]?: string }>;
   theme?: MenuTheme;
   items: ItemType[];
 

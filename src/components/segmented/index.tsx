@@ -51,7 +51,7 @@ export interface SegmentedProps<ValueType = SegmentedValue>
   disabled?: boolean;
   block?: boolean;
   size?: SizeType;
-  className?: SemanticClassName<'option'>;
+  className?: SemanticClassName<{ option?: string }>;
 }
 
 function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {

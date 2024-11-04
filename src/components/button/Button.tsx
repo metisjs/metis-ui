@@ -30,7 +30,7 @@ export interface BaseButtonProps {
   disabled?: boolean;
   loading?: boolean | { delay?: number };
   prefixCls?: string;
-  className?: SemanticClassName<'icon'>;
+  className?: SemanticClassName<{ icon?: string }>;
   danger?: boolean;
   children?: React.ReactNode;
 }

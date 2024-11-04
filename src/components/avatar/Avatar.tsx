@@ -21,7 +21,7 @@ export interface AvatarProps {
   icon?: React.ReactNode;
   style?: React.CSSProperties;
   prefixCls?: string;
-  className?: SemanticClassName<''>;
+  className?: SemanticClassName<{ root?: string }>;
   children?: React.ReactNode;
   alt?: string;
   crossOrigin?: '' | 'anonymous' | 'use-credentials';

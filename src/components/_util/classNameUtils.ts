@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import classNames from 'classnames';
 import { cloneDeep, mergeWith } from 'lodash';
 import { extendTailwindMerge, fromTheme } from 'tailwind-merge';
@@ -14,26 +15,19 @@ const twMerge = extendTailwindMerge<'translate-z'>({
 });
 
 export type SemanticClassName<
-  T extends string,
-  A extends Record<string, any> | void = void,
-  R = void,
-> = R extends void
-  ?
-      | string
-      | ({ [P in T]?: string } & { root?: string })
-      | ((args: A) => string)
-      | ((args: A) => { [P in T]?: string } & { root?: string })
-  :
-      | string
-      | ({ [P in T]?: string } & R & { root?: string })
-      | ((args: A) => string)
-      | ((args: A) => { [P in T]?: string } & R & { root?: string });
+  T extends Record<string, any> | void = {},
+  A extends Record<string, any> = {},
+> =
+  | string
+  | (Partial<T> & { root?: string })
+  | ((args: A) => string)
+  | ((args: A) => T & { root?: string });
 
 export function clsx(...args: classNames.ArgumentArray) {
   return twMerge(classNames(...args));
 }
 
-export type SemanticRecord<T extends SemanticClassName<any, any, any>> = T extends
+export type SemanticRecord<T extends SemanticClassName<any, any> | undefined> = T extends
   | string
   | undefined
   ? { root?: string } & {
@@ -47,7 +41,7 @@ export type SemanticRecord<T extends SemanticClassName<any, any, any>> = T exten
       : ReturnType<T>
     : T;
 
-export function getSemanticCls<T extends SemanticClassName<any, any, any>>(
+export function getSemanticCls<T extends SemanticClassName<any, any>>(
   semanticClassNames?: T | T[],
   args?: T extends (args: any) => any ? Parameters<T>[0] : void,
 ): SemanticRecord<T>;
@@ -70,13 +64,12 @@ export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any
 }
 
 export function mergeSemanticCls<
-  T extends SemanticClassName<any, any, any>,
-  R extends SemanticClassName<any, any, any>,
+  T extends SemanticClassName<any, any> | undefined,
+  R extends SemanticClassName<any, any> | undefined,
 >(c1: T, ...classes: (R | undefined)[]) {
   return (
-    args: (T extends (...args: any) => any ? Parameters<T>[0] : void) &
-      (R extends (...args: any) => any ? Parameters<R>[0] : void) &
-      Record<string, never>,
+    args: (T extends (...args: any) => any ? Parameters<T>[0] : {}) &
+      (R extends (...args: any) => any ? Parameters<R>[0] : {}),
   ): SemanticRecord<T> & SemanticRecord<R> => {
     const cls1 = getSemanticCls(c1, args);
 

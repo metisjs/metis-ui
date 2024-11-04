@@ -15,7 +15,12 @@ export interface SpinProps {
   /** Customize prefix class name */
   prefixCls?: string;
   /** Additional class name of Spin */
-  className?: SemanticClassName<'wrapper' | 'fullscreen' | 'indicator' | 'tip'>;
+  className?: SemanticClassName<{
+    wrapper?: string;
+    fullscreen?: string;
+    indicator?: string;
+    tip?: string;
+  }>;
   /** Whether Spin is spinning */
   spinning?: boolean;
   /** Style of Spin */
