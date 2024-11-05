@@ -27,12 +27,13 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 <code src="./demo/custom-indicator.tsx">指示条</code>
 <code src="./demo/slide.tsx">滑动</code>
 <code src="./demo/extra.tsx">附加内容</code>
-<code src="./demo/size.tsx">大小</code>
 <code src="./demo/position.tsx">位置</code>
+<code src="./demo/pills.tsx">胶囊式页签</code>
+<code src="./demo/card.tsx" compact>卡片式页签</code>
+<code src="./demo/size.tsx">大小</code>
 
 <!--
 
-<code src="./demo/card.tsx" compact>卡片式页签</code>
 <code src="./demo/editable-card.tsx">新增和关闭页签</code>
 <code src="./demo/custom-add-trigger.tsx">自定义新增页签触发器</code>
 <code src="./demo/custom-tab-bar.tsx">自定义页签头</code>

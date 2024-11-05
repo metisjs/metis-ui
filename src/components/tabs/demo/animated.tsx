@@ -28,7 +28,7 @@ const App: React.FC = () => {
           {
             label: 'Bamboo',
             key: '1',
-            children: 'Hello Bamboo!',
+            content: 'Hello Bamboo!',
             style: {
               height: 200,
               boxShadow: '0 0 3px rgba(255, 0, 0, 0.5)',
@@ -37,7 +37,7 @@ const App: React.FC = () => {
           {
             label: 'Little',
             key: '2',
-            children: 'Hi Little!',
+            content: 'Hi Little!',
             style: {
               height: 300,
               boxShadow: '0 0 3px rgba(0, 255, 0, 0.5)',
@@ -46,7 +46,7 @@ const App: React.FC = () => {
           {
             label: 'Light',
             key: '3',
-            children: 'Welcome Light!',
+            content: 'Welcome Light!',
             style: {
               height: 100,
               boxShadow: '0 0 3px rgba(0, 0, 255, 0.5)',

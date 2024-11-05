@@ -23,7 +23,7 @@ const App: React.FC = () => {
           return {
             label: `Tab ${id}`,
             key: id,
-            children: `Content of Tab ${id}`,
+            content: `Content of Tab ${id}`,
           };
         })}
       />

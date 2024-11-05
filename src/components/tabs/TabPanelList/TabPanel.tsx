@@ -8,7 +8,7 @@ export interface TabPanelProps {
   className?: SemanticClassName<{ root?: string }, { active: boolean }>;
   style?: React.CSSProperties;
   disabled?: boolean;
-  children?: React.ReactNode;
+  content?: React.ReactNode;
   forceRender?: boolean;
   closable?: boolean;
   closeIcon?: React.ReactNode;
@@ -24,7 +24,7 @@ export interface TabPanelProps {
 }
 
 const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) => {
-  const { prefixCls, className, style, id, active, tabKey, children } = props;
+  const { prefixCls, className, style, id, active, tabKey, content } = props;
 
   const semanticCls = useSemanticCls(className, { active: !!active });
 
@@ -41,7 +41,7 @@ const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) =>
       className={panelCls}
       ref={ref}
     >
-      {children}
+      {content}
     </div>
   );
 });

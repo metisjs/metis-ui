@@ -219,6 +219,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
 
   const tabNavBarProps = {
     ...sharedProps,
+    centered,
     editable: mergedEditable,
     locale,
     more,

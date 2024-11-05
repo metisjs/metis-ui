@@ -68,7 +68,7 @@ const App: React.FC = () => {
           {
             label: 'My Account',
             key: '1',
-            children: (
+            content: (
               <Tabs
                 defaultActiveKey="1"
                 tabPosition={childPos}
@@ -79,7 +79,7 @@ const App: React.FC = () => {
                   return {
                     label: `Tab ${key}`,
                     key,
-                    children: `TTTT ${key}`,
+                    content: `TTTT ${key}`,
                   };
                 })}
               />
@@ -88,7 +88,7 @@ const App: React.FC = () => {
           {
             label: 'Company',
             key: '2',
-            children: 'Content of Tab Pane 2',
+            content: 'Content of Tab Pane 2',
           },
         ]}
       />

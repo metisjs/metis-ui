@@ -196,7 +196,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const moreCls = clsx(
     `${prefixCls}-nav-more`,
-    'inline-flex items-center justify-center px-4 py-3 text-lg text-text-secondary',
+    'inline-flex items-center justify-center px-4 py-1 text-lg text-text-secondary',
     semanticCls.more,
   );
 

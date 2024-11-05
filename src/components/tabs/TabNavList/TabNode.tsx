@@ -128,19 +128,74 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
           },
     ],
     // Card
-
+    type === 'card' && [
+      'ml-1.5 w-56 overflow-visible rounded-lg px-2 py-2 transition-none',
+      {
+        'mb-1.5': position === 'top',
+        'mt-1.5': position === 'bottom',
+      },
+      {
+        'mb-0 mt-0 bg-container': active,
+        'hover:bg-fill-tertiary': !disabled && !active,
+      },
+      active && [
+        {
+          'rounded-ee-none rounded-es-none pb-3.5': position === 'top',
+          'rounded-se-none rounded-ss-none pt-3.5': position === 'bottom',
+        },
+        'before:pointer-events-none before:absolute before:-left-2.5 before:h-2.5 before:w-2.5',
+        {
+          'before:bottom-0 before:bg-[radial-gradient(circle_at_0_0,_transparent_10px,_hsla(var(--container))_10px)]':
+            position === 'top',
+          'before:top-0 before:bg-[radial-gradient(circle_at_0_10px,_transparent_10px,_hsla(var(--container))_10px)]':
+            position === 'bottom',
+        },
+        'after:pointer-events-none after:absolute after:-right-2.5 after:h-2.5 after:w-2.5',
+        {
+          'after:bottom-0 after:bg-[radial-gradient(circle_at_10px_0,_transparent_10px,_hsla(var(--container))_10px)]':
+            position === 'top',
+          'after:top-0 after:bg-[radial-gradient(circle_at_10px_10px,_transparent_10px,_hsla(var(--container))_10px)]':
+            position === 'bottom',
+        },
+      ],
+    ],
     // Pills
+    type === 'pills' && [
+      'ml-4 rounded-md px-3 py-2 text-text-secondary first:ml-0',
+      {
+        'hover:bg-fill-quinary': !disabled && !active,
+        'bg-fill-quaternary text-text': active,
+      },
+    ],
     disabled && 'cursor-not-allowed text-text-quaternary',
     semanticCls.root,
   );
 
   const iconCls = clsx(
     `${tabPrefix}-icon`,
-    'mr-2 inline-flex items-center text-xl text-text-tertiary',
-    {
-      'text-primary': active,
-      'group-hover/tab:text-text-secondary': !active && !disabled,
-    },
+    'inline-flex items-center text-text-tertiary',
+    // Line
+    type === 'line' && [
+      'mr-2 text-xl',
+      {
+        'text-primary': active,
+        'group-hover/tab:text-text-secondary': !active && !disabled,
+      },
+    ],
+    // Card
+    type === 'card' && [
+      'mr-1.5 text-lg',
+      {
+        'text-text-secondary': active,
+      },
+    ],
+    // Pills
+    type === 'pills' && [
+      'mr-1.5 text-lg',
+      {
+        'text-text-secondary': active,
+      },
+    ],
     disabled && 'text-text-quaternary',
     semanticCls.icon,
   );

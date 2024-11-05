@@ -4,11 +4,11 @@ import { Tabs } from 'metis-ui';
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
 const initialItems = [
-  { label: 'My Account', children: 'Content of My Account', key: '1' },
-  { label: 'Company', children: 'Content of Company', key: '2' },
+  { label: 'My Account', content: 'Content of My Account', key: '1' },
+  { label: 'Company', content: 'Content of Company', key: '2' },
   {
     label: 'Team Members',
-    children: 'Content of Team Members',
+    content: 'Content of Team Members',
     key: '3',
     closable: false,
   },
@@ -26,7 +26,7 @@ const App: React.FC = () => {
   const add = () => {
     const newActiveKey = `newTab${newTabIndex.current++}`;
     const newPanes = [...items];
-    newPanes.push({ label: 'New Tab', children: 'Content of new Tab', key: newActiveKey });
+    newPanes.push({ label: 'New Tab', content: 'Content of new Tab', key: newActiveKey });
     setItems(newPanes);
     setActiveKey(newActiveKey);
   };

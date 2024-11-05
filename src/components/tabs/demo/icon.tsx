@@ -8,19 +8,19 @@ const items: TabsProps['items'] = [
     key: '1',
     icon: <UserSolid />,
     label: 'My Account',
-    children: 'Content of Tab Pane 1',
+    content: 'Content of Tab Pane 1',
   },
   {
     key: '2',
     icon: <BuildingOfficeSolid />,
     label: 'Company',
-    children: 'Content of Tab Pane 2',
+    content: 'Content of Tab Pane 2',
   },
   {
     key: '3',
     icon: <UserGroupSolid />,
     label: 'Team Members',
-    children: 'Content of Tab Pane 3',
+    content: 'Content of Tab Pane 3',
   },
 ];
 

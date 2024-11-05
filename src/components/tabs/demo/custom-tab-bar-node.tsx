@@ -26,7 +26,7 @@ const DraggableTabNode = ({ className, ...props }: DraggableTabPaneProps) => {
     cursor: 'move',
   };
 
-  return React.cloneElement(props.children as React.ReactElement, {
+  return React.cloneElement(props.content as React.ReactElement, {
     ref: setNodeRef,
     style,
     ...attributes,
@@ -39,17 +39,17 @@ const App: React.FC = () => {
     {
       key: '1',
       label: 'My Account',
-      children: 'Content of Tab Pane 1',
+      content: 'Content of Tab Pane 1',
     },
     {
       key: '2',
       label: 'Company',
-      children: 'Content of Tab Pane 2',
+      content: 'Content of Tab Pane 2',
     },
     {
       key: '3',
       label: 'Team Members',
-      children: 'Content of Tab Pane 3',
+      content: 'Content of Tab Pane 3',
     },
   ]);
 

@@ -7,9 +7,9 @@ const onChange = (key: string) => {
 };
 
 const items: TabsProps['items'] = [
-  { key: '1', label: 'My Account', children: 'Content of Tab Pane 1' },
-  { key: '2', label: 'Company', children: 'Content of Tab Pane 2' },
-  { key: '3', label: 'Team Members', children: 'Content of Tab Pane 3' },
+  { key: '1', label: 'My Account', content: 'Content of Tab Pane 1' },
+  { key: '2', label: 'Company', content: 'Content of Tab Pane 2' },
+  { key: '3', label: 'Team Members', content: 'Content of Tab Pane 3' },
 ];
 
 type Align = 'start' | 'center' | 'end';

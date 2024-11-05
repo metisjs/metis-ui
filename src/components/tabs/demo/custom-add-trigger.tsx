@@ -5,7 +5,7 @@ type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
 const defaultPanes = new Array(2).fill(null).map((_, index) => {
   const id = String(index + 1);
-  return { label: `Tab ${id}`, children: `Content of Tab Pane ${index + 1}`, key: id };
+  return { label: `Tab ${id}`, content: `Content of Tab Pane ${index + 1}`, key: id };
 });
 
 const App: React.FC = () => {
@@ -19,7 +19,7 @@ const App: React.FC = () => {
 
   const add = () => {
     const newActiveKey = `newTab${newTabIndex.current++}`;
-    setItems([...items, { label: 'New Tab', children: 'New Tab Pane', key: newActiveKey }]);
+    setItems([...items, { label: 'New Tab', content: 'New Tab Pane', key: newActiveKey }]);
     setActiveKey(newActiveKey);
   };
 

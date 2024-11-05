@@ -34,17 +34,7 @@ const ExtraContent = React.forwardRef<HTMLDivElement, ExtraContentProps>((props,
   }
 
   return content ? (
-    <div
-      className={clsx(
-        `${prefixCls}-extra-content`,
-        {
-          'mr-4': position === 'left',
-          'ml-4': position === 'right',
-        },
-        className,
-      )}
-      ref={ref}
-    >
+    <div className={clsx(`${prefixCls}-extra-content`, 'flex-none', className)} ref={ref}>
       {content}
     </div>
   ) : null;

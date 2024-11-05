@@ -8,7 +8,7 @@ const items = new Array(3).fill(null).map((_, i) => {
   return {
     label: `Tab ${id}`,
     key: id,
-    children: `Content of Tab Pane ${id}`,
+    content: `Content of Tab Pane ${id}`,
     style: i === 0 ? { height: 200 } : undefined,
   };
 });

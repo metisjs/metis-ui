@@ -8,18 +8,18 @@ const App: React.FC = () => (
       {
         label: 'My Account',
         key: '1',
-        children: 'My Account',
+        content: 'My Account',
       },
       {
         label: 'Company',
         key: '2',
-        children: 'Company',
+        content: 'Company',
         disabled: true,
       },
       {
         label: 'Team Members',
         key: '3',
-        children: 'Team Members',
+        content: 'Team Members',
       },
     ]}
   />

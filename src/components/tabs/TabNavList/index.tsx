@@ -64,6 +64,7 @@ export interface TabNavListProps {
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
   };
+  centered?: boolean;
 }
 
 const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
@@ -118,11 +119,12 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     onTabScroll,
     indicator,
     icons,
+    centered,
   } = props;
 
   const semanticCls = useSemanticCls(className);
 
-  const { prefixCls, tabs } = React.useContext(TabContext);
+  const { prefixCls, tabs, type } = React.useContext(TabContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const extraLeftRef = useRef<HTMLDivElement>(null);
   const extraRightRef = useRef<HTMLDivElement>(null);
@@ -414,15 +416,29 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     `${prefixCls}-nav`,
     'relative flex flex-none items-center',
     !horizontal && 'min-w-16 flex-col',
-    'before:absolute before:border-border-secondary',
     {
-      'mb-4 before:bottom-0 before:left-0 before:right-0 before:border-b': tabPosition === 'top',
-      'order-2 mt-4 before:left-0 before:right-0 before:top-0 before:border-t':
-        tabPosition === 'bottom',
-      'mr-4 before:bottom-0 before:right-0 before:top-0 before:border-r': tabPosition === 'left',
-      'order-2 ml-4 before:bottom-0 before:left-0 before:top-0 before:border-l':
-        tabPosition === 'right',
+      'mb-4': tabPosition === 'top',
+      'order-2 mt-4': tabPosition === 'bottom',
+      'mr-4': tabPosition === 'left',
+      'order-2 ml-4': tabPosition === 'right',
     },
+    type === 'line' && [
+      'before:absolute before:border-border-secondary',
+      {
+        'before:bottom-0 before:left-0 before:right-0 before:border-b': tabPosition === 'top',
+        'before:left-0 before:right-0 before:top-0 before:border-t': tabPosition === 'bottom',
+        'before:bottom-0 before:right-0 before:top-0 before:border-r': tabPosition === 'left',
+        'before:bottom-0 before:left-0 before:top-0 before:border-l': tabPosition === 'right',
+      },
+    ],
+    type === 'card' && [
+      'm-0 bg-fill-quaternary py-1.5',
+      'before:pointer-events-none before:absolute before:left-0 before:right-0 before:z-[1] before:h-1.5 before:bg-container',
+      {
+        'before:bottom-0': tabPosition === 'top',
+        'before:top-0': tabPosition === 'bottom',
+      },
+    ],
     semanticCls.root,
   );
 
@@ -450,6 +466,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     },
     'relative flex flex-auto overflow-hidden whitespace-nowrap',
     !horizontal && 'flex-col',
+    {
+      'justify-center': centered,
+    },
     /* *********** Scroll shadow start *********** */
     'before:pointer-events-none before:absolute before:z-[1] before:opacity-0 before:transition-opacity before:duration-300',
     {
@@ -537,7 +556,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                   }}
                   className={semanticCls.addBtn}
                 />
-                <div className={indicatorCls} style={indicatorStyle} />
+                {type === 'line' && <div className={indicatorCls} style={indicatorStyle} />}
               </div>
             </ResizeObserver>
           </div>

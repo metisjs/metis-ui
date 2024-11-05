@@ -6,7 +6,7 @@ const CheckboxGroup = Checkbox.Group;
 const operations = <Button>Extra Action</Button>;
 
 const OperationsSlot: Record<PositionType, React.ReactNode> = {
-  left: <Button>Left Extra Action</Button>,
+  left: <Button className="me-4">Left Extra Action</Button>,
   right: <Button>Right Extra Action</Button>,
 };
 
@@ -19,7 +19,7 @@ const items = new Array(3).fill(null).map((_, i) => {
   return {
     label: `Tab ${id}`,
     key: id,
-    children: `Content of tab ${id}`,
+    content: `Content of tab ${id}`,
   };
 });
 

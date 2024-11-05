@@ -1,23 +1,47 @@
 import React from 'react';
+import { BuildingOfficeSolid, UserGroupSolid, UserSolid } from '@metisjs/icons';
+import type { TabsProps } from 'metis-ui';
 import { Tabs } from 'metis-ui';
 
-const onChange = (key: string) => {
-  console.log(key);
-};
+const items: TabsProps['items'] = [
+  {
+    key: '1',
+    icon: <UserSolid />,
+    label: 'My Account',
+    content: (
+      <>
+        <p>Content of Tab Pane 1</p>
+        <p>Content of Tab Pane 1</p>
+        <p>Content of Tab Pane 1</p>
+      </>
+    ),
+  },
+  {
+    key: '2',
+    icon: <BuildingOfficeSolid />,
+    label: 'Company',
+    content: (
+      <>
+        <p>Content of Tab Pane 2</p>
+        <p>Content of Tab Pane 2</p>
+        <p>Content of Tab Pane 2</p>
+      </>
+    ),
+  },
+  {
+    key: '3',
+    icon: <UserGroupSolid />,
+    label: 'Team Members',
+    content: (
+      <>
+        <p>Content of Tab Pane 3</p>
+        <p>Content of Tab Pane 3</p>
+        <p>Content of Tab Pane 3</p>
+      </>
+    ),
+  },
+];
 
-const App: React.FC = () => (
-  <Tabs
-    onChange={onChange}
-    type="card"
-    items={new Array(3).fill(null).map((_, i) => {
-      const id = String(i + 1);
-      return {
-        label: `Tab ${id}`,
-        key: id,
-        children: `Content of Tab Pane ${id}`,
-      };
-    })}
-  />
-);
+const App: React.FC = () => <Tabs type="card" items={items} className={{ panel: 'p-4' }} />;
 
 export default App;
