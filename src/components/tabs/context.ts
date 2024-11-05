@@ -5,6 +5,7 @@ export interface TabContextProps {
   tabs: Tab[];
   prefixCls: string;
   type: TabsType;
+  size: 'default' | 'middle' | 'small';
 }
 
 export const TabContext = createContext<TabContextProps>(null!);

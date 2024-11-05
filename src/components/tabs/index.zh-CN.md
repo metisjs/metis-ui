@@ -61,7 +61,6 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 | renderTabBar | 替换 TabBar，用于二次封装标签头 | (props: DefaultTabBarProps, DefaultTabBar: React.ComponentClass) => React.ReactElement | - |  |
 | size | 大小，提供 `large` `middle` 和 `small` 三种大小 | string | `middle` |  |
 | tabBarExtraContent | tab bar 上额外的元素 | ReactNode \| {left?: ReactNode, right?: ReactNode} | - | object: |
-| tabBarGutter | tabs 之间的间隙 | number | - |  |
 | tabBarStyle | tab bar 的样式对象 | CSSProperties | - |  |
 | tabPosition | 页签位置，可选值有 `top` `right` `bottom` `left` | string | `top` |  |
 | destroyInactiveTabPane | 被隐藏时是否销毁 DOM 结构 | boolean | false |  |

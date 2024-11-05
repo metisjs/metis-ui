@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
+import { TabContext } from '../context';
 
 export interface TabPanelProps {
   tab?: React.ReactNode;
@@ -26,9 +27,16 @@ export interface TabPanelProps {
 const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) => {
   const { prefixCls, className, style, id, active, tabKey, content } = props;
 
+  const { type } = React.useContext(TabContext);
+
   const semanticCls = useSemanticCls(className, { active: !!active });
 
-  const panelCls = clsx(prefixCls, active && `${prefixCls}-active`, '', semanticCls.root);
+  const panelCls = clsx(
+    prefixCls,
+    active && `${prefixCls}-active`,
+    type === 'card' && 'bg-container',
+    semanticCls.root,
+  );
 
   return (
     <div

@@ -59,7 +59,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     offset,
   } = props;
 
-  const { type } = React.useContext(TabContext);
+  const { type, size } = React.useContext(TabContext);
 
   const horizontal = position === 'top' || position === 'bottom';
   const { size: indicatorSize, align: indicatorAlign } = useIndicator({
@@ -126,17 +126,28 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
             'before:top-1/2 before:-translate-y-1/2': indicatorAlign === 'center',
             'before:bottom-0': indicatorAlign === 'end',
           },
+      {
+        'ml-7 py-3': horizontal && size === 'middle',
+        'ml-6 py-2': horizontal && size === 'small',
+        'mt-3.5 px-5 py-1.5': !horizontal && size === 'middle',
+        'mt-3 px-4 py-1': !horizontal && size === 'small',
+      },
+      disabled && 'text-text-quaternary',
     ],
     // Card
     type === 'card' && [
-      'ml-1.5 w-56 overflow-visible rounded-lg px-2 py-2 transition-none',
+      'ml-1.5 w-56 overflow-visible rounded-lg px-2 py-2 duration-0 hover:duration-150',
       {
         'mb-1.5': position === 'top',
         'mt-1.5': position === 'bottom',
       },
       {
-        'mb-0 mt-0 bg-container': active,
-        'hover:bg-fill-tertiary': !disabled && !active,
+        'mb-0 mt-0 bg-container transition-none [&_+_div_.divider]:opacity-0': active,
+        'hover:bg-fill-tertiary [&_+_div_.divider]:hover:opacity-0': !disabled && !active,
+      },
+      {
+        'py-1.5': size === 'middle',
+        'py-1': size === 'small',
       },
       active && [
         {
@@ -157,7 +168,14 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
           'after:top-0 after:bg-[radial-gradient(circle_at_10px_10px,_transparent_10px,_hsla(var(--container))_10px)]':
             position === 'bottom',
         },
+        {
+          'pb-3': size === 'middle' && position === 'top',
+          'pt-3': size === 'middle' && position === 'bottom',
+          'pb-2.5': size === 'small' && position === 'top',
+          'pt-2.5': size === 'small' && position === 'bottom',
+        },
       ],
+      disabled && 'text-text-tertiary',
     ],
     // Pills
     type === 'pills' && [
@@ -166,8 +184,13 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'hover:bg-fill-quinary': !disabled && !active,
         'bg-fill-quaternary text-text': active,
       },
+      {
+        'ml-3.5 px-2.5 py-1.5': size === 'middle',
+        'ml-3 rounded px-2 py-1': size === 'small',
+      },
+      disabled && 'text-text-quaternary',
     ],
-    disabled && 'cursor-not-allowed text-text-quaternary',
+    disabled && 'cursor-not-allowed',
     semanticCls.root,
   );
 
@@ -181,6 +204,10 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'text-primary': active,
         'group-hover/tab:text-text-secondary': !active && !disabled,
       },
+      {
+        'mr-1.5 text-lg': size === 'middle',
+        'mr-1 text-base': size === 'small',
+      },
     ],
     // Card
     type === 'card' && [
@@ -188,12 +215,20 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
       {
         'text-text-secondary': active,
       },
+      {
+        'mr-1.5': size === 'middle',
+        'mr-1 text-base': size === 'small',
+      },
     ],
     // Pills
     type === 'pills' && [
       'mr-1.5 text-lg',
       {
         'text-text-secondary': active,
+      },
+      {
+        'mr-1.5': size === 'middle',
+        'mr-1 text-base': size === 'small',
       },
     ],
     disabled && 'text-text-quaternary',
@@ -203,6 +238,15 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
   const labelCls = clsx(`${tabPrefix}-label`, '', semanticCls.label);
 
   const removeCls = clsx(`${tabPrefix}-remove`, '', semanticCls.remove);
+
+  const cardDividerCls = clsx(
+    `${tabPrefix}-divider`,
+    'divider absolute -start-1 h-3/5 w-0.5 rounded-full bg-fill-secondary opacity-75 transition-opacity',
+    'group-first/tab:opacity-0 group-hover/tab:opacity-0',
+    {
+      'opacity-0': active,
+    },
+  );
 
   // =================== Render ===================
   const node: React.ReactElement = (
@@ -243,6 +287,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
           {closeIcon || removeIcon || <XMarkOutline />}
         </button>
       )}
+      {type === 'card' && <span className={cardDividerCls} />}
     </div>
   );
 

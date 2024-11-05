@@ -51,7 +51,6 @@ type RenderTabBarProps = {
   editable?: EditableConfig;
   locale?: TabsLocale;
   more?: MoreProps;
-  tabBarGutter?: number;
   onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   extra?: TabBarExtraContent;

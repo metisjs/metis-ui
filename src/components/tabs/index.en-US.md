@@ -52,7 +52,6 @@ Metis UI has 3 types of Tabs for different situations.
 | renderTabBar | Replace the TabBar | (props: DefaultTabBarProps, DefaultTabBar: React.ComponentClass) => React.ReactElement | - |  |
 | size | Preset tab bar size | `large` \| `middle` \| `small` | `middle` |  |
 | tabBarExtraContent | Extra content in tab bar | ReactNode \| {left?: ReactNode, right?: ReactNode} | - | object:  |
-| tabBarGutter | The gap between tabs | number | - |  |
 | tabBarStyle | Tab bar style object | CSSProperties | - |  |
 | tabPosition | Position of tabs | `top` \| `right` \| `bottom` \| `left` | `top` |  |
 | destroyInactiveTabPane | Whether destroy inactive TabPane when change tab | boolean | false |  |

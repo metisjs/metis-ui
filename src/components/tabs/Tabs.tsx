@@ -50,7 +50,6 @@ export interface TabsProps
   animated?: boolean | AnimatedConfig;
   renderTabBar?: RenderTabBar;
   tabBarExtraContent?: TabBarExtraContent;
-  tabBarGutter?: number;
   tabPosition?: TabPosition;
   destroyInactiveTabPane?: boolean;
 
@@ -94,7 +93,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     centered,
     animated,
     tabPosition = 'top',
-    tabBarGutter,
     tabBarExtraContent,
     locale,
     more,
@@ -224,7 +222,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     locale,
     more,
     icons,
-    tabBarGutter,
     onTabClick: onInternalTabClick,
     onTabScroll,
     extra: tabBarExtraContent,
@@ -238,7 +235,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   };
 
   return (
-    <TabContext.Provider value={{ tabs, prefixCls, type }}>
+    <TabContext.Provider value={{ tabs, prefixCls, type, size }}>
       <div ref={ref} id={id} className={rootCls} {...restProps}>
         <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
         <TabPanelList

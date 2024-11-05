@@ -18,7 +18,6 @@ export interface OperationNodeProps {
   style?: React.CSSProperties;
   id: string;
   tabs: Tab[];
-  tabBarGutter?: number;
   activeKey: string;
   mobile: boolean;
   more?: MoreProps;
@@ -44,7 +43,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     style,
     className,
     editable,
-    tabBarGutter,
     removeAriaLabel,
     horizontal,
     onTabClick,
@@ -201,14 +199,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   );
 
   // ========================= Render =========================
-  const moreStyle: React.CSSProperties = {
-    marginLeft: tabBarGutter,
-  };
-  if (!tabs.length) {
-    moreStyle.visibility = 'hidden';
-    moreStyle.order = 1;
-  }
-
   const moreNode: React.ReactNode = mobile ? null : (
     <Dropdown
       prefixCls={dropdownPrefix}
@@ -224,7 +214,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       <button
         type="button"
         className={moreCls}
-        style={moreStyle}
         tabIndex={-1}
         aria-haspopup="listbox"
         aria-controls={popupId}

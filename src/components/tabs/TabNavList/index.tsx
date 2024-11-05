@@ -52,7 +52,6 @@ export interface TabNavListProps {
   icons?: IconsType;
   more?: MoreProps;
   mobile: boolean;
-  tabBarGutter?: number;
   className?: SemanticClassName<TabNavListClassStruct>;
   style?: React.CSSProperties;
   locale?: TabsLocale;
@@ -113,7 +112,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     editable,
     locale,
     tabPosition,
-    tabBarGutter,
     children,
     onTabClick,
     onTabScroll,
@@ -319,13 +317,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   ]);
 
   // ========================== Tab ==========================
-  const tabNodeStyle: React.CSSProperties = {};
-  if (tabPosition === 'top' || tabPosition === 'bottom') {
-    tabNodeStyle.marginLeft = tabBarGutter;
-  } else {
-    tabNodeStyle.marginTop = tabBarGutter;
-  }
-
   const tabNodes = tabs.map<React.ReactNode>((tab, i) => {
     const { key } = tab;
     return (
@@ -335,8 +326,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         key={key}
         tab={tab}
         position={tabPosition}
-        /* first node should not have margin left */
-        style={i === 0 ? undefined : tabNodeStyle}
         className={semanticCls.tab}
         closable={tab.closable}
         editable={editable}
@@ -551,7 +540,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                   editable={editable}
                   icon={icons?.add}
                   style={{
-                    ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
                     visibility: hasDropdown ? 'hidden' : undefined,
                   }}
                   className={semanticCls.addBtn}
