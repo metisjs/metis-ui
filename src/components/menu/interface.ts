@@ -1,12 +1,13 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SafeKey } from '../_util/type';
 
 // ========================= Options =========================
 export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   label?: React.ReactNode;
   children: ItemType<T>[];
   disabled?: boolean;
-  key: string;
+  key: SafeKey;
   className?: SemanticClassName<
     {
       title?: string;
@@ -46,7 +47,7 @@ export interface MenuItemType
   label?: React.ReactNode;
   disabled?: boolean;
   itemIcon?: RenderIconType;
-  key: React.Key;
+  key: SafeKey;
   danger?: boolean;
   icon?: React.ReactNode;
   title?: string;
@@ -67,14 +68,14 @@ export interface MenuItemGroupType<T extends MenuItemType = MenuItemType> {
   type: 'group';
   label?: React.ReactNode;
   children?: ItemType<T>[];
-  key?: React.Key;
+  key?: SafeKey;
   className?: SemanticClassName<{ title?: string; list?: string }>;
 }
 
 export interface MenuDividerType {
   type: 'divider';
   dashed?: boolean;
-  key?: React.Key;
+  key?: SafeKey;
   className?: string;
 }
 
@@ -102,25 +103,25 @@ export interface RenderIconInfo {
 export type RenderIconType = React.ReactNode | ((props: RenderIconInfo) => React.ReactNode);
 
 export interface MenuInfo {
-  key: string;
-  keyPath: string[];
+  key: SafeKey;
+  keyPath: SafeKey[];
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 }
 
 export interface MenuTitleInfo {
-  key: string;
+  key: SafeKey;
   domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 }
 
 // ========================== Hover ==========================
 export type MenuHoverEventHandler = (info: {
-  key: string;
+  key: SafeKey;
   domEvent: React.MouseEvent<HTMLElement>;
 }) => void;
 
 // ======================== Selection ========================
 export interface SelectInfo extends MenuInfo {
-  selectedKeys: string[];
+  selectedKeys: SafeKey[];
 }
 
 export type SelectEventHandler = (info: SelectInfo) => void;

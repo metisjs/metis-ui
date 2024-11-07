@@ -6,6 +6,7 @@ import ExpandIcon from '../../_util/ExpandIcon';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { useZIndex } from '../../_util/hooks/useZIndex';
 import { cloneElement, isValidElement } from '../../_util/reactNode';
+import type { SafeKey } from '../../_util/type';
 import warning from '../../_util/warning';
 import { useMenuId } from '../context/IdContext';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
@@ -32,7 +33,7 @@ export interface SubMenuProps extends Omit<SubMenuType, 'key' | 'children' | 'la
   internalPopupClose?: boolean;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey: string;
+  eventKey: SafeKey;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;

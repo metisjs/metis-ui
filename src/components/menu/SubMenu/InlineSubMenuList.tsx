@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SafeKey } from '../../_util/type';
 import Transition from '../../transition';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import type { MenuMode } from '../interface';
@@ -8,7 +9,7 @@ import SubMenuList from './SubMenuList';
 export interface InlineSubMenuListProps {
   id?: string;
   open: boolean;
-  keyPath: string[];
+  keyPath: SafeKey[];
   children: React.ReactNode;
 }
 

@@ -11,6 +11,7 @@ import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement, isValidElement } from '../_util/reactNode';
 import { collapseTransition } from '../_util/transition';
+import type { SafeKey } from '../_util/type';
 import warning from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import { SiderContext } from '../layout/Sider';
@@ -68,19 +69,19 @@ export interface MenuProps
   inlineCollapsed?: boolean;
 
   // Open control
-  defaultOpenKeys?: string[];
-  openKeys?: string[];
+  defaultOpenKeys?: SafeKey[];
+  openKeys?: SafeKey[];
 
   // Active control
-  activeKey?: string;
+  activeKey?: SafeKey;
   defaultActiveFirst?: boolean;
 
   // Selection
   selectable?: boolean;
   multiple?: boolean;
 
-  defaultSelectedKeys?: string[];
-  selectedKeys?: string[];
+  defaultSelectedKeys?: SafeKey[];
+  selectedKeys?: SafeKey[];
 
   onSelect?: SelectEventHandler;
   onDeselect?: SelectEventHandler;
@@ -109,7 +110,7 @@ export interface MenuProps
 
   // >>>>> Events
   onClick?: MenuClickEventHandler;
-  onOpenChange?: (openKeys: string[]) => void;
+  onOpenChange?: (openKeys: SafeKey[]) => void;
 
   // >>>>> Sider
   collapsedWidth?: string | number;
@@ -220,7 +221,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     postState: (keys) => keys || EMPTY_LIST,
   });
 
-  const triggerOpenKeys = (keys: string[], forceFlush = false) => {
+  const triggerOpenKeys = (keys: SafeKey[], forceFlush = false) => {
     function doUpdate() {
       setMergedOpenKeys(keys);
       onOpenChange?.(keys);
@@ -329,19 +330,19 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     refreshOverflowKeys(
       allVisible
         ? EMPTY_LIST
-        : childList.slice(lastVisibleIndex + 1).map((child) => child.key as string),
+        : childList.slice(lastVisibleIndex + 1).map((child) => child.key as SafeKey),
     );
   }, [lastVisibleIndex, allVisible]);
 
   // ======================== Active ========================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState(
-    activeKey || (defaultActiveFirst ? (childList[0].key as string) : undefined),
+  const [mergedActiveKey, setMergedActiveKey] = useMergedState<SafeKey | undefined>(
+    activeKey || (defaultActiveFirst ? (childList[0].key as SafeKey) : undefined),
     {
       value: activeKey,
     },
   );
 
-  const onActive = useEvent((key: string) => {
+  const onActive = useEvent((key: SafeKey) => {
     setMergedActiveKey(key);
   });
 
@@ -405,7 +406,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       // Insert or Remove
       const { key: targetKey } = info;
       const exist = mergedSelectKeys.includes(targetKey);
-      let newSelectKeys: string[];
+      let newSelectKeys: SafeKey[];
 
       if (multiple) {
         if (exist) {
@@ -448,7 +449,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     triggerSelection(info);
   });
 
-  const onInternalOpenChange = useEvent((key: string, open: boolean) => {
+  const onInternalOpenChange = useEvent((key: SafeKey, open: boolean) => {
     let newOpenKeys = mergedOpenKeys?.filter((k) => k !== key) ?? [];
 
     if (open) {
@@ -465,7 +466,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   });
 
   // ==================== Accessibility =====================
-  const triggerAccessibilityOpen = (key: string, open?: boolean) => {
+  const triggerAccessibilityOpen = (key: SafeKey, open?: boolean) => {
     const nextOpen = open ?? !mergedOpenKeys?.includes(key);
 
     onInternalOpenChange(key, nextOpen);
@@ -473,7 +474,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
   const onInternalKeyDown = useAccessibility(
     internalMode,
-    mergedActiveKey as string,
+    mergedActiveKey as SafeKey,
     uuid!,
 
     containerRef,

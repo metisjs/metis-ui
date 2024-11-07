@@ -2,6 +2,7 @@ import * as React from 'react';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
+import type { SafeKey } from '../../_util/type';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
 
@@ -171,21 +172,21 @@ function getNextFocusElement(
 
 export default function useAccessibility<T extends HTMLElement>(
   mode: MenuMode,
-  activeKey: string | undefined,
+  activeKey: SafeKey | undefined,
   id: string,
 
   containerRef: React.RefObject<HTMLUListElement>,
-  getKeys: () => string[],
-  getKeyPath: (key: string, includeOverflow?: boolean) => string[],
+  getKeys: () => SafeKey[],
+  getKeyPath: (key: SafeKey, includeOverflow?: boolean) => SafeKey[],
 
-  triggerActiveKey: (key: string) => void,
-  triggerAccessibilityOpen: (key: string, open?: boolean) => void,
+  triggerActiveKey: (key: SafeKey) => void,
+  triggerAccessibilityOpen: (key: SafeKey, open?: boolean) => void,
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
   const rafRef = React.useRef<number>();
 
-  const activeRef = React.useRef<string>();
+  const activeRef = React.useRef<SafeKey>();
   activeRef.current = activeKey;
 
   const cleanRaf = () => {
@@ -207,8 +208,8 @@ export default function useAccessibility<T extends HTMLElement>(
     if ([...ArrowKeys, ENTER, ESC, HOME, END].includes(which)) {
       // Convert key to elements
       let elements: Set<HTMLElement> = new Set<HTMLElement>();
-      let key2element: Map<string, HTMLElement> = new Map();
-      let element2key: Map<HTMLElement, string> = new Map();
+      let key2element: Map<SafeKey, HTMLElement> = new Map();
+      let element2key: Map<HTMLElement, SafeKey> = new Map();
 
       // >>> Wrap as function since we use raf for some case
       const refreshElements = () => {

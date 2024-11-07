@@ -2,6 +2,7 @@ import * as React from 'react';
 import omit from 'rc-util/lib/omit';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
+import type { SafeKey } from '../_util/type';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';
@@ -13,7 +14,7 @@ export interface MenuItemGroupProps extends Omit<MenuItemGroupType, 'type' | 'ch
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey?: string;
+  eventKey?: SafeKey;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;

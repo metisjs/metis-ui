@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SafeKey } from '../../_util/type';
 import type { ItemType } from '../interface';
 import MenuDivider from '../MenuDivider';
 import MenuItem from '../MenuItem';
@@ -18,7 +19,7 @@ function convertItemsToNodes(list: ItemType[]) {
           if (type === 'group') {
             // Group
             return (
-              <MenuItemGroup key={mergedKey} {...restProps} title={label}>
+              <MenuItemGroup key={mergedKey} eventKey={mergedKey} {...restProps} title={label}>
                 {convertItemsToNodes(children)}
               </MenuItemGroup>
             );
@@ -26,7 +27,7 @@ function convertItemsToNodes(list: ItemType[]) {
 
           // Sub Menu
           return (
-            <SubMenu key={mergedKey} {...restProps} title={label}>
+            <SubMenu key={mergedKey} eventKey={mergedKey} {...restProps} title={label}>
               {convertItemsToNodes(children)}
             </SubMenu>
           );
@@ -38,7 +39,7 @@ function convertItemsToNodes(list: ItemType[]) {
         }
 
         return (
-          <MenuItem key={mergedKey} {...restProps}>
+          <MenuItem key={mergedKey} eventKey={mergedKey} {...restProps}>
             {label}
           </MenuItem>
         );
@@ -49,7 +50,7 @@ function convertItemsToNodes(list: ItemType[]) {
     .filter((opt) => opt);
 }
 
-export function parseItems(items: ItemType[], keyPath: string[]) {
+export function parseItems(items: ItemType[], keyPath: SafeKey[]) {
   const childNodes = convertItemsToNodes(items);
 
   return parseChildren(childNodes, keyPath);

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
+import type { SafeKey } from '../../_util/type';
 
-export function parseChildren(children: React.ReactNode | undefined, keyPath: string[]) {
+export function parseChildren(children: React.ReactNode | undefined, keyPath: SafeKey[]) {
   return toArray(children).map((child, index) => {
     if (React.isValidElement(child)) {
       const { key } = child;

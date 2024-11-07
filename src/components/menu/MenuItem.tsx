@@ -6,6 +6,7 @@ import { useComposeRef } from 'rc-util/lib/ref';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement, isValidElement } from '../_util/reactNode';
+import type { SafeKey } from '../_util/type';
 import warning from '../_util/warning';
 import type { SiderContextProps } from '../layout/Sider';
 import { SiderContext } from '../layout/Sider';
@@ -27,7 +28,7 @@ export interface MenuItemProps
   children?: React.ReactNode;
 
   /** @private Internal filled key. Do not set it directly */
-  eventKey: string;
+  eventKey: SafeKey;
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
@@ -336,7 +337,6 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
 function MenuItem(props: MenuItemProps, ref: React.Ref<HTMLElement>) {
   const { eventKey } = props;
-
   // ==================== Record KeyPath ====================
   const measure = useMeasure();
   const connectedKeyPath = useFullPath(eventKey);

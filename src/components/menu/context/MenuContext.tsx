@@ -1,6 +1,7 @@
 import * as React from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
+import type { SafeKey } from '../../_util/type';
 import type { TransitionProps } from '../../transition';
 import type {
   BuiltinPlacements,
@@ -22,7 +23,7 @@ export interface MenuContextProps {
   itemClassName?: MenuItemType['className'];
   groupClassName?: MenuItemGroupType['className'];
   subClassName?: SubMenuType['className'];
-  openKeys: string[];
+  openKeys: SafeKey[];
 
   inlineCollapsed: boolean;
   theme: MenuTheme;
@@ -36,12 +37,12 @@ export interface MenuContextProps {
   overflowDisabled?: boolean;
 
   // Active
-  activeKey: string;
-  onActive: (key: string) => void;
-  onInactive: (key: string) => void;
+  activeKey: SafeKey;
+  onActive: (key: SafeKey) => void;
+  onInactive: (key: SafeKey) => void;
 
   // Selection
-  selectedKeys: string[];
+  selectedKeys: SafeKey[];
 
   // Level
   inlineIndent: number;
@@ -62,7 +63,7 @@ export interface MenuContextProps {
 
   // Function
   onItemClick: MenuClickEventHandler;
-  onOpenChange: (key: string, open: boolean) => void;
+  onOpenChange: (key: SafeKey, open: boolean) => void;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
 }
 
