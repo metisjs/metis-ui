@@ -21,6 +21,7 @@ export interface PopupProps {
   target: HTMLElement | null;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  onPointerEnter?: React.MouseEventHandler<HTMLDivElement>;
   zIndex?: number;
 
   mask?: boolean;
@@ -35,6 +36,7 @@ export interface PopupProps {
   open: boolean;
   /** Tell Portal that should keep in screen. e.g. should wait all motion end */
   keepDom: boolean;
+  fresh?: boolean;
 
   // Click
   onClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -77,6 +79,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     // Open
     open,
     keepDom,
+    fresh,
 
     // Click
     onClick,
@@ -103,6 +106,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
 
     onMouseEnter,
     onMouseLeave,
+    onPointerEnter,
 
     ready,
     offsetX,
@@ -242,12 +246,13 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
                 }
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                onPointerEnter={onPointerEnter}
                 onClick={onClick}
               >
                 {arrow && (
                   <Arrow prefixCls={prefixCls} arrow={arrow} arrowPos={arrowPos} align={align} />
                 )}
-                <PopupContent cache={!open}>{childNode}</PopupContent>
+                <PopupContent cache={!open && !fresh}>{childNode}</PopupContent>
               </div>
             )}
           </Transition>

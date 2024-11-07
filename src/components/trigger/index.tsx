@@ -6,9 +6,11 @@ import { getShadowRoot } from 'rc-util/lib/Dom/shadow';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useId from 'rc-util/lib/hooks/useId';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import isMobile from 'rc-util/lib/isMobile';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { ConfigContext } from '../config-provider';
 import type { TransitionProps } from '../transition';
 import type { TriggerContextProps } from './Context';
 import TriggerContext from './Context';
@@ -30,6 +32,8 @@ import { getAlignPopupClassName } from './util';
 export type { ActionType, AlignType, ArrowTypeOuter as ArrowType, BuildInPlacements };
 
 export interface TriggerRef {
+  nativeElement: HTMLElement;
+  popupElement: HTMLDivElement;
   forceAlign: VoidFunction;
 }
 
@@ -78,11 +82,19 @@ export interface TriggerProps {
   popupPlacement?: string;
   builtinPlacements?: BuildInPlacements;
   popupAlign?: AlignType;
+  popupClassName?: string;
   popupStyle?: React.CSSProperties;
   getPopupClassNameFromAlign?: (align: AlignType) => string;
   onPopupClick?: React.MouseEventHandler<HTMLDivElement>;
 
   alignPoint?: boolean;
+
+  /**
+   * Trigger will memo content when close.
+   * This may affect the case if want to keep content update.
+   * Set `fresh` to `false` will always keep update.
+   */
+  fresh?: boolean;
 
   // ==================== Arrow ====================
   arrow?: boolean | ArrowTypeOuter;
@@ -100,7 +112,7 @@ export interface TriggerProps {
 export function generateTrigger(PortalComponent: React.ComponentType<any> = Portal) {
   const Trigger = React.forwardRef<TriggerRef, TriggerProps>((props, ref) => {
     const {
-      prefixCls = 'metis-trigger-popup',
+      prefixCls: customizePrefixCls,
       children,
 
       // Action
@@ -140,6 +152,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       zIndex,
       stretch,
       getPopupClassNameFromAlign,
+      fresh,
 
       alignPoint,
 
@@ -161,9 +174,18 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       ...restProps
     } = props;
 
+    const { getPrefixCls } = React.useContext(ConfigContext);
+    const prefixCls = getPrefixCls('trigger-popup', customizePrefixCls);
+
     const semanticCls = useSemanticCls(className);
 
     const mergedAutoDestroy = autoDestroy || false;
+
+    // =========================== Mobile ===========================
+    const [mobile, setMobile] = React.useState(false);
+    useLayoutEffect(() => {
+      setMobile(isMobile());
+    }, []);
 
     // ========================== Context ===========================
     const subPopupElements = React.useRef<Record<string, HTMLElement>>({});
@@ -183,7 +205,12 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const id = useId();
     const [popupEle, setPopupEle] = React.useState<HTMLDivElement | null>(null);
 
+    // Used for forwardRef popup. Not use internal
+    const externalPopupRef = React.useRef<HTMLDivElement | null>(null);
+
     const setPopupRef = useEvent((node: HTMLDivElement) => {
+      externalPopupRef.current = node;
+
       if (isDOM(node) && popupEle !== node) {
         setPopupEle(node);
       }
@@ -195,9 +222,13 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     // Use state to control here since `useRef` update not trigger render
     const [targetEle, setTargetEle] = React.useState<HTMLElement | null>(null);
 
+    // Used for forwardRef target. Not use internal
+    const externalForwardRef = React.useRef<HTMLElement | null>(null);
+
     const setTargetRef = useEvent((node: HTMLElement) => {
       if (isDOM(node) && targetEle !== node) {
         setTargetEle(node);
+        externalForwardRef.current = node;
       }
     });
 
@@ -206,18 +237,18 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const originChildProps = child?.props || {};
     const cloneProps: typeof originChildProps = {};
 
-    const inPopupOrChild = useEvent((ele: any) => {
+    const inPopupOrChild = useEvent((ele: EventTarget) => {
       const childDOM = targetEle;
 
       return (
-        childDOM?.contains(ele) ||
-        (childDOM && getShadowRoot(childDOM)?.host === ele) ||
+        childDOM?.contains(ele as HTMLElement) ||
+        getShadowRoot(childDOM!)?.host === ele ||
         ele === childDOM ||
-        popupEle?.contains(ele) ||
-        (popupEle && getShadowRoot(popupEle)?.host) === ele ||
+        popupEle?.contains(ele as HTMLElement) ||
+        getShadowRoot(popupEle!)?.host === ele ||
         ele === popupEle ||
         Object.values(subPopupElements.current).some(
-          (subPopupEle) => subPopupEle?.contains(ele) || ele === subPopupEle,
+          (subPopupEle) => subPopupEle?.contains(ele as HTMLElement) || ele === subPopupEle,
         )
       );
     });
@@ -242,9 +273,17 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const openRef = React.useRef(mergedOpen);
     openRef.current = mergedOpen;
 
+    const lastTriggerRef = React.useRef<boolean[]>([]);
+    lastTriggerRef.current = [];
+
     const internalTriggerOpen = useEvent((nextOpen: boolean) => {
-      if (mergedOpen !== nextOpen) {
-        setMergedOpen(nextOpen);
+      setMergedOpen(nextOpen);
+
+      // Enter or Pointer will both trigger open state change
+      // We only need take one to avoid duplicated change event trigger
+      // Use `lastTriggerRef` to record last open type
+      if ((lastTriggerRef.current[lastTriggerRef.current.length - 1] ?? mergedOpen) !== nextOpen) {
+        lastTriggerRef.current.push(nextOpen);
         onPopupOpenChange?.(nextOpen);
       }
     });
@@ -270,25 +309,25 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
 
     React.useEffect(() => clearDelay, []);
 
-    // ========================== Motion ============================
-    const [inMotion, setInMotion] = React.useState(false);
-    const mountRef = React.useRef(true);
+    // ========================== Transition ============================
+    const [inTransition, setInTransition] = React.useState(false);
 
-    useLayoutEffect(() => {
-      if (!mountRef.current || mergedOpen) {
-        setInMotion(true);
-      }
-      mountRef.current = true;
-    }, [mergedOpen]);
-
-    const [motionPrepareResolve, setMotionPrepareResolve] = React.useState<VoidFunction | null>(
-      null,
+    useLayoutEffect(
+      (firstMount) => {
+        if (!firstMount || mergedOpen) {
+          setInTransition(true);
+        }
+      },
+      [mergedOpen],
     );
+
+    const [transitionPrepareResolve, setTransitionPrepareResolve] =
+      React.useState<VoidFunction | null>(null);
 
     // =========================== Align ============================
     const [mousePos, setMousePos] = React.useState<[x: number, y: number]>([0, 0]);
 
-    const setMousePosByEvent = (event: React.MouseEvent) => {
+    const setMousePosByEvent = (event: Pick<React.MouseEvent, 'clientX' | 'clientY'>) => {
       setMousePos([event.clientX, event.clientY]);
     };
 
@@ -307,20 +346,31 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     ] = useAlign(
       mergedOpen,
       popupEle,
-      alignPoint ? mousePos : targetEle,
+      alignPoint && mousePos !== null ? mousePos : targetEle,
       popupPlacement,
       builtinPlacements,
       popupAlign,
       onPopupAlign,
     );
 
+    const [showActions, hideActions] = useAction(mobile, action, showAction, hideAction);
+
+    const clickToShow = showActions.has('click');
+    const clickToHide = hideActions.has('click') || hideActions.has('contextMenu');
+
     const triggerAlign = useEvent(() => {
-      if (!inMotion) {
+      if (!inTransition) {
         onAlign();
       }
     });
 
-    useWatch(mergedOpen, targetEle, popupEle, triggerAlign);
+    const onScroll = () => {
+      if (openRef.current && alignPoint && clickToHide) {
+        triggerOpen(false);
+      }
+    };
+
+    useWatch(mergedOpen, targetEle, popupEle, triggerAlign, onScroll);
 
     useLayoutEffect(() => {
       triggerAlign();
@@ -339,55 +389,62 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
       return clsx(baseClassName, getPopupClassNameFromAlign?.(alignInfo));
     }, [alignInfo, getPopupClassNameFromAlign, builtinPlacements, prefixCls, alignPoint]);
 
+    // ============================ Refs ============================
     React.useImperativeHandle(ref, () => ({
+      nativeElement: externalForwardRef.current!,
+      popupElement: externalPopupRef.current!,
       forceAlign: triggerAlign,
     }));
-
-    // ========================== Motion ============================
-    const onOpenChanged = (open: boolean) => {
-      setInMotion(false);
-      onAlign();
-      afterPopupOpenChange?.(open);
-    };
-
-    // We will trigger align when motion is in prepare
-    const onPrepare = () =>
-      new Promise<void>((resolve) => {
-        setMotionPrepareResolve(() => resolve);
-      });
-
-    useLayoutEffect(() => {
-      if (motionPrepareResolve) {
-        onAlign();
-        motionPrepareResolve();
-        setMotionPrepareResolve(null);
-      }
-    }, [motionPrepareResolve]);
 
     // ========================== Stretch ===========================
     const [targetWidth, setTargetWidth] = React.useState(0);
     const [targetHeight, setTargetHeight] = React.useState(0);
 
-    const onTargetResize = (_: object, ele: HTMLElement) => {
-      triggerAlign();
-
-      if (stretch) {
-        const rect = ele.getBoundingClientRect();
+    const syncTargetSize = () => {
+      if (stretch && targetEle) {
+        const rect = targetEle.getBoundingClientRect();
         setTargetWidth(rect.width);
         setTargetHeight(rect.height);
       }
     };
 
-    // =========================== Action ===========================
-    const [showActions, hideActions] = useAction(action, showAction, hideAction);
+    const onTargetResize = () => {
+      syncTargetSize();
+      triggerAlign();
+    };
 
-    // Util wrapper for trigger action
-    const wrapperAction = (
+    // ========================== Transition ============================
+    const onOpenChanged = (open: boolean) => {
+      setInTransition(false);
+      onAlign();
+      afterPopupOpenChange?.(open);
+    };
+
+    // We will trigger align when transition is in prepare
+    const onPrepare = () =>
+      new Promise<void>((resolve) => {
+        syncTargetSize();
+        setTransitionPrepareResolve(() => resolve);
+      });
+
+    useLayoutEffect(() => {
+      if (transitionPrepareResolve) {
+        onAlign();
+        transitionPrepareResolve();
+        setTransitionPrepareResolve(null);
+      }
+    }, [transitionPrepareResolve]);
+
+    // =========================== Action ===========================
+    /**
+     * Util wrapper for trigger action
+     */
+    function wrapperAction<Event extends React.SyntheticEvent>(
       eventName: string,
       nextOpen: boolean,
       delay?: number,
-      preEvent?: (event: any) => void,
-    ) => {
+      preEvent?: (event: Event) => void,
+    ) {
       cloneProps[eventName] = (event: any, ...args: any[]) => {
         preEvent?.(event);
         triggerOpen(nextOpen, delay);
@@ -395,12 +452,9 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
         // Pass to origin
         originChildProps[eventName]?.(event, ...args);
       };
-    };
+    }
 
     // ======================= Action: Click ========================
-    const clickToShow = showActions.has('click');
-    const clickToHide = hideActions.has('click') || hideActions.has('contextMenu');
-
     if (clickToShow || clickToHide) {
       cloneProps.onClick = (event: React.MouseEvent<HTMLElement>, ...args: any[]) => {
         if (openRef.current && clickToHide) {
@@ -431,15 +485,22 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const hoverToShow = showActions.has('hover');
     const hoverToHide = hideActions.has('hover');
 
-    let onPopupMouseEnter: VoidFunction = () => {};
+    let onPopupMouseEnter: React.MouseEventHandler<HTMLDivElement> = () => {};
     let onPopupMouseLeave: VoidFunction = () => {};
 
     if (hoverToShow) {
-      wrapperAction('onMouseEnter', true, mouseEnterDelay, (event) => {
+      // Compatible with old browser which not support pointer event
+      wrapperAction<React.MouseEvent>('onMouseEnter', true, mouseEnterDelay, (event) => {
         setMousePosByEvent(event);
       });
-      onPopupMouseEnter = () => {
-        triggerOpen(true, mouseEnterDelay);
+      wrapperAction<React.PointerEvent>('onPointerEnter', true, mouseEnterDelay, (event) => {
+        setMousePosByEvent(event);
+      });
+      onPopupMouseEnter = (event) => {
+        // Only trigger re-open when popup is visible
+        if ((mergedOpen || inTransition) && popupEle?.contains(event.target as HTMLElement)) {
+          triggerOpen(true, mouseEnterDelay);
+        }
       };
 
       // Align Point
@@ -453,6 +514,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
 
     if (hoverToHide) {
       wrapperAction('onMouseLeave', false, mouseLeaveDelay);
+      wrapperAction('onPointerLeave', false, mouseLeaveDelay);
       onPopupMouseLeave = () => {
         triggerOpen(false, mouseLeaveDelay);
       };
@@ -470,8 +532,13 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     // ==================== Action: ContextMenu =====================
     if (showActions.has('contextMenu')) {
       cloneProps.onContextMenu = (event: React.MouseEvent, ...args: any[]) => {
-        setMousePosByEvent(event);
-        triggerOpen(true);
+        if (openRef.current && hideActions.has('contextMenu')) {
+          triggerOpen(false);
+        } else {
+          setMousePosByEvent(event);
+          triggerOpen(true);
+        }
+
         event.preventDefault();
 
         // Pass to origin
@@ -547,10 +614,12 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
             target={targetEle}
             onMouseEnter={onPopupMouseEnter}
             onMouseLeave={onPopupMouseLeave}
+            onPointerEnter={onPopupMouseEnter}
             zIndex={zIndex}
             // Open
             open={mergedOpen}
-            keepDom={inMotion}
+            keepDom={inTransition}
+            fresh={fresh}
             // Click
             onClick={onPopupClick}
             // Mask

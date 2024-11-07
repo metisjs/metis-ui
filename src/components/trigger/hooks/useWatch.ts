@@ -6,6 +6,7 @@ export default function useWatch(
   target: HTMLElement | null,
   popup: HTMLElement | null,
   onAlign: VoidFunction,
+  onScroll: VoidFunction,
 ) {
   useLayoutEffect(() => {
     if (open && target && popup) {
@@ -20,6 +21,7 @@ export default function useWatch(
 
       function notifyScroll() {
         onAlign();
+        onScroll();
       }
 
       mergedList.forEach((scroller) => {
