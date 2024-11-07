@@ -44,7 +44,7 @@ demo:
 | autoAdjustOverflow | 下拉框被遮挡时自动调整位置 | boolean | true |  |
 | autoFocus | 打开后自动聚焦下拉框 | boolean | false |  |
 | className | 语义化结构 class | string \| Record&lt;'root' \| 'overlay' \| 'open', string> | - |  |
-| destroyPopupOnHide | 关闭后是否销毁 Dropdown | boolean | false |  |
+| autoDestroy | 关闭后是否销毁 Dropdown | boolean | false |  |
 | disabled | 菜单是否禁用 | boolean | - |  |
 | getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
 | menu | 菜单配置项 | [MenuProps](/components/menu-cn#api) | - |  |
@@ -52,7 +52,7 @@ demo:
 | placement | 菜单弹出位置：`bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight` | string | `bottomLeft` |  |
 | popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
 | trigger | 触发下拉的行为, 移动端不支持 hover | Array&lt;`click`\|`hover`\|`contextMenu`> | \[`hover`] |  |
-| onOpenChange | 菜单显示状态改变时调用，点击菜单按钮导致的消失不会触发。 | (open: boolean) => void | - |  |
+| onOpenChange | 菜单显示状态改变时调用，点击菜单按钮导致的消失不会触发。 | (open: boolean, info: { source: 'trigger' \| 'menu' }) => void | - |  |
 
 ### Dropdown.Button
 

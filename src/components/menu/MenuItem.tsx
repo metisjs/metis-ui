@@ -317,9 +317,14 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
             className: clsx(iconCls, isValidElement(icon) ? icon.props?.className : ''),
           })}
           <span
-            className={clsx(`${prefixCls}-title-content`, 'flex-1 truncate', {
-              'opacity-0': firstLevel && isInlineCollapsed,
-            })}
+            className={clsx(
+              `${prefixCls}-title-content`,
+              'relative flex-1 truncate',
+              {
+                'opacity-0': firstLevel && isInlineCollapsed,
+              },
+              semanticCls.title,
+            )}
           >
             {children}
           </span>

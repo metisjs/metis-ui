@@ -29,7 +29,9 @@ const App: React.FC = () => {
           {menu}
           <Divider style={{ margin: 0 }} />
           <Space style={{ padding: 8 }}>
-            <Button type="primary">Click me!</Button>
+            <Button type="primary" size="small">
+              Click me!
+            </Button>
           </Space>
         </>
       )}

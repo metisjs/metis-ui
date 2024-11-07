@@ -81,7 +81,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     prefixCls,
     mode,
     theme: contextTheme,
-    itemClassName,
+    subClassName,
     openKeys,
 
     // Disabled
@@ -223,7 +223,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const [zIndex] = useZIndex('Menu');
 
   // =============================== Style ===============================
-  const semanticCls = useSemanticCls([itemClassName, className], {
+  const semanticCls = useSemanticCls([subClassName, className], {
     disabled: mergedDisabled,
     active: mergedActive,
     childrenSelected,
@@ -323,6 +323,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
       'text-text-tertiary': firstLevel && contextTheme !== 'dark',
       'text-primary': childrenSelected && contextTheme !== 'dark',
     },
+    mergedDisabled && {
+      'text-text-quaternary': contextTheme === 'light',
+      'text-gray-500': contextTheme === 'dark',
+    },
     semanticCls.icon,
   );
 
@@ -345,7 +349,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     contextTheme !== 'dark' && childrenSelected && 'text-primary',
     firstLevel && isInlineCollapsed && 'opacity-0',
     mergedDisabled && {
-      'text-text-tertiary': contextTheme === 'light',
+      'text-text-quaternary': contextTheme === 'light',
       'text-gray-500': contextTheme === 'dark',
     },
   );

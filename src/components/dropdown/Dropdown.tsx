@@ -32,10 +32,10 @@ export interface DropdownProps {
   arrow?: boolean | DropdownArrowOptions;
   trigger?: ('click' | 'hover' | 'contextMenu')[];
   popupRender?: (originNode: React.ReactNode) => React.ReactNode;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, info: { source: 'trigger' | 'menu' }) => void;
   open?: boolean;
   disabled?: boolean;
-  destroyPopupOnHide?: boolean;
+  autoDestroy?: boolean;
   align?: AlignType;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   prefixCls?: string;
@@ -58,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     children,
     trigger = ['hover'],
     disabled,
-    destroyPopupOnHide,
+    autoDestroy,
     align,
     popupRender,
     getPopupContainer,
@@ -92,7 +92,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   });
 
   const onInnerOpenChange = useEvent((nextOpen: boolean) => {
-    onOpenChange?.(nextOpen);
+    onOpenChange?.(nextOpen, { source: 'trigger' });
     setOpen(nextOpen);
   });
 
@@ -137,6 +137,10 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   });
 
   const onMenuClick = React.useCallback(() => {
+    if (menu?.selectable && menu?.multiple) {
+      return;
+    }
+    onOpenChange?.(false, { source: 'menu' });
     setOpen(false);
   }, []);
 
@@ -173,7 +177,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     <Trigger
       zIndex={zIndex}
       forceRender={forceRender}
-      autoDestroy={destroyPopupOnHide}
+      autoDestroy={autoDestroy}
       mouseEnterDelay={mouseEnterDelay}
       mouseLeaveDelay={mouseLeaveDelay}
       alignPoint={alignPoint}

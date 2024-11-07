@@ -40,7 +40,7 @@ When there are more than a few options to choose from, you can wrap them in a `D
 | autoAdjustOverflow | Whether to adjust dropdown placement automatically when dropdown is off screen | boolean | true |  |
 | autoFocus | Focus element in `overlay` when opened | boolean | false |  |
 | className | Semantic DOM class | string \| Record&lt;'root' \| 'overlay' \| 'open', string> | - |  |
-| destroyPopupOnHide | Whether destroy dropdown when hidden | boolean | false |  |
+| autoDestroy | Whether destroy dropdown when hidden | boolean | false |  |
 | disabled | Whether the dropdown menu is disabled | boolean | - |  |
 | getPopupContainer | To set the container of the dropdown menu. The default is to create a div element in body, but you can reset it to the scrolling area and make a relative reposition. | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
 | menu | The menu props | [MenuProps](/components/menu/#api) | - |  |
@@ -48,7 +48,7 @@ When there are more than a few options to choose from, you can wrap them in a `D
 | placement | Placement of popup menu: `bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight` | string | `bottomLeft` |  |
 | popupRender | Customize dropdown content | (menus: ReactNode) => ReactNode | - |  |
 | trigger | The trigger mode which executes the dropdown action. Note that hover can't be used on touchscreens | Array&lt;`click`\|`hover`\|`contextMenu`> | \[`hover`] |  |
-| onOpenChange | Called when the open state is changed. Not trigger when hidden by click item. | (open: boolean) => void | - |  |
+| onOpenChange | Called when the open state is changed. Not trigger when hidden by click item. | (open: boolean, info: { source: 'trigger' \| 'menu' }) => void | - |  |
 
 ### Dropdown.Button
 

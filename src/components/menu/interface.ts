@@ -51,7 +51,7 @@ export interface MenuItemType
   icon?: React.ReactNode;
   title?: string;
   className?: SemanticClassName<
-    { inner?: string; icon?: string },
+    { inner?: string; icon?: string; title?: string },
     { disabled?: boolean; selected?: boolean }
   >;
 

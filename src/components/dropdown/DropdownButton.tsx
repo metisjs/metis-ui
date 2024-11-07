@@ -67,7 +67,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     buttonsRender = (buttons: React.ReactNode[]) => buttons,
     mouseEnterDelay,
     mouseLeaveDelay,
-    destroyPopupOnHide,
+    autoDestroy,
     popupRender,
     ...restProps
   } = props;
@@ -87,7 +87,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     getPopupContainer: getPopupContainer || getContextPopupContainer,
     mouseEnterDelay,
     mouseLeaveDelay,
-    destroyPopupOnHide,
+    autoDestroy,
     popupRender,
     className: { overlay: semanticCls.overlay, open: semanticCls.open },
   };
