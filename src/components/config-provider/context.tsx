@@ -42,6 +42,7 @@ import type { SkeletonProps } from '../skeleton';
 import type { SliderBaseProps } from '../slider';
 import type { SpaceProps } from '../space';
 import type { SpinProps } from '../spin';
+import type { SplitterProps } from '../splitter';
 import type { StatisticProps } from '../statistic';
 import type { StepsProps } from '../steps';
 import type { SwitchProps } from '../switch';
@@ -144,6 +145,8 @@ export type SliderConfig = Pick<SliderBaseProps, 'className'>;
 
 export type SpaceConfig = Pick<SpaceProps, 'size' | 'className'>;
 
+export type SplitterConfig = Pick<SplitterProps, 'className'>;
+
 export type SpinConfig = Pick<SpinProps, 'className'>;
 
 export type StatisticConfig = Pick<StatisticProps, 'className'>;
@@ -186,6 +189,7 @@ export interface ConfigConsumerProps {
   pagination?: PaginationConfig;
   locale?: Locale;
   space?: SpaceConfig;
+  splitter?: SplitterConfig;
   virtual?: boolean;
   popupMatchSelectWidth?: boolean;
   popupOverflow?: PopupOverflow;
