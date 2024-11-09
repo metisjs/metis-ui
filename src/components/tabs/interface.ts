@@ -1,8 +1,10 @@
 import type React from 'react';
+import type { SafeKey } from '../_util/type';
 import type { DropdownProps } from '../dropdown';
 import type { TransitionProps } from '../transition';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPanelProps } from './TabPanelList/TabPanel';
+import type { TabsProps } from './Tabs';
 
 export type TriggerProps = {
   trigger?: 'hover' | 'click';
@@ -38,20 +40,20 @@ export type TabsType = 'line' | 'pills' | 'card';
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export interface Tab extends Omit<TabPanelProps, 'tab'> {
-  key: string;
+  key: SafeKey;
   label: React.ReactNode;
 }
 
 type RenderTabBarProps = {
   id: string;
-  activeKey: string;
+  activeKey: SafeKey;
   animated: AnimatedConfig;
   tabPosition: TabPosition;
   mobile: boolean;
-  editable?: EditableConfig;
+  editConfig: EditableConfig;
   locale?: TabsLocale;
   more?: MoreProps;
-  onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabClick: (key: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   extra?: TabBarExtraContent;
   style?: React.CSSProperties;
@@ -68,13 +70,10 @@ export interface TabsLocale {
   addAriaLabel?: string;
 }
 
-export interface EditableConfig {
-  onEdit: (
-    type: 'add' | 'remove',
-    info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
-  ) => void;
-  showAdd?: boolean;
-}
+export type EditableConfig = Pick<
+  TabsProps,
+  'closable' | 'addable' | 'renameAfterAdd' | 'onAdd' | 'onRemove' | 'onRename'
+>;
 
 export interface AnimatedConfig {
   indicator?: boolean;
@@ -89,3 +88,7 @@ export type TabBarExtraPosition = 'left' | 'right';
 export type TabBarExtraMap = Partial<Record<TabBarExtraPosition, React.ReactNode>>;
 
 export type TabBarExtraContent = React.ReactNode | TabBarExtraMap;
+
+export interface TabsRef {
+  triggerRename: (key: SafeKey) => void;
+}

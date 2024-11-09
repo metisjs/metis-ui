@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
+import type { SafeKey } from '../../_util/type';
 import { TabContext } from '../context';
 
 export interface TabPanelProps {
@@ -17,7 +18,7 @@ export interface TabPanelProps {
 
   // Pass by TabPaneList
   prefixCls?: string;
-  tabKey?: string;
+  tabKey?: SafeKey;
   id?: string;
   animated?: boolean;
   active?: boolean;

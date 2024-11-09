@@ -1,14 +1,23 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { EllipsisHorizontalOutline } from '@metisjs/icons';
-import Scrollbar from 'metis-ui/es/scrollbar';
+import { EllipsisHorizontalOutline, XMarkOutline } from '@metisjs/icons';
 import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
+import type { SafeKey } from '../../_util/type';
 import Dropdown from '../../dropdown';
 import type { MenuProps } from '../../menu';
-import type { EditableConfig, IconsType, MoreProps, Tab, TabsLocale } from '../interface';
+import Scrollbar from '../../scrollbar';
+import { TabContext } from '../context';
+import type {
+  EditableConfig,
+  IconsType,
+  MoreProps,
+  Tab,
+  TabPosition,
+  TabsLocale,
+} from '../interface';
 import { getRemovable } from '../util';
 import AddButton from './AddButton';
 
@@ -18,17 +27,17 @@ export interface OperationNodeProps {
   style?: React.CSSProperties;
   id: string;
   tabs: Tab[];
-  activeKey: string;
+  activeKey: SafeKey;
   mobile: boolean;
   more?: MoreProps;
   icons?: IconsType;
-  editable?: EditableConfig;
+  editConfig: EditableConfig;
   locale?: TabsLocale;
   removeAriaLabel?: string;
-  onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabClick: (key: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
-  horizontal?: boolean;
+  position?: TabPosition;
 }
 
 const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((props, ref) => {
@@ -42,15 +51,20 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     icons,
     style,
     className,
-    editable,
+    editConfig,
     removeAriaLabel,
-    horizontal,
+    position,
     onTabClick,
     getPopupContainer,
   } = props;
+
+  const { type } = React.useContext(TabContext);
+
+  const horizontal = position === 'top' || position === 'bottom';
+
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [selectedKey, setSelectedKey] = useState<SafeKey | null>(null);
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -58,10 +72,10 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
-  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: string) {
+  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: SafeKey) {
     event.preventDefault();
     event.stopPropagation();
-    editable?.onEdit('remove', { key, event });
+    editConfig?.onRemove?.(key, event);
   }
 
   const menu: MenuProps = {
@@ -71,14 +85,14 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     },
     prefixCls: `${dropdownPrefix}-menu`,
     className: {
-      root: 'min-w-28 gap-0',
+      root: 'min-w-32',
       item: ({ disabled }) => ({
-        root: 'px-0',
         inner: clsx(
-          'rounded-none pe-2 ps-2 leading-8',
           !disabled && 'text-text-secondary hover:text-text',
           disabled && 'text-text-quaternary',
+          editConfig?.closable && 'pe-2',
         ),
+        title: clsx('flex', editConfig?.closable && 'pe-6'),
       }),
     },
     id: popupId,
@@ -89,7 +103,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     'aria-label': dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown',
     items: tabs.map((tab) => {
       const { closable, disabled, closeIcon, key, label } = tab;
-      const removable = getRemovable(closable, closeIcon, editable, disabled);
+      const removable = getRemovable(closable, closeIcon, editConfig, disabled);
 
       return {
         key,
@@ -99,19 +113,19 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
         disabled,
         label: (
           <>
-            <span>{label}</span>
+            <span className="flex-1">{label}</span>
             {removable && (
               <button
                 type="button"
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
-                className={`${dropdownPrefix}-menu-item-remove`}
+                className="absolute end-0 top-1/2 inline-flex -translate-y-1/2 items-center text-base text-text-tertiary transition-colors hover:text-text-secondary"
                 onClick={(e) => {
                   e.stopPropagation();
                   onRemoveTab(e, key);
                 }}
               >
-                {closeIcon || icons?.remove || '×'}
+                {closeIcon || icons?.remove || <XMarkOutline />}
               </button>
             )}
           </>
@@ -194,8 +208,18 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const moreCls = clsx(
     `${prefixCls}-nav-more`,
-    'inline-flex items-center justify-center px-4 py-1 text-lg text-text-secondary',
+    'inline-flex items-center justify-center px-4 py-1 text-lg text-text-tertiary hover:text-text-secondary',
+    type === 'card' && {
+      'mb-1.5': position === 'top',
+      'mt-1.5': position === 'bottom',
+    },
     semanticCls.more,
+  );
+
+  const addBtnCls = clsx(
+    type === 'line' && 'py-1 pe-2',
+    type === 'card' && 'mr-1.5',
+    semanticCls.addBtn,
   );
 
   // ========================= Render =========================
@@ -232,8 +256,9 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       <AddButton
         prefixCls={prefixCls}
         locale={locale}
-        editable={editable}
-        className={semanticCls.addBtn}
+        editConfig={editConfig}
+        className={addBtnCls}
+        icon={icons?.add}
       />
     </div>
   );

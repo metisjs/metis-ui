@@ -1,11 +1,14 @@
 import { createContext } from 'react';
-import type { Tab, TabsType } from './interface';
+import type { SafeKey } from '../_util/type';
+import type { Tab } from './interface';
+import type { TabsProps } from './Tabs';
 
-export interface TabContextProps {
+export interface TabContextProps extends Pick<TabsProps, 'type' | 'size' | 'renderTabContextMenu'> {
   tabs: Tab[];
   prefixCls: string;
-  type: TabsType;
-  size: 'default' | 'middle' | 'small';
+  renamingKey?: SafeKey;
+  triggerRename: (key: SafeKey) => void;
+  cancelRename: () => void;
 }
 
 export const TabContext = createContext<TabContextProps>(null!);

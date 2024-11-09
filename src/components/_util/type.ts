@@ -105,3 +105,5 @@ export type GetContextProp<
   T extends React.Context<any>,
   PropName extends keyof GetContextProps<T>,
 > = NonNullable<GetContextProps<T>[PropName]>;
+
+export type SafeKey = Exclude<React.Key, bigint>;

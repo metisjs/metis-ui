@@ -5,14 +5,16 @@ import isMobile from 'rc-util/lib/isMobile';
 import omit from 'rc-util/lib/omit';
 import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
+import type { SafeKey } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
+import type { MenuProps } from '../menu';
+import type { TabContextProps } from './context';
 import { TabContext } from './context';
 import useAnimateConfig from './hooks/useAnimateConfig';
 import type { GetIndicatorSize } from './hooks/useIndicator';
 import type {
   AnimatedConfig,
-  EditableConfig,
   MoreProps,
   OnTabScroll,
   RenderTabBar,
@@ -20,6 +22,7 @@ import type {
   TabBarExtraContent,
   TabPosition,
   TabsLocale,
+  TabsRef,
   TabsType,
 } from './interface';
 import type { TabNavListClassStruct } from './TabNavList';
@@ -45,8 +48,8 @@ export interface TabsProps
 
   items?: Tab[];
 
-  activeKey?: string;
-  defaultActiveKey?: string;
+  activeKey?: SafeKey;
+  defaultActiveKey?: SafeKey;
   animated?: boolean | AnimatedConfig;
   renderTabBar?: RenderTabBar;
   tabBarExtraContent?: TabBarExtraContent;
@@ -56,10 +59,17 @@ export interface TabsProps
   type?: TabsType;
   size?: 'default' | 'middle' | 'small';
   centered?: boolean;
-  editable?: EditableConfig;
 
-  onChange?: (activeKey: string) => void;
-  onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
+  renderTabContextMenu?: (tab: Tab) => MenuProps;
+  addable?: boolean;
+  closable?: boolean;
+  renameAfterAdd?: boolean;
+  onAdd?: (event: React.MouseEvent | React.KeyboardEvent) => void | string | Promise<string>;
+  onRemove?: (key: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onRename?: (key: SafeKey, name: string) => void;
+
+  onChange?: (activeKey: SafeKey) => void;
+  onTabClick?: (activeKey: SafeKey, e: React.KeyboardEvent | React.MouseEvent) => void;
   onTabScroll?: OnTabScroll;
 
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -81,7 +91,7 @@ export interface TabsProps
   };
 }
 
-const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
+const Tabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
   const {
     id,
     prefixCls: customizePrefixCls,
@@ -97,13 +107,19 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     locale,
     more,
     destroyInactiveTabPane,
-    editable,
     size = 'default',
+    closable,
+    addable,
+    renameAfterAdd = true,
+    renderTabContextMenu,
     renderTabBar,
     onChange,
     onTabClick,
     onTabScroll,
     getPopupContainer,
+    onAdd,
+    onRemove,
+    onRename,
     indicator,
     icons,
     ...restProps
@@ -112,18 +128,14 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('tabs', customizePrefixCls);
 
+  const [renamingKey, setRenamingKey] = useState<SafeKey>();
+
   const tabs = React.useMemo<Tab[]>(
     () => (items || []).filter((item) => item && typeof item === 'object' && 'key' in item),
     [items],
   );
 
   const warning = devUseWarning('Tabs');
-
-  let mergedEditable: EditableConfig | undefined = editable;
-  if (!!editable && type === 'line') {
-    mergedEditable = undefined;
-    warning(false, 'usage', 'Default tabs not support editable, Please use `card` or `pills`.');
-  }
 
   let mergedTabPosition = tabPosition;
   if (type !== 'line' && (tabPosition === 'left' || tabPosition === 'right')) {
@@ -137,6 +149,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
 
   const mergedAnimated = useAnimateConfig(animated);
 
+  React.useImperativeHandle(ref, () => ({ triggerRename: setRenamingKey }));
+
   // ======================== Mobile ========================
   const [mobile, setMobile] = useState(false);
   useEffect(() => {
@@ -145,7 +159,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   }, []);
 
   // ====================== Active Key ======================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(() => tabs[0]?.key, {
+  const [mergedActiveKey, setMergedActiveKey] = useMergedState<SafeKey>(() => tabs[0]?.key, {
     value: activeKey,
     defaultValue: defaultActiveKey,
   });
@@ -194,7 +208,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     `${prefixCls}-${mergedTabPosition}`,
     {
       [`${prefixCls}-mobile`]: mobile,
-      [`${prefixCls}-editable`]: editable,
       [`${prefixCls}-${size}`]: size !== 'default',
       [`${prefixCls}-${type}`]: type !== 'line',
       [`${prefixCls}-centered`]: centered,
@@ -218,7 +231,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   const tabNavBarProps = {
     ...sharedProps,
     centered,
-    editable: mergedEditable,
+    editConfig: { onAdd, onRemove, onRename, closable, addable, renameAfterAdd },
     locale,
     more,
     icons,
@@ -234,9 +247,20 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     ),
   };
 
+  const context: TabContextProps = {
+    tabs,
+    prefixCls,
+    type,
+    size,
+    renderTabContextMenu,
+    renamingKey,
+    triggerRename: setRenamingKey,
+    cancelRename: () => setRenamingKey(undefined),
+  };
+
   return (
-    <TabContext.Provider value={{ tabs, prefixCls, type, size }}>
-      <div ref={ref} id={id} className={rootCls} {...restProps}>
+    <TabContext.Provider value={context}>
+      <div id={id} className={rootCls} {...restProps}>
         <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}

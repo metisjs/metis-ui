@@ -6,6 +6,7 @@ import { useComposeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
+import type { SafeKey } from '../../_util/type';
 import { TabContext } from '../context';
 import type { GetIndicatorSize } from '../hooks/useIndicator';
 import useIndicator from '../hooks/useIndicator';
@@ -45,17 +46,17 @@ export type TabNavListClassStruct = {
 export interface TabNavListProps {
   id: string;
   tabPosition: TabPosition;
-  activeKey: string;
+  activeKey: SafeKey;
   animated: AnimatedConfig;
   extra?: TabBarExtraContent;
-  editable?: EditableConfig;
+  editConfig: EditableConfig;
   icons?: IconsType;
   more?: MoreProps;
   mobile: boolean;
   className?: SemanticClassName<TabNavListClassStruct>;
   style?: React.CSSProperties;
   locale?: TabsLocale;
-  onTabClick: (activeKey: string, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabClick: (activeKey: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -109,7 +110,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     animated,
     activeKey,
     extra,
-    editable,
+    editConfig,
     locale,
     tabPosition,
     children,
@@ -122,7 +123,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   const semanticCls = useSemanticCls(className);
 
-  const { prefixCls, tabs, type } = React.useContext(TabContext);
+  const { prefixCls, tabs, type, size } = React.useContext(TabContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const extraLeftRef = useRef<HTMLDivElement>(null);
   const extraRightRef = useRef<HTMLDivElement>(null);
@@ -270,8 +271,18 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
       if (tabOffset.left < -transformLeft) {
         newTransform = -tabOffset.left;
+
+        // Card 模式下有6个像素的外圆角
+        if (type === 'card') {
+          newTransform += 6;
+        }
       } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabContentValue) {
         newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
+
+        // Card 模式下有6个像素的外圆角
+        if (type === 'card') {
+          newTransform -= 6;
+        }
       }
 
       setTransformTop(0);
@@ -317,7 +328,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   ]);
 
   // ========================== Tab ==========================
-  const tabNodes = tabs.map<React.ReactNode>((tab, i) => {
+  const tabNodes = tabs.map<React.ReactNode>((tab) => {
     const { key } = tab;
     return (
       <TabNode
@@ -328,7 +339,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         position={tabPosition}
         className={semanticCls.tab}
         closable={tab.closable}
-        editable={editable}
+        editConfig={editConfig}
         removeIcon={icons?.remove}
         active={key === activeKey}
         renderWrapper={children}
@@ -496,11 +507,35 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       'right-0 w-0.5 transition-[height,top,bottom]': tabPosition === 'left',
       'left-0 w-0.5 transition-[height,top,bottom]': tabPosition === 'right',
     },
+    !animated.indicator && 'transition-none',
     semanticCls.indicator,
   );
 
-  // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
+  const addBtnCls = clsx(
+    type === 'line' && [
+      horizontal ? 'ml-8 first:ml-0' : 'mt-4 first:mt-0',
+      {
+        'ml-7': horizontal && size === 'middle',
+        'ml-6': horizontal && size === 'small',
+        'mt-3.5': !horizontal && size === 'middle',
+        'mt-3': !horizontal && size === 'small',
+      },
+    ],
+    type === 'card' &&
+      'before:absolute before:-start-1 before:h-3/5 before:w-0.5 before:bg-fill-secondary before:opacity-75 before:transition-opacity',
+    type === 'pills' && [
+      'ml-4 first:ml-0',
+      {
+        'ml-3.5': size === 'middle',
+        'ml-3': size === 'small',
+      },
+    ],
+    hasDropdown && 'invisible ml-0 mt-0',
+    semanticCls.addBtn,
+  );
+
+  // ========================= Render ========================
   return (
     <ResizeObserver onResize={onListHolderResize}>
       <div
@@ -537,12 +572,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                   ref={innerAddButtonRef}
                   prefixCls={prefixCls}
                   locale={locale}
-                  editable={editable}
+                  editConfig={editConfig}
                   icon={icons?.add}
-                  style={{
-                    visibility: hasDropdown ? 'hidden' : undefined,
-                  }}
-                  className={semanticCls.addBtn}
+                  className={addBtnCls}
                 />
                 {type === 'line' && <div className={indicatorCls} style={indicatorStyle} />}
               </div>
@@ -563,7 +595,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
               more: semanticCls.more,
             }}
             tabMoving={!!lockAnimation}
-            horizontal={horizontal}
+            position={tabPosition}
           />
         )}
 

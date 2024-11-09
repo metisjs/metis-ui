@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
+import type { SafeKey } from '../../_util/type';
 import Transition from '../../transition';
 import { TabContext } from '../context';
 import type { AnimatedConfig, TabPosition } from '../interface';
@@ -7,7 +8,7 @@ import type { TabPanelProps } from './TabPanel';
 import TabPanel from './TabPanel';
 
 export interface TabPanelListProps {
-  activeKey: string;
+  activeKey: SafeKey;
   id: string;
   animated?: AnimatedConfig;
   tabPosition?: TabPosition;

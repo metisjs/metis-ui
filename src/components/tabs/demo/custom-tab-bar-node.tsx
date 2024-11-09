@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { closestCenter, DndContext, PointerSensor, useSensor } from '@dnd-kit/core';
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 import {
   arrayMove,
   horizontalListSortingStrategy,
@@ -26,7 +27,7 @@ const DraggableTabNode = ({ className, ...props }: DraggableTabPaneProps) => {
     cursor: 'move',
   };
 
-  return React.cloneElement(props.content as React.ReactElement, {
+  return React.cloneElement(props.children as React.ReactElement, {
     ref: setNodeRef,
     style,
     ...attributes,
@@ -69,7 +70,12 @@ const App: React.FC = () => {
     <Tabs
       items={items}
       renderTabBar={(tabBarProps, DefaultTabBar) => (
-        <DndContext sensors={[sensor]} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
+        <DndContext
+          sensors={[sensor]}
+          onDragEnd={onDragEnd}
+          collisionDetection={closestCenter}
+          modifiers={[restrictToHorizontalAxis]}
+        >
           <SortableContext items={items.map((i) => i.key)} strategy={horizontalListSortingStrategy}>
             <DefaultTabBar {...tabBarProps}>
               {(node) => (

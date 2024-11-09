@@ -21,10 +21,11 @@ Metis UI has 3 types of Tabs for different situations.
 <code src="./demo/custom-indicator.tsx">Indicator</code>
 <code src="./demo/slide.tsx">Slide</code>
 <code src="./demo/extra.tsx">Extra content</code>
-<code src="./demo/size.tsx">Size</code>
 <code src="./demo/position.tsx">Position</code>
-<code src="./demo/card.tsx" compact>Card type tab</code>
-<code src="./demo/editable-card.tsx">Add & close tab</code>
+<code src="./demo/pills.tsx">Pills type tab</code>
+<code src="./demo/card.tsx" compact>卡片式页签</code>
+<code src="./demo/size.tsx">Size</code>
+<code src="./demo/editable.tsx">Add & close & rename tab</code>
 <code src="./demo/custom-add-trigger.tsx">Customized trigger of new tab</code>
 <code src="./demo/custom-tab-bar.tsx">Customized bar of tab</code>
 <code src="./demo/custom-tab-bar-node.tsx">Draggable Tabs</code>
@@ -38,39 +39,48 @@ Metis UI has 3 types of Tabs for different situations.
 <!-- prettier-ignore -->
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| activeKey | Current TabPane's key | string | - |  |
-| addIcon | Customize add icon, only works with `type="editable-card"` | ReactNode | `<PlusOutlined />` |  |
+| activeKey | Current TabPane's key | Key | - |  |
+| addable | Show add | boolean | `false` |  |
 | animated | Whether to change tabs with animation. | boolean \| { indicator: boolean, tabPane: boolean } | { indicator: true, tabPane: false } |  |
 | centered | Centers tabs | boolean | false |  |
-| defaultActiveKey | Initial active TabPane's key, if `activeKey` is not set | string | `The key of first tab` |  |
-| hideAdd | Hide plus icon or not. Only works while `type="editable-card"` | boolean | false |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| closable | Show close button(x) | boolean | `false` |  |
+| defaultActiveKey | Initial active TabPane's key, if `activeKey` is not set | Key | `The key of first tab` |  |
+| destroyInactiveTabPane | Whether destroy inactive TabPane when change tab | boolean | `false` |  |
+| icons | Custom icons | { add?: ReactNode; remove?: ReactNode; more?: ReactNode; } | - |  |
 | indicator | Customize `size` and `align` of indicator | { size?: number \| (origin: number) => number; align: `start` \| `center` \| `end`; } | - |  |
-| items | Configure tab content | [TabItemType](#tabitemtype) | [] |  |
-| more | 自定义折叠菜单属性 | [MoreProps](#moreprops) | { icon: `<EllipsisOutlined />` , trigger: 'hover' } |  |
-| removeIcon | The custom icon of remove, only works with `type="editable-card"` | ReactNode | `<CloseOutlined />` |  |
-| popupClassName | `className` for more dropdown. | string | - |  |
+| items | Configure tab content | [TabItemType](#tabitemtype) | \[] |  |
+| more | 自定义折叠菜单属性 | [MoreProps](/components/dropdown#api) | - |  |
+| renameAfterAdd | Trigger rename after add event, Only works while `addable={true}` and `onAdd` event returns returns the key of the added tab.. | boolean | `true` |  |
 | renderTabBar | Replace the TabBar | (props: DefaultTabBarProps, DefaultTabBar: React.ComponentClass) => React.ReactElement | - |  |
-| size | Preset tab bar size | `large` \| `middle` \| `small` | `middle` |  |
-| tabBarExtraContent | Extra content in tab bar | ReactNode \| {left?: ReactNode, right?: ReactNode} | - | object:  |
-| tabBarStyle | Tab bar style object | CSSProperties | - |  |
+| renderTabContextMenu | Render tab bar context menu | (tab: TabItemType) => [MenuProps](/components/menu#api) | - |  |
+| size | Preset tab bar size | `default` \| `middle` \| `small` | `default` |  |
+| tabBarExtraContent | Extra content in tab bar | ReactNode \| {left?: ReactNode, right?: ReactNode} | - |  |
 | tabPosition | Position of tabs | `top` \| `right` \| `bottom` \| `left` | `top` |  |
-| destroyInactiveTabPane | Whether destroy inactive TabPane when change tab | boolean | false |  |
-| type | Basic style of tabs | `line` \| `card` \| `editable-card` | `line` |  |
+| type | Basic style of tabs | `line` \| `card` \| `pills` | `line` |  |
+| onAdd | Callback executed when tab is added. Only works while `addable={true}` | (event: MouseEvent) => void \| string \| Promise<string> | - |  |
 | onChange | Callback executed when active tab is changed | (activeKey: string) => void | - |  |
-| onEdit | Callback executed when tab is added or removed. Only works while `type="editable-card"` | (action === 'add' ? event : targetKey, action) => void | - |  |
-| onTabClick | Callback executed when tab is clicked | (key: string, event: MouseEvent) => void | - |  |
+| onRemove | Callback executed when tab is close. Only works while  `closable={true}` | (key: Key, event: MouseEvent) => void | - |  |
+| onRename | Callback executed when tab is renamed | (key: Key, name: string) => void | - |  |
 | onTabScroll | Trigger when tab scroll | ({ direction: `left` \| `right` \| `top` \| `bottom` }) => void | - |  |
 
 ### TabItemType
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| closeIcon | Customize close icon in TabPane's head. Only works while `type="editable-card"`. : close button will be hidden when setting to `null` or `false` | ReactNode | - |  |
+| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| closable | Whether a close (x) button is visible, Only works while Tabs `closable={true}"` | boolean | true |  |
+| closeIcon | Customize close icon in TabPane's head. close button will be hidden when setting to `null` or `false` | ReactNode | - |  |
+| content | TabPane's head display content | ReactNode | - |  |
 | destroyInactiveTabPane | Whether destroy inactive TabPane when change tab | boolean | false |  |
 | disabled | Set TabPane disabled | boolean | false |  |
 | forceRender | Forced render of content in tabs, not lazy render after clicking on tabs | boolean | false |  |
-| key | TabPane's key | string | - |  |
-| label | TabPane's head display text | ReactNode | - |  |
 | icon | TabPane's head display icon | ReactNode | - |  |
-| children | TabPane's head display content | ReactNode | - |  |
-| closable | Whether a close (x) button is visible, Only works while `type="editable-card"` | boolean | true |  |
+| key | TabPane's key | Key | - |  |
+| label | TabPane's head display text | ReactNode | - |  |
+
+### Tabs methods
+
+| 名称                    | 说明                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| triggerRename(key: Key) | Trigger tab rename event, Only works while `label` is string |

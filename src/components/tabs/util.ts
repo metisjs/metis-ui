@@ -30,12 +30,12 @@ export function genDataNodeKey(key: React.Key): string {
 export function getRemovable(
   closable?: boolean,
   closeIcon?: ReactNode,
-  editable?: EditableConfig,
+  editConfig?: EditableConfig,
   disabled?: boolean,
 ) {
   if (
-    // Only editable tabs can be removed
-    !editable ||
+    // Only editConfig tabs can be removed
+    !editConfig?.closable ||
     // Tabs cannot be removed when disabled
     disabled ||
     // closable is false

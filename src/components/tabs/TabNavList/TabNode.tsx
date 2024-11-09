@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { XMarkOutline } from '@metisjs/icons';
+import { devUseWarning } from 'metis-ui/es/_util/warning';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx, type SemanticClassName } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
+import Dropdown from '../../dropdown';
 import { TabContext } from '../context';
 import type { GetIndicatorSize } from '../hooks/useIndicator';
 import useIndicator from '../hooks/useIndicator';
@@ -15,7 +17,7 @@ export interface TabNodeProps {
   tab: Tab;
   active: boolean;
   closable?: boolean;
-  editable?: EditableConfig;
+  editConfig: EditableConfig;
   onClick?: (e: React.MouseEvent | React.KeyboardEvent) => void;
   onResize?: (width: number, height: number, left: number, top: number) => void;
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
@@ -29,7 +31,7 @@ export interface TabNodeProps {
       label?: string;
       remove?: string;
     },
-    { active?: boolean; removable?: boolean; disabled?: boolean }
+    { active?: boolean; removable?: boolean; disabled?: boolean; renaming?: boolean }
   >;
   position?: TabPosition;
   indicator?: {
@@ -49,7 +51,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     renderWrapper,
     removeAriaLabel,
     removeIcon,
-    editable,
+    editConfig,
     onClick,
     onFocus,
     style,
@@ -59,7 +61,13 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     offset,
   } = props;
 
-  const { type, size } = React.useContext(TabContext);
+  const { type, size, renamingKey, cancelRename, renderTabContextMenu } =
+    React.useContext(TabContext);
+
+  const labelRef = React.useRef<HTMLDivElement>(null);
+  const [renamingLabel, setRenamingLabel] = React.useState<string>();
+
+  const renaming = renamingKey === key && typeof label === 'string';
 
   const horizontal = position === 'top' || position === 'bottom';
   const { size: indicatorSize, align: indicatorAlign } = useIndicator({
@@ -70,7 +78,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
 
   const tabPrefix = `${prefixCls}-tab`;
 
-  const removable = getRemovable(closable, closeIcon, editable, disabled);
+  const removable = getRemovable(closable, closeIcon, editConfig, disabled);
 
   function onInternalClick(e: React.MouseEvent | React.KeyboardEvent) {
     if (disabled) {
@@ -82,11 +90,46 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
   function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
-    editable?.onEdit('remove', { key, event });
+    editConfig.onRemove?.(key, event);
+  }
+
+  // =================== Rename ===================
+  const warning = devUseWarning('Tabs');
+
+  React.useEffect(() => {
+    if (renamingKey === key && typeof label !== 'string') {
+      warning(false, 'usage', '`rename` can only be used with string labels.');
+      cancelRename();
+    }
+  }, [renamingKey, key, label]);
+
+  React.useEffect(() => {
+    if (renaming) {
+      labelRef.current?.focus();
+      const range = document.createRange();
+      range.selectNodeContents(labelRef.current!);
+      const selection = window.getSelection();
+      selection!.removeAllRanges();
+      selection!.addRange(range);
+    } else if (typeof label === 'string' && labelRef.current?.innerText !== label) {
+      labelRef.current!.innerText = label as string;
+    }
+  }, [renaming, label]);
+
+  function onRenameBlur() {
+    if (renaming) {
+      if (!renamingLabel || renamingLabel.trim() === '') {
+        labelRef.current!.innerText = label as string;
+      } else {
+        editConfig.onRename?.(key, renamingLabel);
+      }
+      cancelRename();
+      setRenamingLabel(undefined);
+    }
   }
 
   // =================== Style ===================
-  const semanticCls = useSemanticCls(className, { active, removable, disabled });
+  const semanticCls = useSemanticCls(className, { active, removable, disabled, renaming });
 
   const nodeCls = clsx(
     tabPrefix,
@@ -132,18 +175,21 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'mt-3.5 px-5 py-1.5': !horizontal && size === 'middle',
         'mt-3 px-4 py-1': !horizontal && size === 'small',
       },
+      { 'pe-8': editConfig?.closable && !horizontal },
       disabled && 'text-text-quaternary',
     ],
     // Card
     type === 'card' && [
-      'ml-1.5 w-56 overflow-visible rounded-lg px-2 py-2 duration-0 hover:duration-150',
+      'ml-1.5 w-56 overflow-visible rounded-lg px-2 py-2 duration-0 last-of-type:mr-1.5 hover:duration-150',
       {
         'mb-1.5': position === 'top',
         'mt-1.5': position === 'bottom',
       },
       {
-        'mb-0 mt-0 bg-container transition-none [&_+_div_.divider]:opacity-0': active,
-        'hover:bg-fill-tertiary [&_+_div_.divider]:hover:opacity-0': !disabled && !active,
+        'mb-0 mt-0 bg-container transition-none [&_+_button::before]:opacity-0 [&_+_div_.divider]:opacity-0':
+          active,
+        'hover:bg-fill-tertiary [&_+_button::before]:hover:opacity-0 [&_+_div_.divider]:hover:opacity-0':
+          !disabled && !active,
       },
       {
         'py-1.5': size === 'middle',
@@ -188,6 +234,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'ml-3.5 px-2.5 py-1.5': size === 'middle',
         'ml-3 rounded px-2 py-1': size === 'small',
       },
+      renaming && 'outline outline-2 -outline-offset-2 outline-primary',
       disabled && 'text-text-quaternary',
     ],
     disabled && 'cursor-not-allowed',
@@ -235,9 +282,25 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     semanticCls.icon,
   );
 
-  const labelCls = clsx(`${tabPrefix}-label`, '', semanticCls.label);
+  const labelCls = clsx(
+    `${tabPrefix}-label`,
+    'flex-1 truncate',
+    renaming && [
+      'rounded-sm text-text',
+      {
+        'outline-0': type === 'pills',
+        'outline outline-2 outline-offset-1 outline-primary': type === 'line' || type === 'card',
+      },
+    ],
+    semanticCls.label,
+  );
 
-  const removeCls = clsx(`${tabPrefix}-remove`, '', semanticCls.remove);
+  const removeCls = clsx(
+    `${tabPrefix}-remove`,
+    'ml-2 inline-flex items-center text-base text-text-tertiary transition-colors hover:text-text-secondary',
+    type === 'line' && !horizontal && 'absolute end-2',
+    semanticCls.remove,
+  );
 
   const cardDividerCls = clsx(
     `${tabPrefix}-divider`,
@@ -249,7 +312,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
   );
 
   // =================== Render ===================
-  const node: React.ReactElement = (
+  const node = (
     <div
       key={key}
       data-node-key={genDataNodeKey(key)}
@@ -272,7 +335,24 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
       onFocus={onFocus}
     >
       {icon && <span className={iconCls}>{icon}</span>}
-      {label && <span className={labelCls}>{label}</span>}
+      <span
+        suppressContentEditableWarning
+        ref={labelRef}
+        className={labelCls}
+        contentEditable={renaming}
+        onClick={(e) => renaming && e.stopPropagation()}
+        onBlur={onRenameBlur}
+        onInput={(event) => setRenamingLabel((event.target as HTMLDivElement).innerText)}
+        onKeyDown={(e) => {
+          if (renaming && [KeyCode.ENTER].includes(e.which)) {
+            e.preventDefault();
+            e.stopPropagation();
+            onRenameBlur();
+          }
+        }}
+      >
+        {label}
+      </span>
       {removable && (
         <button
           type="button"
@@ -287,11 +367,27 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
           {closeIcon || removeIcon || <XMarkOutline />}
         </button>
       )}
+
       {type === 'card' && <span className={cardDividerCls} />}
     </div>
   );
 
-  return renderWrapper ? renderWrapper(node) : node;
+  const wrappedNode = renderWrapper ? renderWrapper(node) : node;
+
+  const tabContextMenu = React.useMemo(
+    () => renderTabContextMenu?.({ ...props.tab, closable: removable }),
+    [renderTabContextMenu, props.tab, removable],
+  );
+
+  if (tabContextMenu) {
+    return (
+      <Dropdown key={key} menu={tabContextMenu} trigger={['contextMenu']}>
+        {wrappedNode}
+      </Dropdown>
+    );
+  }
+
+  return wrappedNode;
 };
 
 export default TabNode;

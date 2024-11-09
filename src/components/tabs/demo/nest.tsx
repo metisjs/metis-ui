@@ -1,65 +1,83 @@
 import React, { useState } from 'react';
-import { Select, Tabs } from 'metis-ui';
+import type { GetProp, TabsProps } from 'metis-ui';
+import { Select, Space, Tabs } from 'metis-ui';
 
-const { Option } = Select;
+type TabPosition = GetProp<TabsProps, 'tabPosition'>;
+type TabType = GetProp<TabsProps, 'type'>;
 
-const positionList = ['left', 'right', 'top', 'bottom'];
+const positionList = ['left', 'right', 'top', 'bottom'] as const;
 
 const App: React.FC = () => {
-  const [parentPos, setParentPos] = useState(undefined);
-  const [childPos, setChildPos] = useState(undefined);
-  const [parentType, setParentType] = useState(undefined);
-  const [childType, setChildType] = useState(undefined);
+  const [parentPos, setParentPos] = useState<TabPosition>('top');
+  const [childPos, setChildPos] = useState<TabPosition>('top');
+  const [parentType, setParentType] = useState<TabType>('line');
+  const [childType, setChildType] = useState<TabType>('line');
 
   return (
-    <div>
-      <Select
-        style={{ width: 200 }}
-        onChange={(val) => {
-          setParentPos(val);
-        }}
-      >
-        {positionList.map((pos) => (
-          <Option key={pos} value={pos}>
-            Parent - {pos}
-          </Option>
-        ))}
-      </Select>
+    <Space vertical block>
+      <Space block>
+        <Select<TabPosition>
+          className="w-40"
+          value={parentPos}
+          options={positionList.map((pos) => ({
+            key: pos,
+            value: pos,
+            label: `Parent - ${pos}`,
+          }))}
+          onChange={setParentPos}
+        ></Select>
 
-      <Select
-        style={{ width: 200 }}
-        onChange={(val) => {
-          setChildPos(val);
-        }}
-      >
-        {positionList.map((pos) => (
-          <Option key={pos} value={pos}>
-            Child - {pos}
-          </Option>
-        ))}
-      </Select>
+        <Select<TabPosition>
+          className="w-40"
+          value={childPos}
+          options={positionList.map((pos) => ({
+            key: pos,
+            value: pos,
+            label: `Child - ${pos}`,
+          }))}
+          onChange={setChildPos}
+        ></Select>
 
-      <Select
-        style={{ width: 200 }}
-        onChange={(val) => {
-          setParentType(val);
-        }}
-      >
-        <Option value="line">Parent - line</Option>
-        <Option value="card">Parent - card</Option>
-        <Option value="editable-card">Parent - card edit</Option>
-      </Select>
+        <Select<TabType>
+          value={parentType}
+          className="w-40"
+          options={[
+            {
+              label: 'Parent - line',
+              value: 'line',
+            },
+            {
+              label: 'Parent - pills',
+              value: 'pills',
+            },
+            {
+              label: 'Parent - card',
+              value: 'card',
+            },
+          ]}
+          onChange={setParentType}
+        ></Select>
 
-      <Select
-        style={{ width: 200 }}
-        onChange={(val) => {
-          setChildType(val);
-        }}
-      >
-        <Option value="line">Child - line</Option>
-        <Option value="card">Child - card</Option>
-        <Option value="editable-card">Parent - card edit</Option>
-      </Select>
+        <Select<TabType>
+          className="w-40"
+          value={childType}
+          options={[
+            {
+              label: 'Child - line',
+              value: 'line',
+            },
+            {
+              label: 'Child - pills',
+              value: 'pills',
+            },
+            {
+              label: 'Child - card',
+              value: 'card',
+            },
+          ]}
+          onChange={setChildType}
+        ></Select>
+      </Space>
       <Tabs
         defaultActiveKey="1"
         tabPosition={parentPos}
@@ -92,7 +110,7 @@ const App: React.FC = () => {
           },
         ]}
       />
-    </div>
+    </Space>
   );
 };
 

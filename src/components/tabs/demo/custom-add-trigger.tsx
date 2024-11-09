@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Button, Tabs } from 'metis-ui';
 
-type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
-
 const defaultPanes = new Array(2).fill(null).map((_, index) => {
   const id = String(index + 1);
   return { label: `Tab ${id}`, content: `Content of Tab Pane ${index + 1}`, key: id };
@@ -17,13 +15,13 @@ const App: React.FC = () => {
     setActiveKey(key);
   };
 
-  const add = () => {
+  const onAdd = () => {
     const newActiveKey = `newTab${newTabIndex.current++}`;
     setItems([...items, { label: 'New Tab', content: 'New Tab Pane', key: newActiveKey }]);
     setActiveKey(newActiveKey);
   };
 
-  const remove = (targetKey: TargetKey) => {
+  const onRemove = (targetKey: React.Key) => {
     const targetIndex = items.findIndex((pane) => pane.key === targetKey);
     const newPanes = items.filter((pane) => pane.key !== targetKey);
     if (newPanes.length && targetKey === activeKey) {
@@ -33,26 +31,18 @@ const App: React.FC = () => {
     setItems(newPanes);
   };
 
-  const onEdit = (targetKey: TargetKey, action: 'add' | 'remove') => {
-    if (action === 'add') {
-      add();
-    } else {
-      remove(targetKey);
-    }
-  };
-
   return (
     <div>
-      <div style={{ marginBottom: 16 }}>
-        <Button onClick={add}>ADD</Button>
+      <div className="mb-4">
+        <Button onClick={onAdd}>ADD</Button>
       </div>
       <Tabs
-        hideAdd
         onChange={onChange}
         activeKey={activeKey}
-        type="editable-card"
-        onEdit={onEdit}
+        type="card"
+        onRemove={onRemove}
         items={items}
+        closable
       />
     </div>
   );
