@@ -33,6 +33,14 @@ export interface SwitchProps {
   title?: string;
   tabIndex?: number;
   id?: string;
+  /**
+   * Alias for `checked`.
+   */
+  value?: boolean;
+  /**
+   * Alias for `defaultChecked`.
+   */
+  defaultValue?: boolean;
 }
 
 type CompoundedComponent = React.ForwardRefExoticComponent<
@@ -54,6 +62,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       defaultChecked,
       checkedChildren,
       unCheckedChildren,
+      value,
+      defaultValue,
       onChange,
       onClick,
     },
@@ -63,8 +73,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     const prefixCls = getPrefixCls('switch', customizePrefixCls);
 
     const [innerChecked, setInnerChecked] = useMergedState<boolean>(false, {
-      value: checked,
-      defaultValue: defaultChecked,
+      value: checked ?? value,
+      defaultValue: defaultChecked ?? defaultValue,
     });
 
     // ===================== Disabled =====================

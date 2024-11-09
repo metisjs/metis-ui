@@ -23,7 +23,7 @@ demo:
 ## API
 
 | Property | Description | Type | Default |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |
 | checked | Determine whether the Switch is checked | boolean | false |
 | checkedChildren | The content to be shown when the state is checked | ReactNode | - |
@@ -35,6 +35,8 @@ demo:
 | unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |
 | onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |
 | onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |
+| value | Alias for `checked` | boolean | - |  |
+| defaultValue | Alias for `defaultChecked` | boolean | - |  |
 
 ## Methods
 
