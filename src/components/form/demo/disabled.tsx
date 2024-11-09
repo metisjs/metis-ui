@@ -32,10 +32,7 @@ const FormDisabledDemo: React.FC = () => {
 
   return (
     <>
-      <Checkbox
-        checked={componentDisabled}
-        onChange={(e) => setComponentDisabled(e.target.checked)}
-      >
+      <Checkbox checked={componentDisabled} onChange={setComponentDisabled}>
         Form disabled
       </Checkbox>
       <Form layout="horizontal" disabled={componentDisabled} className="max-w-[600px]">

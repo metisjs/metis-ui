@@ -55,8 +55,8 @@ const Options: React.FC<OptionsProps> = (props) => {
     changeSize?.(Number(value));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGoInputText(e.target.value);
+  const handleChange = (value: string) => {
+    setGoInputText(value);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {

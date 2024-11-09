@@ -9,7 +9,7 @@ export type RadioRef = CheckboxRef;
 export interface RadioGroupProps extends AbstractCheckboxGroupProps {
   defaultValue?: any;
   value?: any;
-  onChange?: (e: RadioChangeEvent) => void;
+  onChange?: (value: any, e: RadioChangeEvent) => void;
   disabled?: DisabledType;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;

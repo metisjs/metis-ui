@@ -9,8 +9,8 @@ const App: React.FC = () => {
     form.validateFields(['nickname']);
   }, [checkNick, form]);
 
-  const onCheckboxChange = (e: { target: { checked: boolean } }) => {
-    setCheckNick(e.target.checked);
+  const onCheckboxChange = (checked: boolean) => {
+    setCheckNick(checked);
   };
 
   const onCheck = async () => {

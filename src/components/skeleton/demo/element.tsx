@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import type { RadioChangeEvent } from 'metis-ui';
 import { Divider, Radio, Skeleton, Space, Switch } from 'metis-ui';
 
 type SizeType = 'middle' | 'small' | 'large';
@@ -11,22 +10,6 @@ const App: React.FC = () => {
   const [size, setSize] = useState<SizeType>('middle');
   const [buttonShape, setButtonShape] = useState<ButtonShapeType>('default');
   const [avatarShape, setAvatarShape] = useState<AvatarShapeType>('circle');
-
-  const handleActiveChange = (checked: boolean) => {
-    setActive(checked);
-  };
-
-  const handleSizeChange = (e: RadioChangeEvent) => {
-    setSize(e.target.value);
-  };
-
-  const handleShapeButton = (e: RadioChangeEvent) => {
-    setButtonShape(e.target.value);
-  };
-
-  const handleAvatarShape = (e: RadioChangeEvent) => {
-    setAvatarShape(e.target.value);
-  };
 
   return (
     <>
@@ -48,11 +31,11 @@ const App: React.FC = () => {
         <Space size={24} wrap>
           <Space>
             <label>Active:</label>
-            <Switch checked={active} onChange={handleActiveChange} />
+            <Switch checked={active} onChange={setActive} />
           </Space>
           <Space>
             <label>Size:</label>
-            <Radio.Group value={size} onChange={handleSizeChange}>
+            <Radio.Group value={size} onChange={setSize}>
               <Radio value="middle">Default</Radio>
               <Radio value="large">Large</Radio>
               <Radio value="small">Small</Radio>
@@ -60,7 +43,7 @@ const App: React.FC = () => {
           </Space>
           <Space>
             <label>Button Shape:</label>
-            <Radio.Group value={buttonShape} onChange={handleShapeButton}>
+            <Radio.Group value={buttonShape} onChange={setButtonShape}>
               <Radio value="default">Default</Radio>
               <Radio value="round">Round</Radio>
               <Radio value="circle">Circle</Radio>
@@ -68,7 +51,7 @@ const App: React.FC = () => {
           </Space>
           <Space>
             <label>Avatar Shape:</label>
-            <Radio.Group value={avatarShape} onChange={handleAvatarShape}>
+            <Radio.Group value={avatarShape} onChange={setAvatarShape}>
               <Radio value="square">Square</Radio>
               <Radio value="circle">Circle</Radio>
             </Radio.Group>

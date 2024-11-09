@@ -69,8 +69,7 @@ const App: React.FC = () => {
     setAutoExpandParent(false);
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+  const onChange = (value: string) => {
     const newExpandedKeys = dataList
       .map((item) => {
         if (item.title.indexOf(value) > -1) {

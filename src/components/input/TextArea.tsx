@@ -152,7 +152,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       onCompositionEnd?.(e);
     };
 
-    const onInternalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const onInternalChange = (_: string, e: React.ChangeEvent<HTMLTextAreaElement>) => {
       triggerChange(e, e.target.value);
     };
 

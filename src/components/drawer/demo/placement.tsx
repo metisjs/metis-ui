@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { DrawerProps, RadioChangeEvent } from 'metis-ui';
+import type { DrawerProps } from 'metis-ui';
 import { Button, Drawer, Radio, Space } from 'metis-ui';
 
 const App: React.FC = () => {
@@ -14,14 +14,10 @@ const App: React.FC = () => {
     setOpen(false);
   };
 
-  const onChange = (e: RadioChangeEvent) => {
-    setPlacement(e.target.value);
-  };
-
   return (
     <>
       <Space>
-        <Radio.Group value={placement} onChange={onChange}>
+        <Radio.Group value={placement} onChange={setPlacement}>
           <Radio value="top">top</Radio>
           <Radio value="right">right</Radio>
           <Radio value="bottom">bottom</Radio>

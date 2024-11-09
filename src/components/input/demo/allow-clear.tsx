@@ -4,8 +4,8 @@ import { Input, Space } from 'metis-ui';
 
 const { TextArea } = Input;
 
-const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  console.log(e);
+const onChange = (value: string) => {
+  console.log(value);
 };
 
 const App: React.FC = () => (

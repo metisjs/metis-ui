@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import type { RadioChangeEvent } from 'metis-ui';
 import { Radio, Timeline } from 'metis-ui';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<'left' | 'alternate' | 'right'>('left');
 
-  const onChange = (e: RadioChangeEvent) => {
-    setMode(e.target.value);
-  };
-
   return (
     <>
       <Radio.Group
-        onChange={onChange}
+        onChange={setMode}
         value={mode}
         style={{
           marginBottom: 20,

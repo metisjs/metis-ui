@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import type { DatePickerProps, RadioChangeEvent } from 'metis-ui';
+import type { DatePickerProps } from 'metis-ui';
 import { DatePicker, Radio } from 'metis-ui';
 
 const { RangePicker } = DatePicker;
 
 const App: React.FC = () => {
-  const [placement, SetPlacement] = useState<DatePickerProps['placement']>('topLeft');
-
-  const placementChange = (e: RadioChangeEvent) => {
-    SetPlacement(e.target.value);
-  };
+  const [placement, setPlacement] = useState<DatePickerProps['placement']>('topLeft');
 
   return (
     <>
-      <Radio.Group value={placement} onChange={placementChange}>
+      <Radio.Group value={placement} onChange={setPlacement}>
         <Radio value="topLeft">topLeft</Radio>
         <Radio value="topRight">topRight</Radio>
         <Radio value="bottomLeft">bottomLeft</Radio>

@@ -10,7 +10,7 @@ import getPlacements from '../_util/placements';
 import { cloneElement, isFragment, isValidElement } from '../_util/reactNode';
 import ZIndexContext from '../_util/ZIndexContext';
 import { ConfigContext } from '../config-provider';
-import type { BuildInPlacements } from '../trigger';
+import type { BuildInPlacements, TriggerRef } from '../trigger';
 import Trigger from '../trigger';
 import type { TooltipProps, TooltipRef } from './interface';
 import Popup from './Popup';
@@ -109,7 +109,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     React.useContext(ConfigContext);
 
   // ============================== Ref ===============================
-  const tooltipRef = React.useRef<TooltipRef>(null);
+  const tooltipRef = React.useRef<TriggerRef>(null);
 
   const forceAlign = () => {
     tooltipRef.current?.forceAlign();

@@ -39,7 +39,7 @@ const ResizableTextArea = React.forwardRef<
 
   const onInternalChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setMergedValue(event.target.value);
-    onChange?.(event);
+    onChange?.(event.target.value, event);
   };
 
   // ================================ Ref =================================

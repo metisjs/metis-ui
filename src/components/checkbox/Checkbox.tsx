@@ -16,7 +16,7 @@ export interface AbstractCheckboxProps<T> {
   style?: React.CSSProperties;
   prefixCls?: string;
   disabled?: boolean;
-  onChange?: (e: T) => void;
+  onChange?: (checked: boolean, e: T) => void;
   onClick?: React.MouseEventHandler<HTMLElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLElement>;
@@ -31,9 +31,7 @@ export interface AbstractCheckboxProps<T> {
   skipGroup?: boolean;
 }
 
-export interface CheckboxChangeEventTarget extends CheckboxProps {
-  checked: boolean;
-}
+export type CheckboxChangeEventTarget = CheckboxProps;
 
 export interface CheckboxChangeEvent {
   target: CheckboxChangeEventTarget;
@@ -129,11 +127,8 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       setRawChecked(e.target.checked);
     }
 
-    onChange?.({
-      target: {
-        ...props,
-        checked: e.target.checked,
-      },
+    onChange?.(e.target.checked, {
+      target: props,
       stopPropagation() {
         e.stopPropagation();
       },

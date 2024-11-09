@@ -12,8 +12,7 @@ const formatNumber = (value: number) => new Intl.NumberFormat().format(value);
 const NumericInput = (props: NumericInputProps) => {
   const { value, onChange } = props;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = e.target;
+  const handleChange = (inputValue: string) => {
     const reg = /^-?\d*(\.\d*)?$/;
     if (reg.test(inputValue) || inputValue === '' || inputValue === '-') {
       onChange(inputValue);

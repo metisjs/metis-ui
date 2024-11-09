@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Checkbox } from 'metis-ui';
-import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
 
 const App: React.FC = () => {
   const [checked, setChecked] = useState(true);
@@ -14,9 +13,9 @@ const App: React.FC = () => {
     setDisabled(!disabled);
   };
 
-  const onChange = (e: CheckboxChangeEvent) => {
-    console.log('checked = ', e.target.checked);
-    setChecked(e.target.checked);
+  const onChange = (checked: boolean) => {
+    console.log('checked = ', checked);
+    setChecked(checked);
   };
 
   const label = `${checked ? 'Checked' : 'Unchecked'}-${disabled ? 'Disabled' : 'Enabled'}`;

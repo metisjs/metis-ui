@@ -61,7 +61,7 @@ const items: MenuProps['items'] = [
 ];
 
 const App: React.FC = () => {
-  const [current, setCurrent] = useState('computer');
+  const [current, setCurrent] = useState<React.Key>('computer');
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);

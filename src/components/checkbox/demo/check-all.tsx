@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Checkbox, Divider } from 'metis-ui';
-import type { CheckboxChangeEvent } from 'metis-ui/es/checkbox';
 import type { CheckboxValueType } from 'metis-ui/es/checkbox/Group';
 
 const CheckboxGroup = Checkbox.Group;
@@ -19,10 +18,10 @@ const App: React.FC = () => {
     setCheckAll(list.length === plainOptions.length);
   };
 
-  const onCheckAllChange = (e: CheckboxChangeEvent) => {
-    setCheckedList(e.target.checked ? plainOptions : []);
+  const onCheckAllChange = (checked: boolean) => {
+    setCheckedList(checked ? plainOptions : []);
     setIndeterminate(false);
-    setCheckAll(e.target.checked);
+    setCheckAll(checked);
   };
 
   return (

@@ -10,10 +10,6 @@ const App: React.FC = () => {
   const [name, setName] = useState('');
   const inputRef = useRef<InputRef>(null);
 
-  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
     setItems([...items, name || `New item ${index++}`]);
@@ -32,12 +28,7 @@ const App: React.FC = () => {
           {menu}
           <Divider style={{ margin: '8px 0' }} />
           <Space style={{ padding: '0 8px 4px' }}>
-            <Input
-              placeholder="Please enter item"
-              ref={inputRef}
-              value={name}
-              onChange={onNameChange}
-            />
+            <Input placeholder="Please enter item" ref={inputRef} value={name} onChange={setName} />
             <Button type="text" icon={<PlusOutline />} onClick={addItem}>
               Add item
             </Button>

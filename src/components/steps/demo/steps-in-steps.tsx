@@ -29,11 +29,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Radio.Group
-        style={{ marginBottom: 16 }}
-        value={size}
-        onChange={(e) => setSize(e.target.value)}
-      >
+      <Radio.Group style={{ marginBottom: 16 }} value={size} onChange={setSize}>
         <Radio value="small">Small</Radio>
         <Radio value="default">Default</Radio>
       </Radio.Group>

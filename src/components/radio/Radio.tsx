@@ -66,10 +66,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       setRawChecked(e.target.checked);
     }
     const innerEvent = {
-      target: {
-        ...props,
-        checked: e.target.checked,
-      },
+      target: props,
       stopPropagation() {
         e.stopPropagation();
       },
@@ -79,7 +76,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       nativeEvent: e.nativeEvent,
     };
 
-    onChange?.(innerEvent);
+    onChange?.(e.target.checked, innerEvent);
     radioGroup?.onChange?.(innerEvent);
   };
 

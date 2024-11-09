@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import type { RadioChangeEvent } from 'metis-ui';
 import { Input, Radio, Space } from 'metis-ui';
 
 const App: React.FC = () => {
   const [value, setValue] = useState(1);
 
-  const onChange = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
+  const onChange = (value: number) => {
+    console.log('radio checked', value);
+    setValue(value);
   };
 
   return (

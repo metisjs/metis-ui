@@ -138,7 +138,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   const onInternalChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     // Hack `onChange` with format to do nothing
     if (!format) {
-      const text = event.target.value;
+      const text = typeof event === 'string' ? event : event.target.value;
 
       onModify(text);
       setInputValue(text);

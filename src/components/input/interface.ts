@@ -78,7 +78,7 @@ export interface InputProps
   extends CommonInputProps,
     Omit<
       InputHTMLAttributes<HTMLInputElement>,
-      'size' | 'prefix' | 'type' | 'value' | 'className'
+      'size' | 'prefix' | 'type' | 'value' | 'className' | 'onChange'
     > {
   value?: ValueType;
   prefixCls?: string;
@@ -122,6 +122,7 @@ export interface InputProps
   htmlSize?: number;
   count?: CountConfig;
   onClear?: () => void;
+  onChange?: (value: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   size?: SizeType;
   disabled?: boolean;
   status?: InputStatus;
@@ -162,7 +163,10 @@ export interface ResizableTextAreaRef {
 
 export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value' | 'className'> & {
+export type TextAreaProps = Omit<
+  HTMLTextareaProps,
+  'onResize' | 'value' | 'className' | 'onChange'
+> & {
   value?: HTMLTextareaProps['value'] | bigint;
   prefixCls?: string;
   className?: SemanticClassName<{ textarea?: string; count?: string; clear?: string }>;
@@ -170,6 +174,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value' | 'clas
   autoSize?: boolean | AutoSizeType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
+  onChange?: (value: string, e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   size?: SizeType;
   status?: InputStatus;
   variant?: Variant;

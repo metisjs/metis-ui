@@ -32,20 +32,12 @@ const App: React.FC = () => {
     setInputVisible(true);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
   const handleInputConfirm = () => {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       setTags([...tags, inputValue]);
     }
     setInputVisible(false);
     setInputValue('');
-  };
-
-  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditInputValue(e.target.value);
   };
 
   const handleEditInputConfirm = () => {
@@ -75,7 +67,7 @@ const App: React.FC = () => {
                 className={{ input: 'rounded text-xs shadow-sm' }}
                 style={tagInputStyle}
                 value={editInputValue}
-                onChange={handleEditInputChange}
+                onChange={setEditInputValue}
                 onBlur={handleEditInputConfirm}
                 onPressEnter={handleEditInputConfirm}
               />
@@ -118,7 +110,7 @@ const App: React.FC = () => {
             className={{ input: 'rounded text-xs shadow-sm' }}
             style={tagInputStyle}
             value={inputValue}
-            onChange={handleInputChange}
+            onChange={setInputValue}
             onBlur={handleInputConfirm}
             onPressEnter={handleInputConfirm}
           />

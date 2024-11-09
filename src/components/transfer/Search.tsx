@@ -15,9 +15,9 @@ const Search: React.FC<TransferSearchProps> = (props) => {
   const { placeholder = '', value, prefixCls, disabled, onChange, handleClear } = props;
 
   const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (v: string, e: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.(e);
-      if (e.target.value === '') {
+      if (v === '') {
         handleClear?.();
       }
     },

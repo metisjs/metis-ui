@@ -58,7 +58,7 @@ const App: React.FC = () => {
         onChange={(e) => setBorder(e)}
       />
       <Divider />
-      <Radio.Group onChange={(e) => setLayout(e.target.value)} value={layout}>
+      <Radio.Group onChange={setLayout} value={layout}>
         <Radio value="horizontal">horizontal</Radio>
         <Radio value="vertical">vertical</Radio>
       </Radio.Group>

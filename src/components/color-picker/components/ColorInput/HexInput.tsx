@@ -24,8 +24,8 @@ const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
     }
   }, [value]);
 
-  const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const originValue = e.target.value;
+  const handleHexChange = (v: string) => {
+    const originValue = v;
     setHexValue(toHexFormat(originValue));
     if (isHexString(toHexFormat(originValue, true))) {
       onChange?.(generateColor(originValue));

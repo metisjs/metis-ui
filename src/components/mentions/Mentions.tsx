@@ -253,9 +253,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     onChange?.(nextValue);
   };
 
-  const onInternalChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
-    target: { value: nextValue },
-  }) => {
+  const onInternalChange = (nextValue: string) => {
     triggerChange(nextValue);
   };
 

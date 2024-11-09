@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import type { DescriptionsProps } from 'metis-ui';
 import { Button, Descriptions, Radio } from 'metis-ui';
-import type { DescriptionsProps, RadioChangeEvent } from 'metis-ui';
 
 const borderedItems: DescriptionsProps['items'] = [
   {
@@ -91,14 +91,9 @@ const items: DescriptionsProps['items'] = [
 const App: React.FC = () => {
   const [size, setSize] = useState<'default' | 'middle' | 'small'>('default');
 
-  const onChange = (e: RadioChangeEvent) => {
-    console.log('size checked', e.target.value);
-    setSize(e.target.value);
-  };
-
   return (
     <div>
-      <Radio.Group onChange={onChange} value={size}>
+      <Radio.Group onChange={setSize} value={size}>
         <Radio value="default">default</Radio>
         <Radio value="middle">middle</Radio>
         <Radio value="small">small</Radio>

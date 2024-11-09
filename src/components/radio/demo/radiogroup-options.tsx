@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import type { RadioChangeEvent } from 'metis-ui';
 import { Radio } from 'metis-ui';
 
 const plainOptions = ['Apple', 'Pear', 'Orange'];
@@ -13,12 +12,12 @@ const App: React.FC = () => {
   const [value1, setValue1] = useState('Apple');
   const [value2, setValue2] = useState('Apple');
 
-  const onChange1 = ({ target: { value } }: RadioChangeEvent) => {
+  const onChange1 = (value: string) => {
     console.log('radio1 checked', value);
     setValue1(value);
   };
 
-  const onChange2 = ({ target: { value } }: RadioChangeEvent) => {
+  const onChange2 = (value: string) => {
     console.log('radio2 checked', value);
     setValue2(value);
   };

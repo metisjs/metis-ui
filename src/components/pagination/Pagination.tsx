@@ -365,7 +365,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             disabled={disabled}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
-            onChange={handleKeyUp}
+            onChange={(_, e) => handleKeyUp(e)}
             onBlur={handleBlur}
             size={size === 'default' ? 'middle' : size}
             className={clsx('w-12')}

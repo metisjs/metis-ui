@@ -40,7 +40,7 @@ export function resolveOnChange<E extends HTMLInputElement | HTMLTextAreaElement
     | React.ChangeEvent<E>
     | React.MouseEvent<HTMLElement, MouseEvent>
     | React.CompositionEvent<HTMLElement>,
-  onChange: undefined | ((event: React.ChangeEvent<E>) => void),
+  onChange: undefined | ((value: any, event: React.ChangeEvent<E>) => void),
   targetValue?: string,
 ) {
   if (!onChange) {
@@ -49,18 +49,18 @@ export function resolveOnChange<E extends HTMLInputElement | HTMLTextAreaElement
   let event = e;
 
   if (e.type === 'click') {
-    event = cloneEvent(e, target, '');
+    event = cloneEvent(e, target, '') as React.ChangeEvent<E>;
 
-    onChange(event as React.ChangeEvent<E>);
+    onChange(event.target.value, event);
     return;
   }
 
   if (target.type !== 'file' && targetValue !== undefined) {
-    event = cloneEvent(e, target, targetValue);
-    onChange(event as React.ChangeEvent<E>);
+    event = cloneEvent(e, target, targetValue) as React.ChangeEvent<E>;
+    onChange(event.target.value, event);
     return;
   }
-  onChange(event as React.ChangeEvent<E>);
+  onChange((event as React.ChangeEvent<E>).target.value, event as React.ChangeEvent<E>);
 }
 
 export function triggerFocus(
