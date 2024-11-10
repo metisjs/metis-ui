@@ -16,7 +16,7 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
       content?: string;
       popup?: string;
     },
-    { disabled?: boolean; active?: boolean; childrenSelected?: boolean }
+    { disabled?: boolean; active?: boolean; childrenSelected?: boolean; hasIcon?: boolean }
   >;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
@@ -53,7 +53,7 @@ export interface MenuItemType
   title?: string;
   className?: SemanticClassName<
     { inner?: string; icon?: string; title?: string },
-    { disabled?: boolean; selected?: boolean }
+    { disabled?: boolean; selected?: boolean; hasIcon?: boolean }
   >;
 
   // >>>>> Active

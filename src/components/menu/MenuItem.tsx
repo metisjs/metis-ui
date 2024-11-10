@@ -181,6 +181,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const semanticCls = useSemanticCls([itemClassName, className], {
     disabled: mergedDisabled,
     selected,
+    hasIcon: !!icon,
   });
 
   const rootCls = clsx(
@@ -286,7 +287,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const inlineStyle = React.useMemo(() => {
     const mergedStyle: React.CSSProperties = {};
     if (mode === 'inline' && !firstLevel) {
-      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 44 : 36)}px`;
+      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 44 : 28)}px`;
     }
     return mergedStyle;
   }, []);

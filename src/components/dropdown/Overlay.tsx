@@ -41,16 +41,16 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
         onClick={onClick}
         className={{
           root: 'py-1',
-          item: {
+          item: ({ hasIcon }) => ({
             root: 'px-1',
-            inner: 'h-8 gap-1 px-3 py-1 pe-3 ps-3 font-normal leading-6',
+            inner: clsx('h-8 gap-1 px-3 py-1 pe-3 ps-3 font-normal leading-6', hasIcon && 'ps-2'),
             icon: 'h-[1.125rem] w-[1.125rem]',
-          },
-          sub: {
+          }),
+          sub: ({ hasIcon }) => ({
             title: 'px-1',
-            inner: 'h-8 gap-1 px-1 py-1 pe-3 ps-3 font-normal leading-6',
+            inner: clsx('h-8 gap-1 px-1 py-1 pe-3 ps-3 font-normal leading-6', hasIcon && 'ps-2'),
             icon: 'h-[1.125rem] w-[1.125rem]',
-          },
+          }),
           group: {
             title: 'pe-3 ps-3',
             list: 'px-2',

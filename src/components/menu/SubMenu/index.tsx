@@ -228,6 +228,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     disabled: mergedDisabled,
     active: mergedActive,
     childrenSelected,
+    hasIcon: !!icon,
   });
 
   const rootCls = clsx(
@@ -361,7 +362,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   const inlineStyle = React.useMemo(() => {
     const mergedStyle: React.CSSProperties = {};
     if (mode === 'inline' && !firstLevel) {
-      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 44 : 36)}px`;
+      mergedStyle.paddingInlineStart = `${level * (level === 1 ? 44 : 28)}px`;
     }
     return mergedStyle;
   }, []);
