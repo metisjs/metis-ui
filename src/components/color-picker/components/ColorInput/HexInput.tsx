@@ -15,12 +15,14 @@ const hexReg = /(^#[\da-f]{6}$)|(^#[\da-f]{8}$)/i;
 const isHexString = (hex?: string) => hexReg.test(`#${hex}`);
 
 const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
-  const [hexValue, setHexValue] = useState(() => (value ? value.toHex() : undefined));
+  const [hexValue, setHexValue] = useState(() =>
+    value ? toHexFormat(value.toHexString()) : undefined,
+  );
 
   // Update step value
   useEffect(() => {
     if (value) {
-      setHexValue(value.toHex());
+      setHexValue(toHexFormat(value.toHexString()));
     }
   }, [value]);
 
