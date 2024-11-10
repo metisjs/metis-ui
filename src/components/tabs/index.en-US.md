@@ -58,7 +58,7 @@ Metis UI has 3 types of Tabs for different situations.
 | tabBarExtraContent | Extra content in tab bar | ReactNode \| {left?: ReactNode, right?: ReactNode} | - |  |
 | tabPosition | Position of tabs | `top` \| `right` \| `bottom` \| `left` | `top` |  |
 | type | Basic style of tabs | `line` \| `card` \| `pills` | `line` |  |
-| onAdd | Callback executed when tab is added. Only works while `addable={true}` | (event: MouseEvent) => void \| string \| Promise<string> | - |  |
+| onAdd | Callback executed when tab is added. Only works while `addable={true}` | (event: MouseEvent) => void \| string \| Promise&lt;string> | - |  |
 | onChange | Callback executed when active tab is changed | (activeKey: string) => void | - |  |
 | onRemove | Callback executed when tab is close. Only works while  `closable={true}` | (key: Key, event: MouseEvent) => void | - |  |
 | onRename | Callback executed when tab is renamed | (key: Key, name: string) => void | - |  |

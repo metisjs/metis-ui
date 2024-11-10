@@ -61,7 +61,7 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 | tabBarExtraContent | tab bar 上额外的元素 | ReactNode \| {left?: ReactNode, right?: ReactNode} | - |  |
 | tabPosition | 页签位置，可选值有 `top` `right` `bottom` `left` | string | `top` |  |
 | type | 页签的基本样式，可选 `line`、`card` `pills` 类型 | string | `line` |  |
-| onAdd | 新增页签的回调，在 `addable={true}` 时有效 | (event: MouseEvent) => void \| string \| Promise<string> | - |  |
+| onAdd | 新增页签的回调，在 `addable={true}` 时有效 | (event: MouseEvent) => void \| string \| Promise&lt;string> | - |  |
 | onChange | 切换面板的回调 | (activeKey: string) => void | - |  |
 | onRemove | 关闭页签的回调，在 `closable={true}` 时有效 | (key: Key, event: MouseEvent) => void | - |  |
 | onRename | 重命名确定后的回调 | (key: Key, name: string) => void | - |  |
