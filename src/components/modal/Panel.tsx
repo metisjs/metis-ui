@@ -128,7 +128,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
 
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'absolute right-3 top-3 rounded p-1 text-text-secondary hover:bg-fill-tertiary',
+    'absolute right-3 top-3 rounded p-1 text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary',
   );
 
   const panelStyle: React.CSSProperties = {};

@@ -198,7 +198,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   );
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'absolute right-3 top-3 z-[1000] rounded p-1 text-text-secondary hover:bg-fill-tertiary',
+    'absolute right-3 top-3 z-[1000] rounded p-1 text-text-tertiary transition-colors hover:bg-fill-tertiary hover:text-text-secondary',
   );
   const bodyCls = clsx(
     `${prefixCls}-body`,
