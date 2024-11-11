@@ -96,13 +96,14 @@ const Spin: React.FC<SpinProps> = (props) => {
 
   const spinCls = clsx(
     prefixCls,
-    'hidden transition-transform',
     {
       [`${prefixCls}-sm`]: size === 'small',
       [`${prefixCls}-lg`]: size === 'large',
-      [`${prefixCls}-spinning inline-block`]: spinning,
+      [`${prefixCls}-spinning`]: spinning,
       [`${prefixCls}-show-text`]: !!tip,
     },
+    'hidden transition-transform',
+    spinning && 'inline-flex items-center justify-center',
     isNestedPattern &&
       'absolute z-[4] flex h-full max-h-[25rem] w-full flex-col items-center justify-center',
     fullscreen && 'flex flex-col items-center justify-center',
