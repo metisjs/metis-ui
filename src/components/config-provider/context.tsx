@@ -51,6 +51,7 @@ import type { TabsProps } from '../tabs';
 import type { TagProps } from '../tag';
 import type { TimePickerProps } from '../time-picker';
 import type { TimelineProps } from '../timeline';
+import type { TourProps } from '../tour';
 import type { TransferProps } from '../transfer';
 import type { TreeProps } from '../tree';
 import type { UploadProps } from '../upload';
@@ -168,6 +169,8 @@ export type TimePickerConfig = Pick<TimePickerProps, 'className'>;
 
 export type TimelineConfig = Pick<TimelineProps, 'className'>;
 
+export type TourConfig = Pick<TourProps, 'className'>;
+
 export type TransferConfig = Pick<TransferProps, 'className'>;
 
 export type TreeConfig = Pick<TreeProps, 'className'>;
@@ -239,7 +242,7 @@ export interface ConfigConsumerProps {
   tabs?: TabsConfig;
   timeline?: TimelineConfig;
   timePicker?: TimePickerConfig;
-  // tour?: TourConfig;
+  tour?: TourConfig;
   upload?: UploadConfig;
   notification?: NotificationConfig;
   tree?: TreeConfig;
