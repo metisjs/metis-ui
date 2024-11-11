@@ -32,6 +32,7 @@ import type { ArgsProps as MessageArgsProps } from '../message';
 import type { ModalProps } from '../modal';
 import type { ArgsProps as NotificationArgsProps } from '../notification';
 import type { PaginationProps } from '../pagination';
+import type { QRCodeProps } from '../qr-code/interface';
 import type { RadioProps } from '../radio';
 import type { RateProps } from '../rate';
 import type { ResultProps } from '../result';
@@ -124,6 +125,8 @@ export type NotificationConfig = Pick<NotificationArgsProps, 'className'>;
 export type PaginationConfig = Pick<PaginationProps, 'showSizeChanger' | 'className'>;
 
 export type ProgressConfig = Pick<ProgressProps, 'className'>;
+
+export type QRCodeConfig = Pick<QRCodeProps, 'className'>;
 
 export type RadioConfig = Pick<RadioProps, 'className'>;
 
@@ -244,6 +247,7 @@ export interface ConfigConsumerProps {
   datePicker?: DatePickerConfig;
   rangePicker?: RangePickerConfig;
   dropdown?: DropdownConfig;
+  qrCode?: QRCodeConfig;
   route: RouteConfig;
   request: RequestConfig;
 }

@@ -78,6 +78,8 @@ export { default as Popover } from './popover';
 export type { PopoverProps } from './popover';
 export { default as Progress } from './progress';
 export type { ProgressProps } from './progress';
+export { default as QRCode } from './qr-code';
+export type { QRCodeProps, QRPropsCanvas, QRPropsSVG } from './qr-code/interface';
 export { default as Radio } from './radio';
 export type { RadioChangeEvent, RadioGroupProps, RadioProps } from './radio';
 export { default as Rate } from './rate';
