@@ -34,6 +34,7 @@ group: 数据展示
 | icon | 二维码中图片的地址（目前只支持图片地址） | string | - |
 | size | 二维码大小 | number | 160 |
 | iconSize | 二维码中图片的大小 | number \| { width: number; height: number } | 40 |  |
+| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
 | color | 二维码颜色 | string | `#000` |
 | bgColor | 二维码背景颜色 | string | `transparent` |  |
 | bordered | 是否有边框 | boolean | `true` |
