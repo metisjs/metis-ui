@@ -39,7 +39,7 @@ const App: React.FC = () => {
           value="https://metis.github.io/"
           bgColor="#fff"
           style={{ marginBottom: 16 }}
-          icon="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+          icon="/logo.svg"
         />
         <Button
           type="primary"
