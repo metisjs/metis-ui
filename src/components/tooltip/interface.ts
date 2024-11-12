@@ -29,7 +29,6 @@ export interface AbstractTooltipProps
     open?: string;
     overlay?: string;
     arrow?: string;
-    content?: string;
   }>;
   prefixCls?: string;
   color?: LiteralUnion<PresetColorType>;
