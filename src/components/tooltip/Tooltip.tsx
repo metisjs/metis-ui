@@ -103,8 +103,6 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     ...restProps
   } = props;
 
-  const semanticCls = useSemanticCls(className);
-
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
 
@@ -173,28 +171,24 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
     tempOpen = false;
   }
 
+  // ============================= Style =============================
+  const semanticCls = useSemanticCls(className, { open: tempOpen });
+
+  const overlayCls = clsx(
+    'visible absolute box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--spotlight))]',
+    semanticCls.overlay,
+  );
+
   // ============================= Render =============================
   const child = getDisabledCompatibleChildren(
     isValidElement(children) && !isFragment(children) ? children : <span>{children}</span>,
     prefixCls,
   );
-  const childProps = child.props;
-  const childCls =
-    !childProps.className || typeof childProps.className === 'string'
-      ? clsx(childProps.className, {
-          [semanticCls.open || `${prefixCls}-open`]: true,
-        })
-      : childProps.className;
 
   // Color
   const colorInfo = parseColor(color);
   const formattedOverlayInnerStyle = { ...overlayInnerStyle, ...colorInfo.overlayStyle };
   const arrowContentStyle = colorInfo.arrowStyle;
-
-  const customOverlayClassName = clsx(
-    'visible absolute box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--spotlight))]',
-    semanticCls.overlay,
-  );
 
   const mergedArrow = React.useMemo(
     () =>
@@ -215,7 +209,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       prefixCls={prefixCls}
       id={id}
       overlayInnerStyle={formattedOverlayInnerStyle}
-      className={semanticCls.root}
+      className={semanticCls.content}
     >
       {memoOverlayWrapper}
     </Popup>
@@ -229,7 +223,8 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       <Trigger
         {...restProps}
         className={{
-          popup: customOverlayClassName,
+          root: semanticCls.root,
+          popup: overlayCls,
         }}
         prefixCls={prefixCls}
         popup={getPopupElement}
@@ -260,7 +255,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
         popupStyle={{ ...arrowContentStyle, ...overlayStyle }}
         getPopupContainer={getPopupContainer || getTooltipContainer || getContextPopupContainer}
       >
-        {tempOpen ? cloneElement(child, { className: childCls }) : child}
+        {child}
       </Trigger>
     </ZIndexContext.Provider>
   );
