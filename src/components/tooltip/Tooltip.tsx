@@ -215,7 +215,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
       prefixCls={prefixCls}
       id={id}
       overlayInnerStyle={formattedOverlayInnerStyle}
-      className={{ root: semanticCls.popup, inner: semanticCls.popupInner }}
+      className={semanticCls.content}
     >
       {memoOverlayWrapper}
     </Popup>

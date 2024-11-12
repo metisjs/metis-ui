@@ -28,9 +28,8 @@ export interface AbstractTooltipProps
   className?: SemanticClassName<{
     open?: string;
     overlay?: string;
-    popup?: string;
-    popupInner?: string;
     arrow?: string;
+    content?: string;
   }>;
   prefixCls?: string;
   color?: LiteralUnion<PresetColorType>;

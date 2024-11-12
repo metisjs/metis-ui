@@ -711,7 +711,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     compactItemClassnames[0],
   );
   const inputCls = clsx(
-    'group/input inline-block w-28 flex-auto rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'group/input inline-block w-28 rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
       'rounded px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',

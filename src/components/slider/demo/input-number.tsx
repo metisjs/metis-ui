@@ -16,9 +16,9 @@ const IntegerStep: React.FC = () => {
         max={20}
         onChange={onChange}
         value={typeof inputValue === 'number' ? inputValue : 0}
-        className="flex-auto"
+        className="flex-1"
       />
-      <InputNumber min={1} max={20} value={inputValue} onChange={onChange} />
+      <InputNumber min={1} max={20} value={inputValue} onChange={onChange} className="flex-none" />
     </div>
   );
 };
@@ -41,9 +41,16 @@ const DecimalStep: React.FC = () => {
         onChange={onChange}
         value={typeof inputValue === 'number' ? inputValue : 0}
         step={0.01}
-        className="flex-auto"
+        className="flex-1"
       />
-      <InputNumber min={0} max={1} step={0.01} value={inputValue} onChange={onChange} />
+      <InputNumber
+        min={0}
+        max={1}
+        step={0.01}
+        value={inputValue}
+        onChange={onChange}
+        className="flex-none"
+      />
     </div>
   );
 };

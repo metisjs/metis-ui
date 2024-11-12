@@ -28,6 +28,8 @@ export type { CollapsePanelProps, CollapseProps } from './collapse';
 export { default as ColorPicker } from './color-picker';
 export type { ColorPickerProps } from './color-picker';
 export { default as ConfigProvider } from './config-provider';
+export { default as Tour } from './tour';
+export type { TourProps, TourStepInfo } from './tour/interface';
 export type { ConfigProviderProps } from './config-provider';
 export { default as DatePicker } from './date-picker';
 export type { DatePickerProps } from './date-picker';
