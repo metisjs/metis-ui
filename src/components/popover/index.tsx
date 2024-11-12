@@ -109,7 +109,12 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
       onOpenChange={onInternalOpenChange}
       {...otherProps}
       prefixCls={prefixCls}
-      className={{ overlay: overlayCls, content: contentCls, arrow: arrowCls }}
+      className={{
+        root: semanticCls.root,
+        overlay: overlayCls,
+        content: contentCls,
+        arrow: arrowCls,
+      }}
       ref={ref}
       overlay={
         title || content ? (
