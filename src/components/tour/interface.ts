@@ -2,27 +2,41 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { ClosableType } from '../_util/hooks/useClosable';
 import type { ButtonProps } from '../button';
+import type { TooltipPlacement } from '../tooltip';
 import type { TriggerProps } from '../trigger';
 import type { Gap } from './hooks/useTarget';
-import type { PlacementType } from './placements';
+
+export type TourPlacement = TooltipPlacement;
+
+export type SemanticClassStruct = {
+  popup?: string;
+  mask?: string;
+  next?: ButtonProps['className'];
+  prev?: ButtonProps['className'];
+  cover?: string;
+  close?: string;
+  content?: string;
+  indicators?: string;
+  title?: string;
+  description?: string;
+  footer?: string;
+};
 
 export interface TourStepInfo {
   arrow?: boolean | { pointAtCenter: boolean };
   target?: HTMLElement | (() => HTMLElement) | null | (() => null);
   title: ReactNode;
   description?: ReactNode;
-  placement?: PlacementType;
+  placement?: TourPlacement;
   mask?: boolean;
-  className?: SemanticClassName;
+  className?: SemanticClassName<SemanticClassStruct>;
   style?: CSSProperties;
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   closable?: ClosableType;
-  onPrev?: () => void;
-  onNext?: () => void;
   // Display pictures or videos
   cover?: ReactNode;
-  nextButtonProps?: Omit<ButtonProps, 'onClick'>;
-  prevButtonProps?: Omit<ButtonProps, 'onClick'>;
+  nextButtonProps?: Omit<ButtonProps, 'onClick'> & { children?: ReactNode };
+  prevButtonProps?: Omit<ButtonProps, 'onClick'> & { children?: ReactNode };
   type?: 'default' | 'primary';
 }
 
@@ -38,16 +52,13 @@ export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
   closable?: TourStepInfo['closable'];
   mask?: boolean;
   arrow?: boolean | { pointAtCenter: boolean };
-  className?: SemanticClassName;
-  placement?: PlacementType;
+  className?: SemanticClassName<SemanticClassStruct>;
+  placement?: TourPlacement;
   gap?: Gap;
   animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
   getPopupContainer?: TriggerProps['getPopupContainer'];
-  builtinPlacements?:
-    | TriggerProps['builtinPlacements']
-    | ((config?: { arrowPointAtCenter?: boolean }) => TriggerProps['builtinPlacements']);
   disabledInteraction?: boolean;
   indicatorsRender?: (current: number, total: number) => ReactNode;
   //	default type, affects the background color and text color

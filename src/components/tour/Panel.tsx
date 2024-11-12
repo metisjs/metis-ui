@@ -1,31 +1,32 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import classNames from 'classnames';
-import type { ButtonProps } from '../button';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useClosable from '../_util/hooks/useClosable';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Button from '../button';
 import { useLocale } from '../locale';
-import defaultLocale from '../locale/en_US';
-import type { TourStepProps } from './interface';
+import type { TourProps, TourStepInfo } from './interface';
 
 function isValidNode(node: ReactNode): boolean {
   return node !== undefined && node !== null;
 }
 
-interface TourPanelProps {
-  stepProps: Omit<TourStepProps, 'closable'> & {
-    closable?: Exclude<TourStepProps['closable'], boolean>;
-  };
+interface TourPanelProps extends TourStepInfo {
+  prefixCls: string;
+  total?: number;
   current: number;
-  type: TourStepProps['type'];
-  indicatorsRender?: TourStepProps['indicatorsRender'];
+  indicatorsRender?: TourProps['indicatorsRender'];
+  onClose?: () => void;
+  onFinish?: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
-// Due to the independent design of Panel, it will be too coupled to put in rc-tour,
-// so a set of Panel logic is implemented separately in antd.
 const TourPanel: React.FC<TourPanelProps> = (props) => {
-  const { stepProps, current, type, indicatorsRender } = props;
   const {
     prefixCls,
+    className,
     total = 1,
     title,
     onClose,
@@ -36,23 +37,18 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
     description,
     nextButtonProps,
     prevButtonProps,
-    type: stepType,
     closable,
-  } = stepProps;
+    current,
+    type,
+    indicatorsRender,
+  } = props;
 
-  const mergedType = stepType ?? type;
-
-  const mergedCloseIcon = (
-    <button type="button" onClick={onClose} className={`${prefixCls}-close`}>
-      {closable?.closeIcon || <CloseOutlined className={`${prefixCls}-close-icon`} />}
-    </button>
-  );
+  const [isClosable, closeIcon, closeAriaProps] = useClosable(closable);
 
   const isLastStep = current === total - 1;
 
   const prevBtnClick = () => {
     onPrev?.();
-    prevButtonProps?.onClick?.();
   };
 
   const nextBtnClick = () => {
@@ -61,20 +57,65 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
     } else {
       onNext?.();
     }
-    nextButtonProps?.onClick?.();
   };
 
-  const headerNode = isValidNode(title) ? (
-    <div className={`${prefixCls}-header`}>
-      <div className={`${prefixCls}-title`}>{title}</div>
-    </div>
+  const semanticCls = useSemanticCls(className);
+
+  const rootCls = clsx(`${prefixCls}-content`, 'relative');
+
+  const innerCls = clsx(
+    `${prefixCls}-inner`,
+    'rounded-md bg-[--metis-arrow-background-color] text-start text-sm shadow-sm',
+    semanticCls.content,
+  );
+
+  const closeCls = clsx(
+    `${prefixCls}-close`,
+    'absolute right-2.5 top-2.5 inline-flex h-6 w-6 items-center justify-center rounded text-lg text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary',
+    semanticCls.close,
+  );
+
+  const coverCls = clsx(
+    `${prefixCls}-cover`,
+    'px-4 pt-4 *:w-full',
+    {
+      'pt-10': isClosable,
+    },
+    semanticCls.cover,
+  );
+
+  const titleCls = clsx(
+    `${prefixCls}-title`,
+    'mb-1 w-full truncate px-4 pt-4 font-semibold',
+    {
+      'pe-6': isClosable && !cover,
+    },
+    semanticCls.title,
+  );
+
+  const descCls = clsx(
+    `${prefixCls}-description`,
+    'mb-4 px-4',
+    {
+      'pt-4': !title,
+      'pe-6': !title && isClosable && !cover,
+    },
+    semanticCls.description,
+  );
+
+  const closeNode = isClosable ? (
+    <button type="button" onClick={onClose} className={closeCls} {...closeAriaProps}>
+      {closeIcon}
+    </button>
   ) : null;
+
+  const titleNode = isValidNode(title) ? <div className={titleCls}>{title}</div> : null;
 
   const descriptionNode = isValidNode(description) ? (
-    <div className={`${prefixCls}-description`}>{description}</div>
+    <div className={descCls}>{description}</div>
   ) : null;
 
-  const coverNode = isValidNode(cover) ? <div className={`${prefixCls}-cover`}>{cover}</div> : null;
+  const coverNode = isValidNode(cover) ? <div className={coverCls}>{cover}</div> : null;
 
   let mergedIndicatorNode: ReactNode;
 
@@ -94,42 +135,47 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
     );
   }
 
-  const mainBtnType = mergedType === 'primary' ? 'default' : 'primary';
+  const mainBtnType = type === 'primary' ? 'default' : 'primary';
 
-  const secondaryBtnProps: ButtonProps = {
-    type: 'default',
-    ghost: mergedType === 'primary',
-  };
+  const secondaryBtnType = type === 'primary' ? 'text' : 'default';
 
-  const [contextLocale] = useLocale('Tour', defaultLocale.Tour);
+  const [contextLocale] = useLocale('Tour');
 
   return (
-    <div className={`${prefixCls}-content`}>
-      <div className={`${prefixCls}-inner`}>
-        {closable && mergedCloseIcon}
+    <div className={rootCls}>
+      <div className={innerCls}>
+        {closeNode}
         {coverNode}
-        {headerNode}
+        {titleNode}
         {descriptionNode}
         <div className={`${prefixCls}-footer`}>
           {total > 1 && <div className={`${prefixCls}-indicators`}>{mergedIndicatorNode}</div>}
           <div className={`${prefixCls}-buttons`}>
             {current !== 0 ? (
               <Button
-                {...secondaryBtnProps}
+                type={secondaryBtnType}
+                size="small"
                 {...prevButtonProps}
                 onClick={prevBtnClick}
-                size="small"
-                className={classNames(`${prefixCls}-prev-btn`, prevButtonProps?.className)}
+                className={mergeSemanticCls(
+                  `${prefixCls}-prev-btn`,
+                  semanticCls.prev,
+                  prevButtonProps?.className,
+                )}
               >
                 {prevButtonProps?.children ?? contextLocale?.Previous}
               </Button>
             ) : null}
             <Button
               type={mainBtnType}
+              size="small"
               {...nextButtonProps}
               onClick={nextBtnClick}
-              size="small"
-              className={classNames(`${prefixCls}-next-btn`, nextButtonProps?.className)}
+              className={mergeSemanticCls(
+                `${prefixCls}-next-btn`,
+                semanticCls.next,
+                nextButtonProps?.className,
+              )}
             >
               {nextButtonProps?.children ??
                 (isLastStep ? contextLocale?.Finish : contextLocale?.Next)}

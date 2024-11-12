@@ -4,14 +4,19 @@ import Portal from '@rc-component/portal';
 import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { useZIndex } from '../_util/hooks/useZIndex';
+import getArrowClassName from '../_util/placementArrow';
+import getPlacements from '../_util/placements';
+import ZIndexContext from '../_util/ZIndexContext';
 import { ConfigContext } from '../config-provider';
 import type { TriggerRef } from '../trigger';
 import Trigger from '../trigger';
 import useTarget from './hooks/useTarget';
 import type { TourProps } from './interface';
 import Mask from './Mask';
-import { getPlacements } from './placements';
-import TourStep from './TourStep';
+import TourPanel from './Panel';
 import { getPlacement } from './util';
 
 const CENTER_PLACEHOLDER: React.CSSProperties = {
@@ -23,6 +28,15 @@ const CENTER_PLACEHOLDER: React.CSSProperties = {
 const defaultScrollIntoViewOptions: ScrollIntoViewOptions = {
   block: 'center',
   inline: 'center',
+};
+
+const defaultTransition = {
+  enter: 'transition duration-[100ms]',
+  enterFrom: 'opacity-0 scale-[0.8]',
+  enterTo: 'opacity-100 scale-100',
+  leave: 'transition duration-[100ms]',
+  leaveFrom: 'opacity-100 scale-100 ',
+  leaveTo: 'opacity-0 scale-[0.8]',
 };
 
 const Tour: React.FC<TourProps> = (props) => {
@@ -41,9 +55,8 @@ const Tour: React.FC<TourProps> = (props) => {
     gap,
     animated,
     scrollIntoViewOptions = defaultScrollIntoViewOptions,
-    zIndex = 1001,
+    zIndex: customizeZIndex,
     closable = true,
-    builtinPlacements,
     disabledInteraction,
     type,
     indicatorsRender,
@@ -88,10 +101,11 @@ const Tour: React.FC<TourProps> = (props) => {
     placement: stepPlacement,
     style: stepStyle,
     arrow: stepArrow,
-    className: stepClassName,
     mask: stepMask,
     scrollIntoViewOptions: stepScrollIntoViewOptions = defaultScrollIntoViewOptions,
     closable: stepClosable = true,
+    type: stepType,
+    className: stepClassName,
   } = steps[mergedCurrent] || {};
 
   const mergedClosable = useMemo(() => {
@@ -106,18 +120,26 @@ const Tour: React.FC<TourProps> = (props) => {
     return stepClosable;
   }, [closable, stepClosable]);
 
+  const mergedType = stepType ?? type;
   const mergedMask = mergedOpen && (stepMask ?? mask);
   const mergedScrollIntoViewOptions = stepScrollIntoViewOptions ?? scrollIntoViewOptions;
   const [posInfo, targetElement] = useTarget(target, !!open, gap, mergedScrollIntoViewOptions);
   const mergedPlacement = getPlacement(targetElement, placement, stepPlacement);
 
   // ========================= arrow =========================
-  const mergedArrow = targetElement
+  const arrowConfig = targetElement
     ? typeof stepArrow === 'undefined'
       ? arrow
       : stepArrow
     : false;
-  const arrowPointAtCenter = typeof mergedArrow === 'object' ? mergedArrow.pointAtCenter : false;
+  const arrowPointAtCenter = typeof arrowConfig === 'object' ? arrowConfig.pointAtCenter : false;
+  const mergedArrow = !!arrowConfig
+    ? {
+        className: getArrowClassName({
+          limitVerticalRadius: true,
+        }),
+      }
+    : false;
 
   useLayoutEffect(() => {
     triggerRef.current?.forceAlign();
@@ -129,17 +151,36 @@ const Tour: React.FC<TourProps> = (props) => {
     onChange?.(nextCurrent);
   };
 
-  const mergedBuiltinPlacements = useMemo(() => {
-    if (builtinPlacements) {
-      return typeof builtinPlacements === 'function'
-        ? builtinPlacements({ arrowPointAtCenter })
-        : builtinPlacements;
-    }
-    return getPlacements(arrowPointAtCenter);
-  }, [builtinPlacements, arrowPointAtCenter]);
+  const builtinPlacements = useMemo(
+    () =>
+      getPlacements({
+        arrowPointAtCenter: arrowPointAtCenter ?? true,
+        autoAdjustOverflow: true,
+        offset: 4,
+        arrowWidth: arrow ? 16 : 0,
+        borderRadius: 6,
+      }),
+    [arrowPointAtCenter, arrow],
+  );
 
-  // ========================= Render =========================
-  // Skip if not init yet
+  // ============================ zIndex ============================
+  const [zIndex, contextZIndex] = useZIndex('Tour', customizeZIndex);
+
+  // ============================ Style ============================
+  const semanticCls = useSemanticCls([className, stepClassName], 'tour');
+
+  const maskCls = clsx('fill-mask', semanticCls.mask);
+
+  const popupCls = clsx(
+    'visible absolute block w-96 max-w-fit origin-[var(--arrow-x,50%)_var(--arrow-y,50%)]',
+    {
+      '[--metis-arrow-background-color:hsla(var(--elevated))]': type !== 'primary',
+      '[--metis-arrow-background-color:hsla(var(--primary-bg))]': type === 'primary',
+    },
+    semanticCls.popup,
+  );
+
+  // ============================ Render ============================
   if (targetElement === undefined || !hasOpened) {
     return null;
   }
@@ -150,8 +191,7 @@ const Tour: React.FC<TourProps> = (props) => {
   };
 
   const getPopupElement = () => (
-    <TourStep
-      arrow={mergedArrow}
+    <TourPanel
       key="content"
       prefixCls={prefixCls}
       total={steps.length}
@@ -169,6 +209,9 @@ const Tour: React.FC<TourProps> = (props) => {
       }}
       {...steps[mergedCurrent]}
       closable={mergedClosable}
+      indicatorsRender={indicatorsRender}
+      type={mergedType}
+      className={mergeSemanticCls(className, stepClassName)}
     />
   );
 
@@ -178,7 +221,7 @@ const Tour: React.FC<TourProps> = (props) => {
   };
 
   return (
-    <>
+    <ZIndexContext.Provider value={contextZIndex}>
       <Mask
         zIndex={zIndex}
         prefixCls={prefixCls}
@@ -187,23 +230,24 @@ const Tour: React.FC<TourProps> = (props) => {
         open={mergedOpen}
         animated={animated}
         disabledInteraction={disabledInteraction}
-        className=""
+        className={maskCls}
       />
       <Trigger
         {...restProps}
-        builtinPlacements={mergedBuiltinPlacements}
+        builtinPlacements={builtinPlacements}
         ref={triggerRef}
         popupStyle={stepStyle}
         popupPlacement={mergedPlacement}
         popupOpen={mergedOpen}
-        className={{ popup: stepClassName }}
+        className={{ popup: popupCls, root: semanticCls.root }}
         prefixCls={prefixCls}
         popup={getPopupElement}
         forceRender={false}
         autoDestroy
         zIndex={zIndex}
         getTriggerDOMNode={getTriggerDOMNode}
-        arrow={!!mergedArrow}
+        arrow={mergedArrow}
+        popupTransition={defaultTransition}
       >
         <Portal open={mergedOpen} autoLock>
           <div
@@ -216,7 +260,7 @@ const Tour: React.FC<TourProps> = (props) => {
           />
         </Portal>
       </Trigger>
-    </>
+    </ZIndexContext.Provider>
   );
 };
 
