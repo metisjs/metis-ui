@@ -18,6 +18,7 @@ const App: React.FC = () => {
         <img
           alt="tour.png"
           src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
+          className="h-[118px] w-[480px]"
         />
       ),
       target: () => ref1.current,

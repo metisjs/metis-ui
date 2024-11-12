@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-import classNames from 'classnames';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -39,7 +38,6 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
     prevButtonProps,
     closable,
     current,
-    type,
     indicatorsRender,
   } = props;
 
@@ -65,7 +63,7 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
 
   const innerCls = clsx(
     `${prefixCls}-inner`,
-    'rounded-md bg-[--metis-arrow-background-color] text-start text-sm shadow-sm',
+    'rounded-md bg-[--metis-arrow-background-color] text-start text-sm shadow-lg ring-1 ring-border-secondary',
     semanticCls.content,
   );
 
@@ -77,7 +75,7 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
 
   const coverCls = clsx(
     `${prefixCls}-cover`,
-    'px-4 pt-4 *:w-full',
+    'px-4 pt-4',
     {
       'pt-10': isClosable,
     },
@@ -95,12 +93,22 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
 
   const descCls = clsx(
     `${prefixCls}-description`,
-    'mb-4 px-4',
+    'mb-1 px-4',
     {
       'pt-4': !title,
       'pe-6': !title && isClosable && !cover,
     },
     semanticCls.description,
+  );
+
+  const footerCls = clsx(`${prefixCls}-footer`, 'flex items-center p-4 pt-2', semanticCls.footer);
+
+  const buttonsCls = clsx(`${prefixCls}-buttons`, 'ml-auto space-x-2');
+
+  const indicatorsCls = clsx(
+    `${prefixCls}-indicators`,
+    'mr-6 inline-flex items-center gap-1.5',
+    semanticCls.indicators,
   );
 
   const closeNode = isClosable ? (
@@ -126,18 +134,16 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
       (stepItem, index) => (
         <span
           key={stepItem}
-          className={classNames(
+          className={clsx(
             index === current && `${prefixCls}-indicator-active`,
             `${prefixCls}-indicator`,
+            'h-1.5 w-1.5 rounded-full bg-fill',
+            index === current && 'bg-primary',
           )}
         />
       ),
     );
   }
-
-  const mainBtnType = type === 'primary' ? 'default' : 'primary';
-
-  const secondaryBtnType = type === 'primary' ? 'text' : 'default';
 
   const [contextLocale] = useLocale('Tour');
 
@@ -148,13 +154,12 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
         {coverNode}
         {titleNode}
         {descriptionNode}
-        <div className={`${prefixCls}-footer`}>
-          {total > 1 && <div className={`${prefixCls}-indicators`}>{mergedIndicatorNode}</div>}
-          <div className={`${prefixCls}-buttons`}>
+        <div className={footerCls}>
+          {total > 1 && <div className={indicatorsCls}>{mergedIndicatorNode}</div>}
+          <div className={buttonsCls}>
             {current !== 0 ? (
               <Button
-                type={secondaryBtnType}
-                size="small"
+                size="mini"
                 {...prevButtonProps}
                 onClick={prevBtnClick}
                 className={mergeSemanticCls(
@@ -167,8 +172,8 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
               </Button>
             ) : null}
             <Button
-              type={mainBtnType}
-              size="small"
+              type="primary"
+              size="mini"
               {...nextButtonProps}
               onClick={nextBtnClick}
               className={mergeSemanticCls(

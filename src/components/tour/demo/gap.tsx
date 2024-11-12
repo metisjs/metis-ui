@@ -19,6 +19,7 @@ const App: React.FC = () => {
         <img
           alt="tour.png"
           src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
+          className="h-[118px] w-[480px]"
         />
       ),
       target: () => tourNodeRef.current,
@@ -37,7 +38,10 @@ const App: React.FC = () => {
         Begin Tour
       </Button>
       <Descriptions
+        bordered
+        size="small"
         column={1}
+        className={{ root: 'mt-3', item: { label: 'w-36' } }}
         items={[
           {
             label: 'Radius',
@@ -77,7 +81,6 @@ const App: React.FC = () => {
             ),
           },
         ]}
-        className="mt-3"
       ></Descriptions>
       <Tour
         open={open}

@@ -53,7 +53,6 @@ const Tour: React.FC<TourProps> = (props) => {
     arrow = true,
     placement,
     gap,
-    animated,
     scrollIntoViewOptions = defaultScrollIntoViewOptions,
     zIndex: customizeZIndex,
     closable = true,
@@ -135,9 +134,12 @@ const Tour: React.FC<TourProps> = (props) => {
   const arrowPointAtCenter = typeof arrowConfig === 'object' ? arrowConfig.pointAtCenter : false;
   const mergedArrow = !!arrowConfig
     ? {
-        className: getArrowClassName({
-          limitVerticalRadius: true,
-        }),
+        className: clsx(
+          getArrowClassName({
+            limitVerticalRadius: true,
+          }),
+          'after:ring-1 after:ring-border-secondary',
+        ),
       }
     : false;
 
@@ -172,7 +174,7 @@ const Tour: React.FC<TourProps> = (props) => {
   const maskCls = clsx('fill-mask', semanticCls.mask);
 
   const popupCls = clsx(
-    'visible absolute block w-96 max-w-fit origin-[var(--arrow-x,50%)_var(--arrow-y,50%)]',
+    'visible absolute block max-w-fit origin-[var(--arrow-x,50%)_var(--arrow-y,50%)]',
     {
       '[--metis-arrow-background-color:hsla(var(--elevated))]': type !== 'primary',
       '[--metis-arrow-background-color:hsla(var(--primary-bg))]': type === 'primary',
@@ -228,7 +230,6 @@ const Tour: React.FC<TourProps> = (props) => {
         pos={posInfo}
         showMask={mergedMask}
         open={mergedOpen}
-        animated={animated}
         disabledInteraction={disabledInteraction}
         className={maskCls}
       />

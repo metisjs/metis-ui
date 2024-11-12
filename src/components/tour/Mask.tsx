@@ -16,7 +16,6 @@ export interface MaskProps {
   showMask?: boolean;
   style?: React.CSSProperties;
   open?: boolean;
-  animated?: boolean | { placeholder: boolean };
   zIndex?: number;
   disabledInteraction?: boolean;
 }
@@ -29,14 +28,12 @@ const Mask = (props: MaskProps) => {
     showMask,
     style = {},
     open,
-    animated,
     zIndex,
     disabledInteraction,
   } = props;
 
   const id = useId();
   const maskId = `${prefixCls}-mask-${id}`;
-  const mergedAnimated = typeof animated === 'object' ? animated?.placeholder : animated;
 
   const isSafari =
     typeof navigator !== 'undefined' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -76,7 +73,7 @@ const Mask = (props: MaskProps) => {
                     width={pos.width}
                     height={pos.height}
                     fill="black"
-                    className={mergedAnimated ? `${prefixCls}-placeholder-animated` : ''}
+                    className="transition-all duration-300"
                   />
                 )}
               </mask>

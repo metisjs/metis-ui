@@ -55,7 +55,6 @@ export interface TourProps extends Pick<TriggerProps, 'onPopupAlign'> {
   className?: SemanticClassName<SemanticClassStruct>;
   placement?: TourPlacement;
   gap?: Gap;
-  animated?: boolean | { placeholder: boolean };
   scrollIntoViewOptions?: boolean | ScrollIntoViewOptions;
   zIndex?: number;
   getPopupContainer?: TriggerProps['getPopupContainer'];
