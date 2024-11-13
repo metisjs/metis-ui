@@ -34,7 +34,7 @@ Badge normally appears in proximity to notifications or user avatars with eye-ca
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | Record&lt;'root' \| 'wrapper' \| 'text', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#badge-1) | - |  |
 | color | Customize Badge dot color | string | - |  |
 | count | Number to show in badge | ReactNode | - |  |
 | dot | Whether to display a red dot instead of `count` | boolean | false |  |
@@ -51,7 +51,17 @@ Badge normally appears in proximity to notifications or user avatars with eye-ca
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | Record&lt;'root' \| 'corner' \| 'text', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#badgeribbon-1) | - |  |
 | color | Customize Ribbon color | string | - |  |
 | placement | The placement of the Ribbon, `start` and `end` follow text direction (RTL or LTR) | `start` \| `end` | `end` |  |
 | text | Content inside the Ribbon | ReactNode | - |  |
+
+## Semantic DOM
+
+### Badge
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Badge.Ribbon
+
+<code src="./demo/_semantic_ribbon.tsx" simplify></code>
