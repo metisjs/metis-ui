@@ -5,7 +5,9 @@ import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
 const App: React.FC = () => (
   <SemanticPreview semantics={[{ name: 'root' }, { name: 'icon' }]}>
-    <Button type="primary" shape="round" icon={<MagnifyingGlassOutline />} />
+    <Button type="primary" icon={<MagnifyingGlassOutline />}>
+      Search
+    </Button>
   </SemanticPreview>
 );
 
