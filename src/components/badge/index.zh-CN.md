@@ -35,7 +35,7 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | Record&lt;'root' \| 'wrapper' \| 'text', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#badge-1) | - |  |
 | color | 自定义小圆点的颜色 | string | - |  |
 | count | 展示的数字，大于 overflowCount 时显示为 `${overflowCount}+`，为 0 时隐藏 | ReactNode | - |  |
 | dot | 不展示数字，只有一个小红点 | boolean | false |  |
@@ -52,7 +52,17 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | Record&lt;'root' \| 'corner' \| 'text', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#badgeribbon-1) | - |  |
 | color | 自定义缎带的颜色 | string | - |  |
 | placement | 缎带的位置，`start` 和 `end` 随文字方向（RTL 或 LTR）变动 | `start` \| `end` | `end` |  |
 | text | 缎带中填入的内容 | ReactNode | - |  |
+
+## Semantic DOM
+
+### Badge
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Badge.Ribbon
+
+<code src="./demo/_semantic_ribbon.tsx" simplify></code>

@@ -10,7 +10,7 @@ import { ConfigContext } from '../config-provider';
 type RibbonPlacement = 'start' | 'end';
 
 export interface RibbonProps {
-  className?: SemanticClassName<{ corner?: string; text?: string }>;
+  className?: SemanticClassName<{ indicator?: string }>;
   prefixCls?: string;
   color?: LiteralUnion<PresetColorType>;
   text?: React.ReactNode;
@@ -33,20 +33,20 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
 
   const colorInPreset = isPresetColor(color);
 
-  const wrapperCls = clsx(`${prefixCls}-wrapper`, 'relative');
+  const wrapperCls = clsx(`${prefixCls}-wrapper`, 'relative', semanticCls.root);
   const ribbonCls = clsx(
     prefixCls,
     `${prefixCls}-placement-${placement}`,
     {
       [`${prefixCls}-color-${color}`]: colorInPreset,
     },
-    'absolute top-2 whitespace-nowrap rounded bg-primary px-2 text-sm leading-[1.375rem]',
+    'absolute top-2 whitespace-nowrap rounded bg-primary px-2 text-sm leading-[1.375rem] text-white',
     {
       '-start-2 rounded-bl-none': placement === 'start',
       '-end-2 rounded-br-none': placement === 'end',
     },
     colorInPreset && getPresetColorCls(color, { rawBackground: true }),
-    semanticCls.root,
+    semanticCls.indicator,
   );
   const cornerCls = clsx(
     `${prefixCls}-corner`,
@@ -56,7 +56,6 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
       'end-0 border-b-transparent border-r-transparent': placement === 'end',
     },
     colorInPreset && getPresetColorCls(color, { text: true }),
-    semanticCls.corner,
   );
 
   const colorStyle: React.CSSProperties = {};
@@ -67,10 +66,10 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
   }
 
   return (
-    <div className={clsx(wrapperCls)}>
+    <div className={wrapperCls}>
       {children}
-      <div className={clsx(ribbonCls)} style={colorStyle}>
-        <span className={clsx(`${prefixCls}-text`, 'text-white', semanticCls.text)}>{text}</span>
+      <div className={ribbonCls} style={colorStyle}>
+        <span className={`${prefixCls}-text`}>{text}</span>
         <div className={cornerCls} style={cornerColorStyle} />
       </div>
     </div>
