@@ -8,7 +8,7 @@ import {
   SortableContext,
   useSortable,
 } from '@dnd-kit/sortable';
-import { Tag } from 'metis-ui';
+import { Space, Tag } from 'metis-ui';
 
 type Item = {
   id: number;
@@ -78,9 +78,11 @@ const App: React.FC = () => {
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
       <SortableContext items={items} strategy={horizontalListSortingStrategy}>
-        {items.map((item) => (
-          <DraggableTag tag={item} key={item.id} />
-        ))}
+        <Space wrap>
+          {items.map((item) => (
+            <DraggableTag tag={item} key={item.id} />
+          ))}
+        </Space>
       </SortableContext>
     </DndContext>
   );

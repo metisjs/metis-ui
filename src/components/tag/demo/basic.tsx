@@ -12,7 +12,7 @@ const preventDefault = (e: React.MouseEvent<HTMLElement>) => {
 };
 
 const App: React.FC = () => (
-  <Space size={[0, 8]} wrap>
+  <Space wrap>
     <Tag>Tag 1</Tag>
     <Tag>
       <a href="https://github.com/metis-oa/metis-ui">Link</a>

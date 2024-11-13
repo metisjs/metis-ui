@@ -8,7 +8,7 @@ import {
 import { Space, Tag } from 'metis-ui';
 
 const App: React.FC = () => (
-  <Space size={[0, 8]} wrap>
+  <Space wrap>
     <Tag icon={<AcademicCapOutline />} color="#55acee">
       AcademicCap
     </Tag>

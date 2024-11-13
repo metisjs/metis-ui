@@ -3,7 +3,7 @@ import { Divider, Space, Tag } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
-    <Space size={[0, 'small']} wrap>
+    <Space wrap>
       <Tag bordered={false}>Tag 1</Tag>
       <Tag bordered={false}>Tag 2</Tag>
       <Tag bordered={false} closable>
@@ -14,7 +14,7 @@ const App: React.FC = () => (
       </Tag>
     </Space>
     <Divider />
-    <Space size={[0, 'small']} wrap>
+    <Space wrap>
       <Tag bordered={false} color="processing">
         processing
       </Tag>

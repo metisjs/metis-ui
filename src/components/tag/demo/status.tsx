@@ -12,7 +12,7 @@ import { Divider, Space, Tag } from 'metis-ui';
 const App: React.FC = () => (
   <>
     <Divider orientation="left">Without icon</Divider>
-    <Space size={[0, 8]} wrap>
+    <Space wrap>
       <Tag color="success">Success</Tag>
       <Tag color="processing">Processing</Tag>
       <Tag color="error">Error</Tag>
@@ -20,7 +20,7 @@ const App: React.FC = () => (
       <Tag color="default">Default</Tag>
     </Space>
     <Divider orientation="left">With icon</Divider>
-    <Space size={[0, 8]} wrap>
+    <Space wrap>
       <Tag icon={<CheckCircleOutline />} color="success">
         Success
       </Tag>
@@ -41,7 +41,7 @@ const App: React.FC = () => (
       </Tag>
     </Space>
     <Divider orientation="left">Closable</Divider>
-    <Space size={[0, 8]} wrap>
+    <Space wrap>
       <Tag color="success" closable>
         Success
       </Tag>

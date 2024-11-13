@@ -6,7 +6,15 @@ type RequiredMark = boolean | 'optional' | 'customize';
 
 const customizeRequiredMark = (label: React.ReactNode, { required }: { required: boolean }) => (
   <>
-    {required ? <Tag color="error">Required</Tag> : <Tag color="warning">optional</Tag>}
+    {required ? (
+      <Tag color="error" className="mr-2">
+        Required
+      </Tag>
+    ) : (
+      <Tag color="warning" className="mr-2">
+        optional
+      </Tag>
+    )}
     {label}
   </>
 );

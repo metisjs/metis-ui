@@ -84,7 +84,7 @@ export default () => null;
 //     dataIndex: 'tag',
 //     title: 'Tag',
 //     render: (tag: string) => (
-//       <Tag style={{ marginInlineEnd: 0 }} color="cyan">
+//       <Tag  color="cyan">
 //         {tag.toUpperCase()}
 //       </Tag>
 //     ),

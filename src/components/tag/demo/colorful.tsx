@@ -21,7 +21,7 @@ const colors = [
 const App: React.FC = () => (
   <>
     <Divider orientation="left">Presets</Divider>
-    <Space size={[0, 8]} wrap>
+    <Space wrap>
       {colors.map((color) => (
         <Tag key={color} color={color}>
           {color}
@@ -29,7 +29,7 @@ const App: React.FC = () => (
       ))}
     </Space>
     <Divider orientation="left">Custom</Divider>
-    <Space size={[0, 8]} wrap>
+    <Space wrap>
       <Tag color="#f50">#f50</Tag>
       <Tag color="#2db7f5">#2db7f5</Tag>
       <Tag color="#87d068">#87d068</Tag>
