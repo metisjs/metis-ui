@@ -1,4 +1,6 @@
 import React from 'react';
+import { LinkOutline } from '@metisjs/icons';
+import { Link } from 'dumi';
 import { clsx, mergeSemanticCls, Popover, Tag } from 'metis-ui';
 import { cloneElement } from 'metis-ui/es/_util/reactNode';
 
@@ -15,6 +17,7 @@ type SemanticItem = {
   args?: SemanticArg[];
   version?: string;
   children?: SemanticItem[];
+  link?: string;
 };
 
 export interface SemanticPreviewProps {
@@ -62,6 +65,7 @@ const ClassNameItem = ({
   children,
   indent = 0,
   path,
+  link,
   onHover,
 }: ClassNameItemProps) => (
   <>
@@ -71,7 +75,13 @@ const ClassNameItem = ({
       onMouseEnter={() => onHover(path)}
       onMouseLeave={() => onHover(null)}
     >
-      <span className="text-base">{name}</span>
+      {link && (
+        <Link to={link}>
+          <LinkOutline className="mr-2 h-4 w-4" />
+          <span className="text-base text-text">{name}</span>
+        </Link>
+      )}
+      {!link && <span className="text-base text-text">{name}</span>}
       {version && (
         <Tag color="processing" className="ml-2">
           {version}
@@ -194,10 +204,10 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
   return (
     <div className="relative rounded" ref={containerRef}>
       <div className="flex divide-x divide-border-secondary" style={{ minHeight: height }}>
-        <div className="flex basis-2/3 items-center justify-center overflow-hidden p-5">
+        <div className="flex flex-auto items-center justify-center overflow-hidden p-5">
           {cloneNode}
         </div>
-        <div className="basis-1/3">
+        <div className="basis-72">
           <ul className="divide-y divide-border-secondary">
             {
               <li className="bg-fill-quinary px-3 py-2">

@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import type { InputProps } from '../input';
-import type { SelectProps } from '../select';
+import type { OptionsProps } from './Options';
+import type { PagerProps } from './Pager';
 
 export interface PaginationLocale {
   // Options
@@ -30,13 +30,11 @@ export interface PaginationConfig extends PaginationProps {
 
 export interface PaginationProps extends React.AriaAttributes {
   className?: SemanticClassName<{
-    options?: string;
-    item?: string;
+    options?: OptionsProps['className'];
+    item?: PagerProps['className'];
     prev?: string;
     next?: string;
     total?: string;
-    jumper?: InputProps['className'];
-    sizeChanger?: SelectProps['className'];
   }>;
   prefixCls?: string;
   pageSizeOptions?: string[] | number[];

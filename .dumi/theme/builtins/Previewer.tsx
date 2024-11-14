@@ -3,6 +3,7 @@ import { XCircleSolid } from '@metisjs/icons';
 import { useLiveDemo, useLocation, type IPreviewerProps } from 'dumi';
 import PreviewerActions from 'dumi/theme-default/slots/PreviewerActions';
 import { clsx } from 'metis-ui';
+import 'dumi/theme-default/builtins/Previewer/index.less';
 
 export type MetisPreviewerProps = IPreviewerProps & {
   simplify?: boolean;

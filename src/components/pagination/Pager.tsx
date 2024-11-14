@@ -1,12 +1,14 @@
 import React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { PaginationProps } from './interface';
 
 export interface PagerProps extends Pick<PaginationProps, 'itemRender' | 'size'> {
   rootPrefixCls: string;
   page: number;
   active?: boolean;
-  className?: string;
+  className?: SemanticClassName<{ root: string }, { active?: boolean; disabled?: boolean }>;
   showTitle: boolean;
   disabled?: boolean;
   onClick?: (page: number) => void;
@@ -32,6 +34,8 @@ const Pager: React.FC<PagerProps> = (props) => {
   } = props;
   const prefixCls = `${rootPrefixCls}-item`;
 
+  const semanticCls = useSemanticCls(className, { active, disabled });
+
   const cls = clsx(
     prefixCls,
     `${prefixCls}-${page}`,
@@ -51,7 +55,7 @@ const Pager: React.FC<PagerProps> = (props) => {
       'cursor-not-allowed opacity-50': active,
       'cursor-not-allowed text-text-quaternary hover:bg-transparent': !active,
     },
-    className,
+    semanticCls.root,
   );
 
   const handleClick = () => {

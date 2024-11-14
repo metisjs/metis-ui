@@ -136,8 +136,8 @@ devDependencies:
     specifier: ^1.13.8
     version: 1.13.8
   dumi:
-    specifier: 2.4.4
-    version: 2.4.4(@babel/core@7.24.7)(@types/node@20.0.0)(@types/react@18.3.3)(eslint@8.39.0)(prettier@3.3.3)(react-dom@18.3.1)(react@18.3.1)(stylelint@15.6.0)(typescript@5.0.4)(webpack@5.92.1)
+    specifier: ~2.4.13
+    version: 2.4.13(@babel/core@7.24.7)(@types/node@20.0.0)(@types/react@18.3.3)(eslint@8.39.0)(prettier@3.3.3)(react-dom@18.3.1)(react@18.3.1)(stylelint@15.6.0)(typescript@5.0.4)(webpack@5.92.1)
   eslint:
     specifier: ^8.39.0
     version: 8.39.0
@@ -1577,6 +1577,7 @@ packages:
 
   /@esbuild-kit/cjs-loader@2.4.2:
     resolution: {integrity: sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==}
+    deprecated: 'Merged into tsx: https://tsx.is'
     dependencies:
       '@esbuild-kit/core-utils': 3.1.0
       get-tsconfig: 4.7.5
@@ -1584,6 +1585,7 @@ packages:
 
   /@esbuild-kit/core-utils@3.1.0:
     resolution: {integrity: sha512-Uuk8RpCg/7fdHSceR1M6XbSZFSuMrxcePFuGgyvsBn+u339dk5OeL4jv2EojwTN2st/unJGsVm4qHWjWNmJ/tw==}
+    deprecated: 'Merged into tsx: https://tsx.is'
     dependencies:
       esbuild: 0.17.19
       source-map-support: 0.5.21
@@ -1591,6 +1593,7 @@ packages:
 
   /@esbuild-kit/esm-loader@2.5.5:
     resolution: {integrity: sha512-Qwfvj/qoPbClxCRNuac1Du01r9gvNOT+pMYtJDapfB1eoGN1YlJ1BixLyL9WVENRx5RXgNLdfYdx/CuswlGhMw==}
+    deprecated: 'Merged into tsx: https://tsx.is'
     dependencies:
       '@esbuild-kit/core-utils': 3.1.0
       get-tsconfig: 4.7.5
@@ -3086,7 +3089,6 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -3096,7 +3098,6 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -3106,7 +3107,6 @@ packages:
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -3116,7 +3116,6 @@ packages:
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -3998,7 +3997,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4008,7 +4006,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -4018,7 +4015,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4028,7 +4024,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -4124,7 +4119,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -4134,7 +4128,6 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -6826,8 +6819,8 @@ packages:
     resolution: {integrity: sha512-mM6UoGTgTNoo8lA4dwaIwoeSGT+4PeQeiFylr2+kCB5z3/7NEf7lIM4tqrAsEyzecE/HX0+w7Z78hnFZQ9k5vQ==}
     dev: true
 
-  /dumi@2.4.4(@babel/core@7.24.7)(@types/node@20.0.0)(@types/react@18.3.3)(eslint@8.39.0)(prettier@3.3.3)(react-dom@18.3.1)(react@18.3.1)(stylelint@15.6.0)(typescript@5.0.4)(webpack@5.92.1):
-    resolution: {integrity: sha512-uYajbUIQUvI88pkrT/wh38cxQIec3iHHT7reC31T+UZnypq2Rkj+4fnCh4Tcd/1AxWvmT/TOIaFCtMWHkfOB8Q==}
+  /dumi@2.4.13(@babel/core@7.24.7)(@types/node@20.0.0)(@types/react@18.3.3)(eslint@8.39.0)(prettier@3.3.3)(react-dom@18.3.1)(react@18.3.1)(stylelint@15.6.0)(typescript@5.0.4)(webpack@5.92.1):
+    resolution: {integrity: sha512-cOeFrY7MgdcVJpRn4+v5Kb9LJbPz55FekwuPLKUyphw/fJFe/Chu0+bTV619VlQtIZUPelnob0vHmoBE4eT9nw==}
     hasBin: true
     peerDependencies:
       react: '>=16.8'
@@ -10124,7 +10117,6 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -10144,7 +10136,6 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -10164,7 +10155,6 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -10184,7 +10174,6 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true

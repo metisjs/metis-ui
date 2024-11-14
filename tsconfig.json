@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@@/*": [".dumi/tmp/*"],
       "metis-ui": ["src/components/index.ts"],
       "metis-ui/es/*": ["src/components/*"],
       "metis-ui/lib/*": ["src/components/*"],

@@ -451,21 +451,12 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     }
 
     if (current - 1 >= pageBufferSize * 2 && current !== 1 + 2) {
-      pagerList[0] = React.cloneElement<PagerProps>(pagerList[0], {
-        className: clsx(`${prefixCls}-item-after-jump-prev`, pagerList[0].props.className),
-      });
-
       if (jumpPrev) {
         pagerList.unshift(jumpPrev);
       }
     }
 
     if (allPages - current >= pageBufferSize * 2 && current !== allPages - 2) {
-      const lastOne = pagerList[pagerList.length - 1];
-      pagerList[pagerList.length - 1] = React.cloneElement(lastOne, {
-        className: clsx(`${prefixCls}-item-before-jump-next`, lastOne.props.className),
-      });
-
       if (jumpNext) {
         pagerList.push(jumpNext);
       }
@@ -572,6 +563,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         pageSize={pageSize}
         pageSizeOptions={pageSizeOptions}
         quickGo={shouldDisplayQuickJumper ? handleChange : undefined}
+        className={semanticCls.options}
       />
     </ul>
   );

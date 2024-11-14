@@ -1,18 +1,20 @@
 import React from 'react';
 import KEYCODE from 'rc-util/lib/KeyCode';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { InputProps } from '../input';
 import Input from '../input';
 import type { SelectProps } from '../select';
 import Select from '../select';
 import type { PaginationLocale, PaginationProps } from './interface';
 
-interface OptionsProps {
-  className?: {
+export interface OptionsProps {
+  className?: SemanticClassName<{
     root?: string;
     jumper?: InputProps['className'];
     sizeChanger?: SelectProps['className'];
-  };
+  }>;
   disabled?: boolean;
   size?: PaginationProps['size'];
   locale: PaginationLocale;
@@ -41,6 +43,8 @@ const Options: React.FC<OptionsProps> = (props) => {
   } = props;
 
   const [goInputText, setGoInputText] = React.useState('');
+
+  const semanticCls = useSemanticCls(className);
 
   const getValidValue = () => {
     return !goInputText || Number.isNaN(goInputText) ? undefined : Number(goInputText);
@@ -112,7 +116,10 @@ const Options: React.FC<OptionsProps> = (props) => {
       value: opt.toString(),
     }));
 
-    const mergedChangerCls = mergeSemanticCls(`${prefixCls}-size-changer`, className?.sizeChanger);
+    const mergedChangerCls = mergeSemanticCls(
+      `${prefixCls}-size-changer`,
+      semanticCls?.sizeChanger,
+    );
 
     changeSelect = (
       <Select
@@ -134,7 +141,7 @@ const Options: React.FC<OptionsProps> = (props) => {
   if (quickGo) {
     const mergedJumperCls = mergeSemanticCls(
       clsx(`${prefixCls}-quick-jumper`, 'w-12'),
-      className?.jumper,
+      semanticCls.jumper,
     );
 
     goInput = (
@@ -155,7 +162,11 @@ const Options: React.FC<OptionsProps> = (props) => {
     );
   }
 
-  const rootCls = clsx(prefixCls, 'ms-1 inline-flex items-center gap-2 sm:hidden', className?.root);
+  const rootCls = clsx(
+    prefixCls,
+    'ms-1 inline-flex items-center gap-2 sm:hidden',
+    semanticCls.root,
+  );
 
   return (
     <li className={rootCls}>
