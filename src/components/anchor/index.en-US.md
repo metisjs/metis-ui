@@ -30,7 +30,7 @@ For displaying anchor hyperlinks on page and jumping between them.
 | --- | --- | --- | --- | --- |
 | affix | Fixed mode of Anchor | boolean | true |  |
 | bounds | Bounding distance of anchor area | number | 5 |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'ink' \| 'link' \| 'title' , string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | direction | Set Anchor direction | `vertical` \| `horizontal` | `vertical` |  |
 | getContainer | Scrolling container | () => HTMLElement | () => window |  |
 | getCurrentAnchor | Customize the anchor highlight | (activeLink: string) => string | - |  |
@@ -47,9 +47,13 @@ For displaying anchor hyperlinks on page and jumping between them.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | children | Nested Anchor Link, `Attention: This attribute does not support horizontal orientation` | [AnchorItem](#anchoritem)\[] | - |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'title' , string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | href | The target of hyperlink | string |  |  |
 | key | The unique identifier of the Anchor Link | string \| number | - |  |
 | replace | Replace item href in browser history instead of pushing it | boolean | false |  |
 | target | Specifies where to display the linked URL | string |  |  |
 | title | The content of hyperlink | ReactNode |  |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

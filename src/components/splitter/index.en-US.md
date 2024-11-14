@@ -34,7 +34,7 @@ Can be used to separate areas horizontally or vertically. When you need to freel
 | onResizeStart | Callback before dragging starts | `(sizes: number[]) => void` | - | - |
 | onResize | Panel size change callback | `(sizes: number[]) => void` | - | - |
 | onResizeEnd | Drag end callback | `(sizes: number[]) => void` | - | - |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Panel
 
@@ -46,4 +46,8 @@ Can be used to separate areas horizontally or vertically. When you need to freel
 | size | Controlled panel size support number for px or 'percent%' usage | `number \| string` | - | - |
 | collapsible | Quick folding | `boolean \| { start?: boolean; end?: boolean }` | `false` | - |
 | resizable | Whether to enable drag and drop | `boolean` | `true` | - |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

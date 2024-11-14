@@ -1,7 +1,8 @@
 import React from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
-import { Button, Divider, Dropdown, Space } from 'metis-ui';
+import { Dropdown, Space } from 'metis-ui';
+import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
 const items: MenuProps['items'] = [
   {
@@ -14,28 +15,19 @@ const items: MenuProps['items'] = [
     disabled: true,
   },
   {
-    key: '3',
-    label: '3rd menu item (disabled)',
-    disabled: true,
+    key: '4',
+    danger: true,
+    label: 'a danger item',
   },
 ];
 
-const App: React.FC = () => {
-  return (
-    <Dropdown
-      menu={{ items }}
-      popupRender={(menu) => (
-        <>
-          {menu}
-          <Divider style={{ margin: 0 }} />
-          <Space style={{ padding: 8 }}>
-            <Button type="primary" size="small">
-              Click me!
-            </Button>
-          </Space>
-        </>
-      )}
-    >
+const App: React.FC = () => (
+  <SemanticPreview
+    semantics={[{ name: 'root' }, { name: 'overlay' }]}
+    rootArgs={[{ name: 'open', type: 'boolean' }]}
+    height={360}
+  >
+    <Dropdown menu={{ items }} open>
       <a onClick={(e) => e.preventDefault()}>
         <Space>
           Hover me
@@ -43,7 +35,7 @@ const App: React.FC = () => {
         </Space>
       </a>
     </Dropdown>
-  );
-};
+  </SemanticPreview>
+);
 
 export default App;

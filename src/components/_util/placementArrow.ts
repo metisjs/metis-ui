@@ -1,7 +1,6 @@
 import { clsx } from './classNameUtils';
 
 export default function getArrowClassName(options: {
-  showArrowCls?: string;
   limitVerticalRadius?: boolean;
   arrowPlacement?: {
     left?: boolean;

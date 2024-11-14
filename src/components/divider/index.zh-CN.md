@@ -28,9 +28,13 @@ demo:
 | 参数        | 说明                       | 类型                          | 默认值       | 版本 |
 | ----------- | -------------------------- | ----------------------------- | ------------ | ---- |
 | children    | 嵌套的标题                 | ReactNode                     | -            |      |
-| className   | 分割线样式类               | string                        | -            |      |
+| className   | 语义化结构 class           | [SemanticDOM](#semantic-dom)  | -            |      |
 | dashed      | 是否虚线                   | boolean                       | false        |      |
 | orientation | 分割线标题的位置           | `left` \| `right` \| `center` | `center`     |      |
 | plain       | 文字是否显示为普通正文样式 | boolean                       | false        |      |
 | style       | 分割线样式对象             | CSSProperties                 | -            |      |
 | type        | 水平还是垂直类型           | `horizontal` \| `vertical`    | `horizontal` |      |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

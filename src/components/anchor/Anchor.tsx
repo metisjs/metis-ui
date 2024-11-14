@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEvent } from 'rc-util';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getScroll, scrollTo } from '../_util/scroll';
 import { devUseWarning } from '../_util/warning';
@@ -52,8 +52,7 @@ export interface AnchorProps {
   prefixCls?: string;
   className?: SemanticClassName<{
     ink?: string;
-    link?: string;
-    title?: string;
+    link?: AnchorLinkBaseProps['className'];
   }>;
   style?: React.CSSProperties;
   offsetTop?: number;
@@ -293,13 +292,13 @@ const Anchor: React.FC<AnchorProps> = (props) => {
   const createNestedLink = (options?: AnchorLinkItemProps[]) =>
     Array.isArray(options)
       ? options.map((item) => {
-          const itemCls = getSemanticCls(item.className);
-          const cls = {
-            root: clsx(semanticCls.link, itemCls.root),
-            title: clsx(semanticCls.title, itemCls.title),
-          };
           return (
-            <AnchorLink replace={replace} {...item} className={cls} key={item.key}>
+            <AnchorLink
+              replace={replace}
+              {...item}
+              className={mergeSemanticCls(semanticCls.link, item.className)}
+              key={item.key}
+            >
               {anchorDirection === 'vertical' && createNestedLink(item.children)}
             </AnchorLink>
           );

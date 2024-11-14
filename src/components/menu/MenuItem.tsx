@@ -182,6 +182,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     disabled: mergedDisabled,
     selected,
     hasIcon: !!icon,
+    level,
   });
 
   const rootCls = clsx(
@@ -320,12 +321,12 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
           })}
           <span
             className={clsx(
-              `${prefixCls}-title-content`,
+              `${prefixCls}-content`,
               'relative flex-1 truncate',
               {
                 'opacity-0': firstLevel && isInlineCollapsed,
               },
-              semanticCls.title,
+              semanticCls.label,
             )}
           >
             {children}

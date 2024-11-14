@@ -1,7 +1,7 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { SemanticRecord } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import type { BreadcrumbProps, ItemType } from './Breadcrumb';
 
 type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (
@@ -38,6 +38,8 @@ export function renderItem(
 
   const { icon, className: itemClassName, onClick, ...restItem } = item;
 
+  const semanticCls = mergeSemanticCls(className?.item, itemClassName)({});
+
   const passedProps = {
     ...pickAttrs(restItem, {
       data: true,
@@ -50,14 +52,13 @@ export function renderItem(
     `${prefixCls}-link`,
     'inline-flex h-full items-center gap-1 px-1 !text-text-secondary',
     isLastItem && '!text-text',
-    className?.item,
-    itemClassName,
+    semanticCls.root,
   );
 
   let iconNode;
   if (icon) {
     iconNode = (
-      <span className={clsx('inline-flex items-center text-base', className?.icon)}>{icon}</span>
+      <span className={clsx('inline-flex items-center text-base', semanticCls.icon)}>{icon}</span>
     );
   }
 

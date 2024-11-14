@@ -31,13 +31,13 @@ demo:
 
 ### Splitter
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| layout | 布局方向 | `horizontal` \| `vertical` | `horizontal` | - |
-| onResizeStart | 开始拖拽之前回调 | `(sizes: number[]) => void` | - | - |
-| onResize | 面板大小变化回调 | `(sizes: number[]) => void` | - | - |
-| onResizeEnd | 拖拽结束回调 | `(sizes: number[]) => void` | - | - |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| 参数          | 说明             | 类型                         | 默认值       | 版本 |
+| ------------- | ---------------- | ---------------------------- | ------------ | ---- |
+| layout        | 布局方向         | `horizontal` \| `vertical`   | `horizontal` | -    |
+| onResizeStart | 开始拖拽之前回调 | `(sizes: number[]) => void`  | -            | -    |
+| onResize      | 面板大小变化回调 | `(sizes: number[]) => void`  | -            | -    |
+| onResizeEnd   | 拖拽结束回调     | `(sizes: number[]) => void`  | -            | -    |
+| className     | 语义化结构 class | [SemanticDOM](#semantic-dom) | -            |      |
 
 ### Panel
 
@@ -49,4 +49,8 @@ demo:
 | size | 受控面板大小，支持数字 px 或者文字 '百分比%' 类型 | `number \| string` | - | - |
 | collapsible | 快速折叠 | `boolean \| { start?: boolean; end?: boolean }` | `false` | - |
 | resizable | 是否开启拖拽伸缩 | `boolean` | `true` | - |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

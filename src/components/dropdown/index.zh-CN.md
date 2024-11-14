@@ -43,7 +43,7 @@ demo:
 | arrow | 下拉框箭头是否显示 | boolean \| { pointAtCenter: boolean } | false |  |
 | autoAdjustOverflow | 下拉框被遮挡时自动调整位置 | boolean | true |  |
 | autoFocus | 打开后自动聚焦下拉框 | boolean | false |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'overlay' \| 'open', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | autoDestroy | 关闭后是否销毁 Dropdown | boolean | false |  |
 | disabled | 菜单是否禁用 | boolean | - |  |
 | getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
@@ -67,6 +67,10 @@ demo:
 | size | 按钮大小，和 [Button](/components/button-cn#api) 一致 | string | `default` |  |
 | type | 按钮类型，和 [Button](/components/button-cn#api) 一致 | string | `default` |  |
 | onClick | 点击左侧按钮的回调，和 [Button](/components/button-cn#api) 一致 | (event) => void | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## 注意
 

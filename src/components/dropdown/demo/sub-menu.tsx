@@ -55,7 +55,7 @@ const App: React.FC = () => (
     <a onClick={(e) => e.preventDefault()}>
       <Space>
         Cascading menu
-        <ChevronDownOutline className="h-5 w-5" />
+        <ChevronDownOutline className="h-4 w-4" />
       </Space>
     </a>
   </Dropdown>

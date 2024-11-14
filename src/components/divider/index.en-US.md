@@ -27,9 +27,13 @@ demo:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | children | The wrapped title | ReactNode | - |  |
-| className | The className of container | string | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | dashed | Whether line is dashed | boolean | false |  |
 | orientation | The position of title inside divider | `left` \| `right` \| `center` | `center` |  |
-| plain | Divider text show as plain style | boolean | true | 4.2.0 |
+| plain | Divider text show as plain style | boolean | true |  |
 | style | The style object of container | CSSProperties | - |  |
 | type | The direction type of divider | `horizontal` \| `vertical` | `horizontal` |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

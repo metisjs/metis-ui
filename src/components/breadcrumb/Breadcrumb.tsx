@@ -1,14 +1,13 @@
 import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { AnyObject } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import type { DropdownProps } from '../dropdown';
 import type { BreadcrumbItemProps } from './BreadcrumbItem';
 import BreadcrumbItem from './BreadcrumbItem';
-import BreadcrumbSeparator from './BreadcrumbSeparator';
 import useItemRender from './useItemRender';
 
 export interface BreadcrumbItemType {
@@ -24,29 +23,25 @@ export interface BreadcrumbItemType {
   title?: React.ReactNode;
   icon?: React.ReactNode;
   menu?: BreadcrumbItemProps['menu'];
-  className?: string;
+  className?: SemanticClassName<{ icon?: string }>;
   dropdownProps?: DropdownProps;
   onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLSpanElement>;
 }
-
-export interface BreadcrumbSeparatorType {
-  type: 'separator';
-  separator?: React.ReactNode;
-}
-
-export type ItemType = Partial<BreadcrumbItemType & BreadcrumbSeparatorType>;
 
 export interface BreadcrumbProps<T extends AnyObject = AnyObject> {
   prefixCls?: string;
   params?: T;
   separator?: React.ReactNode;
   style?: React.CSSProperties;
-  className?: SemanticClassName<{ item?: string; separator?: string; icon?: string }>;
-  items?: ItemType[];
+  className?: SemanticClassName<{
+    item?: BreadcrumbItemType['className'];
+    separator?: string;
+  }>;
+  items?: BreadcrumbItemType[];
   itemRender?: (
-    item: ItemType,
+    item: BreadcrumbItemType,
     params: T,
-    items: ItemType[],
+    items: BreadcrumbItemType[],
     paths: string[],
     isLastItem: boolean,
   ) => React.ReactNode;
@@ -88,16 +83,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
     const paths: string[] = [];
 
     crumbs = items.map((item, index) => {
-      const {
-        path,
-        key,
-        type,
-        menu,
-        onClick,
-        className: itemClassName,
-        separator: itemSeparator,
-        dropdownProps,
-      } = item;
+      const { path, key, menu, onClick, className: itemClassName, dropdownProps } = item;
       const mergedPath = getPath(params, path);
 
       if (mergedPath !== undefined) {
@@ -105,18 +91,6 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
       }
 
       const mergedKey = key ?? index;
-
-      if (type === 'separator') {
-        return (
-          <BreadcrumbSeparator
-            key={mergedKey}
-            prefixCls={prefixCls}
-            className={semanticCls.separator}
-          >
-            {itemSeparator}
-          </BreadcrumbSeparator>
-        );
-      }
 
       const itemProps: BreadcrumbItemProps = {};
       const isLastItem = index === items.length - 1;
@@ -130,12 +104,15 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
         href = `${route.history === 'hash' ? '#/' : `${route.basename}`}${paths.join('/')}`;
       }
 
+      const classStr = mergeSemanticCls(semanticCls.item, itemClassName)({});
+
       return (
         <BreadcrumbItem
           key={mergedKey}
           {...itemProps}
           {...pickAttrs(item, { data: true, aria: true })}
-          className={itemClassName}
+          className={classStr.root}
+          separatorClassName={semanticCls.separator}
           dropdownProps={dropdownProps}
           href={href}
           separator={isLastItem ? '' : separator}

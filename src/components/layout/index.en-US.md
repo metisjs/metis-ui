@@ -67,18 +67,6 @@ Style of a navigation should conform to its level.
 
 ## API
 
-```jsx
-<Layout>
-  <Header>header</Header>
-  <Layout>
-    <Sider>left sidebar</Sider>
-    <Content>main content</Content>
-    <Sider>right sidebar</Sider>
-  </Layout>
-  <Footer>footer</Footer>
-</Layout>
-```
-
 ### Layout
 
 The wrapper.
@@ -95,7 +83,7 @@ The sidebar.
 
 | Property | Description | Type | Default |
 | --- | --- | --- | --- |
-| breakpoint | [Breakpoints](/components/grid/#col) of the responsive layout | `xs` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` | - |
+| breakpoint | [Breakpoints](#breakpoint-width) of the responsive layout | `xs` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` | - |
 | className | Container className | string | - |
 | collapsed | To set the current status | boolean | - |
 | collapsedWidth | Width of the collapsed sidebar, by setting to 0 a special trigger will appear | number | 80 |
@@ -110,15 +98,14 @@ The sidebar.
 | onBreakpoint | The callback function, executed when [breakpoints](/components/grid/#api) changed | (broken) => {} | - |
 | onCollapse | The callback function, executed by clicking the trigger or activating the responsive layout | (collapsed, type) => {} | - |
 
-#### breakpoint width
+#### Breakpoint width
 
 ```js
 {
-  xs: '480px',
-  sm: '576px',
+  sm: '640px',
   md: '768px',
-  lg: '992px',
-  xl: '1200px',
-  xxl: '1600px',
+  lg: '1024px',
+  xl: '1280px',
+  2xl: '1536px',
 }
 ```

@@ -68,18 +68,6 @@ group: 布局
 
 ## API
 
-```jsx
-<Layout>
-  <Header>header</Header>
-  <Layout>
-    <Sider>left sidebar</Sider>
-    <Content>main content</Content>
-    <Sider>right sidebar</Sider>
-  </Layout>
-  <Footer>footer</Footer>
-</Layout>
-```
-
 ### Layout
 
 布局容器。
@@ -96,7 +84,7 @@ group: 布局
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| breakpoint | 触发响应式布局的[断点](/components/grid-cn#col) | `sm` \| `md` \| `lg` \| `xl` \| `2xl` | - |
+| breakpoint | 触发响应式布局的[断点](#breakpoint-width) | `sm` \| `md` \| `lg` \| `xl` \| `2xl` | - |
 | className | 容器 className | string | - |
 | collapsed | 当前收起状态 | boolean | - |
 | collapsible | 是否可收起 | boolean | false |
@@ -109,7 +97,7 @@ group: 布局
 | onBreakpoint | 触发响应式布局，断点时的回调 | (broken) => {} | - |
 | onCollapse | 展开-收起时的回调函数，有点击 trigger 以及响应式反馈两种方式可以触发 | (collapsed, type) => {} | - |
 
-#### breakpoint width
+#### Breakpoint width
 
 ```js
 {

@@ -229,6 +229,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
     active: mergedActive,
     childrenSelected,
     hasIcon: !!icon,
+    level,
   });
 
   const rootCls = clsx(
@@ -247,13 +248,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
     semanticCls.root,
   );
 
-  const titleCls = clsx(
-    `${subMenuPrefixCls}-title`,
-    mode === 'horizontal' && 'flex h-[4rem] items-center',
-    mode !== 'horizontal' && 'px-4',
-    '[.submenu-popup_&]:px-1',
-    semanticCls.title,
-  );
+  const wrapperCls = clsx('[.submenu-popup_&]:px-1', {
+    'flex h-[4rem] items-center': mode === 'horizontal',
+    'px-4': mode !== 'horizontal',
+  });
 
   const innerCls = clsx(
     `${subMenuPrefixCls}-inner`,
@@ -333,10 +331,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
   );
 
   const contentCls = clsx(
-    `${prefixCls}-title-content`,
+    `${prefixCls}-content`,
     'flex-1 truncate',
     firstLevel && isInlineCollapsed && 'opacity-0',
-    semanticCls.content,
+    semanticCls.label,
   );
 
   const expandCls = clsx(
@@ -371,7 +369,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
   let titleNode: React.ReactElement = (
     <div
       role="menuitem"
-      className={titleCls}
+      className={wrapperCls}
       tabIndex={mergedDisabled ? undefined : -1}
       ref={elementRef}
       title={typeof title === 'string' ? title : undefined}

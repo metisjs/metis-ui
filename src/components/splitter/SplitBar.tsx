@@ -144,6 +144,7 @@ const SplitBar: React.FC<SplitBarProps> = (props) => {
       'hover:before:bg-border-secondary': resizable,
       'z-0 after:hidden hover:cursor-default': !resizable,
     },
+    semanticCls.dragger,
   );
 
   const collapseBarCls = clsx(

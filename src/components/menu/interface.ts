@@ -10,13 +10,18 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
   key: SafeKey;
   className?: SemanticClassName<
     {
-      title?: string;
       inner?: string;
       icon?: string;
-      content?: string;
+      label?: string;
       popup?: string;
     },
-    { disabled?: boolean; active?: boolean; childrenSelected?: boolean; hasIcon?: boolean }
+    {
+      disabled?: boolean;
+      active?: boolean;
+      childrenSelected?: boolean;
+      hasIcon?: boolean;
+      level: number;
+    }
   >;
   icon?: React.ReactNode;
   theme?: 'dark' | 'light';
@@ -52,8 +57,8 @@ export interface MenuItemType
   icon?: React.ReactNode;
   title?: string;
   className?: SemanticClassName<
-    { inner?: string; icon?: string; title?: string },
-    { disabled?: boolean; selected?: boolean; hasIcon?: boolean }
+    { inner?: string; icon?: string; label?: string },
+    { disabled?: boolean; selected?: boolean; hasIcon?: boolean; level: number }
   >;
 
   // >>>>> Active
@@ -69,7 +74,7 @@ export interface MenuItemGroupType<T extends MenuItemType = MenuItemType> {
   label?: React.ReactNode;
   children?: ItemType<T>[];
   key?: SafeKey;
-  className?: SemanticClassName<{ title?: string; list?: string }>;
+  className?: SemanticClassName<{ label?: string; list?: string }>;
 }
 
 export interface MenuDividerType {

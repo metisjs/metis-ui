@@ -19,7 +19,6 @@ demo:
 <code src="./demo/withIcon.tsx">With an Icon</code>
 <code src="./demo/separator.tsx">Configuring the Separator</code>
 <code src="./demo/overlay.tsx">Bread crumbs with drop down menu</code>
-<code src="./demo/separator-component.tsx">Configuring the Separator Independently</code>
 
 ## API
 
@@ -27,7 +26,7 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'item' \| 'separator' , string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | itemRender | Custom item renderer | (item, params, items, paths, isLast) => ReactNode | - |  |
 | items | The routing stack information of router | [ItemType\[\]](#ItemType) | - |  |
 | params | Routing parameters | object | - |  |
@@ -62,3 +61,7 @@ const Demo: React.FC = () => (
 
 export default Demo;
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

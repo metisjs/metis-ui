@@ -92,7 +92,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
           disabled && 'text-text-quaternary',
           editConfig?.closable && 'pe-2',
         ),
-        title: clsx('flex', editConfig?.closable && 'pe-6'),
+        label: clsx('flex', editConfig?.closable && 'pe-6'),
       }),
     },
     id: popupId,

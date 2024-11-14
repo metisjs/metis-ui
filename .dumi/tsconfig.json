@@ -1,7 +1,15 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "resolveJsonModule": true
-  },
-  "include": ["**/*", "../typings/index.d.ts"]
+    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "esnext",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "metis-ui": ["src/components/index.ts"],
+      "metis-ui/es/*": ["src/components/*"],
+      "metis-ui/lib/*": ["src/components/*"],
+      "metis-ui/locale/*": ["src/components/locale/*"]
+    }
+  }
 }

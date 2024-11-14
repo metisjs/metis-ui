@@ -28,11 +28,21 @@ export interface BreadcrumbItemProps extends SeparatorType {
   dropdownProps?: DropdownProps;
   onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLSpanElement>;
   className?: string;
+  separatorClassName?: string;
   children?: React.ReactNode;
 }
 
 const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
-  const { prefixCls, separator = '/', children, menu, dropdownProps, href } = props;
+  const {
+    prefixCls,
+    separator = '/',
+    children,
+    menu,
+    dropdownProps,
+    href,
+    className,
+    separatorClassName,
+  } = props;
 
   const renderBreadcrumbNode = (breadcrumbItem: React.ReactNode) => {
     if (menu) {
@@ -74,8 +84,10 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
   if (link !== undefined && link !== null) {
     return (
       <>
-        <li>{link}</li>
-        {separator && <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>}
+        <li className={className}>{link}</li>
+        {separator && (
+          <BreadcrumbSeparator className={separatorClassName}>{separator}</BreadcrumbSeparator>
+        )}
       </>
     );
   }

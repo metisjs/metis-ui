@@ -134,12 +134,10 @@ const Tour: React.FC<TourProps> = (props) => {
   const arrowPointAtCenter = typeof arrowConfig === 'object' ? arrowConfig.pointAtCenter : false;
   const mergedArrow = !!arrowConfig
     ? {
-        className: clsx(
-          getArrowClassName({
-            limitVerticalRadius: true,
-          }),
-          'after:ring-1 after:ring-border-secondary',
-        ),
+        className: getArrowClassName({
+          limitVerticalRadius: true,
+          custom: 'after:ring-1 after:ring-border-secondary',
+        }),
       }
     : false;
 

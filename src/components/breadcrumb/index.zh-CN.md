@@ -20,7 +20,6 @@ demo:
 <code src="./demo/withIcon.tsx">带有图标的</code>
 <code src="./demo/separator.tsx">分隔符</code>
 <code src="./demo/overlay.tsx">带下拉菜单的面包屑</code>
-<code src="./demo/separator-component.tsx">独立的分隔符</code>
 
 ## API
 
@@ -28,7 +27,7 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'item' \| 'separator' , string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | itemRender | 自定义链接函数 | (item, params, items, paths, isLast) => ReactNode | - |  |
 | items | 路由栈信息 | [items\[\]](#ItemType) | - |  |
 | params | 路由的参数 | object | - |  |
@@ -63,3 +62,7 @@ const Demo: React.FC = () => (
 
 export default Demo;
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

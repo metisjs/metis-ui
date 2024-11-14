@@ -1,5 +1,6 @@
 import React from 'react';
-import { clsx, Popover, Tag } from 'metis-ui';
+import { clsx, mergeSemanticCls, Popover, Tag } from 'metis-ui';
+import { cloneElement } from 'metis-ui/es/_util/reactNode';
 
 const MARK_BORDER_SIZE = 2;
 
@@ -18,12 +19,13 @@ type SemanticItem = {
 
 export interface SemanticPreviewProps {
   semantics: SemanticItem[];
-  children: React.ReactElement;
+  children: React.ReactElement | ((hover?: { name: string; path: string }) => React.ReactElement);
   height?: number;
   rootArgs?: SemanticArg[];
 }
 
 type ClassNameItemProps = SemanticItem & {
+  path: string;
   indent?: number;
   onHover: (name: string | null) => void;
 };
@@ -59,13 +61,14 @@ const ClassNameItem = ({
   args,
   children,
   indent = 0,
+  path,
   onHover,
 }: ClassNameItemProps) => (
   <>
     <li
       className="flex items-center px-3 py-4 hover:bg-fill-quaternary"
       style={{ paddingLeft: indent * 16 + 12 }}
-      onMouseEnter={() => onHover(name)}
+      onMouseEnter={() => onHover(path)}
       onMouseLeave={() => onHover(null)}
     >
       <span className="text-base">{name}</span>
@@ -85,19 +88,33 @@ const ClassNameItem = ({
     {children &&
       children.length > 0 &&
       children.map((child) => (
-        <ClassNameItem key={child.name} {...child} indent={indent + 1} onHover={onHover} />
+        <ClassNameItem
+          key={`${name}_${child.name}`}
+          {...child}
+          path={`${path}_${child.name}`}
+          indent={indent + 1}
+          onHover={onHover}
+        />
       ))}
   </>
 );
 
-function parseSemanticCls(semantics: SemanticItem[], getMarkClassName: (key: string) => string) {
+function parseSemanticCls(
+  semantics: SemanticItem[],
+  parent: string | null = null,
+  getMarkClassName: (key: string) => string,
+) {
   const result: Record<string, any> = {};
 
   semantics.forEach(({ name, children }) => {
-    const markCls = getMarkClassName(name);
+    const pathName = parent ? `${parent}_${name}` : name;
+    const markCls = getMarkClassName(pathName);
 
     if (children) {
-      result[name] = { root: markCls, ...parseSemanticCls(children, getMarkClassName) };
+      result[name] = {
+        root: markCls,
+        ...parseSemanticCls(children, pathName, getMarkClassName),
+      };
     } else {
       result[name] = markCls;
     }
@@ -115,13 +132,9 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
   );
 
   const semanticClassName = React.useMemo<Record<string, string>>(
-    () => parseSemanticCls(semantics, getMarkClassName),
+    () => parseSemanticCls(semantics, null, getMarkClassName),
     [semantics],
   );
-
-  const cloneNode = React.cloneElement(children, {
-    className: semanticClassName,
-  });
 
   // ======================== Hover =========================
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -132,10 +145,28 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
   const [hoverSemantic, setHoverSemantic] = React.useState<string | null>(null);
   const [markPos, setMarkPos] = React.useState<[number, number, number, number]>([0, 0, 0, 0]);
 
+  // ======================== Children =========================
+  const mergedChildren =
+    typeof children === 'function'
+      ? children(
+          hoverSemantic
+            ? {
+                name: hoverSemantic.replace('semantic-mark-', '').split('_').reverse()[0],
+                path: hoverSemantic,
+              }
+            : undefined,
+        )
+      : children;
+  const cloneNode = cloneElement(mergedChildren, (ori) => ({
+    className: mergeSemanticCls(ori.className, semanticClassName),
+  }));
+
   React.useEffect(() => {
     if (hoverSemantic) {
       const targetClassName = getMarkClassName(hoverSemantic);
-      const targetElement = containerRef.current?.querySelector<HTMLElement>(`.${targetClassName}`);
+      const targetElement =
+        containerRef.current?.querySelector<HTMLElement>(`.${targetClassName}`) ??
+        document.querySelector<HTMLElement>(`.${targetClassName}`);
       const containerRect = containerRef.current?.getBoundingClientRect();
       const targetRect = targetElement?.getBoundingClientRect();
       setMarkPos([
@@ -184,7 +215,12 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
               </li>
             }
             {semantics.map((item) => (
-              <ClassNameItem {...item} key={item.name} onHover={setHoverSemantic} />
+              <ClassNameItem
+                {...item}
+                key={item.name}
+                path={item.name}
+                onHover={setHoverSemantic}
+              />
             ))}
           </ul>
         </div>

@@ -6,6 +6,7 @@ import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
+import getArrowClassName from '../_util/placementArrow';
 import type { AdjustOverflow } from '../_util/placements';
 import getPlacements from '../_util/placements';
 import { cloneElement } from '../_util/reactNode';
@@ -39,7 +40,7 @@ export interface DropdownProps {
   align?: AlignType;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   prefixCls?: string;
-  className?: SemanticClassName<{ overlay?: string; open?: string }>;
+  className?: SemanticClassName<{ overlay?: string }, { open?: boolean }>;
   placement?: Placement;
   forceRender?: boolean;
   mouseEnterDelay?: number;
@@ -72,7 +73,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   } = props;
   const { getPopupContainer: getContextPopupContainer, getPrefixCls } =
     React.useContext(ConfigContext);
-  const semanticCls = useSemanticCls(className, 'dropdown');
 
   const triggerRef = React.useRef(null);
   const overlayRef = React.useRef(null);
@@ -104,14 +104,16 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     overlayRef,
   });
 
+  const semanticCls = useSemanticCls(className, 'dropdown', { open: mergedOpen });
+
   // =========================== ChildrenNode ============================
   const child = React.Children.only(children) as React.ReactElement<any>;
   const dropdownTrigger = cloneElement(child, {
     className: clsx(
       `${prefixCls}-trigger`,
-      mergedOpen && [`${prefixCls}-open`, semanticCls.open],
       disabled && 'cursor-not-allowed',
       child.props.className,
+      semanticCls.root,
     ),
     ref: supportRef(child)
       ? composeRef(childRef, (child as React.ReactElement & { ref: React.Ref<HTMLElement> }).ref)
@@ -120,12 +122,13 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   });
 
   // =========================== Overlay ============================
-  const overlayClassNameCustomized = clsx(
-    'absolute rounded-md bg-elevated text-sm shadow-lg ring-1 ring-border-secondary focus:outline-none',
-    arrow &&
-      'origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--elevated))]',
+
+  const overlayCls = clsx(
+    {
+      [`${prefixCls}-show-arrow`]: arrow,
+    },
+    'absolute origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] rounded-md bg-elevated text-sm shadow-lg ring-1 ring-border-secondary [--metis-arrow-background-color:hsla(var(--elevated))] focus:outline-none',
     semanticCls.overlay,
-    semanticCls.root,
   );
 
   const builtinPlacements = getPlacements({
@@ -135,6 +138,15 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     arrowWidth: arrow ? 16 : 0,
     borderRadius: 6,
   });
+
+  const mergedArrow = arrow
+    ? {
+        className: getArrowClassName({
+          limitVerticalRadius: true,
+          custom: 'after:ring-1 after:ring-border-secondary',
+        }),
+      }
+    : false;
 
   const onMenuClick = React.useCallback(() => {
     if (menu?.selectable && menu?.multiple) {
@@ -158,7 +170,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     );
 
     return (
-      <Overlay ref={overlayRef} prefixCls={prefixCls} arrow={arrow} onClick={onMenuClick}>
+      <Overlay ref={overlayRef} prefixCls={prefixCls} onClick={onMenuClick}>
         {overlayNode}
       </Overlay>
     );
@@ -185,13 +197,9 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       prefixCls={prefixCls}
       ref={triggerRef}
       className={{
-        popup: clsx(
-          {
-            [`${prefixCls}-show-arrow`]: arrow,
-          },
-          overlayClassNameCustomized,
-        ),
+        popup: overlayCls,
       }}
+      arrow={mergedArrow}
       action={triggerActions}
       hideAction={triggerHideAction}
       popupPlacement={placement}

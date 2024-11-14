@@ -31,7 +31,7 @@ group:
 | --- | --- | --- | --- | --- |
 | affix | 固定模式 | boolean | true |  |
 | bounds | 锚点区域边界 | number | 5 |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'ink' \| 'link' \| 'title', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | direction | 设置导航方向 | `vertical` \| `horizontal` | `vertical` |  |
 | getContainer | 指定滚动的容器 | () => HTMLElement | () => window |  |
 | getCurrentAnchor | 自定义高亮的锚点 | (activeLink: string) => string | - |  |
@@ -48,9 +48,13 @@ group:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | children | 嵌套的 Anchor Link，`注意：水平方向该属性不支持` | [AnchorItem](#anchoritem)\[] | - |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'title', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | href | 锚点链接 | string | - |  |
 | key | 唯一标志 | string \| number | - |  |
 | replace | 替换浏览器历史记录中的项目 href 而不是推送它 | boolean | false |  |
 | target | 该属性指定在何处显示链接的资源 | string | - |  |
 | title | 文字内容 | ReactNode | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

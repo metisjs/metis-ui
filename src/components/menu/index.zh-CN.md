@@ -53,6 +53,7 @@ group: 导航
 | onDeselect | 取消选中时调用，仅在 multiple 生效 | function({ item, key, keyPath, selectedKeys, domEvent }) | - |  |
 | onOpenChange | SubMenu 展开/关闭的回调 | function(openKeys: string\[]) | - |  |
 | onSelect | 被选中时调用 | function({ item, key, keyPath, selectedKeys, domEvent }) | -   |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### ItemType
 
@@ -60,14 +61,15 @@ group: 导航
 
 #### MenuItemType
 
-| 参数     | 说明                     | 类型      | 默认值 | 版本 |
-| -------- | ------------------------ | --------- | ------ | ---- |
-| danger   | 展示错误状态样式         | boolean   | false  |      |
-| disabled | 是否禁用                 | boolean   | false  |      |
-| icon     | 菜单图标                 | ReactNode | -      |      |
-| key      | item 的唯一标志          | string    | -      |      |
-| label    | 菜单项标题               | ReactNode | -      |      |
-| title    | 设置收缩时展示的悬浮标题 | string    | -      |      |
+| 参数      | 说明                     | 类型                         | 默认值 | 版本 |
+| --------- | ------------------------ | ---------------------------- | ------ | ---- |
+| danger    | 展示错误状态样式         | boolean                      | false  |      |
+| disabled  | 是否禁用                 | boolean                      | false  |      |
+| icon      | 菜单图标                 | ReactNode                    | -      |      |
+| key       | item 的唯一标志          | string                       | -      |      |
+| label     | 菜单项标题               | ReactNode                    | -      |      |
+| title     | 设置收缩时展示的悬浮标题 | string                       | -      |      |
+| className | 语义化结构 class         | [SemanticDOM](#semantic-dom) | -      |      |
 
 #### SubMenuType
 
@@ -82,6 +84,7 @@ group: 导航
 | popupOffset | 子菜单偏移量，`mode="inline"` 时无效 | \[number, number] | - |  |
 | theme | 设置子菜单的主题，默认从 Menu 上继承 | `light` \| `dark` | - |  |
 | onTitleClick | 点击子菜单标题 | function({ key, domEvent }) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 #### MenuItemGroupType
 
@@ -95,10 +98,11 @@ const groupItem = {
 };
 ```
 
-| 参数     | 说明         | 类型                              | 默认值 | 版本 |
-| -------- | ------------ | --------------------------------- | ------ | ---- |
-| children | 分组的菜单项 | [MenuItemType\[\]](#menuitemtype) | -      |      |
-| label    | 分组标题     | ReactNode                         | -      |      |
+| 参数      | 说明             | 类型                              | 默认值 | 版本 |
+| --------- | ---------------- | --------------------------------- | ------ | ---- |
+| children  | 分组的菜单项     | [MenuItemType\[\]](#menuitemtype) | -      |      |
+| label     | 分组标题         | ReactNode                         | -      |      |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom)      | -      |      |
 
 #### MenuDividerType
 
@@ -113,6 +117,10 @@ const dividerItem = {
 | 参数   | 说明     | 类型    | 默认值 | 版本 |
 | ------ | -------- | ------- | ------ | ---- |
 | dashed | 是否虚线 | boolean | false  |      |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 
