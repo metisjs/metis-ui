@@ -26,7 +26,8 @@ const localeValues: Locale = {
   // Calendar,
   // locales for all components
   global: {
-    placeholder: '请选择',
+    inputPlaceholder: '请输入',
+    selectPlaceholder: '请选择',
   },
   Table: {
     filterTitle: '筛选',
@@ -81,15 +82,6 @@ const localeValues: Locale = {
   },
   Empty: {
     description: '暂无数据',
-  },
-  Icon: {
-    icon: '图标',
-  },
-  Text: {
-    edit: '编辑',
-    copy: '复制',
-    copied: '复制成功',
-    expand: '展开',
   },
   Form: {
     optional: '（可选）',

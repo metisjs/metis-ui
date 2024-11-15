@@ -25,7 +25,8 @@ const localeValues: Locale = {
   DatePicker,
   // Calendar,
   global: {
-    placeholder: 'Please select',
+    inputPlaceholder: 'Please input',
+    selectPlaceholder: 'Please select',
   },
   Table: {
     filterTitle: 'Filter menu',
@@ -82,16 +83,6 @@ const localeValues: Locale = {
   },
   Empty: {
     description: 'No data',
-  },
-  Icon: {
-    icon: 'icon',
-  },
-  Text: {
-    edit: 'Edit',
-    copy: 'Copy',
-    copied: 'Copied',
-    expand: 'Expand',
-    collapse: 'Collapse',
   },
   Form: {
     optional: '(optional)',
