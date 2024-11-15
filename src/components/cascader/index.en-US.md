@@ -41,7 +41,7 @@ demo:
 | autoClearSearchValue | Whether the current search will be cleared on selecting an item. Only applies when `multiple` is `true` | boolean | true |  |
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | changeOnSelect | (Work on single select) Change value on each selection if set to true, see above demo for details | boolean | false |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'popup' \| 'selector', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | Initial selected value | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | \[] |  |
 | disabled | Whether disabled select | boolean | false |  |
 | displayRender | The render function of displaying selected options | (label, selectedOptions) => ReactNode | label => label.join(`/`) |  |
@@ -106,6 +106,6 @@ interface Option {
 | blur()  | Remove focus |         |
 | focus() | Get focus    |         |
 
-```
+## Semantic DOM
 
-```
+<code src="./demo/_semantic.tsx" simplify></code>

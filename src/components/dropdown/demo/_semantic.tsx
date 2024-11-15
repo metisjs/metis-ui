@@ -27,7 +27,11 @@ const App: React.FC = () => (
     rootArgs={[{ name: 'open', type: 'boolean' }]}
     height={360}
   >
-    <Dropdown menu={{ items }} open>
+    <Dropdown
+      menu={{ items }}
+      open
+      getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
+    >
       <a onClick={(e) => e.preventDefault()}>
         <Space>
           Hover me

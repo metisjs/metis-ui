@@ -1,7 +1,7 @@
 import * as React from 'react';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import type { RequestConfig } from '../_util/type';
@@ -113,9 +113,9 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     getPrefixCls,
     renderEmpty,
     popupOverflow,
+    cascader,
   } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('cascader', customizePrefixCls);
-  const semanticCls = useSemanticCls(className, 'cascader');
 
   const mergedId = useId(id);
 
@@ -313,6 +313,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     [halfCheckedValues],
   );
 
+  const semanticCls = useSemanticCls(className, 'cascader', { open: true });
   const cascaderContext = React.useMemo(
     () => ({
       options: mergedOptions,
@@ -329,6 +330,8 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       optionRender,
       loadData,
       lazyLoad,
+      columnClassName: semanticCls.column,
+      optionClassName: semanticCls.option,
     }),
     [
       mergedOptions,
@@ -345,6 +348,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
       optionRender,
       loadData,
       lazyLoad,
+      semanticCls,
     ],
   );
 
@@ -357,14 +361,14 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   const popupCls = clsx(
     'p-0',
     !(mergedSearchValue && mergedSearchOptions !== null) && !emptyOptions && '!min-w-[auto]',
-    semanticCls.popup,
   );
+
+  const mergedClassName = mergeSemanticCls({ popup: popupCls }, cascader?.className, className);
 
   // ============================ zIndex ============================
   const [zIndex] = useZIndex('SelectLike');
 
   // ============================ Render ============================
-
   return (
     <CascaderContext.Provider value={cascaderContext}>
       <BaseSelect
@@ -384,10 +388,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
         showSearch={showSearch}
         OptionList={OptionList}
         emptyOptions={emptyOptions}
-        className={{
-          root: semanticCls.root,
-          popup: popupCls,
-        }}
+        className={mergedClassName}
         builtinPlacements={mergedBuiltinPlacements}
         placement={memoPlacement}
         notFoundContent={mergedNotFoundContent}

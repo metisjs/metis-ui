@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { GetRequestType } from '../_util/type';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import type { SelectPlacements } from './Select';
@@ -56,6 +57,10 @@ export interface FlattenOptionData<OptionType> {
 
 export interface BaseOptionType {
   [name: string]: any;
+  className?: SemanticClassName<
+    { label?: string; state?: string },
+    { group?: boolean; selected?: boolean; grouped?: boolean; active?: boolean; disabled?: boolean }
+  >;
 }
 
 export type SelectHandler<ValueType, OptionType extends BaseOptionType> = (

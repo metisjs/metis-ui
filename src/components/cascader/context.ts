@@ -22,6 +22,8 @@ export interface CascaderContextProps {
   optionRender?: CascaderProps['optionRender'];
   lazyLoad?: boolean;
   loadData?: (selectOption: DefaultOptionType) => Promise<void>;
+  columnClassName?: string;
+  optionClassName?: DefaultOptionType['className'];
 }
 
 const CascaderContext = React.createContext<CascaderContextProps>({} as CascaderContextProps);

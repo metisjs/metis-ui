@@ -42,7 +42,7 @@ export type SemanticRecord<T extends SemanticClassName<any, any> | undefined> = 
     : T;
 
 export function getSemanticCls<T extends SemanticClassName<any, any>>(
-  semanticClassNames?: T | T[],
+  semanticClassNames?: T | (T | undefined)[],
   args?: T extends (args: any) => any ? Parameters<T>[0] : void,
 ): SemanticRecord<T>;
 export function getSemanticCls(semanticClassName: any = {}, args: any = {}): any {
@@ -83,6 +83,14 @@ export function mergeSemanticCls<
       return mergeWith(prev, currCls, (objValue, srcValue) => {
         if (typeof objValue === 'string' && typeof srcValue === 'string') {
           return clsx(objValue, srcValue);
+        }
+
+        if (typeof objValue === 'string' && typeof srcValue === 'object') {
+          return { ...srcValue, root: clsx(objValue, srcValue.root) };
+        }
+
+        if (typeof srcValue === 'string' && typeof objValue === 'object') {
+          return { ...objValue, root: clsx(objValue.root, srcValue) };
         }
 
         if (typeof objValue === 'function' || typeof srcValue === 'function') {

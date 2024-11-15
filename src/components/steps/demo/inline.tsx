@@ -4,20 +4,20 @@ import { Avatar, List, Steps } from 'metis-ui';
 
 const data = [
   {
-    title: 'Ant Design Title 1',
+    title: 'Metis Title 1',
     current: 0,
   },
   {
-    title: 'Ant Design Title 2',
+    title: 'Metis Title 2',
     current: 1,
     status: 'error',
   },
   {
-    title: 'Ant Design Title 3',
+    title: 'Metis Title 3',
     current: 2,
   },
   {
-    title: 'Ant Design Title 4',
+    title: 'Metis Title 4',
     current: 1,
   },
 ];
@@ -40,14 +40,13 @@ const items = [
 const App: React.FC = () => (
   <div>
     <List
-      itemLayout="horizontal"
       dataSource={data}
       renderItem={(item, index) => (
         <List.Item>
           <List.Item.Meta
             avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
             title={<a href="https://metis.github.io">{item.title}</a>}
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            description="Metis, a design language for background applications, is refined by Ant UED Team"
           />
           <Steps
             style={{ marginTop: 8 }}

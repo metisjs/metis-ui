@@ -41,7 +41,7 @@ demo:
 | autoClearSearchValue | 是否在选中项后清空搜索框，只在 `multiple` 为 `true` 时有效 | boolean | true |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | changeOnSelect | （单选时生效）当此项为 true 时，点选每级菜单选项值都会发生变化，具体见上面的演示 | boolean | false |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'popup' \| 'selector', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | 默认的选中项 | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | \[] |  |
 | disabled | 禁用 | boolean | false |  |
 | displayRender | 选择后展示的渲染函数 | (labels, selectedOptions) => ReactNode | labels => labels.join(`/`) |  |
@@ -109,3 +109,7 @@ interface Option {
 | focus() | 获取焦点 |      |
 
 > 注意，如果需要获得中国省市区数据，可以参考 [china-division](https://gist.github.com/afc163/7582f35654fd03d5be7009444345ea17)。
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

@@ -24,10 +24,7 @@ When a given task is complicated or has a certain sequence in the series of subt
 <code src="./demo/progress.tsx">Steps with progress</code>
 <code src="./demo/progress-debug.tsx" debug>Progress Debug</code>
 <code src="./demo/steps-in-steps.tsx" debug>Steps inside Steps</code>
-
-<!-- TODO: List组件待开发 -->
-
-<!-- <code src="./demo/inline.tsx">Inline Steps</code> -->
+<code src="./demo/inline.tsx">Inline Steps</code>
 
 ## API
 
@@ -37,7 +34,6 @@ The whole of the step bar.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'item' \| 'title' \| 'description', string> | - |  |
 | current | To set the current step, counting from 0. You can overwrite this state by using `status` of `Step` | number | 0 |  |
 | direction | To specify the direction of the step bar, `horizontal` or `vertical` | string | `horizontal` |  |
 | initial | Set the initial step, counting from 0 | number | 0 |  |
@@ -48,6 +44,7 @@ The whole of the step bar.
 | status | To specify the status of current step, can be set to one of the following values: `wait` `process` `finish` `error` | string | `process` |  |
 | type | Type of steps, can be set to one of the following values: `default` `navigation` `inline` `simple` | string | `default` |  |
 | onChange | Trigger when Step is changed | (current) => void | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### StepItem
 
@@ -60,3 +57,8 @@ A single step in the step bar.
 | icon | Icon of the step, optional property | ReactNode | - |  |
 | status | To specify the status. It will be automatically set by `current` of `Steps` if not configured. Optional values are: `wait` `process` `finish` `error` | string | `wait` |  |
 | title | Title of the step | ReactNode | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

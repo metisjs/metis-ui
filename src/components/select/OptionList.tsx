@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
@@ -54,7 +54,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     className,
   } = React.useContext(SelectContext);
 
-  const semanticCls = useSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'select', { open });
 
   const itemPrefixCls = `${prefixCls}-item`;
 
@@ -300,6 +300,16 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         renderItem={(item, itemIndex) => {
           const { group, groupOption, data, label, value, disabled } = item;
 
+          const selected = isSelected(value!);
+
+          const optionSemanticCls = getSemanticCls([semanticCls.option, data.className], {
+            group,
+            active: activeIndex === itemIndex && !disabled,
+            disabled,
+            grouped: groupOption,
+            selected,
+          });
+
           // 远程分页请求 Loading
           if (data.__loading__) {
             return (
@@ -324,6 +334,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
                 className={clsx(
                   itemPrefixCls,
                   `${itemPrefixCls}-group cursor-auto px-3 py-2 text-xs text-text-tertiary`,
+                  optionSemanticCls.label,
                 )}
                 title={groupTitle}
               >
@@ -332,11 +343,9 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             );
           }
 
-          const { title, style, className } = data;
+          const { title, style } = data;
 
           // Option
-          const selected = isSelected(value!);
-
           const optionPrefixCls = `${itemPrefixCls}-option`;
           const optionClassName = clsx(
             itemPrefixCls,
@@ -354,8 +363,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               'cursor-not-allowed text-text-tertiary': disabled,
               'font-semibold': selected,
             },
-            semanticCls.option,
-            className,
+            optionSemanticCls.root,
           );
 
           const mergedLabel = getLabel(item);
@@ -388,7 +396,13 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               }}
               style={style}
             >
-              <div className={clsx(`${optionPrefixCls}-content`, 'w-full truncate')}>
+              <div
+                className={clsx(
+                  `${optionPrefixCls}-content`,
+                  'w-full truncate',
+                  optionSemanticCls.label,
+                )}
+              >
                 {typeof optionRender === 'function'
                   ? optionRender(item, { index: itemIndex })
                   : content}
@@ -402,6 +416,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
                       'text-primary': selected,
                       'text-white': activeIndex === itemIndex && !disabled,
                     },
+                    optionSemanticCls.state,
                   )}
                   customizeIcon={menuItemSelectedIcon}
                   customizeIconProps={{ isSelected: selected }}

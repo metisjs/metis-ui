@@ -22,6 +22,7 @@ import { BaseSelectContext } from './hooks/useBaseProps';
 import useDelayReset from './hooks/useDelayReset';
 import useLock from './hooks/useLock';
 import useSelectTriggerControl from './hooks/useSelectTriggerControl';
+import type { BaseOptionType } from './interface';
 import type { InnerSelectorProps, RefSelectorProps } from './Selector';
 import Selector from './Selector';
 import type { RefTriggerProps } from './SelectTrigger';
@@ -136,8 +137,13 @@ export type BaseSelectPropsWithoutPrivate = Omit<BaseSelectProps, keyof BaseSele
 
 export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttributes {
   className?: SemanticClassName<
-    { popup?: string; arrow?: string; option?: string; selector?: InnerSelectorProps['className'] },
-    { open: boolean }
+    {
+      popup?: string;
+      arrow?: string;
+      option?: BaseOptionType['className'];
+      selector?: InnerSelectorProps['className'];
+    },
+    { open?: boolean }
   >;
   style?: React.CSSProperties;
   title?: string;

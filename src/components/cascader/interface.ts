@@ -5,6 +5,7 @@ import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { BaseSelectPropsWithoutPrivate } from '../select';
 import type { RawValueType, SelectCommonPlacement } from '../select/interface';
+import type { InnerSelectorProps } from '../select/Selector';
 import type { SHOW_CHILD, SHOW_PARENT } from './utils/commonUtil';
 
 export interface BaseOptionType {
@@ -12,6 +13,10 @@ export interface BaseOptionType {
   label?: React.ReactNode;
   value?: string | number;
   children?: DefaultOptionType[];
+  className?: SemanticClassName<
+    { label?: string; icon?: string; checkbox?: string },
+    { expand?: boolean; active?: boolean; disabled?: boolean }
+  >;
 }
 
 export type DefaultOptionType = BaseOptionType & Record<string, any>;
@@ -100,7 +105,16 @@ export interface CascaderProps<
   // >>> MISC
   prefixCls?: string;
   id?: string;
-  className?: SemanticClassName<{ popup?: string; selector?: string }>;
+  className?: SemanticClassName<
+    {
+      popup?: string;
+      arrow?: string;
+      column?: string;
+      option?: BaseOptionType['className'];
+      selector?: InnerSelectorProps['className'];
+    },
+    { open: boolean }
+  >;
   placement?: SelectCommonPlacement;
   status?: InputStatus;
   displayRender?: (labels: React.ReactNode[], selectedOptions?: OptionType[]) => React.ReactNode;

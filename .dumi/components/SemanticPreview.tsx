@@ -173,19 +173,21 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
 
   React.useEffect(() => {
     if (hoverSemantic) {
-      const targetClassName = getMarkClassName(hoverSemantic);
-      const targetElement =
-        containerRef.current?.querySelector<HTMLElement>(`.${targetClassName}`) ??
-        document.querySelector<HTMLElement>(`.${targetClassName}`);
-      const containerRect = containerRef.current?.getBoundingClientRect();
-      const targetRect = targetElement?.getBoundingClientRect();
-      setMarkPos([
-        (targetRect?.left || 0) - (containerRect?.left || 0),
-        (targetRect?.top || 0) - (containerRect?.top || 0),
-        targetRect?.width || 0,
-        targetRect?.height || 0,
-      ]);
       timerRef.current = setTimeout(() => {
+        const targetClassName = getMarkClassName(hoverSemantic);
+        const targetElement = containerRef.current?.querySelector<HTMLElement>(
+          `.${targetClassName}`,
+        );
+
+        const containerRect = containerRef.current?.getBoundingClientRect();
+        const targetRect = targetElement?.getBoundingClientRect();
+        setMarkPos([
+          (targetRect?.left || 0) - (containerRect?.left || 0),
+          (targetRect?.top || 0) - (containerRect?.top || 0),
+          targetRect?.width || 0,
+          targetRect?.height || 0,
+        ]);
+
         setPositionTransition(true);
       }, 10);
     } else {
@@ -193,6 +195,7 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
         setPositionTransition(false);
       }, 500);
     }
+
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);

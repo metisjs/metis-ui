@@ -11,7 +11,10 @@ import type { StepsProps, StepsStatus } from './Steps';
 
 export interface StepProps {
   prefixCls?: string;
-  className?: SemanticClassName<{ item?: string; title?: string; description?: string }>;
+  className?: SemanticClassName<
+    { icon?: string; title?: string; description?: string; content?: string },
+    { status: StepsStatus }
+  >;
   style?: React.CSSProperties;
   active?: boolean;
   disabled?: boolean;
@@ -61,7 +64,7 @@ const Step: React.FC<StepProps> = (props) => {
     onClick,
   } = props;
 
-  const semanticCls = useSemanticCls(className);
+  const semanticCls = useSemanticCls(className, { status });
 
   const isNav = type === 'navigation';
   const isInline = type === 'inline';
@@ -163,9 +166,11 @@ const Step: React.FC<StepProps> = (props) => {
     isInline && {
       'ms-[calc(50%-0.125rem)] h-[0.375rem] w-[0.375rem] border': true,
       'bg-primary': status === 'process',
-      'bg-fill-tertiary': status === 'finish',
-      'border-fill-tertiary bg-container': status === 'wait',
+      'bg-border-secondary': status === 'finish',
+      'bg-error': status === 'error',
+      'border-border-secondary bg-container': status === 'wait',
     },
+    semanticCls.icon,
   );
 
   const contentCls = clsx(
@@ -174,6 +179,7 @@ const Step: React.FC<StepProps> = (props) => {
     vertical && 'min-h-14',
     isNav && 'mt-0',
     isInline && 'w-auto overflow-visible text-center',
+    semanticCls.content,
   );
   const titleCls = clsx(
     `${prefixCls}-item-title`,
@@ -189,7 +195,7 @@ const Step: React.FC<StepProps> = (props) => {
       'group-hover:text-text': status === 'wait',
     },
     size === 'small' && 'pe-3 text-sm leading-5',
-    isInline && 'pe-0 text-xs text-text-quaternary',
+    isInline && 'pe-0 text-xs text-text-tertiary',
     semanticCls.title,
   );
   const descriptionCls = clsx(
@@ -197,6 +203,7 @@ const Step: React.FC<StepProps> = (props) => {
     'truncate text-sm text-text-tertiary',
     {
       'text-error': status === 'error',
+      ['hidden']: isInline,
     },
     vertical && 'pb-4',
     semanticCls.description,

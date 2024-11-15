@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import Checkbox from '../../checkbox';
 import Scrollbar from '../../scrollbar';
 import CascaderContext from '../context';
@@ -45,8 +45,16 @@ export default function Column({
   const menuPrefixCls = `${prefixCls}-menu`;
   const menuItemPrefixCls = `${prefixCls}-menu-item`;
 
-  const { fieldNames, changeOnSelect, expandTrigger, expandIcon, loadingIcon, optionRender } =
-    React.useContext(CascaderContext);
+  const {
+    fieldNames,
+    changeOnSelect,
+    expandTrigger,
+    expandIcon,
+    loadingIcon,
+    optionRender,
+    columnClassName,
+    optionClassName,
+  } = React.useContext(CascaderContext);
 
   const hoverOpen = expandTrigger === 'hover';
 
@@ -94,137 +102,150 @@ export default function Column({
   // ============================ Style ============================
   const rootCls = clsx(
     'h-44 w-auto min-w-28 shrink-0 grow border-s border-border-secondary first-of-type:border-s-0',
+    columnClassName,
   );
-  const viewCls = clsx('!w-auto');
-  const menuCls = clsx(menuPrefixCls, 'p-1 text-sm text-text');
+  const viewCls = clsx(menuPrefixCls, '!w-auto p-1 text-sm text-text');
 
   // ============================ Render ============================
   return (
-    <Scrollbar className={{ root: rootCls, view: viewCls }}>
-      <ul className={menuCls} role="menu">
-        {optionInfoList.map(
-          ({
-            disabled,
-            label,
-            value,
-            leaf,
-            loading,
-            checked,
-            halfChecked,
-            option,
-            fullPath,
-            fullPathKey,
-          }) => {
-            // >>>>> Open
-            const triggerOpenPath = () => {
-              if (disabled || searchValue) {
-                return;
-              }
-              const nextValueCells = [...fullPath];
-              if (hoverOpen && leaf) {
-                nextValueCells.pop();
-              }
-              onActive(nextValueCells);
-            };
-
-            // >>>>> Selection
-            const triggerSelect = () => {
-              if (isSelectable(option)) {
-                onSelect(fullPath, leaf);
-              }
-            };
-
-            // >>>>> Title
-            let title: string | undefined;
-            if (typeof option.title === 'string') {
-              title = option.title;
-            } else if (typeof label === 'string') {
-              title = label;
+    <Scrollbar className={{ root: rootCls, view: viewCls }} component="ul">
+      {optionInfoList.map(
+        ({
+          disabled,
+          label,
+          value,
+          leaf,
+          loading,
+          checked,
+          halfChecked,
+          option,
+          fullPath,
+          fullPathKey,
+        }) => {
+          // >>>>> Open
+          const triggerOpenPath = () => {
+            if (disabled || searchValue) {
+              return;
             }
+            const nextValueCells = [...fullPath];
+            if (hoverOpen && leaf) {
+              nextValueCells.pop();
+            }
+            onActive(nextValueCells);
+          };
 
-            const isActive = activeValue === value || activeValue === fullPathKey;
+          // >>>>> Selection
+          const triggerSelect = () => {
+            if (isSelectable(option)) {
+              onSelect(fullPath, leaf);
+            }
+          };
 
-            // >>>>> Style
-            const menuItemCls = clsx(
-              menuItemPrefixCls,
-              {
-                [`${menuItemPrefixCls}-expand`]: !leaf,
-                [`${menuItemPrefixCls}-active`]: isActive,
-                [`${menuItemPrefixCls}-disabled`]: disabled,
-                [`${menuItemPrefixCls}-loading`]: loading,
-              },
-              'flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded px-3 py-2 transition-all duration-200 hover:bg-fill-quaternary',
-              {
-                'bg-primary-bg': isActive && !disabled,
-                'cursor-not-allowed text-text-tertiary hover:bg-transparent': disabled,
-              },
-            );
-            const checkboxCls = clsx(`${prefixCls}-checkbox`, 'me-1');
-            const menuItemContentCls = clsx(`${menuItemPrefixCls}-content`, 'flex-1');
-            const menuItemIconCls = clsx('flex translate-x-1 items-center text-text-secondary', {
+          // >>>>> Title
+          let title: string | undefined;
+          if (typeof option.title === 'string') {
+            title = option.title;
+          } else if (typeof label === 'string') {
+            title = label;
+          }
+
+          const isActive = activeValue === value || activeValue === fullPathKey;
+
+          const itemSemanticCls = getSemanticCls([optionClassName, option.className], {
+            expand: !leaf,
+            active: isActive,
+            disabled,
+          });
+
+          // >>>>> Style
+          const menuItemCls = clsx(
+            menuItemPrefixCls,
+            {
+              [`${menuItemPrefixCls}-expand`]: !leaf,
+              [`${menuItemPrefixCls}-active`]: isActive,
+              [`${menuItemPrefixCls}-disabled`]: disabled,
+              [`${menuItemPrefixCls}-loading`]: loading,
+            },
+            'flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded px-3 py-2 transition-all duration-200 hover:bg-fill-quaternary',
+            {
+              'bg-primary-bg': isActive && !disabled,
+              'cursor-not-allowed text-text-tertiary hover:bg-transparent': disabled,
+            },
+            itemSemanticCls.root,
+          );
+          const checkboxCls = clsx(`${prefixCls}-checkbox`, 'me-1', itemSemanticCls.checkbox);
+          const menuItemContentCls = clsx(
+            `${menuItemPrefixCls}-content`,
+            'flex-1',
+            itemSemanticCls.label,
+          );
+          const menuItemIconCls = clsx(
+            'flex translate-x-1 items-center text-text-secondary',
+            {
               'text-text-tertiary': disabled,
-            });
+            },
+            itemSemanticCls.icon,
+          );
 
-            // >>>>> Render
-            return (
-              <li
-                key={fullPathKey}
-                className={menuItemCls}
-                role="menuitemcheckbox"
-                title={title}
-                aria-checked={checked}
-                data-path-key={fullPathKey}
-                onClick={() => {
+          // >>>>> Render
+          return (
+            <li
+              key={fullPathKey}
+              className={menuItemCls}
+              role="menuitemcheckbox"
+              title={title}
+              aria-checked={checked}
+              data-path-key={fullPathKey}
+              onClick={() => {
+                triggerOpenPath();
+                if (!multiple || leaf) {
+                  triggerSelect();
+                }
+              }}
+              onDoubleClick={() => {
+                if (changeOnSelect) {
+                  onToggleOpen(false);
+                }
+              }}
+              onMouseEnter={() => {
+                if (hoverOpen) {
                   triggerOpenPath();
-                  if (!multiple || leaf) {
+                }
+              }}
+              onMouseDown={(e) => {
+                // Prevent selector from blurring
+                e.preventDefault();
+              }}
+            >
+              {multiple && (
+                <Checkbox
+                  prefixCls={checkboxCls}
+                  checked={checked}
+                  indeterminate={halfChecked}
+                  disabled={disabled}
+                  onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
+                    e.stopPropagation();
                     triggerSelect();
-                  }
-                }}
-                onDoubleClick={() => {
-                  if (changeOnSelect) {
-                    onToggleOpen(false);
-                  }
-                }}
-                onMouseEnter={() => {
-                  if (hoverOpen) {
-                    triggerOpenPath();
-                  }
-                }}
-                onMouseDown={(e) => {
-                  // Prevent selector from blurring
-                  e.preventDefault();
-                }}
-              >
-                {multiple && (
-                  <Checkbox
-                    prefixCls={checkboxCls}
-                    checked={checked}
-                    indeterminate={halfChecked}
-                    disabled={disabled}
-                    onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
-                      e.stopPropagation();
-                      triggerSelect();
-                    }}
-                  />
-                )}
-                <div className={menuItemContentCls}>
-                  {optionRender && option.value !== '__EMPTY__' ? optionRender(option) : label}
+                  }}
+                />
+              )}
+              <div className={menuItemContentCls}>
+                {optionRender && option.value !== '__EMPTY__' ? optionRender(option) : label}
+              </div>
+              {!loading && expandIcon && !leaf && (
+                <div className={clsx(`${menuItemPrefixCls}-expand-icon`, menuItemIconCls)}>
+                  {expandIcon}
                 </div>
-                {!loading && expandIcon && !leaf && (
-                  <div className={clsx(`${menuItemPrefixCls}-expand-icon`, menuItemIconCls)}>
-                    {expandIcon}
-                  </div>
-                )}
-                {loading && loadingIcon && (
-                  <div className={clsx(`${menuItemPrefixCls}-loading-icon`, menuItemIconCls)}>
-                    {loadingIcon}
-                  </div>
-                )}
-              </li>
-            );
-          },
-        )}
-      </ul>
+              )}
+              {loading && loadingIcon && (
+                <div className={clsx(`${menuItemPrefixCls}-loading-icon`, menuItemIconCls)}>
+                  {loadingIcon}
+                </div>
+              )}
+            </li>
+          );
+        },
+      )}
     </Scrollbar>
   );
 }
