@@ -56,7 +56,6 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
 
   const { getPrefixCls } = useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('color-picker', customizePrefixCls);
-  const semanticCls = useSemanticCls(className, 'colorPicker');
 
   const contextDisabled = useContext(DisabledContext);
   const mergedDisabled = disabled ?? contextDisabled;
@@ -166,6 +165,11 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   const mergedSize = useSize((ctx) => customizeSize ?? compactSize ?? ctx);
 
   // ================== Style =================
+  const semanticCls = useSemanticCls(className, 'colorPicker', {
+    disabled: mergedDisabled,
+    open: popupOpen,
+  });
+
   const triggerCls = clsx(
     {
       [`${prefixCls}-mini`]: mergedSize === 'mini',
@@ -176,12 +180,14 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
     compactItemClassnames,
     semanticCls.root,
   );
-  const triggerColorBlockCls = clsx({
-    'h-5 w-5': mergedSize === 'mini',
-    'h-6 w-6': mergedSize === 'small',
-    'h-8 w-8': mergedSize === 'large',
-  });
-  const popupCls = clsx(prefixCls, semanticCls.popup);
+  const triggerColorBlockCls = clsx(
+    {
+      'h-5 w-5': mergedSize === 'mini',
+      'h-6 w-6': mergedSize === 'small',
+      'h-8 w-8': mergedSize === 'large',
+    },
+    semanticCls.block,
+  );
 
   // ===================== Warning ======================
   if (process.env.NODE_ENV !== 'production') {
@@ -199,7 +205,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
     trigger,
     placement,
     arrow,
-    className: { popup: popupCls, overlay: semanticCls.overlay },
+    className: { overlay: semanticCls.popup },
     getPopupContainer,
     autoAdjustOverflow,
     destroyTooltipOnHide,
@@ -234,6 +240,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
             onActive={setActiveIndex}
             gradientDragging={gradientDragging}
             onGradientDragging={setGradientDragging}
+            className={semanticCls.panel}
           />
         </ContextIsolator>
       }
@@ -243,7 +250,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
         <ColorTrigger
           activeIndex={popupOpen ? activeIndex : -1}
           open={popupOpen}
-          className={{ root: triggerCls, colorBlock: triggerColorBlockCls }}
+          className={{ root: triggerCls, colorBlock: triggerColorBlockCls, text: semanticCls.text }}
           style={style}
           prefixCls={prefixCls}
           disabled={mergedDisabled}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useEvent } from 'rc-util';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
 import type { GetContextProp, GetProp } from '../../_util/type';
+import type { SliderBaseProps } from '../../slider';
 import Slider from '../../slider';
 import type { SliderInternalContextProps } from '../../slider/context';
 import { SliderInternalContext, UnstableContext } from '../../slider/context';
@@ -20,7 +21,7 @@ export interface BaseSliderProps {
   onChange?: (value: number | number[]) => void;
   onChangeComplete: (value: number | number[]) => void;
   range?: boolean;
-  className?: string;
+  className?: SliderBaseProps['className'];
   activeIndex?: number;
   onActive?: (index: number) => void;
   type: HSBAColorType | 'gradient';
@@ -147,17 +148,20 @@ export const BaseSlider = (props: BaseSliderProps) => {
           value={value as any}
           onChange={onChange as any}
           onChangeComplete={onChangeComplete as any}
-          className={{
-            root: clsx(`${prefixCls}-slider`, 'm-0 h-2 bg-[length:0.5rem_0.5rem] p-0', className),
-            rail: 'h-2 ring-1 ring-inset ring-fill-quaternary',
-            handle: clsx(
-              'top-0 ring-1 ring-fill-quaternary ring-offset-2',
-              'after:bg-transparent after:ring-elevated',
-              'focus:ring-primary',
-              'hover:after:left-0 hover:after:top-0 hover:after:h-2 hover:after:w-2 hover:after:ring-elevated',
-              'focus:after:left-0 focus:after:top-0 focus:after:h-2 focus:after:w-2 focus:after:ring-elevated',
-            ),
-          }}
+          className={mergeSemanticCls(
+            {
+              root: clsx(`${prefixCls}-slider`, 'm-0 h-2 bg-[length:0.5rem_0.5rem] p-0'),
+              rail: 'h-2 ring-1 ring-inset ring-fill-quaternary',
+              handle: clsx(
+                'top-0 ring-1 ring-fill-quaternary ring-offset-2',
+                'after:bg-transparent after:ring-elevated',
+                'focus:ring-primary',
+                'hover:after:left-0 hover:after:top-0 hover:after:h-2 hover:after:w-2 hover:after:ring-elevated',
+                'focus:after:left-0 focus:after:top-0 focus:after:h-2 focus:after:w-2 focus:after:ring-elevated',
+              ),
+            },
+            className,
+          )}
           track={false}
           tooltip={{ open: false }}
           range={range}

@@ -46,10 +46,14 @@ const CollapsePanel = React.forwardRef<HTMLDivElement, CollapsePanelProps>((prop
 
   const iconNode = (
     <div
-      className={clsx(`${prefixCls}-expand-icon`, {
-        'order-1': expandIconPosition === 'end',
-        'cursor-pointer': collapsibleIcon,
-      })}
+      className={clsx(
+        `${prefixCls}-expand-icon`,
+        {
+          'order-1': expandIconPosition === 'end',
+          'cursor-pointer': collapsibleIcon,
+        },
+        semanticCls.icon,
+      )}
       onClick={['header', 'icon'].includes(collapsible as string) ? handleItemClick : undefined}
     >
       {expandIcon(props)}

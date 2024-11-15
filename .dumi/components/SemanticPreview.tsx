@@ -1,7 +1,7 @@
 import React from 'react';
 import { LinkOutline } from '@metisjs/icons';
 import { Link } from 'dumi';
-import { clsx, mergeSemanticCls, Popover, Tag } from 'metis-ui';
+import { clsx, mergeSemanticCls, Popover, Space, Tag } from 'metis-ui';
 import { cloneElement } from 'metis-ui/es/_util/reactNode';
 
 const MARK_BORDER_SIZE = 2;
@@ -77,8 +77,7 @@ const ClassNameItem = ({
     >
       {link && (
         <Link to={link}>
-          <LinkOutline className="mr-2 h-4 w-4" />
-          <span className="text-base text-text">{name}</span>
+          <span className="text-base text-text hover:text-primary">{name}</span>
         </Link>
       )}
       {!link && <span className="text-base text-text">{name}</span>}
@@ -87,13 +86,19 @@ const ClassNameItem = ({
           {version}
         </Tag>
       )}
-      {args && args.length > 0 && (
-        <ArgsPopover args={args}>
-          <Tag color="warning" className="ml-auto">
-            Args:{args.length}
-          </Tag>
-        </ArgsPopover>
-      )}
+
+      <Space className="ml-auto">
+        {link && (
+          <Link to={link} className="inline-flex items-center">
+            <LinkOutline className="h-4 w-4" />
+          </Link>
+        )}
+        {args && args.length > 0 && (
+          <ArgsPopover args={args}>
+            <Tag color="warning">Args:{args.length}</Tag>
+          </ArgsPopover>
+        )}
+      </Space>
     </li>
     {children &&
       children.length > 0 &&
@@ -153,7 +158,9 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
 
   const [positionTransition, setPositionTransition] = React.useState<boolean>(false);
   const [hoverSemantic, setHoverSemantic] = React.useState<string | null>(null);
-  const [markPos, setMarkPos] = React.useState<[number, number, number, number]>([0, 0, 0, 0]);
+  const [markPositions, setMarkPositions] = React.useState<[number, number, number, number][]>([
+    [0, 0, 0, 0],
+  ]);
 
   // ======================== Children =========================
   const mergedChildren =
@@ -175,18 +182,23 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
     if (hoverSemantic) {
       timerRef.current = setTimeout(() => {
         const targetClassName = getMarkClassName(hoverSemantic);
-        const targetElement = containerRef.current?.querySelector<HTMLElement>(
+        const targetElements = containerRef.current?.querySelectorAll<HTMLElement>(
           `.${targetClassName}`,
         );
 
         const containerRect = containerRef.current?.getBoundingClientRect();
-        const targetRect = targetElement?.getBoundingClientRect();
-        setMarkPos([
-          (targetRect?.left || 0) - (containerRect?.left || 0),
-          (targetRect?.top || 0) - (containerRect?.top || 0),
-          targetRect?.width || 0,
-          targetRect?.height || 0,
-        ]);
+
+        setMarkPositions(() =>
+          Array.from(targetElements ?? []).map((targetElement) => {
+            const targetRect = targetElement?.getBoundingClientRect();
+            return [
+              (targetRect?.left || 0) - (containerRect?.left || 0),
+              (targetRect?.top || 0) - (containerRect?.top || 0),
+              targetRect?.width || 0,
+              targetRect?.height || 0,
+            ];
+          }),
+        );
 
         setPositionTransition(true);
       }, 10);
@@ -207,7 +219,7 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
   return (
     <div className="relative rounded" ref={containerRef}>
       <div className="flex divide-x divide-border-secondary" style={{ minHeight: height }}>
-        <div className="flex flex-auto items-center justify-center overflow-hidden p-5">
+        <div className="relative flex flex-auto items-center justify-center overflow-hidden p-5">
           {cloneNode}
         </div>
         <div className="basis-72">
@@ -238,20 +250,23 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
           </ul>
         </div>
       </div>
-      <div
-        className={clsx(
-          'pointer-events-none absolute z-[99999999] border-warning',
-          hoverSemantic ? 'opacity-100' : 'opacity-0',
-          positionTransition ? 'transition-all duration-300' : 'transition-opacity duration-300',
-        )}
-        style={{
-          borderWidth: MARK_BORDER_SIZE,
-          left: markPos[0] - MARK_BORDER_SIZE,
-          top: markPos[1] - MARK_BORDER_SIZE,
-          width: markPos[2] + MARK_BORDER_SIZE * 2,
-          height: markPos[3] + MARK_BORDER_SIZE * 2,
-        }}
-      />
+      {markPositions.map((pos, i) => (
+        <div
+          key={i}
+          className={clsx(
+            'pointer-events-none absolute z-[99999999] border-warning ring-1 ring-transparent',
+            hoverSemantic ? 'opacity-100' : 'opacity-0',
+            positionTransition ? 'transition-all duration-300' : 'transition-opacity duration-300',
+          )}
+          style={{
+            borderWidth: MARK_BORDER_SIZE,
+            left: pos[0] - MARK_BORDER_SIZE,
+            top: pos[1] - MARK_BORDER_SIZE,
+            width: pos[2] + MARK_BORDER_SIZE * 2,
+            height: pos[3] + MARK_BORDER_SIZE * 2,
+          }}
+        />
+      ))}
     </div>
   );
 };

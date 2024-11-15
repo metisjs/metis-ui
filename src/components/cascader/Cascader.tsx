@@ -313,7 +313,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
     [halfCheckedValues],
   );
 
-  const semanticCls = useSemanticCls(className, 'cascader', { open: true });
+  const semanticCls = useSemanticCls(className, 'cascader', { open: true, disabled: false });
   const cascaderContext = React.useMemo(
     () => ({
       options: mergedOptions,

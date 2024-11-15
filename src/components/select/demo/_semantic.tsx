@@ -59,7 +59,10 @@ const App: React.FC = () => (
         ],
       },
     ]}
-    rootArgs={[{ name: 'open', type: 'boolean' }]}
+    rootArgs={[
+      { name: 'open', type: 'boolean' },
+      { name: 'disabled', type: 'boolean' },
+    ]}
   >
     {(hover) => {
       const multi = hover?.path === 'selector_item';

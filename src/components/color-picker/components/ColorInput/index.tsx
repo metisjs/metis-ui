@@ -1,10 +1,11 @@
 import type { FC } from 'react';
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { CheckOutline } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
 import Select from '../../../select';
 import type { AggregationColor } from '../../color';
+import { PanelPickerContext } from '../../context';
 import type { ColorFormatType } from '../../interface';
 import { ColorFormat } from '../../interface';
 import AlphaInput from './AlphaInput';
@@ -27,6 +28,7 @@ const selectOptions = [ColorFormat.hex, ColorFormat.hsb, ColorFormat.rgb].map((f
 }));
 
 const ColorInput: FC<ColorInputProps> = (props) => {
+  const { semanticCls } = useContext(PanelPickerContext);
   const { prefixCls, format, value, disabledAlpha, onFormatChange, onChange } = props;
   const [colorFormat, setColorFormat] = useMergedState(ColorFormat.hex, {
     value: format,
@@ -43,12 +45,12 @@ const ColorInput: FC<ColorInputProps> = (props) => {
     const inputProps = { value, prefixCls, onChange };
     switch (colorFormat) {
       case ColorFormat.hsb:
-        return <HsbInput {...inputProps} />;
+        return <HsbInput {...inputProps} className={semanticCls?.hsbInput} />;
       case ColorFormat.rgb:
-        return <RgbInput {...inputProps} />;
+        return <RgbInput {...inputProps} className={semanticCls?.rgbInput} />;
       // case ColorFormat.hex:
       default:
-        return <HexInput {...inputProps} />;
+        return <HexInput {...inputProps} className={semanticCls?.hexInput} />;
     }
   }, [colorFormat, prefixCls, value, onChange]);
 
@@ -63,16 +65,26 @@ const ColorInput: FC<ColorInputProps> = (props) => {
         onChange={handleFormatChange}
         size="small"
         options={selectOptions}
-        className={{
-          root: `${prefixCls}-format-select`,
-          selector: { root: 'p-0 after:leading-3', item: 'pr-6 text-xs' },
-          arrow: 'pr-1',
-          option: 'pr-9 text-xs',
-        }}
+        className={mergeSemanticCls(
+          {
+            root: `${prefixCls}-format-select`,
+            selector: { root: 'p-0 after:leading-3', item: 'pr-6 text-xs' },
+            arrow: 'pr-1',
+            option: 'pr-9 text-xs',
+          },
+          semanticCls?.formatSelect,
+        )}
         menuItemSelectedIcon={<CheckOutline className="h-4 w-4" />}
       />
       <div className={clsx(colorInputPrefixCls, 'flex-1')}>{steppersNode}</div>
-      {!disabledAlpha && <AlphaInput prefixCls={prefixCls} value={value} onChange={onChange} />}
+      {!disabledAlpha && (
+        <AlphaInput
+          prefixCls={prefixCls}
+          value={value}
+          onChange={onChange}
+          className={semanticCls?.alphaInput}
+        />
+      )}
     </div>
   );
 };

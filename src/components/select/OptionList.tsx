@@ -37,6 +37,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     mode,
     searchValue,
     toggleOpen,
+    disabled,
     notFoundContent,
     onPopupScroll,
   } = useBaseProps();
@@ -54,7 +55,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
     className,
   } = React.useContext(SelectContext);
 
-  const semanticCls = useSemanticCls(className, 'select', { open });
+  const semanticCls = useSemanticCls(className, 'select', { open, disabled });
 
   const itemPrefixCls = `${prefixCls}-item`;
 

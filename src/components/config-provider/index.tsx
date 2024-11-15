@@ -3,7 +3,7 @@ import useMemo from 'rc-util/lib/hooks/useMemo';
 import { merge } from 'rc-util/lib/utils/set';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
-import defaultLocale from '../locale/zh_CN';
+import defaultLocale from '../locale/en_US';
 import type { ConfigConsumerProps, RequestConfig, RouteConfig, Variant } from './context';
 import { ConfigConsumer, ConfigContext, Variants } from './context';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';

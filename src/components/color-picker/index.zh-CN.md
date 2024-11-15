@@ -37,7 +37,6 @@ group:
 | allowClear | 允许清除选择的颜色 | boolean | false |  |
 | arrow | 配置弹出的箭头 | `boolean \| { pointAtCenter: boolean }` | true |  |
 | children | 颜色选择器的触发器 | React.ReactNode | - |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'popup' \| 'overlay', string> | - |  |
 | defaultFormat | 颜色格式默认的值 | `rgb` \| `hex` \| `hsb` | - |  |
 | defaultValue | 颜色默认的值 | string \| `Color` | - |  |
 | destroyTooltipOnHide | 关闭后是否销毁弹窗 | `boolean` | false |  |
@@ -58,6 +57,7 @@ group:
 | onClear | 清除的回调 | `() => void` | - |  |
 | onFormatChange | 颜色格式变化的回调 | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - |  |
 | onOpenChange | 当 `open` 被改变时的回调 | `(open: boolean) => void` | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Color
 
@@ -71,6 +71,10 @@ group:
 | toHsbString | 转换成 `hsb` 格式颜色字符串，返回格式如：`hsb(215, 91%, 100%)` | `() => string` | - |
 | toRgb | 转换成 `rgb` 对象 | `() => ({ r: number, g: number, b: number, a number })` | - |
 | toRgbString | 转换成 `rgb` 格式颜色字符串，返回格式如：`rgb(22, 119, 255)` | `() => string` | - |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

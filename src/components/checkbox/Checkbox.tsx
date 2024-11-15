@@ -10,7 +10,10 @@ import CheckedIcon from './CheckedIcon';
 import { GroupContext } from './Group';
 
 export interface AbstractCheckboxProps<T> {
-  className?: SemanticClassName<{ checkbox?: string }>;
+  className?: SemanticClassName<
+    { indicator?: string; label?: string },
+    { checked?: boolean; disabled?: boolean }
+  >;
   defaultChecked?: boolean;
   checked?: boolean;
   style?: React.CSSProperties;
@@ -70,8 +73,6 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     onChange,
     ...restProps
   } = props;
-  const semanticCls = useSemanticCls(className, 'checkbox');
-
   const { getPrefixCls } = React.useContext(ConfigContext);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -145,6 +146,11 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
 
   const prefixCls = getPrefixCls('checkbox', customizePrefixCls);
 
+  const semanticCls = useSemanticCls(className, 'checkbox', {
+    checked: mergedChecked,
+    disabled: mergedDisabled,
+  });
+
   const classString = clsx(
     `${prefixCls}-wrapper`,
     'inline-flex cursor-pointer items-center text-sm leading-6',
@@ -154,7 +160,8 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
     semanticCls.root,
   );
 
-  const innerClass = clsx(
+  const indicatorClass = clsx(
+    `${prefixCls}-indicator`,
     'block h-4 w-4 cursor-pointer rounded border border-border bg-container text-white',
     'peer-focus/checkbox:outline peer-focus/checkbox:outline-2 peer-focus/checkbox:outline-offset-2 peer-focus/checkbox:outline-primary',
     {
@@ -164,8 +171,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
       'border-border bg-fill-quaternary text-text-tertiary': mergedDisabled,
       'after:bg-text-tertiary': mergedDisabled,
     },
-    `${prefixCls}-inner`,
-    semanticCls.checkbox,
+    semanticCls.indicator,
   );
 
   const ariaChecked = indeterminate ? 'mixed' : undefined;
@@ -189,11 +195,15 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
           type="checkbox"
           {...restProps}
         />
-        <span className={innerClass}>
+        <span className={indicatorClass}>
           {mergedChecked && <CheckedIcon className="absolute inset-0" />}
         </span>
       </span>
-      {children !== undefined && <span className="pe-2 ps-2">{children}</span>}
+      {children !== undefined && (
+        <span className={clsx(`${prefixCls}-label`, 'pe-2 ps-2', semanticCls.label)}>
+          {children}
+        </span>
+      )}
     </label>
   );
 };

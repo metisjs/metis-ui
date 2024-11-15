@@ -44,7 +44,7 @@ export interface CollapsePanelProps {
   panelKey: React.Key;
   isActive?: boolean;
   header?: React.ReactNode;
-  className?: SemanticClassName<{ header?: string; content?: string }>;
+  className?: SemanticClassName<{ icon?: string; header?: string; content?: string }>;
   style?: React.CSSProperties;
   showArrow?: boolean;
   forceRender?: boolean;

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
+import type { InputNumberProps } from '../../../input-number';
 import type { AggregationColor } from '../../color';
 import type { RGB } from '../../interface';
 import { generateColor } from '../../util';
@@ -8,11 +9,12 @@ import Steppers from './Steppers';
 
 interface RgbInputProps {
   prefixCls: string;
+  className?: InputNumberProps['className'];
   value?: AggregationColor;
   onChange?: (value: AggregationColor) => void;
 }
 
-const RgbInput: FC<RgbInputProps> = ({ prefixCls, value, onChange }) => {
+const RgbInput: FC<RgbInputProps> = ({ prefixCls, className, value, onChange }) => {
   const rgbInputPrefixCls = `${prefixCls}-rgb-input`;
   const [rgbValue, setRgbValue] = useState<AggregationColor>(generateColor(value || '#000'));
 
@@ -33,7 +35,7 @@ const RgbInput: FC<RgbInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
-  const stepperCls = clsx(rgbInputPrefixCls, 'w-0 flex-1 basis-1/3');
+  const stepperCls = mergeSemanticCls(clsx(rgbInputPrefixCls, 'w-0 flex-1 basis-1/3'), className);
 
   return (
     <div className={clsx(rgbInputPrefixCls, 'flex gap-1')}>

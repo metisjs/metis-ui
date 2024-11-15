@@ -2,14 +2,15 @@ import * as React from 'react';
 import omit from 'rc-util/lib/omit';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
-import type { CheckboxChangeEvent } from './Checkbox';
+import type { CheckboxChangeEvent, CheckboxProps } from './Checkbox';
 import Checkbox from './Checkbox';
 
 export type CheckboxValueType = string | number | boolean;
 
 export interface CheckboxOptionType {
-  className?: SemanticClassName<{ checkbox?: string }>;
+  className?: CheckboxProps['className'];
   label: React.ReactNode;
   value: CheckboxValueType;
   style?: React.CSSProperties;
@@ -19,7 +20,7 @@ export interface CheckboxOptionType {
 
 export interface AbstractCheckboxGroupProps {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<{ checkbox?: CheckboxProps['className'] }>;
   options?: Array<CheckboxOptionType | string | number>;
   disabled?: boolean;
   style?: React.CSSProperties;
@@ -58,6 +59,8 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
   ref,
 ) => {
   const { getPrefixCls } = React.useContext(ConfigContext);
+
+  const semanticCls = useSemanticCls(className);
 
   const [value, setValue] = React.useState<CheckboxValueType[]>(
     restProps.value || defaultValue || [],
@@ -113,7 +116,6 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
   };
 
   const prefixCls = getPrefixCls('checkbox', customizePrefixCls);
-  const groupPrefixCls = `${prefixCls}-group`;
 
   const domProps = omit(restProps, ['value', 'disabled']);
 
@@ -127,7 +129,7 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
         checked={value.includes(option.value)}
         onChange={option.onChange}
         style={option.style}
-        className={mergeSemanticCls(groupPrefixCls, option.className)}
+        className={mergeSemanticCls(semanticCls.checkbox, option.className)}
       >
         {option.label}
       </Checkbox>
@@ -143,7 +145,7 @@ const InternalCheckboxGroup: React.ForwardRefRenderFunction<HTMLDivElement, Chec
     cancelValue,
   };
 
-  const classString = clsx('inline-flex flex-wrap gap-x-2', className);
+  const classString = clsx(`${prefixCls}-group`, 'inline-flex flex-wrap gap-x-2', semanticCls.root);
 
   return (
     <div className={classString} style={style} {...domProps} ref={ref}>

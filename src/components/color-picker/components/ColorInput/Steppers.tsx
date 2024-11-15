@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
 
@@ -10,7 +10,7 @@ interface SteppersProps {
   min?: number;
   max?: number;
   onChange?: (value: number | null) => void;
-  className?: string;
+  className?: InputNumberProps['className'];
   prefix?: (prefixCls: string) => React.ReactNode;
   formatter?: InputNumberProps<number>['formatter'];
 }
@@ -36,10 +36,13 @@ const Steppers: FC<SteppersProps> = ({
 
   return (
     <InputNumber
-      className={{
-        root: clsx(steppersPrefixCls, 'flex-none rounded px-1 py-1 text-xs', className),
-        handler: 'w-4 text-xs group-has-[:focus-within]/input:w-[calc(1rem-1px)]',
-      }}
+      className={mergeSemanticCls(
+        {
+          root: clsx(steppersPrefixCls, 'flex-none rounded px-1 py-1 text-xs'),
+          handler: 'w-4 text-xs group-has-[:focus-within]/input:w-[calc(1rem-1px)]',
+        },
+        className,
+      )}
       min={min}
       max={max}
       value={stepValue}

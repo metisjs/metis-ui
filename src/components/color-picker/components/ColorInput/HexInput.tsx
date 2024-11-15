@@ -1,12 +1,14 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
+import type { InputProps } from '../../../input';
 import Input from '../../../input';
 import { toHexFormat, type AggregationColor } from '../../color';
 import { generateColor } from '../../util';
 
 interface HexInputProps {
   prefixCls: string;
+  className?: InputProps['className'];
   value?: AggregationColor;
   onChange?: (value: AggregationColor) => void;
 }
@@ -14,7 +16,7 @@ interface HexInputProps {
 const hexReg = /(^#[\da-f]{6}$)|(^#[\da-f]{8}$)/i;
 const isHexString = (hex?: string) => hexReg.test(`#${hex}`);
 
-const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
+const HexInput: FC<HexInputProps> = ({ prefixCls, className, value, onChange }) => {
   const [hexValue, setHexValue] = useState(() =>
     value ? toHexFormat(value.toHexString()) : undefined,
   );
@@ -36,7 +38,10 @@ const HexInput: FC<HexInputProps> = ({ prefixCls, value, onChange }) => {
 
   return (
     <Input
-      className={{ root: clsx(`${prefixCls}-hex-input`, 'rounded py-0.5'), input: 'text-xs' }}
+      className={mergeSemanticCls(
+        { root: clsx(`${prefixCls}-hex-input`, 'rounded py-0.5'), input: 'text-xs' },
+        className,
+      )}
       value={hexValue}
       prefix="#"
       onChange={handleHexChange}

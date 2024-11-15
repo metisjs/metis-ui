@@ -29,11 +29,11 @@ demo:
 | --- | --- | --- | --- | --- |
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | checked | Specifies whether the checkbox is selected | boolean | false |  |
-| className | Semantic DOM class | string \|Record&lt;'root' \| 'checkbox', string> | - |  |
 | defaultChecked | Specifies the initial state: whether or not the checkbox is selected | boolean | false |  |
 | disabled | If disable checkbox | boolean | false |  |
 | indeterminate | The indeterminate checked state of checkbox | boolean | false |  |
 | onChange | The callback function that is triggered when the state changes | (e: CheckboxChangeEvent) => void | - |  |
+| className | Semantic DOM class | [SemanticDOM](#checkbox-2) | - |  |
 
 #### Checkbox Group
 
@@ -45,6 +45,7 @@ demo:
 | options | Specifies options | string\[] \| number\[] \| Option\[] | \[] |  |
 | value | Used for setting the currently selected value | (string \| number \| boolean)\[] | \[] |  |
 | onChange | The callback function that is triggered when the state changes | (checkedValue: T\[]) => void | - |  |
+| className | Semantic DOM class | [SemanticDOM](#checkbox-group-1) | - |  |
 
 ##### Option
 
@@ -65,3 +66,13 @@ interface Option {
 | ------- | ------------ | ------- |
 | blur()  | Remove focus |         |
 | focus() | Get focus    |         |
+
+## Semantic DOM
+
+### Checkbox
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Checkbox Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

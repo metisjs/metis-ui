@@ -36,7 +36,6 @@ Used when the user needs to make a customized color selection.
 | allowClear | Allow clearing color selected | boolean | false |  |
 | arrow | Configuration for popup arrow | `boolean \| { pointAtCenter: boolean }` | true |  |
 | children | Trigger of ColorPicker | React.ReactNode | - |  |
-| className | Semantic DOM class class | string \| Record&lt;'root' \| 'popup' \| 'overlay', string> | - |  |
 | defaultFormat | Default format of color | `rgb` \| `hex` \| `hsb` | - |  |
 | defaultValue | Default value of color | string \| `Color` | - |  |
 | destroyTooltipOnHide | Whether destroy popover when hidden | `boolean` | false |  |
@@ -57,6 +56,7 @@ Used when the user needs to make a customized color selection.
 | onClear | Called when clear | `() => void` | - |  |
 | onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - |  |
 | onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Color
 
@@ -70,6 +70,10 @@ Used when the user needs to make a customized color selection.
 | toHsbString | Convert to `hsb` format color string, the return type like: `hsb(215, 91%, 100%)` | `() => string` | - |
 | toRgb | Convert to `rgb` object | `() => ({ r: number, g: number, b: number, a number })` | - |
 | toRgbString | Convert to `rgb` format color string, the return type like: `rgb(22, 119, 255)` | `() => string` | - |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

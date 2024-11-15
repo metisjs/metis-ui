@@ -7,7 +7,7 @@ import { cloneElement } from '../_util/reactNode';
 import Button from '../button';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
-import defaultLocale from '../locale/zh_CN';
+import defaultLocale from '../locale/en_US';
 
 export interface PopconfirmLocale {
   okText: string;

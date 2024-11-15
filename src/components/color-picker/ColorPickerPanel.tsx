@@ -1,16 +1,18 @@
 import type { FC } from 'react';
 import React from 'react';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Divider from '../divider';
 import Picker from './components/Picker';
 import Presets from './components/Presets';
 import type { PanelPickerContextProps, PanelPresetsContextProps } from './context';
 import { PanelPickerContext, PanelPresetsContext } from './context';
-import type { ColorPickerProps } from './interface';
+import type { ColorPickerPanelClassName, ColorPickerProps } from './interface';
 
 export interface ColorPickerPanelProps
-  extends PanelPickerContextProps,
+  extends Omit<PanelPickerContextProps, 'className'>,
     Omit<PanelPresetsContextProps, 'onChange'> {
+  className?: ColorPickerPanelClassName;
   onClear?: () => void;
   panelRender?: ColorPickerProps['panelRender'];
 }
@@ -18,6 +20,7 @@ export interface ColorPickerPanelProps
 const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
   const {
     prefixCls,
+    className,
     presets,
     panelRender,
     value,
@@ -36,7 +39,8 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
     gradientDragging,
     onGradientDragging,
   } = props;
-  const colorPickerPanelPrefixCls = `${prefixCls}-inner`;
+
+  const semanticCls = useSemanticCls(className);
 
   // ===================== Context ======================
   const panelContext: PanelPickerContextProps = React.useMemo(
@@ -57,6 +61,7 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
       onFormatChange,
       gradientDragging,
       onGradientDragging,
+      semanticCls,
     }),
     [
       prefixCls,
@@ -75,6 +80,7 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
       onFormatChange,
       gradientDragging,
       onGradientDragging,
+      semanticCls,
     ],
   );
 
@@ -89,11 +95,12 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
   );
 
   // ====================== Style ======================
-  const contentCls = clsx(`${colorPickerPanelPrefixCls}-content`, 'flex w-60 flex-col');
+
+  const rootCls = clsx(`${prefixCls}-panel`, 'flex w-60 flex-col', semanticCls.root);
 
   // ====================== Render ======================
   const innerPanel = (
-    <div className={contentCls}>
+    <div className={rootCls}>
       <Picker />
       {Array.isArray(presets) && <Divider className="mb-2 mt-3" />}
       <Presets />
@@ -103,16 +110,14 @@ const ColorPickerPanel: FC<ColorPickerPanelProps> = (props) => {
   return (
     <PanelPickerContext.Provider value={panelContext}>
       <PanelPresetsContext.Provider value={presetContext}>
-        <div className={colorPickerPanelPrefixCls}>
-          {typeof panelRender === 'function'
-            ? panelRender(innerPanel, {
-                components: {
-                  Picker: Picker,
-                  Presets: Presets,
-                },
-              })
-            : innerPanel}
-        </div>
+        {typeof panelRender === 'function'
+          ? panelRender(innerPanel, {
+              components: {
+                Picker: Picker,
+                Presets: Presets,
+              },
+            })
+          : innerPanel}
       </PanelPresetsContext.Provider>
     </PanelPickerContext.Provider>
   );

@@ -1,8 +1,9 @@
-import type { FC } from 'react';
-import React, { useContext, useRef } from 'react';
+import type { FC, MouseEventHandler, TouchEventHandler } from 'react';
+import React, { forwardRef, useContext, useRef } from 'react';
 import { useEvent } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
+import type { SegmentedProps } from '../../segmented';
 import Segmented from '../../segmented';
 import type { Color } from '../color';
 import { AggregationColor } from '../color';
@@ -53,9 +54,21 @@ const Operation: FC<{
   mode: ModeType;
   color: AggregationColor;
   allowClear?: boolean;
+  modeClassName?: SegmentedProps['className'];
+  clearClassName?: string;
   onModeChange: (mode: ModeType) => void;
   onClear?: (color: AggregationColor) => void;
-}> = ({ prefixCls, options, mode, color, allowClear, onModeChange, onClear }) => {
+}> = ({
+  prefixCls,
+  options,
+  mode,
+  color,
+  allowClear,
+  modeClassName,
+  clearClassName,
+  onModeChange,
+  onClear,
+}) => {
   return (
     <div className={clsx(`${prefixCls}-operation`, 'mb-2 flex items-center')}>
       {options.length > 1 && (
@@ -64,43 +77,62 @@ const Operation: FC<{
           options={options}
           value={mode}
           onChange={onModeChange}
-          className={{ root: 'rounded', option: 'rounded px-2 py-0.5' }}
+          className={mergeSemanticCls(
+            { root: 'rounded', option: 'rounded px-2 py-0.5' },
+            modeClassName,
+          )}
         />
       )}
       {allowClear && (
-        <ColorClear prefixCls={prefixCls} value={color} onChange={onClear} className="ml-auto" />
+        <ColorClear
+          prefixCls={prefixCls}
+          value={color}
+          onChange={onClear}
+          className={clsx('ml-auto', clearClassName)}
+        />
       )}
     </div>
   );
 };
 
-const Palette: FC<{
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-  prefixCls?: string;
-}> = ({ children, style, prefixCls }) => {
+const Palette = forwardRef<
+  HTMLDivElement,
+  {
+    children?: React.ReactNode;
+    className?: string;
+    style?: React.CSSProperties;
+    prefixCls?: string;
+    onTouchStart: TouchEventHandler;
+    onMouseDown: MouseEventHandler;
+  }
+>(({ children, style, prefixCls, className, onTouchStart, onMouseDown }, ref) => {
   return (
     <div
-      className={clsx(`${prefixCls}-palette`, 'min-h-40 overflow-hidden rounded')}
+      ref={ref}
+      className={clsx(`${prefixCls}-palette`, 'mb-3 min-h-40 overflow-hidden rounded', className)}
       style={{
         position: 'relative',
         ...style,
       }}
+      onTouchStart={onTouchStart}
+      onMouseDown={onMouseDown}
     >
       {children}
     </div>
   );
-};
+});
 
 const Handler: FC<{
   color?: string;
   prefixCls?: string;
-}> = ({ color, prefixCls }) => {
+  className?: string;
+}> = ({ color, prefixCls, className }) => {
   return (
     <div
       className={clsx(
         `${prefixCls}-handler`,
         'relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset ring-elevated',
+        className,
       )}
       style={{
         backgroundColor: color,
@@ -154,6 +186,7 @@ const Picker: FC = () => {
     format,
     onGradientDragging,
     onActive,
+    semanticCls,
   } = panelPickerContext;
 
   const pickerRef = useRef(null);
@@ -302,8 +335,7 @@ const Picker: FC = () => {
   };
 
   // ============================ Style ============================
-  const panelCls = clsx(`${prefixCls}-panel`, 'select-none');
-  const panelSelectCls = clsx(`${prefixCls}-select`, 'mb-3');
+  const panelCls = clsx(`${prefixCls}-panel`, 'select-none', semanticCls?.root);
   const saturationCls = clsx(
     `${prefixCls}-saturation`,
     'absolute inset-0 rounded ring-1 ring-inset ring-fill-tertiary',
@@ -323,6 +355,7 @@ const Picker: FC = () => {
   const sharedSliderProps = {
     prefixCls,
     color: activeColor,
+    className: semanticCls?.slider,
   };
 
   const hsbColor = React.useMemo(() => activeColor.toHsb(), [activeColor]);
@@ -340,6 +373,8 @@ const Picker: FC = () => {
           prefixCls={prefixCls}
           mode={mode}
           color={value}
+          modeClassName={semanticCls?.mode}
+          clearClassName={semanticCls?.clear}
           onModeChange={onModeChange}
           onClear={(clearColor) => {
             onChange(clearColor);
@@ -363,26 +398,29 @@ const Picker: FC = () => {
       )}
 
       <div className={panelCls}>
-        <div
+        <Palette
+          prefixCls={prefixCls}
+          className={semanticCls?.palette}
           ref={pickerRef}
-          className={panelSelectCls}
           onMouseDown={dragStartHandle}
           onTouchStart={dragStartHandle}
         >
-          <Palette prefixCls={prefixCls}>
-            <Transform x={offset.x} y={offset.y} ref={transformRef}>
-              <Handler color={activeColor.toRgbString()} prefixCls={prefixCls} />
-            </Transform>
-            <div
-              className={saturationCls}
-              style={{
-                backgroundColor: `hsl(${activeColor.toHsb().h},100%, 50%)`,
-                backgroundImage:
-                  'linear-gradient(0deg, #000, transparent),linear-gradient(90deg, #fff, hsla(0, 0%, 100%, 0))',
-              }}
+          <Transform x={offset.x} y={offset.y} ref={transformRef}>
+            <Handler
+              color={activeColor.toRgbString()}
+              prefixCls={prefixCls}
+              className={semanticCls?.paletteHandle}
             />
-          </Palette>
-        </div>
+          </Transform>
+          <div
+            className={saturationCls}
+            style={{
+              backgroundColor: `hsl(${activeColor.toHsb().h},100%, 50%)`,
+              backgroundImage:
+                'linear-gradient(0deg, #000, transparent),linear-gradient(90deg, #fff, hsla(0, 0%, 100%, 0))',
+            }}
+          />
+        </Palette>
         <div className={sliderContainerCls}>
           <div className={sliderGroupCls}>
             <Slider
@@ -411,7 +449,11 @@ const Picker: FC = () => {
               />
             )}
           </div>
-          <ColorBlock color={activeColor.toRgbString()} prefixCls={prefixCls} />
+          <ColorBlock
+            color={activeColor.toRgbString()}
+            prefixCls={prefixCls}
+            className={semanticCls?.block}
+          />
         </div>
       </div>
       <ColorInput

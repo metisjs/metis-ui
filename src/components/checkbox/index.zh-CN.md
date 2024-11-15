@@ -30,11 +30,11 @@ demo:
 | --- | --- | --- | --- | --- |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | checked | 指定当前是否选中 | boolean | false |  |
-| className | 语义化结构 class | string \|Record&lt;'root' \| 'checkbox', string> | - |  |
 | defaultChecked | 初始是否选中 | boolean | false |  |
 | disabled | 失效状态 | boolean | false |  |
 | indeterminate | 设置 indeterminate 状态，只负责样式控制 | boolean | false |  |
 | onChange | 变化时的回调函数 | (e: CheckboxChangeEvent) => void | - |  |
+| className | 语义化结构 class | [SemanticDOM](#checkbox-2) | - |  |
 
 ### Checkbox Group
 
@@ -46,6 +46,7 @@ demo:
 | options | 指定可选项 | string\[] \| number\[] \| Option\[] | \[] |  |
 | value | 指定选中的选项 | (string \| number \| boolean)\[] | \[] |  |
 | onChange | 变化时的回调函数 | (checkedValue: CheckboxValueType\[]) => void | - |  |
+| className | 语义化结构 class | [SemanticDOM](#checkbox-group-1) | - |  |
 
 #### Option
 
@@ -66,3 +67,13 @@ interface Option {
 | ------- | -------- | ---- |
 | blur()  | 移除焦点 |      |
 | focus() | 获取焦点 |      |
+
+## Semantic DOM
+
+### Checkbox
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Checkbox Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

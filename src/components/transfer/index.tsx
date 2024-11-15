@@ -14,7 +14,7 @@ import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import type { FormItemStatusContextProps } from '../form/context';
 import { FormItemInputContext } from '../form/context';
 import { useLocale } from '../locale';
-import defaultLocale from '../locale/zh_CN';
+import defaultLocale from '../locale/en_US';
 import type { ScrollValues } from '../scrollbar';
 import useData from './hooks/useData';
 import useSelection from './hooks/useSelection';

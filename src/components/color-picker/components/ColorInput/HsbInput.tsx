@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
+import type { InputNumberProps } from '../../../input-number';
 import type { AggregationColor } from '../../color';
 import type { HSB } from '../../interface';
 import { generateColor, getRoundNumber } from '../../util';
@@ -8,11 +9,12 @@ import Steppers from './Steppers';
 
 interface HsbInputProps {
   prefixCls: string;
+  className?: InputNumberProps['className'];
   value?: AggregationColor;
   onChange?: (value: AggregationColor) => void;
 }
 
-const HsbInput: FC<HsbInputProps> = ({ prefixCls, value, onChange }) => {
+const HsbInput: FC<HsbInputProps> = ({ prefixCls, className, value, onChange }) => {
   const hsbInputPrefixCls = `${prefixCls}-hsb-input`;
   const [hsbValue, setHsbValue] = useState<AggregationColor>(generateColor(value || '#000'));
 
@@ -33,7 +35,7 @@ const HsbInput: FC<HsbInputProps> = ({ prefixCls, value, onChange }) => {
     onChange?.(genColor);
   };
 
-  const stepperCls = clsx(hsbInputPrefixCls, 'w-0 flex-1 basis-1/3');
+  const stepperCls = mergeSemanticCls(clsx(hsbInputPrefixCls, 'w-0 flex-1 basis-1/3'), className);
 
   return (
     <div className={clsx(hsbInputPrefixCls, 'flex gap-1')}>

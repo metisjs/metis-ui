@@ -113,7 +113,7 @@ export interface CascaderProps<
       option?: BaseOptionType['className'];
       selector?: InnerSelectorProps['className'];
     },
-    { open: boolean }
+    { open: boolean; disabled?: boolean }
   >;
   placement?: SelectCommonPlacement;
   status?: InputStatus;

@@ -143,7 +143,7 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
       option?: BaseOptionType['className'];
       selector?: InnerSelectorProps['className'];
     },
-    { open?: boolean }
+    { open?: boolean; disabled?: boolean }
   >;
   style?: React.CSSProperties;
   title?: string;
@@ -669,6 +669,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       showSearch,
       multiple,
       toggleOpen: onToggleOpen,
+      disabled: mergedDisabled,
     }),
     [props, notFoundContent, triggerOpen, mergedOpen, id, showSearch, multiple, onToggleOpen],
   );
@@ -713,7 +714,10 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   }
 
   // ============================= Arrow ==============================
-  const semanticCls = useSemanticCls(className, 'select', { open: mockFocused || mergedOpen });
+  const semanticCls = useSemanticCls(className, 'select', {
+    open: mockFocused || mergedOpen,
+    disabled: mergedDisabled,
+  });
 
   const showSuffixIcon = !!suffixIcon || loading;
   let arrowNode: React.ReactNode;

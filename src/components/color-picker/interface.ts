@@ -1,9 +1,15 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { SizeType } from '../config-provider/SizeContext';
+import type { InputProps } from '../input';
+import type { InputNumberProps } from '../input-number';
 import type { PopoverProps } from '../popover';
+import type { SegmentedProps } from '../segmented';
+import type { BaseSelectProps } from '../select';
+import type { SliderSingleProps } from '../slider';
 import type { TooltipPlacement } from '../tooltip';
 import type { AggregationColor, Color } from './color';
+import type { InternalPresetsProps } from './components/Presets';
 
 export interface HSB {
   h: number | string;
@@ -68,10 +74,28 @@ export type ColorValueType =
 
 export type ModeType = 'single' | 'gradient';
 
+export type ColorPickerPanelClassName = SemanticClassName<{
+  mode?: SegmentedProps['className'];
+  clear?: string;
+  palette?: string;
+  paletteHandle?: string;
+  slider?: SliderSingleProps['className'];
+  block?: string;
+  formatSelect?: BaseSelectProps['className'];
+  alphaInput?: InputNumberProps['className'];
+  hexInput?: InputProps['className'];
+  rgbInput?: InputNumberProps['className'];
+  hsbInput?: InputNumberProps['className'];
+  presets?: InternalPresetsProps['className'];
+}>;
+
 export interface ColorPickerProps
   extends Pick<PopoverProps, 'getPopupContainer' | 'autoAdjustOverflow' | 'destroyTooltipOnHide'> {
   prefixCls?: string;
-  className?: SemanticClassName<{ popup?: string; overlay?: string }>;
+  className?: SemanticClassName<
+    { popup?: string; block?: string; text?: string; panel: ColorPickerPanelClassName },
+    { open?: boolean; disabled?: boolean }
+  >;
   style?: CSSProperties;
   mode?: ModeType | ModeType[];
   value?: ColorValueType;

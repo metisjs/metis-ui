@@ -1,4 +1,4 @@
-import defaultLocale from '../locale/zh_CN';
+import defaultLocale from '../locale/en_US';
 import type { ModalLocale } from './interface';
 
 let runtimeLocale: ModalLocale = {
