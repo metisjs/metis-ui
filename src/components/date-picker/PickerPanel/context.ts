@@ -5,6 +5,7 @@ export interface PanelContextProps<DateType extends object = any>
   extends Pick<
     SharedPanelProps<DateType>,
     | 'prefixCls'
+    | 'semanticClassName'
     | 'cellRender'
     | 'generateConfig'
     | 'locale'
@@ -49,6 +50,7 @@ export function useInfo<DateType extends object = any>(
 ): [sharedProps: PanelContextProps<DateType>, now: DateType] {
   const {
     prefixCls,
+    semanticClassName,
     generateConfig,
     locale,
     disabledDate,
@@ -78,6 +80,7 @@ export function useInfo<DateType extends object = any>(
     values,
     pickerValue,
     prefixCls,
+    semanticClassName,
     disabledDate,
     minDate,
     maxDate,

@@ -18,6 +18,7 @@ type SemanticItem = {
   version?: string;
   children?: SemanticItem[];
   link?: string;
+  desc?: string;
 };
 
 export interface SemanticPreviewProps {
@@ -66,26 +67,32 @@ const ClassNameItem = ({
   indent = 0,
   path,
   link,
+  desc,
   onHover,
 }: ClassNameItemProps) => (
   <>
     <li
-      className="flex items-center px-3 py-4 hover:bg-fill-quaternary"
+      className="flex h-14 items-center px-3 hover:bg-fill-quaternary"
       style={{ paddingLeft: indent * 16 + 12 }}
       onMouseEnter={() => onHover(path)}
       onMouseLeave={() => onHover(null)}
     >
-      {link && (
-        <Link to={link}>
-          <span className="text-base text-text hover:text-primary">{name}</span>
-        </Link>
-      )}
-      {!link && <span className="text-base text-text">{name}</span>}
-      {version && (
-        <Tag color="processing" className="ml-2">
-          {version}
-        </Tag>
-      )}
+      <div className="flex-1 items-center">
+        <div>
+          {link && (
+            <Link to={link}>
+              <span className="text-base text-text hover:text-primary">{name}</span>
+            </Link>
+          )}
+          {!link && <span className="text-base text-text">{name}</span>}
+          {version && (
+            <Tag color="processing" className="ml-2">
+              {version}
+            </Tag>
+          )}
+        </div>
+        {desc && <div className="text-xs text-text-tertiary">{desc}</div>}
+      </div>
 
       <Space className="ml-auto">
         {link && (

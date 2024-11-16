@@ -21,7 +21,7 @@ export type PopupShowTimeConfig<DateType extends object = any> = Omit<
 
 export interface PopupProps<DateType extends object = any, PresetValue = DateType>
   extends Pick<React.InputHTMLAttributes<HTMLDivElement>, 'onFocus' | 'onBlur'>,
-    FooterProps<DateType>,
+    Omit<FooterProps<DateType>, 'className'>,
     PopupPanelProps<DateType> {
   panelRender?: SharedPickerProps['panelRender'];
 
@@ -48,6 +48,7 @@ export interface PopupProps<DateType extends object = any, PresetValue = DateTyp
 
 export default function Popup<DateType extends object = any>(props: PopupProps<DateType>) {
   const {
+    semanticClassName,
     panelRender,
     picker,
     showNow,
@@ -172,6 +173,7 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
         presets={presets}
         onClick={onPresetSubmit}
         onHover={onPresetHover}
+        className={semanticClassName.presets}
       />
       <div>
         <PopupPanel {...props} value={popupPanelValue} />
@@ -180,6 +182,7 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
           showNow={multiple ? false : showNow}
           invalid={disableSubmit}
           onSubmit={onFooterSubmit}
+          className={semanticClassName.footer}
         />
       </div>
     </div>

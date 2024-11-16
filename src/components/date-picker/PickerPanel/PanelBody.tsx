@@ -1,7 +1,7 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
 import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { cloneElement } from '../../_util/reactNode';
 import type { DisabledDate } from '../interface';
@@ -51,6 +51,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
 
   const {
     prefixCls,
+    semanticClassName: contextSemanticCls,
     panelType: type,
     now,
     disabledDate: contextDisabledDate,
@@ -140,6 +141,17 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
           })
         : undefined;
 
+      const cellCls = getSemanticCls(contextSemanticCls.cell, {
+        disabled,
+        hover,
+        inRange,
+        rangeStart,
+        rangeEnd,
+        selected,
+        today,
+        inView,
+      });
+
       // Render
       const inner = (
         <div
@@ -162,6 +174,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               },
             ],
             semanticCls.cellInner,
+            cellCls.inner,
           )}
         >
           {getCellText(currentDate)}
@@ -217,6 +230,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               },
             ],
             semanticCls.cell,
+            cellCls.root,
           )}
           onClick={() => {
             if (!disabled) {
@@ -259,7 +273,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
     );
   }
   // ============================== Style ==============================
-  const bodyCls = clsx(`${prefixCls}-body`, semanticCls.root);
+  const bodyCls = clsx(`${prefixCls}-body`, semanticCls.root, contextSemanticCls.body);
   const contentCls = clsx(
     `${prefixCls}-content`,
     'w-full table-fixed border-collapse',

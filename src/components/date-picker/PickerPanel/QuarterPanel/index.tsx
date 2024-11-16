@@ -9,15 +9,8 @@ import PanelHeader from '../PanelHeader';
 export default function QuarterPanel<DateType extends object = any>(
   props: SharedPanelProps<DateType>,
 ) {
-  const {
-    prefixCls,
-    className,
-    locale,
-    generateConfig,
-    pickerValue,
-    onPickerValueChange,
-    onModeChange,
-  } = props;
+  const { prefixCls, locale, generateConfig, pickerValue, onPickerValueChange, onModeChange } =
+    props;
 
   const panelPrefixCls = `${prefixCls}-quarter-panel`;
 
@@ -63,7 +56,7 @@ export default function QuarterPanel<DateType extends object = any>(
   );
 
   // ========================= Style =========================
-  const panelCls = clsx(panelPrefixCls, className);
+  const panelCls = clsx(panelPrefixCls, 'flex w-72 flex-col');
   const bodyCls = clsx('px-2');
   const contentCls = clsx('h-14');
   const cellInnerCls = clsx('rounded-1/2 w-16');

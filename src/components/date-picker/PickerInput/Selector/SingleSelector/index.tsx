@@ -180,6 +180,8 @@ function SingleSelector<DateType extends object = any>(
         showClear && <ClearIcon icon={clearIcon} onClear={onClear} className={semanticCls.clear} />
       }
       showActiveCls={false}
+      className={semanticCls.input}
+      suffixClassName={semanticCls.suffix}
     />
   );
 

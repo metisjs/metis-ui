@@ -11,7 +11,6 @@ export default function YearPanel<DateType extends object = any>(
 ) {
   const {
     prefixCls,
-    className,
     locale,
     generateConfig,
     pickerValue,
@@ -101,7 +100,7 @@ export default function YearPanel<DateType extends object = any>(
   );
 
   // ========================= Style =========================
-  const panelCls = clsx(panelPrefixCls, className);
+  const panelCls = clsx(panelPrefixCls, 'flex w-72 flex-col');
   const bodyCls = clsx('p-2');
   const contentCls = clsx('h-40');
   const cellInnerCls = clsx('rounded-1/2 w-16');

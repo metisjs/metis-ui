@@ -1,6 +1,5 @@
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localeData from 'dayjs/plugin/localeData';
@@ -9,8 +8,6 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 import { noteOnce } from 'rc-util/lib/warning';
 import type { GenerateConfig } from '../../interface';
-
-dayjs.locale('zh-cn');
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);

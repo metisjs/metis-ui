@@ -48,6 +48,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   invalid?: boolean;
 
   clearIcon?: React.ReactNode;
+
+  suffixClassName?: string;
 }
 
 const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
@@ -66,6 +68,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
     invalid,
     clearIcon,
     className,
+    suffixClassName,
     // Pass to input
     ...restProps
   } = props;
@@ -410,7 +413,10 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
       <Icon
         type="suffix"
         icon={suffixIcon}
-        className="transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100"
+        className={clsx(
+          'transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100',
+          suffixClassName,
+        )}
       />
       {clearIcon}
     </div>

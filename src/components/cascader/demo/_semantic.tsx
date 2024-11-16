@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cascader } from 'metis-ui';
+import { Cascader, clsx } from 'metis-ui';
 import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
 interface Option {
@@ -47,8 +47,8 @@ const App: React.FC = () => (
   <SemanticPreview
     semantics={[
       { name: 'root' },
-      { name: 'popup' },
       { name: 'arrow' },
+      { name: 'clear' },
       {
         name: 'selector',
         children: [
@@ -66,6 +66,7 @@ const App: React.FC = () => (
           },
         ],
       },
+      { name: 'popup' },
       { name: 'column' },
       {
         name: 'option',
@@ -112,10 +113,16 @@ const App: React.FC = () => (
 
       return (
         <Cascader
+          allowClear
           multiple={multi}
           showSearch={showSearch}
           value={value as any}
-          className="w-72"
+          className={{
+            root: 'w-72',
+            clear: clsx({
+              'opacity-100': hover?.path === 'clear',
+            }),
+          }}
           options={options}
           placeholder="Please select"
           open

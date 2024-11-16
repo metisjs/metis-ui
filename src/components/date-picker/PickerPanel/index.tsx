@@ -51,6 +51,7 @@ export interface BasePickerPanelProps<DateType extends object = any>
       SharedPanelProps<DateType>,
       // MISC
       | 'generateConfig'
+      | 'semanticClassName'
 
       // Disabled
       | 'disabledDate'
@@ -142,6 +143,7 @@ function PickerPanel<DateType extends object = any>(
 
     // Style
     prefixCls,
+    semanticClassName,
     tabIndex = 0,
 
     // Value
@@ -377,8 +379,8 @@ function PickerPanel<DateType extends object = any>(
   const panelCls = clsx(
     `${mergedPrefixCls}-panel`,
     'inline-flex flex-col rounded-lg bg-transparent text-center',
+    semanticClassName.panel,
   );
-  const componentCls = clsx('flex w-72 flex-col');
 
   // ========================= Render =========================
   const panelProps = pickProps(props, [
@@ -405,6 +407,7 @@ function PickerPanel<DateType extends object = any>(
       <div ref={rootRef} tabIndex={tabIndex} className={panelCls}>
         <PanelComponent
           {...panelProps}
+          semanticClassName={semanticClassName}
           // Time
           showTime={mergedShowTime}
           // MISC
@@ -426,7 +429,6 @@ function PickerPanel<DateType extends object = any>(
           // Hover
           hoverRangeValue={hoverRangeDate}
           hoverValue={hoverValue}
-          className={componentCls}
         />
       </div>
     </PickerHackContext.Provider>

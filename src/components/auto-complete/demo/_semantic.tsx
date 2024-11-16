@@ -6,7 +6,7 @@ const App: React.FC = () => (
   <SemanticPreview
     semantics={[
       { name: 'root' },
-      { name: 'popup' },
+      { name: 'clear' },
       {
         name: 'selector',
         children: [
@@ -21,6 +21,7 @@ const App: React.FC = () => (
           },
         ],
       },
+      { name: 'popup' },
       {
         name: 'option',
         children: [
@@ -43,8 +44,9 @@ const App: React.FC = () => (
   >
     {(hover) => (
       <AutoComplete
+        allowClear
         options={[{ value: '1' }, { value: '11' }, { value: '111' }]}
-        style={{ width: 200 }}
+        className="w-72"
         placeholder="input here"
         value={hover?.path === 'selector_placeholder' ? undefined : '1'}
         getPopupContainer={(triggerNode) => triggerNode.parentNode}

@@ -63,7 +63,6 @@ The following APIs are shared by DatePicker, RangePicker.
 | cellRender | Custom rendering function for picker cells | (current: dayjs, info: { originNode: React.ReactElement,today: DateType, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
 | className | Semantic DOM class class | string \| Record&lt;'root' \| 'popup', string> | - |  |
 | components | Custom panels | Record&lt;Panel \| 'input', React.ComponentType> | - |  |
-| dateRender | Custom rendering function for date cells, >= use `cellRender` instead. | function(currentDate: dayjs, today: dayjs) => React.ReactNode | - | &lt; |
 | disabled | Determine whether the DatePicker is disabled | boolean | false |  |
 | disabledDate | Specify the date that cannot be selected | (currentDate: dayjs, info: { from?: dayjs }) => boolean | - |  |
 | format | To set the date format, support multi-format matching when it is an array, display the first one shall prevail. refer to [dayjs#format](https://day.js.org/docs/en/display/format). for example: [Custom Format](#date-picker-demo-format) | [FormatType](#formattype) |  |  |
@@ -171,7 +170,6 @@ The following APIs are shared by DatePicker, RangePicker.
 | --- | --- | --- | --- | --- |
 | allowEmpty | Allow start or end input leave empty | \[boolean, boolean] | \[false, false] |  |
 | cellRender | Custom rendering function for picker cells | (current: dayjs, info: { originNode: React.ReactElement,today: DateType, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
-| dateRender | Custom rendering function for date cells, >= use `cellRender` instead. | function(currentDate: dayjs, today: dayjs) => React.ReactNode | - |  |
 | defaultPickerValue | Default panel date, will be reset when panel open | [dayjs](https://day.js.org/) | - |  |
 | defaultValue | To set default date | \[[DateValue](#datevalue), [DateValue](#datevalue)] | - |  |
 | disabled | If disable start or end | \[boolean, boolean] | - |  |

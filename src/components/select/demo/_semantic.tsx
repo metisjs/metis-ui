@@ -1,13 +1,13 @@
 import React from 'react';
-import { Select } from 'metis-ui';
+import { clsx, Select } from 'metis-ui';
 import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
 const App: React.FC = () => (
   <SemanticPreview
     semantics={[
       { name: 'root' },
-      { name: 'popup' },
       { name: 'arrow' },
+      { name: 'clear' },
       {
         name: 'selector',
         children: [
@@ -25,6 +25,7 @@ const App: React.FC = () => (
           },
         ],
       },
+      { name: 'popup' },
       {
         name: 'option',
         children: [
@@ -76,9 +77,15 @@ const App: React.FC = () => (
       return (
         <Select
           open
+          allowClear
           showSearch={showSearch}
           placeholder="Select a person"
-          style={{ width: 280 }}
+          className={{
+            root: 'w-72',
+            clear: clsx({
+              'opacity-100': hover?.path === 'clear',
+            }),
+          }}
           mode={multi ? 'multiple' : undefined}
           value={value as any}
           options={[

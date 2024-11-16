@@ -33,6 +33,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
 
   const {
     prefixCls,
+    semanticClassName,
 
     // Icons
     prevIcon,
@@ -124,6 +125,7 @@ function PanelHeader<DateType extends object>(props: HeaderProps<DateType>) {
   const rootCls = clsx(
     headerPrefixCls,
     'flex border-b border-border-secondary px-2 *:transition-colors',
+    semanticClassName.header,
   );
 
   const viewCls = clsx(

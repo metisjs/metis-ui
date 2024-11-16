@@ -27,7 +27,6 @@ export interface DatePanelProps<DateType extends object> extends SharedPanelProp
 export default function DatePanel<DateType extends object = any>(props: DatePanelProps<DateType>) {
   const {
     prefixCls,
-    className,
     panelName = 'date',
     locale,
     generateConfig,
@@ -237,7 +236,11 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
   const monthYearNodes = locale.monthBeforeYear ? [monthNode, yearNode] : [yearNode, monthNode];
 
   // ========================= Style =========================
-  const panelCls = clsx(panelPrefixCls, { [`${panelPrefixCls}-show-week`]: showWeek }, className);
+  const panelCls = clsx(
+    panelPrefixCls,
+    { [`${panelPrefixCls}-show-week`]: showWeek },
+    'flex w-72 flex-col',
+  );
   const bodyCls = clsx('px-[1.125rem] py-2', {
     'px-3': showWeek || isWeek,
   });

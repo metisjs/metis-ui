@@ -13,6 +13,7 @@ import type {
 import PickerContext from '../context';
 
 export interface FooterProps<DateType extends object = any> {
+  className?: string;
   mode: PanelMode;
   internalMode: InternalMode;
   renderExtraFooter?: SharedPickerProps['renderExtraFooter'];
@@ -35,6 +36,7 @@ export interface FooterProps<DateType extends object = any> {
 
 export default function Footer(props: FooterProps) {
   const {
+    className,
     mode,
     internalMode,
     renderExtraFooter,
@@ -74,7 +76,7 @@ export default function Footer(props: FooterProps) {
   const nowPrefixCls = `${prefixCls}-now`;
   const nowBtnPrefixCls = `${nowPrefixCls}-btn`;
 
-  const footerCls = clsx(`${prefixCls}-footer`, 'border-t border-border-secondary');
+  const footerCls = clsx(`${prefixCls}-footer`, 'border-t border-border-secondary', className);
   const extraCls = clsx(
     `${prefixCls}-footer-extra`,
     'border-b border-border-secondary px-3 text-start leading-10 last:border-b-0',

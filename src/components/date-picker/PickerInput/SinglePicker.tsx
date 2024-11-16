@@ -212,8 +212,6 @@ function Picker<DateType extends object = any>(
       defaultPickerValue?: DateType[];
     };
 
-  const semanticCls = useSemanticCls(className, 'datePicker');
-
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);
 
@@ -484,67 +482,6 @@ function Picker<DateType extends object = any>(
   // >>> cellRender
   const onInternalCellRender = useCellRender(cellRender);
 
-  // >>> invalid
-
-  const panelProps = React.useMemo(() => {
-    const domProps = pickAttrs(filledProps, false);
-    const restProps = omit(filledProps, [
-      ...(Object.keys(domProps) as (keyof SharedHTMLAttrs)[]),
-      'onChange',
-      'onCalendarChange',
-      'style',
-      'className',
-      'onPanelChange',
-    ]);
-    return {
-      ...restProps,
-      multiple: filledProps.multiple,
-    };
-  }, [filledProps]);
-
-  // >>> Render
-  const panel = (
-    <Popup<any>
-      // MISC
-      {...panelProps}
-      showNow={mergedShowNow}
-      showTime={showTime}
-      // Disabled
-      disabledDate={disabledDate}
-      // Focus
-      onFocus={onPanelFocus}
-      onBlur={onSharedBlur}
-      // Mode
-      picker={picker}
-      mode={mergedMode}
-      internalMode={internalMode}
-      onPanelChange={triggerModeChange}
-      // Value
-      format={maskFormat}
-      value={calendarValue}
-      isInvalid={isInvalidateDate}
-      onSelect={onPanelSelect}
-      // PickerValue
-      pickerValue={currentPickerValue}
-      defaultOpenValue={showTime?.defaultOpenValue}
-      onPickerValueChange={setCurrentPickerValue}
-      // Hover
-      hoverValue={hoverValues}
-      onHover={onPanelHover}
-      // Submit
-      needConfirm={!!needConfirm}
-      onSubmit={triggerConfirm}
-      onOk={triggerOk}
-      // Preset
-      presets={presets}
-      onPresetHover={onPresetHover}
-      onPresetSubmit={onPresetSubmit}
-      onNow={onNow}
-      // Render
-      cellRender={onInternalCellRender}
-    />
-  );
-
   // ========================================================
   // ==                      Selector                      ==
   // ========================================================
@@ -624,6 +561,9 @@ function Picker<DateType extends object = any>(
   }, [mergedOpen]);
 
   // ======================== Style ========================
+  const semanticCls = useSemanticCls(className, 'datePicker', { open: mergedOpen, disabled });
+  const popupSemanticCls = useSemanticCls(semanticCls.popup);
+
   const rootCls = clsx(
     {
       [`${prefixCls}-${size}`]: size,
@@ -671,23 +611,89 @@ function Picker<DateType extends object = any>(
     'end-1 start-1': size === 'mini',
   });
 
-  const selectorItemCls = clsx({
-    'pe-1 ps-2 leading-5': size === 'mini',
-    'leading-6': size === 'small',
-    'leading-8': size === 'large',
-  });
+  const selectorItemCls = clsx(
+    {
+      'pe-1 ps-2 leading-5': size === 'mini',
+      'leading-6': size === 'small',
+      'leading-8': size === 'large',
+    },
+    semanticCls.item,
+  );
 
-  const clearCls = clsx({
-    'end-2': size === 'mini',
-  });
+  const clearCls = clsx(
+    {
+      'end-2': size === 'mini',
+    },
+    semanticCls.clear,
+  );
 
   // ======================== Render ========================
+  const panelProps = React.useMemo(() => {
+    const domProps = pickAttrs(filledProps, false);
+    const restProps = omit(filledProps, [
+      ...(Object.keys(domProps) as (keyof SharedHTMLAttrs)[]),
+      'onChange',
+      'onCalendarChange',
+      'style',
+      'className',
+      'onPanelChange',
+    ]);
+    return {
+      ...restProps,
+      multiple: filledProps.multiple,
+    };
+  }, [filledProps, semanticCls]);
+
+  // >>> Render
+  const panel = (
+    <Popup<any>
+      // MISC
+      {...panelProps}
+      semanticClassName={popupSemanticCls}
+      showNow={mergedShowNow}
+      showTime={showTime}
+      // Disabled
+      disabledDate={disabledDate}
+      // Focus
+      onFocus={onPanelFocus}
+      onBlur={onSharedBlur}
+      // Mode
+      picker={picker}
+      mode={mergedMode}
+      internalMode={internalMode}
+      onPanelChange={triggerModeChange}
+      // Value
+      format={maskFormat}
+      value={calendarValue}
+      isInvalid={isInvalidateDate}
+      onSelect={onPanelSelect}
+      // PickerValue
+      pickerValue={currentPickerValue}
+      defaultOpenValue={showTime?.defaultOpenValue}
+      onPickerValueChange={setCurrentPickerValue}
+      // Hover
+      hoverValue={hoverValues}
+      onHover={onPanelHover}
+      // Submit
+      needConfirm={!!needConfirm}
+      onSubmit={triggerConfirm}
+      onOk={triggerOk}
+      // Preset
+      presets={presets}
+      onPresetHover={onPresetHover}
+      onPresetSubmit={onPresetSubmit}
+      onNow={onNow}
+      // Render
+      cellRender={onInternalCellRender}
+    />
+  );
+
   return (
     <PickerContext.Provider value={context}>
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupClassName={semanticCls.popup}
+        popupClassName={popupSemanticCls.root}
         open={mergedOpen}
         onClose={onPopupClose}
         zIndex={popupZIndex}
@@ -701,6 +707,8 @@ function Picker<DateType extends object = any>(
             item: selectorItemCls,
             placeholder: selectorPlaceholderCls,
             clear: clearCls,
+            input: semanticCls.input,
+            suffix: semanticCls.suffix,
           }}
           // Ref
           ref={selectorRef}

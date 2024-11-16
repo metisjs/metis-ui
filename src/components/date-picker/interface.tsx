@@ -1,10 +1,11 @@
 import type { Dayjs } from 'dayjs';
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName, SemanticRecord } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
 import type { AnyObject, RequiredWith } from '../_util/type';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { AlignType, BuildInPlacements } from '../trigger';
+import type { PresetPanelClassName } from './PickerInput/Popup/PresetPanel';
 import type { InternalRangePickerProps } from './PickerInput/RangePicker';
 import type { InternalPickerProps } from './PickerInput/SinglePicker';
 
@@ -279,10 +280,31 @@ export type LimitDate<DateType extends object = any> =
       from?: DateType;
     }) => DateType | null | undefined);
 
+export type PopupClassName = SemanticClassName<{
+  presets?: PresetPanelClassName;
+  panel?: string;
+  header?: string;
+  footer?: string;
+  body?: string;
+  cell?: SemanticClassName<
+    { inner?: string },
+    {
+      disabled?: boolean;
+      hover?: boolean;
+      inRange?: boolean;
+      rangeStart?: boolean;
+      rangeEnd?: boolean;
+      selected?: boolean;
+      today?: boolean;
+      inView?: boolean;
+    }
+  >;
+}>;
+
 export interface SharedPanelProps<DateType extends object = any> {
   // Style
   prefixCls: string;
-  className?: string;
+  semanticClassName: SemanticRecord<PopupClassName>;
 
   // Date Library
   locale: FilledLocale;
@@ -349,8 +371,6 @@ export type Components<DateType extends object = any> = Partial<
 >;
 
 // ========================= Picker =========================
-export type SemanticStructure = 'popup';
-
 export type CustomFormat<DateType> = (value: DateType) => string;
 
 export type FormatType<DateType = any> = string | CustomFormat<DateType>;
@@ -390,7 +410,16 @@ export interface SharedPickerProps<DateType extends object = any>
     > {
   // Styles
   prefixCls: string;
-  className?: SemanticClassName<{ [K in SemanticStructure]?: string }>;
+  className?: SemanticClassName<
+    {
+      popup?: PopupClassName;
+      input?: string;
+      suffix?: string;
+      clear?: string;
+      item?: string;
+    },
+    { open?: boolean; disabled?: boolean }
+  >;
   style?: React.CSSProperties;
 
   size?: SizeType;
@@ -519,10 +548,12 @@ export interface SelectorProps<DateType = any> extends SharedHTMLAttrs {
   clearIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   className?: SemanticClassName<{
+    input?: string;
     item?: string;
     placeholder?: string;
     clear?: string;
     activeBar?: string;
+    suffix?: string;
   }>;
   style?: React.CSSProperties;
   /** Add `-placeholder` className as a help info */

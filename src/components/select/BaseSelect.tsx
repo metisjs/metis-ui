@@ -142,6 +142,7 @@ export interface BaseSelectProps extends BaseSelectPrivateProps, React.AriaAttri
       arrow?: string;
       option?: BaseOptionType['className'];
       selector?: InnerSelectorProps['className'];
+      clear?: string;
     },
     { open?: boolean; disabled?: boolean }
   >;
@@ -678,6 +679,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // ==                            Render                            ==
   // ==================================================================
 
+  const semanticCls = useSemanticCls(className, 'select', {
+    open: mockFocused || mergedOpen,
+    disabled: mergedDisabled,
+  });
+
   // ============================= Clear ==============================
   let clearNode: React.ReactNode;
   const onClearMouseDown: React.MouseEventHandler<HTMLSpanElement> = () => {
@@ -703,9 +709,10 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-0 z-[1] ml-3 flex cursor-pointer items-center pr-3 text-text-tertiary opacity-0 transition-all hover:text-text-secondary',
+          'absolute inset-y-0 right-3 z-[1] flex cursor-pointer items-center text-text-tertiary opacity-0 transition-all hover:text-text-secondary',
           'group-hover/select:opacity-100',
           mode === 'combobox' && 'opacity-100',
+          semanticCls.clear,
         )}
         onMouseDown={onClearMouseDown}
         customizeIcon={clearIcon}
@@ -714,11 +721,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   }
 
   // ============================= Arrow ==============================
-  const semanticCls = useSemanticCls(className, 'select', {
-    open: mockFocused || mergedOpen,
-    disabled: mergedDisabled,
-  });
-
   const showSuffixIcon = !!suffixIcon || loading;
   let arrowNode: React.ReactNode;
 
@@ -727,7 +729,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-arrow`,
-          'pointer-events-none absolute inset-y-0 right-0 ml-3 inline-flex items-center gap-2 pr-3 text-text-tertiary',
+          'pointer-events-none absolute inset-y-0 right-3 inline-flex items-center gap-2 text-text-tertiary',
           {
             [`${prefixCls}-arrow-loading`]: loading,
             'group-hover/select:opacity-0': !!clearNode,

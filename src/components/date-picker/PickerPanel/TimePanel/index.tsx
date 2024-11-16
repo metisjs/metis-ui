@@ -11,7 +11,6 @@ export type TimePanelProps<DateType extends object> = SharedPanelProps<DateType>
 export default function TimePanel<DateType extends object = any>(props: TimePanelProps<DateType>) {
   const {
     prefixCls,
-    className,
     value,
     locale,
     generateConfig,
@@ -26,7 +25,7 @@ export default function TimePanel<DateType extends object = any>(props: TimePane
   const [info] = useInfo(props, 'time');
 
   // ========================= Render =========================
-  const rootCls = clsx(`${prefixCls}-time-panel`, '!w-auto', className);
+  const rootCls = clsx(`${prefixCls}-time-panel`, 'flex w-auto flex-col');
 
   // ========================= Render =========================
   return (

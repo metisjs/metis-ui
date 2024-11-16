@@ -9,15 +9,8 @@ import PanelHeader from '../PanelHeader';
 export default function DecadePanel<DateType extends object = any>(
   props: SharedPanelProps<DateType>,
 ) {
-  const {
-    prefixCls,
-    className,
-    locale,
-    generateConfig,
-    pickerValue,
-    disabledDate,
-    onPickerValueChange,
-  } = props;
+  const { prefixCls, locale, generateConfig, pickerValue, disabledDate, onPickerValueChange } =
+    props;
 
   const panelPrefixCls = `${prefixCls}-decade-panel`;
 
@@ -100,7 +93,7 @@ export default function DecadePanel<DateType extends object = any>(
   })}`;
 
   // ========================= Style =========================
-  const panelCls = clsx(panelPrefixCls, className);
+  const panelCls = clsx(panelPrefixCls, 'flex w-72 flex-col');
   const bodyCls = clsx('p-2');
   const contentCls = clsx('h-40');
   const cellInnerCls = clsx('rounded-1/2 px-1.5');

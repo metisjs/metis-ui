@@ -3,6 +3,7 @@ import { useEvent, useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
+import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { getStatusClassNames } from '../../_util/statusUtils';
@@ -17,6 +18,7 @@ import type {
   OpenConfig,
   PanelMode,
   PickerMode,
+  PopupClassName,
   RangePickerRef,
   RangeTimeProps,
   SelectorProps,
@@ -63,9 +65,20 @@ export type NoUndefinedRangeValueType<DateType> = [start: DateType | null, end: 
 
 export interface BaseRangePickerProps<DateType extends object>
   extends PartialWith<
-    Omit<SharedPickerProps<DateType>, 'id' | 'showTime'>,
+    Omit<SharedPickerProps<DateType>, 'id' | 'showTime' | 'className'>,
     'prefixCls' | 'locale'
   > {
+  className?: SemanticClassName<
+    {
+      popup?: PopupClassName;
+      input?: string;
+      suffix?: string;
+      clear?: string;
+      item?: string;
+    },
+    { open?: boolean; disabled: [boolean, boolean] }
+  >;
+
   // Structure
   id?: SelectorIdType;
 
@@ -248,8 +261,6 @@ function RangePicker<DateType extends object = any>(
     defaultPickerValue?: RangeValueType<DateType>;
     disabledDate: DisabledDate<DateType>;
   };
-
-  const semanticCls = useSemanticCls(className, 'datePicker');
 
   // ========================= Refs =========================
   const selectorRef = usePickerRef(ref);
@@ -569,70 +580,6 @@ function RangePicker<DateType extends object = any>(
     });
   });
 
-  const panelProps = React.useMemo(() => {
-    const domProps = pickAttrs(filledProps, false);
-    const restProps = omit(filledProps, [
-      ...(Object.keys(domProps) as (keyof SharedHTMLAttrs)[]),
-      'onChange',
-      'onCalendarChange',
-      'style',
-      'className',
-      'onPanelChange',
-      'disabledTime',
-    ]);
-    return restProps;
-  }, [filledProps]);
-
-  // >>> Render
-  const panel = (
-    <Popup<any>
-      // MISC
-      {...panelProps}
-      showNow={mergedShowNow}
-      showTime={mergedShowTime}
-      // Range
-      range
-      multiplePanel={multiplePanel}
-      activeOffset={activeOffset}
-      placement={placement}
-      // Disabled
-      disabledDate={mergedDisabledDate}
-      // Focus
-      onFocus={onPanelFocus}
-      onBlur={onSharedBlur}
-      onPanelMouseDown={onPanelMouseDown}
-      // Mode
-      picker={picker}
-      mode={mergedMode}
-      internalMode={internalMode}
-      onPanelChange={triggerModeChange}
-      // Value
-      format={maskFormat}
-      value={panelValue}
-      isInvalid={isPopupInvalidateDate}
-      onSelect={onPanelSelect}
-      // PickerValue
-      pickerValue={currentPickerValue}
-      defaultOpenValue={toArray(showTime?.defaultOpenValue)[activeIndex]}
-      onPickerValueChange={setCurrentPickerValue}
-      // Hover
-      hoverValue={hoverValues}
-      onHover={onPanelHover}
-      // Submit
-      needConfirm={!!needConfirm}
-      onSubmit={triggerPartConfirm}
-      onOk={triggerOk}
-      // Preset
-      presets={presets}
-      onPresetHover={onPresetHover}
-      onPresetSubmit={onPresetSubmit}
-      // Now
-      onNow={onNow}
-      // Render
-      cellRender={onInternalCellRender}
-    />
-  );
-
   // ========================================================
   // ==                      Selector                      ==
   // ========================================================
@@ -749,6 +696,9 @@ function RangePicker<DateType extends object = any>(
   }
 
   // ======================== Style ========================
+  const semanticCls = useSemanticCls(className, 'datePicker', { open: mergedOpen, disabled });
+  const popupSemanticCls = useSemanticCls(semanticCls.popup);
+
   const rootCls = clsx(
     {
       [`${prefixCls}-${size}`]: size,
@@ -788,12 +738,76 @@ function RangePicker<DateType extends object = any>(
   });
 
   // ======================== Render ========================
+  const panelProps = React.useMemo(() => {
+    const domProps = pickAttrs(filledProps, false);
+    const restProps = omit(filledProps, [
+      ...(Object.keys(domProps) as (keyof SharedHTMLAttrs)[]),
+      'onChange',
+      'onCalendarChange',
+      'style',
+      'className',
+      'onPanelChange',
+      'disabledTime',
+    ]);
+    return restProps;
+  }, [filledProps]);
+
+  const panel = (
+    <Popup<any>
+      // MISC
+      {...panelProps}
+      semanticClassName={popupSemanticCls}
+      showNow={mergedShowNow}
+      showTime={mergedShowTime}
+      // Range
+      range
+      multiplePanel={multiplePanel}
+      activeOffset={activeOffset}
+      placement={placement}
+      // Disabled
+      disabledDate={mergedDisabledDate}
+      // Focus
+      onFocus={onPanelFocus}
+      onBlur={onSharedBlur}
+      onPanelMouseDown={onPanelMouseDown}
+      // Mode
+      picker={picker}
+      mode={mergedMode}
+      internalMode={internalMode}
+      onPanelChange={triggerModeChange}
+      // Value
+      format={maskFormat}
+      value={panelValue}
+      isInvalid={isPopupInvalidateDate}
+      onSelect={onPanelSelect}
+      // PickerValue
+      pickerValue={currentPickerValue}
+      defaultOpenValue={toArray(showTime?.defaultOpenValue)[activeIndex]}
+      onPickerValueChange={setCurrentPickerValue}
+      // Hover
+      hoverValue={hoverValues}
+      onHover={onPanelHover}
+      // Submit
+      needConfirm={!!needConfirm}
+      onSubmit={triggerPartConfirm}
+      onOk={triggerOk}
+      // Preset
+      presets={presets}
+      onPresetHover={onPresetHover}
+      onPresetSubmit={onPresetSubmit}
+      // Now
+      onNow={onNow}
+      // Render
+      cellRender={onInternalCellRender}
+    />
+  );
+
   return (
     <PickerContext.Provider value={context}>
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupClassName={semanticCls.popup}
+        popupClassName={popupSemanticCls.root}
         open={mergedOpen}
         onClose={onPopupClose}
         // Range

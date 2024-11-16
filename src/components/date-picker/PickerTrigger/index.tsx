@@ -41,7 +41,7 @@ const BUILT_IN_PLACEMENTS = {
 };
 
 const TRANSITION = {
-  leave: 'transition ease-in duration-100',
+  leave: 'transition-opacity ease-in duration-100',
   leaveFrom: 'opacity-100',
   leaveTo: 'opacity-0',
 };

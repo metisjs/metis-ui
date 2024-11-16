@@ -62,9 +62,7 @@ demo:
 | allowClear | 自定义清除按钮 | boolean \| { clearIcon?: ReactNode } | true |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | cellRender | 自定义单元格的内容 | (current: dayjs, info: { originNode: React.ReactElement,today: DateType, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'popup', string> | - |  |
 | components | 自定义面板 | Record&lt;Panel \| 'input', React.ComponentType> | - |  |
-| dateRender | 自定义日期单元格的内容， 起用 `cellRender` 代替 | function(currentDate: dayjs, today: dayjs) => React.ReactNode | - | &lt; |
 | disabled | 禁用 | boolean | false |  |
 | disabledDate | 不可选择的日期 | (currentDate: dayjs, info: { from?: dayjs }) => boolean | - |  |
 | format | 设置日期格式，为数组时支持多格式匹配，展示以第一个为准。配置参考 [dayjs#format](https://day.js.org/docs/zh-CN/display/format#%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%8D%A0%E4%BD%8D%E7%AC%A6%E5%88%97%E8%A1%A8)。示例：[自定义格式](#date-picker-demo-format) | [FormatType](#formattype) |  |  |
@@ -94,6 +92,7 @@ demo:
 | variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onOpenChange | 弹出日历和关闭日历的回调 | function(open) | - |  |
 | onPanelChange | 日历面板切换的回调 | function(value, mode) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### 共同的方法
 
@@ -172,7 +171,6 @@ demo:
 | --- | --- | --- | --- | --- |
 | allowEmpty | 允许起始项部分为空 | \[boolean, boolean] | \[false, false] |  |
 | cellRender | 自定义单元格的内容。 | (current: dayjs, info: { originNode: React.ReactElement,today: DateType, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
-| dateRender | 自定义日期单元格的内容， 起用 `cellRender` 代替 | function(currentDate: dayjs, today: dayjs) => React.ReactNode | - |  |
 | defaultPickerValue | 默认面板日期，每次面板打开时会被重置到该日期 | [dayjs](https://day.js.org/)\[] | - |  |
 | defaultValue | 默认日期 | \[[DateValue](#datevalue), [DateValue](#datevalue)] | - |  |
 | disabled | 禁用起始项 | \[boolean, boolean] | - |  |
@@ -219,3 +217,7 @@ export type FormatType =
       type?: 'mask';
     };
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

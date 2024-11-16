@@ -109,6 +109,7 @@ export interface CascaderProps<
     {
       popup?: string;
       arrow?: string;
+      clear?: string;
       column?: string;
       option?: BaseOptionType['className'];
       selector?: InnerSelectorProps['className'];
