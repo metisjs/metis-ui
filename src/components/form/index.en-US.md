@@ -58,7 +58,7 @@ description: High-performance form component with data domain management. Includ
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic D class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | clearOnDestroy | Clear form values when the form is uninstalled | boolean | false |  |
 | colon | Configure the default value of `colon` for Form.Item. Indicates whether the colon after the label is displayed (only effective when prop layout is horizontal) | boolean | true |  |
 | column | "Grid display, can be written as pixel values or as a responsive object { xs: 2, sm: 3, md: 4} | number \| Record&lt;Breakpoint, number> | 'auto' |  |
@@ -118,7 +118,7 @@ Form field component for data bidirectional binding, validation, layout, and so 
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic D class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | colon | Used with `label`, whether to display `:` after label text. | boolean | true |  |
 | dependencies | Set the dependency field. See [below](#dependencies) | [NamePath](#namepath)\[] | - |  |
 | extra | The extra prompt message. It is similar to help. Usage example: to display error message and prompt message at the same time | ReactNode | - |  |
@@ -557,6 +557,10 @@ type Rule = RuleConfig | ((form: FormInstance) => RuleConfig);
 | --- | --- | --- | --- | --- |
 | form | Form instance | FormInstance | Current form in context |  |
 | preserve | Whether to watch the field which has no matched `Form.Item` | boolean | false |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

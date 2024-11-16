@@ -136,7 +136,7 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
       [`${prefixCls}-item-required-mark-optional`]: isOptionalMark || isRenderMark,
       [`${prefixCls}-item-no-colon`]: !computedColon,
     },
-    'relative inline-flex h-9 max-w-full items-center text-sm font-medium text-text',
+    'relative inline-flex h-9 max-w-full items-center text-sm font-medium text-text empty:hidden',
     label && [
       'after:relative after:me-2.5 after:ms-0.5 after:content-[":"]',
       {

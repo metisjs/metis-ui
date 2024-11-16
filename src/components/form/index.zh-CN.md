@@ -59,7 +59,7 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | clearOnDestroy | 当表单被卸载时清空表单值 | boolean | false |  |
 | colon | 配置 Form.Item 的 `colon` 的默认值。表示是否显示 label 后面的冒号 (只有在属性 layout 为 horizontal 时有效) | boolean | true |  |
 | column | 栅格显示, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record&lt;Breakpoint, number> | 'auto' |  |
@@ -119,7 +119,7 @@ const validateMessages = {
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | colon | 配合 `label` 属性使用，表示是否显示 `label` 后面的冒号 | boolean | true |  |
 | dependencies | 设置依赖字段，说明[见下](#dependencies) | [NamePath](#namepath)\[] | - |  |
 | extra | 额外的提示信息，和 `help` 类似，当需要错误信息和提示文案同时出现时，可以使用这个。 | ReactNode | - |  |
@@ -556,6 +556,10 @@ type Rule = RuleConfig | ((form: FormInstance) => RuleConfig);
 | -------- | ------------------------------------- | ------------ | ---------------------- | ---- |
 | form     | 指定 Form 实例                        | FormInstance | 当前 context 中的 Form |      |
 | preserve | 是否监视没有对应的 `Form.Item` 的字段 | boolean      | false                  |      |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 
