@@ -40,12 +40,16 @@ type BaseTextareaAttrs = Omit<
 
 export type MentionPlacement = 'top' | 'bottom';
 
+export type MentionOptionClassName = SemanticClassName<
+  { inner?: string; label?: string },
+  { disabled?: boolean }
+>;
 export interface MentionsOptionProps {
   label?: React.ReactNode;
   value: string;
   key?: string;
   disabled?: boolean;
-  className?: string;
+  className?: MentionOptionClassName;
   style?: React.CSSProperties;
   [key: string]: any;
 }
@@ -53,7 +57,15 @@ export interface MentionsOptionProps {
 export interface MentionsProps extends BaseTextareaAttrs {
   loading?: boolean;
   autoFocus?: boolean;
-  className?: SemanticClassName<{ textarea?: string; popup?: string }>;
+  className?: SemanticClassName<
+    {
+      textarea?: string;
+      clear?: string;
+      popup?: string;
+      option?: MentionsOptionProps['className'];
+    },
+    { disabled?: boolean }
+  >;
   defaultValue?: string;
   notFoundContent?: React.ReactNode;
   split?: string;
@@ -70,7 +82,7 @@ export interface MentionsProps extends BaseTextareaAttrs {
   onSearch?: (text: string, prefix: string) => void;
   onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-  getPopupContainer?: () => HTMLElement;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
   /** @private Testing usage. Do not use in prod. It will not work as your expect. */
   open?: boolean;
   options?: MentionsOptionProps[];
@@ -134,6 +146,8 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     ...restProps
   } = props;
 
+  const warning = devUseWarning('Mentions');
+
   const semanticCls = useSemanticCls(className);
 
   const mergedPrefix = useMemo(() => (Array.isArray(prefix) ? prefix : [prefix]), [prefix]);
@@ -178,14 +192,11 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
       [typeof measuring, typeof measureText, typeof measurePrefix, typeof measureLocation]
     >(() => {
       if (open) {
-        if (process.env.NODE_ENV !== 'production') {
-          const warning = devUseWarning('Mentions');
-          warning(
-            false,
-            'usage',
-            '`open` of Mentions is only used for debug usage. Do not use in you production.',
-          );
-        }
+        warning(
+          false,
+          'usage',
+          '`open` of Mentions is only used for debug usage. Do not use in you production.',
+        );
 
         for (let i = 0; i < mergedPrefix.length; i += 1) {
           const curPrefix = mergedPrefix[i];
@@ -445,6 +456,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
               loading,
               notFoundContent,
               activeIndex,
+              optionClassName: semanticCls.option,
               setActiveIndex,
               selectOption,
               onFocus: onDropdownFocus,
@@ -493,7 +505,6 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
       getPopupContainer: getContextPopupContainer,
     } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('mentions', customizePrefixCls);
-    const semanticCls = useSemanticCls(className, 'mentions');
 
     // =============================== Ref ================================
     const holderRef = useRef<HolderRef>(null);
@@ -529,10 +540,15 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     };
 
     // ============================== Style ===============================
-    const affixWrapperCls = clsx('relative inline-flex w-full min-w-0 border-0 text-sm text-text', {
-      'leading-6': mergedSize === 'middle',
-      'text-base': mergedSize === 'large',
-    });
+    const semanticCls = useSemanticCls(className, 'mentions', { disabled: mergedDisabled });
+    const affixWrapperCls = clsx(
+      'relative inline-flex w-full min-w-0 border-0 text-sm text-text',
+      {
+        'leading-6': mergedSize === 'middle',
+        'text-base': mergedSize === 'large',
+      },
+      semanticCls.root,
+    );
     const suffixCls = clsx(
       mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
       'flex flex-none items-center gap-x-1 text-text-secondary',
@@ -550,6 +566,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         'top-1.5': mergedSize === 'small',
         'top-1': mergedSize === 'mini',
       },
+      semanticCls.clear,
     );
     const textareaCls = clsx(
       {
@@ -575,10 +592,16 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
         disabled={mergedDisabled}
         ref={holderRef}
         onClear={onClear}
-        className={{ affixWrapper: affixWrapperCls, clear: clearCls, suffix: suffixCls }}
+        className={{
+          affixWrapper: affixWrapperCls,
+          clear: clearCls,
+          suffix: suffixCls,
+        }}
       >
         <InternalMentions
-          className={mergeSemanticCls(className, { textarea: textareaCls })}
+          className={mergeSemanticCls(allowClear ? { ...semanticCls, root: '' } : semanticCls, {
+            textarea: textareaCls,
+          })}
           prefixCls={prefixCls}
           ref={mentionRef}
           onChange={triggerChange}

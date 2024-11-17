@@ -54,7 +54,7 @@ interface KeywordTriggerProps {
   placement?: MentionPlacement;
   open?: boolean;
   children: React.ReactElement;
-  getPopupContainer?: () => HTMLElement;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
 }
 

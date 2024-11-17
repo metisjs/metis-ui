@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import React, { cloneElement, useRef } from 'react';
 import { XCircleSolid } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { BaseInputProps } from './interface';
 import { hasAddon, hasPrefixSuffix } from './utils';
@@ -174,7 +174,13 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
 
   // `className` and `style` are always on the root element
   return React.cloneElement(element, {
-    className: clsx(element.props?.className, semanticCls.root) || undefined,
+    className: semanticCls.root
+      ? element.props?.className
+        ? typeof element.props?.className === 'string'
+          ? clsx(element.props?.className, semanticCls.root)
+          : mergeSemanticCls(element.props?.className, semanticCls.root)
+        : undefined
+      : element.props?.className,
     style: {
       ...element.props?.style,
       ...style,

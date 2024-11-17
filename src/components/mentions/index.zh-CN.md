@@ -34,7 +34,7 @@ demo:
 | allowClear | 可以点击清除图标删除内容 | boolean \| { clearIcon?: ReactNode } | false |  |
 | autoFocus | 自动获得焦点 | boolean | false |  |
 | autoSize | 自适应内容高度，可设置为 true \| false 或对象：{ minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'textarea' \| 'popup', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | 默认值 | string | - |  |
 | filterOption | 自定义过滤逻辑 | false \| (input: string, option: OptionProps) => boolean | - |  |
 | getPopupContainer | 指定建议框挂载的 HTML 节点 | () => HTMLElement | - |  |
@@ -88,3 +88,7 @@ interface MentionsEntity {
 
 type getMentions: (value: string, config?: MentionsConfig) => MentionsEntity[];
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

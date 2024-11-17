@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { mergeSemanticCls } from '../_util/classNameUtils';
 import type { MenuProps } from '../menu';
 import Menu from '../menu';
 import Spin from '../spin';
@@ -15,8 +16,16 @@ interface DropdownMenuProps {
  * The focus is controlled by textarea to make accessibility easy.
  */
 function DropdownMenu(props: DropdownMenuProps) {
-  const { notFoundContent, loading, activeIndex, setActiveIndex, selectOption, onFocus, onBlur } =
-    React.useContext(MentionsContext);
+  const {
+    optionClassName,
+    notFoundContent,
+    loading,
+    activeIndex,
+    setActiveIndex,
+    selectOption,
+    onFocus,
+    onBlur,
+  } = React.useContext(MentionsContext);
 
   const { prefixCls, options } = props;
   const activeOption = options[activeIndex] || {};
@@ -59,10 +68,13 @@ function DropdownMenu(props: DropdownMenuProps) {
       prefixCls={`${prefixCls}-menu`}
       className={{
         root: 'p-1',
-        item: {
-          root: 'min-w-24 p-0',
-          inner: 'h-auto rounded-md px-3 py-1 pe-3 font-normal leading-6',
-        },
+        item: mergeSemanticCls(
+          {
+            root: 'min-w-24 p-0',
+            inner: 'h-auto rounded-md px-3 py-1 pe-3 font-normal leading-6',
+          },
+          optionClassName,
+        ),
       }}
       activeKey={activeOption.key}
       items={menuItems}

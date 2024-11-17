@@ -33,7 +33,7 @@ When you need to mention someone or something.
 | allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false |  |
 | autoFocus | Auto get focus when component mounted | boolean | false |  |
 | autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'textarea' \| 'popup', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | Default value | string | - |  |
 | filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
 | getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
@@ -87,3 +87,7 @@ interface MentionsEntity {
 
 type getMentions: (value: string, config?: MentionsConfig) => MentionsEntity[];
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
