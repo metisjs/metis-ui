@@ -34,7 +34,7 @@ demo:
 | --- | --- | --- | --- | --- |
 | autoFocus | 自动获取焦点 | boolean | false |     |
 | checked | 指定当前是否选中 | boolean | false |     |
-| className | 语义化结构 class | string \|Record&lt;'root' \| 'radio', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#radio-2) | - |  |
 | defaultChecked | 初始是否选中 | boolean | false |     |
 | disabled | 禁用 Radio | boolean | false |     |
 | value | 根据 value 进行比较，判断是否选中 | any | - |     |
@@ -52,6 +52,7 @@ demo:
 | options | 以配置形式设置子元素 | string\[] \| number\[] \| Option\[]> | - |  |  |
 | value | 用于设置当前选中的值 | any | - |  |  |
 | onChange | 选项变化时的回调函数 | function(e:Event) | - |  |  |
+| className | 语义化结构 class | [SemanticDOM](#radiogroup-1) | - |  |
 
 #### Option
 
@@ -72,3 +73,13 @@ interface Option {
 | ------- | -------- |
 | blur()  | 移除焦点 |
 | focus() | 获取焦点 |
+
+## Semantic DOM
+
+### Radio
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Radio.Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

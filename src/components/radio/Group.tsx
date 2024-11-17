@@ -1,7 +1,8 @@
 import * as React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import getDataOrAriaProps from '../_util/getDataOrAriaProps';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import { RadioGroupContextProvider } from './Context';
 import type { RadioChangeEvent, RadioGroupProps } from './interface';
@@ -24,6 +25,8 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('radio-group', customizePrefixCls);
+
+  const semanticCls = useSemanticCls(className);
 
   const [value, setValue] = useMergedState(props.defaultValue, {
     value: props.value,
@@ -53,6 +56,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref
             disabled={disabled}
             value={option}
             checked={value === option}
+            className={semanticCls.radio}
           >
             {option}
           </Radio>
@@ -66,7 +70,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref
           value={option.value}
           checked={value === option.value}
           style={option.style}
-          className={option.className}
+          className={mergeSemanticCls(semanticCls.radio, option.className)}
         >
           {option.label}
         </Radio>
@@ -74,12 +78,12 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>((props, ref
     });
   }
 
-  const classString = clsx('inline-flex flex-wrap gap-x-2', prefixCls, className);
+  const rootCls = clsx(prefixCls, 'inline-flex flex-wrap gap-x-2', semanticCls.root);
 
   return (
     <div
       {...getDataOrAriaProps(props)}
-      className={classString}
+      className={rootCls}
       style={style}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

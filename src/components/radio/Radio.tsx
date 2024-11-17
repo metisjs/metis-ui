@@ -27,8 +27,6 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('radio', customizePrefixCls);
 
-  const semanticCls = useSemanticCls(className, 'radio');
-
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [rawChecked, setRawChecked] = useMergedState(defaultChecked, {
     value: checked,
@@ -80,6 +78,11 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
     radioGroup?.onChange?.(innerEvent);
   };
 
+  const semanticCls = useSemanticCls(className, 'radio', {
+    disabled: mergedDisabled,
+    checked: mergedChecked,
+  });
+
   const classString = clsx(
     'inline-flex cursor-pointer items-center text-sm leading-6',
     {
@@ -89,7 +92,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
     semanticCls.root,
   );
 
-  const innerClass = clsx(
+  const indicatorCls = clsx(
     'block h-4 w-4 cursor-pointer rounded-full border border-border text-white',
     'peer-focus/radio:outline peer-focus/radio:outline-2 peer-focus/radio:outline-offset-2 peer-focus/radio:outline-primary',
     {
@@ -97,8 +100,8 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       'border-border bg-fill-quaternary text-text-tertiary': mergedDisabled,
       'after:bg-text-tertiary': mergedDisabled,
     },
-    `${prefixCls}-inner`,
-    semanticCls.radio,
+    `${prefixCls}-indicator`,
+    semanticCls.indicator,
   );
 
   return (
@@ -119,11 +122,13 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
           type="radio"
           {...restProps}
         />
-        <span className={innerClass}>
+        <span className={indicatorCls}>
           {mergedChecked && <CheckedIcon className="absolute inset-0" />}
         </span>
       </span>
-      {children !== undefined && <span className="pe-2 ps-2">{children}</span>}
+      {children !== undefined && (
+        <span className={clsx('pe-2 ps-2', semanticCls.label)}>{children}</span>
+      )}
     </label>
   );
 };

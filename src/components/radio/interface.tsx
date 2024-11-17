@@ -6,7 +6,8 @@ import type { DisabledType } from '../config-provider/DisabledContext';
 
 export type RadioRef = CheckboxRef;
 
-export interface RadioGroupProps extends AbstractCheckboxGroupProps {
+export interface RadioGroupProps extends Omit<AbstractCheckboxGroupProps, 'className'> {
+  className?: SemanticClassName<{ radio?: RadioProps['className'] }>;
   defaultValue?: any;
   value?: any;
   onChange?: (value: any, e: RadioChangeEvent) => void;
@@ -27,10 +28,7 @@ export interface RadioGroupContextProps {
   name?: string;
 }
 
-export interface RadioProps
-  extends Omit<AbstractCheckboxProps<RadioChangeEvent>, 'className' | 'skipGroup'> {
-  className?: SemanticClassName<{ radio?: string }>;
-}
+export type RadioProps = Omit<AbstractCheckboxProps<RadioChangeEvent>, 'skipGroup'>;
 
 export interface RadioChangeEventTarget extends RadioProps {
   checked: boolean;

@@ -32,7 +32,7 @@ demo:
 | --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |  |
 | checked | Specifies whether the radio is selected | boolean | false |  |
-| className | Semantic DOM class | string \|Record&lt;'root' \| 'radio', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#radio-2) | - |  |
 | defaultChecked | Specifies the initial state: whether or not the radio is selected | boolean | false |  |
 | disabled | Disable radio | boolean | false |  |
 | value | According to value for comparison, to determine whether the selected | any | - |  |
@@ -49,6 +49,7 @@ Radio group can wrap a group of `Radio`。
 | options | Set children optional | string\[] \| number\[] \| Option\[]> | - |  |
 | value | Used for setting the currently selected value | any | - |  |
 | onChange | The callback function that is triggered when the state changes | function(e:Event) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#radiogroup-1) | - |  |
 
 #### Option
 
@@ -69,3 +70,13 @@ interface Option {
 | ------- | ------------ |
 | blur()  | Remove focus |
 | focus() | Get focus    |
+
+## Semantic DOM
+
+### Radio
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Radio.Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>
