@@ -56,6 +56,8 @@ export interface InputNumberProps<T extends ValueType = ValueType>
     prefix?: string;
     suffix?: string;
     handler?: string;
+    addonBefore?: string;
+    addonAfter?: string;
   }>;
   style?: React.CSSProperties;
   min?: T;
@@ -783,6 +785,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
+    semanticCls.addonBefore,
   );
   const addonAfterCls = clsx(
     'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-container text-sm text-text-secondary ring-inset ring-border',
@@ -807,6 +810,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
+    semanticCls.addonAfter,
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,

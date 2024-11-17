@@ -38,7 +38,7 @@ demo:
 | autoFocus | 自动获取焦点 | boolean | false | - |
 | changeOnBlur | 是否在失去焦点时，触发 `onChange` 事件（例如值超出范围时，重新限制回范围并触发事件） | boolean | true |  |
 | changeOnWheel | 允许鼠标滚轮改变数值 | boolean | - |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | controls | 是否显示增减按钮，也可设置自定义箭头图标 | boolean \| { upIcon?: React.ReactNode; downIcon?: React.ReactNode; } | - |  |
 | decimalSeparator | 小数点 | string | - | - |
 | defaultValue | 初始值 | number | - | - |
@@ -69,6 +69,10 @@ demo:
 | blur()        | 移除焦点          |      |
 | focus()       | 获取焦点          |      |
 | nativeElement | 获取原生 DOM 元素 |      |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

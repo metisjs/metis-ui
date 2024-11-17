@@ -37,7 +37,7 @@ When a numeric value needs to be provided.
 | autoFocus | If get focus when component mounted | boolean | false | - |
 | changeOnBlur | Trigger `onChange` when blur. e.g. reset value in range by blur | boolean | true |  |
 | changeOnWheel | Allow control with mouse wheel | boolean | - |  |
-| className | Semantic Dom class | string \| Record&lt;'root' \\｜ 'input' \| 'prefix' \| 'suffix' \| 'handler', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | controls | Whether to show `+-` controls, or set custom arrows icon | boolean \| { upIcon?: React.ReactNode; downIcon?: React.ReactNode; } | - |  |
 | decimalSeparator | Decimal separator | string | - | - |
 | defaultValue | The initial value | number | - | - |
@@ -68,6 +68,10 @@ When a numeric value needs to be provided.
 | blur()        | Remove focus           |         |
 | focus()       | Get focus              |         |
 | nativeElement | The native DOM element |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 
