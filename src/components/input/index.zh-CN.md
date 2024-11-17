@@ -43,7 +43,7 @@ demo:
 | addonAfter | 带标签的 input，设置后置标签 | ReactNode | - |  |
 | addonBefore | 带标签的 input，设置前置标签 | ReactNode | - |  |
 | allowClear | 可以点击清除图标删除内容 | boolean \| { clearIcon: ReactNode } | - |  |
-| className | 语义化结构 class | string \|Record&lt;'root' \| 'input' \| 'prefix' \| 'suffix' \| 'count', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#input-1) | - |  |
 | defaultValue | 输入框默认内容 | string | - |  |
 | disabled | 是否禁用状态，默认为 false | boolean | false |  |
 | id | 输入框的 id | string | - |  |
@@ -70,7 +70,7 @@ Input 的其他属性和 React 自带的 [input](https://reactjs.org/docs/dom-el
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | autoSize | 自适应内容高度，可设置为 true \| false 或对象：{ minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'textarea' \| 'count', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#inputtextarea-1) | - |  |
 
 `Input.TextArea` 的其他属性和浏览器自带的 [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea) 一致。
 
@@ -94,6 +94,16 @@ Input 的其他属性和 React 自带的 [input](https://reactjs.org/docs/dom-el
 | --- | --- | --- | --- |
 | blur | 取消焦点 | - |  |
 | focus | 获取焦点 | (option?: { preventScroll?: boolean, cursor?: 'start' \| 'end' \| 'all' }) |  |
+
+## Semantic DOM
+
+### Input
+
+<code src="./demo/_semantic_input.tsx" simplify></code>
+
+### Input.TextArea
+
+<code src="./demo/_semantic_textarea.tsx" simplify></code>
 
 ## FAQ
 

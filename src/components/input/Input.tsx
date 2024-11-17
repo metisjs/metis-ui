@@ -304,6 +304,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
+    semanticCls.addonBefore,
   );
   const addonAfterCls = clsx(
     'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-container text-sm text-text-secondary ring-inset ring-border',
@@ -324,6 +325,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
+    semanticCls.addonAfter,
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
@@ -356,6 +358,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const clearCls = clsx(
     'flex items-center text-text-tertiary transition-colors hover:text-text-secondary',
+    semanticCls.clear,
   );
 
   // ====================== Render ======================

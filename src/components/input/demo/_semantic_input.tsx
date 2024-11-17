@@ -1,10 +1,21 @@
 import React from 'react';
-import { Cog6ToothOutline } from '@metisjs/icons';
-import { Cascader, Input, Select, Space } from 'metis-ui';
+import { InformationCircleOutline, UsersSolid } from '@metisjs/icons';
+import { Input, Select } from 'metis-ui';
+import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
 const App: React.FC = () => (
-  <Space vertical>
-    <Input addonBefore="http://" addonAfter=".com" defaultValue="mysite" />
+  <SemanticPreview
+    semantics={[
+      { name: 'root' },
+      { name: 'prefix' },
+      { name: 'input' },
+      { name: 'suffix' },
+      { name: 'count' },
+      { name: 'clear' },
+      { name: 'addonBefore' },
+      { name: 'addonAfter' },
+    ]}
+  >
     <Input
       addonBefore={
         <Select
@@ -27,14 +38,14 @@ const App: React.FC = () => (
         />
       }
       defaultValue="mysite"
+      placeholder="Enter your username"
+      prefix={<UsersSolid />}
+      suffix={<InformationCircleOutline />}
+      showCount
+      allowClear
+      className="w-[480px]"
     />
-    <Input addonAfter={<Cog6ToothOutline className="h-5 w-5" />} defaultValue="mysite" />
-    <Input addonBefore="http://" suffix=".com" defaultValue="mysite" />
-    <Input
-      addonBefore={<Cascader placeholder="cascader" style={{ width: 150 }} />}
-      defaultValue="mysite"
-    />
-  </Space>
+  </SemanticPreview>
 );
 
 export default App;

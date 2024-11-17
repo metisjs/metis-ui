@@ -42,7 +42,7 @@ demo:
 | addonAfter | The label text displayed after (on the right side of) the input field | ReactNode | - |  |
 | addonBefore | The label text displayed before (on the left side of) the input field | ReactNode | - |  |
 | allowClear | If allow to remove input content with clear icon | boolean \| { clearIcon: ReactNode } | false |  |
-| className | Semantic DOM class | string \|Record&lt;'root' \| 'input' \| 'prefix' \| 'suffix' \| 'count', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#input-1) | - |  |
 | defaultValue | The initial input content | string | - |  |
 | disabled | Whether the input is disabled | boolean | false |  |
 | id | The ID for input | string | - |  |
@@ -69,7 +69,7 @@ Same as Input, and more:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | autoSize | Height auto size feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'textarea' \| 'count', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#inputtextarea-1) | - |  |
 
 The rest of the props of `Input.TextArea` are the same as the original [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea).
 
@@ -93,6 +93,16 @@ The rest of the props of `Input.TextArea` are the same as the original [textarea
 | --- | --- | --- | --- |
 | blur | Remove focus | - |  |
 | focus | Get focus | (option?: { preventScroll?: boolean, cursor?: 'start' \| 'end' \| 'all' }) |  |
+
+## Semantic DOM
+
+### Input
+
+<code src="./demo/_semantic_input.tsx" simplify></code>
+
+### Input.TextArea
+
+<code src="./demo/_semantic_textarea.tsx" simplify></code>
 
 ## FAQ
 

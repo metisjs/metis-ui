@@ -87,6 +87,9 @@ export interface InputProps
     prefix?: string;
     suffix?: string;
     count?: string;
+    clear?: string;
+    addonBefore?: string;
+    addonAfter?: string;
   }>;
   type?: LiteralUnion<
     | 'button'
