@@ -7,9 +7,7 @@ const marks: SliderSingleProps['marks'] = {
   26: '26°C',
   37: '37°C',
   100: {
-    style: {
-      color: '#f50',
-    },
+    className: 'text-error',
     label: <strong>100°C</strong>,
   },
 };

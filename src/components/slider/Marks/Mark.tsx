@@ -1,4 +1,5 @@
 import * as React from 'react';
+import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import { clsx } from '../../_util/classNameUtils';
 import SliderContext from '../context';
 import { getDirectionStyle } from '../util';
@@ -6,17 +7,27 @@ import { getDirectionStyle } from '../util';
 export interface MarkProps {
   prefixCls: string;
   children?: React.ReactNode;
-  style?: React.CSSProperties;
+  className?: string;
   value: number;
   onClick: (value: number) => void;
 }
 
 const Mark: React.FC<MarkProps> = (props) => {
-  const { prefixCls, style, children, value, onClick } = props;
-  const { min, max, direction, includedStart, includedEnd, included, disabled } =
-    React.useContext(SliderContext);
+  const { prefixCls, className, children, value, onClick } = props;
+  const {
+    min,
+    max,
+    direction,
+    includedStart,
+    includedEnd,
+    included,
+    disabled,
+    semanticCls: rootSemanticCls,
+  } = React.useContext(SliderContext);
 
   const active = included && includedStart <= value && value <= includedEnd;
+
+  const semanticCls = useSemanticCls(rootSemanticCls.mark, { active });
 
   const textCls = clsx(
     `${prefixCls}-text`,
@@ -26,6 +37,9 @@ const Mark: React.FC<MarkProps> = (props) => {
     'absolute inline-block cursor-pointer select-none break-keep text-center text-text-tertiary',
     active && 'text-text',
     disabled && 'cursor-not-allowed',
+    semanticCls.root,
+    semanticCls.label,
+    className,
   );
 
   // ============================ Offset ============================
@@ -34,7 +48,7 @@ const Mark: React.FC<MarkProps> = (props) => {
   return (
     <span
       className={textCls}
-      style={{ ...positionStyle, ...style }}
+      style={positionStyle}
       onMouseDown={(e) => {
         e.stopPropagation();
       }}

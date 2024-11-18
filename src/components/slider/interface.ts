@@ -13,7 +13,16 @@ export type OnStartMove = (
 
 export type AriaValueFormat = (value: number) => string;
 
-export type SemanticName = 'tracks' | 'track' | 'rail' | 'handle';
+export type SliderSemanticClassName = SemanticClassName<
+  {
+    tracks?: string;
+    track?: string;
+    rail?: string;
+    handle?: string;
+    mark?: SemanticClassName<{ dot?: string; label?: string }, { active?: boolean }>;
+  },
+  { disabled?: boolean }
+>;
 
 export type Formatter = ((value?: number) => React.ReactNode) | null;
 
@@ -38,7 +47,7 @@ export interface SliderBaseProps {
   disabled?: boolean;
   keyboard?: boolean;
   vertical?: boolean;
-  className?: SemanticClassName<{ [K in SemanticName]?: string }>;
+  className?: SliderSemanticClassName;
   id?: string;
   style?: React.CSSProperties;
   tooltip?: SliderTooltipProps;

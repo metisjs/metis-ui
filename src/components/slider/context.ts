@@ -1,6 +1,7 @@
 import * as React from 'react';
+import type { SemanticRecord } from '../_util/classNameUtils';
 import type { HandleProps } from './Handles/Handle';
-import type { Direction, SemanticName } from './interface';
+import type { Direction, SliderSemanticClassName } from './interface';
 
 export interface SliderContextProps {
   min: number;
@@ -13,7 +14,7 @@ export interface SliderContextProps {
   included?: boolean;
   step: number | null;
   range?: boolean;
-  classNames: Partial<Record<SemanticName, string>>;
+  semanticCls: SemanticRecord<SliderSemanticClassName>;
 }
 
 const SliderContext = React.createContext<SliderContextProps>({
@@ -24,7 +25,7 @@ const SliderContext = React.createContext<SliderContextProps>({
   includedStart: 0,
   includedEnd: 0,
   keyboard: true,
-  classNames: {},
+  semanticCls: {},
 });
 
 export default SliderContext;

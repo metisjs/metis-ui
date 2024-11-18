@@ -2,7 +2,7 @@ import React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
 import isEqual from 'rc-util/es/isEqual';
 import { clsx } from '../_util/classNameUtils';
-import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -88,9 +88,9 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
           mark &&
           typeof mark === 'object' &&
           !React.isValidElement(mark) &&
-          ('label' in mark || 'style' in mark)
+          ('label' in mark || 'className' in mark)
         ) {
-          markObj.style = mark.style;
+          markObj.className = mark.className;
           markObj.label = mark.label;
         } else {
           markObj.label = mark as React.ReactNode;
@@ -328,7 +328,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   // ============================== Style ===============================
   const prefixCls = getPrefixCls('slider', customizePrefixCls);
 
-  const semanticCls = useSemanticCls(className, 'slider');
+  const semanticCls = useSemanticCls(className, 'slider', { disabled: mergedDisabled });
 
   const rootCls = clsx(
     prefixCls,
@@ -366,7 +366,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       includedStart,
       includedEnd,
       range: mergedRange,
-      classNames: semanticCls as any,
+      semanticCls,
     }),
     [
       mergedMin,
@@ -379,7 +379,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       includedStart,
       includedEnd,
       mergedRange,
-      clsxDependency(className),
+      semanticCls,
     ],
   );
 

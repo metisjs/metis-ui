@@ -14,7 +14,7 @@ export interface TrackProps {
 
 const Tracks: React.FC<TrackProps> = (props) => {
   const { prefixCls, style, values, onStartMove } = props;
-  const { included, range, min, classNames } = React.useContext(SliderContext);
+  const { included, range, min, semanticCls } = React.useContext(SliderContext);
 
   // =========================== List ===========================
   const trackList = React.useMemo(() => {
@@ -45,13 +45,13 @@ const Tracks: React.FC<TrackProps> = (props) => {
   }
 
   // ========================== Render ==========================
-  const tracksNode = classNames.tracks ? (
+  const tracksNode = semanticCls.tracks ? (
     <Track
       index={null}
       prefixCls={prefixCls}
       start={trackList[0].start}
       end={trackList[trackList.length - 1].end}
-      replaceCls={clsx(classNames.tracks, `${prefixCls}-tracks`)}
+      replaceCls={clsx(semanticCls.tracks, `${prefixCls}-tracks`)}
     />
   ) : null;
 

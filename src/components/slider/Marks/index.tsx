@@ -4,7 +4,7 @@ import SliderContext from '../context';
 import Mark from './Mark';
 
 export interface MarkObj {
-  style?: React.CSSProperties;
+  className?: string;
   label?: React.ReactNode;
 }
 
@@ -35,8 +35,14 @@ const Marks: React.FC<MarksProps> = (props) => {
 
   return (
     <div className={markCls}>
-      {marks.map<React.ReactNode>(({ value, style, label }) => (
-        <Mark key={value} prefixCls={markPrefixCls} style={style} value={value} onClick={onClick}>
+      {marks.map<React.ReactNode>(({ value, className, label }) => (
+        <Mark
+          key={value}
+          prefixCls={markPrefixCls}
+          className={className}
+          value={value}
+          onClick={onClick}
+        >
           {label}
         </Mark>
       ))}

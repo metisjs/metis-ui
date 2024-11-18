@@ -1,4 +1,5 @@
 import * as React from 'react';
+import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import { clsx } from '../../_util/classNameUtils';
 import SliderContext from '../context';
 import { getDirectionStyle } from '../util';
@@ -12,10 +13,20 @@ export interface DotProps {
 
 const Dot: React.FC<DotProps> = (props) => {
   const { prefixCls, value, style, activeStyle } = props;
-  const { min, max, direction, included, includedStart, includedEnd, disabled } =
-    React.useContext(SliderContext);
+  const {
+    min,
+    max,
+    direction,
+    included,
+    includedStart,
+    includedEnd,
+    disabled,
+    semanticCls: rootSemanticCls,
+  } = React.useContext(SliderContext);
 
   const active = included && includedStart <= value && value <= includedEnd;
+  const semanticCls = useSemanticCls(rootSemanticCls.mark, { active });
+
   const dotClassName = clsx(
     `${prefixCls}-dot`,
     { [`${prefixCls}-dot-active`]: active },
@@ -25,6 +36,7 @@ const Dot: React.FC<DotProps> = (props) => {
       'ring-primary': active,
       'group-hover:ring-primary-hover': active && !disabled,
     },
+    semanticCls.dot,
   );
 
   // ============================ Offset ============================

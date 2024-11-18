@@ -17,7 +17,7 @@ export interface TrackProps {
 
 const Track: React.FC<TrackProps> = (props) => {
   const { prefixCls, style, start, end, index, onStartMove, replaceCls } = props;
-  const { direction, min, max, disabled, range, classNames } = React.useContext(SliderContext);
+  const { direction, min, max, disabled, range, semanticCls } = React.useContext(SliderContext);
 
   const trackPrefixCls = `${prefixCls}-track`;
 
@@ -69,7 +69,7 @@ const Track: React.FC<TrackProps> = (props) => {
         'h-1': direction === 'ltr' || direction === 'rtl',
       },
       !disabled && 'group-hover:bg-primary-hover',
-      classNames.track,
+      semanticCls.track,
     );
 
   return (

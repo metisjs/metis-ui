@@ -28,15 +28,15 @@ To input a value in a range.
 ## API
 
 | Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |  |
-| classNames | Semantic structure class | Record&lt;'root' \| 'tracks' \| 'track' \| 'rail' \| 'handle' \| 'mark', string> | - |  |
+| className | Semantic DOM class | string \| [SemanticDOM](#semantic-dom) | - |  |  |
 | defaultValue | The default value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
 | disabled | If true, the slider will not be intractable | boolean | false |  |
 | dots | Whether the thumb can drag over tick only | boolean | false |  |
 | included | Make effect when `marks` not null, true means containment and false means coordinative | boolean | true |  |
 | keyboard | Support using keyboard to move handlers | boolean | true | + |
-| marks | Tick mark of Slider, type of key must be `number`, and must in closed interval \[min, max], each mark can declare its own style | object | { number: ReactNode } \| { number: { style: CSSProperties, label: ReactNode } } |  |
+| marks | Tick mark of Slider, type of key must be `number`, and must in closed interval \[min, max], each mark can declare its own style | object | { number: ReactNode } \| { number: { className: string, label: ReactNode } } |  |
 | max | The maximum value the slider can slide to | number | 100 |  |
 | min | The minimum value the slider can slide to | number | 0 |  |
 | range | Dual thumb mode | boolean | false |  |
@@ -70,3 +70,7 @@ To input a value in a range.
 | ------- | ------------ | ------- |
 | blur()  | Remove focus |         |
 | focus() | Get focus    |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

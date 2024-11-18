@@ -46,7 +46,7 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
     onMouseEnter,
     ...restProps
   } = props;
-  const { min, max, direction, disabled, keyboard, range, classNames } =
+  const { min, max, direction, disabled, keyboard, range, semanticCls } =
     React.useContext(SliderContext);
 
   const handlePrefixCls = `${prefixCls}-handle`;
@@ -151,7 +151,7 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
       'left-[0.125rem]': direction === 'ttb' || direction === 'btt',
       'top-[0.125rem]': direction === 'ltr' || direction === 'rtl',
     },
-    classNames.handle,
+    semanticCls.handle,
   );
 
   // ============================ Render ============================
