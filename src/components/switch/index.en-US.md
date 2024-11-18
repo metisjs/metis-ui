@@ -22,19 +22,19 @@ demo:
 
 ## API
 
-| Property | Description | Type | Default |
+| Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| autoFocus | Whether get focus when component mounted | boolean | false |
-| checked | Determine whether the Switch is checked | boolean | false |
-| checkedChildren | The content to be shown when the state is checked | ReactNode | - |
-| className | Semantic DOM class | string \|Record&lt;'root' \| 'handle', string> | - |
-| defaultChecked | Whether to set the initial state | boolean | false |
-| disabled | Disable switch | boolean | false |
-| loading | Loading state of switch | boolean | false |
-| size | The size of the Switch, options: `default` `small` | string | `default` |
-| unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |
-| onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |
-| onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |
+| autoFocus | Whether get focus when component mounted | boolean | false |  |
+| checked | Determine whether the Switch is checked | boolean | false |  |
+| checkedChildren | The content to be shown when the state is checked | ReactNode | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
+| defaultChecked | Whether to set the initial state | boolean | false |  |
+| disabled | Disable switch | boolean | false |  |
+| loading | Loading state of switch | boolean | false |  |
+| size | The size of the Switch, options: `default` `small` | string | `default` |  |
+| unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |  |
+| onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |  |
+| onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |  |
 | value | Alias for `checked` | boolean | - |  |
 | defaultValue | Alias for `defaultChecked` | boolean | - |  |
 
@@ -45,14 +45,6 @@ demo:
 | blur()  | Remove focus |
 | focus() | Get focus    |
 
-## FAQ
+## Semantic DOM
 
-### Why not work in Form.Item?
-
-Form.Item default bind value to `value` property, but Switch value property is `checked`. You can use `valuePropName` to change bind property.
-
-```tsx | pure
-<Form.Item name="fieldA" valuePropName="checked">
-  <Switch />
-</Form.Item>
-```
+<code src="./demo/_semantic.tsx" simplify></code>

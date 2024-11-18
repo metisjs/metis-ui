@@ -30,7 +30,7 @@ To input a value in a range.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- | --- |
 | autoFocus | Whether get focus when component mounted | boolean | false |  |
-| className | Semantic DOM class | string \| [SemanticDOM](#semantic-dom) | - |  |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |  |
 | defaultValue | The default value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
 | disabled | If true, the slider will not be intractable | boolean | false |  |
 | dots | Whether the thumb can drag over tick only | boolean | false |  |

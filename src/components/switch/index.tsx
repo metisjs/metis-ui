@@ -19,7 +19,7 @@ export type SwitchClickEventHandler = SwitchChangeEventHandler;
 export interface SwitchProps {
   prefixCls?: string;
   size?: SwitchSize;
-  className?: SemanticClassName<{ handle?: string }>;
+  className?: SemanticClassName<{ handle?: string }, { disabled?: boolean; checked?: boolean }>;
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: SwitchChangeEventHandler;
@@ -81,8 +81,6 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     const disabled = React.useContext(DisabledContext);
     const mergedDisabled = (customDisabled ?? disabled) || loading;
 
-    const semanticCls = useSemanticCls(className, 'switch');
-
     const mergedSize = useSize(customizeSize) as SizeType;
     const isSmall = mergedSize === 'small' || mergedSize === 'mini';
 
@@ -114,6 +112,11 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       // [Legacy] trigger onClick with value
       onClick?.(ret, e);
     }
+
+    const semanticCls = useSemanticCls(className, 'switch', {
+      disabled: mergedDisabled,
+      checked: innerChecked,
+    });
 
     const rootCls = clsx(
       'relative inline-block h-6 w-fit min-w-[2.75rem] cursor-pointer select-none rounded-full bg-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
