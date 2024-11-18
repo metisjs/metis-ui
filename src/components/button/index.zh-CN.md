@@ -34,7 +34,7 @@ demo:
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | autoInsertSpace | 我们默认提供两个汉字之间的空格，可以设置 `autoInsertSpace` 为 `false` 关闭 | boolean | `true` |  |
-| className | 语义化结构 class | [SemanticDOM](#badgeribbon-1) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | danger | 设置危险按钮 | boolean | false |  |
 | disabled | 按钮失效状态 | boolean | false |  |
 | href | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 | string | - |  |
