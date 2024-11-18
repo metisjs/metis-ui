@@ -46,11 +46,14 @@ const App: React.FC = () => (
   >
     {(hover) => {
       const multi = hover?.path === 'item';
-      const value = multi ? [dayjs(), dayjs().add(1, 'day')] : dayjs();
+      const value = multi
+        ? [dayjs('2024-11-18 13:08:36'), dayjs('2024-11-18 13:08:36').add(1, 'day')]
+        : dayjs();
 
       return (
         <DatePicker
           multiple={multi}
+          showTime
           className={{
             root: 'w-72',
             clear: clsx({
