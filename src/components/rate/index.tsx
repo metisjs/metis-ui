@@ -7,7 +7,7 @@ import { clsx, type SemanticClassName } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
-import type { StarProps } from './Star';
+import type { StarProps, StarSemanticClassName } from './Star';
 import Star from './Star';
 import useRefs from './useRefs';
 import { getOffsetLeft } from './util';
@@ -21,7 +21,7 @@ export interface RateProps
   prefixCls?: string;
   onChange?: (value: number) => void;
   onHoverChange?: (value?: number) => void;
-  className?: SemanticClassName<{ star?: string }>;
+  className?: SemanticClassName<{ star?: StarSemanticClassName }, { disabled?: boolean }>;
   onFocus?: () => void;
   onBlur?: () => void;
   onKeyDown?: React.KeyboardEventHandler<HTMLUListElement>;
@@ -78,7 +78,6 @@ const Rate = React.forwardRef<RateRef, RateProps>((props, ref) => {
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('rate', customizePrefixCls);
-  const semanticCls = useSemanticCls(className, 'rate');
 
   const [getStarRef, setStarRef] = useRefs<HTMLElement>();
   const rateRef = React.useRef<HTMLUListElement>(null);
@@ -144,7 +143,7 @@ const Rate = React.forwardRef<RateRef, RateProps>((props, ref) => {
   // =========================== Hover ============================
   const [hoverValue, setHoverValue] = React.useState<number | null>(null);
 
-  const onHover = (event: React.MouseEvent<HTMLDivElement>, index: number) => {
+  const onHover = (event: React.MouseEvent<HTMLElement>, index: number) => {
     const nextHoverValue = getStarValue(index, event.pageX);
     if (nextHoverValue !== cleanedValue) {
       setHoverValue(nextHoverValue);
@@ -202,6 +201,8 @@ const Rate = React.forwardRef<RateRef, RateProps>((props, ref) => {
   }, []);
 
   // =========================== Style ===========================
+  const semanticCls = useSemanticCls(className, 'rate', { disabled: mergedDisabled });
+
   const rootCls = clsx(
     prefixCls,
     {

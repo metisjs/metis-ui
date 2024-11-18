@@ -1,7 +1,14 @@
 import React from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Tooltip from '../tooltip';
+
+export type StarSemanticClassName = SemanticClassName<
+  { first?: string; second?: string },
+  { active?: boolean; half?: boolean }
+>;
 
 export interface StarProps {
   value: number;
@@ -9,9 +16,9 @@ export interface StarProps {
   prefixCls?: string;
   allowHalf?: boolean;
   disabled?: boolean;
-  onHover?: (e: React.MouseEvent<HTMLDivElement>, index: number) => void;
+  onHover?: (e: React.MouseEvent<HTMLElement>, index: number) => void;
   onClick?: (
-    e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
+    e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
     index: number,
   ) => void;
   character?: React.ReactNode | ((props: StarProps) => React.ReactNode);
@@ -19,7 +26,7 @@ export interface StarProps {
   focused?: boolean;
   count?: number;
   tooltip?: string;
-  className?: string;
+  className?: StarSemanticClassName;
 }
 
 function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
@@ -40,15 +47,15 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
   } = props;
 
   // =========================== Events ===========================
-  const onInternalHover: React.MouseEventHandler<HTMLDivElement> = (e) => {
+  const onInternalHover: React.MouseEventHandler<HTMLElement> = (e) => {
     onHover?.(e, index);
   };
 
-  const onInternalClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+  const onInternalClick: React.MouseEventHandler<HTMLElement> = (e) => {
     onClick?.(e, index);
   };
 
-  const onInternalKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+  const onInternalKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
     if (e.keyCode === KeyCode.ENTER) {
       onClick?.(e, index);
     }
@@ -73,6 +80,8 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
     focused = starValue === value && !!originFocused;
   }
 
+  const semanticCls = useSemanticCls(className, { active, half });
+
   const rootCls = clsx(
     prefixCls,
     {
@@ -82,12 +91,9 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
       [`${prefixCls}-full`]: full,
       [`${prefixCls}-zero`]: !full,
     },
-    'relative inline-flex cursor-pointer',
+    'relative inline-flex cursor-pointer outline-none outline-offset-0 transition-all duration-200 hover:scale-110 focus-visible:scale-110 focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-yellow-400',
     disabled && 'cursor-default',
-    className,
-  );
-  const innerCls = clsx(
-    'relative inline-flex outline-none outline-offset-0 transition-all duration-200 hover:scale-110 focus-visible:scale-110 focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-yellow-400',
+    semanticCls.root,
   );
   const firstCls = clsx(
     `${prefixCls}-first`,
@@ -95,6 +101,7 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
     {
       'opacity-100': half,
     },
+    semanticCls.first,
   );
   const secondCls = clsx(
     `${prefixCls}-second`,
@@ -102,6 +109,7 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
     {
       'text-inherit': full,
     },
+    semanticCls.second,
   );
 
   // =========================== Render ===========================
@@ -110,24 +118,23 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
   // >>>>> Node
   const characterNode = typeof character === 'function' ? character(props) : character;
   let start: React.ReactNode = (
-    <li className={rootCls} ref={ref}>
-      <div
-        onClick={disabled ? undefined : onInternalClick}
-        onKeyDown={disabled ? undefined : onInternalKeyDown}
-        onMouseMove={disabled ? undefined : onInternalHover}
-        role="radio"
-        aria-checked={value > index ? 'true' : 'false'}
-        aria-posinset={index + 1}
-        aria-setsize={count}
-        tabIndex={disabled ? -1 : 0}
-        className={innerCls}
-      >
-        <div className={firstCls}>
-          <span className="inline-flex">{characterNode}</span>
-        </div>
-        <div className={secondCls}>
-          <span className="inline-flex">{characterNode}</span>
-        </div>
+    <li
+      className={rootCls}
+      ref={ref}
+      onClick={disabled ? undefined : onInternalClick}
+      onKeyDown={disabled ? undefined : onInternalKeyDown}
+      onMouseMove={disabled ? undefined : onInternalHover}
+      role="radio"
+      aria-checked={value > index ? 'true' : 'false'}
+      aria-posinset={index + 1}
+      aria-setsize={count}
+      tabIndex={disabled ? -1 : 0}
+    >
+      <div className={firstCls}>
+        <span className="inline-flex">{characterNode}</span>
+      </div>
+      <div className={secondCls}>
+        <span className="inline-flex">{characterNode}</span>
       </div>
     </li>
   );
