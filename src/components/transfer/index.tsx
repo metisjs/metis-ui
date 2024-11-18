@@ -1,7 +1,8 @@
 import type { ChangeEvent, CSSProperties } from 'react';
 import React, { useCallback, useContext, useMemo } from 'react';
+import omit from 'rc-util/lib/omit';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import type { PrevSelectedIndex } from '../_util/hooks/useMultipleSelect';
 import useMultipleSelect from '../_util/hooks/useMultipleSelect';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -13,6 +14,7 @@ import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import type { FormItemStatusContextProps } from '../form/context';
 import { FormItemInputContext } from '../form/context';
+import type { InputProps } from '../input';
 import { useLocale } from '../locale';
 import defaultLocale from '../locale/en_US';
 import type { ScrollValues } from '../scrollbar';
@@ -21,6 +23,7 @@ import useSelection from './hooks/useSelection';
 import type { PaginationType, TransferKey } from './interface';
 import type { TransferCustomListBodyProps, TransferListProps } from './List';
 import List from './List';
+import type { ListItemSemanticClassName } from './ListItem';
 import Operation from './Operation';
 import Search from './Search';
 import { groupDisabledKeysMap, groupKeysMap } from './util';
@@ -80,10 +83,12 @@ export interface TransferProps<RecordType = any> {
   className?: SemanticClassName<{
     list?: string;
     header?: string;
+    title?: string;
     body?: string;
     footer?: string;
-    item?: string;
+    item?: ListItemSemanticClassName;
     operation?: string;
+    search?: InputProps['className'];
   }>;
   disabled?: boolean;
   dataSource?: RecordType[];
@@ -428,14 +433,14 @@ const Transfer = <RecordType extends TransferItem = TransferItem>(
   const [leftTitle, rightTitle] = getTitles(listLocale);
 
   const listClassName = useMemo(
-    () => ({
-      root: clsx(getStatusClassNames(mergedStatus), semanticCls.list),
-      header: semanticCls.header,
-      body: semanticCls.body,
-      footer: semanticCls.footer,
-      item: semanticCls.item,
-    }),
-    [className],
+    () =>
+      mergeSemanticCls(
+        {
+          root: clsx(getStatusClassNames(mergedStatus), semanticCls.list),
+        },
+        omit(semanticCls, ['root', 'list']),
+      ),
+    [semanticCls],
   );
 
   return (

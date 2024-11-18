@@ -1,14 +1,21 @@
 import * as React from 'react';
 import { XMarkOutline } from '@metisjs/icons';
 import type { KeyWiseTransferItem } from '.';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Checkbox from '../checkbox';
 import { useLocale } from '../locale';
 import defaultLocale from '../locale/en_US';
 import TransButton from './Button';
 
+export type ListItemSemanticClassName = SemanticClassName<
+  { root?: string },
+  { checked?: boolean; disabled?: boolean }
+>;
+
 type ListItemProps<RecordType> = {
-  className?: string;
+  className?: ListItemSemanticClassName;
   renderedText?: string | number;
   renderedEl: React.ReactNode;
   disabled?: boolean;
@@ -36,6 +43,8 @@ const ListItem = <RecordType extends KeyWiseTransferItem>(props: ListItemProps<R
 
   const mergedDisabled = disabled || item.disabled;
 
+  const semanticCls = useSemanticCls(className, { disabled: mergedDisabled, checked });
+
   const itemCls = clsx(
     `${prefixCls}-content-item`,
     {
@@ -48,7 +57,7 @@ const ListItem = <RecordType extends KeyWiseTransferItem>(props: ListItemProps<R
       'bg-fill-quaternary text-primary': checked,
     },
     mergedDisabled && 'cursor-not-allowed text-text-tertiary',
-    className,
+    semanticCls.root,
   );
 
   let title: string | undefined;

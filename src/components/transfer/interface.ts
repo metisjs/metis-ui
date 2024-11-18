@@ -1,3 +1,5 @@
+import type { PaginationProps } from '../pagination';
+
 export type TransferKey = React.Key;
 
 export type PaginationType =
@@ -7,4 +9,5 @@ export type PaginationType =
       simple?: boolean;
       showSizeChanger?: boolean;
       showLessItems?: boolean;
+      className?: PaginationProps['className'];
     };

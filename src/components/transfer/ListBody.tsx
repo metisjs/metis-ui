@@ -1,11 +1,12 @@
 import * as React from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { KeyWiseTransferItem } from '.';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import Pagination from '../pagination';
 import Scrollbar from '../scrollbar';
 import type { PaginationType, TransferKey } from './interface';
 import type { RenderedItem, TransferListProps } from './List';
+import type { ListItemSemanticClassName } from './ListItem';
 import ListItem from './ListItem';
 
 export const OmitProps = ['handleFilter', 'handleClear', 'checkedKeys'] as const;
@@ -17,7 +18,7 @@ export interface TransferListBodyProps<RecordType> extends PartialTransferListPr
   filteredItems: RecordType[];
   filteredRenderItems: RenderedItem<RecordType>[];
   selectedKeys: TransferKey[];
-  itemClassName?: string;
+  itemClassName?: ListItemSemanticClassName;
 }
 
 const parsePagination = (pagination?: ExistPagination) => {
@@ -110,7 +111,10 @@ const TransferListBody: React.ForwardRefRenderFunction<
       pageSize={pageSize}
       showLessItems={mergedPagination.showLessItems}
       showSizeChanger={mergedPagination.showSizeChanger}
-      className={clsx(`${prefixCls}-pagination`, 'border-t border-border-secondary p-2 text-end')}
+      className={mergeSemanticCls(
+        clsx(`${prefixCls}-pagination`, 'border-t border-border-secondary p-2 text-end'),
+        mergedPagination.className,
+      )}
       total={filteredRenderItems.length}
       current={current}
       onChange={onPageChange}

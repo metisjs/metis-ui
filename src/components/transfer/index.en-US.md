@@ -19,7 +19,7 @@ One or more elements can be selected from either column, one click on the proper
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/oneWay.tsx">One Way</code>
+<code src="./demo/one-way.tsx">One Way</code>
 <code src="./demo/search.tsx">Search</code>
 <code src="./demo/advanced.tsx">Advanced</code>
 <code src="./demo/custom-item.tsx">Custom datasource</code>
@@ -33,7 +33,7 @@ One or more elements can be selected from either column, one click on the proper
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record&lt;'root' \\｜ 'list' \| 'header' \| 'body' \| 'footer' \| 'item' \| 'operation', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | dataSource | Used for setting the source data. The elements that are part of this array will be present the left column. Except the elements whose keys are included in `targetKeys` prop | TransferItem\[] | \[] |  |
 | disabled | Whether disabled transfer | boolean | false |  |
 | filterOption | A function to determine whether an item should show in search result list, only works when searching, (add `direction` support since 5.9.0+) | (inputValue, option, direction: `left` \| `right`): boolean | - |  |
@@ -76,6 +76,10 @@ Transfer accept `children` to customize render list, using follow props:
 ```jsx
 <Transfer {...props}>{(listProps) => <YourComponent {...listProps} />}</Transfer>
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## Warning
 

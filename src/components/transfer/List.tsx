@@ -2,11 +2,12 @@ import React, { useMemo, useRef, useState } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import omit from 'rc-util/lib/omit';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
 import Checkbox from '../checkbox';
 import Dropdown from '../dropdown';
+import type { InputProps } from '../input';
 import type { MenuProps } from '../menu';
 import type { ScrollValues } from '../scrollbar';
 import type {
@@ -20,6 +21,7 @@ import type {
 import type { PaginationType, TransferKey } from './interface';
 import type { ListBodyRef, TransferListBodyProps } from './ListBody';
 import DefaultListBody, { OmitProps } from './ListBody';
+import type { ListItemSemanticClassName } from './ListItem';
 import Search from './Search';
 import { groupKeysMap } from './util';
 
@@ -82,7 +84,13 @@ export interface TransferListProps<RecordType> extends TransferLocale {
   showRemove?: boolean;
   pagination?: PaginationType;
   selectionsIcon?: React.ReactNode;
-  className?: SemanticClassName<{ header?: string; body?: string; footer?: string; item?: string }>;
+  className?: SemanticClassName<{
+    header?: string;
+    body?: string;
+    footer?: string;
+    search?: InputProps['className'];
+    item?: ListItemSemanticClassName;
+  }>;
 }
 
 export type TransferCustomListBodyProps<T> = TransferListBodyProps<T>;
@@ -207,16 +215,15 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
 
   const listBody = useMemo<React.ReactNode>(() => {
     const search = showSearch ? (
-      <div className={clsx(`${prefixCls}-body-search-wrapper`, 'p-2')}>
-        <Search
-          prefixCls={`${prefixCls}-search`}
-          onChange={internalHandleFilter}
-          handleClear={internalHandleClear}
-          placeholder={searchPlaceholder}
-          value={filterValue}
-          disabled={disabled}
-        />
-      </div>
+      <Search
+        prefixCls={`${prefixCls}-search`}
+        onChange={internalHandleFilter}
+        handleClear={internalHandleClear}
+        placeholder={searchPlaceholder}
+        value={filterValue}
+        disabled={disabled}
+        className={mergeSemanticCls('m-2 w-auto', semanticCls.search)}
+      />
     ) : null;
 
     const { customize, bodyContent } = renderListBody({
@@ -224,13 +231,13 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
       filteredItems,
       filteredRenderItems,
       selectedKeys: checkedKeys,
-      className: semanticCls.item,
+      itemClassName: semanticCls.item,
     });
 
     let bodyNode: React.ReactNode;
     // We should wrap customize list body in a classNamed div to use flex layout.
     if (customize) {
-      bodyNode = <div className={`${prefixCls}-body-customize-wrapper`}>{bodyContent}</div>;
+      bodyNode = bodyContent;
     } else {
       bodyNode = filteredItems.length ? (
         bodyContent
@@ -317,7 +324,7 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
   );
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'border-t border-border-secondary',
+    'border-t border-border-secondary p-2',
     semanticCls.footer,
   );
 

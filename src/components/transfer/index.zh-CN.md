@@ -20,7 +20,7 @@ description: 双栏穿梭选择框。
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本用法</code>
-<code src="./demo/oneWay.tsx">单向样式</code>
+<code src="./demo/one-way.tsx">单向样式</code>
 <code src="./demo/search.tsx">带搜索框</code>
 <code src="./demo/advanced.tsx">高级用法</code>
 <code src="./demo/custom-item.tsx">自定义渲染行数据</code>
@@ -36,7 +36,7 @@ description: 双栏穿梭选择框。
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record&lt;'root' \\｜ 'list' \| 'header' \| 'body' \| 'footer' \| 'item' \| 'operation', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | dataSource | 数据源，其中的数据将会被渲染到左边一栏中，`targetKeys` 中指定的除外 | TransferItem\[] | \[] |  |
 | disabled | 是否禁用 | boolean | false |  |
 | filterOption | 根据搜索内容进行筛选，接收 `inputValue` `option` `direction` 三个参数，(`direction` 自5.9.0+支持)，当 `option` 符合筛选条件时，应返回 true，反之则返回 false | (inputValue, option, direction: `left` \| `right`): boolean | - |  |
@@ -79,6 +79,10 @@ Transfer 支持接收 `children` 自定义渲染列表，并返回以下参数�
 ```jsx
 <Transfer {...props}>{(listProps) => <YourComponent {...listProps} />}</Transfer>
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## 注意
 

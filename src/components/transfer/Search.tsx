@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { MagnifyingGlassOutline } from '@metisjs/icons';
+import type { InputProps } from '../input';
 import Input from '../input';
 
 export interface TransferSearchProps {
   prefixCls?: string;
+  className?: InputProps['className'];
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClear?: () => void;
@@ -12,7 +14,7 @@ export interface TransferSearchProps {
 }
 
 const Search: React.FC<TransferSearchProps> = (props) => {
-  const { placeholder = '', value, prefixCls, disabled, onChange, handleClear } = props;
+  const { placeholder = '', value, prefixCls, className, disabled, onChange, handleClear } = props;
 
   const handleChange = React.useCallback(
     (v: string, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +28,9 @@ const Search: React.FC<TransferSearchProps> = (props) => {
 
   return (
     <Input
+      prefixCls={prefixCls}
       placeholder={placeholder}
-      className={prefixCls}
+      className={className}
       value={value}
       onChange={handleChange}
       disabled={disabled}
