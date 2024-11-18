@@ -1,6 +1,7 @@
 import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { clsx } from '../../../../_util/classNameUtils';
+import type { SemanticClassName } from '../../../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../../../../_util/classNameUtils';
 import type { ScrollbarProps, ScrollbarRef } from '../../../../scrollbar';
 import Scrollbar from '../../../../scrollbar';
 import { usePanelContext } from '../../context';
@@ -15,6 +16,16 @@ export type Unit<ValueType = number | string> = {
 };
 
 export interface TimeUnitColumnProps {
+  className?: string;
+  cellClassName?: SemanticClassName<
+    {
+      inner?: string;
+    },
+    {
+      disabled?: boolean;
+      selected?: boolean;
+    }
+  >;
   units: Unit[];
   value: number | string | null;
   optionalValue?: number | string;
@@ -26,8 +37,18 @@ export interface TimeUnitColumnProps {
 }
 
 export default function TimeColumn<DateType extends object>(props: TimeUnitColumnProps) {
-  const { units, value, optionalValue, type, onChange, onHover, onDblClick, changeOnScroll } =
-    props;
+  const {
+    className,
+    cellClassName,
+    units,
+    value,
+    optionalValue,
+    type,
+    onChange,
+    onHover,
+    onDblClick,
+    changeOnScroll,
+  } = props;
 
   const { prefixCls, cellRender, now, locale } = usePanelContext<DateType>();
 
@@ -90,7 +111,7 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
     `${prefixCls}-time-panel-column`,
     'my-1 h-auto w-16 flex-auto overflow-auto border-l border-border-secondary first:border-l-0',
   );
-  const viewCls = clsx('after:block after:h-[calc(100%-1.75rem)]');
+  const viewCls = clsx('after:block after:h-[calc(100%-1.75rem)]', className);
 
   // ========================= Render =========================
   return (
@@ -98,74 +119,80 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
       ref={scrollbarRef}
       className={{ root: rootCls, view: viewCls }}
       onScroll={onInternalScroll}
+      component="ul"
     >
-      <ul data-type={type}>
-        {units.map(({ label, value: unitValue, disabled }) => {
-          const inner = (
-            <div
-              className={clsx(
-                `${cellPrefixCls}-inner`,
-                'block cursor-pointer rounded leading-7',
-                {
-                  'hover:bg-fill-quaternary': value !== unitValue,
-                  'bg-primary-bg': value === unitValue,
-                },
-                disabled && [
-                  'cursor-not-allowed text-text-tertiary',
-                  {
-                    'hover:bg-transparent': value !== unitValue,
-                    'opacity-disabled': value === unitValue,
-                  },
-                ],
-              )}
-            >
-              {label}
-            </div>
-          );
+      {units.map(({ label, value: unitValue, disabled }) => {
+        const semanticCls = getSemanticCls(cellClassName, {
+          disabled,
+          selected: value === unitValue,
+        });
 
-          return (
-            <li
-              key={unitValue}
-              className={clsx(
-                cellPrefixCls,
+        const inner = (
+          <div
+            className={clsx(
+              `${cellPrefixCls}-inner`,
+              'block cursor-pointer rounded leading-7',
+              {
+                'hover:bg-fill-quaternary': value !== unitValue,
+                'bg-primary-bg': value === unitValue,
+              },
+              disabled && [
+                'cursor-not-allowed text-text-tertiary',
                 {
-                  [`${cellPrefixCls}-selected`]: value === unitValue,
-                  [`${cellPrefixCls}-disabled`]: disabled,
+                  'hover:bg-transparent': value !== unitValue,
+                  'opacity-disabled': value === unitValue,
                 },
-                'mx-1',
-              )}
-              onClick={() => {
-                if (!disabled) {
-                  onChange(unitValue);
-                }
-              }}
-              onDoubleClick={() => {
-                if (!disabled && onDblClick) {
-                  onDblClick();
-                }
-              }}
-              onMouseEnter={() => {
-                onHover(unitValue);
-              }}
-              onMouseLeave={() => {
-                onHover(null);
-              }}
-              data-value={unitValue}
-            >
-              {cellRender
-                ? cellRender(unitValue, {
-                    prefixCls,
-                    originNode: inner,
-                    today: now,
-                    type: 'time',
-                    subType: type,
-                    locale,
-                  })
-                : inner}
-            </li>
-          );
-        })}
-      </ul>
+              ],
+              semanticCls.inner,
+            )}
+          >
+            {label}
+          </div>
+        );
+
+        return (
+          <li
+            key={unitValue}
+            className={clsx(
+              cellPrefixCls,
+              {
+                [`${cellPrefixCls}-selected`]: value === unitValue,
+                [`${cellPrefixCls}-disabled`]: disabled,
+              },
+              'mx-1',
+              semanticCls.root,
+            )}
+            onClick={() => {
+              if (!disabled) {
+                onChange(unitValue);
+              }
+            }}
+            onDoubleClick={() => {
+              if (!disabled && onDblClick) {
+                onDblClick();
+              }
+            }}
+            onMouseEnter={() => {
+              onHover(unitValue);
+            }}
+            onMouseLeave={() => {
+              onHover(null);
+            }}
+            data-value={unitValue}
+          >
+            {cellRender
+              ? cellRender(unitValue, {
+                  prefixCls,
+                  originNode: inner,
+                  today: now,
+                  type: 'time',
+                  subType: type,
+                  locale,
+                })
+              : inner}
+          </li>
+        );
+      })}
     </Scrollbar>
   );
 }

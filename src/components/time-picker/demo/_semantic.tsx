@@ -11,7 +11,23 @@ const App: React.FC = () => (
       { name: 'clear' },
       {
         name: 'popup',
-        children: [{ name: 'panel' }, { name: 'footer' }],
+        children: [
+          { name: 'panel' },
+          {
+            name: 'time',
+            children: [
+              {
+                name: 'cell',
+                children: [{ name: 'inner' }],
+                args: [
+                  { name: 'disabled', type: 'boolean' },
+                  { name: 'selected', type: 'boolean' },
+                ],
+              },
+            ],
+          },
+          { name: 'footer' },
+        ],
       },
     ]}
     rootArgs={[

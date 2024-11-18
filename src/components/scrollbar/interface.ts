@@ -25,7 +25,7 @@ export interface ScrollbarProps {
   style?: React.CSSProperties;
   component?: React.ComponentType<any> | string;
   renderView?: (
-    props: React.HTMLAttributes<HTMLDivElement> & { ref: React.RefObject<HTMLDivElement> },
+    props: React.HTMLAttributes<HTMLElement> & { ref: React.RefObject<HTMLElement> },
   ) => React.ReactElement;
 }
 

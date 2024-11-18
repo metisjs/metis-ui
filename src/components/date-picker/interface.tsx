@@ -8,6 +8,7 @@ import type { AlignType, BuildInPlacements } from '../trigger';
 import type { PresetPanelClassName } from './PickerInput/Popup/PresetPanel';
 import type { InternalRangePickerProps } from './PickerInput/RangePicker';
 import type { InternalPickerProps } from './PickerInput/SinglePicker';
+import type { TimeUnitColumnProps } from './PickerPanel/TimePanel/TimePanelBody/TimeColumn';
 
 export type GenerateConfig<DateType> = {
   // Get
@@ -299,6 +300,12 @@ export type PopupClassName = SemanticClassName<{
       inView?: boolean;
     }
   >;
+  time: SemanticClassName<{
+    header?: string;
+    body?: string;
+    column?: string;
+    cell?: TimeUnitColumnProps['cellClassName'];
+  }>;
 }>;
 
 export interface SharedPanelProps<DateType extends object = any> {
