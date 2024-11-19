@@ -28,7 +28,7 @@ group: 数据展示
 | --- | --- | --- | --- | --- |
 | actions | 卡片操作组，位置在卡片底部 | Array&lt;ReactNode> | - |  |
 | bordered | 是否有边框 | boolean | true |  |
-| className | 语义化 class | string \| Record&lt;'root' \| 'header' \| 'body' \| 'extra' \| 'title' \| 'actions' \| 'cover', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#card-1) | - |  |
 | cover | 卡片封面 | ReactNode | - |  |
 | extra | 卡片右上角的操作区域 | ReactNode | - |  |
 | hoverable | 鼠标移过时可浮起 | boolean | false |  |
@@ -38,10 +38,20 @@ group: 数据展示
 
 ### Card.Meta
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| avatar | 头像/图标 | ReactNode | - |  |
-| className | 语义化 class | string \| Record&lt;'root' \| 'avatar' \| 'title' \| 'description', string> | - |  |
-| description | 描述内容 | ReactNode | - |  |
-| style | 定义容器类名的样式 | CSSProperties | - |  |
-| title | 标题内容 | ReactNode | - |  |
+| 参数        | 说明               | 类型                       | 默认值 | 版本 |
+| ----------- | ------------------ | -------------------------- | ------ | ---- |
+| avatar      | 头像/图标          | ReactNode                  | -      |      |
+| className   | 语义化结构 class   | [SemanticDOM](#cardmeta-1) | -      |      |
+| description | 描述内容           | ReactNode                  | -      |      |
+| style       | 定义容器类名的样式 | CSSProperties              | -      |      |
+| title       | 标题内容           | ReactNode                  | -      |      |
+
+## Semantic DOM
+
+### Card
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Card.Meta
+
+<code src="./demo/_semantic_meta.tsx" simplify></code>

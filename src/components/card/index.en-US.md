@@ -27,7 +27,7 @@ A card can be used to display content related to a single subject. The content c
 | --- | --- | --- | --- | --- |
 | actions | The action list, shows at the bottom of the Card | Array&lt;ReactNode> | - |  |
 | bordered | Toggles rendering of the border around the card | boolean | true |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'header' \| 'body' \| 'extra' \| 'title' \| 'actions' \| 'cover', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#card-1) | - |  |
 | cover | Card cover | ReactNode | - |  |
 | extra | Content to render in the top-right corner of the card | ReactNode | - |  |
 | hoverable | Lift up when hovering card | boolean | false |  |
@@ -37,10 +37,20 @@ A card can be used to display content related to a single subject. The content c
 
 ### Card.Meta
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| avatar | Avatar or icon | ReactNode | - |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'avatar' \| 'title' \| 'description', string> | - |  |
-| description | Description content | ReactNode | - |  |
-| style | The style object of container | CSSProperties | - |  |
-| title | Title content | ReactNode | - |  |
+| Property    | Description                   | Type                       | Default | Version |
+| ----------- | ----------------------------- | -------------------------- | ------- | ------- |
+| avatar      | Avatar or icon                | ReactNode                  | -       |         |
+| className   | Semantic DOM class            | [SemanticDOM](#cardmeta-1) | -       |         |
+| description | Description content           | ReactNode                  | -       |         |
+| style       | The style object of container | CSSProperties              | -       |         |
+| title       | Title content                 | ReactNode                  | -       |         |
+
+## Semantic DOM
+
+### Card
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Card.Meta
+
+<code src="./demo/_semantic_meta.tsx" simplify></code>
