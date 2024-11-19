@@ -36,6 +36,7 @@ demo:
 | src | 图片类头像的资源地址或者图片元素 | string \| ReactNode | - |  |
 | srcSet | 设置图片类头像响应式资源地址 | string | - |  |
 | onError | 图片加载失败的事件，返回 false 会关闭组件默认的 fallback 行为 | () => boolean | - |  |
+| className | 语义化结构 class | [SemanticDOM](#avatar-1) | - |  |
 
 > Tip：你可以设置 `icon` 或 `children` 作为图片加载失败的默认 fallback 行为，优先级为 `icon` > `children`
 
@@ -48,3 +49,14 @@ demo:
 | maxPopoverTrigger | 设置多余头像 Popover 的触发方式 | `hover` \| `focus` \| `click` | `hover` |  |
 | maxStyle | 多余头像样式 | CSSProperties | - |  |
 | size | 设置头像的大小 | number \| `large` \| `small` \| `default` | `default` |  |
+| className | 语义化结构 class | [SemanticDOM](#avatargroup-1) | - |  |
+
+## Semantic DOM
+
+### Avatar
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Avatar.Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

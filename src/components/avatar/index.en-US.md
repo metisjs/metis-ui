@@ -35,6 +35,7 @@ demo:
 | src | The address of the image for an image avatar or image element | string \| ReactNode | - |  |
 | srcSet | A list of sources to use for different screen resolutions | string | - |  |
 | onError | Handler when img load error, return false to prevent default fallback behavior | () => boolean | - |  |
+| className | Semantic DOM class | [SemanticDOM](#avatar-1) | - |  |
 
 > Tip: You can set `icon` or `children` as the fallback for image load error, with the priority of `icon` > `children`
 
@@ -47,3 +48,14 @@ demo:
 | maxPopoverTrigger | Set the trigger of excess avatar Popover | `hover` \| `focus` \| `click` | `hover` |  |
 | maxStyle | The style of excess avatar style | CSSProperties | - |  |
 | size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` |  |
+| className | Semantic DOM class | [SemanticDOM](#avatargroup-1) | - |  |
+
+## Semantic DOM
+
+### Avatar
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Avatar.Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

@@ -1,15 +1,18 @@
 import * as React from 'react';
 import toArray from 'rc-util/lib/Children/toArray';
-import { clsx } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import Popover from '../popover';
+import type { AvatarProps } from './Avatar';
 import Avatar from './Avatar';
 import type { AvatarSize } from './SizeContext';
 import { SizeContextProvider } from './SizeContext';
 
 export interface GroupProps {
-  className?: string;
+  className?: SemanticClassName<{ max?: AvatarProps['className']; item: AvatarProps['className'] }>;
   children?: React.ReactNode;
   style?: React.CSSProperties;
   maxCount?: number;
@@ -21,16 +24,19 @@ export interface GroupProps {
 
 const Group: React.FC<GroupProps> = (props) => {
   const { getPrefixCls } = React.useContext(ConfigContext);
-  const { className = '', maxCount, maxStyle, size } = props;
+  const { className, maxCount, maxStyle, size } = props;
 
   const prefixCls = getPrefixCls('avatar-group');
 
-  const cls = clsx(prefixCls, 'group relative -space-x-1 overflow-hidden', className);
+  const semanticCls = useSemanticCls(className);
+
+  const cls = clsx(prefixCls, 'group relative -space-x-1 overflow-hidden', semanticCls.root);
 
   const { children, maxPopoverPlacement = 'top', maxPopoverTrigger = 'hover' } = props;
   const childrenWithProps = toArray(children).map((child, index) =>
     cloneElement(child, {
       key: `avatar-key-${index}`,
+      className: mergeSemanticCls(semanticCls.item, child.props.className),
     }),
   );
 
@@ -46,7 +52,11 @@ const Group: React.FC<GroupProps> = (props) => {
         placement={maxPopoverPlacement}
         className={{ overlay: `${prefixCls}-popover` }}
       >
-        <Avatar key="avatar-key-count" style={maxStyle}>{`+${numOfChildren - maxCount}`}</Avatar>
+        <Avatar
+          key="avatar-key-count"
+          style={maxStyle}
+          className={semanticCls.max}
+        >{`+${numOfChildren - maxCount}`}</Avatar>
       </Popover>,
     );
     return (

@@ -21,7 +21,7 @@ export interface AvatarProps {
   icon?: React.ReactNode;
   style?: React.CSSProperties;
   prefixCls?: string;
-  className?: SemanticClassName<{ root?: string }>;
+  className?: SemanticClassName<{ children?: string }>;
   children?: React.ReactNode;
   alt?: string;
   crossOrigin?: '' | 'anonymous' | 'use-credentials';
@@ -98,6 +98,8 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
     ...others
   } = props;
 
+  const semanticCls = useSemanticCls(className, 'avatar');
+
   const size = customSize === 'default' ? groupSize : customSize;
 
   const hasImageElement = React.isValidElement(src);
@@ -124,14 +126,18 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
         onError={handleImgLoadError}
         alt={alt}
         crossOrigin={crossOrigin}
-        className="h-full w-full object-cover"
+        className={clsx('h-full w-full object-cover', semanticCls.children)}
       />
     );
   } else if (hasImageElement) {
     childrenToRender = src;
   } else if (icon) {
     childrenToRender = (
-      <span className="inline-flex h-full items-center justify-center">{icon}</span>
+      <span
+        className={clsx('inline-flex h-full items-center justify-center', semanticCls.children)}
+      >
+        {icon}
+      </span>
     );
   } else if (mounted || scale !== 1) {
     const transformString = `scale(${scale}) translateX(-50%)`;
@@ -151,7 +157,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
     childrenToRender = (
       <ResizeObserver onResize={setScaleParam}>
         <span
-          className="absolute left-[50%] origin-[0_center]"
+          className={clsx('absolute left-[50%] origin-[0_center]', semanticCls.children)}
           ref={avatarChildrenRef}
           style={{ ...sizeChildrenStyle, ...childrenStyle }}
         >
@@ -162,7 +168,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   } else {
     childrenToRender = (
       <span
-        className="absolute left-[50%] origin-[0_center]"
+        className={clsx('absolute left-[50%] origin-[0_center]', semanticCls.children)}
         style={{ opacity: 0 }}
         ref={avatarChildrenRef}
       >
@@ -176,8 +182,6 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
   delete others.onError;
   delete others.gap;
 
-  const semanticCls = useSemanticCls(className, 'avatar');
-
   const avatarCls = clsx(
     prefixCls,
     'relative inline-block overflow-hidden whitespace-nowrap bg-fill text-center align-middle text-sm text-white [.group_&]:ring-2 [.group_&]:ring-container',
@@ -189,7 +193,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
     typeof size === 'string' &&
       icon && {
         'text-2xl': size === 'large',
-        'text-lg': size === 'default',
+        'text-xl': size === 'default',
       },
     {
       'rounded-full': shape === 'circle',
