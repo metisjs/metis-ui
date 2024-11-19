@@ -83,7 +83,6 @@ const Upload: React.FC<UploadProps> = (props) => {
 
   const { getPrefixCls } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('upload', customizePrefixCls);
-  const semanticCls = useSemanticCls(className, 'upload');
 
   // ======================== Refs ========================
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -522,6 +521,8 @@ const Upload: React.FC<UploadProps> = (props) => {
   };
 
   // ======================== Style ========================
+  const semanticCls = useSemanticCls(className, 'upload', { disabled: mergedDisabled, listType });
+
   const rootCls = clsx(
     `${prefixCls}-wrapper`,
     {
@@ -533,7 +534,7 @@ const Upload: React.FC<UploadProps> = (props) => {
 
   const uploadButtonCls = clsx(
     prefixCls,
-    `${prefixCls}-select`,
+    `${prefixCls}-selector`,
     {
       [`${prefixCls}-disabled`]: mergedDisabled,
     },
@@ -546,9 +547,10 @@ const Upload: React.FC<UploadProps> = (props) => {
         (listType === 'picture-card' || listType === 'picture-circle') && !mergedDisabled,
     },
     mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+    semanticCls.selector,
   );
 
-  const inputCls = clsx('hidden cursor-pointer', semanticCls.input);
+  const inputCls = clsx('hidden cursor-pointer');
 
   const inputWrapCls = clsx(
     {
@@ -610,6 +612,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     return (
       <UploadList
         prefixCls={prefixCls}
+        type={type}
         listType={listType}
         items={mergedFileList}
         previewFile={previewFile}
@@ -631,6 +634,8 @@ const Upload: React.FC<UploadProps> = (props) => {
         appendActionVisible={buttonVisible}
         itemRender={itemRender}
         disabled={mergedDisabled}
+        className={semanticCls.fileList}
+        itemClassName={semanticCls.file}
       />
     );
   };

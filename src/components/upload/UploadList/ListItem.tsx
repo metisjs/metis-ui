@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ArrowDownTrayOutline, EyeOutline, TrashOutline } from '@metisjs/icons';
+import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import Progress from '../../progress';
@@ -8,15 +9,26 @@ import Transition from '../../transition';
 import type {
   ItemRender,
   UploadFile,
+  UploadFileStatus,
   UploadListProgressProps,
-  UploadListProps,
   UploadListType,
   UploadLocale,
 } from '../interface';
 
+export type ListItemSemanticClassName = SemanticClassName<
+  {
+    icon?: string;
+    name?: string;
+    actions?: string;
+    thumbnail?: string;
+    progress?: string;
+  },
+  { status?: UploadFileStatus }
+>;
+
 export interface ListItemProps {
   prefixCls: string;
-  className?: UploadListProps['className'];
+  className?: ListItemSemanticClassName;
   style?: React.CSSProperties;
   locale: UploadLocale;
   file: UploadFile;
@@ -74,8 +86,6 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     },
     ref,
   ) => {
-    const semanticCls = useSemanticCls(className);
-
     // Status: which will ignore `removed` status
     const { status } = file;
     const [mergedStatus, setMergedStatus] = React.useState(status);
@@ -95,6 +105,8 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
         clearTimeout(timer);
       };
     }, []);
+
+    const semanticCls = useSemanticCls(className, { status: mergedStatus });
 
     const containerCls = clsx(`${prefixCls}-list-item-container`, semanticCls.root);
 
@@ -120,7 +132,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
         'border-dashed': mergedStatus === 'uploading',
         'border-error-border-secondary text-error': mergedStatus === 'error',
       },
-      semanticCls.item,
+      semanticCls.root,
     );
 
     const itemIconCls = clsx(`${prefixCls}-icon`, 'inline-flex items-center', semanticCls.icon);
@@ -146,7 +158,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       'pointer-events-none absolute -bottom-2 w-full ps-6',
       {
         'bottom-3 w-[calc(100%-16px)] ps-14': listType === 'picture',
-        'static w-full ps-0': listType === 'picture-card' || listType === 'picture-circle',
+        'static w-full pe-0.5 ps-0.5': listType === 'picture-card' || listType === 'picture-circle',
       },
       semanticCls.progress,
     );
@@ -182,11 +194,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       semanticCls.thumbnail,
     );
 
-    const itemImageCls = clsx(
-      `${prefixCls}-list-item-image`,
-      'block h-full w-full',
-      semanticCls.image,
-    );
+    const itemImageCls = clsx(`${prefixCls}-list-item-image`, 'block h-full w-full');
 
     const iconNode = iconRender(file);
     let icon = <div className={itemIconCls}>{iconNode}</div>;

@@ -26,6 +26,7 @@ export interface SemanticPreviewProps {
   children: React.ReactElement | ((hover?: { name: string; path: string }) => React.ReactElement);
   height?: number;
   rootArgs?: SemanticArg[];
+  extra?: React.ReactNode;
 }
 
 type ClassNameItemProps = SemanticItem & {
@@ -145,7 +146,7 @@ function parseSemanticCls(
 }
 
 const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
-  const { semantics = [], children, height, rootArgs } = props;
+  const { semantics = [], children, height, rootArgs, extra } = props;
 
   // ======================= Semantic =======================
   const getMarkClassName = React.useCallback(
@@ -226,8 +227,11 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
   return (
     <div className="relative rounded" ref={containerRef}>
       <div className="flex divide-x divide-border-secondary" style={{ minHeight: height }}>
-        <div className="relative flex flex-auto items-center justify-center overflow-hidden p-5">
-          {cloneNode}
+        <div className="flex flex-auto flex-col divide-y divide-border-secondary">
+          {extra && <div className="flex h-[62px] items-center px-5">{extra}</div>}
+          <div className="relative flex flex-auto items-center justify-center overflow-hidden p-5">
+            {cloneNode}
+          </div>
         </div>
         <div className="basis-72">
           <ul className="divide-y divide-border-secondary">

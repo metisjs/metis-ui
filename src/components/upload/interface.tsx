@@ -1,6 +1,7 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import type { ProgressAriaProps, ProgressProps } from '../progress';
+import type { ListItemSemanticClassName } from './UploadList/ListItem';
 
 export type BeforeUploadFileType = void | boolean | string | Blob | File;
 
@@ -51,11 +52,15 @@ export type ItemRender<T = any> = (
 
 type PreviewFileHandler = (file: File | Blob) => PromiseLike<string>;
 export interface UploadProps<T = any> {
-  className?: SemanticClassName<{
-    input?: string;
-    drag?: string;
-    list?: UploadListProps['className'];
-  }>;
+  className?: SemanticClassName<
+    {
+      selector?: string;
+      drag?: string;
+      fileList?: string;
+      file?: ListItemSemanticClassName;
+    },
+    { disabled?: boolean; listType: UploadListType }
+  >;
   type?: UploadType;
   name?: string;
   defaultFileList?: Array<UploadFile<T>>;
@@ -159,6 +164,7 @@ export interface UploadFile<T = any> extends ProgressAriaProps {
 }
 
 export interface UploadListProps<T = any> {
+  type?: string;
   listType?: UploadListType;
   onPreview?: (file: UploadFile<T>) => void;
   onDownload?: (file: UploadFile<T>) => void;
@@ -166,15 +172,8 @@ export interface UploadListProps<T = any> {
   items?: Array<UploadFile<T>>;
   progress?: UploadListProgressProps;
   prefixCls?: string;
-  className?: SemanticClassName<{
-    item?: string;
-    icon?: string;
-    name?: string;
-    actions?: string;
-    thumbnail?: string;
-    progress?: string;
-    image?: string;
-  }>;
+  className?: string;
+  itemClassName?: ListItemSemanticClassName;
   showRemoveIcon?: boolean;
   showDownloadIcon?: boolean;
   showPreviewIcon?: boolean;

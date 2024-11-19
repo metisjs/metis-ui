@@ -45,7 +45,7 @@ demo:
 | accept | 接受上传的文件类型，详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) | string | - |  |
 | action | 上传的地址 | string \| (file) => Promise&lt;string> | - |  |
 | beforeUpload | 上传文件之前的钩子，参数为上传的文件，若返回 `false` 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，resolve 时开始上传（ resolve 传入 `File` 或 `Blob` 对象则上传 resolve 传入对象）；也可以返回 `Upload.LIST_IGNORE`，此时列表中将不展示此文件。 **注意：IE9 不支持该方法** | (file, fileList) => boolean \| Promise&lt;File> \| `Upload.LIST_IGNORE` | - |  |
-| className | 语义化结构 class | string \| [SemanticClassName](#semanticclassname) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | customRequest | 通过覆盖默认的上传行为，可以自定义自己的上传实现 | function | - |  |
 | data | 上传所需额外参数或返回上传额外参数的方法 | object\|(file) => object \| Promise&lt;object> | - |  |
 | defaultFileList | 默认已经上传的文件列表 | object\[] | - |  |
@@ -71,15 +71,6 @@ demo:
 | onDrop | 当文件被拖入上传区域时执行的回调功能 | (event: React.DragEvent) => void | - |  |
 | onPreview | 点击文件链接或预览图标时的回调 | function(file) | - |  |
 | onRemove   | 点击移除文件时的回调，返回值为 false 时不移除。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时不移除 | function(file): boolean \| Promise | -   |  |
-
-### SemanticClassName
-
-```ts
-type UploadListClassName = SemanticClassName<
-  'item' | 'icon' | 'name' | 'actions' | 'thumbnail' | 'progress' | 'image'
->;
-type UploadClassName = SemanticClassName<'input' | 'drag', { list?: UploadListClassName }>;
-```
 
 ### UploadFile
 
@@ -124,3 +115,7 @@ type UploadClassName = SemanticClassName<'input' | 'drag', { list?: UploadListCl
 2. `fileList` 当前的文件列表。
 
 3. `event` 上传中的服务端响应内容，包含了上传进度等信息，高级浏览器支持。
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

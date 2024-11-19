@@ -2,7 +2,6 @@ import * as React from 'react';
 import { DocumentOutline, LoadingOutline, PaperClipOutline, PhotoOutline } from '@metisjs/icons';
 import { useUpdate } from 'ahooks';
 import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { cloneElement } from '../../_util/reactNode';
 import { collapseTransition } from '../../_util/transition';
 import type { ButtonProps } from '../../button';
@@ -23,6 +22,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   ref,
 ) => {
   const {
+    type,
     listType = 'text',
     previewFile = previewImage,
     onPreview,
@@ -46,8 +46,8 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     itemRender,
     disabled,
     className,
+    itemClassName,
   } = props;
-  const semanticCls = useSemanticCls(className);
 
   const forceUpdate = useUpdate();
   const [transitionAppear, setTransitionAppear] = React.useState(false);
@@ -212,8 +212,9 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     'text-sm text-text',
     {
       'flex flex-wrap gap-2': listType === 'picture-card' || listType === 'picture-circle',
+      'mt-2': type === 'drag' && (listType === 'picture-card' || listType === 'picture-circle'),
     },
-    semanticCls.root,
+    className,
   );
 
   // >>> Transition config
@@ -247,7 +248,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
             key={key}
             locale={locale}
             prefixCls={prefixCls}
-            className={mergeSemanticCls({ ...semanticCls, root: undefined }, transitionCls)}
+            className={mergeSemanticCls(itemClassName, transitionCls)}
             style={transitionStyle}
             file={file}
             items={items}
