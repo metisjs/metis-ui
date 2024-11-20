@@ -87,7 +87,7 @@ const Descriptions: React.FC<DescriptionsProps> = (props) => {
   const rows = useRow(mergedColumn, mergedItems);
 
   // ======================== Style ========================
-  const semanticCls = useSemanticCls(className, 'descriptions');
+  const semanticCls = useSemanticCls(className, 'descriptions', { bordered });
 
   const rootCls = clsx(
     prefixCls,
