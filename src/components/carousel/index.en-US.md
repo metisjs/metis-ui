@@ -39,7 +39,7 @@ demo:
 | trigger | How to trigger the slide switch, click/hover the indicator, click/hover 指示器 | 'click' \| 'hover' | `click` |  |
 | vertical | Vertical mode | boolean | false |  |
 | icons | Customize icons | {prev?: ReactNode; next?: ReactNode;} | - |  |
-| className | Semantic Dom class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ## Methods
 
@@ -48,3 +48,7 @@ demo:
 | goTo(slideNumber) | Go to slide index                      |
 | next()            | Change current slide to next slide     |
 | prev()            | Change current slide to previous slide |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

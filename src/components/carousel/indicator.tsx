@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, getSemanticCls } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { CarouselIndicatorProps } from './interface';
 
 const CarouselIndicator = (props: CarouselIndicatorProps) => {
@@ -14,10 +15,14 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
     onSelectIndex,
   } = props;
 
+  const semanticCls = useSemanticCls(className);
+
   const indicatorContent: ReactNode[] = [];
 
   for (let i = 0; i < count; i++) {
     const active = i === activeIndex;
+    const itemCls = getSemanticCls(semanticCls.item, { active });
+
     indicatorContent.push(
       <div
         key={i}
@@ -40,6 +45,7 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
             'opacity-100': active,
             'hover:opacity-85': i !== activeIndex,
           },
+          itemCls.root,
         )}
       />,
     );
@@ -57,7 +63,7 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
         'bottom-0 right-3 top-0 flex-col': position === 'right',
         'relative h-9 items-center': position === 'outer',
       },
-      className,
+      semanticCls.root,
     ),
     [trigger === 'click' ? 'onClick' : 'onMouseMove']: (event: any) => {
       event.preventDefault();

@@ -40,7 +40,7 @@ demo:
 | trigger | 切换触发方式, click/hover 指示器 | 'click' \| 'hover' | `click` |  |
 | vertical | 竖向切换 | boolean | false |  |
 | icons | 自定义图标 | {prev?: ReactNode; next?: ReactNode;} | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ## 方法
 
@@ -49,3 +49,7 @@ demo:
 | goTo(slideNumber) | 切换到指定面板 |
 | next()            | 切换到下一面板 |
 | prev()            | 切换到上一面板 |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

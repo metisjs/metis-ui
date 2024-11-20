@@ -4,7 +4,10 @@ import type { SemanticClassName } from '../_util/classNameUtils';
 export interface CarouselProps {
   prefixCls?: string;
   style?: CSSProperties;
-  className?: SemanticClassName<{ arrow?: string; indicator?: string }>;
+  className?: SemanticClassName<{
+    arrow?: string;
+    indicator?: CarouselIndicatorProps['className'];
+  }>;
   children?: ReactNode;
   defaultIndex?: number;
   autoPlay?: boolean | { interval?: number; hoverToPause?: boolean };
@@ -33,7 +36,9 @@ export interface CarouselArrowProps
 
 export interface CarouselIndicatorProps {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<{
+    item: SemanticClassName<{ root: string }, { active?: boolean }>;
+  }>;
   count: number;
   activeIndex?: number;
   position?: CarouselProps['indicatorPosition'];
