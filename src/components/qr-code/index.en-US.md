@@ -33,7 +33,7 @@ Used when the text needs to be converted into a QR Code.
 | icon | include image url (only image link are supported) | string | - |
 | size | QRCode size | number | 160 |
 | iconSize | include image size | number \| { width: number; height: number } | 40 |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | color | QRCode Color | string | `#000` |
 | bgColor | QRCode Background Color | string | `transparent` |  |
 | bordered | Whether has border style | boolean | `true` |
@@ -51,3 +51,7 @@ type StatusRenderInfo = {
   onRefresh?: () => void;
 };
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

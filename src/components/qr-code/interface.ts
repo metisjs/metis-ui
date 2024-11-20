@@ -21,6 +21,7 @@ export type ImageSettings = {
   y?: number;
   opacity?: number;
   crossOrigin?: CrossOrigin;
+  className?: string;
 };
 
 export type QRProps = {
