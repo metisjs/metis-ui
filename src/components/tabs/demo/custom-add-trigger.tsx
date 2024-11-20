@@ -21,7 +21,7 @@ const App: React.FC = () => {
     setActiveKey(newActiveKey);
   };
 
-  const onRemove = (targetKey: React.Key) => {
+  const onClose = (targetKey: React.Key) => {
     const targetIndex = items.findIndex((pane) => pane.key === targetKey);
     const newPanes = items.filter((pane) => pane.key !== targetKey);
     if (newPanes.length && targetKey === activeKey) {
@@ -40,7 +40,7 @@ const App: React.FC = () => {
         onChange={onChange}
         activeKey={activeKey}
         type="card"
-        onRemove={onRemove}
+        onClose={onClose}
         items={items}
         closable
       />

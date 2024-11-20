@@ -33,7 +33,7 @@ export interface OperationNodeProps {
   icons?: IconsType;
   editConfig: EditableConfig;
   locale?: TabsLocale;
-  removeAriaLabel?: string;
+  closeAriaLabel?: string;
   onTabClick: (key: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -52,7 +52,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     style,
     className,
     editConfig,
-    removeAriaLabel,
+    closeAriaLabel,
     position,
     onTabClick,
     getPopupContainer,
@@ -72,10 +72,10 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
-  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: SafeKey) {
+  function onCloseTab(event: React.MouseEvent | React.KeyboardEvent, key: SafeKey) {
     event.preventDefault();
     event.stopPropagation();
-    editConfig?.onRemove?.(key, event);
+    editConfig?.onClose?.(key, event);
   }
 
   const menu: MenuProps = {
@@ -117,15 +117,15 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
             {removable && (
               <button
                 type="button"
-                aria-label={removeAriaLabel || 'remove'}
+                aria-label={closeAriaLabel || 'close'}
                 tabIndex={0}
                 className="absolute end-0 top-1/2 inline-flex -translate-y-1/2 items-center text-base text-text-tertiary transition-colors hover:text-text-secondary"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRemoveTab(e, key);
+                  onCloseTab(e, key);
                 }}
               >
-                {closeIcon || icons?.remove || <XMarkOutline />}
+                {closeIcon || icons?.close || <XMarkOutline />}
               </button>
             )}
           </>

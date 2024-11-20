@@ -34,13 +34,13 @@ export function getRemovable(
   disabled?: boolean,
 ) {
   if (
-    // Only editConfig tabs can be removed
+    // Only editConfig tabs can be closed
     !editConfig?.closable ||
-    // Tabs cannot be removed when disabled
+    // Tabs cannot be closed when disabled
     disabled ||
     // closable is false
     closable === false ||
-    // If closable is undefined, the remove button should be hidden when closeIcon is null or false
+    // If closable is undefined, the close button should be hidden when closeIcon is null or false
     (closable === undefined && (closeIcon === false || closeIcon === null))
   ) {
     return false;

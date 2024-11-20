@@ -340,10 +340,10 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         className={semanticCls.tab}
         closable={tab.closable}
         editConfig={editConfig}
-        removeIcon={icons?.remove}
+        closeIcon={icons?.close}
         active={key === activeKey}
         renderWrapper={children}
-        removeAriaLabel={locale?.removeAriaLabel}
+        closeAriaLabel={locale?.closeAriaLabel}
         offset={tabOffsets.get(key)}
         indicator={indicator}
         onClick={(e) => {
@@ -585,7 +585,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         {hasDropdown && (
           <OperationNode
             {...props}
-            removeAriaLabel={locale?.removeAriaLabel}
+            closeAriaLabel={locale?.closeAriaLabel}
             ref={operationsRef}
             prefixCls={prefixCls}
             tabs={hiddenTabs}

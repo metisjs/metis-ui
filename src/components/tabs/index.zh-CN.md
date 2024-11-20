@@ -45,12 +45,11 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 | addable | 可新增页签 | boolean | `false` |  |
 | animated | 是否使用动画切换 Tabs | boolean\| { indicator: boolean, tabPane: boolean } | { indicator: true, tabPane: false } |  |
 | centered | 标签居中展示 | boolean | false |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | 可关闭页签 | boolean | `false` |  |
 | defaultActiveKey | 初始化选中面板的 key，如果没有设置 activeKey | Key | `第一个面板的 key` |  |
 | destroyInactiveTabPane | 被隐藏时是否销毁 DOM 结构 | boolean | false |  |
-| icons | 图标设置 | { add?: ReactNode; remove?: ReactNode; more?: ReactNode; } | - |  |
+| icons | 图标设置 | { add?: ReactNode; close?: ReactNode; more?: ReactNode; } | - |  |
 | indicator | 自定义指示条的长度和对齐方式 | { size?: number \| (origin: number) => number; align: `start` \| `center` \| `end`; } | - |  |
 | items | 配置选项卡内容 | [TabItemType](#tabitemtype) | \[] |  |
 | more | 自定义折叠菜单属性 | [MoreProps](/components/dropdown-cn#api) | - |  |
@@ -63,7 +62,7 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 | type | 页签的基本样式，可选 `line`、`card` `pills` 类型 | string | `line` |  |
 | onAdd | 新增页签的回调，在 `addable={true}` 时有效 | (event: MouseEvent) => void \| string \| Promise&lt;string> | - |  |
 | onChange | 切换面板的回调 | (activeKey: string) => void | - |  |
-| onRemove | 关闭页签的回调，在 `closable={true}` 时有效 | (key: Key, event: MouseEvent) => void | - |  |
+| onClose | 关闭页签的回调，在 `closable={true}` 时有效 | (key: Key, event: MouseEvent) => void | - |  |
 | onRename | 重命名确定后的回调 | (key: Key, name: string) => void | - |  |
 | onTabClick | tab 被点击的回调 | (key: string, event: MouseEvent) => void | - |  |
 | onTabScroll | tab 滚动时触发 | ({ direction: `left` \| `right` \| `top` \| `bottom` }) => void | - |  |
@@ -72,7 +71,7 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | 是否显示选项卡的关闭按钮，在 Tabs `closable={true}"` 时有效 | boolean | true |  |
 | closeIcon | 自定义关闭图标，设置为 `null` 或 `false` 时隐藏关闭按钮 | ReactNode | - |  |
 | content | 选项卡头显示内容 | ReactNode | - |  |
@@ -88,3 +87,7 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 | 名称                    | 说明                                            |
 | ----------------------- | ----------------------------------------------- |
 | triggerRename(key: Key) | 触发重命名事件，仅当 `label` 为字符串类型时有效 |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

@@ -126,13 +126,13 @@ export default function useTouchMove(
     document.addEventListener('touchmove', onProxyTouchMove, { passive: false });
     document.addEventListener('touchend', onProxyTouchEnd, { passive: true });
 
-    // No need to clean up since element removed
+    // No need to clean up since element closed
     ref.current?.addEventListener('touchstart', onProxyTouchStart, { passive: true });
     ref.current?.addEventListener('wheel', onProxyWheel, { passive: false });
 
     return () => {
-      document.removeEventListener('touchmove', onProxyTouchMove);
-      document.removeEventListener('touchend', onProxyTouchEnd);
+      document.closeEventListener('touchmove', onProxyTouchMove);
+      document.closeEventListener('touchend', onProxyTouchEnd);
     };
   }, []);
 }

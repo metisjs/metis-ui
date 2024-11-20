@@ -47,7 +47,7 @@ Metis UI has 3 types of Tabs for different situations.
 | closable | Show close button(x) | boolean | `false` |  |
 | defaultActiveKey | Initial active TabPane's key, if `activeKey` is not set | Key | `The key of first tab` |  |
 | destroyInactiveTabPane | Whether destroy inactive TabPane when change tab | boolean | `false` |  |
-| icons | Custom icons | { add?: ReactNode; remove?: ReactNode; more?: ReactNode; } | - |  |
+| icons | Custom icons | { add?: ReactNode; close?: ReactNode; more?: ReactNode; } | - |  |
 | indicator | Customize `size` and `align` of indicator | { size?: number \| (origin: number) => number; align: `start` \| `center` \| `end`; } | - |  |
 | items | Configure tab content | [TabItemType](#tabitemtype) | \[] |  |
 | more | 自定义折叠菜单属性 | [MoreProps](/components/dropdown#api) | - |  |
@@ -60,7 +60,7 @@ Metis UI has 3 types of Tabs for different situations.
 | type | Basic style of tabs | `line` \| `card` \| `pills` | `line` |  |
 | onAdd | Callback executed when tab is added. Only works while `addable={true}` | (event: MouseEvent) => void \| string \| Promise&lt;string> | - |  |
 | onChange | Callback executed when active tab is changed | (activeKey: string) => void | - |  |
-| onRemove | Callback executed when tab is close. Only works while  `closable={true}` | (key: Key, event: MouseEvent) => void | - |  |
+| onClose | Callback executed when tab is close. Only works while  `closable={true}` | (key: Key, event: MouseEvent) => void | - |  |
 | onRename | Callback executed when tab is renamed | (key: Key, name: string) => void | - |  |
 | onTabScroll | Trigger when tab scroll | ({ direction: `left` \| `right` \| `top` \| `bottom` }) => void | - |  |
 

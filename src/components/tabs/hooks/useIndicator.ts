@@ -34,7 +34,7 @@ const useIndicator = (options: UseIndicatorOptions) => {
     [size],
   );
 
-  // Delay set ink style to avoid remove tab blink
+  // Delay set ink style to avoid close tab blink
   function cleanRaf() {
     if (rafRef.current) raf.cancel(rafRef.current);
   }

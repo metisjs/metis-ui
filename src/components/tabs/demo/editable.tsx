@@ -41,7 +41,7 @@ const App: React.FC = () => {
     return newActiveKey;
   };
 
-  const onRemove = (targetKey: React.Key) => {
+  const onClose = (targetKey: React.Key) => {
     let newActiveKey = activeKey;
     let lastIndex = -1;
     items.forEach((item, i) => {
@@ -78,10 +78,10 @@ const App: React.FC = () => {
         onClick: () => ref.current?.triggerRename(tab.key),
       },
       {
-        key: 'remove',
-        label: 'Remove',
+        key: 'close',
+        label: 'Close',
         disabled: !tab.closable,
-        onClick: () => onRemove(tab.key),
+        onClick: () => onClose(tab.key),
       },
       {
         key: 'others',
@@ -98,7 +98,7 @@ const App: React.FC = () => {
     items,
     onChange,
     onAdd,
-    onRemove,
+    onClose,
     onRename,
     closable: true,
     addable: true,

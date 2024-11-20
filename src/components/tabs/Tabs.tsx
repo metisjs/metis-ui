@@ -65,7 +65,7 @@ export interface TabsProps
   closable?: boolean;
   renameAfterAdd?: boolean;
   onAdd?: (event: React.MouseEvent | React.KeyboardEvent) => void | string | Promise<string>;
-  onRemove?: (key: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onClose?: (key: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
   onRename?: (key: SafeKey, name: string) => void;
 
   onChange?: (activeKey: SafeKey) => void;
@@ -80,7 +80,7 @@ export interface TabsProps
   // Icons
   icons?: {
     add?: React.ReactNode;
-    remove?: React.ReactNode;
+    close?: React.ReactNode;
     more?: React.ReactNode;
   };
 
@@ -118,7 +118,7 @@ const Tabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
     onTabScroll,
     getPopupContainer,
     onAdd,
-    onRemove,
+    onClose,
     onRename,
     indicator,
     icons,
@@ -212,7 +212,7 @@ const Tabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
       [`${prefixCls}-${type}`]: type !== 'line',
       [`${prefixCls}-centered`]: centered,
     },
-    'flex text-sm text-text',
+    'flex w-full text-sm text-text',
     {
       'flex-col': mergedTabPosition === 'top' || mergedTabPosition === 'bottom',
     },
@@ -231,7 +231,7 @@ const Tabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
   const tabNavBarProps = {
     ...sharedProps,
     centered,
-    editConfig: { onAdd, onRemove, onRename, closable, addable, renameAfterAdd },
+    editConfig: { onAdd, onClose, onRename, closable, addable, renameAfterAdd },
     locale,
     more,
     icons,

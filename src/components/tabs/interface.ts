@@ -12,7 +12,7 @@ export type TriggerProps = {
 
 export type IconsType = {
   add?: React.ReactNode;
-  remove?: React.ReactNode;
+  close?: React.ReactNode;
   more?: React.ReactNode;
 };
 
@@ -66,13 +66,13 @@ export type RenderTabBar = (
 
 export interface TabsLocale {
   dropdownAriaLabel?: string;
-  removeAriaLabel?: string;
+  closeAriaLabel?: string;
   addAriaLabel?: string;
 }
 
 export type EditableConfig = Pick<
   TabsProps,
-  'closable' | 'addable' | 'renameAfterAdd' | 'onAdd' | 'onRemove' | 'onRename'
+  'closable' | 'addable' | 'renameAfterAdd' | 'onAdd' | 'onClose' | 'onRename'
 >;
 
 export interface AnimatedConfig {

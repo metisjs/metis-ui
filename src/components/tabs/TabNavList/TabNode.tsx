@@ -21,15 +21,15 @@ export interface TabNodeProps {
   onClick?: (e: React.MouseEvent | React.KeyboardEvent) => void;
   onResize?: (width: number, height: number, left: number, top: number) => void;
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
-  removeAriaLabel?: string;
-  removeIcon?: React.ReactNode;
+  closeAriaLabel?: string;
+  closeIcon?: React.ReactNode;
   onFocus: React.FocusEventHandler;
   style?: React.CSSProperties;
   className?: SemanticClassName<
     {
       icon?: string;
       label?: string;
-      remove?: string;
+      close?: string;
     },
     { active?: boolean; removable?: boolean; disabled?: boolean; renaming?: boolean }
   >;
@@ -46,11 +46,11 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     prefixCls,
     id,
     active,
-    tab: { key, label, disabled, closeIcon, icon },
+    tab: { key, label, disabled, closeIcon: tabCloseIcon, icon },
     closable,
     renderWrapper,
-    removeAriaLabel,
-    removeIcon,
+    closeAriaLabel,
+    closeIcon,
     editConfig,
     onClick,
     onFocus,
@@ -87,10 +87,10 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     onClick?.(e);
   }
 
-  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent) {
+  function onCloseTab(event: React.MouseEvent | React.KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
-    editConfig.onRemove?.(key, event);
+    editConfig.onClose?.(key, event);
   }
 
   // =================== Rename ===================
@@ -134,7 +134,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
   const nodeCls = clsx(
     tabPrefix,
     {
-      [`${tabPrefix}-with-remove`]: removable,
+      [`${tabPrefix}-with-close`]: removable,
       [`${tabPrefix}-active`]: active,
       [`${tabPrefix}-disabled`]: disabled,
     },
@@ -295,11 +295,11 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     semanticCls.label,
   );
 
-  const removeCls = clsx(
-    `${tabPrefix}-remove`,
+  const closeCls = clsx(
+    `${tabPrefix}-close`,
     'ml-2 inline-flex items-center text-base text-text-tertiary transition-colors hover:text-text-secondary',
     type === 'line' && !horizontal && 'absolute end-2',
-    semanticCls.remove,
+    semanticCls.close,
   );
 
   const cardDividerCls = clsx(
@@ -356,15 +356,15 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
       {removable && (
         <button
           type="button"
-          aria-label={removeAriaLabel || 'remove'}
+          aria-label={closeAriaLabel || 'close'}
           tabIndex={0}
-          className={removeCls}
+          className={closeCls}
           onClick={(e) => {
             e.stopPropagation();
-            onRemoveTab(e);
+            onCloseTab(e);
           }}
         >
-          {closeIcon || removeIcon || <XMarkOutline />}
+          {tabCloseIcon || closeIcon || <XMarkOutline />}
         </button>
       )}
 

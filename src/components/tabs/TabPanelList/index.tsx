@@ -60,7 +60,7 @@ const TabPanelList: React.FC<TabPanelListProps> = (props) => {
             key={key}
             visible={active}
             forceRender={forceRender}
-            removeOnLeave={!!(destroyInactiveTabPane || itemDestroyInactiveTabPane)}
+            closeOnLeave={!!(destroyInactiveTabPane || itemDestroyInactiveTabPane)}
             appear={false}
             {...animated?.tabPaneTransition}
           >

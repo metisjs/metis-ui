@@ -228,7 +228,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
   return (
     <div className="relative rounded" ref={containerRef}>
       <div className="flex divide-x divide-border-secondary" style={{ minHeight: height }}>
-        <div className="flex flex-auto flex-col divide-y divide-border-secondary">
+        <div className="flex w-0 flex-1 flex-col divide-y divide-border-secondary">
           {extra && <div className="flex h-[62px] items-center px-5">{extra}</div>}
           <div
             ref={ref}
@@ -238,7 +238,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
             {cloneNode}
           </div>
         </div>
-        <div className="basis-72">
+        <div className="flex-shrink-0 basis-72">
           <ul className="divide-y divide-border-secondary">
             {
               <li className="bg-fill-quinary px-3 py-2">
