@@ -29,7 +29,6 @@ description: A content area which can be collapsed and expanded.
 | accordion | If true, Collapse renders as Accordion | boolean | false |  |
 | activeKey | Key of the active panel | string\[] \| string <br/> number\[] \| number | No default value. In [accordion mode](#collapse-demo-accordion), it's the key of the first panel |  |
 | bordered | Toggles rendering of the border around the collapse block | boolean | true |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'panel' \| 'panelHeader' \| 'panelContent', string> | - |  |
 | collapsible | Specify whether the panels of children be collapsible or the trigger area of collapsible | `header` \| `icon` \| `disabled` | - |  |
 | defaultActiveKey | Key of the initial active panel | string\[] \| string <br/> number\[] \| number | - |  |
 | destroyInactivePanel | Destroy Inactive Panel | boolean | false |  |
@@ -38,6 +37,7 @@ description: A content area which can be collapsed and expanded.
 | ghost | Make the collapse borderless and its background transparent | boolean | false |  |
 | items | collapse items content | [ItemType](#itemtype) | - |  |
 | onChange | Callback function executed when active panel is changed | function | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### ItemType
 
@@ -52,3 +52,7 @@ description: A content area which can be collapsed and expanded.
 | key | Unique key identifying the panel from among its siblings | string \| number | - |  |
 | label | Title of the panel | ReactNode | - |  |
 | showArrow | If false, panel will not show arrow icon. If false, collapsible can't be set as icon | boolean | true |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
