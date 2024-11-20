@@ -24,6 +24,10 @@ group: 数据展示
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'image' \| 'description' \| 'footer', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | description | 自定义描述内容 | ReactNode | - |  |
 | image | 设置显示图片，为 string 时表示自定义图片地址。 | ReactNode | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
