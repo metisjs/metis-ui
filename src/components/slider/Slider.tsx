@@ -339,7 +339,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       [`${prefixCls}-with-marks`]: markList.length,
     },
     'group relative cursor-pointer text-sm text-text',
-    { 'mx-3 my-1 h-full px-1': vertical, 'mx-1 my-3 h-3 py-1': !vertical },
+    { 'mx-3 my-1 h-full px-1': vertical, 'mx-1 my-3 h-3 w-full py-1': !vertical },
     markList.length && { 'mr-8': vertical, 'mb-8': !vertical },
     mergedDisabled && 'cursor-not-allowed opacity-disabled',
     semanticCls.root,

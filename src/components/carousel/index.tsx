@@ -200,7 +200,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
 
   const semanticCls = useSemanticCls(className, 'carousel');
 
-  const rootCls = clsx(prefixCls, 'relative', semanticCls.root);
+  const rootCls = clsx(prefixCls, 'relative w-full', semanticCls.root);
 
   const wrapperCls = clsx(`${prefixCls}-${animation}`, 'relative h-full w-full overflow-hidden');
 
