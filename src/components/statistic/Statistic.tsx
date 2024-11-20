@@ -83,7 +83,7 @@ const Statistic: React.FC<StatisticProps> = (props) => {
     semanticCls.value,
   );
 
-  const skeletonCls = clsx(`${prefixCls}-skeleton`, 'pt-3');
+  const skeletonCls = clsx(`${prefixCls}-skeleton`, 'pt-2');
 
   const _prefixCls = clsx(
     `${prefixCls}-content-prefix`,

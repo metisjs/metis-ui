@@ -24,26 +24,26 @@ description: 展示统计数值。
 
 #### Statistic
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
-| decimalSeparator | 设置小数点 | string | `.` |  |
-| formatter | 自定义数值展示 | (value) => ReactNode | - |  |
-| groupSeparator | 设置千分位标识符 | string | `,` |  |
-| loading | 数值是否加载中 | boolean | false |  |
-| precision | 数值精度 | number | - |  |
-| prefix | 设置数值的前缀 | ReactNode | - |  |
-| suffix | 设置数值的后缀 | ReactNode | - |  |
-| title | 数值的标题 | ReactNode | - |  |
-| tooltip | 标题栏提示 | string \| TooltipProps | - |  |
-| value | 数值内容 | string \| number | - |  |
-| valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
+| 参数             | 说明               | 类型                        | 默认值 | 版本 |
+| ---------------- | ------------------ | --------------------------- | ------ | ---- |
+| className        | 语义化结构 class   | [SemanticDOM](#statistic-1) | -      |      |
+| decimalSeparator | 设置小数点         | string                      | `.`    |      |
+| formatter        | 自定义数值展示     | (value) => ReactNode        | -      |      |
+| groupSeparator   | 设置千分位标识符   | string                      | `,`    |      |
+| loading          | 数值是否加载中     | boolean                     | false  |      |
+| precision        | 数值精度           | number                      | -      |      |
+| prefix           | 设置数值的前缀     | ReactNode                   | -      |      |
+| suffix           | 设置数值的后缀     | ReactNode                   | -      |      |
+| title            | 数值的标题         | ReactNode                   | -      |      |
+| tooltip          | 标题栏提示         | string \| TooltipProps      | -      |      |
+| value            | 数值内容           | string \| number            | -      |      |
+| valueStyle       | 设置数值区域的样式 | CSSProperties               | -      |      |
 
 #### Statistic.Group
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#statisticgroup-1) | - |  |
 | column | 一行的 `Statistic` 数量，可以写成像素值或支持响应式的对象写法 `{ xs: 8, sm: 16, md: 24}` | number \| Record&lt;Breakpoint, number> | 4 |  |
 | expandable | 是否可展开 | `boolean` | true |  |
 | item | 列表项内容 | [StatisticItem](#statistic)\[] |  |  |
@@ -53,7 +53,7 @@ description: 展示统计数值。
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#statisticcountdown-1) | - |  |
 | format | 格式化倒计时展示，参考 [dayjs](https://day.js.org/) | string | `HH:mm:ss` |  |
 | prefix | 设置数值的前缀 | ReactNode | - |  |
 | suffix | 设置数值的后缀 | ReactNode | - |  |
@@ -62,3 +62,17 @@ description: 展示统计数值。
 | valueStyle | 设置数值区域的样式 | CSSProperties | - |  |
 | onChange | 倒计时时间变化时触发 | (value: number) => void | - |  |
 | onFinish | 倒计时完成时触发 | () => void | - |  |
+
+## Semantic DOM
+
+### Statistic
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Statistic.Group
+
+<code src="./demo/_semantic_group.tsx" simplify></code>
+
+### Statistic.Countdown
+
+<code src="./demo/_semantic_countdown.tsx" simplify></code>
