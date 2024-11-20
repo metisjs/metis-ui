@@ -25,12 +25,17 @@ demo:
 
 ## API
 
-| 参数    | 说明     | 类型                         | 默认值 | 版本 |
-| ------- | -------- | ---------------------------- | ------ | ---- |
-| content | 卡片内容 | ReactNode \| () => ReactNode | -      |      |
-| title   | 卡片标题 | ReactNode \| () => ReactNode | -      |      |
+| 参数      | 说明             | 类型                         | 默认值 | 版本 |
+| --------- | ---------------- | ---------------------------- | ------ | ---- |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | -      |      |
+| content   | 卡片内容         | ReactNode \| () => ReactNode | -      |      |
+| title     | 卡片标题         | ReactNode \| () => ReactNode | -      |      |
 
 更多属性请参考 [Tooltip](/components/tooltip-cn/#api)。
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## 注意
 
