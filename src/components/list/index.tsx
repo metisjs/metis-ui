@@ -29,10 +29,9 @@ export type LazyLoadType =
 export interface ListProps<T, R extends LazyLoadType = false> {
   bordered?: boolean;
   className?: SemanticClassName<{
-    items?: string;
+    body?: string;
     header?: string;
     footer?: string;
-    scrollView?: string;
     item?: ListItemProps['className'];
   }>;
   style?: React.CSSProperties;
@@ -137,15 +136,15 @@ function InternalList<T>(
       [`${prefixCls}-bordered`]: bordered,
       [`${prefixCls}-loading`]: isLoading,
     },
-    'relative flex flex-col rounded-lg text-sm text-text',
+    'relative flex w-full flex-col rounded-lg text-sm text-text',
     {
       'border border-border': bordered,
     },
     semanticCls.root,
   );
 
-  const itemsCls = clsx(
-    `${prefixCls}-items`,
+  const bodyCls = clsx(
+    `${prefixCls}-body`,
     {
       'divide-y divide-border-tertiary': !virtual && split,
       'divide-border-secondary': !virtual && split && bordered,
@@ -154,7 +153,7 @@ function InternalList<T>(
       '[&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-border-secondary':
         virtual && split && bordered,
     },
-    semanticCls.items,
+    semanticCls.body,
   );
 
   const headerCls = clsx(
@@ -179,7 +178,7 @@ function InternalList<T>(
       <VirtualList
         prefixCls={`${prefixCls}-virtual-list`}
         ref={ref}
-        className={{ view: itemsCls }}
+        className={{ view: bodyCls }}
         data={mergedDataSource}
         virtual={!!virtual}
         increaseViewportBy={200}

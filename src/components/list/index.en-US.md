@@ -33,22 +33,26 @@ A list can be used to display content related to a single subject. The content c
 | split | Toggles rendering of the split under the list item | boolean | true |  |
 | lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean | false |  |
 | request | Method to fetch remote data | `RequestConfig` | - |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | virtual | Use virtual list | boolean \| [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |
 
 ### List.Item
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| actions | The actions content of list item. | Array&lt;ReactNode> | - |  |
-| extra | The extra content of list item. | ReactNode | - |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| Property  | Description                       | Type                         | Default | Version |
+| --------- | --------------------------------- | ---------------------------- | ------- | ------- |
+| actions   | The actions content of list item. | Array&lt;ReactNode>          | -       |         |
+| extra     | The extra content of list item.   | ReactNode                    | -       |         |
+| className | Semantic DOM class                | [SemanticDOM](#semantic-dom) | -       |         |
 
 ### List.Item.Meta
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| avatar | The avatar of list item | ReactNode | - |  |
-| description | The description of list item | ReactNode | - |  |
-| title | The title of list item | ReactNode | - |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| Property    | Description                  | Type                         | Default | Version |
+| ----------- | ---------------------------- | ---------------------------- | ------- | ------- |
+| avatar      | The avatar of list item      | ReactNode                    | -       |         |
+| description | The description of list item | ReactNode                    | -       |         |
+| title       | The title of list item       | ReactNode                    | -       |         |
+| className   | Semantic DOM class           | [SemanticDOM](#semantic-dom) | -       |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
