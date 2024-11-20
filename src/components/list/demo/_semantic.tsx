@@ -40,6 +40,7 @@ const App: React.FC = () => (
       },
       { name: 'footer' },
     ]}
+    rootArgs={[{ name: 'bordered', type: 'boolean' }]}
   >
     <List
       dataSource={data}

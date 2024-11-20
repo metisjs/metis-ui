@@ -28,12 +28,15 @@ export type LazyLoadType =
 
 export interface ListProps<T, R extends LazyLoadType = false> {
   bordered?: boolean;
-  className?: SemanticClassName<{
-    body?: string;
-    header?: string;
-    footer?: string;
-    item?: ListItemProps['className'];
-  }>;
+  className?: SemanticClassName<
+    {
+      body?: string;
+      header?: string;
+      footer?: string;
+      item?: ListItemProps['className'];
+    },
+    { bordered?: boolean }
+  >;
   style?: React.CSSProperties;
   dataSource?: T[];
   id?: string;
@@ -81,7 +84,7 @@ function InternalList<T>(
   ref: React.ForwardedRef<ListRef>,
 ) {
   const { getPrefixCls, renderEmpty } = React.useContext(ConfigContext);
-  const semanticCls = useSemanticCls(className, 'list');
+  const semanticCls = useSemanticCls(className, 'list', { bordered });
 
   const {
     dataSource: requestDataSource,
