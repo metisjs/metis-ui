@@ -26,10 +26,14 @@ group: Data Display
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | block | Option to fit width to its parent\\'s width | boolean | false |  |
-| className | Semantic DOM class class | string \| Record&lt;'root' \| 'option', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | Default selected value | string \| number |  |  |
 | disabled | Disable all segments | boolean | false |  |
 | options | Set children optional | string\[] \| number\[] \| Array&lt;{ label: ReactNode value: string icon? ReactNode disabled?: boolean className?: string }> | \[] |  |
 | size | The size of the Segmented. | `large` \| `middle` \| `small` | `middle` |  |
 | value | Currently selected value | string \| number |  |  |
 | onChange | The callback function that is triggered when the state changes | function(value: string \| number) |  |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

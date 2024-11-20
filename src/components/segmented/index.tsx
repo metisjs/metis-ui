@@ -3,7 +3,7 @@ import { useMergedState } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import { composeRef } from 'rc-util/lib/ref';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
@@ -51,7 +51,28 @@ export interface SegmentedProps<ValueType = SegmentedValue>
   disabled?: boolean;
   block?: boolean;
   size?: SizeType;
-  className?: SemanticClassName<{ option?: string }>;
+  className?: SemanticClassName<
+    { motionThumb?: string; option?: SegmentedOptionProps['className'] },
+    { disabled?: boolean }
+  >;
+}
+
+export interface SegmentedOptionProps {
+  prefixCls: string;
+  className?: SemanticClassName<
+    { content?: string; icon?: string; label?: string },
+    { disabled?: boolean; checked?: boolean }
+  >;
+  disabled?: boolean;
+  block?: boolean;
+  size?: SizeType;
+  checked: boolean;
+  motionEnd: boolean;
+  label?: React.ReactNode;
+  icon?: React.ReactNode;
+  title?: string;
+  value: SegmentedRawOption;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
 }
 
 function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
@@ -67,20 +88,7 @@ function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
   });
 }
 
-const InternalSegmentedOption: React.FC<{
-  prefixCls: string;
-  className?: string;
-  disabled?: boolean;
-  block?: boolean;
-  size?: SizeType;
-  checked: boolean;
-  motionEnd: boolean;
-  label?: React.ReactNode;
-  icon?: React.ReactNode;
-  title?: string;
-  value: SegmentedRawOption;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
-}> = ({
+const InternalSegmentedOption: React.FC<SegmentedOptionProps> = ({
   prefixCls,
   className,
   size,
@@ -95,6 +103,8 @@ const InternalSegmentedOption: React.FC<{
   onChange,
 }) => {
   const optionPrefixCls = `${prefixCls}-item`;
+
+  const semanticCls = useSemanticCls(className, { disabled, checked: checked && motionEnd });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) {
@@ -118,7 +128,7 @@ const InternalSegmentedOption: React.FC<{
       'min-w-0 flex-1': block,
       'bg-container text-primary shadow hover:text-primary': checked && motionEnd,
     },
-    className,
+    semanticCls.root,
   );
 
   return (
@@ -135,13 +145,18 @@ const InternalSegmentedOption: React.FC<{
       />
       <div
         className={clsx(
-          `${optionPrefixCls}-label`,
+          `${optionPrefixCls}-content`,
           'flex w-full items-center justify-center gap-x-2',
+          semanticCls.content,
         )}
         title={title}
       >
-        {icon && <span className={clsx('flex items-center text-xl/[1.25rem]')}>{icon}</span>}
-        {label && <span className="truncate">{label}</span>}
+        {icon && (
+          <span className={clsx('flex items-center text-xl/[1.25rem]', semanticCls.icon)}>
+            {icon}
+          </span>
+        )}
+        {label && <span className={clsx('truncate', semanticCls.label)}>{label}</span>}
       </div>
     </label>
   );
@@ -162,7 +177,7 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('segmented', customizePrefixCls);
-  const semanticCls = useSemanticCls(className, 'segmented');
+  const semanticCls = useSemanticCls(className, 'segmented', { disabled });
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const mergedRef = React.useMemo(
@@ -202,7 +217,7 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
       {...divProps}
       className={clsx(
         prefixCls,
-        'inline-block w-fit rounded-md bg-layout p-0.5 text-text transition-all duration-300',
+        'relative inline-flex w-fit items-stretch justify-start gap-x-0.5 rounded-md bg-layout p-0.5 text-text transition-all duration-300',
         { 'flex w-full': block },
         {
           rounded: mergedSize === 'mini',
@@ -211,39 +226,33 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
       )}
       ref={mergedRef}
     >
-      <div
-        className={clsx(
-          `${prefixCls}-group`,
-          `relative flex w-full items-stretch justify-start gap-x-0.5`,
-        )}
-      >
-        <MotionThumb
+      <MotionThumb
+        prefixCls={prefixCls}
+        value={rawValue}
+        containerRef={containerRef}
+        getValueIndex={(val) => segmentedOptions.findIndex((n) => n.value === val)}
+        onMotionStart={() => {
+          setThumbShow(true);
+        }}
+        onMotionEnd={() => {
+          setThumbShow(false);
+        }}
+        className={semanticCls.motionThumb}
+      />
+      {segmentedOptions.map((segmentedOption) => (
+        <InternalSegmentedOption
           prefixCls={prefixCls}
-          value={rawValue}
-          containerRef={containerRef}
-          getValueIndex={(val) => segmentedOptions.findIndex((n) => n.value === val)}
-          onMotionStart={() => {
-            setThumbShow(true);
-          }}
-          onMotionEnd={() => {
-            setThumbShow(false);
-          }}
+          key={segmentedOption.value}
+          className={mergeSemanticCls(semanticCls.option, segmentedOption.className)}
+          checked={segmentedOption.value === rawValue}
+          motionEnd={!thumbShow}
+          onChange={handleChange}
+          {...segmentedOption}
+          disabled={!!disabled || !!segmentedOption.disabled}
+          size={mergedSize}
+          block={block}
         />
-        {segmentedOptions.map((segmentedOption) => (
-          <InternalSegmentedOption
-            prefixCls={prefixCls}
-            key={segmentedOption.value}
-            className={clsx(semanticCls.option, segmentedOption.className)}
-            checked={segmentedOption.value === rawValue}
-            motionEnd={!thumbShow}
-            onChange={handleChange}
-            {...segmentedOption}
-            disabled={!!disabled || !!segmentedOption.disabled}
-            size={mergedSize}
-            block={block}
-          />
-        ))}
-      </div>
+      ))}
     </div>
   );
 });

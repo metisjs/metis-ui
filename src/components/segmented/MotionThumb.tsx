@@ -12,6 +12,7 @@ type ThumbReact = {
 
 export interface MotionThumbInterface {
   prefixCls: string;
+  className?: string;
   containerRef: React.RefObject<HTMLDivElement>;
   value: SegmentedValue;
   getValueIndex: (value: SegmentedValue) => number;
@@ -34,7 +35,8 @@ const calcThumbStyle = (targetElement: HTMLElement | null | undefined): ThumbRea
 const toPX = (value?: number) => (value !== undefined ? `${value}px` : undefined);
 
 export default function MotionThumb(props: MotionThumbInterface) {
-  const { prefixCls, containerRef, value, getValueIndex, onMotionStart, onMotionEnd } = props;
+  const { prefixCls, className, containerRef, value, getValueIndex, onMotionStart, onMotionEnd } =
+    props;
 
   const [prevValue, setPrevValue] = React.useState(value);
 
@@ -94,10 +96,14 @@ export default function MotionThumb(props: MotionThumbInterface) {
       enterTo={{ transform: `translateX(${thumbActive})`, width: nextStyle?.width }}
       afterEnter={afterEnter}
     >
-      {({ className, style }, ref) => (
+      {({ className: transitionCls, style }, ref) => (
         <div
           ref={ref}
-          className={clsx(className, 'absolute left-0 top-0 h-full rounded-md bg-container shadow')}
+          className={clsx(
+            'absolute bottom-0.5 left-0 top-0.5 rounded-md bg-container shadow',
+            className,
+            transitionCls,
+          )}
           style={style}
         ></div>
       )}
