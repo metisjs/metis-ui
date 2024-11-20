@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { clsx, type SemanticClassName } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { ConfigContext } from '../config-provider';
 import { PreviewGroupContext } from './context';
 import usePreviewItems from './hooks/usePreviewItems';
 import type {
   ImageElementProps,
+  ImageProps,
   OnGroupPreview,
   PreviewGroupPreview,
   PreviewProps,
@@ -20,10 +23,15 @@ export interface GroupConsumerProps {
   fallback?: string;
   preview?: boolean | PreviewGroupPreview;
   children?: React.ReactNode;
+  className?: SemanticClassName<{
+    image: ImageProps['className'];
+    preview: PreviewProps['className'];
+  }>;
 }
 
-const Group: React.FC<GroupConsumerProps> = ({
+export const Group: React.FC<GroupConsumerProps> = ({
   previewPrefixCls: customizePrefixCls,
+  className,
   children,
   icons,
   items,
@@ -33,6 +41,8 @@ const Group: React.FC<GroupConsumerProps> = ({
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('image', customizePrefixCls);
   const previewPrefixCls = `${prefixCls}-preview`;
+
+  const semanticCls = useSemanticCls(className);
 
   const {
     open: previewOpen,
@@ -117,8 +127,8 @@ const Group: React.FC<GroupConsumerProps> = ({
 
   // ========================= Context ==========================
   const previewGroupContext = React.useMemo(
-    () => ({ register, onPreview: onPreviewFromImage }),
-    [register, onPreviewFromImage],
+    () => ({ register, onPreview: onPreviewFromImage, imageClassName: semanticCls.image }),
+    [register, onPreviewFromImage, semanticCls.image],
   );
 
   // ========================= ZIndex ==========================
@@ -127,32 +137,35 @@ const Group: React.FC<GroupConsumerProps> = ({
   // ========================== Render ==========================
   return (
     <PreviewGroupContext.Provider value={previewGroupContext}>
-      {children}
-      <Preview
-        aria-hidden={!isShowPreview}
-        movable={movable}
-        open={isShowPreview}
-        prefixCls={previewPrefixCls}
-        closeIcon={closeIcon}
-        onClose={onPreviewClose}
-        mousePosition={mousePosition}
-        imgCommonProps={imgCommonProps}
-        src={src}
-        fallback={fallback}
-        icons={icons}
-        minScale={minScale}
-        maxScale={maxScale}
-        getContainer={getContainer}
-        current={current}
-        count={mergedItems.length}
-        countRender={countRender}
-        onTransform={onTransform}
-        toolbarRender={toolbarRender}
-        imageRender={imageRender}
-        onChange={onInternalChange}
-        zIndex={mergedZIndex}
-        {...modalProps}
-      />
+      <div className={clsx(`${prefixCls}-group`, semanticCls.root)}>
+        {children}
+        <Preview
+          aria-hidden={!isShowPreview}
+          movable={movable}
+          open={isShowPreview}
+          prefixCls={previewPrefixCls}
+          closeIcon={closeIcon}
+          onClose={onPreviewClose}
+          mousePosition={mousePosition}
+          imgCommonProps={imgCommonProps}
+          src={src}
+          fallback={fallback}
+          icons={icons}
+          minScale={minScale}
+          maxScale={maxScale}
+          getContainer={getContainer}
+          current={current}
+          count={mergedItems.length}
+          countRender={countRender}
+          onTransform={onTransform}
+          toolbarRender={toolbarRender}
+          imageRender={imageRender}
+          onChange={onInternalChange}
+          zIndex={mergedZIndex}
+          className={semanticCls.preview}
+          {...modalProps}
+        />
+      </div>
     </PreviewGroupContext.Provider>
   );
 };

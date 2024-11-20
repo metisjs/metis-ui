@@ -35,7 +35,7 @@ cols: 2
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | alt | 图像描述 | string | - |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'image', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#image-1) | - |  |
 | fallback | 加载失败容错地址 | string | - |  |
 | height | 图像高度 | string \| number | - |  |
 | placeholder | 加载占位，为 `true` 时使用默认占位 | ReactNode | - |  |
@@ -50,7 +50,6 @@ cols: 2
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'body' \| 'mask' \| 'content' \| 'image' \| 'operations', string> | - |  |
 | closeIcon | 自定义关闭 Icon | React.ReactNode | - |  |
 | destroyOnClose | 关闭预览时销毁子元素 | boolean | false |  |
 | forceRender | 强制渲染预览图 | boolean | - | - |
@@ -71,6 +70,7 @@ cols: 2
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticDOM](#imagepreviewgroup) | - |  |
 | fallback | 加载失败容错地址 | string | - |  |
 | items | 预览数组 | string\[] \| { src: string, crossOrigin: string, ... }\[] | - |  |
 | preview | 预览参数，为 `false` 时禁用 | boolean \| [PreviewGroupType](#previewgrouptype) | true |  |
@@ -170,3 +170,13 @@ type TransformAction =
   height?: string | number;
 }
 ```
+
+## Semantic DOM
+
+### Image
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Image.PreviewGroup
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

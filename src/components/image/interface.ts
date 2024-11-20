@@ -41,13 +41,6 @@ export interface ImgInfo {
 }
 
 export interface ImagePreviewType {
-  className?: SemanticClassName<{
-    body?: string;
-    mask?: string;
-    content?: string;
-    image?: string;
-    operations?: OperationsProps['className'];
-  }>;
   maskClosable?: boolean;
   destroyOnClose?: boolean;
   src?: string;
@@ -76,7 +69,7 @@ export interface ImagePreviewType {
 
 export interface ImageProps
   extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder' | 'onClick' | 'className'> {
-  className?: SemanticClassName<{ image?: string }>;
+  className?: SemanticClassName<{ mask?: string; preview?: PreviewProps['className'] }>;
   // Original
   src: string;
   prefixCls?: string;
@@ -102,7 +95,16 @@ export interface OperationsProps
     PreviewProps,
     'open' | 'getContainer' | 'prefixCls' | 'icons' | 'countRender' | 'closeIcon' | 'onClose'
   > {
-  className?: SemanticClassName<{ operation?: string; close?: string; progress?: string }>;
+  className?: SemanticClassName<
+    {
+      operation?: string;
+      close?: string;
+      progress?: string;
+      prev?: string;
+      next?: string;
+    },
+    { current: number }
+  >;
   showSwitch: boolean;
   showProgress: boolean;
   current: number;
@@ -157,8 +159,13 @@ export type ToolbarRenderInfoType = {
 
 export interface PreviewProps {
   prefixCls?: string;
+  className?: SemanticClassName<{
+    body?: string;
+    mask?: string;
+    image?: string;
+    operations?: OperationsProps['className'];
+  }>;
   imgCommonProps?: React.ImgHTMLAttributes<HTMLImageElement>;
-  className?: ImagePreviewType['className'];
   open?: boolean;
   src?: string;
   alt?: string;

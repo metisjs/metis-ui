@@ -34,7 +34,7 @@ cols: 2
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | alt | Image description | string | - |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'image', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#image-1) | - |  |
 | fallback | Load failure fault-tolerant src | string | - |  |
 | height | Image height | string \| number | - |  |
 | placeholder | Load placeholder, use default placeholder when set `true` | ReactNode | - |  |
@@ -49,7 +49,6 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'body' \| 'mask' \| 'content' \| 'image' \| 'operations', string> | - |  |
 | closeIcon | Custom close icon | React.ReactNode | - |  |
 | destroyOnClose | Destroy child elements when closing preview | boolean | false |  |
 | forceRender | Force render preview dialog | boolean | - | - |
@@ -70,6 +69,7 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#imagepreviewgroup) | - |  |
 | fallback | Load failure fault-tolerant src | string | - |  |
 | items | Preview items | string\[] \| { src: string, crossOrigin: string, ... }\[] | - |  |
 | preview | Preview config, `disabled` when false | boolean \| [PreviewGroupType](#previewgrouptype) | true |  |
@@ -167,3 +167,13 @@ type TransformAction =
   height?: string | number;
 }
 ```
+
+## Semantic DOM
+
+### Image
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Image.PreviewGroup
+
+<code src="./demo/_semantic_group.tsx" simplify></code>

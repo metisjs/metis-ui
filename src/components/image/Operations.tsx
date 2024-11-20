@@ -47,7 +47,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
     image,
     className,
   } = props;
-  const semanticCls = useSemanticCls(className);
+  const semanticCls = useSemanticCls(className, { current });
 
   const groupContext = useContext(PreviewGroupContext);
   const { rotateLeft, rotateRight, zoomIn, zoomOut, left, right, flipX, flipY } = icons;
@@ -114,6 +114,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
     {
       'cursor-not-allowed text-white/25': current === 0,
     },
+    semanticCls.prev,
   );
 
   const nextCls = clsx(
@@ -125,6 +126,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
     {
       'cursor-not-allowed text-white/25': current === count - 1,
     },
+    semanticCls.next,
   );
 
   const progressCls = clsx(`${prefixCls}-progress`, 'mb-4 text-white/65', semanticCls.progress);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { LinkOutline } from '@metisjs/icons';
 import { Link } from 'dumi';
 import { clsx, mergeSemanticCls, Popover, Space, Tag } from 'metis-ui';
@@ -22,6 +22,7 @@ type SemanticItem = {
 };
 
 export interface SemanticPreviewProps {
+  transform?: boolean;
   semantics: SemanticItem[];
   children: React.ReactElement | ((hover?: { name: string; path: string }) => React.ReactElement);
   height?: number;
@@ -145,8 +146,8 @@ function parseSemanticCls(
   return result;
 }
 
-const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
-  const { semantics = [], children, height, rootArgs, extra } = props;
+const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props, ref) => {
+  const { transform, semantics = [], children, height, rootArgs, extra } = props;
 
   // ======================= Semantic =======================
   const getMarkClassName = React.useCallback(
@@ -229,7 +230,11 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
       <div className="flex divide-x divide-border-secondary" style={{ minHeight: height }}>
         <div className="flex flex-auto flex-col divide-y divide-border-secondary">
           {extra && <div className="flex h-[62px] items-center px-5">{extra}</div>}
-          <div className="relative flex flex-auto items-center justify-center overflow-hidden p-5">
+          <div
+            ref={ref}
+            className="relative flex flex-auto items-center justify-center overflow-hidden p-5"
+            style={transform ? { transform: 'translate(0, 0)' } : {}}
+          >
             {cloneNode}
           </div>
         </div>
@@ -280,6 +285,6 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
       ))}
     </div>
   );
-};
+});
 
 export default SemanticPreview;

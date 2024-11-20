@@ -42,7 +42,9 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('image', customizePrefixCls);
 
-  const semanticCls = useSemanticCls(className, 'image');
+  const groupContext = useContext(PreviewGroupContext);
+
+  const semanticCls = useSemanticCls([groupContext?.imageClassName, className], 'image');
 
   const isCustomPlaceholder = !!placeholder && placeholder !== true;
   const {
@@ -59,10 +61,8 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     zIndex,
     imageRender,
     toolbarRender,
-    className: previewClassName,
     ...modalProps
   }: ImagePreviewType = typeof preview === 'object' ? preview : {};
-  const previewSemanticCls = useSemanticCls(previewClassName);
 
   const src = previewSrc ?? imgSrc;
   const [isShowPreview, setShowPreview] = useMergedState(!!previewOpen, {
@@ -75,8 +75,6 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     fallback,
   });
   const [mousePosition, setMousePosition] = useState<null | { x: number; y: number }>(null);
-
-  const groupContext = useContext(PreviewGroupContext);
 
   const canPreview = !!preview;
 
@@ -152,13 +150,12 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     {
       'bg-fill-quaternary': placeholder === true,
     },
-    semanticCls.image,
   );
   const placeholderCls = clsx(`${prefixCls}-placeholder`, 'absolute inset-0');
   const maskCls = clsx(
     `${prefixCls}-mask`,
     'absolute inset-0 flex cursor-pointer items-center justify-center bg-mask text-white opacity-0 transition-opacity duration-200 hover:opacity-100',
-    previewSemanticCls.mask,
+    semanticCls.mask,
   );
 
   // =========================== Render ===========================
@@ -238,7 +235,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
           imgCommonProps={imgCommonProps}
           toolbarRender={toolbarRender}
           zIndex={mergedZIndex}
-          className={previewClassName}
+          className={semanticCls.preview}
           {...modalProps}
         />
       )}
