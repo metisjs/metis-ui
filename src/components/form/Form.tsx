@@ -125,7 +125,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       [`${prefixCls}-hide-required-mark`]: mergedRequiredMark === false,
       [`${prefixCls}-${mergedSize}`]: mergedSize,
     },
-    'w-full text-sm text-text',
+    'text-sm text-text',
     {
       'flex flex-wrap gap-x-6': layout === 'inline',
       'grid gap-x-6': mergedColumn,
