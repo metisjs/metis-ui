@@ -35,7 +35,7 @@ demo:
 | action | The action of Alert | ReactNode | - |  |
 | afterClose | Called when close animation is finished | () => void | - |  |
 | banner | Whether to show as banner | boolean | false |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'content' \| 'message' \| 'description' \| 'action' \| 'close' \| 'icon', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | Additional content of Alert | ReactNode | - |  |
 | icon | Custom icon, effective when `showIcon` is true | ReactNode | - |  |
@@ -50,3 +50,7 @@ demo:
 | ----------- | -------------------------------- | --------- | ----------------- | ------- |
 | description | Custom error description to show | ReactNode | {{ error stack }} |         |
 | message     | Custom error message to show     | ReactNode | {{ error }}       |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

@@ -36,7 +36,7 @@ demo:
 | action | 自定义操作项 | ReactNode | - |  |
 | afterClose | 关闭动画结束后触发的回调函数 | () => void | - |  |
 | banner | 是否用作顶部公告 | boolean | false |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'content' \| 'message' \| 'description' \| 'action' \| 'close' \| 'icon', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | 警告提示的辅助性文字介绍 | ReactNode | - |  |
 | icon | 自定义图标，`showIcon` 为 true 时有效 | ReactNode | - |  |
@@ -51,3 +51,7 @@ demo:
 | --- | --- | --- | --- | --- |
 | description | 自定义错误内容，如果未指定会展示报错堆栈 | ReactNode | {{ error stack }} |  |
 | message | 自定义错误标题，如果未指定会展示原生报错信息 | ReactNode | {{ error }} |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
