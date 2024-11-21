@@ -26,9 +26,10 @@ demo:
 
 ## API
 
-| 参数  | 说明     | 类型                         | 默认值 |
-| ----- | -------- | ---------------------------- | ------ |
-| title | 提示文字 | ReactNode \| () => ReactNode | -      |
+| 参数      | 说明             | 类型                         | 默认值 |
+| --------- | ---------------- | ---------------------------- | ------ | --- |
+| title     | 提示文字         | ReactNode \| () => ReactNode | -      |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | -      |     |
 
 ### 共同的 API
 
@@ -39,7 +40,6 @@ demo:
 | align | 该值将合并到 placement 的配置中，设置参考 [rc-tooltip](https://github.com/react-component/tooltip) | object | - |  |
 | arrow | 修改箭头的显示状态以及修改箭头是否指向目标元素中心 | boolean \| { pointAtCenter: boolean } | true |  |
 | autoAdjustOverflow | 气泡被遮挡时自动调整位置 | boolean | true |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'open' \| 'overlay' \| 'popup' \| 'popupInner' \| 'arrow', string> | - |  |
 | color | 背景颜色 | string | - |  |
 | defaultOpen | 默认是否显隐 | boolean | false |  |
 | destroyTooltipOnHide | 关闭后是否销毁 Tooltip | boolean | false |  |
@@ -52,7 +52,11 @@ demo:
 | placement | 气泡框位置，可选 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | string | `top` |  |
 | trigger | 触发行为，可选 `hover` \| `focus` \| `click` \| `contextMenu`，可使用数组设置多个触发行为 | string \| string\[] | `hover` |  |
 | zIndex | 设置 Tooltip 的 `z-index` | number | - |  |
-| onOpenChange | 显示隐藏的回调 | (open: boolean) => void | - |  |
+| onOpenChange | 显示隐藏的回调 | (open: boolean) => void | - |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## 注意
 

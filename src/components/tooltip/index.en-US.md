@@ -24,9 +24,10 @@ demo:
 
 ## API
 
-| Property | Description                   | Type                         | Default |
-| -------- | ----------------------------- | ---------------------------- | ------- |
-| title    | The text shown in the tooltip | ReactNode \| () => ReactNode | -       |
+| Property  | Description                   | Type                         | Default |
+| --------- | ----------------------------- | ---------------------------- | ------- |
+| title     | The text shown in the tooltip | ReactNode \| () => ReactNode | -       |
+| className | Semantic DOM class            | [SemanticDOM](#semantic-dom) | -       |
 
 ### Common API
 
@@ -37,7 +38,6 @@ The following APIs are shared by Tooltip, Popconfirm, Popover.
 | align | This value will be merged into placement's config, please refer to the settings [rc-tooltip](https://github.com/react-component/tooltip) | object | - |  |
 | arrow | Change arrow's visible state and change whether the arrow is pointed at the center of target. | boolean \| { pointAtCenter: boolean } | true |  |
 | autoAdjustOverflow | Whether to adjust popup placement automatically when popup is off screen | boolean | true |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'open' \| 'overlay' \| 'popup' \| 'popupInner' \| 'arrow', string> | - |  |
 | color | The background color | string | - |  |
 | defaultOpen | Whether the floating tooltip card is open by default | boolean | false |  |
 | destroyTooltipOnHide | Whether destroy tooltip when hidden | boolean | false |  |
@@ -53,6 +53,10 @@ The following APIs are shared by Tooltip, Popconfirm, Popover.
 | trigger | Tooltip trigger mode. Could be multiple by passing an array | `hover` \| `focus` \| `click` \| `contextMenu` \| Array&lt;string> | `hover` |  |
 | zIndex | Config `z-index` of Tooltip | number | - |  |
 | onOpenChange | Callback executed when visibility of the tooltip card is changed | (open: boolean) => void | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## Note
 
