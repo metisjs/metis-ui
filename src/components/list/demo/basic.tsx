@@ -43,7 +43,7 @@ const App: React.FC = () => {
             <List.Item.Meta
               avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
               title={<a href="#">{item.title}</a>}
-              description="Metis UI is an open-source component library that combines Tailwind CSS and Ant Design."
+              description="Metis UI is an open-source component library that combines Tailwind CSS and Metis UI."
             />
             <div>content</div>
           </List.Item>

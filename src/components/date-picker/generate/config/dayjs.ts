@@ -64,7 +64,7 @@ const localeMap: ILocaleMapObject = {
   kmr_IQ: 'ku',
   // kn_IN:
   // ko_KR:
-  // ku_IQ: // previous ku in antd
+  // ku_IQ:
   // lt_LT:
   // lv_LV:
   // mk_MK:

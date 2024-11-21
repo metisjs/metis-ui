@@ -78,7 +78,7 @@ export const devUseWarning: (component: string) => TypeWarning =
               if (!existWarning) {
                 // eslint-disable-next-line no-console
                 console.warn(
-                  '[antd] There exists deprecated usage in your code:',
+                  '[metis-ui] There exists deprecated usage in your code:',
                   deprecatedWarnList,
                 );
               }

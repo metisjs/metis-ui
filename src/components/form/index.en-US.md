@@ -75,7 +75,7 @@ description: High-performance form component with data domain management. Includ
 | preserve | Keep field value even when field removed. You can get the preserve field value by `getFieldsValue(true)` | boolean | true |  |
 | requiredMark | Required mark style. Can use required mark or optional mark. You can not config to single Form.Item since this is a Form level config | boolean \| `optional` \| ((label: ReactNode, info: { required: boolean }) => ReactNode) | true |  |
 | scrollToFirstError | Auto scroll to first failed field when submit | boolean \| [Options](https://github.com/stipsan/scroll-into-view-if-needed/tree/ece40bd9143f48caf4b99503425ecb16b0ad8249#options) | false |  |
-| size | Set field component size (antd components only) | `small` \| `middle` \| `large` | - |  |
+| size | Set field component size (metis-ui components only) | `small` \| `middle` \| `large` | - |  |
 | validateMessages | Validation prompt template, description [see below](#validatemessages) | ValidateMessages | - |  |
 | validateTrigger | Config field validate trigger | string \| string\[] | `onChange` |  |
 | variant | Variant of components inside form | `outlined` \| `borderless` \| `filled` | `outlined` |  |

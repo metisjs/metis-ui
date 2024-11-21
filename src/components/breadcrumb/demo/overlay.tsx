@@ -23,7 +23,7 @@ const App: React.FC = () => (
   <Breadcrumb
     items={[
       {
-        title: 'Ant Design',
+        title: 'Metis UI',
       },
       {
         title: 'Component',

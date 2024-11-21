@@ -120,7 +120,7 @@ export function useInternalMessage(
       let mergedKey: React.Key = key!;
       if (mergedKey === undefined || mergedKey === null) {
         keyIndex += 1;
-        mergedKey = `antd-message-${keyIndex}`;
+        mergedKey = `metis-message-${keyIndex}`;
       }
 
       let iconNode: React.ReactNode = null;

@@ -183,7 +183,7 @@ Modal will use memo to avoid content jumping when closed. Also, if you use Form 
 
 ### Why I can not access context, redux, ConfigProvider `locale/prefixCls` in Modal.xxx?
 
-antd will dynamic create React instance by `ReactDOM.render` when call Modal methods. Whose context is different with origin code located context.
+metis-ui will dynamic create React instance by `ReactDOM.render` when call Modal methods. Whose context is different with origin code located context.
 
 When you need context info (like ConfigProvider context), you can use `Modal.useModal` to get `modal` instance and `contextHolder` node. And put it in your children:
 

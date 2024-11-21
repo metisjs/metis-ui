@@ -109,7 +109,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   ): MenuInfo => {
     return {
       key: eventKey,
-      // Note: For legacy code is reversed which not like other antd component
+      // Note: For legacy code is reversed which not like other metis-ui component
       keyPath: [...connectedKeys].reverse(),
       domEvent: e,
     };

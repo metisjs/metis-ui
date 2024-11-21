@@ -11,7 +11,7 @@ import {
   Table,
   Transfer,
   TreeSelect,
-} from 'antd';
+} from 'metis-ui';
 
 const customizeRenderEmpty = () => (
   <div style={{ textAlign: 'center' }}>

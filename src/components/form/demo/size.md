@@ -1,7 +1,7 @@
 ## zh-CN
 
-设置表单组件尺寸，仅对 antd 组件有效。
+设置表单组件尺寸，仅对 metis 组件有效。
 
 ## en-US
 
-Set component size, only works for antd components.
+Set component size, only works for metis components.

@@ -31,15 +31,15 @@ const renderItem = (title: string, count: number) => ({
 const options = [
   {
     label: renderTitle('Libraries'),
-    options: [renderItem('AntDesign', 10000), renderItem('AntDesign UI', 10600)],
+    options: [renderItem('Metis', 10000), renderItem('Metis UI', 10600)],
   },
   {
     label: renderTitle('Solutions'),
-    options: [renderItem('AntDesign UI FAQ', 60100), renderItem('AntDesign FAQ', 30010)],
+    options: [renderItem('Metis UI FAQ', 60100), renderItem('Metis FAQ', 30010)],
   },
   {
     label: renderTitle('Articles'),
-    options: [renderItem('AntDesign design language', 100000)],
+    options: [renderItem('Metis design language', 100000)],
   },
 ];
 

@@ -100,7 +100,7 @@ notification.config({
 
 ### 为什么 notification 不能获取 context、redux 的内容和 ConfigProvider 的 `locale/prefixCls` 等配置？
 
-直接调用 notification 方法，antd 会通过 `ReactDOM.render` 动态创建新的 React 实体。其 context 与当前代码所在 context 并不相同，因而无法获取 context 信息。
+直接调用 notification 方法，metis-ui 会通过 `ReactDOM.render` 动态创建新的 React 实体。其 context 与当前代码所在 context 并不相同，因而无法获取 context 信息。
 
 当你需要 context 信息（例如 ConfigProvider 配置的内容）时，可以通过 `notification.useNotification` 方法会返回 `api` 实体以及 `contextHolder` 节点。将其插入到你需要获取 context 位置即可：
 
