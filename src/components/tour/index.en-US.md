@@ -27,7 +27,7 @@ Use when you want to guide users through a product.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | arrow | Whether to show the arrow, including the configuration whether to point to the center of the element | `boolean`\|`{ pointAtCenter: boolean}` | `true` |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | current | What is the current step | `number` | - |  |
 | defaultCurrent | What is the default current step | `number` | - |  |
@@ -50,7 +50,7 @@ Use when you want to guide users through a product.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | arrow | Whether to show the arrow, including the configuration whether to point to the center of the element | `boolean` `{ pointAtCenter: boolean}` | `true` |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | cover | Displayed pictures or videos | `ReactNode` | - |  |
 | description | description | `ReactNode` | - |  |
@@ -63,3 +63,7 @@ Use when you want to guide users through a product.
 | title | title | `ReactNode` | - |  |
 | type | Type, affects the background color and text color | `default` `primary` | `default` |  |
 | onClose | Callback function on shutdown | `Function` | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

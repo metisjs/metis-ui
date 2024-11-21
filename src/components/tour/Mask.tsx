@@ -1,5 +1,6 @@
 import React from 'react';
 import Portal from '@rc-component/portal';
+import type { GetContainer } from '@rc-component/portal/es/Portal';
 import useId from 'rc-util/lib/hooks/useId';
 import { clsx } from '../_util/classNameUtils';
 import type { PosInfo } from './hooks/useTarget';
@@ -18,6 +19,7 @@ export interface MaskProps {
   open?: boolean;
   zIndex?: number;
   disabledInteraction?: boolean;
+  getContainer?: GetContainer;
 }
 
 const Mask = (props: MaskProps) => {
@@ -30,6 +32,7 @@ const Mask = (props: MaskProps) => {
     open,
     zIndex,
     disabledInteraction,
+    getContainer,
   } = props;
 
   const id = useId();
@@ -42,7 +45,7 @@ const Mask = (props: MaskProps) => {
     : { width: '100vw', height: '100vh' };
 
   return (
-    <Portal open={open} autoLock>
+    <Portal open={open} autoLock getContainer={getContainer}>
       <div
         style={{
           position: 'fixed',

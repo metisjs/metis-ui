@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { LinkOutline } from '@metisjs/icons';
 import { Link } from 'dumi';
 import { clsx, mergeSemanticCls, Popover, Space, Tag } from 'metis-ui';
@@ -24,10 +24,12 @@ type SemanticItem = {
 export interface SemanticPreviewProps {
   transform?: boolean;
   semantics: SemanticItem[];
-  children: React.ReactElement | ((hover?: { name: string; path: string }) => React.ReactElement);
+  children: React.ReactNode | ((hover?: { name: string; path: string }) => React.ReactNode);
   height?: number;
   rootArgs?: SemanticArg[];
   extra?: React.ReactNode;
+  // 当 children 为多个元素时，指定目标节点序号
+  targetIndex?: number;
 }
 
 type ClassNameItemProps = SemanticItem & {
@@ -147,7 +149,7 @@ function parseSemanticCls(
 }
 
 const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props, ref) => {
-  const { transform, semantics = [], children, height, rootArgs, extra } = props;
+  const { transform, semantics = [], children, height, rootArgs, extra, targetIndex = 0 } = props;
 
   // ======================= Semantic =======================
   const getMarkClassName = React.useCallback(
@@ -172,20 +174,29 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
   ]);
 
   // ======================== Children =========================
-  const mergedChildren =
-    typeof children === 'function'
-      ? children(
-          hoverSemantic
-            ? {
-                name: hoverSemantic.replace('semantic-mark-', '').split('_').reverse()[0],
-                path: hoverSemantic,
-              }
-            : undefined,
-        )
-      : children;
-  const cloneNode = cloneElement(mergedChildren, (ori) => ({
-    className: mergeSemanticCls(ori.className, semanticClassName),
-  }));
+  const mergedChildren = useMemo(() => {
+    let nodes: React.ReactNode;
+    if (typeof children === 'function') {
+      nodes = children(
+        hoverSemantic
+          ? {
+              name: hoverSemantic.replace('semantic-mark-', '').split('_').reverse()[0],
+              path: hoverSemantic,
+            }
+          : undefined,
+      );
+    } else {
+      nodes = children;
+    }
+
+    return React.Children.toArray(nodes).map((node, index) =>
+      index === targetIndex
+        ? cloneElement(node, (ori) => ({
+            className: mergeSemanticCls(ori.className, semanticClassName),
+          }))
+        : node,
+    );
+  }, [children, hoverSemantic, targetIndex, semanticClassName]);
 
   React.useEffect(() => {
     if (hoverSemantic) {
@@ -235,7 +246,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
             className="relative flex flex-auto items-center justify-center overflow-hidden p-5"
             style={transform ? { transform: 'translate(0, 0)' } : {}}
           >
-            {cloneNode}
+            {mergedChildren}
           </div>
         </div>
         <div className="flex-shrink-0 basis-72">

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import Portal from '@rc-component/portal';
-import classNames from 'classnames';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
@@ -60,6 +59,7 @@ const Tour: React.FC<TourProps> = (props) => {
     type,
     indicatorsRender,
     className,
+    getPopupContainer,
     ...restProps
   } = props;
 
@@ -216,7 +216,7 @@ const Tour: React.FC<TourProps> = (props) => {
   );
 
   // when targetElement is not exist, use body as triggerDOMNode
-  const getTriggerDOMNode = (node: React.ReactInstance) => {
+  const getTriggerDOMNode = (node?: React.ReactInstance) => {
     return (node || targetElement || document.body) as HTMLElement;
   };
 
@@ -247,10 +247,11 @@ const Tour: React.FC<TourProps> = (props) => {
         getTriggerDOMNode={getTriggerDOMNode}
         arrow={mergedArrow}
         popupTransition={defaultTransition}
+        getPopupContainer={getPopupContainer}
       >
         <Portal open={mergedOpen} autoLock>
           <div
-            className={classNames(`${prefixCls}-target-placeholder`)}
+            className={`${prefixCls}-target-placeholder`}
             style={{
               ...(posInfo || CENTER_PLACEHOLDER),
               position: 'fixed',

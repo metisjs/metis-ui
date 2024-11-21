@@ -28,7 +28,7 @@ demo:
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | arrow | 是否显示箭头，包含是否指向元素中心的配置 | `boolean` \| `{ pointAtCenter: boolean}` | `true` |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `true` |  |
 | current | 当前处于哪一步 | `number` | - |  |
 | defaultCurrent | 默认处于哪一步 | `number` | - |  |
@@ -52,7 +52,7 @@ demo:
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | arrow | 是否显示箭头，包含是否指向元素中心的配置 | `boolean` \| `{ pointAtCenter: boolean}` | `true` |  |
-| className | 语义化结构 class | [SemanticClassName](/docs/semantic-classname-cn) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `true` |  |
 | cover | 展示的图片或者视频 | `ReactNode` | - |  |
 | description | 主要描述部分 | `ReactNode` | - |  |
@@ -64,3 +64,7 @@ demo:
 | target | 获取引导卡片指向的元素，为空时居中于屏幕 | `() => HTMLElement` \| `HTMLElement` | - |  |
 | title | 标题 | `ReactNode` | - |  |
 | type | 类型，影响底色与文字颜色 | `default` \| `primary` | `default` |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
