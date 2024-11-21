@@ -27,22 +27,26 @@ demo:
 ### Timeline
 
 | Property | Description | Type | Default |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | mode | By sending `alternate` the timeline will distribute the nodes to the left and right | `left` \| `alternate` \| `right` | - |
 | pending | Set the last ghost node's existence or its content | ReactNode | false |
 | pendingDot | Set the dot of the last ghost node when pending is true | ReactNode | &lt;LoadingOutline /&gt; |
 | reverse | Whether reverse nodes or not | boolean | false |
-| items | Each node of timeline | [Items](#Items)[] |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| items | Each node of timeline | [ItemType](#itemtype)[] |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
 
-### Items
+### ItemType
 
 Node of timeline.
 
 | Property | Description | Type | Default |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | color | Set the circle's color to `blue`, `red`, `green` or other custom colors | string | `blue` |
 | dot | Customize timeline dot | ReactNode | - |
 | label | Set the label | ReactNode | - |
 | content | Set the content | ReactNode | - |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
