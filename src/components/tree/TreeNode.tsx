@@ -461,6 +461,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         isEnd={isEnd}
         showLine={showLine}
         width={indent}
+        className={semanticCls.indent}
       />
       {renderDragHandler()}
       {renderSwitcher()}

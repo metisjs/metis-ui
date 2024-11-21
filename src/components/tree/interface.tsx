@@ -134,6 +134,7 @@ export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
       content?: string;
       icon?: string;
       title?: string;
+      indent?: string;
     },
     {
       selected?: boolean;

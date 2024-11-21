@@ -17,7 +17,8 @@ export interface NodeListRef {
 
 interface NodeListProps<TreeDataType extends BasicDataNode> {
   prefixCls: string;
-  className?: TreeNodeProps['className'];
+  className?: string;
+  nodeClassName?: TreeNodeProps['className'];
   style?: React.CSSProperties;
   data: FlattenNode<TreeDataType>[];
   checkable?: boolean;
@@ -83,6 +84,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
     onContextMenu,
 
     className,
+    nodeClassName,
     style,
   } = props;
 
@@ -110,6 +112,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
   return (
     <VirtualList<FlattenNode>
       style={style}
+      className={{ view: className }}
       data={data}
       itemKey={itemKey}
       virtual={!!virtual}
@@ -133,7 +136,7 @@ const NodeList = React.forwardRef<NodeListRef, NodeListProps<any>>((props, ref) 
 
         const treeNodeProps = getTreeNodeProps(mergedKey, treeNodeRequiredProps);
 
-        const mergedClassName = mergeSemanticCls(className, restProps.className);
+        const mergedClassName = mergeSemanticCls(nodeClassName, restProps.className);
 
         return (
           <TreeNode

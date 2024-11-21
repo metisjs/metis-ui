@@ -39,7 +39,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | checkable | Add a Checkbox before the treeNodes | boolean | false |  |
 | checkedKeys | (Controlled) Specifies the keys of the checked treeNodes (PS: When this specifies the key of a treeNode which is also a parent treeNode, all the children treeNodes of will be checked; and vice versa, when it specifies the key of a treeNode which is a child treeNode, its parent treeNode will also be checked. When `checkable` and `checkStrictly` is true, its object has `checked` and `halfChecked` property. Regardless of whether the child or parent treeNode is checked, they won't impact each other | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  |
 | checkStrictly | Check treeNode precisely; parent treeNode and children treeNodes are not associated | boolean | false |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultCheckedKeys | Specifies the keys of the default checked treeNodes | string\[] | \[] |  |
 | defaultExpandAll | Whether to expand all treeNodes by default | boolean | false |  |
 | defaultExpandedKeys | Specify the keys of the default expanded treeNodes | string\[] | \[] |  |
@@ -81,7 +81,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | checkable | When Tree is checkable, set TreeNode display Checkbox or not | boolean | - |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | disableCheckbox | Disables the checkbox of the treeNode | boolean | false |  |
 | disabled | Disables the treeNode | boolean | false |  |
 | icon | Customize icon. When you pass component, whose render will receive full TreeNode props as component props | ReactNode \| (props) => ReactNode | - |  |
@@ -96,3 +96,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | Name | Description |
 | --- | --- |
 | scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | Scroll to key item in virtual scroll |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

@@ -3,6 +3,7 @@ import { clsx } from '../_util/classNameUtils';
 
 interface IndentProps {
   prefixCls: string;
+  className?: string;
   level: number;
   isStart: boolean[];
   isEnd: boolean[];
@@ -10,7 +11,15 @@ interface IndentProps {
   width?: number;
 }
 
-const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd, showLine, width }) => {
+const Indent: React.FC<IndentProps> = ({
+  prefixCls,
+  className,
+  level,
+  isStart,
+  isEnd,
+  showLine,
+  width,
+}) => {
   const baseClassName = `${prefixCls}-indent-unit`;
   const list: React.ReactElement[] = [];
   for (let i = 0; i < level; i += 1) {
@@ -29,6 +38,7 @@ const Indent: React.FC<IndentProps> = ({ prefixCls, level, isStart, isEnd, showL
             'before:absolute before:bottom-0 before:start-[7.5px] before:top-0 before:border-r before:border-border',
             showLine === 'hover' && 'opacity-0 group-hover/tree:opacity-35',
           ],
+          className,
         )}
         style={{ width }}
       />,

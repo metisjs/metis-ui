@@ -743,7 +743,8 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
               ref={listRef}
               prefixCls={prefixCls}
               style={style}
-              className={semanticCls.node}
+              className={semanticCls.view}
+              nodeClassName={semanticCls.node}
               data={flattenNodes}
               selectable={selectable}
               checkable={!!checkable}
