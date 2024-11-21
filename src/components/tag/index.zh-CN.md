@@ -31,14 +31,26 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | bordered | 是否有边框 | boolean | true |  |
-| closeIcon | 自定义关闭按钮。设置为 `null` 或 `false` 时隐藏关闭按钮 | boolean \| ReactNode | false |  |
+| closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | color | 标签色 | string | - |  |
 | icon | 设置图标 | ReactNode | - |  |
 | onClose | 关闭时的回调（可通过 `e.preventDefault()` 来阻止默认行为） | (e) => void | - |  |
+| className | 语义化结构 class | [SemanticDOM](#tag-1) | - |  |
 
 ### Tag.CheckableTag
 
-| 参数     | 说明                 | 类型              | 默认值 |
-| -------- | -------------------- | ----------------- | ------ |
-| checked  | 设置标签的选中状态   | boolean           | false  |
-| onChange | 点击标签时触发的回调 | (checked) => void | -      |
+| 参数      | 说明                 | 类型                              | 默认值 |
+| --------- | -------------------- | --------------------------------- | ------ |
+| checked   | 设置标签的选中状态   | boolean                           | false  |
+| onChange  | 点击标签时触发的回调 | (checked) => void                 | -      |
+| className | 语义化结构 class     | [SemanticDOM](#tagcheckabletag-1) | -      |
+
+## Semantic DOM
+
+### Tag
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Tag.CheckableTag
+
+<code src="./demo/_semantic_checkable.tsx" simplify></code>

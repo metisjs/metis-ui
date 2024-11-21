@@ -31,14 +31,26 @@ demo:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | bordered | Whether has border style | boolean | true |  |
-| closeIcon | Custom close icon. close button will be hidden when setting to `null` or `false` | ReactNode | false |  |
+| closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | color | Color of the Tag | string | - |  |
 | icon | Set the icon of tag | ReactNode | - |  |
 | onClose | Callback executed when tag is closed | (e) => void | - |  |
+| className | Semantic DOM class | [SemanticDOM](#tag-1) | - |  |
 
 ### Tag.CheckableTag
 
-| Property | Description                                     | Type              | Default |
-| -------- | ----------------------------------------------- | ----------------- | ------- |
-| checked  | Checked status of Tag                           | boolean           | false   |
-| onChange | Callback executed when Tag is checked/unchecked | (checked) => void | -       |
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| checked | Checked status of Tag | boolean | false |
+| onChange | Callback executed when Tag is checked/unchecked | (checked) => void | - |
+| className | Semantic DOM class | [SemanticDOM](#tagcheckabletag-1) | - |
+
+## Semantic DOM
+
+### Tag
+
+<code src="./demo/_semantic_basic.tsx" simplify></code>
+
+### Tag.CheckableTag
+
+<code src="./demo/_semantic_checkable.tsx" simplify></code>

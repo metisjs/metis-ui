@@ -1,10 +1,12 @@
 import * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 
 export interface CheckableTagProps {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<{ root?: string }, { checked?: boole }>;
   style?: React.CSSProperties;
   /**
    * 该组件为完全受控组件，不支持非受控用法。
@@ -26,6 +28,8 @@ const CheckableTag: React.FC<CheckableTagProps> = (props) => {
   } = props;
   const { getPrefixCls } = React.useContext(ConfigContext);
 
+  const semanticCls = useSemanticCls(className, { checked });
+
   const handleClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     onChange?.(!checked);
     onClick?.(e);
@@ -41,7 +45,7 @@ const CheckableTag: React.FC<CheckableTagProps> = (props) => {
       [`${prefixCls}-checkable-checked bg-primary text-white hover:bg-primary-hover`]: checked,
       'hover:bg-fill-secondary hover:text-primary': !checked,
     },
-    className,
+    semanticCls.root,
   );
 
   return <span {...restProps} className={cls} onClick={handleClick} />;

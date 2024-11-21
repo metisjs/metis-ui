@@ -21,7 +21,7 @@ export type { CheckableTagProps } from './CheckableTag';
 
 export interface TagProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> {
   prefixCls?: string;
-  className?: SemanticClassName<{ root?: string }>;
+  className?: SemanticClassName<{ icon?: string; close?: string }>;
   color?: LiteralUnion<PresetColorType | PresetStatusColorType>;
   closable?: ClosableType;
   onClose?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -87,7 +87,7 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
     setVisible(false);
   };
 
-  const iconClassName = clsx(
+  const closeCls = clsx(
     `${prefixCls}-close-icon`,
     'ms-0.5 cursor-pointer text-text-tertiary hover:text-text-secondary',
     color &&
@@ -98,15 +98,16 @@ const InternalTag: React.ForwardRefRenderFunction<HTMLSpanElement, TagProps> = (
         'text-primary-hover hover:text-primary': color === 'processing',
       },
     color && !isInternalColor && 'text-white/65 hover:text-white',
+    semanticCls.close,
   );
 
   const [, closeIcon] = useClosable(closable, {
-    className: iconClassName,
+    className: closeCls,
     onClick: handleCloseClick,
   });
 
   const iconNode: React.ReactNode = icon ? (
-    <span className="mr-1 inline-flex items-center text-sm">{icon}</span>
+    <span className={clsx('mr-1 inline-flex items-center text-sm', semanticCls.icon)}>{icon}</span>
   ) : null;
 
   const kids: React.ReactNode = iconNode ? (
