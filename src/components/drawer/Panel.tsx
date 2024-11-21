@@ -175,7 +175,6 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
       'left-0 right-0 top-0': placement === 'top',
       'bottom-0 left-0 right-0': placement === 'bottom',
     },
-    semanticCls.wrapper,
   );
   const contentCls = clsx(
     `${prefixCls}-content`,
@@ -199,6 +198,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   const closeCls = clsx(
     `${prefixCls}-close`,
     'absolute right-3 top-3 z-[1000] rounded p-1 text-text-tertiary transition-colors hover:bg-fill-tertiary hover:text-text-secondary',
+    semanticCls.close,
   );
   const bodyCls = clsx(
     `${prefixCls}-body`,

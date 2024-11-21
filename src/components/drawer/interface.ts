@@ -53,11 +53,11 @@ export interface PanelProps extends PanelEvents, PanelAccessibility {
   // className
   className?: SemanticClassName<{
     mask?: string;
-    wrapper?: string;
     content?: string;
     header?: string;
     footer?: string;
     body?: string;
+    close?: string;
   }>;
 
   drawerRender?: (node: React.ReactNode) => React.ReactNode;

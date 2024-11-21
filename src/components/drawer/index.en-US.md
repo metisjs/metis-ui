@@ -34,7 +34,7 @@ A Drawer is a panel that is typically overlaid on top of a page and slides in fr
 | --- | --- | --- | --- | --- |
 | afterOpenChange | Callback after the animation ends when switching drawers | function(open) | - |  |
 | autoFocus | Whether Drawer should get focused after open | boolean | true |  |
-| className | Semantic DOM class class | string \| Record&lt;'root' \| 'mask' \| 'wrapper' \| 'content' \| 'header' \| 'footer' \| 'body', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | destroyOnClose | Whether to unmount child components on closing drawer or not | boolean | false |  |
 | drawerRender | Custom drawer content render | (node: ReactNode) => ReactNode | - |  |
@@ -54,3 +54,7 @@ A Drawer is a panel that is typically overlaid on top of a page and slides in fr
 | width | Width of the Drawer dialog | string \| number | 448 |  |
 | zIndex | The `z-index` of the Drawer | number | 1000 |  |
 | onClose | Specify a callback that will be called when a user clicks mask, close button or Cancel button | function(e) | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
