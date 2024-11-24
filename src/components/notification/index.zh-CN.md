@@ -47,7 +47,7 @@ config 参数如下：
 | className | 语义结构 class | string \| Record&lt;'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | 通知提醒内容，必选 | ReactNode | - | - |
-| duration | 默认 4.5 秒后自动关闭，配置为 null 则不自动关闭 | number | 4.5 | - |
+| duration | 默认 4.5 秒后自动关闭，配置为 0 则不自动关闭 | number | 4.5 | - |
 | icon | 自定义图标 | ReactNode | - | - |
 | key | 当前通知唯一标志 | string | - | - |
 | message | 通知提醒标题，必选 | ReactNode | - | - |

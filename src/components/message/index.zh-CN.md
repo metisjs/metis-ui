@@ -58,8 +58,8 @@ group: 反馈
 `config` 对象属性如下：
 
 | 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| className | 自定义 CSS class | string | - |
+| --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | content | 提示内容 | ReactNode | - |
 | duration | 自动关闭的延时，单位秒。设为 0 时不自动关闭 | number | 3 |
 | icon | 自定义图标 | ReactNode | - |
@@ -81,6 +81,7 @@ config 参数如下：
 | top | 消息距离顶部的位置 | number | 8 |  |
 | transition | 动画配置 | [TransitionProps](/components/transition-cn) |  |  |
 | onAllRemoved | 通知框全消失时触发 | VoidFunction |  |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### 全局方法
 
@@ -103,6 +104,10 @@ message.config({
   prefixCls: 'my-message',
 });
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

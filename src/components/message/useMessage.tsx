@@ -78,8 +78,7 @@ export function useInternalMessage(
     wrapper: clsx(
       'relative mx-auto mb-3 w-fit rounded-lg bg-elevated shadow-lg ring-1 ring-inset ring-border-secondary',
     ),
-    notice: clsx('relative overflow-hidden break-words p-3'),
-    content: clsx('flex items-center gap-2'),
+    notice: clsx('relative flex items-center gap-2 overflow-hidden break-words p-3'),
   });
 
   // ================================ API ================================

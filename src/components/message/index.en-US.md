@@ -57,8 +57,8 @@ Supports passing parameters wrapped in an object:
 The properties of config are as follows:
 
 | Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| className | Customized CSS class | string | - |
+| --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | content | The content of the message | ReactNode | - |
 | duration | Time(seconds) before auto-dismiss, don't dismiss if set to 0 | number | 3 |
 | icon | Customized Icon | ReactNode | - |
@@ -80,6 +80,7 @@ The properties of config are as follows:
 | top | Distance from top | number | 8 |  |
 | transition | transition config | [TransitionProps](/components/transition) |  |  |
 | onAllRemoved | trigger on all notification removed | VoidFunction |  |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Global static methods
 
@@ -102,6 +103,10 @@ message.config({
   prefixCls: 'my-message',
 });
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

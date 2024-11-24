@@ -109,10 +109,9 @@ export function useInternalNotification(
           'collapsed-wrapper after:hidden [&:not(:nth-last-child(-n+3))]:pointer-events-none [&:not(:nth-last-child(-n+3))]:overflow-hidden [&:not(:nth-last-child(-n+3))]:text-transparent [&:not(:nth-last-child(-n+3))]:opacity-0 [&:nth-last-child(2)]:bg-transparent [&:nth-last-child(2)]:backdrop-blur-md [&:nth-last-child(3)]:bg-transparent [&:nth-last-child(3)]:backdrop-blur-md',
         ),
         notice: clsx(
-          'relative w-[24rem] overflow-hidden break-words p-4',
+          'relative flex w-[24rem] gap-3 overflow-hidden break-words p-4',
           '[.collapsed-wrapper:nth-last-child(2)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(2)_&]:transition-opacity [.collapsed-wrapper:nth-last-child(3)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(3)_&]:transition-opacity',
         ),
-        content: clsx('flex gap-3'),
         close: clsx(
           'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-text-secondary hover:bg-fill-tertiary',
         ),

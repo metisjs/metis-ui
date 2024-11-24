@@ -46,7 +46,7 @@ The properties of config are as follows:
 | className | Semantic DOM class | string \| Record&lt;'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | The content of notification box (required) | ReactNode | - | - |
-| duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |
+| duration | Time in seconds before Notification is closed. When set to 0 , it will never be closed automatically | number | 4.5 | - |
 | icon | Customized icon | ReactNode | - | - |
 | key | The unique identifier of the Notification | string | - | - |
 | message | The title of notification box (required) | ReactNode | - | - |

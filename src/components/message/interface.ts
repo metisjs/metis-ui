@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { TransitionProps } from '../transition';
 
 export type NoticeType = 'info' | 'success' | 'error' | 'warning' | 'loading';
@@ -37,7 +38,7 @@ export interface ArgsProps {
   icon?: React.ReactNode;
   key?: string | number;
   style?: React.CSSProperties;
-  className?: string;
+  className?: SemanticClassName<{ content?: string; icon?: string; message?: string }>;
   /**
    * @descCN 消息通知点击时的回调函数
    * @descEN Callback function when message notification is clicked

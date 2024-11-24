@@ -8,7 +8,7 @@ import type { NoticeConfig } from './interface';
 
 export interface NoticeProps extends Omit<NoticeConfig, 'onClose' | 'className'> {
   prefixCls: string;
-  className?: SemanticClassName<{ content?: string; close?: string; progress?: string }>;
+  className?: SemanticClassName<{ close?: string; progress?: string }>;
   style?: React.CSSProperties;
   eventKey: React.Key;
 
@@ -136,26 +136,23 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
       }}
       onClick={onClick}
     >
-      {/* Content */}
-      <div className={clsx(`${noticePrefixCls}-content`, semanticCls.content)}>
-        {content}
-        {/* Close Icon */}
-        {mergedClosable && (
-          <a
-            tabIndex={0}
-            className={clsx(`${noticePrefixCls}-close`, semanticCls.close)}
-            onKeyDown={onCloseKeyDown}
-            aria-label="Close"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onInternalClose();
-            }}
-          >
-            {closeIcon}
-          </a>
-        )}
-      </div>
+      {content}
+      {/* Close Icon */}
+      {mergedClosable && (
+        <a
+          tabIndex={0}
+          className={clsx(`${noticePrefixCls}-close`, semanticCls.close)}
+          onKeyDown={onCloseKeyDown}
+          aria-label="Close"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onInternalClose();
+          }}
+        >
+          {closeIcon}
+        </a>
+      )}
 
       {/* Progress Bar */}
       {mergedShowProgress && (
