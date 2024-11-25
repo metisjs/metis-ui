@@ -115,7 +115,7 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
         prefixCls: `${prefixCls}-avatar`,
         ...getAvatarBasicProps(hasTitle, hasParagraph),
         ...customizeProps,
-        className: clsx(sizeCls, customizeProps.className),
+        className: clsx(sizeCls, semanticCls.avatar, customizeProps.className),
       };
       avatarNode = <Element {...avatarProps} />;
     }
