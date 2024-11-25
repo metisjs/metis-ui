@@ -156,6 +156,9 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     qrCode,
     variant,
     inputNumber,
+    tooltip,
+    popConfirm,
+    popover,
     route,
     request,
   } = props;
@@ -237,6 +240,9 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     qrCode,
     variant,
     inputNumber,
+    tooltip,
+    popConfirm,
+    popover,
     route,
     request,
   };

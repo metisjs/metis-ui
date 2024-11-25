@@ -172,7 +172,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   }
 
   // ============================= Style =============================
-  const semanticCls = useSemanticCls(className, { open: tempOpen });
+  const semanticCls = useSemanticCls(className, 'tooltip', { open: tempOpen });
 
   const overlayCls = clsx(
     'visible absolute box-border block w-max max-w-[250px] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:hsla(var(--spotlight))]',

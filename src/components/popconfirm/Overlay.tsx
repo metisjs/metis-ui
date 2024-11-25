@@ -3,6 +3,7 @@ import type { PopconfirmProps } from '.';
 import ActionButton from '../_util/ActionButton';
 import { clsx } from '../_util/classNameUtils';
 import { getRenderPropValue } from '../_util/getRenderPropValue';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { cloneElement } from '../_util/reactNode';
 import Button from '../button';
 import { ConfigContext } from '../config-provider';
@@ -17,6 +18,7 @@ export interface PopconfirmLocale {
 export interface OverlayProps
   extends Pick<
     PopconfirmProps,
+    | 'className'
     | 'icon'
     | 'okButtonProps'
     | 'cancelButtonProps'
@@ -46,6 +48,7 @@ const Overlay: React.FC<OverlayProps> = (props) => {
     okType = 'primary',
     icon,
     showCancel = true,
+    className,
     close,
     onConfirm,
     onCancel,
@@ -58,19 +61,30 @@ const Overlay: React.FC<OverlayProps> = (props) => {
   const theTitle = getRenderPropValue(title);
   const theDescription = getRenderPropValue(description);
 
-  const contentCls = clsx(`${prefixCls}-inner-content`, 'text-sm text-text');
+  const semanticCls = useSemanticCls(className, 'popConfirm', { open: true });
+
+  const contentCls = clsx(`${prefixCls}-inner-content`, 'text-sm text-text', semanticCls.root);
   const iconCls = clsx(
     `${prefixCls}-message-icon`,
     'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-error-bg text-error',
+    semanticCls.icon,
   );
   const messageCls = clsx(`${prefixCls}-message`, 'flex gap-2');
   const messageTextCls = clsx(
     `${prefixCls}-message-text`,
     'flex min-h-8 flex-col justify-center gap-0.5',
   );
-  const titleCls = clsx(`${prefixCls}-title`, 'font-medium text-text');
-  const descriptionCls = clsx(`${prefixCls}-description`, 'text-text-secondary');
-  const buttonsCls = clsx(`${prefixCls}-buttons`, 'mt-2 flex justify-end gap-2');
+  const titleCls = clsx(`${prefixCls}-title`, 'font-medium text-text', semanticCls.title);
+  const descriptionCls = clsx(
+    `${prefixCls}-description`,
+    'text-text-secondary',
+    semanticCls.description,
+  );
+  const actionsCls = clsx(
+    `${prefixCls}-actions`,
+    'mt-2 flex justify-end gap-2',
+    semanticCls.actions,
+  );
 
   return (
     <div className={contentCls} onClick={onPopupClick}>
@@ -88,7 +102,7 @@ const Overlay: React.FC<OverlayProps> = (props) => {
           {theDescription && <div className={descriptionCls}>{theDescription}</div>}
         </div>
       </div>
-      <div className={buttonsCls}>
+      <div className={actionsCls}>
         {showCancel && (
           <Button onClick={onCancel} size="small" {...cancelButtonProps}>
             {cancelText || contextLocale?.cancelText}

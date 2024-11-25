@@ -32,6 +32,8 @@ import type { ArgsProps as MessageArgsProps } from '../message';
 import type { ModalProps } from '../modal';
 import type { ArgsProps as NotificationArgsProps } from '../notification';
 import type { PaginationProps } from '../pagination';
+import type { PopconfirmProps } from '../popconfirm';
+import type { PopoverProps } from '../popover';
 import type { QRCodeProps } from '../qr-code/interface';
 import type { RadioProps } from '../radio';
 import type { RateProps } from '../rate';
@@ -50,6 +52,7 @@ import type { SwitchProps } from '../switch';
 import type { TabsProps } from '../tabs';
 import type { TagProps } from '../tag';
 import type { TimelineProps } from '../timeline';
+import type { TooltipProps } from '../tooltip';
 import type { TourProps } from '../tour';
 import type { TransferProps } from '../transfer';
 import type { TreeProps } from '../tree';
@@ -124,6 +127,10 @@ export type NotificationConfig = Pick<NotificationArgsProps, 'className'>;
 
 export type PaginationConfig = Pick<PaginationProps, 'showSizeChanger' | 'className'>;
 
+export type PopoverConfig = Pick<PopoverProps, 'className'>;
+
+export type PopconfirmConfig = Pick<PopconfirmProps, 'className'>;
+
 export type ProgressConfig = Pick<ProgressProps, 'className'>;
 
 export type QRCodeConfig = Pick<QRCodeProps, 'className'>;
@@ -165,6 +172,8 @@ export type TagConfig = Pick<TagProps, 'className'>;
 export type TextAreaConfig = Pick<TextAreaProps, 'autoComplete' | 'className'>;
 
 export type TimelineConfig = Pick<TimelineProps, 'className'>;
+
+export type TooltipConfig = Pick<TooltipProps, 'className'>;
 
 export type TourConfig = Pick<TourProps, 'className'>;
 
@@ -247,6 +256,9 @@ export interface ConfigConsumerProps {
   rangePicker?: RangePickerConfig;
   dropdown?: DropdownConfig;
   qrCode?: QRCodeConfig;
+  popover?: PopoverConfig;
+  popConfirm?: PopconfirmConfig;
+  tooltip?: TooltipConfig;
   route: RouteConfig;
   request: RequestConfig;
 }

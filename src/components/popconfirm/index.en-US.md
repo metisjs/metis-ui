@@ -27,6 +27,7 @@ The difference with the `confirm` modal dialog is that it's more lightweight tha
 
 | Param | Description | Type | Default value | Version |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
 | cancelText | The text of the Cancel button | string | `Cancel` |  |
 | description | The description of the confirmation box title | ReactNode \| () => ReactNode | - |  |
@@ -42,6 +43,10 @@ The difference with the `confirm` modal dialog is that it's more lightweight tha
 | onPopupClick | A callback of popup click | function(e) | - |  |
 
 Consult [Tooltip's documentation](/components/tooltip/#api) to find more APIs.
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## Note
 

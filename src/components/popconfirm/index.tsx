@@ -2,8 +2,10 @@ import * as React from 'react';
 import { ExclamationTriangleOutline } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import omit from 'rc-util/lib/omit';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import { mergeSemanticCls } from '../_util/classNameUtils';
 import type { RenderFunction } from '../_util/getRenderPropValue';
+import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { ButtonProps, ButtonType } from '../button';
 import { ConfigContext } from '../config-provider';
 import type { PopoverProps } from '../popover';
@@ -11,7 +13,17 @@ import Popover from '../popover';
 import type { AbstractTooltipProps, TooltipRef } from '../tooltip';
 import Overlay from './Overlay';
 
-export interface PopconfirmProps extends AbstractTooltipProps {
+export interface PopconfirmProps extends Omit<AbstractTooltipProps, 'className'> {
+  className?: SemanticClassName<
+    {
+      popover?: PopoverProps['className'];
+      icon?: string;
+      title?: string;
+      description?: string;
+      actions?: string;
+    },
+    { open?: boolean }
+  >;
   title: React.ReactNode | RenderFunction;
   description?: React.ReactNode | RenderFunction;
   disabled?: boolean;
@@ -66,18 +78,20 @@ const Popconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props, ref) =>
     setOpen(value, true);
   };
 
+  const semanticCls = useSemanticCls(className, 'popConfirm', { open });
   const prefixCls = getPrefixCls('popconfirm', customizePrefixCls);
-  const mergedCls = mergeSemanticCls({ overlay: 'w-max max-w-none' }, className);
+  const popoverCls = mergeSemanticCls({ overlay: 'w-max max-w-none' }, semanticCls.popover);
 
   return (
     <Popover
       {...omit(restProps, ['title'])}
+      prefixCls={prefixCls}
       trigger={trigger}
       placement={placement}
       onOpenChange={onInternalOpenChange}
       open={open}
       ref={ref}
-      className={mergedCls}
+      className={popoverCls}
       content={
         <Overlay
           okType={okType}

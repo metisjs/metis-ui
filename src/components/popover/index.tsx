@@ -83,7 +83,7 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
     onOpenChange?.(vis);
   };
 
-  const semanticCls = useSemanticCls(className, { open: mergedOpen });
+  const semanticCls = useSemanticCls(className, 'popover', { open: mergedOpen });
 
   const prefixCls = getPrefixCls('popover');
 
