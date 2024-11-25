@@ -10,8 +10,7 @@ export type ModalProps = {
     body?: string;
     footer?: string;
     mask?: string;
-    content?: string;
-    wrapper?: string;
+    close?: string;
   }>;
   keyboard?: boolean;
   style?: CSSProperties;

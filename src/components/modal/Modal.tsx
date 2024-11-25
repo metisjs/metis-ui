@@ -2,7 +2,6 @@ import * as React from 'react';
 import Portal from '@rc-component/portal';
 import contains from 'rc-util/lib/Dom/contains';
 import KeyCode from 'rc-util/lib/KeyCode';
-import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -154,13 +153,11 @@ const Modal: React.FC<ModalProps> = (props) => {
   const [mergedZIndex, contextZIndex] = useZIndex('Modal', zIndex);
 
   // ========================= Styles =========================
-  const containerCls = clsx(`${prefixCls}-container`);
   const wrapperCls = clsx(
     `${prefixCls}-wrap`,
     { [`${prefixCls}-centered`]: !!centered },
     'fixed inset-0 overflow-auto outline-none',
     !!centered && 'flex items-center justify-center',
-    semanticCls.wrapper,
   );
 
   // ========================= Render ==========================
@@ -179,56 +176,54 @@ const Modal: React.FC<ModalProps> = (props) => {
           getContainer={mergedGetContainer}
           autoLock={open || animatedVisible}
         >
-          <div className={containerCls} {...pickAttrs(props, { data: true })}>
-            <Mask
+          <Mask
+            prefixCls={prefixCls}
+            open={mask && open}
+            style={{ zIndex: mergedZIndex }}
+            maskProps={maskProps}
+            className={semanticCls.mask}
+          />
+          <div
+            tabIndex={-1}
+            onKeyDown={onWrapperKeyDown}
+            className={wrapperCls}
+            ref={wrapperRef}
+            onClick={onWrapperClick}
+            style={{
+              zIndex: mergedZIndex,
+              display: !animatedVisible ? 'none' : undefined,
+            }}
+            {...wrapProps}
+          >
+            <Panel
+              {...restProps}
+              width={width}
+              ref={panelRef}
+              closable={closable}
+              ariaId={ariaId}
               prefixCls={prefixCls}
-              open={mask && open}
-              style={{ zIndex: mergedZIndex }}
-              maskProps={maskProps}
-              className={semanticCls.mask}
-            />
-            <div
-              tabIndex={-1}
-              onKeyDown={onWrapperKeyDown}
-              className={wrapperCls}
-              ref={wrapperRef}
-              onClick={onWrapperClick}
-              style={{
-                zIndex: mergedZIndex,
-                display: !animatedVisible ? 'none' : undefined,
-              }}
-              {...wrapProps}
+              open={open && animatedVisible}
+              footer={mergedFooter}
+              destroyOnClose={destroyOnClose}
+              className={className}
+              forceRender={forceRender}
+              centered={centered}
+              onClose={onCancel}
+              onMouseDown={onPanelMouseDown}
+              onMouseUp={onPanelMouseUp}
+              onOpenChanged={onOpenChanged}
             >
-              <Panel
-                {...restProps}
-                width={width}
-                ref={panelRef}
-                closable={closable}
-                ariaId={ariaId}
-                prefixCls={prefixCls}
-                open={open && animatedVisible}
-                footer={mergedFooter}
-                destroyOnClose={destroyOnClose}
-                className={className}
-                forceRender={forceRender}
-                centered={centered}
-                onClose={onCancel}
-                onMouseDown={onPanelMouseDown}
-                onMouseUp={onPanelMouseUp}
-                onOpenChanged={onOpenChanged}
-              >
-                {loading ? (
-                  <Skeleton
-                    active
-                    title={false}
-                    paragraph={{ rows: 4 }}
-                    className={clsx(`${prefixCls}-body-skeleton`, 'mt-1')}
-                  />
-                ) : (
-                  children
-                )}
-              </Panel>
-            </div>
+              {loading ? (
+                <Skeleton
+                  active
+                  title={false}
+                  paragraph={{ rows: 4 }}
+                  className={clsx(`${prefixCls}-body-skeleton`, 'mt-1')}
+                />
+              ) : (
+                children
+              )}
+            </Panel>
           </div>
         </Portal>
       </ZIndexContext.Provider>

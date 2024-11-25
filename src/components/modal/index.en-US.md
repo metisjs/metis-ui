@@ -40,7 +40,7 @@ When requiring users to interact with the application, but without jumping to a 
 | cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
 | cancelText | Text of the Cancel button | ReactNode | `Cancel` |  |
 | centered | Centered Modal | boolean | false |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \\｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | confirmLoading | Whether to apply loading visual effect for OK button or not | boolean | false |  |
 | destroyOnClose | Whether to unmount child components on onClose | boolean | false |  |
@@ -89,7 +89,7 @@ The items listed above are all functions, expecting a settings object as paramet
 | cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
 | cancelText | Text of the Cancel button with Modal.confirm | string | `Cancel` |  |
 | centered | Centered Modal | boolean | false |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \\｜ 'header' \| 'body' \| 'footer' \| 'mask' \| 'content' \| 'wrapper', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
 | content | Content | ReactNode | - |  |
 | footer | Footer content, set as `footer: null` when you don't need default buttons | React.ReactNode \| ((params:[footerRenderParams](/components/modal#footerrenderparams))=> React.ReactNode) | - | renderFunction: |
@@ -174,6 +174,10 @@ const confirmed = await modal.confirm({ ... });
 | --- | --- | --- | --- |
 | extra | extended options | { OkBtn: FC; CancelBtn: FC } | - |
 | originNode | default node | React.ReactNode | - |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

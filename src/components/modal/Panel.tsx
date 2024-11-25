@@ -72,7 +72,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     onOpenChanged,
   } = props;
 
-  const semanticCls = useSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'modal');
 
   const sentinelStartRef = React.useRef<HTMLDivElement>(null);
   const sentinelEndRef = React.useRef<HTMLDivElement>(null);
@@ -99,13 +99,12 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     prefixCls,
     'pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm text-text',
     !!centered && 'top-0 pb-0',
-    semanticCls.root,
   );
 
   const contentCls = clsx(
     `${prefixCls}-content`,
     'pointer-events-auto relative flex flex-col overflow-hidden rounded-lg bg-elevated shadow-xl',
-    semanticCls.content,
+    semanticCls.root,
   );
 
   const headerCls = clsx(
@@ -129,6 +128,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   const closeCls = clsx(
     `${prefixCls}-close`,
     'absolute right-3 top-3 rounded p-1 text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary',
+    semanticCls.close,
   );
 
   const panelStyle: React.CSSProperties = {};
