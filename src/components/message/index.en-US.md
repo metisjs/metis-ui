@@ -57,8 +57,8 @@ Supports passing parameters wrapped in an object:
 The properties of config are as follows:
 
 | Property | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
+| --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
 | content | The content of the message | ReactNode | - |
 | duration | Time(seconds) before auto-dismiss, don't dismiss if set to 0 | number | 3 |
 | icon | Customized Icon | ReactNode | - |

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Divider, notification, Space, Switch } from 'metis-ui';
+import { Button, Divider, InputNumber, notification, Space, Switch } from 'metis-ui';
 
 const App: React.FC = () => {
   const [enabled, setEnabled] = React.useState(true);
-  const [threshold] = React.useState(3);
+  const [threshold, setThreshold] = React.useState(3);
   const [api, contextHolder] = notification.useNotification({
     stack: enabled
       ? {
@@ -32,15 +32,14 @@ const App: React.FC = () => {
         </Space>
         <Space style={{ width: '100%' }}>
           <span>Threshold: </span>
-          {/* TODO: 组件待开发 */}
-          {/* <InputNumber
-              disabled={!enabled}
-              value={threshold}
-              step={1}
-              min={1}
-              max={10}
-              onChange={(v) => setThreshold(v || 0)}
-            /> */}
+          <InputNumber
+            disabled={!enabled}
+            value={threshold}
+            step={1}
+            min={1}
+            max={10}
+            onChange={(v) => setThreshold(v || 0)}
+          />
         </Space>
       </Space>
       <Divider />

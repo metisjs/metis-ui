@@ -44,7 +44,7 @@ config 参数如下：
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | btn | 自定义关闭按钮 | ReactNode | - | - |
-| className | 语义结构 class | string \| Record&lt;'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | 通知提醒内容，必选 | ReactNode | - | - |
 | duration | 默认 4.5 秒后自动关闭，配置为 0 则不自动关闭 | number | 4.5 | - |
@@ -66,7 +66,7 @@ config 参数如下：
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | bottom | 消息从底部弹出时，距离底部的位置，单位像素 | number | 24 |  |
-| className | 语义结构 class | string \| (placement: Placement) => Record&lt;'root' \| 'wrapper' \| 'collapsedWrapper' \| 'notice' \| 'content' \| 'close' \| 'progress', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |
 | closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | duration | 默认自动关闭延时，单位秒 | number | 4.5 |  |
 | getContainer | 配置渲染节点的输出位置，但依旧为全屏展示 | () => HTMLNode | () => document.body |  |
@@ -95,6 +95,10 @@ notification.config({
   duration: 3,
 });
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

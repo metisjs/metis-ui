@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ConfigContext } from '../config-provider';
 import type { NotificationAPI, NotificationConfig, OpenConfig } from './interface';
-import type { NotificationsRef } from './Notifications';
+import type { NotificationsProps, NotificationsRef } from './Notifications';
 import Notifications from './Notifications';
 import { mergeConfig } from './util';
 
-export interface NotificationHolderProps extends Omit<NotificationConfig, 'top' | 'bottom'> {
-  prefixCls: string;
-}
+export type NotificationHolderProps = Omit<NotificationConfig, 'top' | 'bottom' | 'className'> & {
+  className?: NotificationsProps['className'];
+  style?: NotificationsProps['style'];
+};
 
 interface OpenTask {
   type: 'open';
@@ -26,14 +28,12 @@ type Task = OpenTask | CloseTask | DestroyTask;
 
 let uniqueKey = 0;
 
-const defaultGetContainer = () => document.body;
-
 const NotificationHolder = React.forwardRef<NotificationAPI, NotificationHolderProps>(
   (props, ref) => {
     const {
-      getContainer = defaultGetContainer,
+      getContainer: staticGetContainer,
       transition,
-      prefixCls,
+      prefixCls: staticPrefixCls,
       maxCount,
       className,
       style,
@@ -41,6 +41,11 @@ const NotificationHolder = React.forwardRef<NotificationAPI, NotificationHolderP
       stack,
       ...shareConfig
     } = props;
+
+    const { getPrefixCls, getPopupContainer, notification } = useContext(ConfigContext);
+
+    const prefixCls = staticPrefixCls || getPrefixCls('notification');
+    const getContainer = () => staticGetContainer?.() || getPopupContainer?.() || document.body;
 
     const [container, setContainer] = React.useState<HTMLElement | ShadowRoot>();
     const notificationsRef = React.useRef<NotificationsRef>(null);
@@ -79,8 +84,10 @@ const NotificationHolder = React.forwardRef<NotificationAPI, NotificationHolderP
         destroy: () => {
           setTaskQueue((queue) => [...queue, { type: 'destroy' }]);
         },
+        prefixCls,
+        className: notification?.className,
       };
-    }, [JSON.stringify(shareConfig)]);
+    }, [JSON.stringify(shareConfig), JSON.stringify(notification), prefixCls]);
 
     // ======================= Container ======================
     // React 18 should all in effect that we will check container in each render

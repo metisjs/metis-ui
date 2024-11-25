@@ -43,7 +43,7 @@ The properties of config are as follows:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | btn | Customized close button | ReactNode | - | - |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'message' \| 'icon' \| 'description' \| 'btn', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | The content of notification box (required) | ReactNode | - | - |
 | duration | Time in seconds before Notification is closed. When set to 0 , it will never be closed automatically | number | 4.5 | - |
@@ -66,7 +66,7 @@ The properties of config are as follows:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
-| className | Semantic DOM class | string \| (placement: Placement) => Record&lt;'root' \| 'wrapper' \| 'collapsedWrapper' \| 'notice' \| 'content' \| 'close' \| 'progress', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |
 | closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |
 | getContainer | Return the mount node for Notification | () => HTMLNode | () => document.body |  |
@@ -97,6 +97,10 @@ notification.config({
   duration: 3,
 });
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
 
 ## FAQ
 

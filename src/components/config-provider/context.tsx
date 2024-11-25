@@ -231,7 +231,7 @@ export interface ConfigConsumerProps {
   switch?: SwitchConfig;
   transfer?: TransferConfig;
   avatar?: AvatarConfig;
-  message?: MentionsConfig;
+  message?: MessageConfig;
   scrollbar?: ScrollbarConfig;
   tag?: TagConfig;
   // table?: TableConfig;

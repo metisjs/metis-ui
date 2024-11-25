@@ -12,6 +12,7 @@ export interface ConfigOptions {
   transition?: Partial<TransitionProps>;
   maxCount?: number;
   onAllRemoved?: VoidFunction;
+  className?: ArgsProps['className'];
 }
 
 export interface ArgsProps {
@@ -38,7 +39,7 @@ export interface ArgsProps {
   icon?: React.ReactNode;
   key?: string | number;
   style?: React.CSSProperties;
-  className?: SemanticClassName<{ content?: string; icon?: string; message?: string }>;
+  className?: SemanticClassName<{ content?: string; icon?: string }>;
   /**
    * @descCN 消息通知点击时的回调函数
    * @descEN Callback function when message notification is clicked

@@ -1,8 +1,7 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '../_util/classNameUtils';
-import type { BaseClosableType, ClosableType } from '../_util/hooks/useClosable';
+import type { ClosableType } from '../_util/hooks/useClosable';
 import type { TransitionProps } from '../transition';
-import type { NotificationsProps } from './Notifications';
 
 interface DivProps extends React.HTMLProps<HTMLDivElement> {
   'data-testid'?: string;
@@ -38,6 +37,8 @@ export interface ArgsProps {
     icon?: string;
     description?: string;
     btn?: string;
+    progress?: string;
+    close?: string;
   }>;
   readonly type?: IconType;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -60,6 +61,8 @@ export interface NotificationAPI {
   open: (config: Partial<OpenConfig>) => void;
   close: (key: React.Key) => void;
   destroy: () => void;
+  prefixCls: string;
+  className?: ArgsProps['className'];
 }
 
 export interface NotificationConfig {
@@ -78,8 +81,7 @@ export interface NotificationConfig {
     | ((placement: NotificationPlacement) => Partial<TransitionProps>);
   props?: DivProps;
   getContainer?: () => HTMLElement | ShadowRoot;
-  className?: NotificationsProps['className'];
-  style?: (placement: NotificationPlacement) => React.CSSProperties;
+  className?: ArgsProps['className'];
   onAllRemoved?: VoidFunction;
 }
 
@@ -88,7 +90,7 @@ export interface NoticeConfig {
   duration?: number;
   showProgress?: boolean;
   pauseOnHover?: boolean;
-  closable?: BaseClosableType;
+  closable?: ClosableType;
   className?: string;
   style?: React.CSSProperties;
   /** @private Internal usage. Do not override in your code */

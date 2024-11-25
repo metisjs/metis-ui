@@ -58,8 +58,8 @@ group: 反馈
 `config` 对象属性如下：
 
 | 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+| --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |
 | content | 提示内容 | ReactNode | - |
 | duration | 自动关闭的延时，单位秒。设为 0 时不自动关闭 | number | 3 |
 | icon | 自定义图标 | ReactNode | - |

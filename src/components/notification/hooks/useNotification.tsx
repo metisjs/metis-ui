@@ -9,7 +9,6 @@ import { getGlobalConfig } from '..';
 import { clsx, getSemanticCls, mergeSemanticCls } from '../../_util/classNameUtils';
 import { cloneElement } from '../../_util/reactNode';
 import { devUseWarning } from '../../_util/warning';
-import { ConfigContext } from '../../config-provider';
 import type {
   ArgsProps,
   NotificationAPI,
@@ -60,7 +59,6 @@ export function useInternalNotification(
   notificationConfig?: NotificationConfig,
 ): readonly [NotificationInstance, React.ReactElement] {
   const {
-    prefixCls: customizedPrefix,
     top,
     bottom,
     duration = DEFAULT_DURATION,
@@ -68,12 +66,8 @@ export function useInternalNotification(
     transition = DEFAULT_TRANSITION,
     closable = true,
     className,
-    style,
     ...restProps
   } = notificationConfig ?? {};
-
-  const { getPrefixCls } = React.useContext(ConfigContext);
-  const prefixCls = getPrefixCls('notification', customizedPrefix);
 
   const holderRef = React.useRef<NotificationAPI>(null);
 
@@ -82,7 +76,6 @@ export function useInternalNotification(
   // =============================== Style ===============================
   const getStyle = (placement: NotificationPlacement): React.CSSProperties => ({
     ...getPlacementStyle(placement, top ?? DEFAULT_OFFSET, bottom ?? DEFAULT_OFFSET),
-    ...style?.(placement),
   });
 
   const getClassName = (placement: NotificationPlacement) =>
@@ -119,7 +112,7 @@ export function useInternalNotification(
           'absolute bottom-0 left-2 right-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-primary',
         ),
       },
-      className?.(placement),
+      className,
     );
 
   // ================================ API ================================
@@ -137,7 +130,7 @@ export function useInternalNotification(
         return;
       }
 
-      const { open: originOpen } = holderRef.current;
+      const { open: originOpen, prefixCls, className: contextClassName } = holderRef.current;
 
       const noticePrefixCls = `${prefixCls}-notice`;
 
@@ -147,17 +140,17 @@ export function useInternalNotification(
         icon,
         type,
         btn,
-        className,
+        className: internalClassName,
         role = 'alert',
         ...restConfig
       } = config;
-      const semanticCls = getSemanticCls(className);
+      const semanticCls = getSemanticCls([contextClassName, className, internalClassName]);
 
       const messageCls = clsx(`${prefixCls}-message`, 'truncate font-medium', semanticCls.message);
       const descriptionCls = clsx(
         `${prefixCls}-description`,
         'mt-1 text-text-secondary',
-        semanticCls.message,
+        semanticCls.description,
       );
       const iconCls = clsx(
         `${prefixCls}-icon`,
@@ -229,7 +222,6 @@ export function useInternalNotification(
     wrapAPI,
     <NotificationHolder
       key="notification-holder"
-      prefixCls={prefixCls}
       duration={duration}
       stack={stack}
       transition={transition}
@@ -244,6 +236,10 @@ export function useInternalNotification(
 
 export default function useNotification(notificationConfig?: NotificationConfig) {
   const globalConfig = getGlobalConfig();
-  const mergedConfig = { ...globalConfig, ...notificationConfig };
+  const mergedConfig = {
+    ...globalConfig,
+    ...notificationConfig,
+    className: mergeSemanticCls(globalConfig.className, notificationConfig?.className),
+  };
   return useInternalNotification(mergedConfig);
 }

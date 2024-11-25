@@ -33,7 +33,6 @@ export interface NoticeListProps {
     wrapper?: string;
     collapsedWrapper?: string;
     notice?: string;
-    content?: string;
     close?: string;
     progress?: string;
   }>;
@@ -180,7 +179,6 @@ const NoticeList: FC<NoticeListProps> = (props) => {
               prefixCls={prefixCls}
               className={{
                 root: clsx(semanticCls.notice, configClassName),
-                content: semanticCls.content,
                 close: semanticCls.close,
                 progress: semanticCls.progress,
               }}
