@@ -140,8 +140,12 @@ const Result: ResultType = ({
     'px-8 py-12 text-sm text-text',
     semanticCls.root,
   );
-  const iconCls = clsx(`${prefixCls}-icon`, 'mb-6 text-center');
-  const imageCls = clsx(`${prefixCls}-image`, 'm-auto mb-6 h-[295px] w-[250px] text-center');
+  const iconCls = clsx(`${prefixCls}-icon`, 'mb-6 text-center', semanticCls.icon);
+  const imageCls = clsx(
+    `${prefixCls}-image`,
+    'm-auto mb-6 h-[295px] w-[250px] text-center',
+    semanticCls.image,
+  );
   const titleCls = clsx(`${prefixCls}-title`, 'my-2 text-center text-2xl', semanticCls.title);
   const subTitleCls = clsx(
     `${prefixCls}-subtitle`,
