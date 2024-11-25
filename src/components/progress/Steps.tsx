@@ -23,7 +23,7 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
     className,
     status,
   } = props;
-  const semanticCls = useSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'progress');
 
   const current = Math.round(steps * (percent / 100));
   const stepWidth = size === 'small' ? 2 : 14;
@@ -58,7 +58,7 @@ const Steps: React.FC<ProgressStepsProps> = (props) => {
     );
   }
   return (
-    <div className={clsx(`${prefixCls}-steps-outer`, 'flex items-center', semanticCls.outer)}>
+    <div className={clsx(`${prefixCls}-steps-outer`, 'flex items-center')}>
       {styledSteps}
       {children}
     </div>

@@ -88,7 +88,7 @@ const Line: React.FC<LineProps> = (props) => {
     className,
     status,
   } = props;
-  const semanticCls = useSemanticCls(className);
+  const semanticCls = useSemanticCls(className, 'progress');
 
   const { align: infoAlign, type: infoPosition } = percentPosition;
 
@@ -135,7 +135,7 @@ const Line: React.FC<LineProps> = (props) => {
     width: width < 0 ? '100%' : width,
   };
 
-  const outerCls = clsx(`${prefixCls}-outer`, 'inline-flex w-full items-center', semanticCls.outer);
+  const outerCls = clsx(`${prefixCls}-outer`, 'inline-flex w-full items-center');
   const innerCls = clsx(
     `${prefixCls}-inner`,
     'relative inline-block w-full flex-1 overflow-hidden rounded-full bg-fill-quaternary align-middle',

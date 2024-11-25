@@ -38,7 +38,7 @@ Properties that shared by all types.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'outer' \| 'trail' \| 'text', string> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | format | The template function of the content | function(percent, successPercent) | (percent) => percent + `%` | - |
 | percent | To set the completion percentage | number | 0 | - |
 | showInfo | Whether to display the progress value and the status icon | boolean | true |  |
@@ -74,3 +74,7 @@ Properties that shared by all types.
 | gapPosition | The gap position, options: `top` `bottom` `left` `right` | string | `bottom` |  |
 | steps | The total step count.When passing an object, `count` refers to the number of steps, and `gap` refers to the distance between them.When passing number, the default value for `gap` is 2. | number \| { count: number, gap: number } | - |  |
 | strokeWidth | To set the width of the dashboard progress, unit: percentage of the canvas width | number | 6 |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

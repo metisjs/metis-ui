@@ -39,7 +39,7 @@ group: 反馈
 
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化 class | string \| Record&lt;'root' \| 'outer' \| 'trail' \| 'text', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | format | 内容的模板函数 | function(percent, successPercent) | (percent) => percent + `%` | - |
 | percent | 百分比 | number | 0 | - |
 | showInfo | 是否显示进度数值或状态图标 | boolean | true | - |
@@ -75,3 +75,7 @@ group: 反馈
 | gapPosition | 仪表盘进度条缺口位置 | `top` \| `bottom` \| `left` \| `right` | `bottom` |  |
 | steps | 进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。 | number \| { count: number, gap: number } | - |  |
 | strokeWidth | 仪表盘进度条线的宽度，单位是进度条画布宽度的百分比 | number | 6 |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

@@ -34,7 +34,7 @@ export type ProgressAriaProps = Pick<React.AriaAttributes, 'aria-label' | 'aria-
 
 export interface ProgressProps extends ProgressAriaProps {
   prefixCls?: string;
-  className?: SemanticClassName<{ outer?: string; trail?: string; text?: string }>;
+  className?: SemanticClassName<{ trail?: string; text?: string }, { type: ProgressType }>;
   type?: ProgressType;
   percent?: number;
   format?: (percent?: number, successPercent?: number) => React.ReactNode;
@@ -104,7 +104,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
 
   const { getPrefixCls } = React.useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('progress', customizePrefixCls);
-  const semanticCls = useSemanticCls(className, 'progress');
+  const semanticCls = useSemanticCls(className, 'progress', { type });
 
   const isLineType = type === 'line';
   const isPureLineType = isLineType && !steps;
@@ -242,12 +242,9 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
     );
   }
 
-  const classString = clsx(
+  const rootCls = clsx(
     prefixCls,
     `${prefixCls}-status-${progressStatus}`,
-    'inline-block text-sm leading-[1] text-text',
-    isPureLineType && 'relative w-full',
-    { 'text-xs': size === 'small' },
     {
       [`${prefixCls}-${(type === 'dashboard' && 'circle') || type}`]: type !== 'line',
       [`${prefixCls}-inline-circle`]: type === 'circle' && getSize(size, 'circle')[0] <= 20,
@@ -258,6 +255,9 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
       [`${prefixCls}-show-info`]: showInfo,
       [`${prefixCls}-${size}`]: typeof size === 'string',
     },
+    'inline-block text-sm leading-[1] text-text',
+    isPureLineType && 'relative w-full',
+    { 'text-xs': size === 'small' },
     semanticCls.root,
   );
 
@@ -265,7 +265,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
     <div
       ref={ref}
       style={style}
-      className={classString}
+      className={rootCls}
       role="progressbar"
       aria-valuenow={percentNumber}
       aria-valuemin={0}
