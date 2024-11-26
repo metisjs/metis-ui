@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { CheckOutline, XMarkOutline } from '@metisjs/icons';
 import { inline } from '@rc-component/portal/es/mock';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -87,8 +86,8 @@ const Step: React.FC<StepProps> = (props) => {
       onStepClick(stepIndex);
     };
     accessibilityProps.onKeyDown = (e) => {
-      const { which } = e;
-      if (which === KeyCode.ENTER || which === KeyCode.SPACE) {
+      const { key } = e;
+      if (key === 'Enter' || key === 'Space') {
         onStepClick(stepIndex);
       }
     };

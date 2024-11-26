@@ -7,7 +7,6 @@ import React, {
   useState,
 } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
 import useEffectState from '../_util/hooks/useEffectState';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -289,7 +288,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
   // ============================= KeyEvent =============================
   // Check if hit the measure keyword
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
-    const { which } = event;
+    const { key } = event;
 
     onKeyDown?.(event);
 
@@ -298,16 +297,16 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
       return;
     }
 
-    if (which === KeyCode.UP || which === KeyCode.DOWN) {
+    if (key === 'ArrowUp' || key === 'ArrowDown') {
       // Control arrow function
       const optionLen = mergedOptions.length;
-      const offset = which === KeyCode.UP ? -1 : 1;
+      const offset = key === 'ArrowUp' ? -1 : 1;
       const newActiveIndex = (activeIndex + offset + optionLen) % optionLen;
       setActiveIndex(newActiveIndex);
       event.preventDefault();
-    } else if (which === KeyCode.ESC) {
+    } else if (key === 'Escape') {
       stopMeasure();
-    } else if (which === KeyCode.ENTER) {
+    } else if (key === 'Enter') {
       // Measure hit
       event.preventDefault();
       // loading skip
@@ -337,7 +336,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
    * 3. ESC or select one
    */
   const onInternalKeyUp: React.KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
-    const { key, which } = event;
+    const { key } = event;
     const target = event.target as HTMLTextAreaElement;
     const selectionStartText = getBeforeSelectionText(target);
     const { location: measureIndex, prefix: nextMeasurePrefix } = getLastMeasureIndex(
@@ -349,7 +348,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
     onKeyUp?.(event);
 
     // Skip if match the white key list
-    if ([KeyCode.ESC, KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].indexOf(which) !== -1) {
+    if (['Escape', 'ArrowUp', 'ArrowDown', 'Enter'].indexOf(key) !== -1) {
       return;
     }
 

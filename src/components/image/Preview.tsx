@@ -7,7 +7,6 @@ import {
   XMarkOutline,
 } from '@metisjs/icons';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import Modal from '../modal';
@@ -219,9 +218,9 @@ const Preview: React.FC<PreviewProps> = (props) => {
   const onKeyDown = (event: KeyboardEvent) => {
     if (!open || !showLeftOrRightSwitches) return;
 
-    if (event.keyCode === KeyCode.LEFT) {
+    if (event.key === 'ArrowLeft') {
       onActive(-1);
-    } else if (event.keyCode === KeyCode.RIGHT) {
+    } else if (event.key === 'ArrowRight') {
       onActive(1);
     }
   };

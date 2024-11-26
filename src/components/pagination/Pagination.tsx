@@ -7,7 +7,6 @@ import {
 } from '@metisjs/icons';
 import { isInteger } from 'lodash';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx } from '../_util/classNameUtils';
 import useBreakpoint from '../_util/hooks/useBreakpoint';
@@ -200,7 +199,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
    * @see https://stackoverflow.com/a/1081114
    */
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.keyCode === KeyCode.UP || event.keyCode === KeyCode.DOWN) {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault();
     }
   };
@@ -213,14 +212,14 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       setInternalInputVal(value);
     }
 
-    switch ((event as React.KeyboardEvent<HTMLInputElement>).keyCode) {
-      case KeyCode.ENTER:
+    switch ((event as React.KeyboardEvent<HTMLInputElement>).key) {
+      case 'Enter':
         handleChange(value);
         break;
-      case KeyCode.UP:
+      case 'ArrowUp':
         handleChange(value - 1);
         break;
-      case KeyCode.DOWN:
+      case 'ArrowDown':
         handleChange(value + 1);
         break;
       default:
@@ -263,11 +262,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   };
 
   const runIfEnter = (event: React.KeyboardEvent<HTMLLIElement>, callback: () => void) => {
-    if (
-      event.key === 'Enter' ||
-      event.charCode === KeyCode.ENTER ||
-      event.keyCode === KeyCode.ENTER
-    ) {
+    if (event.key === 'Enter') {
       callback();
     }
   };

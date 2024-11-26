@@ -1,8 +1,5 @@
 import * as React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
-
-const { ESC, TAB } = KeyCode;
 
 interface UseAccessibilityProps {
   open: boolean;
@@ -38,11 +35,11 @@ export default function useAccessibility({
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    switch (event.keyCode) {
-      case ESC:
+    switch (event.key) {
+      case 'Escape':
         handleCloseMenuAndReturnFocus();
         break;
-      case TAB: {
+      case 'Tab': {
         let focusResult: boolean = false;
         if (!focusMenuRef.current) {
           focusResult = focusMenu();

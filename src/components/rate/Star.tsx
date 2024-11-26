@@ -1,5 +1,4 @@
 import React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -56,7 +55,7 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
   };
 
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
-    if (e.keyCode === KeyCode.ENTER) {
+    if (e.key === 'Enter') {
       onClick?.(e, index);
     }
   };

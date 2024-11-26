@@ -1,34 +1,30 @@
-import KeyCode from 'rc-util/lib/KeyCode';
-
 /** keyCode Judgment function */
-export function isValidateOpenKey(currentKeyCode: number): boolean {
+export function isValidateOpenKey(currentKey: string): boolean {
   return ![
     // System function button
-    KeyCode.ESC,
-    KeyCode.SHIFT,
-    KeyCode.BACKSPACE,
-    KeyCode.TAB,
-    KeyCode.WIN_KEY,
-    KeyCode.ALT,
-    KeyCode.META,
-    KeyCode.WIN_KEY_RIGHT,
-    KeyCode.CTRL,
-    KeyCode.SEMICOLON,
-    KeyCode.EQUALS,
-    KeyCode.CAPS_LOCK,
-    KeyCode.CONTEXT_MENU,
+    'Escape',
+    'Shift',
+    'Backspace',
+    'Tab',
+    'Meta',
+    'Alt',
+    'Control',
+    ';',
+    '=',
+    'CapsLock',
+    'ContextMenu',
     // F1-F12
-    KeyCode.F1,
-    KeyCode.F2,
-    KeyCode.F3,
-    KeyCode.F4,
-    KeyCode.F5,
-    KeyCode.F6,
-    KeyCode.F7,
-    KeyCode.F8,
-    KeyCode.F9,
-    KeyCode.F10,
-    KeyCode.F11,
-    KeyCode.F12,
-  ].includes(currentKeyCode);
+    'F1',
+    'F2',
+    'F3',
+    'F4',
+    'F5',
+    'F6',
+    'F7',
+    'F8',
+    'F9',
+    'F10',
+    'F11',
+    'F12',
+  ].includes(currentKey);
 }

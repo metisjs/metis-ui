@@ -1,5 +1,4 @@
 import React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { collapseTransition } from '../_util/transition';
@@ -39,7 +38,7 @@ const CollapsePanel = React.forwardRef<HTMLDivElement, CollapsePanelProps>((prop
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.keyCode === KeyCode.ENTER || e.which === KeyCode.ENTER) {
+    if (e.key === 'Enter') {
       handleItemClick();
     }
   };

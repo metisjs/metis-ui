@@ -1,7 +1,6 @@
 import React from 'react';
 import { StarSolid } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx, type SemanticClassName } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -176,14 +175,14 @@ const Rate = React.forwardRef<RateRef, RateProps>((props, ref) => {
   };
 
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLUListElement> = (event) => {
-    const { keyCode } = event;
+    const { key } = event;
     const step = allowHalf ? 0.5 : 1;
 
     if (keyboard) {
-      if (keyCode === KeyCode.RIGHT && value < count) {
+      if (key === 'ArrowRight' && value < count) {
         changeValue(value + step);
         event.preventDefault();
-      } else if (keyCode === KeyCode.LEFT && value > 0) {
+      } else if (key === 'ArrowLeft' && value > 0) {
         changeValue(value - step);
         event.preventDefault();
       }

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
 import { clsx } from '../_util/classNameUtils';
@@ -75,23 +74,21 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   React.useImperativeHandle(ref, () => panelRef.current);
 
   const onPanelKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-    const { keyCode, shiftKey } = event;
+    const { key, shiftKey } = event;
 
-    switch (keyCode) {
+    switch (key) {
       // Tab active
-      case KeyCode.TAB: {
-        if (keyCode === KeyCode.TAB) {
-          if (!shiftKey && document.activeElement === sentinelEndRef.current) {
-            sentinelStartRef.current?.focus({ preventScroll: true });
-          } else if (shiftKey && document.activeElement === sentinelStartRef.current) {
-            sentinelEndRef.current?.focus({ preventScroll: true });
-          }
+      case 'Tab': {
+        if (!shiftKey && document.activeElement === sentinelEndRef.current) {
+          sentinelStartRef.current?.focus({ preventScroll: true });
+        } else if (shiftKey && document.activeElement === sentinelStartRef.current) {
+          sentinelEndRef.current?.focus({ preventScroll: true });
         }
         break;
       }
 
       // Close
-      case KeyCode.ESC: {
+      case 'Escape': {
         if (onClose && keyboard) {
           event.stopPropagation();
           onClose(event);

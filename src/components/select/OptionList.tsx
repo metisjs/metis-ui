@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import useMemo from 'rc-util/lib/hooks/useMemo';
-import KeyCode from 'rc-util/lib/KeyCode';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { clsx, getSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -158,22 +157,24 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
   // ========================= Keyboard =========================
   React.useImperativeHandle(ref, () => ({
     onKeyDown: (event) => {
-      const { which, ctrlKey } = event;
-      switch (which) {
+      const { key, ctrlKey } = event;
+      switch (key) {
         // >>> Arrow keys & ctrl + n/p on Mac
-        case KeyCode.N:
-        case KeyCode.P:
-        case KeyCode.UP:
-        case KeyCode.DOWN: {
+        case 'n':
+        case 'N':
+        case 'p':
+        case 'P':
+        case 'ArrowUp':
+        case 'ArrowDown': {
           let offset = 0;
-          if (which === KeyCode.UP) {
+          if (key === 'ArrowUp') {
             offset = -1;
-          } else if (which === KeyCode.DOWN) {
+          } else if (key === 'ArrowDown') {
             offset = 1;
           } else if (isPlatformMac() && ctrlKey) {
-            if (which === KeyCode.N) {
+            if (key === 'n' || key === 'N') {
               offset = 1;
-            } else if (which === KeyCode.P) {
+            } else if (key === 'p' || key === 'P') {
               offset = -1;
             }
           }
@@ -188,7 +189,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         }
 
         // >>> Select
-        case KeyCode.ENTER: {
+        case 'Enter': {
           // value
           const item = memoFlattenOptions[activeIndex];
           if (item && !item.data.disabled) {
@@ -205,7 +206,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
         }
 
         // >>> Close
-        case KeyCode.ESC: {
+        case 'Escape': {
           toggleOpen(false);
           if (open) {
             event.stopPropagation();

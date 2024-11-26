@@ -10,7 +10,6 @@
 
 import * as React from 'react';
 import { useRef } from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
@@ -149,9 +148,9 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
   const [getInputMouseDown, setInputMouseDown] = useLock(0);
 
   const onInternalInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
-    const { which } = event;
+    const { key } = event;
 
-    if (which === KeyCode.UP || which === KeyCode.DOWN) {
+    if (key === 'ArrowUp' || key === 'ArrowDown') {
       event.preventDefault();
     }
 
@@ -159,13 +158,13 @@ const Selector: React.ForwardRefRenderFunction<RefSelectorProps, SelectorProps> 
       onInputKeyDown(event);
     }
 
-    if (which === KeyCode.ENTER && mode === 'tags' && !compositionStatusRef.current && !open) {
+    if (key === 'Enter' && mode === 'tags' && !compositionStatusRef.current && !open) {
       // When menu isn't open, OptionList won't trigger a value change
       // So when enter is pressed, the tag's input value should be emitted here to let selector know
       onSearchSubmit?.((event.target as HTMLInputElement).value);
     }
 
-    if (isValidateOpenKey(which)) {
+    if (isValidateOpenKey(key)) {
       onToggleOpen(true);
     }
   };

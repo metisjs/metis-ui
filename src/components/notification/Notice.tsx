@@ -1,5 +1,4 @@
 import * as React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx } from '../_util/classNameUtils';
 import useClosable from '../_util/hooks/useClosable';
@@ -51,7 +50,7 @@ const Notice = React.forwardRef<HTMLDivElement, NoticeProps & { times?: number }
   };
 
   const onCloseKeyDown: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
-    if (e.key === 'Enter' || e.code === 'Enter' || e.keyCode === KeyCode.ENTER) {
+    if (e.key === 'Enter' || e.code === 'Enter' || e.key === 'Enter') {
       onInternalClose();
     }
   };

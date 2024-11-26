@@ -1,7 +1,6 @@
 import * as React from 'react';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -479,9 +478,9 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   // KeyDown
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event, ...rest) => {
     const clearLock = getClearLock();
-    const { which } = event;
+    const { key } = event;
 
-    if (which === KeyCode.ENTER) {
+    if (key === 'Enter') {
       // Do not submit form when type in the input
       if (mode !== 'combobox') {
         event.preventDefault();
@@ -497,7 +496,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
     // Remove value by `backspace`
     if (
-      which === KeyCode.BACKSPACE &&
+      key === 'Backspace' &&
       !clearLock &&
       multiple &&
       !mergedSearchValue &&

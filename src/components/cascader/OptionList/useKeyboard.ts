@@ -183,7 +183,7 @@ export default (
         }
 
         // >>> Close
-        case 'Esc': {
+        case 'Escape': {
           toggleOpen(false);
 
           if (open) {

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Portal from '@rc-component/portal';
 import contains from 'rc-util/lib/Dom/contains';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx } from '../_util/classNameUtils';
 import ContextIsolator from '../_util/ContextIsolator';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -121,14 +120,14 @@ const Modal: React.FC<ModalProps> = (props) => {
   }
 
   const onWrapperKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (keyboard && e.keyCode === KeyCode.ESC) {
+    if (keyboard && e.key === 'Escape') {
       e.stopPropagation();
       onCancel?.(e);
       return;
     }
 
     // keep focus inside dialog
-    if (open && e.keyCode === KeyCode.TAB) {
+    if (open && e.key === 'Tab') {
       panelRef.current?.changeActive(!e.shiftKey);
     }
   };

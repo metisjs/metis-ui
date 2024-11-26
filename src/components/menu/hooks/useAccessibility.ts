@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
-import KeyCode from 'rc-util/lib/KeyCode';
 import raf from 'rc-util/lib/raf';
 import type { SafeKey } from '../../_util/type';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
 
 // destruct to reduce minify size
-const { LEFT, RIGHT, UP, DOWN, ENTER, ESC, HOME, END } = KeyCode;
 
-const ArrowKeys = [UP, DOWN, LEFT, RIGHT];
+const ArrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 function getOffset(
   mode: MenuMode,
   isRootLevel: boolean,
-  which: number,
+  key: string,
 ): null | {
   offset?: number;
   sibling?: boolean;
@@ -26,33 +24,33 @@ function getOffset(
   const parent = 'parent' as const;
 
   // Inline enter is special that we use unique operation
-  if (mode === 'inline' && which === ENTER) {
+  if (mode === 'inline' && key === 'enter') {
     return {
       inlineTrigger: true,
     };
   }
 
-  type OffsetMap = Record<number, 'prev' | 'next' | 'children' | 'parent'>;
+  type OffsetMap = Record<string, 'prev' | 'next' | 'children' | 'parent'>;
   const inline: OffsetMap = {
-    [UP]: prev,
-    [DOWN]: next,
+    ArrowUp: prev,
+    ArrowDown: next,
   };
   const horizontal: OffsetMap = {
-    [LEFT]: prev,
-    [RIGHT]: next,
-    [DOWN]: children,
-    [ENTER]: children,
+    ArrowLeft: prev,
+    ArrowRight: next,
+    ArrowDown: children,
+    Enter: children,
   };
   const vertical: OffsetMap = {
-    [UP]: prev,
-    [DOWN]: next,
-    [ENTER]: children,
-    [ESC]: parent,
-    [LEFT]: parent,
-    [RIGHT]: children,
+    ArrowUp: prev,
+    ArrowDown: next,
+    Enter: children,
+    Escape: parent,
+    ArrowLeft: parent,
+    ArrowRight: children,
   };
 
-  const offsets: Record<string, Record<number, 'prev' | 'next' | 'children' | 'parent'>> = {
+  const offsets: Record<string, Record<string, 'prev' | 'next' | 'children' | 'parent'>> = {
     inline,
     horizontal,
     vertical,
@@ -61,7 +59,7 @@ function getOffset(
     verticalSub: vertical,
   };
 
-  const type = offsets[`${mode}${isRootLevel ? '' : 'Sub'}`]?.[which];
+  const type = offsets[`${mode}${isRootLevel ? '' : 'Sub'}`]?.[key];
 
   switch (type) {
     case prev:
@@ -203,9 +201,9 @@ export default function useAccessibility<T extends HTMLElement>(
   return (e) => {
     if (!activeKey) return;
 
-    const { which } = e;
+    const { key } = e;
 
-    if ([...ArrowKeys, ENTER, ESC, HOME, END].includes(which)) {
+    if ([...ArrowKeys, 'Enter', 'Escape', 'Home', 'End'].includes(key)) {
       // Convert key to elements
       let elements: Set<HTMLElement> = new Set<HTMLElement>();
       let key2element: Map<SafeKey, HTMLElement> = new Map();
@@ -241,15 +239,15 @@ export default function useAccessibility<T extends HTMLElement>(
       const focusMenuElement = getFocusElement(activeElement, elements)!;
       const focusMenuKey = element2key.get(focusMenuElement)!;
 
-      const offsetObj = getOffset(mode, getKeyPath(focusMenuKey, true).length === 1, which);
+      const offsetObj = getOffset(mode, getKeyPath(focusMenuKey, true).length === 1, key);
 
       // Some mode do not have fully arrow operation like inline
-      if (!offsetObj && which !== HOME && which !== END) {
+      if (!offsetObj && key !== 'Home' && key !== 'End') {
         return;
       }
 
       // Arrow prevent default to avoid page scroll
-      if (ArrowKeys.includes(which) || [HOME, END].includes(which)) {
+      if (ArrowKeys.includes(key) || ['Home', 'End'].includes(key)) {
         e.preventDefault();
       }
 
@@ -280,7 +278,7 @@ export default function useAccessibility<T extends HTMLElement>(
         }
       };
 
-      if ([HOME, END].includes(which) || offsetObj!.sibling || !focusMenuElement) {
+      if (['Home', 'End'].includes(key) || offsetObj!.sibling || !focusMenuElement) {
         // ========================== Sibling ==========================
         // Find walkable focus menu element container
         let parentQueryContainer: HTMLElement;
@@ -293,9 +291,9 @@ export default function useAccessibility<T extends HTMLElement>(
         // Get next focus element
         let targetElement;
         const focusableElements = getFocusableElements(parentQueryContainer, elements);
-        if (which === HOME) {
+        if (key === 'Home') {
           targetElement = focusableElements[0];
-        } else if (which === END) {
+        } else if (key === 'End') {
           targetElement = focusableElements[focusableElements.length - 1];
         } else {
           targetElement = getNextFocusElement(

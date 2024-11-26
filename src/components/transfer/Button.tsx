@@ -1,5 +1,4 @@
 import * as React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 
 interface TransButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -19,16 +18,16 @@ const inlineStyle: React.CSSProperties = {
 
 const TransButton = React.forwardRef<HTMLDivElement, TransButtonProps>((props, ref) => {
   const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-    const { keyCode } = event;
-    if (keyCode === KeyCode.ENTER) {
+    const { key } = event;
+    if (key === 'Enter') {
       event.preventDefault();
     }
   };
 
   const onKeyUp: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-    const { keyCode } = event;
+    const { key } = event;
     const { onClick } = props;
-    if (keyCode === KeyCode.ENTER && onClick) {
+    if (key === 'Enter' && onClick) {
       onClick();
     }
   };

@@ -1,5 +1,4 @@
 import React from 'react';
-import KEYCODE from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../_util/classNameUtils';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -82,7 +81,7 @@ const Options: React.FC<OptionsProps> = (props) => {
     if (goInputText === '') {
       return;
     }
-    if (e.keyCode === KEYCODE.ENTER || e.type === 'click') {
+    if (e.key === 'Enter' || e.type === 'click') {
       setGoInputText('');
       quickGo?.(getValidValue());
     }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Overflow from 'rc-overflow';
 import toArray from 'rc-util/lib/Children/toArray';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { useComposeRef } from 'rc-util/lib/ref';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls from '../_util/hooks/useSemanticCls';
@@ -157,7 +156,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
   const onInternalKeyDown: React.KeyboardEventHandler<HTMLLIElement> = (e) => {
     onKeyDown?.(e);
 
-    if (e.which === KeyCode.ENTER) {
+    if (e.key === 'Enter') {
       const info = getEventInfo(e);
 
       // Legacy. Key will also trigger click event

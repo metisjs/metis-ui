@@ -1,5 +1,4 @@
 import * as React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx } from '../../_util/classNameUtils';
 import SliderContext from '../context';
 import type { OnStartMove } from '../interface';
@@ -72,38 +71,38 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
       let offset: number | 'min' | 'max' | null = null;
 
       // Change the value
-      switch (e.which || e.keyCode) {
-        case KeyCode.LEFT:
+      switch (e.key) {
+        case 'ArrowLeft':
           offset = direction === 'ltr' || direction === 'btt' ? -1 : 1;
           break;
 
-        case KeyCode.RIGHT:
+        case 'ArrowRight':
           offset = direction === 'ltr' || direction === 'btt' ? 1 : -1;
           break;
 
         // Up is plus
-        case KeyCode.UP:
+        case 'ArrowUp':
           offset = direction !== 'ttb' ? 1 : -1;
           break;
 
         // Down is minus
-        case KeyCode.DOWN:
+        case 'ArrowDown':
           offset = direction !== 'ttb' ? -1 : 1;
           break;
 
-        case KeyCode.HOME:
+        case 'Home':
           offset = 'min';
           break;
 
-        case KeyCode.END:
+        case 'End':
           offset = 'max';
           break;
 
-        case KeyCode.PAGE_UP:
+        case 'PageUp':
           offset = 2;
           break;
 
-        case KeyCode.PAGE_DOWN:
+        case 'PageDown':
           offset = -2;
           break;
       }
@@ -116,15 +115,15 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    switch (e.which || e.keyCode) {
-      case KeyCode.LEFT:
-      case KeyCode.RIGHT:
-      case KeyCode.UP:
-      case KeyCode.DOWN:
-      case KeyCode.HOME:
-      case KeyCode.END:
-      case KeyCode.PAGE_UP:
-      case KeyCode.PAGE_DOWN:
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+      case 'ArrowUp':
+      case 'ArrowDown':
+      case 'Home':
+      case 'End':
+      case 'PageUp':
+      case 'PageDown':
         onChangeComplete?.();
         break;
     }

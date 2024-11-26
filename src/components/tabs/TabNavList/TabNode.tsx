@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { XMarkOutline } from '@metisjs/icons';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx, type SemanticClassName } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { devUseWarning } from '../../_util/warning';
@@ -327,7 +326,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
       tabIndex={disabled ? undefined : 0}
       onClick={onInternalClick}
       onKeyDown={(e) => {
-        if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
+        if (['Space', 'Enter'].includes(e.key)) {
           e.preventDefault();
           onInternalClick(e);
         }
@@ -344,7 +343,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         onBlur={onRenameBlur}
         onInput={(event) => setRenamingLabel((event.target as HTMLDivElement).innerText)}
         onKeyDown={(e) => {
-          if (renaming && [KeyCode.ENTER].includes(e.which)) {
+          if (renaming && ['Enter'].includes(e.key)) {
             e.preventDefault();
             e.stopPropagation();
             onRenameBlur();

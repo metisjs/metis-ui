@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { EllipsisHorizontalOutline, XMarkOutline } from '@metisjs/icons';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { SemanticClassName } from '../../_util/classNameUtils';
 import { clsx } from '../../_util/classNameUtils';
 import useSemanticCls from '../../_util/hooks/useSemanticCls';
@@ -150,30 +149,30 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
-    const { which } = e;
+    const { key } = e;
 
     if (!open) {
-      if ([KeyCode.DOWN, KeyCode.SPACE, KeyCode.ENTER].includes(which)) {
+      if (['ArrowDown', 'Space', 'Enter'].includes(key)) {
         setOpen(true);
         e.preventDefault();
       }
       return;
     }
 
-    switch (which) {
-      case KeyCode.UP:
+    switch (key) {
+      case 'ArrowUp':
         selectOffset(-1);
         e.preventDefault();
         break;
-      case KeyCode.DOWN:
+      case 'ArrowDown':
         selectOffset(1);
         e.preventDefault();
         break;
-      case KeyCode.ESC:
+      case 'Escape':
         setOpen(false);
         break;
-      case KeyCode.SPACE:
-      case KeyCode.ENTER:
+      case 'Space':
+      case 'Enter':
         if (selectedKey !== null) {
           onTabClick(selectedKey, e);
         }

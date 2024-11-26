@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { TinyColor } from '@ctrl/tinycolor';
 import Portal from '@rc-component/portal';
 import { useSetState } from 'ahooks';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { clsx } from '../_util/classNameUtils';
 import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import useTheme from '../theme/useTheme';
@@ -60,7 +59,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
 
   React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.keyCode === KeyCode.ESC) {
+      if (e.key === 'Escape') {
         onClose?.();
       }
     };
