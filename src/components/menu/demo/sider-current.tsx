@@ -45,7 +45,7 @@ const items: MenuItem[] = [
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
 const App: React.FC = () => {
-  const [openKeys, setOpenKeys] = useState<React.Key[]>(['sub1']);
+  const [openKeys, setOpenKeys] = useState<(string | number)[]>(['sub1']);
 
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

@@ -635,22 +635,11 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   };
 
   // ============================ Dropdown ============================
-  const [containerWidth, setContainerWidth] = React.useState<number>(0);
-
   const [, forceUpdate] = React.useState({});
   // We need force update here since popup dom is render async
   function onPopupMouseEnter() {
     forceUpdate({});
   }
-
-  useLayoutEffect(() => {
-    if (triggerOpen) {
-      const newWidth = Math.ceil(containerRef.current!.offsetWidth);
-      if (containerWidth !== newWidth && !Number.isNaN(newWidth)) {
-        setContainerWidth(newWidth);
-      }
-    }
-  }, [triggerOpen]);
 
   // Close when click on non-select element
   useSelectTriggerControl(
@@ -858,7 +847,6 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       prefixCls={prefixCls}
       open={triggerOpen}
       popupElement={optionList}
-      containerWidth={containerWidth}
       transition={transition}
       popupClassName={popupCls}
       popupMatchSelectWidth={popupMatchSelectWidth}

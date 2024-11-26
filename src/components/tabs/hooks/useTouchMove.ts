@@ -131,8 +131,8 @@ export default function useTouchMove(
     ref.current?.addEventListener('wheel', onProxyWheel, { passive: false });
 
     return () => {
-      document.closeEventListener('touchmove', onProxyTouchMove);
-      document.closeEventListener('touchend', onProxyTouchEnd);
+      document.removeEventListener('touchmove', onProxyTouchMove);
+      document.removeEventListener('touchend', onProxyTouchEnd);
     };
   }, []);
 }

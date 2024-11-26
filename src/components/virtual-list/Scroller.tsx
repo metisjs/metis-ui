@@ -16,7 +16,11 @@ const Scroller = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>((pro
       onScroll={onScroll}
       ref={scrollbar}
       renderView={(viewProps) => (
-        <div {...viewProps} {...omit(props, ['style'])} ref={composeRef(ref, viewProps.ref)} />
+        <div
+          {...viewProps}
+          {...omit(props, ['style'])}
+          ref={composeRef(ref, viewProps.ref as React.Ref<HTMLDivElement>)}
+        />
       )}
     />
   );

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import { clsx } from '../_util/classNameUtils';
+import type { SafeKey } from '../_util/type';
 import type { DropdownProps } from '../dropdown/Dropdown';
 import Dropdown from '../dropdown/Dropdown';
 import BreadcrumbSeparator from './BreadcrumbSeparator';
@@ -12,7 +13,7 @@ export interface SeparatorType {
 
 type MenuType = NonNullable<DropdownProps['menu']>;
 interface MenuItem {
-  key?: React.Key;
+  key?: SafeKey;
   title?: React.ReactNode;
   label?: React.ReactNode;
   path?: string;
@@ -62,7 +63,7 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
 
           return {
             key: key ?? index,
-            label: mergedLabel as string,
+            label: mergedLabel,
           };
         }),
       };

@@ -16,7 +16,7 @@ import Dropdown from './Dropdown';
 export type DropdownButtonType = 'default' | 'primary' | 'link' | 'text';
 
 export interface DropdownButtonProps extends DropdownProps {
-  className?: SemanticClassName<{ overlay?: string; open?: string; button?: string }>;
+  className?: SemanticClassName<{ overlay?: string; button?: string }>;
   type?: DropdownButtonType;
   htmlType?: ButtonHTMLType;
   danger?: boolean;
@@ -89,7 +89,7 @@ const DropdownButton: CompoundedComponent = (props) => {
     mouseLeaveDelay,
     autoDestroy,
     popupRender,
-    className: { overlay: semanticCls.overlay, open: semanticCls.open },
+    className: { overlay: semanticCls.overlay },
   };
 
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);

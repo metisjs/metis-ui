@@ -6,7 +6,7 @@ import { ConfigContext } from '../config-provider';
 
 export interface CheckableTagProps {
   prefixCls?: string;
-  className?: SemanticClassName<{ root?: string }, { checked?: boole }>;
+  className?: SemanticClassName<{ root?: string }, { checked?: boolean }>;
   style?: React.CSSProperties;
   /**
    * 该组件为完全受控组件，不支持非受控用法。

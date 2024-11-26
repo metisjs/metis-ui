@@ -2,7 +2,7 @@ import * as React from 'react';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { SemanticRecord } from '../_util/classNameUtils';
 import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import type { BreadcrumbProps, ItemType } from './Breadcrumb';
+import type { BreadcrumbItemType, BreadcrumbProps } from './Breadcrumb';
 
 type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (
   ...args: [...Parameters<TFunction>, ...TParameters]
@@ -11,7 +11,7 @@ type AddParameters<TFunction extends (...args: any) => any, TParameters extends 
 type ItemRender = NonNullable<BreadcrumbProps['itemRender']>;
 type InternalItemRenderParams = AddParameters<ItemRender, [href?: string]>;
 
-function getBreadcrumbName(item: ItemType, params: any) {
+function getBreadcrumbName(item: BreadcrumbItemType, params: any) {
   if (item.title === undefined || item.title === null) {
     return null;
   }
@@ -26,7 +26,7 @@ function getBreadcrumbName(item: ItemType, params: any) {
 
 export function renderItem(
   prefixCls: string,
-  item: ItemType,
+  item: BreadcrumbItemType,
   children: React.ReactNode,
   href?: string,
   className?: SemanticRecord<BreadcrumbProps['className']>,

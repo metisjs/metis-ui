@@ -45,7 +45,7 @@ const items: MenuItem[] = [
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<MenuTheme>('dark');
-  const [current, setCurrent] = useState<React.Key>('1');
+  const [current, setCurrent] = useState<string | number>('1');
 
   const changeTheme = (value: boolean) => {
     setTheme(value ? 'dark' : 'light');

@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const tabsRef2 = useRef<TabsRef>(null);
   const tabsRef3 = useRef<TabsRef>(null);
 
-  const onChange = (newActiveKey: React.Key) => {
+  const onChange = (newActiveKey: string | number) => {
     setActiveKey(newActiveKey);
   };
 

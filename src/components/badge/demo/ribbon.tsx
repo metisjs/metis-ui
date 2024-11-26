@@ -8,7 +8,7 @@ const App: React.FC = () => (
         and raises the spyglass.
       </Card>
     </Badge.Ribbon>
-    <Badge.Ribbon text="Hippies" className={{ root: 'bg-pink-600', corner: 'text-pink-600' }}>
+    <Badge.Ribbon text="Hippies" className={{ root: 'bg-pink-600', indicator: 'text-pink-600' }}>
       <Card title="Pushes open the window" size="small">
         and raises the spyglass.
       </Card>
@@ -18,7 +18,7 @@ const App: React.FC = () => (
         and raises the spyglass.
       </Card>
     </Badge.Ribbon>
-    <Badge.Ribbon text="Hippies" className={{ root: 'bg-cyan-600', corner: 'text-cyan-600' }}>
+    <Badge.Ribbon text="Hippies" className={{ root: 'bg-cyan-600', indicator: 'text-cyan-600' }}>
       <Card title="Pushes open the window" size="small">
         and raises the spyglass.
       </Card>

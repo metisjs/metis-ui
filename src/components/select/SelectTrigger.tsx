@@ -62,7 +62,6 @@ export interface SelectTriggerProps {
   popupElement: React.ReactElement;
 
   transition?: Partial<TransitionProps>;
-  containerWidth: number;
   placement?: Placement;
   builtinPlacements?: BuildInPlacements;
   popupClassName?: string;
@@ -90,7 +89,6 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
     open,
     children,
     popupElement,
-    containerWidth,
     transition,
     popupClassName,
     placement,
@@ -119,22 +117,32 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
     [builtinPlacements, popupMatchSelectWidth],
   );
 
+  // =================== Popup Width ===================
+  const isNumberPopupWidth = typeof popupMatchSelectWidth === 'number';
+
+  const stretch = React.useMemo(() => {
+    if (isNumberPopupWidth) {
+      return undefined;
+    }
+
+    return popupMatchSelectWidth === false ? 'minWidth' : 'width';
+  }, [popupMatchSelectWidth, isNumberPopupWidth]);
+
+  let popupStyle: React.CSSProperties = {};
+
+  if (isNumberPopupWidth) {
+    popupStyle = {
+      ...popupStyle,
+      width: popupMatchSelectWidth,
+    };
+  }
+
   // ======================= Ref =======================
   const popupRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => ({
     getPopupElement: () => popupRef.current!,
   }));
-
-  const popupStyle: React.CSSProperties = {
-    minWidth: containerWidth,
-  };
-
-  if (typeof popupMatchSelectWidth === 'number') {
-    popupStyle.width = popupMatchSelectWidth;
-  } else if (popupMatchSelectWidth) {
-    popupStyle.width = containerWidth;
-  }
 
   return (
     <Trigger
@@ -150,6 +158,7 @@ const SelectTrigger: React.ForwardRefRenderFunction<RefTriggerProps, SelectTrigg
           {popupNode}
         </div>
       }
+      stretch={stretch}
       popupAlign={popupAlign}
       popupOpen={open}
       zIndex={zIndex}

@@ -31,7 +31,7 @@ const HorizontalLayoutDemo = () => {
   return (
     <ColorPicker
       defaultValue={theme.primary}
-      className={{ overlay: 'w-[480px]' }}
+      className={{ popup: 'w-[480px]' }}
       presets={presets}
       panelRender={customPanelRender}
     />

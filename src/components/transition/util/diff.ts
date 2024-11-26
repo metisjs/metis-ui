@@ -1,3 +1,5 @@
+import type { SafeKey } from '../../_util/type';
+
 export const STATUS_ADD = 'add' as const;
 export const STATUS_KEEP = 'keep' as const;
 export const STATUS_REMOVE = 'remove' as const;
@@ -9,17 +11,17 @@ export type DiffStatus =
   | typeof STATUS_REMOVED;
 
 export interface KeyObject {
-  key: React.Key;
+  key: SafeKey;
   status?: DiffStatus;
   [name: string]: any;
 }
 
-export function wrapKeyToObject(key: React.Key | KeyObject) {
+export function wrapKeyToObject(key: SafeKey | KeyObject) {
   let keyObj: KeyObject;
   if (key && typeof key === 'object' && 'key' in key) {
     keyObj = key;
   } else {
-    keyObj = { key: key as React.Key };
+    keyObj = { key };
   }
   return {
     ...keyObj,
@@ -27,7 +29,7 @@ export function wrapKeyToObject(key: React.Key | KeyObject) {
   };
 }
 
-export function parseKeys(keys: KeyObject[] | React.Key[] = []) {
+export function parseKeys(keys: KeyObject[] | SafeKey[] = []) {
   return keys.map(wrapKeyToObject);
 }
 
@@ -84,7 +86,7 @@ export function diffKeys(prevKeys: KeyObject[] = [], currentKeys: KeyObject[] = 
    * Merge same key when it remove and add again:
    *    [1 - add, 2 - keep, 1 - remove] -> [1 - keep, 2 - keep]
    */
-  const keys: Record<React.Key, number> = {};
+  const keys: Record<SafeKey, number> = {};
   list.forEach(({ key }) => {
     keys[key] = (keys[key] || 0) + 1;
   });

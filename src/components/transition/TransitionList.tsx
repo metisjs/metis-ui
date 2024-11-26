@@ -1,5 +1,6 @@
 /* eslint react/prop-types: 0 */
 import * as React from 'react';
+import type { SafeKey } from '../_util/type';
 import type { TransitionProps } from './Transition';
 import Transition from './Transition';
 import type { KeyObject } from './util/diff';
@@ -63,7 +64,7 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
     { keys }: TransitionListProps,
     { keyEntities }: TransitionListState,
   ) {
-    const parsedKeyObjects = parseKeys(keys as KeyObject[] | React.Key[]);
+    const parsedKeyObjects = parseKeys(keys as KeyObject[] | SafeKey[]);
     const mixedKeyEntities = diffKeys(keyEntities, parsedKeyObjects);
 
     return {

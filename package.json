@@ -118,7 +118,7 @@
     "@rc-component/async-validator": "^5.0.4",
     "@rc-component/mini-decimal": "^1.1.0",
     "@rc-component/mutate-observer": "^1.1.0",
-    "@rc-component/portal": "^1.1.1",
+    "@rc-component/portal": "^1.1.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",

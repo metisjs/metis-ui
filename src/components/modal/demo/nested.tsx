@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, message, Modal, notification, Select, Space, Switch } from 'metis-ui';
+import { Button, clsx, message, Modal, notification, Select, Space, Switch } from 'metis-ui';
 
 const options = [
   {
@@ -27,10 +27,10 @@ const Demo: React.FC = () => {
   return (
     <Space>
       <Switch
-        style={{ position: 'relative', zIndex: isModalOpen ? 4000 : 0 }}
+        className={clsx('relative', isModalOpen && 'z-[4000]')}
         checkedChildren="Open"
         unCheckedChildren="Close"
-        onChange={(open) => setIsModalOpen(open)}
+        onChange={setIsModalOpen}
       />
       <Button onClick={onShowStatic}>Static</Button>
       <Modal
@@ -41,7 +41,7 @@ const Demo: React.FC = () => {
         onCancel={() => setIsModalOpen(false)}
         maskClosable={false}
         closable={false}
-        className={{ content: 'ms-[100px]' }}
+        className="mt-[100px]"
       >
         <Select open value="1" options={options} />
         <Modal
@@ -53,7 +53,7 @@ const Demo: React.FC = () => {
           onCancel={() => setIsModalOpen(false)}
           maskClosable={false}
           closable={false}
-          className={{ content: 'ms-[250px]', body: 'flex justify-center' }}
+          className={{ root: 'mt-[250px]', body: 'flex justify-center' }}
         >
           <Select open value="1" options={options} />
 
@@ -66,7 +66,7 @@ const Demo: React.FC = () => {
             maskClosable={false}
             onCancel={() => setIsModalOpen(false)}
             closable={false}
-            className={{ content: 'ms-[400px]', body: 'flex justify-center' }}
+            className={{ root: 'mt-[400px]', body: 'flex justify-center' }}
           >
             <Space wrap>
               <Button

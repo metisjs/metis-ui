@@ -9,7 +9,7 @@ const App: React.FC = () => {
     mask: clsx('blur-md'),
     header: clsx('rounded-none border-l-4 border-primary ps-1'),
     footer: clsx('border-t border-gray-400 text-primary'),
-    content: clsx('border border-slate-400'),
+    root: clsx('border border-red-400'),
   };
 
   return (

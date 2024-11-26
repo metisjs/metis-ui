@@ -29,7 +29,6 @@ export interface SwitchProps {
   disabled?: boolean;
   loading?: boolean;
   autoFocus?: boolean;
-  style?: React.CSSProperties;
   title?: string;
   tabIndex?: number;
   id?: string;
