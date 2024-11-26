@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
-import type { ColorPickerProps, GetProp, WatermarkProps } from 'metis-ui';
-import {
-  ColorPicker,
-  Flex,
-  Form,
-  Input,
-  InputNumber,
-  Slider,
-  Typography,
-  Watermark,
-} from 'metis-ui';
-
-type Color = GetProp<ColorPickerProps, 'color'>;
-
-const { Paragraph } = Typography;
+import type { WatermarkProps } from 'metis-ui';
+import { ColorPicker, Form, Input, InputNumber, Slider, Space, Watermark } from 'metis-ui';
+import type { AggregationColor } from 'metis-ui/es/color-picker/color';
 
 interface WatermarkConfig {
   content: string;
-  color: string | Color;
+  color: string | AggregationColor;
   fontSize: number;
   zIndex: number;
   rotate: number;
@@ -48,24 +36,24 @@ const App: React.FC = () => {
   };
 
   return (
-    <Flex gap="middle">
+    <Space block size="middle">
       <Watermark {...watermarkProps}>
-        <Typography>
-          <Paragraph>
+        <div>
+          <p>
             The light-speed iteration of the digital world makes products more complex. However,
             human consciousness and attention resources are limited. Facing this design
             contradiction, the pursuit of natural interaction will be the consistent direction of
             Metis UI.
-          </Paragraph>
-          <Paragraph>
+          </p>
+          <p>
             Natural user cognition: According to cognitive psychology, about 80% of external
             information is obtained through visual channels. The most important visual elements in
             the interface design, including layout, colors, illustrations, icons, etc., should fully
             absorb the laws of nature, thereby reducing the user&apos;s cognitive cost and bringing
             authentic and smooth feelings. In some scenarios, opportunely adding other sensory
             channels such as hearing, touch can create a richer and more natural product experience.
-          </Paragraph>
-          <Paragraph>
+          </p>
+          <p>
             Natural user behavior: In the interaction with the system, the designer should fully
             understand the relationship between users, system roles, and task objectives, and also
             contextually organize system functions and services. At the same time, a series of
@@ -73,8 +61,8 @@ const App: React.FC = () => {
             to assist users to make effective decisions and reduce extra operations of users, to
             save users&apos; mental and physical resources and make human-computer interaction more
             natural.
-          </Paragraph>
-        </Typography>
+          </p>
+        </div>
         <img
           style={{ zIndex: 10, width: '100%', maxWidth: 800, position: 'relative' }}
           src="https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*zx7LTI_ECSAAAAAAAAAAAABkARQnAQ"
@@ -106,27 +94,27 @@ const App: React.FC = () => {
           <Slider step={1} min={-180} max={180} />
         </Form.Item>
         <Form.Item label="Gap" style={{ marginBottom: 0 }}>
-          <Flex gap="small">
+          <Space block size="small">
             <Form.Item name={['gap', 0]}>
               <InputNumber placeholder="gapX" style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item name={['gap', 1]}>
               <InputNumber placeholder="gapY" style={{ width: '100%' }} />
             </Form.Item>
-          </Flex>
+          </Space>
         </Form.Item>
         <Form.Item label="Offset" style={{ marginBottom: 0 }}>
-          <Flex gap="small">
+          <Space block size="small">
             <Form.Item name={['offset', 0]}>
               <InputNumber placeholder="offsetLeft" style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item name={['offset', 1]}>
               <InputNumber placeholder="offsetTop" style={{ width: '100%' }} />
             </Form.Item>
-          </Flex>
+          </Space>
         </Form.Item>
       </Form>
-    </Flex>
+    </Space>
   );
 };
 

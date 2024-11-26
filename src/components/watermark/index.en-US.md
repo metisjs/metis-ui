@@ -17,11 +17,7 @@ demo:
 <code src="./demo/basic.tsx">Basic</code>
 <code src="./demo/multi-line.tsx">Multi-line watermark</code>
 <code src="./demo/image.tsx">Image watermark</code>
-
-<!-- TODO: InputNumber、Form、ColorPicker 待开发 -->
-
-<!-- <code src="./demo/custom.tsx">Custom configuration</code> -->
-
+<code src="./demo/custom.tsx">Custom configuration</code>
 <code src="./demo/portal.tsx">Modal or Drawer</code>
 
 ## API

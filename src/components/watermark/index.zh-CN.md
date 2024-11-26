@@ -18,11 +18,7 @@ demo:
 <code src="./demo/basic.tsx">基本</code>
 <code src="./demo/multi-line.tsx">多行水印</code>
 <code src="./demo/image.tsx">图片水印</code>
-
-<!-- TODO: InputNumber、Form、ColorPicker 待开发 -->
-
-<!-- <code src="./demo/custom.tsx">自定义配置</code> -->
-
+<code src="./demo/custom.tsx">自定义配置</code>
 <code src="./demo/portal.tsx">Modal 与 Drawer</code>
 
 ## API
