@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { DefaultOptionType } from '..';
+import type { SafeKey } from '../../_util/type';
 import type { InternalFieldNames } from '../Cascader';
 import type { MultiValueType, SingleValueType } from '../interface';
 import { toPathOptions } from '../utils/treeUtil';
@@ -22,7 +23,7 @@ export default function useOptions(
 
   /** Convert path key back to value format */
   const getValueByKeyPath = React.useCallback(
-    (pathKeys: React.Key[]): MultiValueType => {
+    (pathKeys: SafeKey[]): MultiValueType => {
       const keyPathEntities = getPathKeyEntities();
 
       return pathKeys.map((pathKey) => {

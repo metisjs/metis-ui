@@ -82,7 +82,7 @@ export default function useValues(
   }, [labeledValues]);
 
   const isCheckDisabled = React.useCallback(
-    (node: DefaultOptionType) => !!node[fieldNames.disabled],
+    (node: any) => !!node[fieldNames.disabled],
     [fieldNames],
   );
 

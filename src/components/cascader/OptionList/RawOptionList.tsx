@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx } from '../../_util/classNameUtils';
+import type { SafeKey } from '../../_util/type';
 import type { useBaseProps } from '../../select';
 import type { RefOptionListProps } from '../../select/BaseSelect';
 import CascaderContext from '../context';
@@ -43,7 +44,7 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
   // ========================= loadData =========================
   const [loadingKeys, setLoadingKeys] = React.useState<React.Key[]>([]);
 
-  const internalLoadData = async (valueCells: React.Key[]) => {
+  const internalLoadData = async (valueCells: SafeKey[]) => {
     if (!lazyLoad || !loadData) {
       return;
     }
@@ -71,7 +72,7 @@ const RawOptionList = React.forwardRef<RefOptionListProps, RawOptionListProps>((
   const [activeValueCells, setActiveValueCells] = useActive(multiple, open);
 
   // =========================== Path ===========================
-  const onPathOpen = (nextValueCells: React.Key[]) => {
+  const onPathOpen = (nextValueCells: SafeKey[]) => {
     setActiveValueCells(nextValueCells);
 
     // Trigger loadData

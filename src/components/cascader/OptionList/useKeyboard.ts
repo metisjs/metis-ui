@@ -1,5 +1,5 @@
 import * as React from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
+import type { SafeKey } from '../../_util/type';
 import type { RefOptionListProps } from '../../select/BaseSelect';
 import type { InternalFieldNames } from '../Cascader';
 import { SEARCH_MARK } from '../hooks/useFilterOptions';
@@ -10,8 +10,8 @@ export default (
   ref: React.Ref<RefOptionListProps>,
   options: DefaultOptionType[],
   fieldNames: InternalFieldNames,
-  activeValueCells: React.Key[],
-  setActiveValueCells: (activeValueCells: React.Key[]) => void,
+  activeValueCells: SafeKey[],
+  setActiveValueCells: (activeValueCells: SafeKey[]) => void,
   onKeyBoardSelect: (valueCells: SingleValueType, option: DefaultOptionType) => void,
   contextProps: {
     searchValue: string;
@@ -27,7 +27,7 @@ export default (
       let currentOptions = options;
 
       const mergedActiveIndexes: number[] = [];
-      const mergedActiveValueCells: React.Key[] = [];
+      const mergedActiveValueCells: SafeKey[] = [];
 
       const len = activeValueCells.length;
 
@@ -63,7 +63,7 @@ export default (
     }, [activeValueCells, fieldNames, options]);
 
   // Update active value cells and scroll to target element
-  const internalSetActiveValueCells = (next: React.Key[]) => {
+  const internalSetActiveValueCells = (next: SafeKey[]) => {
     setActiveValueCells(next);
   };
 
@@ -118,16 +118,18 @@ export default (
   React.useImperativeHandle(ref, () => ({
     // scrollTo: treeRef.current?.scrollTo,
     onKeyDown: (event) => {
-      const { which } = event;
+      const { key } = event;
 
-      switch (which) {
+      console.log(key);
+
+      switch (key) {
         // >>> Arrow keys
-        case KeyCode.UP:
-        case KeyCode.DOWN: {
+        case 'ArrowUp':
+        case 'ArrowDown': {
           let offset = 0;
-          if (which === KeyCode.UP) {
+          if (key === 'ArrowUp') {
             offset = -1;
-          } else if (which === KeyCode.DOWN) {
+          } else if (key === 'ArrowDown') {
             offset = 1;
           }
 
@@ -138,7 +140,7 @@ export default (
           break;
         }
 
-        case KeyCode.LEFT: {
+        case 'ArrowLeft': {
           if (searchValue) {
             break;
           }
@@ -146,7 +148,7 @@ export default (
           break;
         }
 
-        case KeyCode.RIGHT: {
+        case 'ArrowRight': {
           if (searchValue) {
             break;
           }
@@ -154,7 +156,7 @@ export default (
           break;
         }
 
-        case KeyCode.BACKSPACE: {
+        case 'Backspace': {
           if (!searchValue) {
             prevColumn();
           }
@@ -162,7 +164,7 @@ export default (
         }
 
         // >>> Select
-        case KeyCode.ENTER: {
+        case 'Enter': {
           if (validActiveValueCells.length) {
             const option = lastActiveOptions[lastActiveIndex];
 
@@ -181,7 +183,7 @@ export default (
         }
 
         // >>> Close
-        case KeyCode.ESC: {
+        case 'Esc': {
           toggleOpen(false);
 
           if (open) {

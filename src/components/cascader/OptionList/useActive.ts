@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SafeKey } from '../../_util/type';
 import CascaderContext from '../context';
 
 /**
@@ -7,14 +8,14 @@ import CascaderContext from '../context';
 const useActive = (
   multiple?: boolean,
   open?: boolean,
-): [React.Key[], (activeValueCells: React.Key[]) => void] => {
+): [SafeKey[], (activeValueCells: SafeKey[]) => void] => {
   const { values } = React.useContext(CascaderContext);
 
   const firstValueCells = values[0];
 
   // Record current dropdown active options
   // This also control the open status
-  const [activeValueCells, setActiveValueCells] = React.useState<React.Key[]>([]);
+  const [activeValueCells, setActiveValueCells] = React.useState<SafeKey[]>([]);
 
   React.useEffect(
     () => {

@@ -1,3 +1,4 @@
+import type { SafeKey } from '../../_util/type';
 import type { InternalFieldNames } from '../Cascader';
 import type { GetEntities } from '../hooks/useEntities';
 import type {
@@ -17,7 +18,7 @@ export function formatStrategyValues(
     return [];
   }
 
-  const pathKeys: React.Key[] = toPathKeys(toRawValueCells(values));
+  const pathKeys: SafeKey[] = toPathKeys(toRawValueCells(values));
   const valueSet = new Set(pathKeys);
   const keyPathEntities = getKeyPathEntities();
 
@@ -32,8 +33,8 @@ export function formatStrategyValues(
     }
 
     return showCheckedStrategy === SHOW_CHILD
-      ? !(children && children.some((child) => child.key && valueSet.has(child.key)))
-      : !(parent && !parent.node.disabled && valueSet.has(parent.key));
+      ? !(children && children.some((child) => child.key && valueSet.has(child.key as SafeKey)))
+      : !(parent && !parent.node.disabled && valueSet.has(parent.key as SafeKey));
   });
 }
 

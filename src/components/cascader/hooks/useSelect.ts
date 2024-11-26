@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { conductCheck } from '../../tree/utils/conductUtil';
 import type { InternalFieldNames, InternalValueType } from '../Cascader';
 import type {
-  DefaultOptionType,
   DraftValueType,
   LabeledValueType,
   MultiValueType,
@@ -39,10 +38,7 @@ export default function useSelect(
   const halfCheckedPathKeys = toPathKeys(rawHalfCheckedValues);
   const missingCheckedPathKeys = toPathKeys(rawMissingCheckedValues);
 
-  const isCheckDisabled = useCallback(
-    (node: DefaultOptionType) => !!node[fieldNames.disabled],
-    [fieldNames],
-  );
+  const isCheckDisabled = useCallback((node: any) => !!node[fieldNames.disabled], [fieldNames]);
 
   return (value: SingleValueType | LabeledValueType) => {
     if (!multiple) {
