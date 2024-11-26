@@ -20,6 +20,7 @@ group: Other
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | autoHeight | Enable auto-height mode. Requires setting minimum and maximum height | [autoHeightMin:number, autoHeightMax:number] | false |  |
 | autoHide | Enable auto-hide mode. If `true`, the scrollbar will hide automatically and only show when scrolling | boolean | true |  |
 | autoHideDuration | Duration of the hide animation (ms) | number | 500 |  |
@@ -38,3 +39,7 @@ group: Other
 | --- | --- | --- | --- |
 | getValues | Get an object with the current position information | () => ScrollValues |  |
 | scrollTo | Scroll to the specified value | Same as HTMLElement scrollTo,see: [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo) |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
