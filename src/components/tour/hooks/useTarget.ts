@@ -81,7 +81,7 @@ export default function useTarget(
 
     const gapOffsetX = getGapOffset(0);
     const gapOffsetY = getGapOffset(1);
-    const gapRadius = isValidNumber(gap?.radius) ? gap.radius : 2;
+    const gapRadius = isValidNumber(gap?.radius) ? gap!.radius : 2;
 
     return {
       left: posInfo.left - gapOffsetX,
