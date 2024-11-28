@@ -143,14 +143,7 @@ const InternalSegmentedOption: React.FC<SegmentedOptionProps> = ({
         checked={checked}
         onChange={handleChange}
       />
-      <div
-        className={clsx(
-          `${optionPrefixCls}-content`,
-          'flex w-full items-center justify-center gap-x-2',
-          semanticCls.content,
-        )}
-        title={title}
-      >
+      <div className={clsx(`${optionPrefixCls}-content`, semanticCls.content)} title={title}>
         {icon && (
           <span className={clsx('flex items-center text-xl/[1.25rem]', semanticCls.icon)}>
             {icon}
