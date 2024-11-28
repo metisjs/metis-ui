@@ -9,32 +9,27 @@ const App: React.FC = () => (
       { name: 'input' },
       { name: 'suffix' },
       { name: 'clear' },
+      { name: 'popup' },
       {
-        name: 'popup',
+        name: 'panel',
         children: [
-          { name: 'panel' },
+          { name: 'column' },
           {
-            name: 'time',
-            children: [
-              {
-                name: 'cell',
-                children: [{ name: 'inner' }],
-                args: [
-                  { name: 'disabled', type: 'boolean' },
-                  { name: 'selected', type: 'boolean' },
-                ],
-              },
+            name: 'cell',
+            children: [{ name: 'inner' }],
+            args: [
+              { name: 'disabled', type: 'boolean' },
+              { name: 'selected', type: 'boolean' },
             ],
           },
-          { name: 'footer' },
         ],
       },
+      { name: 'footer' },
     ]}
     rootArgs={[
       { name: 'open', type: 'boolean' },
       { name: 'disabled', type: 'boolean' },
     ]}
-    height={800}
   >
     {(hover) => {
       return (

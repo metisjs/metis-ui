@@ -236,10 +236,13 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
   const monthYearNodes = locale.monthBeforeYear ? [monthNode, yearNode] : [yearNode, monthNode];
 
   // ========================= Style =========================
+  const semanticCls = info.semanticClassName;
+
   const panelCls = clsx(
     panelPrefixCls,
     { [`${panelPrefixCls}-show-week`]: showWeek },
     'flex w-72 flex-col',
+    semanticCls.root,
   );
   const bodyCls = clsx('px-[1.125rem] py-2', {
     'px-3': showWeek || isWeek,

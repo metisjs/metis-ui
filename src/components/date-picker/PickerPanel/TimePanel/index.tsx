@@ -1,5 +1,4 @@
 import * as React from 'react';
-import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import { clsx } from '../../../_util/classNameUtils';
 import type { SharedPanelProps } from '../../interface';
 import { formatValue } from '../../utils/dateUtil';
@@ -27,7 +26,7 @@ export default function TimePanel<DateType extends object = any>(props: TimePane
   const [info] = useInfo(props, 'time');
 
   // ========================= Style =========================
-  const semanticCls = useSemanticCls(info.semanticClassName.time);
+  const semanticCls = info.semanticClassName;
   const rootCls = clsx(`${prefixCls}-time-panel`, 'flex w-auto flex-col', semanticCls.root);
 
   // ========================= Render =========================

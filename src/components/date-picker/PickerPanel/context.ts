@@ -1,11 +1,12 @@
 import * as React from 'react';
+import type { SemanticRecord } from 'metis-ui/es/_util/classNameUtils';
+import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import type { PanelMode, SharedPanelProps } from '../interface';
 
 export interface PanelContextProps<DateType extends object = any>
   extends Pick<
     SharedPanelProps<DateType>,
     | 'prefixCls'
-    | 'semanticClassName'
     | 'cellRender'
     | 'generateConfig'
     | 'locale'
@@ -27,6 +28,7 @@ export interface PanelContextProps<DateType extends object = any>
     | 'superPrevIcon'
     | 'superNextIcon'
   > {
+  semanticClassName: SemanticRecord<SharedPanelProps<DateType>['className']>;
   /** Tell current panel type */
   panelType: PanelMode;
 
@@ -50,7 +52,7 @@ export function useInfo<DateType extends object = any>(
 ): [sharedProps: PanelContextProps<DateType>, now: DateType] {
   const {
     prefixCls,
-    semanticClassName,
+    className,
     generateConfig,
     locale,
     disabledDate,
@@ -70,6 +72,8 @@ export function useInfo<DateType extends object = any>(
     superPrevIcon,
     superNextIcon,
   } = props;
+
+  const semanticClassName = useSemanticCls(className, { mode: panelType });
 
   // ========================= MISC =========================
   const now = generateConfig.getNow();

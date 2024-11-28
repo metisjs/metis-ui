@@ -16,13 +16,14 @@ const App: React.FC = () => {
           name: 'item',
           desc: 'Only available in  multiple mode',
         },
+        { name: 'popup' },
+        { name: 'presets', children: [{ name: 'item' }] },
         {
-          name: 'popup',
+          name: 'panel',
           children: [
-            { name: 'presets', children: [{ name: 'item' }] },
-            { name: 'panel' },
             { name: 'header' },
             { name: 'body' },
+            { name: 'column', desc: 'Only available in datetime mode' },
             {
               name: 'cell',
               children: [{ name: 'inner' }],
@@ -37,24 +38,9 @@ const App: React.FC = () => {
                 { name: 'today', type: 'boolean' },
               ],
             },
-            { name: 'footer' },
-            {
-              name: 'time',
-              children: [
-                { name: 'header' },
-                { name: 'body' },
-                {
-                  name: 'cell',
-                  children: [{ name: 'inner' }],
-                  args: [
-                    { name: 'disabled', type: 'boolean' },
-                    { name: 'selected', type: 'boolean' },
-                  ],
-                },
-              ],
-            },
           ],
         },
+        { name: 'footer' },
       ]}
       rootArgs={[
         { name: 'open', type: 'boolean' },
@@ -64,7 +50,7 @@ const App: React.FC = () => {
       {(hover) => {
         const multi = hover?.path === 'item';
         const value = multi ? [now, now.add(1, 'day')] : now;
-        const showTime = hover?.path.startsWith('popup_time');
+        const showTime = hover?.name === 'column';
 
         return (
           <DatePicker

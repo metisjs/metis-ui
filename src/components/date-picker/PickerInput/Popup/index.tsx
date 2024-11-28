@@ -11,6 +11,7 @@ import { toArray } from '../../utils/miscUtil';
 import PickerContext from '../context';
 import Footer, { type FooterProps } from './Footer';
 import PopupPanel, { type PopupPanelProps } from './PopupPanel';
+import type { PresetPanelClassName } from './PresetPanel';
 import PresetPanel from './PresetPanel';
 
 export type PopupShowTimeConfig<DateType extends object = any> = Omit<
@@ -23,6 +24,10 @@ export interface PopupProps<DateType extends object = any, PresetValue = DateTyp
   extends Pick<React.InputHTMLAttributes<HTMLDivElement>, 'onFocus' | 'onBlur'>,
     Omit<FooterProps<DateType>, 'className'>,
     PopupPanelProps<DateType> {
+  panelClassName?: PopupPanelProps<DateType>['className'];
+  presetsClassName?: PresetPanelClassName;
+  footerClassName?: string;
+
   panelRender?: SharedPickerProps['panelRender'];
 
   // Presets
@@ -48,7 +53,9 @@ export interface PopupProps<DateType extends object = any, PresetValue = DateTyp
 
 export default function Popup<DateType extends object = any>(props: PopupProps<DateType>) {
   const {
-    semanticClassName,
+    panelClassName,
+    presetsClassName,
+    footerClassName,
     panelRender,
     picker,
     showNow,
@@ -173,16 +180,16 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
         presets={presets}
         onClick={onPresetSubmit}
         onHover={onPresetHover}
-        className={semanticClassName.presets}
+        className={presetsClassName}
       />
       <div>
-        <PopupPanel {...props} value={popupPanelValue} />
+        <PopupPanel {...props} className={panelClassName} value={popupPanelValue} />
         <Footer
           {...props}
           showNow={multiple ? false : showNow}
           invalid={disableSubmit}
           onSubmit={onFooterSubmit}
-          className={semanticClassName.footer}
+          className={footerClassName}
         />
       </div>
     </div>

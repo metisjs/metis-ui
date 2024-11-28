@@ -562,7 +562,6 @@ function Picker<DateType extends object = any>(
 
   // ======================== Style ========================
   const semanticCls = useSemanticCls(className, 'datePicker', { open: mergedOpen, disabled });
-  const popupSemanticCls = useSemanticCls(semanticCls.popup);
 
   const rootCls = clsx(
     {
@@ -649,7 +648,9 @@ function Picker<DateType extends object = any>(
     <Popup<any>
       // MISC
       {...panelProps}
-      semanticClassName={popupSemanticCls}
+      panelClassName={semanticCls.panel}
+      presetsClassName={semanticCls.presets}
+      footerClassName={semanticCls.footer}
       showNow={mergedShowNow}
       showTime={showTime}
       // Disabled
@@ -693,7 +694,7 @@ function Picker<DateType extends object = any>(
       <PickerTrigger
         {...pickTriggerProps(filledProps)}
         popupElement={panel}
-        popupClassName={popupSemanticCls.root}
+        popupClassName={semanticCls.popup}
         open={mergedOpen}
         onClose={onPopupClose}
         zIndex={popupZIndex}

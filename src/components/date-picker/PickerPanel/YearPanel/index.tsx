@@ -100,7 +100,7 @@ export default function YearPanel<DateType extends object = any>(
   );
 
   // ========================= Style =========================
-  const panelCls = clsx(panelPrefixCls, 'flex w-72 flex-col');
+  const panelCls = clsx(panelPrefixCls, 'flex w-72 flex-col', info.semanticClassName.root);
   const bodyCls = clsx('p-2');
   const contentCls = clsx('h-40');
   const cellInnerCls = clsx('rounded-1/2 w-16');

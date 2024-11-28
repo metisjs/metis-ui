@@ -1,5 +1,5 @@
 import type { Dayjs } from 'dayjs';
-import type { SemanticClassName, SemanticRecord } from '../_util/classNameUtils';
+import type { SemanticClassName } from '../_util/classNameUtils';
 import type { InputStatus } from '../_util/statusUtils';
 import type { AnyObject, RequiredWith } from '../_util/type';
 import type { Variant } from '../config-provider';
@@ -8,7 +8,6 @@ import type { AlignType, BuildInPlacements } from '../trigger';
 import type { PresetPanelClassName } from './PickerInput/Popup/PresetPanel';
 import type { InternalRangePickerProps } from './PickerInput/RangePicker';
 import type { InternalPickerProps } from './PickerInput/SinglePicker';
-import type { TimeUnitColumnProps } from './PickerPanel/TimePanel/TimePanelBody/TimeColumn';
 
 export type GenerateConfig<DateType> = {
   // Get
@@ -55,6 +54,8 @@ export type GenerateConfig<DateType> = {
     getShortWeekDays?: (locale: string) => string[];
     /** A proxy for getting locale with moment or other locale library */
     getShortMonths?: (locale: string) => string[];
+    /** A proxy for getting locale with moment or other locale library */
+    getFullMonths?: (locale: string) => string[];
   };
 };
 
@@ -107,26 +108,11 @@ export type Locale = {
   // ======================================================
   today: string;
   now: string;
-  backToToday: string;
   ok: string;
-  timeSelect: string;
-  dateSelect: string;
-  weekSelect?: string;
-  clear: string;
+  day: string;
+  week: string;
   month: string;
   year: string;
-  previousMonth: string;
-  nextMonth: string;
-  monthSelect: string;
-  yearSelect: string;
-  decadeSelect: string;
-
-  previousYear: string;
-  nextYear: string;
-  previousDecade: string;
-  nextDecade: string;
-  previousCentury: string;
-  nextCentury: string;
 
   shortWeekDays?: string[];
   shortMonths?: string[];
@@ -281,37 +267,27 @@ export type LimitDate<DateType extends object = any> =
       from?: DateType;
     }) => DateType | null | undefined);
 
-export type PopupClassName = SemanticClassName<{
-  presets?: PresetPanelClassName;
-  panel?: string;
-  header?: string;
-  footer?: string;
-  body?: string;
-  cell?: SemanticClassName<
-    { inner?: string },
-    {
-      disabled?: boolean;
-      hover?: boolean;
-      inRange?: boolean;
-      rangeStart?: boolean;
-      rangeEnd?: boolean;
-      selected?: boolean;
-      today?: boolean;
-      inView?: boolean;
-    }
-  >;
-  time: SemanticClassName<{
-    header?: string;
-    body?: string;
-    column?: string;
-    cell?: TimeUnitColumnProps['cellClassName'];
-  }>;
-}>;
-
 export interface SharedPanelProps<DateType extends object = any> {
   // Style
   prefixCls: string;
-  semanticClassName: SemanticRecord<PopupClassName>;
+  className?: SemanticClassName<{
+    header?: string;
+    body?: string;
+    cell?: SemanticClassName<
+      { inner?: string },
+      {
+        disabled?: boolean;
+        hover?: boolean;
+        inRange?: boolean;
+        rangeStart?: boolean;
+        rangeEnd?: boolean;
+        selected?: boolean;
+        today?: boolean;
+        inView?: boolean;
+      }
+    >;
+    column?: string;
+  }>;
 
   // Date Library
   locale: FilledLocale;
@@ -419,11 +395,14 @@ export interface SharedPickerProps<DateType extends object = any>
   prefixCls: string;
   className?: SemanticClassName<
     {
-      popup?: PopupClassName;
+      popup?: string;
       input?: string;
       suffix?: string;
       clear?: string;
       item?: string;
+      presets?: PresetPanelClassName;
+      panel?: SharedPanelProps<any>['className'];
+      footer?: string;
     },
     { open?: boolean; disabled?: boolean }
   >;

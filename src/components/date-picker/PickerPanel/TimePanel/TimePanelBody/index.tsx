@@ -1,5 +1,4 @@
 import * as React from 'react';
-import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import { clsx } from '../../../../_util/classNameUtils';
 import useTimeInfo from '../../../hooks/useTimeInfo';
 import type { SharedPanelProps, SharedTimeProps } from '../../../interface';
@@ -36,7 +35,7 @@ export default function TimePanelBody<DateType extends object = any>(
     onSelect,
     onHover,
     pickerValue,
-    semanticClassName: contextSemanticCls,
+    semanticClassName: semanticCls,
   } = usePanelContext<DateType>();
 
   const value = values?.[0] || null;
@@ -266,8 +265,6 @@ export default function TimePanelBody<DateType extends object = any>(
   };
 
   // ========================= Style =========================
-  const semanticCls = useSemanticCls(contextSemanticCls.time);
-
   const contentCls = clsx(
     `${prefixCls}-content`,
     'flex h-56 flex-auto border-l border-border-secondary text-center',
