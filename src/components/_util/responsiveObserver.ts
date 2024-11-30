@@ -9,12 +9,12 @@ export const responsiveArray: Breakpoint[] = ['2xl', 'xl', 'lg', 'md', 'sm', 'xs
 type SubscribeFunc = (screens: ScreenMap) => void;
 
 const responsiveMap: BreakpointMap = {
-  xs: `(max-width: 639px)`,
-  sm: `(min-width: 640px)`,
+  xs: `(max-width: 566px)`,
+  sm: `(min-width: 567px)`,
   md: `(min-width: 768px)`,
-  lg: `(min-width: 1024px)`,
-  xl: `(min-width: 1280px)`,
-  '2xl': `(min-width: 1536px)`,
+  lg: `(min-width: 992px)`,
+  xl: `(min-width: 1200px)`,
+  '2xl': `(min-width: 1600px)`,
 };
 
 export default function useResponsiveObserver() {

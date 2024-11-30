@@ -43,7 +43,7 @@ const ConfirmOkBtn: FC = () => {
       autoFocus={autoFocusButton === 'ok'}
       buttonProps={{
         ...okButtonProps,
-        className: mergeSemanticCls({ root: 'w-auto sm:w-full' }, okButtonProps?.className),
+        className: mergeSemanticCls({ root: 'w-auto xs:w-full' }, okButtonProps?.className),
       }}
       prefixCls={`${rootPrefixCls}-btn`}
     >

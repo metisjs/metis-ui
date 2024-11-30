@@ -1,6 +1,6 @@
 import * as React from 'react';
-import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import { clsx } from '../../_util/classNameUtils';
+import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import SliderContext from '../context';
 import { getDirectionStyle } from '../util';
 

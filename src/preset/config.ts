@@ -3,11 +3,12 @@ import colors from './colors';
 export default {
   theme: {
     screens: {
-      '2xl': { max: '1535px' },
-      xl: { max: '1279px' },
-      lg: { max: '1023px' },
+      '2xl': { max: '1599px' },
+      xl: { max: '1199px' },
+      lg: { max: '991px' },
       md: { max: '767px' },
-      sm: { max: '639px' },
+      sm: { max: '575px' },
+      xs: { max: '479px' },
     },
     extend: {
       colors: {

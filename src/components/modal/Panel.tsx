@@ -178,11 +178,11 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
       appear
       visible={open}
       enter="transition-[opacity,transform] ease-out duration-300"
-      enterFrom="opacity-0 translate-y-0 scale-95 sm:translate-y-4 sm:scale-100"
+      enterFrom="opacity-0 translate-y-0 scale-95 xs:translate-y-4 xs:scale-100"
       enterTo="opacity-100 translate-y-0 scale-100"
       leave="transition-[opacity,transform] ease-in duration-200"
       leaveFrom="opacity-100 translate-y-0 scale-100"
-      leaveTo="opacity-0 translate-y-0 scale-95 sm:translate-y-4 sm:scale-100"
+      leaveTo="opacity-0 translate-y-0 scale-95 xs:translate-y-4 xs:scale-100"
       onVisibleChanged={onOpenChanged}
       forceRender={forceRender}
       removeOnLeave={destroyOnClose}

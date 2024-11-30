@@ -8,11 +8,12 @@ import { ConfigContext } from '../config-provider';
 import { LayoutContext } from './Layout';
 
 const dimensionMaxMap = {
-  sm: '639.98px',
+  xs: '479.98px',
+  sm: '575.98px',
   md: '767.98px',
-  lg: '1023.98px',
-  xl: '1279.98px',
-  '2xl': '1535.98px',
+  lg: '991.98px',
+  xl: '1199.98px',
+  '2xl': '1599.98px',
 };
 
 export interface SiderContextProps {
@@ -34,7 +35,7 @@ export interface SiderProps extends React.HTMLAttributes<HTMLDivElement> {
   onCollapse?: (collapsed: boolean, type: CollapseType) => void;
   trigger?: React.ReactNode;
   width?: number | string;
-  breakpoint?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  breakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   theme?: SiderTheme;
   onBreakpoint?: (broken: boolean) => void;
 }
