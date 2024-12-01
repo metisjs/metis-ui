@@ -87,7 +87,7 @@ function useList<T>(value: T | T[], fillMode = false) {
   return values;
 }
 
-function parseDate<T>(
+export function parseDate<T>(
   value: DateValue<T>,
   generateConfig: GenerateConfig<T>,
   locale: Locale,

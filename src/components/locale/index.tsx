@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import type { CalendarLocale } from '../calendar/interface';
 import type { Locale as DatePickerLocale } from '../date-picker/interface';
 import type { EmptyLocale } from '../empty';
 import type { ValidateMessages } from '../form/interface';
@@ -22,7 +23,7 @@ export interface Locale {
   Pagination?: Record<string, any>;
   DatePicker?: DatePickerLocale;
   TimePicker?: Record<string, any>;
-  Calendar?: Record<string, any>;
+  Calendar?: CalendarLocale;
   // Table?: TableLocale;
   Modal?: ModalLocale;
   Tour?: TourLocale;

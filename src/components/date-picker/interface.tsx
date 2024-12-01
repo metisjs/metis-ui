@@ -24,6 +24,9 @@ export type GenerateConfig<DateType> = {
   getFixedDate: (fixed: string) => DateType;
   getEndDate: (value: DateType) => DateType;
 
+  // difference
+  diffDate: (date1: DateType, date2: DateType) => number;
+
   // Set
   addYear: (value: DateType, diff: number) => DateType;
   addMonth: (value: DateType, diff: number) => DateType;
@@ -174,11 +177,18 @@ export interface BaseInfo {
   range?: 'start' | 'end';
 }
 
-export interface CellRenderInfo<DateType> extends BaseInfo {
+export interface CellRenderInfo extends BaseInfo {
   prefixCls: string;
   // The cell wrapper element
   originNode: React.ReactElement;
-  today: DateType;
+  disabled?: boolean;
+  hover?: boolean;
+  inRange?: boolean;
+  rangeStart?: boolean;
+  rangeEnd?: boolean;
+  selected?: boolean;
+  today?: boolean;
+  inView?: boolean;
   type: PanelMode;
   locale?: Locale;
   subType?: 'hour' | 'minute' | 'second' | 'millisecond' | 'meridiem';
@@ -186,7 +196,7 @@ export interface CellRenderInfo<DateType> extends BaseInfo {
 
 export type CellRender<DateType, CurrentType = DateType | number | string> = (
   current: CurrentType,
-  info: CellRenderInfo<DateType>,
+  info: CellRenderInfo,
 ) => React.ReactNode;
 
 export interface ValueDate<DateType = any> {

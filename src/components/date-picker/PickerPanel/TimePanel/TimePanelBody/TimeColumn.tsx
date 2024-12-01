@@ -50,7 +50,7 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
     changeOnScroll,
   } = props;
 
-  const { prefixCls, cellRender, now, locale } = usePanelContext<DateType>();
+  const { prefixCls, cellRender, locale } = usePanelContext<DateType>();
 
   // ========================== Refs ==========================
   const scrollbarRef = React.useRef<ScrollbarRef>(null);
@@ -184,7 +184,8 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
               ? cellRender(unitValue, {
                   prefixCls,
                   originNode: inner,
-                  today: now,
+                  disabled,
+                  selected: value === unitValue,
                   type: 'time',
                   subType: type,
                   locale,

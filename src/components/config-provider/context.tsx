@@ -8,6 +8,7 @@ import type { AvatarProps } from '../avatar';
 import type { BadgeProps } from '../badge';
 import type { BreadcrumbProps } from '../breadcrumb';
 import type { ButtonProps } from '../button';
+import type { CalendarProps } from '../calendar';
 import type { CardProps } from '../card';
 import type { CarouselProps } from '../carousel/interface';
 import type { CascaderProps } from '../cascader';
@@ -77,6 +78,8 @@ export type BadgeConfig = Pick<BadgeProps, 'className'>;
 export type BreadcrumbConfig = Pick<BreadcrumbProps, 'className'>;
 
 export type ButtonConfig = Pick<ButtonProps, 'className' | 'autoInsertSpace'>;
+
+export type CalendarConfig = Pick<CalendarProps<any>, 'className'>;
 
 export type CardConfig = Pick<CardProps, 'className'>;
 
@@ -213,7 +216,7 @@ export interface ConfigConsumerProps {
   button?: ButtonConfig;
   divider?: DividerConfig;
   drawer?: DrawerConfig;
-  // calendar?: ComponentStyleConfig;
+  calendar?: CalendarConfig;
   carousel?: CarouselConfig;
   cascader?: CascaderConfig;
   collapse?: CollapseConfig;

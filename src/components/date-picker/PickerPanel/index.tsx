@@ -378,7 +378,7 @@ function PickerPanel<DateType extends object = any>(
   // ========================= Style =========================
   const panelCls = clsx(
     `${mergedPrefixCls}-panel`,
-    'inline-flex flex-col bg-transparent text-center',
+    'inline-flex flex-auto flex-col bg-transparent text-center',
   );
 
   // ========================= Render =========================

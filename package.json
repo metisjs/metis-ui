@@ -135,7 +135,8 @@
     "react-virtuoso": "^4.12.0",
     "scroll-into-view-if-needed": "^3.0.10",
     "tailwind-merge": "^2.3.0",
-    "throttle-debounce": "^5.0.0"
+    "throttle-debounce": "^5.0.0",
+    "tyme4ts": "^1.1.6"
   },
   "pnpm": {
     "patchedDependencies": {

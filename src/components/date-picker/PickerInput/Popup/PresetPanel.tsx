@@ -1,7 +1,7 @@
 import * as React from 'react';
-import useSemanticCls from 'metis-ui/es/_util/hooks/useSemanticCls';
 import type { SemanticClassName } from '../../../_util/classNameUtils';
 import { clsx } from '../../../_util/classNameUtils';
+import useSemanticCls from '../../../_util/hooks/useSemanticCls';
 import type { ValueDate } from '../../interface';
 
 export type PresetPanelClassName = SemanticClassName<{ item?: string }>;

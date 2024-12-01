@@ -53,7 +53,6 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
     prefixCls,
     semanticClassName: contextSemanticCls,
     panelType: type,
-    now,
     disabledDate: contextDisabledDate,
     cellRender,
     onHover,
@@ -257,9 +256,16 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
             ? cellRender(currentDate, {
                 prefixCls,
                 originNode: inner,
-                today: now,
                 type: type,
                 locale,
+                disabled,
+                hover,
+                inRange,
+                rangeStart,
+                rangeEnd,
+                selected,
+                today,
+                inView,
               })
             : inner}
         </td>,
