@@ -2,7 +2,6 @@ import { defineConfig } from 'father';
 
 export default defineConfig({
   // more father config: https://github.com/umijs/father/blob/master/docs/config.md
-  alias: { '@util/*': 'src/components/util/*' },
   esm: { output: 'es' },
   cjs: { output: 'lib' },
   extraBabelPlugins: [
