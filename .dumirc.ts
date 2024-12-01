@@ -27,6 +27,7 @@ export default defineConfig({
     'metis-ui/lib': path.join(__dirname, 'src/components'),
     'metis-ui/es': path.join(__dirname, 'src/components'),
     'metis-ui': path.join(__dirname, 'src/components'),
+    '@util': path.join(__dirname, 'src/components/_util'),
   },
   tailwindcss: {},
   plugins: ['@umijs/plugins/dist/tailwindcss'],
