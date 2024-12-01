@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { EllipsisHorizontalOutline, XMarkOutline } from '@metisjs/icons';
-import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
-import type { SafeKey } from '../../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { SafeKey } from '@util/type';
 import Dropdown from '../../dropdown';
 import type { MenuProps } from '../../menu';
 import Scrollbar from '../../scrollbar';

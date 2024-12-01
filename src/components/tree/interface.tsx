@@ -1,6 +1,6 @@
 import type * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { RequestConfig } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { RequestConfig } from '@util/type';
 import type { SpinProps } from '../spin';
 import type { ScrollTo, VirtualListProps, VirtualType } from '../virtual-list';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';

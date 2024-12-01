@@ -1,4 +1,4 @@
-import { devUseWarning, noteOnce } from '../../_util/warning';
+import { devUseWarning, noteOnce } from '@util/warning';
 import { isMultiple } from '../BaseSelect';
 import type { BaseOptionType, FieldNames } from '../interface';
 import type { InternalSelectProps } from '../Select';

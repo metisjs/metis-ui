@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { devUseWarning } from '../../_util/warning';
+import { devUseWarning } from '@util/warning';
 
 /**
  * Keep input cursor in the correct position if possible.

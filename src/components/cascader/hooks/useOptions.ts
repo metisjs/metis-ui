@@ -1,6 +1,6 @@
 import * as React from 'react';
+import type { SafeKey } from '@util/type';
 import type { DefaultOptionType } from '..';
-import type { SafeKey } from '../../_util/type';
 import type { InternalFieldNames } from '../Cascader';
 import type { MultiValueType, SingleValueType } from '../interface';
 import { toPathOptions } from '../utils/treeUtil';

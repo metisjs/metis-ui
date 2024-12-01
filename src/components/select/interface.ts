@@ -1,6 +1,6 @@
 import type * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { GetRequestType } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { GetRequestType } from '@util/type';
 import type { BaseSelectPropsWithoutPrivate, RenderNode } from './BaseSelect';
 import type { SelectPlacements } from './Select';
 

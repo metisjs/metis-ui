@@ -1,4 +1,4 @@
-export type { GetProp, GetProps, GetRef } from './_util/type';
+export type { GetProp, GetProps, GetRef } from '@util/type';
 export { default as Affix } from './affix';
 export type { AffixProps, AffixRef } from './affix';
 export { default as Alert } from './alert';
@@ -135,5 +135,5 @@ export type { VirtualListProps, VirtualListRef } from './virtual-list';
 export { default as Watermark } from './watermark';
 export type { WatermarkProps } from './watermark';
 
-export * from './_util/classNameUtils';
+export * from '@util/classNameUtils';
 export { default as useTheme } from './theme/useTheme';

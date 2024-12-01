@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import type { SafeKey } from '../_util/type';
+import type { SafeKey } from '@util/type';
 import type { Tab } from './interface';
 import type { TabsProps } from './Tabs';
 

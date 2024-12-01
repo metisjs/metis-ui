@@ -1,6 +1,6 @@
 import type * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { SafeKey } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { SafeKey } from '@util/type';
 
 // ========================= Options =========================
 export interface SubMenuType<T extends MenuItemType = MenuItemType> {

@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React, { useContext, useMemo } from 'react';
 import { CheckOutline } from '@metisjs/icons';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
 import Select from '../../../select';
 import type { AggregationColor } from '../../color';
 import { PanelPickerContext } from '../../context';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useRef } from 'react';
-import type { SafeKey } from '../../_util/type';
-import warning from '../../_util/warning';
+import type { SafeKey } from '@util/type';
+import warning from '@util/warning';
 import { nextSlice } from '../utils/timeUtil';
 
 const PATH_SPLIT = '__METIS_UTIL_PATH_SPLIT__';

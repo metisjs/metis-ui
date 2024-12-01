@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
+import ContextIsolator from '@util/ContextIsolator';
+import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import ContextIsolator from '../../_util/ContextIsolator';
-import type { AnyObject } from '../../_util/type';
 import type {
   GenerateConfig,
   GenericTimePickerProps,

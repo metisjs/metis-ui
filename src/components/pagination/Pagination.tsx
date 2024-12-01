@@ -5,13 +5,13 @@ import {
   ChevronLeftOutline,
   ChevronRightOutline,
 } from '@metisjs/icons';
+import { clsx } from '@util/classNameUtils';
+import useBreakpoint from '@util/hooks/useBreakpoint';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { devUseWarning } from '@util/warning';
 import { isInteger } from 'lodash';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../_util/classNameUtils';
-import useBreakpoint from '../_util/hooks/useBreakpoint';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import Input from '../input';

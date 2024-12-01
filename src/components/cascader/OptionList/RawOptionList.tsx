@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { clsx } from '../../_util/classNameUtils';
-import type { SafeKey } from '../../_util/type';
+import { clsx } from '@util/classNameUtils';
+import type { SafeKey } from '@util/type';
 import type { useBaseProps } from '../../select';
 import type { RefOptionListProps } from '../../select/BaseSelect';
 import CascaderContext from '../context';

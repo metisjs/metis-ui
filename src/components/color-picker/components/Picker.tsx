@@ -1,8 +1,8 @@
 import type { FC, MouseEventHandler, TouchEventHandler } from 'react';
 import React, { forwardRef, useContext, useRef } from 'react';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import { useEvent } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
 import type { SegmentedProps } from '../../segmented';
 import Segmented from '../../segmented';
 import type { Color } from '../color';

@@ -1,4 +1,4 @@
-import { devUseWarning } from '../../_util/warning';
+import { devUseWarning } from '@util/warning';
 import type { InternalCascaderProps } from '../Cascader';
 import type { DefaultOptionType, FieldNames } from '../interface';
 

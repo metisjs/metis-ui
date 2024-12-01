@@ -5,9 +5,9 @@ import {
   ChevronRightOutline,
   ChevronUpOutline,
 } from '@metisjs/icons';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 
 export interface SplitBarProps {
   className?: SemanticClassName<{ dragger?: string; collapseBar?: string }>;

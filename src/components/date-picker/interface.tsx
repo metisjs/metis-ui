@@ -1,7 +1,7 @@
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { InputStatus } from '@util/statusUtils';
+import type { AnyObject, RequiredWith } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { InputStatus } from '../_util/statusUtils';
-import type { AnyObject, RequiredWith } from '../_util/type';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { AlignType, BuildInPlacements } from '../trigger';

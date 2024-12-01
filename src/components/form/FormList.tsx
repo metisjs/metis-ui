@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { devUseWarning } from '@util/warning';
 import { List } from 'rc-field-form';
 import type { StoreValue, ValidatorRule } from 'rc-field-form/lib/interface';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import { FormItemPrefixContext } from './context';
 

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { Locale } from '../locale';
 import type { Ecc, QRCode } from './libs/qrcodegen';
 

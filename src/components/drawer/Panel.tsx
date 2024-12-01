@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import useClosable from '@util/hooks/useClosable';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import { composeRef } from 'rc-util/lib/ref';
-import { clsx } from '../_util/classNameUtils';
-import useClosable from '../_util/hooks/useClosable';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { getSkeletonButtons } from '../modal/Footer';
 import Scrollbar from '../scrollbar';
 import Skeleton from '../skeleton';

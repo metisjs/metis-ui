@@ -1,7 +1,7 @@
 import React from 'react';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import type { GetContextProp, GetProp } from '@util/type';
 import { useEvent } from 'rc-util';
-import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
-import type { GetContextProp, GetProp } from '../../_util/type';
 import type { SliderBaseProps } from '../../slider';
 import Slider from '../../slider';
 import type { SliderInternalContextProps } from '../../slider/context';

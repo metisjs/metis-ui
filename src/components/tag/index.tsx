@@ -1,19 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
-import type { PresetColorType, PresetStatusColorType } from '../_util/colors';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import type { PresetColorType, PresetStatusColorType } from '@util/colors';
 import {
   getPresetColorCls,
   getPresetStatusCls,
   isPresetColor,
   isPresetStatusColor,
-} from '../_util/colors';
-import type { ClosableType } from '../_util/hooks/useClosable';
-import useClosable from '../_util/hooks/useClosable';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import type { LiteralUnion } from '../_util/type';
+} from '@util/colors';
+import type { ClosableType } from '@util/hooks/useClosable';
+import useClosable from '@util/hooks/useClosable';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { LiteralUnion } from '@util/type';
 import { ConfigContext } from '../config-provider';
 import CheckableTag from './CheckableTag';
 

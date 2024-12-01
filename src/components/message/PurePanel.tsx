@@ -6,9 +6,9 @@ import {
   LoadingOutline,
   XCircleOutline,
 } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { cloneElement } from '../_util/reactNode';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { cloneElement } from '@util/reactNode';
 import { ConfigContext } from '../config-provider';
 import type { NoticeProps } from '../notification/Notice';
 import Notice from '../notification/Notice';

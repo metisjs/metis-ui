@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
 import type { InternalDescriptionsItemType } from '.';
-import { clsx } from '../_util/classNameUtils';
 import Cell from './Cell';
 
 interface CellConfig {

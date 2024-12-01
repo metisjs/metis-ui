@@ -1,8 +1,8 @@
 import * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import type { GetRequestType } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, getSemanticCls, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { GetRequestType } from '@util/type';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import type { ScrollValues } from '../scrollbar';

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { InformationCircleOutline } from '@metisjs/icons';
+import type { HTMLAriaDataAttributes } from '@util/aria-data-attrs';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { HTMLAriaDataAttributes } from '../_util/aria-data-attrs';
-import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import Skeleton from '../skeleton';

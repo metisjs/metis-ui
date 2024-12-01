@@ -1,9 +1,9 @@
 import type { CSSProperties, MouseEventHandler } from 'react';
 import React, { forwardRef, useMemo } from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { useLocale } from '../../locale';
 import type { AggregationColor } from '../color';
 import type { ColorFormatType, ColorPickerProps } from '../interface';

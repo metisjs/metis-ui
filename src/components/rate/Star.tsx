@@ -1,7 +1,7 @@
 import React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Tooltip from '../tooltip';
 
 export type StarSemanticClassName = SemanticClassName<

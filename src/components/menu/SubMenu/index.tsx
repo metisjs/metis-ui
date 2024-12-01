@@ -1,13 +1,13 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import ExpandIcon from '@util/ExpandIcon';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { useZIndex } from '@util/hooks/useZIndex';
+import { cloneElement, isValidElement } from '@util/reactNode';
+import type { SafeKey } from '@util/type';
+import warning from '@util/warning';
 import Overflow from 'rc-overflow';
 import { useEvent } from 'rc-util';
-import { clsx } from '../../_util/classNameUtils';
-import ExpandIcon from '../../_util/ExpandIcon';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
-import { useZIndex } from '../../_util/hooks/useZIndex';
-import { cloneElement, isValidElement } from '../../_util/reactNode';
-import type { SafeKey } from '../../_util/type';
-import warning from '../../_util/warning';
 import { useMenuId } from '../context/IdContext';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import {

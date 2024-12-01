@@ -1,9 +1,9 @@
 import React from 'react';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { devUseWarning } from '@util/warning';
 import { useEvent, useMergedState } from 'rc-util';
 import isEqual from 'rc-util/es/isEqual';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SliderContextProps } from './context';

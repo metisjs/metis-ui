@@ -1,6 +1,6 @@
 import React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import Transition from '../transition';
 
 export type LoadingIconProps = {

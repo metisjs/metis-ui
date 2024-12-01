@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import useClosable from '../_util/hooks/useClosable';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useClosable from '@util/hooks/useClosable';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Button from '../button';
 import { useLocale } from '../locale';
 import type { TourProps, TourStepInfo } from './interface';

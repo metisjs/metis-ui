@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { isPlatformMac } from '@util/platform';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { isPlatformMac } from '../_util/platform';
 import Spin from '../spin';
 import type { ScrollConfig, VirtualListRef } from '../virtual-list';
 import VirtualList from '../virtual-list';

@@ -1,4 +1,4 @@
-import type { SafeKey } from '../../_util/type';
+import type { SafeKey } from '@util/type';
 
 export const STATUS_ADD = 'add' as const;
 export const STATUS_KEEP = 'keep' as const;

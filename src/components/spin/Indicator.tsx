@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
 import type { SpinSize } from '.';
-import { clsx } from '../_util/classNameUtils';
 
 export interface IndicatorProps {
   prefixCls: string;

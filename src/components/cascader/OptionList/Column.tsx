@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
 import Checkbox from '../../checkbox';
 import Scrollbar from '../../scrollbar';
 import CascaderContext from '../context';

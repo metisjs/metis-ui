@@ -1,6 +1,6 @@
+import type { AnyObject } from '@util/type';
+import warning from '@util/warning';
 import type { Dayjs } from 'dayjs';
-import type { AnyObject } from '../_util/type';
-import warning from '../_util/warning';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
 import { isSameOrAfter } from '../date-picker/utils/dateUtil';

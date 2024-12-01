@@ -1,11 +1,11 @@
 import * as React from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { getScroll, scrollTo } from '@util/scroll';
+import { devUseWarning } from '@util/warning';
 import { useEvent } from 'rc-util';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { getScroll, scrollTo } from '../_util/scroll';
-import { devUseWarning } from '../_util/warning';
 import Affix from '../affix';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import type { AnyObject } from '@util/type';
 import type { KeyWise, TransferProps } from '..';
-import type { AnyObject } from '../../_util/type';
 import type { TransferKey } from '../interface';
 import { groupKeysMap } from '../util';
 

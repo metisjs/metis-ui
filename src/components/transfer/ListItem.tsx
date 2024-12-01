@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { XMarkOutline } from '@metisjs/icons';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { KeyWiseTransferItem } from '.';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Checkbox from '../checkbox';
 import { useLocale } from '../locale';
 import defaultLocale from '../locale/en_US';

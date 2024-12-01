@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { DocumentOutline, LoadingOutline, PaperClipOutline, PhotoOutline } from '@metisjs/icons';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import { cloneElement } from '@util/reactNode';
+import { collapseTransition } from '@util/transition';
 import { useUpdate } from 'ahooks';
-import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
-import { cloneElement } from '../../_util/reactNode';
-import { collapseTransition } from '../../_util/transition';
 import type { ButtonProps } from '../../button';
 import Button from '../../button';
 import { ConfigContext } from '../../config-provider';

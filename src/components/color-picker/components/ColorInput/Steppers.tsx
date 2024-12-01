@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { clsx, mergeSemanticCls } from '../../../_util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
 

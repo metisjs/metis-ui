@@ -1,4 +1,4 @@
-import type { SafeKey } from '../../_util/type';
+import type { SafeKey } from '@util/type';
 import type { InternalFieldNames } from '../Cascader';
 import type { GetEntities } from '../hooks/useEntities';
 import type {

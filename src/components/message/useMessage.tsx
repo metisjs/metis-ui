@@ -6,10 +6,10 @@ import {
   LoadingOutline,
   XCircleOutline,
 } from '@metisjs/icons';
+import { clsx, getSemanticCls, mergeSemanticCls } from '@util/classNameUtils';
+import { cloneElement } from '@util/reactNode';
+import { devUseWarning } from '@util/warning';
 import { getGlobalConfig } from '.';
-import { clsx, getSemanticCls, mergeSemanticCls } from '../_util/classNameUtils';
-import { cloneElement } from '../_util/reactNode';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import type { NotificationAPI } from '../notification/interface';
 import NotificationHolder from '../notification/NotificationHolder';

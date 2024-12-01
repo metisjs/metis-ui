@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { devUseWarning } from '../../_util/warning';
+import { devUseWarning } from '@util/warning';
 import { FormItemInputContext } from '../context';
 import type { ValidateStatus } from '../FormItem';
 

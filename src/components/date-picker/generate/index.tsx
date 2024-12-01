@@ -1,5 +1,5 @@
+import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import type { AnyObject } from '../../_util/type';
 import type { GenerateConfig } from '../interface';
 import generateRangePicker from './generateRangePicker';
 import generateSinglePicker from './generateSinglePicker';

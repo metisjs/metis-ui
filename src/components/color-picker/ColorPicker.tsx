@@ -1,10 +1,10 @@
 import React, { useContext, useMemo } from 'react';
+import { clsx } from '@util/classNameUtils';
+import ContextIsolator from '@util/ContextIsolator';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { getStatusClassNames } from '@util/statusUtils';
+import { devUseWarning } from '@util/warning';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx } from '../_util/classNameUtils';
-import ContextIsolator from '../_util/ContextIsolator';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { getStatusClassNames } from '../_util/statusUtils';
-import { devUseWarning } from '../_util/warning';
 import type { ConfigConsumerProps } from '../config-provider/context';
 import { ConfigContext } from '../config-provider/context';
 import DisabledContext from '../config-provider/DisabledContext';

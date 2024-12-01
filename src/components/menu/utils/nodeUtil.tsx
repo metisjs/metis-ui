@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { SafeKey } from '../../_util/type';
+import type { SafeKey } from '@util/type';
 import type { ItemType } from '../interface';
 import MenuDivider from '../MenuDivider';
 import MenuItem from '../MenuItem';

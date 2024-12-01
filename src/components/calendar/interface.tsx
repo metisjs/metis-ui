@@ -1,7 +1,7 @@
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { PresetColorType } from '@util/colors';
+import type { AnyObject, LiteralUnion, SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { PresetColorType } from '../_util/colors';
-import type { AnyObject, LiteralUnion, SafeKey } from '../_util/type';
 import type {
   Locale as DatePickerLocal,
   DateValue,

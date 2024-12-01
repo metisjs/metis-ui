@@ -1,5 +1,5 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { InputProps } from '../input';
 import type { InputNumberProps } from '../input-number';

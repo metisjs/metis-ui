@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { SafeKey } from '@util/type';
 import omit from 'rc-util/lib/omit';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import type { SafeKey } from '../_util/type';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';

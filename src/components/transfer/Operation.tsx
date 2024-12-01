@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import Button from '../button';
 
 export interface TransferOperationProps {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { SafeKey } from '../../_util/type';
+import type { SafeKey } from '@util/type';
 import { MenuContext } from '../context/MenuContext';
 import type { MenuHoverEventHandler } from '../interface';
 

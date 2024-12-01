@@ -6,9 +6,9 @@ import {
   MagnifyingGlassPlusOutline,
   XMarkOutline,
 } from '@metisjs/icons';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls, { clsxDependency } from '../_util/hooks/useSemanticCls';
 import Modal from '../modal';
 import { BASE_SCALE_RATIO } from './constant';
 import { PreviewGroupContext } from './context';

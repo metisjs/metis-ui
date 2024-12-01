@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { clsx, mergeSemanticCls } from '../../_util/classNameUtils';
-import type { SafeKey } from '../../_util/type';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import type { SafeKey } from '@util/type';
 import Transition from '../../transition';
 import { TabContext } from '../context';
 import type { AnimatedConfig, TabPosition } from '../interface';

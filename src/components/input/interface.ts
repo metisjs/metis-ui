@@ -6,9 +6,9 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { InputStatus } from '../_util/statusUtils';
-import type { LiteralUnion } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { InputStatus } from '@util/statusUtils';
+import type { LiteralUnion } from '@util/type';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 

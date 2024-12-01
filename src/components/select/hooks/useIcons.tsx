@@ -8,8 +8,8 @@ import {
   XCircleSolid,
   XMarkOutline,
 } from '@metisjs/icons';
-import { clsx } from '../../_util/classNameUtils';
-import { cloneElement } from '../../_util/reactNode';
+import { clsx } from '@util/classNameUtils';
+import { cloneElement } from '@util/reactNode';
 import type { SizeType } from '../../config-provider/SizeContext';
 
 type RenderNode = React.ReactNode | ((props: any) => React.ReactNode);

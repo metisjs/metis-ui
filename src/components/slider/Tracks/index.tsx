@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import SliderContext from '../context';
 import type { OnStartMove } from '../interface';
 import { getIndex } from '../util';

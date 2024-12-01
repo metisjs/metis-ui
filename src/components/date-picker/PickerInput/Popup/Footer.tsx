@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
 import type { PopupShowTimeConfig } from '.';
-import { clsx } from '../../../_util/classNameUtils';
 import Button from '../../../button';
 import useTimeInfo from '../../hooks/useTimeInfo';
 import type {

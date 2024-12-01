@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { devUseWarning } from '../../_util/warning';
+import { devUseWarning } from '@util/warning';
 import type { DisabledTimes, GenerateConfig, SharedTimeProps } from '../interface';
 import { findValidateTime } from '../PickerPanel/TimePanel/TimePanelBody/util';
 import { leftPad } from '../utils/miscUtil';

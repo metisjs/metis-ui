@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
 
 export interface CarouselProps {
   prefixCls?: string;

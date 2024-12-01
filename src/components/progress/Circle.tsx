@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import { cloneElement } from '@util/reactNode';
 import type { ProgressProps as RcProgressProps } from 'rc-progress';
 import { Circle as RCCircle } from 'rc-progress';
-import { clsx } from '../_util/classNameUtils';
-import { cloneElement } from '../_util/reactNode';
 import Tooltip from '../tooltip';
 import type { ProgressGradient, ProgressProps } from './Progress';
 import { getPercentage, getSize, getStrokeColor } from './utils';

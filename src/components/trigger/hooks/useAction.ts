@@ -1,5 +1,5 @@
 import * as React from 'react';
-import toArray from '../../_util/toArray';
+import toArray from '@util/toArray';
 import type { ActionType } from '../interface';
 
 type ActionTypes = ActionType | ActionType[];

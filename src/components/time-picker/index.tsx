@@ -1,7 +1,7 @@
 import * as React from 'react';
+import type { InputStatus } from '@util/statusUtils';
+import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import type { InputStatus } from '../_util/statusUtils';
-import type { AnyObject } from '../_util/type';
 import DatePicker from '../date-picker';
 import type { GenericTimePickerProps, PickerRef, RangePickerProps } from '../date-picker/interface';
 

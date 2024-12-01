@@ -1,8 +1,8 @@
 import { useContext, useMemo, useRef, useState } from 'react';
+import type { RequestConfig } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { useEvent } from 'rc-util';
-import type { RequestConfig } from '../../_util/type';
 import { ConfigContext } from '../../config-provider';
 import type { ScrollValues } from '../../scrollbar';
 import type { BaseOptionType, FieldNames, SelectProps } from '../interface';

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import type { TransitionStyle, TransitionStyleFn, TransitionStyleType } from '../interface';
 import { TransitionStatus, TransitionStep } from '../interface';
 

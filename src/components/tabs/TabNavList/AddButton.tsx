@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PlusOutline } from '@metisjs/icons';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import { TabContext } from '../context';
 import type { EditableConfig, TabsLocale } from '../interface';
 

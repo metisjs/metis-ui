@@ -1,6 +1,6 @@
 import type * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { ClosableType } from '../_util/hooks/useClosable';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { ClosableType } from '@util/hooks/useClosable';
 import type { TransitionProps } from '../transition';
 
 interface DivProps extends React.HTMLProps<HTMLDivElement> {

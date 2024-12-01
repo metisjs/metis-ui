@@ -1,11 +1,11 @@
 import type { Key } from 'react';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Squares2X2Outline } from '@metisjs/icons';
-import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
-import useBreakpoint from '../_util/hooks/useBreakpoint';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { matchScreen, type Breakpoint } from '../_util/responsiveObserver';
-import { collapseTransition } from '../_util/transition';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
+import useBreakpoint from '@util/hooks/useBreakpoint';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { matchScreen, type Breakpoint } from '@util/responsiveObserver';
+import { collapseTransition } from '@util/transition';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
 import Transition from '../transition';

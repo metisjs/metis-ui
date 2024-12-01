@@ -6,12 +6,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
+import useEffectState from '@util/hooks/useEffectState';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import toList from '@util/toList';
+import { devUseWarning } from '@util/warning';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
-import useEffectState from '../_util/hooks/useEffectState';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import toList from '../_util/toList';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import DisabledContext from '../config-provider/DisabledContext';

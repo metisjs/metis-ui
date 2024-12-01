@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { ProgressProps } from './Progress';
 import { getSize } from './utils';
 

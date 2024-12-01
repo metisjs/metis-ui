@@ -1,8 +1,8 @@
 import { useCallback, useContext, useState } from 'react';
+import type { RequestConfig } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
-import type { RequestConfig } from '../../_util/type';
 import { ConfigContext } from '../../config-provider';
 import type { RawValueType } from '../../select/interface';
 import type { InternalFieldNames } from '../Cascader';

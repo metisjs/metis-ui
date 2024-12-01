@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 
 export interface SkeletonTitleProps {
   prefixCls?: string;

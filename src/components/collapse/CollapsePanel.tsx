@@ -1,7 +1,7 @@
 import React from 'react';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { collapseTransition } from '../_util/transition';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { collapseTransition } from '@util/transition';
 import Transition from '../transition';
 import type { CollapsePanelProps } from './interface';
 

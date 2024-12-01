@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
-import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { TimelineItemProps } from './TimelineItem';
 import TimelineItem from './TimelineItem';

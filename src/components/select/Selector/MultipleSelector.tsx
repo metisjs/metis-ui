@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Overflow from 'rc-overflow';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { InnerSelectorProps } from '.';
-import { clsx } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
 import TransBtn from '../TransBtn';
 import { getTitle } from '../utils/commonUtil';

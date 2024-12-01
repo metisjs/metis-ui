@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { devUseWarning } from '../../_util/warning';
+import { devUseWarning } from '@util/warning';
 import type { FormProps } from '../Form';
 
 const names: Record<string, number> = {};

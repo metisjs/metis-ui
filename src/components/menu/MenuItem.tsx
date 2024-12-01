@@ -1,12 +1,12 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { cloneElement, isValidElement } from '@util/reactNode';
+import type { SafeKey } from '@util/type';
+import warning from '@util/warning';
 import Overflow from 'rc-overflow';
 import toArray from 'rc-util/lib/Children/toArray';
 import { useComposeRef } from 'rc-util/lib/ref';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { cloneElement, isValidElement } from '../_util/reactNode';
-import type { SafeKey } from '../_util/type';
-import warning from '../_util/warning';
 import type { SiderContextProps } from '../layout/Sider';
 import { SiderContext } from '../layout/Sider';
 import type { TooltipProps } from '../tooltip';

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
-import { getPresetColorCls, isPresetColor, type PresetColorType } from '../_util/colors';
-import type { LiteralUnion } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
+import { getPresetColorCls, isPresetColor, type PresetColorType } from '@util/colors';
+import type { LiteralUnion } from '@util/type';
 
 export interface TimelineItemProps {
   key?: React.Key;

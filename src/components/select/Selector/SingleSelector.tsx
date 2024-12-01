@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import type { InnerSelectorProps } from '.';
-import { clsx } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 

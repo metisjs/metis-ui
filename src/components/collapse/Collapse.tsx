@@ -1,10 +1,10 @@
 import React from 'react';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import ExpandIcon from '@util/ExpandIcon';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { cloneElement } from '@util/reactNode';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import ExpandIcon from '../_util/ExpandIcon';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { cloneElement } from '../_util/reactNode';
 import { ConfigContext } from '../config-provider';
 import CollapsePanel from './CollapsePanel';
 import type { CollapsePanelProps, CollapseProps } from './interface';

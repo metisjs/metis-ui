@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { QuestionMarkCircleOutline } from '@metisjs/icons';
+import { clsx } from '@util/classNameUtils';
 import { useGetState } from 'ahooks';
 import type { ResizeObserverProps } from 'rc-resize-observer';
 import ResizeObserver from 'rc-resize-observer';
-import { clsx } from '../_util/classNameUtils';
 import { useLocale } from '../locale';
 import defaultLocale from '../locale/en_US';
 import type { TooltipProps } from '../tooltip';

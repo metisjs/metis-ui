@@ -7,10 +7,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
 import raf from 'rc-util/lib/raf';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
 import getInnerHeight from './utils/getInnerHeight';

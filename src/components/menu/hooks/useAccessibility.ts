@@ -1,7 +1,7 @@
 import * as React from 'react';
+import type { SafeKey } from '@util/type';
 import { getFocusNodeList } from 'rc-util/lib/Dom/focus';
 import raf from 'rc-util/lib/raf';
-import type { SafeKey } from '../../_util/type';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
 

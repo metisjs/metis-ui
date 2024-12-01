@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import toArray from 'rc-util/lib/Children/toArray';
-import { mergeSemanticCls } from '../_util/classNameUtils';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import type { SelectProps, SelectRef } from '../select';

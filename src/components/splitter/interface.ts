@@ -1,4 +1,4 @@
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { SplitBarProps } from './SplitBar';
 
 // ================ outside ================

@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import toArray from '../../_util/toArray';
+import toArray from '@util/toArray';
 import type { ConfigConsumerProps } from '../../config-provider';
 import { ConfigContext } from '../../config-provider';
 import type { SemanticRecord } from '../classNameUtils';

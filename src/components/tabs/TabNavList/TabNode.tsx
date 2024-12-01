@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { XMarkOutline } from '@metisjs/icons';
-import { clsx, type SemanticClassName } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
-import { devUseWarning } from '../../_util/warning';
+import { clsx, type SemanticClassName } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { devUseWarning } from '@util/warning';
 import Dropdown from '../../dropdown';
 import { TabContext } from '../context';
 import type { GetIndicatorSize } from '../hooks/useIndicator';

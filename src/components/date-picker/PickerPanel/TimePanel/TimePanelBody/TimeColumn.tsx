@@ -1,7 +1,7 @@
 import * as React from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import type { SemanticClassName } from '../../../../_util/classNameUtils';
-import { clsx, getSemanticCls } from '../../../../_util/classNameUtils';
 import type { ScrollbarProps, ScrollbarRef } from '../../../../scrollbar';
 import Scrollbar from '../../../../scrollbar';
 import { usePanelContext } from '../../context';

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import type { SemanticRecord } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import type { SemanticRecord } from '../_util/classNameUtils';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
 import type { BreadcrumbItemType, BreadcrumbProps } from './Breadcrumb';
 
 type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (

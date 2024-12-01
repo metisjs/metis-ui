@@ -1,12 +1,12 @@
 import * as React from 'react';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { matchScreen } from '@util/responsiveObserver';
 import type { Meta } from 'rc-field-form/lib/interface';
 import isVisible from 'rc-util/lib/Dom/isVisible';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import omit from 'rc-util/lib/omit';
 import type { FormItemProps } from '.';
-import { clsx, getSemanticCls } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
-import { matchScreen } from '../../_util/responsiveObserver';
 import type { ReportMetaChange } from '../context';
 import { FormContext, NoStyleItemContext } from '../context';
 import FormItemInput from '../FormItemInput';

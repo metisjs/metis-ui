@@ -1,5 +1,5 @@
 import React from 'react';
-import { cloneElement, isFragment } from '../_util/reactNode';
+import { cloneElement, isFragment } from '@util/reactNode';
 import type { ButtonType } from './Button';
 
 const rxTwoCNChar = /^[\u4e00-\u9fa5]{2}$/;

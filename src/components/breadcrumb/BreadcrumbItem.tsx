@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
-import type { SafeKey } from '../_util/type';
+import { clsx } from '@util/classNameUtils';
+import type { SafeKey } from '@util/type';
 import type { DropdownProps } from '../dropdown/Dropdown';
 import Dropdown from '../dropdown/Dropdown';
 import BreadcrumbSeparator from './BreadcrumbSeparator';

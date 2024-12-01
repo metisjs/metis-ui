@@ -1,10 +1,10 @@
 import * as React from 'react';
+import ActionButton from '@util/ActionButton';
+import { clsx } from '@util/classNameUtils';
+import { getRenderPropValue } from '@util/getRenderPropValue';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { cloneElement } from '@util/reactNode';
 import type { PopconfirmProps } from '.';
-import ActionButton from '../_util/ActionButton';
-import { clsx } from '../_util/classNameUtils';
-import { getRenderPropValue } from '../_util/getRenderPropValue';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { cloneElement } from '../_util/reactNode';
 import Button from '../button';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';

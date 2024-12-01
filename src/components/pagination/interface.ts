@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { OptionsProps } from './Options';
 import type { PagerProps } from './Pager';
 

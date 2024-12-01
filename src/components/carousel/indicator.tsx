@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-import { clsx, getSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { CarouselIndicatorProps } from './interface';
 
 const CarouselIndicator = (props: CarouselIndicatorProps) => {

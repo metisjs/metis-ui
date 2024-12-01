@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import * as React from 'react';
-import type { SafeKey } from '../_util/type';
+import type { SafeKey } from '@util/type';
 import type { TransitionProps } from './Transition';
 import Transition from './Transition';
 import type { KeyObject } from './util/diff';

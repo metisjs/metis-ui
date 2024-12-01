@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { cloneElement } from '@util/reactNode';
 import { useUpdate } from 'ahooks';
-import { cloneElement } from '../_util/reactNode';
 import type { StatisticProps } from './Statistic';
 import Statistic from './Statistic';
 import type { valueType } from './utils';

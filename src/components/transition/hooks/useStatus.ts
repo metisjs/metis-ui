@@ -1,8 +1,8 @@
 import type { MutableRefObject } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
+import useLatestValue from '@util/hooks/useLatestValue';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import useState from 'rc-util/lib/hooks/useState';
-import useLatestValue from '../../_util/hooks/useLatestValue';
 import type {
   TransitionBeforeEventHandler,
   TransitionEventHandler,

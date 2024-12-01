@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { clsx } from '../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 
 export type ColorBlockProps = {
   color: string;

@@ -1,10 +1,10 @@
 import type { Key } from 'react';
 import { useContext, useState } from 'react';
+import type { RequestConfig } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
 import { useMergedState } from 'rc-util';
-import type { RequestConfig } from '../../_util/type';
 import { ConfigContext } from '../../config-provider';
 import type { RawValueType } from '../../select/interface';
 import type { BasicDataNode, DataNode, FilledFieldNames } from '../interface';

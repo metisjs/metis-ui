@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InternalPanelProps, PanelProps } from './interface';
 
 export const InternalPanel = forwardRef<

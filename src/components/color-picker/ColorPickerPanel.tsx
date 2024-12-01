@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Divider from '../divider';
 import Picker from './components/Picker';
 import Presets from './components/Presets';

@@ -6,10 +6,10 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import { clsxDependency } from '@util/hooks/useSemanticCls';
 import { useEvent } from 'rc-util';
 import type { FlatIndexLocationWithAlign, VirtuosoHandle } from 'react-virtuoso';
 import { Virtuoso } from 'react-virtuoso';
-import { clsxDependency } from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarRef } from '../scrollbar';
 import Scrollbar from '../scrollbar';

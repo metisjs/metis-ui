@@ -1,5 +1,5 @@
-import type { RequiredWith } from '../_util/type';
-import { devUseWarning } from '../_util/warning';
+import type { RequiredWith } from '@util/type';
+import { devUseWarning } from '@util/warning';
 import type { InternalFile, UploadFile } from './interface';
 
 const now = +new Date();

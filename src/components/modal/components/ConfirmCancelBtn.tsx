@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import ActionButton from '../../_util/ActionButton';
-import { mergeSemanticCls } from '../../_util/classNameUtils';
+import ActionButton from '@util/ActionButton';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import type { ConfirmModalProps } from '../ConfirmModal';
 import { ModalContext } from '../context';
 

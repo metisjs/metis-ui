@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
+import useClosable from '@util/hooks/useClosable';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import pickAttrs from 'rc-util/lib/pickAttrs';
-import { clsx } from '../_util/classNameUtils';
-import useClosable from '../_util/hooks/useClosable';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
 import Scrollbar from '../scrollbar';
 import Transition from '../transition';
 import { usePanelRef } from '../watermark/context';

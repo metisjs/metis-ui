@@ -1,8 +1,8 @@
 import type { CSSProperties, FC, HTMLAttributes, ReactElement, ReactNode } from 'react';
 import React, { Children, useContext, useMemo } from 'react';
-import { clsx, type SemanticClassName } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { cloneElement } from '../_util/reactNode';
+import { clsx, type SemanticClassName } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { cloneElement } from '@util/reactNode';
 import { ConfigContext } from '../config-provider';
 import { ListContext } from './context';
 

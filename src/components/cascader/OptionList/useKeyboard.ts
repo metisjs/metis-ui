@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { SafeKey } from '../../_util/type';
+import type { SafeKey } from '@util/type';
 import type { RefOptionListProps } from '../../select/BaseSelect';
 import type { InternalFieldNames } from '../Cascader';
 import { SEARCH_MARK } from '../hooks/useFilterOptions';

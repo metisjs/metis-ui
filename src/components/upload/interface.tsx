@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import type { SemanticClassName } from '../_util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { ProgressAriaProps, ProgressProps } from '../progress';
 import type { ListItemSemanticClassName } from './UploadList/ListItem';
 

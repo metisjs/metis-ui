@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { SemanticRecord } from '../_util/classNameUtils';
+import type { SemanticRecord } from '@util/classNameUtils';
 import type { HandleProps } from './Handles/Handle';
 import type { Direction, SliderSemanticClassName } from './interface';
 

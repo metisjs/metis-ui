@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { SafeKey } from '@util/type';
 import ResizeObserver from 'rc-resize-observer';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useComposeRef } from 'rc-util/lib/ref';
-import type { SemanticClassName } from '../../_util/classNameUtils';
-import { clsx } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
-import type { SafeKey } from '../../_util/type';
 import { TabContext } from '../context';
 import type { GetIndicatorSize } from '../hooks/useIndicator';
 import useIndicator from '../hooks/useIndicator';

@@ -1,8 +1,8 @@
 import React from 'react';
 import Portal from '@rc-component/portal';
 import type { GetContainer } from '@rc-component/portal/es/Portal';
+import { clsx } from '@util/classNameUtils';
 import useId from 'rc-util/lib/hooks/useId';
-import { clsx } from '../_util/classNameUtils';
 import type { PosInfo } from './hooks/useTarget';
 
 const COVER_PROPS = {

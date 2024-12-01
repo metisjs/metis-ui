@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { CheckOutline, XMarkOutline } from '@metisjs/icons';
 import { inline } from '@rc-component/portal/es/mock';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Progress from '../progress';
 import Tooltip from '../tooltip';
 import type { StepsProps, StepsStatus } from './Steps';

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import * as React from 'react';
 import { useMemo } from 'react';
-import { clsx } from '../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import Trigger from '../trigger';
 import DropdownMenu from './DropdownMenu';
 import type { MentionPlacement, MentionsOptionProps } from './Mentions';

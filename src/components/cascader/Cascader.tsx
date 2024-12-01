@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import { useZIndex } from '@util/hooks/useZIndex';
+import type { RequestConfig } from '@util/type';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import { useZIndex } from '../_util/hooks/useZIndex';
-import type { RequestConfig } from '../_util/type';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import useSize from '../config-provider/hooks/useSize';

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
-import { cloneElement } from '../_util/reactNode';
+import { clsx } from '@util/classNameUtils';
+import { cloneElement } from '@util/reactNode';
 import { ConfigContext } from '../config-provider';
 import SingleNumber from './SingleNumber';
 

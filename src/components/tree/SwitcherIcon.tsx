@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
-import ExpandIcon from '../_util/ExpandIcon';
-import { cloneElement } from '../_util/reactNode';
+import { clsx } from '@util/classNameUtils';
+import ExpandIcon from '@util/ExpandIcon';
+import { cloneElement } from '@util/reactNode';
 import type { IconType, TreeNodeProps } from './interface';
 
 interface SwitcherIconProps {

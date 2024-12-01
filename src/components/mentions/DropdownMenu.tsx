@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mergeSemanticCls } from '../_util/classNameUtils';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import type { MenuProps } from '../menu';
 import Menu from '../menu';
 import Spin from '../spin';

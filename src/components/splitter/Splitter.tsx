@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { GetProp } from '@util/type';
+import { devUseWarning } from '@util/warning';
 import ResizeObserver from 'rc-resize-observer';
 import useEvent from 'rc-util/lib/hooks/useEvent';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import type { GetProp } from '../_util/type';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import useItems from './hooks/useItems';
 import useResizable from './hooks/useResizable';

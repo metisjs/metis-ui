@@ -1,6 +1,6 @@
 import type { PortalProps } from '@rc-component/portal';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { ClosableType } from '../_util/hooks/useClosable';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { ClosableType } from '@util/hooks/useClosable';
 
 export type Placement = 'left' | 'right' | 'top' | 'bottom';
 

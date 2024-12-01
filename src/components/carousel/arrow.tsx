@@ -5,7 +5,7 @@ import {
   ChevronRightOutline,
   ChevronUpOutline,
 } from '@metisjs/icons';
-import { clsx } from '../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import type { CarouselArrowProps } from './interface';
 
 const CarouselArrow = (props: CarouselArrowProps) => {

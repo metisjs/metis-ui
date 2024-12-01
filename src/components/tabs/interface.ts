@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { SafeKey } from '../_util/type';
+import type { SafeKey } from '@util/type';
 import type { DropdownProps } from '../dropdown';
 import type { TransitionProps } from '../transition';
 import type { TabNavListProps } from './TabNavList';

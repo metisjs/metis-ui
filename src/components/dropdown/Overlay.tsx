@@ -1,9 +1,9 @@
 import type { ReactElement } from 'react';
 import React, { forwardRef } from 'react';
+import { clsx } from '@util/classNameUtils';
+import { cloneElement } from '@util/reactNode';
+import warning from '@util/warning';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
-import { clsx } from '../_util/classNameUtils';
-import { cloneElement } from '../_util/reactNode';
-import warning from '../_util/warning';
 import { OverrideProvider } from '../menu/context/OverrideContext';
 import type { DropdownProps } from './Dropdown';
 

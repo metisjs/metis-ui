@@ -1,6 +1,6 @@
 import * as React from 'react';
+import ContextIsolator from '@util/ContextIsolator';
 import { supportNodeRef, useComposeRef } from 'rc-util';
-import ContextIsolator from '../../_util/ContextIsolator';
 import type { MenuProps } from '../Menu';
 
 // Used for Dropdown only

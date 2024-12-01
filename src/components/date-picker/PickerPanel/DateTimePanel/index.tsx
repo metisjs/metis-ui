@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import useTimeInfo from '../../hooks/useTimeInfo';
 import type { SharedPanelProps } from '../../interface';
 import { fillTime } from '../../utils/dateUtil';

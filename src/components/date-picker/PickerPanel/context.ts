@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { SemanticRecord } from '../../_util/classNameUtils';
-import useSemanticCls from '../../_util/hooks/useSemanticCls';
+import type { SemanticRecord } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { PanelMode, SharedPanelProps } from '../interface';
 
 export interface PanelContextProps<DateType extends object = any>

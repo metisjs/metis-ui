@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import type { SharedPanelProps } from '../../interface';
 import { formatValue } from '../../utils/dateUtil';
 import { PanelContext, PickerHackContext, useInfo } from '../context';

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { SafeKey } from '@util/type';
+import { devUseWarning } from '@util/warning';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isMobile from 'rc-util/lib/isMobile';
 import omit from 'rc-util/lib/omit';
-import { clsx, mergeSemanticCls, type SemanticClassName } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import type { SafeKey } from '../_util/type';
-import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import type { MenuProps } from '../menu';
 import type { TabContextProps } from './context';

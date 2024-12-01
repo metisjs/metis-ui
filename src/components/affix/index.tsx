@@ -1,10 +1,10 @@
 import React from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import throttleByAnimationFrame from '@util/throttleByAnimationFrame';
 import ResizeObserver from 'rc-resize-observer';
 import omit from 'rc-util/lib/omit';
-import type { SemanticClassName } from '../_util/classNameUtils';
-import { clsx } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import throttleByAnimationFrame from '../_util/throttleByAnimationFrame';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import { getFixedBottom, getFixedTop, getTargetRect } from './utils';

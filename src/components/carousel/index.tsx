@@ -7,11 +7,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { clsx } from '@util/classNameUtils';
+import useInterval from '@util/hooks/useInterval';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
-import { clsx } from '../_util/classNameUtils';
-import useInterval from '../_util/hooks/useInterval';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
 import { ConfigContext } from '../config-provider';
 import CarouselArrow from './arrow';
 import CarouselIndicator from './indicator';

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { clsx } from '../_util/classNameUtils';
-import { collapseTransition } from '../_util/transition';
+import { clsx } from '@util/classNameUtils';
+import { collapseTransition } from '@util/transition';
 import Transition, { TransitionList } from '../transition';
 import { FormItemPrefixContext } from './context';
 import type { ValidateStatus } from './FormItem';

@@ -1,7 +1,7 @@
-import type { SemanticClassName } from '../_util/classNameUtils';
-import type { PresetColorType } from '../_util/colors';
-import type { AdjustOverflow } from '../_util/placements';
-import type { LiteralUnion } from '../_util/type';
+import type { SemanticClassName } from '@util/classNameUtils';
+import type { PresetColorType } from '@util/colors';
+import type { AdjustOverflow } from '@util/placements';
+import type { LiteralUnion } from '@util/type';
 import type { TransitionProps } from '../transition';
 import type { ActionType, AlignType, ArrowType, BuildInPlacements, TriggerProps } from '../trigger';
 

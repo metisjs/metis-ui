@@ -5,8 +5,8 @@ import {
   InformationCircleOutline,
   XMarkOutline,
 } from '@metisjs/icons';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import { CONTAINER_MAX_OFFSET, Z_INDEX_BASE } from '../_util/hooks/useZIndex';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import { CONTAINER_MAX_OFFSET, Z_INDEX_BASE } from '@util/hooks/useZIndex';
 import ConfigProvider from '../config-provider';
 import { useLocale } from '../locale';
 import { default as ConfirmCancelBtn } from './components/ConfirmCancelBtn';

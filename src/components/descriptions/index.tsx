@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { clsx, type SemanticClassName } from '../_util/classNameUtils';
-import useBreakpoint from '../_util/hooks/useBreakpoint';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
-import type { Breakpoint } from '../_util/responsiveObserver';
-import { matchScreen } from '../_util/responsiveObserver';
+import { clsx, type SemanticClassName } from '@util/classNameUtils';
+import useBreakpoint from '@util/hooks/useBreakpoint';
+import useSemanticCls from '@util/hooks/useSemanticCls';
+import type { Breakpoint } from '@util/responsiveObserver';
+import { matchScreen } from '@util/responsiveObserver';
 import { ConfigContext } from '../config-provider';
 import { DEFAULT_COLUMN_MAP } from './constant';
 import { DescriptionsContext } from './context';

@@ -1,8 +1,8 @@
 import type { ReactElement, ReactNode } from 'react';
 import React, { cloneElement, useRef } from 'react';
 import { XCircleSolid } from '@metisjs/icons';
-import { clsx, mergeSemanticCls } from '../_util/classNameUtils';
-import useSemanticCls from '../_util/hooks/useSemanticCls';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { BaseInputProps } from './interface';
 import { hasAddon, hasPrefixSuffix } from './utils';
 

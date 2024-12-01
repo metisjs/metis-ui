@@ -1,6 +1,6 @@
 import type * as React from 'react';
-import type { PresetColorType } from '../_util/colors';
-import { getPresetColorCls, isPresetColor } from '../_util/colors';
+import type { PresetColorType } from '@util/colors';
+import { getPresetColorCls, isPresetColor } from '@util/colors';
 
 export function parseColor(color?: string) {
   const isInternalColor = isPresetColor(color);

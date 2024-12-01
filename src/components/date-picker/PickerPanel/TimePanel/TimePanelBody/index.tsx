@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '../../../../_util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import useTimeInfo from '../../../hooks/useTimeInfo';
 import type { SharedPanelProps, SharedTimeProps } from '../../../interface';
 import { formatValue } from '../../../utils/dateUtil';
