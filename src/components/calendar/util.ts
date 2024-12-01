@@ -7,9 +7,6 @@ import { isSameOrAfter } from '../date-picker/utils/dateUtil';
 import type { CalendarLocale, EventType } from './interface';
 
 export interface DateEvent extends Omit<EventType, 'start' | 'end'> {
-  key?: string;
-  icon?: React.ReactNode;
-  title: string;
   date: string;
   start: { hour: number; minute: number };
   end: { hour: number; minute: number };

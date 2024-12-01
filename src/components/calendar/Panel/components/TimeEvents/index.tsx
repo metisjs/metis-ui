@@ -98,11 +98,16 @@ const TimeEvents = <DateType extends AnyObject = Dayjs>(props: TimeEventsProps<D
     return (
       <div className={allDayRowCls}>
         <div className={timeCellCls}>{locale.allDay}</div>
-        {dates.map((date) => (
-          <div key={generateConfig.getDate(date)} className={eventCellCls}>
-            {renderAllDayEvents(date)}
-          </div>
-        ))}
+        <Scrollbar
+          autoHeight={[24, 128]}
+          className={{ root: 'w-0 flex-1', view: 'flex divide-x divide-border-secondary' }}
+        >
+          {dates.map((date) => (
+            <div key={generateConfig.getDate(date)} className={eventCellCls}>
+              {renderAllDayEvents(date)}
+            </div>
+          ))}
+        </Scrollbar>
       </div>
     );
   };
