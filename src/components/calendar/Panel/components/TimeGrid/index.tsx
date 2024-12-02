@@ -8,13 +8,14 @@ import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../../../../date-picker/interface';
 import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
-import type { CalendarLocale } from '../../../interface';
-import { getDateKey, type DateEvent } from '../../../util';
+import type { AllDayEventType, CalendarLocale, TimeEventType } from '../../../interface';
+import { getDateKey } from '../../../util';
 
-export interface TimeEventsProps<DateType extends AnyObject = Dayjs> {
+export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   prefixCls: string;
   className?: SemanticClassName;
-  events: Record<string, DateEvent[]>;
+  allDayEvents: Record<string, AllDayEventType[]>;
+  timeEvents: Record<string, TimeEventType[]>;
   dates: DateType[];
   locale: CalendarLocale;
   generateConfig: GenerateConfig<DateType>;
@@ -22,8 +23,8 @@ export interface TimeEventsProps<DateType extends AnyObject = Dayjs> {
 
 const CELL_ONE_HOUR_HEIGHT = 60;
 
-const TimeEvents = <DateType extends AnyObject = Dayjs>(props: TimeEventsProps<DateType>) => {
-  const { prefixCls, className, events, dates, locale, generateConfig } = props;
+const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateType>) => {
+  const { prefixCls, className, allDayEvents, dates, locale, generateConfig } = props;
 
   // ========================= States =======================
   const [hour, setHour] = useState<number>();
@@ -84,13 +85,9 @@ const TimeEvents = <DateType extends AnyObject = Dayjs>(props: TimeEventsProps<D
 
   // ========================= Render =======================
   const renderAllDayEvents = (date: DateType) => {
-    const dateKey = getDateKey(
-      generateConfig.getYear(date),
-      generateConfig.getMonth(date) + 1,
-      generateConfig.getDate(date),
-    );
-    const allDayEvents = events[dateKey]?.filter((event) => event.allDay) ?? [];
-    console.log(allDayEvents);
+    const dateKey = getDateKey(date, generateConfig);
+    const events = allDayEvents[dateKey] ?? [];
+    console.log(events);
     return <div>1</div>;
   };
 
@@ -163,4 +160,4 @@ const TimeEvents = <DateType extends AnyObject = Dayjs>(props: TimeEventsProps<D
   );
 };
 
-export default TimeEvents;
+export default TimeGrid;

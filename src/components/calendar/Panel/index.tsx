@@ -22,12 +22,12 @@ export interface PanelProps<DateType extends object = Dayjs>
 const Panel = <DateType extends object = Dayjs>({ events, ...restProps }: PanelProps<DateType>) => {
   const PanelComponent = DefaultComponents[restProps.mode] as typeof MonthPanel;
 
-  const dateEvents = useMemo(
+  const [allDayEvents, timeEvents] = useMemo(
     () => groupEventsByDate(events ?? [], restProps.generateConfig, restProps.locale),
     [events],
   );
 
-  return <PanelComponent {...restProps} events={dateEvents} />;
+  return <PanelComponent {...restProps} allDayEvents={allDayEvents} timeEvents={timeEvents} />;
 };
 
 export default Panel;

@@ -3,71 +3,87 @@ import warning from '@util/warning';
 import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
-import { isSameOrAfter } from '../date-picker/utils/dateUtil';
-import type { CalendarLocale, EventType } from './interface';
-
-export interface DateEvent extends Omit<EventType, 'start' | 'end'> {
-  date: string;
-  start: { hour: number; minute: number };
-  end: { hour: number; minute: number };
-  /* show indent for resolving time conflicts in the day and week views */
-  indent: number;
-  rangeStart: boolean;
-  rangeEnd: boolean;
-  allDay?: boolean;
-  /* only available in all-day events, unit:day */
-  duration: number;
-}
+import { isSame, isSameOrAfter } from '../date-picker/utils/dateUtil';
+import type { AllDayEventType, CalendarLocale, EventType, TimeEventType } from './interface';
 
 const FORMAT_LIST = ['YYYY-MM-DD HH:mm', 'YYYY/MM/DD HH:mm'];
 
-function splitDate<DateType extends AnyObject = Dayjs>(
+function checkEventsDate<DateType extends AnyObject = Dayjs>(
+  event: EventType<DateType>,
+  generateConfig: GenerateConfig<DateType>,
+  locale: CalendarLocale,
+) {
+  const startDate = parseDate(event.start, generateConfig, locale, FORMAT_LIST);
+  const endDate = parseDate(event.end, generateConfig, locale, FORMAT_LIST);
+
+  if (
+    !startDate ||
+    !endDate ||
+    !isSameOrAfter(
+      generateConfig,
+      locale,
+      parseDate(event.end, generateConfig, locale, FORMAT_LIST)!,
+      parseDate(event.start, generateConfig, locale, FORMAT_LIST)!,
+      event.allDay ? 'date' : 'datetime',
+    )
+  ) {
+    warning(false, 'Invalid event date range.');
+    return false;
+  }
+
+  return true;
+}
+
+export function getDateKey<DateType extends AnyObject = Dayjs>(
   date: DateType,
   generateConfig: GenerateConfig<DateType>,
 ) {
   const year = generateConfig.getYear(date);
   const month = generateConfig.getMonth(date) + 1;
   const day = generateConfig.getDate(date);
-  const hour = generateConfig.getHour(date);
-  const minute = generateConfig.getMinute(date);
 
-  return [year, month, day, hour, minute];
-}
-
-export function getDateKey(year: number, month: number, day: number) {
   return `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
 }
 
 /**
- * Sort all-day events by duration (descending) and other events by start time (ascending).
+ * Sort all-day events by duration descending.
  * @param events
  * @returns
  */
-function sortEvents(events: Record<string, DateEvent[]>): Record<string, DateEvent[]> {
-  const sortedEvents: Record<string, DateEvent[]> = {};
+function sortAllDayEvents(
+  events: Record<string, AllDayEventType[]>,
+): Record<string, AllDayEventType[]> {
+  Object.keys(events).forEach((dateKey) => {
+    const eventList = events[dateKey];
+    eventList.sort((a, b) => b.duration - a.duration);
+  });
 
+  return events;
+}
+
+/**
+ * Sort by start time ascending.
+ * @param events
+ * @returns
+ */
+function sortTimeEvents(events: Record<string, TimeEventType[]>): Record<string, TimeEventType[]> {
   Object.keys(events).forEach((dateKey) => {
     const eventList = events[dateKey];
 
-    const allDayEvents = eventList.filter((event) => event.allDay);
-    const otherEvents = eventList.filter((event) => !event.allDay);
-
-    allDayEvents.sort((a, b) => b.duration - a.duration);
-
-    otherEvents.sort((a, b) => {
+    eventList.sort((a, b) => {
       if (a.start.hour !== b.start.hour) {
         return a.start.hour - b.start.hour;
       }
       return a.start.minute - b.start.minute;
     });
-
-    sortedEvents[dateKey] = [...allDayEvents, ...otherEvents];
   });
 
-  return sortedEvents;
+  return events;
 }
 
-function calcEventsIndent(events: Record<string, DateEvent[]>) {
+function calcTimeEventsIndent(events: Record<string, TimeEventType[]>) {
+  sortTimeEvents(events);
+
   Object.keys(events).forEach((dateKey) => {
     const eventList = events[dateKey];
 
@@ -95,143 +111,164 @@ function calcEventsIndent(events: Record<string, DateEvent[]>) {
   return events;
 }
 
-/**
- * Calculate all-day events index
- * @param events
- * @returns
- */
-function calcEventsIndex(events: Record<string, DateEvent[]>) {
-  return events;
-}
+// /**
+//  * Calculate events index
+//  * @param events
+//  * @returns
+//  */
+// function calcEventsIndex(events: Record<string, DateEvent[]>) {
+//   return events;
+// }
 
 /**
- * Group events by date
- * @example {'20241130': [DateEvent, DateEvent]}
+ * 按日期分组全天事件
+ * - 跨周事件会按周拆分成多个事件
+ * @param events
+ * @param generateConfig
+ * @param locale
  */
-export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
+function groupAllDayEvents<DateType extends AnyObject = Dayjs>(
   events: EventType<DateType>[],
   generateConfig: GenerateConfig<DateType>,
   locale: CalendarLocale,
-): Record<string, DateEvent[]> {
-  let groupedEvents: Record<string, DateEvent[]> = {};
+): Record<string, AllDayEventType[]> {
+  const groupedEvents: Record<string, AllDayEventType[]> = {};
 
   for (const event of events) {
-    // Check startTime is before endTime
-    if (
-      !isSameOrAfter(
-        generateConfig,
-        locale,
-        parseDate(event.end, generateConfig, locale, FORMAT_LIST)!,
-        parseDate(event.start, generateConfig, locale, FORMAT_LIST)!,
-        event.allDay ? 'date' : 'datetime',
-      )
-    ) {
-      warning(false, 'Calendar', 'Event start or end invalid, start time need before of end time.');
+    if (!checkEventsDate(event, generateConfig, locale)) {
       continue;
     }
 
-    const startDate = parseDate(event.start, generateConfig, locale, FORMAT_LIST);
-    if (!startDate) {
-      warning(false, 'Calendar', 'Invalid event start date type:' + event.start);
+    const startDate = parseDate(event.start, generateConfig, locale, ['YYYY-MM-DD'])!;
+    const endDate = parseDate(event.end, generateConfig, locale, ['YYYY-MM-DD'])!;
+
+    let currentStartDate = startDate;
+    let rangeStart = true;
+    let duration = 0;
+
+    while (isSameOrAfter(generateConfig, locale, endDate, currentStartDate, 'date')) {
+      const currentStartOfWeek = generateConfig.locale.getWeekFirstDate(
+        locale.locale,
+        currentStartDate,
+      );
+      const currentEndOfWeek = generateConfig.addDate(currentStartOfWeek, 6);
+      let rangeEnd = false;
+
+      if (isSameOrAfter(generateConfig, locale, currentEndOfWeek, endDate, 'date')) {
+        duration = generateConfig.diffDate(endDate, currentStartDate) + 1;
+        rangeEnd = true;
+      } else {
+        // 如果事件跨越当前周
+        duration = generateConfig.diffDate(currentEndOfWeek, currentStartDate) + 1;
+        rangeEnd = false;
+      }
+
+      const dateKey = getDateKey(currentStartDate, generateConfig);
+
+      if (!groupedEvents[dateKey]) {
+        groupedEvents[dateKey] = [];
+      }
+
+      groupedEvents[dateKey].push({
+        key: event.key,
+        icon: event.icon,
+        title: event.title,
+        color: event.color,
+        dateKey: dateKey,
+        rangeStart,
+        rangeEnd,
+        duration,
+      });
+
+      currentStartDate = generateConfig.addDate(currentEndOfWeek, 1);
+      rangeStart = false;
+    }
+  }
+
+  sortAllDayEvents(groupedEvents);
+
+  return groupedEvents;
+}
+
+/**
+ * 按日期分组非全天事件
+ * @param events
+ * @param generateConfig
+ * @param locale
+ */
+function groupTimeEvents<DateType extends AnyObject = Dayjs>(
+  events: EventType<DateType>[],
+  generateConfig: GenerateConfig<DateType>,
+  locale: CalendarLocale,
+): Record<string, TimeEventType[]> {
+  let groupedEvents: Record<string, TimeEventType[]> = {};
+
+  for (const event of events) {
+    if (!checkEventsDate(event, generateConfig, locale)) {
       continue;
     }
-    const endDate = parseDate(event.end, generateConfig, locale, FORMAT_LIST);
-    if (!endDate) {
-      warning(false, 'Calendar', 'Invalid event end date type:' + event.end);
-      continue;
-    }
 
-    const duration = generateConfig.diffDate(endDate, startDate) + 1;
+    const startDate = parseDate(event.start, generateConfig, locale, FORMAT_LIST)!;
+    const endDate = parseDate(event.end, generateConfig, locale, FORMAT_LIST)!;
 
-    const [startYear, startMonth, startDay, startHour, startMinute] = splitDate(
-      startDate,
-      generateConfig,
-    );
-    const [endYear, endMonth, endDay, endHour, endMinute] = splitDate(endDate, generateConfig);
+    let currentDate = startDate;
 
-    const endDateKey = getDateKey(endYear, endMonth, endDay);
+    while (isSameOrAfter(generateConfig, locale, endDate, currentDate, 'date')) {
+      const currentDateKey = getDateKey(currentDate, generateConfig);
 
-    let [currentYear, currentMonth, currentDay, currentHour, currentMinute] = [
-      startYear,
-      startMonth,
-      startDay,
-      startHour,
-      startMinute,
-    ];
-    const startDateKey = getDateKey(currentYear, currentMonth, currentDay);
-    let currentDateKey = startDateKey;
-
-    while (currentDateKey !== endDateKey) {
       if (!groupedEvents[currentDateKey]) {
         groupedEvents[currentDateKey] = [];
       }
 
-      const dateEvent: DateEvent = {
-        key: event.key?.toString(),
+      const dateEvent: TimeEventType = {
+        key: event.key,
         icon: event.icon,
         title: event.title,
-        date: currentDateKey,
+        color: event.color,
+        dateKey: currentDateKey,
         start: {
-          hour: currentHour,
-          minute: currentMinute,
+          hour: generateConfig.getHour(currentDate),
+          minute: generateConfig.getMinute(currentDate),
         },
         end: {
           hour: 12,
           minute: 59,
         },
         indent: 0,
-        allDay: !!event.allDay,
-        rangeStart: startDateKey === currentDateKey,
-        rangeEnd: false,
-        duration: event.allDay ? duration : -1,
+        rangeStart: isSame(generateConfig, locale, currentDate, startDate, 'date'),
+        rangeEnd: isSame(generateConfig, locale, currentDate, endDate, 'date'),
       };
 
       groupedEvents[currentDateKey].push(dateEvent);
 
       // To next day
-      const currentDate = generateConfig.addDate(
-        parseDate(`${currentYear}/${currentMonth}/${currentDay}`, generateConfig, locale, [
-          'YYYY/M/D',
-        ])!,
-        1,
-      );
-      [currentYear, currentMonth, currentDay, currentHour, currentMinute] = splitDate(
-        currentDate,
-        generateConfig,
-      );
-      currentDateKey = getDateKey(currentYear, currentMonth, currentDay);
+      currentDate = generateConfig.addDate(currentDate, 1);
     }
-
-    if (!groupedEvents[currentDateKey]) {
-      groupedEvents[currentDateKey] = [];
-    }
-
-    const dateEvent: DateEvent = {
-      key: event.key?.toString(),
-      icon: event.icon,
-      title: event.title,
-      date: currentDateKey,
-      start: {
-        hour: currentHour,
-        minute: currentMinute,
-      },
-      end: {
-        hour: endHour,
-        minute: endMinute,
-      },
-      indent: 0,
-      allDay: !!event.allDay,
-      rangeStart: startDateKey === currentDateKey,
-      rangeEnd: true,
-      duration: event.allDay ? duration : -1,
-    };
-
-    groupedEvents[currentDateKey].push(dateEvent);
   }
 
-  groupedEvents = sortEvents(groupedEvents);
-  groupedEvents = calcEventsIndent(groupedEvents);
-  groupedEvents = calcEventsIndex(groupedEvents);
+  groupedEvents = calcTimeEventsIndent(groupedEvents);
 
   return groupedEvents;
+}
+
+/**
+ * Group events by date
+ */
+export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
+  events: EventType<DateType>[],
+  generateConfig: GenerateConfig<DateType>,
+  locale: CalendarLocale,
+): [Record<string, AllDayEventType[]>, Record<string, TimeEventType[]>] {
+  let groupedAllDayEvents = groupAllDayEvents(
+    events.filter((e) => e.allDay),
+    generateConfig,
+    locale,
+  );
+  let groupedTimeEvents = groupTimeEvents(
+    events.filter((e) => !e.allDay),
+    generateConfig,
+    locale,
+  );
+
+  return [groupedAllDayEvents, groupedTimeEvents] as const;
 }

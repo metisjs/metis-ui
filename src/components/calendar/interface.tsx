@@ -7,7 +7,6 @@ import type {
   DateValue,
   GenerateConfig,
 } from '../date-picker/interface';
-import type { DateEvent } from './util';
 
 export interface CalendarLocale extends DatePickerLocal {
   headerDateFormat?: string;
@@ -61,16 +60,6 @@ export type HeaderRender<DateType> = (config: {
   onTypeChange: (type: CalendarMode) => void;
 }) => React.ReactNode;
 
-export type EventType<DateType extends AnyObject = Dayjs> = {
-  key?: SafeKey;
-  icon?: React.ReactNode;
-  title: string;
-  start: DateValue<DateType>;
-  end: DateValue<DateType>;
-  allDay?: boolean;
-  color?: LiteralUnion<PresetColorType>;
-};
-
 export interface SharedPanelProps<DateType extends object = any> {
   // Style
   prefixCls: string;
@@ -87,10 +76,41 @@ export interface SharedPanelProps<DateType extends object = any> {
   // Value
   value: DateType;
 
-  events: Record<string, DateEvent[]>;
+  allDayEvents: Record<string, AllDayEventType[]>;
+  timeEvents: Record<string, TimeEventType[]>;
 
   lunar?: boolean;
 
   onChange: (date: DateType) => void;
   onModeChange: (mode: CalendarMode) => void;
+}
+
+export type EventType<DateType extends AnyObject = Dayjs> = {
+  key?: SafeKey;
+  icon?: React.ReactNode;
+  title: string;
+  start: DateValue<DateType>;
+  end: DateValue<DateType>;
+  allDay?: boolean;
+  color?: LiteralUnion<PresetColorType>;
+};
+
+export interface AllDayEventType extends Omit<EventType<any>, 'start' | 'end'> {
+  /* YYYYMMDD */
+  dateKey: string;
+  rangeStart: boolean;
+  rangeEnd: boolean;
+  /* event duration in current week*/
+  duration: number;
+}
+
+export interface TimeEventType extends Omit<EventType<any>, 'start' | 'end'> {
+  /* YYYYMMDD */
+  dateKey: string;
+  start: { hour: number; minute: number };
+  end: { hour: number; minute: number };
+  rangeStart: boolean;
+  rangeEnd: boolean;
+  /* show indent for resolving time conflicts in the day and week views */
+  indent: number;
 }

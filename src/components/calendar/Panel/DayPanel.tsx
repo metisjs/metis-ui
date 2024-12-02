@@ -6,10 +6,20 @@ import type { Dayjs } from 'dayjs';
 import { SolarDay } from 'tyme4ts';
 import PickerPanel from '../../date-picker/PickerPanel';
 import type { SharedPanelProps } from '../interface';
-import TimeEvents from './components/TimeEvents';
+import TimeGrid from './components/TimeGrid';
 
 const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<DateType>) => {
-  const { prefixCls, className, locale, generateConfig, value, events, lunar, onChange } = props;
+  const {
+    prefixCls,
+    className,
+    locale,
+    generateConfig,
+    value,
+    allDayEvents,
+    timeEvents,
+    lunar,
+    onChange,
+  } = props;
 
   const semanticCls = useSemanticCls(className);
 
@@ -60,10 +70,11 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
       </div>
       <div className={bodyCls}>
         <div className={eventsCls}>
-          <TimeEvents
+          <TimeGrid
             prefixCls={prefixCls}
             dates={[value]}
-            events={events}
+            allDayEvents={allDayEvents}
+            timeEvents={timeEvents}
             locale={locale}
             generateConfig={generateConfig}
           />
