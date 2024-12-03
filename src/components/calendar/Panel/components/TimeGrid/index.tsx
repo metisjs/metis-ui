@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, SafeKey } from '@util/type';
 import { useInterval } from 'ahooks';
 import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../../../../date-picker/interface';
@@ -10,12 +10,14 @@ import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
 import type { AllDayEventType, CalendarLocale, TimeEventType } from '../../../interface';
 import { getDateKey } from '../../../util';
+import useWinClick from '../../hooks/useWinClick';
+import AllDayEvent, { EVENT_GAP, EVENT_HEIGHT } from '../AllDayEvent';
 
 export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   prefixCls: string;
   className?: SemanticClassName;
-  allDayEvents: Record<string, AllDayEventType[]>;
-  timeEvents: Record<string, TimeEventType[]>;
+  allDayEventRecord: Record<string, AllDayEventType<DateType>[]>;
+  timeEventRecord: Record<string, TimeEventType<DateType>[]>;
   dates: DateType[];
   locale: CalendarLocale;
   generateConfig: GenerateConfig<DateType>;
@@ -24,11 +26,14 @@ export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
 const CELL_ONE_HOUR_HEIGHT = 60;
 
 const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateType>) => {
-  const { prefixCls, className, allDayEvents, dates, locale, generateConfig } = props;
+  const { prefixCls, className, allDayEventRecord, dates, locale, generateConfig } = props;
 
   // ========================= States =======================
   const [hour, setHour] = useState<number>();
   const [minute, setMinute] = useState<number>();
+  const [selectedEventKey, setSelectedEventKey] = useState<SafeKey>();
+
+  useWinClick(() => setSelectedEventKey(undefined));
 
   useInterval(
     () => {
@@ -70,7 +75,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
 
   const eventCellCls = clsx(
     `${prefixCls}-time-event-cell`,
-    'relative h-full w-0 flex-1 border-t border-t-border-secondary group-first/row:border-t-0',
+    'relative h-full min-h-6 w-0 flex-1 border-t border-t-border-secondary group-first/row:border-t-0',
   );
 
   const nowTagCls = clsx(
@@ -84,26 +89,48 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   );
 
   // ========================= Render =======================
-  const renderAllDayEvents = (date: DateType) => {
-    const dateKey = getDateKey(date, generateConfig);
-    const events = allDayEvents[dateKey] ?? [];
-    console.log(events);
-    return <div>1</div>;
-  };
-
   const renderAllDayRow = () => {
+    const rowCount =
+      dates.reduce((max, date) => {
+        const dateKey = getDateKey(date, generateConfig);
+        const events = allDayEventRecord[dateKey] ?? [];
+        return Math.max(
+          max,
+          events.reduce((max, item) => Math.max(max, item.index), 0),
+        );
+      }, 0) + 1;
+
     return (
       <div className={allDayRowCls}>
         <div className={timeCellCls}>{locale.allDay}</div>
         <Scrollbar
-          autoHeight={[24, 128]}
+          autoHeight={[24, 108]}
           className={{ root: 'w-0 flex-1', view: 'flex divide-x divide-border-secondary' }}
         >
-          {dates.map((date) => (
-            <div key={generateConfig.getDate(date)} className={eventCellCls}>
-              {renderAllDayEvents(date)}
-            </div>
-          ))}
+          {dates.map((date) => {
+            const dateKey = getDateKey(date, generateConfig);
+            const events = allDayEventRecord[dateKey] ?? [];
+            const height = EVENT_HEIGHT * rowCount + EVENT_GAP * (rowCount - 1) + EVENT_GAP * 4;
+
+            return (
+              <div
+                key={generateConfig.getDate(date)}
+                className={eventCellCls}
+                style={{ minHeight: height }}
+              >
+                {events.map(({ key, ...rest }) => (
+                  <AllDayEvent
+                    prefixCls={prefixCls}
+                    key={key}
+                    eventKey={key}
+                    {...rest}
+                    selected={selectedEventKey === key}
+                    onSelect={setSelectedEventKey}
+                  />
+                ))}
+              </div>
+            );
+          })}
         </Scrollbar>
       </div>
     );

@@ -15,8 +15,8 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
     locale,
     generateConfig,
     value,
-    allDayEvents,
-    timeEvents,
+    allDayEventRecord,
+    timeEventRecord,
     lunar,
     onChange,
   } = props;
@@ -73,8 +73,8 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
           <TimeGrid
             prefixCls={prefixCls}
             dates={[value]}
-            allDayEvents={allDayEvents}
-            timeEvents={timeEvents}
+            allDayEventRecord={allDayEventRecord}
+            timeEventRecord={timeEventRecord}
             locale={locale}
             generateConfig={generateConfig}
           />

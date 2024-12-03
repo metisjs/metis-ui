@@ -22,6 +22,8 @@ const locale: CalendarLocale = {
   weekView: '周视图',
   monthView: '月视图',
   yearView: '年视图',
+
+  more: '个',
 };
 
 export default locale;

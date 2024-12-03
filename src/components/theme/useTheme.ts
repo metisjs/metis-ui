@@ -57,17 +57,22 @@ const THEME_KEYS = [
 
 type Theme = {
   [key in (typeof THEME_KEYS)[number]]: string;
-};
+} & { isDark: boolean };
 
 const genTheme = () => {
   const rootStyles = getComputedStyle(document.documentElement);
-  return THEME_KEYS.reduce((prev, curr) => {
-    const value = rootStyles.getPropertyValue(`--${kebabCase(curr)}`).trim();
-    return {
-      ...prev,
-      [curr]: `hsla(${value.replace(/ \/ | /g, ',')})`,
-    };
-  }, {} as Theme);
+  const colorScheme = rootStyles.getPropertyValue('color-scheme').trim();
+
+  return THEME_KEYS.reduce(
+    (prev, curr) => {
+      const value = rootStyles.getPropertyValue(`--${kebabCase(curr)}`).trim();
+      return {
+        ...prev,
+        [curr]: `hsla(${value.replace(/ \/ | /g, ',')})`,
+      };
+    },
+    { isDark: colorScheme === 'dark' } as Theme,
+  );
 };
 
 export default function useTheme(): Theme {

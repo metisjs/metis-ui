@@ -22,6 +22,8 @@ const locale: CalendarLocale = {
   weekView: 'Week view',
   monthView: 'Month view',
   yearView: 'Year view',
+
+  more: 'more',
 };
 
 export default locale;

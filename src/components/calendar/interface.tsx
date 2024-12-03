@@ -31,6 +31,8 @@ export interface CalendarLocale extends DatePickerLocal {
   weekView?: string;
   monthView?: string;
   yearView?: string;
+
+  more?: string;
 }
 
 export type CalendarMode = 'year' | 'month' | 'week' | 'day';
@@ -76,8 +78,8 @@ export interface SharedPanelProps<DateType extends object = any> {
   // Value
   value: DateType;
 
-  allDayEvents: Record<string, AllDayEventType[]>;
-  timeEvents: Record<string, TimeEventType[]>;
+  allDayEventRecord: Record<string, AllDayEventType<DateType>[]>;
+  timeEventRecord: Record<string, TimeEventType<DateType>[]>;
 
   lunar?: boolean;
 
@@ -86,7 +88,7 @@ export interface SharedPanelProps<DateType extends object = any> {
 }
 
 export type EventType<DateType extends AnyObject = Dayjs> = {
-  key?: SafeKey;
+  key: SafeKey;
   icon?: React.ReactNode;
   title: string;
   start: DateValue<DateType>;
@@ -95,22 +97,30 @@ export type EventType<DateType extends AnyObject = Dayjs> = {
   color?: LiteralUnion<PresetColorType>;
 };
 
-export interface AllDayEventType extends Omit<EventType<any>, 'start' | 'end'> {
+export interface AllDayEventType<DateType extends AnyObject = Dayjs>
+  extends Omit<EventType<DateType>, 'start' | 'end'> {
   /* YYYYMMDD */
   dateKey: string;
+  date: DateType;
   rangeStart: boolean;
   rangeEnd: boolean;
   /* event duration in current week*/
   duration: number;
+  index: number;
+  outOfView?: boolean;
 }
 
-export interface TimeEventType extends Omit<EventType<any>, 'start' | 'end'> {
+export interface TimeEventType<DateType extends AnyObject = Dayjs>
+  extends Omit<EventType<DateType>, 'start' | 'end'> {
   /* YYYYMMDD */
   dateKey: string;
+  date: DateType;
   start: { hour: number; minute: number };
   end: { hour: number; minute: number };
   rangeStart: boolean;
   rangeEnd: boolean;
   /* show indent for resolving time conflicts in the day and week views */
   indent: number;
+  index: number;
+  outOfView?: boolean;
 }

@@ -9,8 +9,16 @@ import type { SharedPanelProps } from '../interface';
 import TimeGrid from './components/TimeGrid';
 
 const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<DateType>) => {
-  const { prefixCls, className, locale, generateConfig, value, allDayEvents, timeEvents, lunar } =
-    props;
+  const {
+    prefixCls,
+    className,
+    locale,
+    generateConfig,
+    value,
+    allDayEventRecord,
+    timeEventRecord,
+    lunar,
+  } = props;
 
   const semanticCls = useSemanticCls(className);
 
@@ -80,8 +88,8 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
       <TimeGrid
         prefixCls={prefixCls}
         dates={weekDates}
-        allDayEvents={allDayEvents}
-        timeEvents={timeEvents}
+        allDayEventRecord={allDayEventRecord}
+        timeEventRecord={timeEventRecord}
         locale={locale}
         generateConfig={generateConfig}
       />
