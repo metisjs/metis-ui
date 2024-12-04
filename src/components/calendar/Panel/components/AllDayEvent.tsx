@@ -54,7 +54,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
 
   const rootCls = clsx(
     `${prefixCls}-allday-event`,
-    'absolute z-10 flex select-none items-center gap-1 px-0.5 text-xs transition-colors',
+    'absolute z-10 flex select-none items-center gap-1 px-0.5 text-xs',
     {
       'rounded-s-full': rangeStart,
       'rounded-e-full': rangeEnd,
@@ -90,7 +90,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
         e.stopPropagation();
       }}
     >
-      {rangeStart && (
+      {rangeStart && icon && (
         <span className={iconCls} style={{ backgroundColor: mergedColor }}>
           {icon}
         </span>

@@ -27,19 +27,22 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
 
   const rootCls = clsx(
     `${prefixCls}-time-event`,
-    'absolute z-10 flex select-none items-center gap-1 px-0.5 text-xs text-text transition-colors',
+    'absolute z-10 flex select-none items-center gap-1 rounded pl-2 pr-1 text-xs text-text',
+    'before:absolute before:bottom-1 before:left-0.5 before:top-1 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
     {
       'text-white': selected,
     },
   );
 
-  const titleCls = clsx(`${prefixCls}-allday-event-title`, 'w-0 flex-1 truncate text-left');
+  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-0 flex-1 truncate text-left');
 
-  const startCls = clsx(`${prefixCls}-allday-event-start`, 'text-text-tertiary', {
+  const startCls = clsx(`${prefixCls}-time-event-start`, 'text-text-tertiary', {
     'text-white': selected,
   });
 
   const style: CSSProperties = {
+    // @ts-ignore
+    ['--metis-calendar-event-color']: mergedColor,
     height: EVENT_HEIGHT,
     top: index * (EVENT_HEIGHT + EVENT_GAP) + EVENT_GAP * 2,
     left: EVENT_GAP * 2,

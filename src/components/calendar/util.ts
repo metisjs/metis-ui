@@ -301,6 +301,9 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
         groupedEvents[currentDateKey] = [];
       }
 
+      const rangeStart = isSame(generateConfig, locale, currentDate, startDate, 'date');
+      const rangeEnd = isSame(generateConfig, locale, currentDate, endDate, 'date');
+
       const dateEvent: TimeEventType<DateType> = {
         key: event.key,
         icon: event.icon,
@@ -313,19 +316,19 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
           minute: generateConfig.getMinute(currentDate),
         },
         end: {
-          hour: 12,
-          minute: 59,
+          hour: rangeEnd ? generateConfig.getHour(endDate) : 23,
+          minute: rangeEnd ? generateConfig.getMinute(endDate) : 59,
         },
         indent: 0,
-        rangeStart: isSame(generateConfig, locale, currentDate, startDate, 'date'),
-        rangeEnd: isSame(generateConfig, locale, currentDate, endDate, 'date'),
+        rangeStart,
+        rangeEnd,
         index: 0,
       };
 
       groupedEvents[currentDateKey].push(dateEvent);
 
       // To next day
-      currentDate = generateConfig.addDate(currentDate, 1);
+      currentDate = generateConfig.addDate(currentDate, 1).set('hour', 0).set('minute', 0);
     }
   }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { GiftOutline } from '@metisjs/icons';
 import type { Dayjs } from 'dayjs';
 import type { CalendarProps, GetProp } from 'metis-ui';
 import { Button, Calendar } from 'metis-ui';
@@ -42,18 +43,18 @@ export function fakeFetchEvents(): EventsType {
       end: '2024-12-12',
       allDay: true,
     },
-    {
-      key: 4,
-      title: 'All-day Event 2',
-      start: '2024-12-09',
-      end: '2024-12-11',
-      allDay: true,
-    },
+    // {
+    //   key: 4,
+    //   title: 'All-day Event 2',
+    //   start: '2024-12-09',
+    //   end: '2024-12-11',
+    //   allDay: true,
+    // },
     {
       key: 2,
       title: 'All-day Event 1',
       start: '2024-12-11',
-      end: '2024-12-13',
+      end: '2024-12-12',
       allDay: true,
     },
     {
@@ -86,9 +87,11 @@ export function fakeFetchEvents(): EventsType {
     },
     {
       key: 8,
-      title: 'All-day Event 2',
+      title: "Tom's birthday",
       start: '2024-12-21',
       end: '2024-12-21',
+      color: 'blue',
+      icon: <GiftOutline />,
       allDay: true,
     },
     {
@@ -108,6 +111,14 @@ export function fakeFetchEvents(): EventsType {
       title: 'Time Event',
       start: '2024-12-15 09:00',
       end: '2024-12-18 18:30',
+      color: 'pink',
+    },
+    {
+      key: 12,
+      title: 'Time Event',
+      start: '2024-12-13 13:00',
+      end: '2024-12-13 13:25',
+      color: 'pink',
     },
   ];
 }
@@ -116,7 +127,7 @@ const App: React.FC = () => (
   <Calendar
     events={fakeFetchEvents()}
     extra={<Button type="primary">Add Event</Button>}
-    className="h-[768px]"
+    className="h-screen"
   />
 );
 

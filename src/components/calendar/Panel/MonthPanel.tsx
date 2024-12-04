@@ -52,12 +52,25 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
   useWinClick(() => setSelectedEventKey(undefined));
 
+  const resetEventOutOfView = useEvent(
+    (eventRecord: Record<string, (TimeEventType<DateType> | AllDayEventType<DateType>)[]>) => {
+      Object.values(eventRecord)
+        .flat()
+        .forEach((event) => {
+          event.outOfView = false;
+        });
+    },
+  );
+
   const calcEventMore = useEvent(() => {
     const eventContainerHeight =
       (panelRef.current!.nativeElement.offsetHeight - 36) / 6 - 34 - 1 - 4; //  ((PanelHeight - THeadHeight) / 6) - CellValueHeight - BorderHeight - PaddingHeight
     const limit = Math.floor((eventContainerHeight + EVENT_GAP) / (EVENT_HEIGHT + EVENT_GAP));
 
     const remindHeight = eventContainerHeight - limit * EVENT_HEIGHT - (limit - 1) * EVENT_GAP;
+
+    resetEventOutOfView(allDayEventRecord);
+    resetEventOutOfView(timeEventRecord);
 
     const eventRecord: Record<string, (TimeEventType<DateType> | AllDayEventType<DateType>)[]> =
       Object.fromEntries(
@@ -66,9 +79,6 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
     const allDayEvents = Object.values(allDayEventRecord).flat();
     for (const event of allDayEvents) {
-      // reset outOfView to false
-      event.outOfView = false;
-
       for (let i = 0; i < event.duration; i++) {
         const curr = generateConfig.addDate(event.date, i);
         const dateKey = getDateKey(curr, generateConfig);

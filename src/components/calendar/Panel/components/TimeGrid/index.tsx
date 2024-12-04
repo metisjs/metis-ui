@@ -8,11 +8,12 @@ import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../../../../date-picker/interface';
 import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
-import { EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
+import { CELL_ONE_HOUR_HEIGHT, EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
 import type { AllDayEventType, CalendarLocale, TimeEventType } from '../../../interface';
 import { getDateKey } from '../../../util';
 import useWinClick from '../../hooks/useWinClick';
 import AllDayEvent from '../AllDayEvent';
+import TimeEvent from './TimeEvent';
 
 export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   prefixCls: string;
@@ -24,10 +25,16 @@ export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   generateConfig: GenerateConfig<DateType>;
 }
 
-const CELL_ONE_HOUR_HEIGHT = 60;
-
 const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateType>) => {
-  const { prefixCls, className, allDayEventRecord, dates, locale, generateConfig } = props;
+  const {
+    prefixCls,
+    className,
+    allDayEventRecord,
+    timeEventRecord,
+    dates,
+    locale,
+    generateConfig,
+  } = props;
 
   // ========================= States =======================
   const [hour, setHour] = useState<number>();
@@ -50,33 +57,40 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   const semanticCls = useSemanticCls(className);
 
   const rootCls = clsx(
-    `${prefixCls}-time-events`,
+    `${prefixCls}-time-grid`,
     'flex h-0 flex-1 flex-col text-xs',
     semanticCls.root,
   );
 
-  const rowCls = clsx(
-    `${prefixCls}-time-event-row`,
-    'group/row',
-    'flex divide-x divide-border-secondary',
-  );
-
   const allDayRowCls = clsx(
     `${prefixCls}-time-event-row-all-day`,
-    rowCls,
-    'h-auto border-b-2 border-b-border-secondary leading-6 *:top-0',
+    'flex h-auto divide-x divide-border-secondary border-b-2 border-b-border-secondary leading-6 *:top-0',
   );
 
-  const placeholderRowCls = clsx(`${prefixCls}-time-event-row-placeholder`, rowCls, 'h-[10px]');
+  const timeColumnCls = clsx(
+    `${prefixCls}-time-grid-column`,
+    `${prefixCls}-time-grid-column-time`,
+    'relative h-fit w-12',
+  );
+
+  const columnCls = clsx(
+    `${prefixCls}-time-grid-column`,
+    'relative h-fit w-0 flex-1 divide-y divide-border-tertiary',
+  );
+
+  const placeholderCellCls = clsx(
+    `${prefixCls}-time-event-placeholder`,
+    'relative -top-2 h-[10px] w-full pr-1 text-right text-text-tertiary empty:top-0',
+  );
 
   const timeCellCls = clsx(
     `${prefixCls}-time-event-time`,
-    'relative -top-2 h-full w-12 pr-1 text-right text-text-tertiary',
+    'relative -top-2 w-12 pr-1 text-right text-text-tertiary',
   );
 
   const eventCellCls = clsx(
     `${prefixCls}-time-event-cell`,
-    'relative h-full min-h-6 w-0 flex-1 border-t border-t-border-secondary group-first/row:border-t-0',
+    'relative h-full min-h-6 w-full flex-1',
   );
 
   const nowTagCls = clsx(
@@ -138,27 +152,45 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     );
   };
 
-  const renderTimeRow = (time: number | null) => {
-    return (
-      <div key={time} className={rowCls} style={{ height: CELL_ONE_HOUR_HEIGHT }}>
-        <div className={timeCellCls}>{time !== null && `${String(time).padStart(2, '0')}:00`}</div>
-        {dates.map((date) => (
-          <div key={generateConfig.getDate(date)} className={eventCellCls}></div>
-        ))}
-      </div>
-    );
-  };
+  const renderTimeColumn = () => (
+    <div className={timeColumnCls}>
+      <div className={placeholderCellCls}></div>
+      {Array.from({ length: 24 }).map((_, index) => (
+        <div key={index} className={timeCellCls} style={{ height: CELL_ONE_HOUR_HEIGHT }}>
+          {`${String(index).padStart(2, '0')}:00`}
+        </div>
+      ))}
+      <div className={placeholderCellCls}>00:00</div>
+    </div>
+  );
 
-  const renderPlaceholderRow = (time: number | null) => {
-    return (
-      <div className={placeholderRowCls}>
-        <div className={timeCellCls}>{time !== null && `${String(time).padStart(2, '0')}:00`}</div>
-        {dates.map((date) => (
-          <div key={generateConfig.getDate(date)} className={eventCellCls} />
-        ))}
-      </div>
-    );
-  };
+  const renderEventColumns = () =>
+    dates.map((date) => {
+      const dateKey = getDateKey(date, generateConfig);
+      const events = timeEventRecord[dateKey] ?? [];
+
+      return (
+        <div key={dateKey} className={columnCls}>
+          <div className={placeholderCellCls}></div>
+          <div className="relative divide-y divide-border-tertiary">
+            {Array.from({ length: 24 }).map((_, index) => (
+              <div key={index} className={eventCellCls} style={{ height: CELL_ONE_HOUR_HEIGHT }} />
+            ))}
+            {events.map(({ key, ...rest }) => (
+              <TimeEvent
+                prefixCls={prefixCls}
+                key={key}
+                eventKey={key}
+                {...rest}
+                selected={selectedEventKey === key}
+                onSelect={setSelectedEventKey}
+              />
+            ))}
+          </div>
+          <div className={placeholderCellCls}></div>
+        </div>
+      );
+    });
 
   const renderBaseline = () => {
     if (!hour || !minute) return null;
@@ -177,12 +209,9 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   return (
     <div className={rootCls}>
       {renderAllDayRow()}
-      <Scrollbar>
-        {/* Placeholder */}
-        {renderPlaceholderRow(null)}
-        {Array.from({ length: 24 }).map((_, index) => renderTimeRow(index))}
-        {/* Next day 00:00 */}
-        {renderPlaceholderRow(0)}
+      <Scrollbar className={{ view: 'flex divide-x divide-border-secondary' }}>
+        {renderTimeColumn()}
+        {renderEventColumns()}
         {renderBaseline()}
       </Scrollbar>
     </div>
