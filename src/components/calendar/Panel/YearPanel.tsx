@@ -21,6 +21,17 @@ const YearPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
       ? generateConfig.locale.getShortMonths(locale.locale)
       : []);
 
+  // ========================= Events =========================
+  const handleGotoMonth = (month: number) => {
+    onChange(generateConfig.setMonth(value, month));
+    onModeChange('month');
+  };
+
+  const handleGoto = (date: DateType) => {
+    onChange(date);
+    onModeChange(prevMode ?? 'month');
+  };
+
   // ========================= Style =========================
   const rootCls = clsx(
     `${prefixCls}-year-panel`,
@@ -35,16 +46,6 @@ const YearPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
   );
 
   const cellCls = clsx('cursor-default p-0 before:hidden md:py-1');
-
-  const handleGotoMonth = (month: number) => {
-    onChange(generateConfig.setMonth(value, month));
-    onModeChange('month');
-  };
-
-  const handleGoto = (date: DateType) => {
-    onChange(date);
-    onModeChange(prevMode ?? 'month');
-  };
 
   // ========================= Render =========================
   const cellRender = React.useCallback(

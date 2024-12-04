@@ -3,9 +3,11 @@ import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
+import { isSameOrAfter } from 'metis-ui/es/date-picker/utils/dateUtil';
 import { SolarDay } from 'tyme4ts';
 import PickerPanel from '../../date-picker/PickerPanel';
-import type { SharedPanelProps } from '../interface';
+import type { AllDayEventType, SharedPanelProps } from '../interface';
+import { getDateKey } from '../util';
 import TimeGrid from './components/TimeGrid';
 
 const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<DateType>) => {
@@ -44,6 +46,40 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
     }
   }, [value, lunar]);
 
+  const mergedAllDayEvents = useMemo(() => {
+    const weekFirstDate = generateConfig.locale.getWeekFirstDate(locale.locale, value);
+    const valueDateKey = getDateKey(value, generateConfig);
+
+    let currentDate = weekFirstDate;
+    const events: AllDayEventType<DateType>[] = [];
+    while (isSameOrAfter(generateConfig, locale, value, currentDate, 'date')) {
+      const currentDateKey = getDateKey(currentDate, generateConfig);
+      const diff = generateConfig.diffDate(value, currentDate);
+
+      allDayEventRecord[currentDateKey]?.forEach((event) => {
+        if (event.duration > diff) {
+          events.push({
+            ...event,
+            rangeStart: diff === 0 ? event.rangeStart : false,
+            rangeEnd: diff === 0 ? event.duration === 1 : event.duration === diff + 1,
+          });
+        }
+      });
+
+      currentDate = generateConfig.addDate(currentDate, 1);
+    }
+
+    // Reset index
+    events.sort((a, b) => a.index - b.index);
+    events.forEach((event, index) => {
+      event.index = index;
+    });
+
+    return {
+      [valueDateKey]: events,
+    };
+  }, [value, allDayEventRecord]);
+
   // ========================= Styles =========================
   const rootCls = clsx(`${prefixCls}-day-panel`, 'flex h-0 flex-1 flex-col ps-4', semanticCls.root);
 
@@ -54,7 +90,7 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
 
   const bodyCls = clsx(`${prefixCls}-day-body`, 'flex h-0 flex-1');
 
-  const eventsCls = clsx(`${prefixCls}-day-event-container`, 'flex w-0 flex-1 flex-col');
+  const eventsCls = clsx(`${prefixCls}-day-event-container`, 'relative flex w-0 flex-1 flex-col');
 
   const calendarCls = clsx(
     `${prefixCls}-day-calendar`,
@@ -73,7 +109,7 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
           <TimeGrid
             prefixCls={prefixCls}
             dates={[value]}
-            allDayEventRecord={allDayEventRecord}
+            allDayEventRecord={mergedAllDayEvents}
             timeEventRecord={timeEventRecord}
             locale={locale}
             generateConfig={generateConfig}

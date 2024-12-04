@@ -32,6 +32,8 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
     lunar,
     allDayEventRecord,
     timeEventRecord,
+    onChange,
+    onModeChange,
   } = props;
 
   const panelRef = React.useRef<PickerPanelRef>(null);
@@ -61,6 +63,9 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
     const allDayEvents = Object.values(allDayEventRecord).flat();
     for (const event of allDayEvents) {
+      // reset outOfView to false
+      event.outOfView = false;
+
       for (let i = 0; i < event.duration; i++) {
         const curr = generateConfig.addDate(event.date, i);
         const dateKey = getDateKey(curr, generateConfig);
@@ -80,8 +85,6 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
         if (showMore) {
           event.outOfView =
             remindHeight >= 16 ? event.index + 1 > limit : event.index + 1 > limit - 1; // 剩余高度放不下more则空出一行显示 +more
-        } else {
-          event.outOfView = false;
         }
       });
     });
@@ -106,6 +109,12 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
   });
 
   useLayoutEffect(() => calcEventMore(), [calcEventMore]);
+
+  // ========================= Events =========================
+  const handleGotoDay = (date: DateType) => {
+    onChange(date);
+    onModeChange('day');
+  };
 
   // ========================= Style =========================
   const rootCls = clsx(`${prefixCls}-month-panel`, 'h-full w-full', semanticCls.root);
@@ -176,22 +185,26 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
                   'justify-center bg-primary text-white': isToday,
                 },
               )}
+              onDoubleClick={() => handleGotoDay(date)}
             >
               {generateConfig.getDate(date)}
             </span>
           </div>
           <div className={clsx(`${prefixCls}-date-events`, 'relative h-0 flex-1')}>
-            {allDayEvents.map(({ key, ...rest }) => (
-              <AllDayEvent
-                prefixCls={prefixCls}
-                key={key}
-                eventKey={key}
-                borderWidth={isFirstOfWeek ? 0.5 : 1}
-                {...rest}
-                selected={selectedEventKey === key}
-                onSelect={setSelectedEventKey}
-              />
-            ))}
+            {allDayEvents.map(
+              ({ key, outOfView, ...rest }) =>
+                !outOfView && (
+                  <AllDayEvent
+                    prefixCls={prefixCls}
+                    key={key}
+                    eventKey={key}
+                    borderWidth={isFirstOfWeek ? 0.5 : 1}
+                    {...rest}
+                    selected={selectedEventKey === key}
+                    onSelect={setSelectedEventKey}
+                  />
+                ),
+            )}
             {more.count > 0 && (
               <div
                 className="absolute text-xs text-text-secondary"

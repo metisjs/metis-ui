@@ -124,6 +124,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
                     key={key}
                     eventKey={key}
                     {...rest}
+                    maxDuration={dates.length}
                     selected={selectedEventKey === key}
                     onSelect={setSelectedEventKey}
                   />

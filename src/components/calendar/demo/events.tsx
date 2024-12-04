@@ -56,13 +56,13 @@ export function fakeFetchEvents(): EventsType {
       end: '2024-12-13',
       allDay: true,
     },
-    // {
-    //   key: 3,
-    //   title: 'All-day Event 1',
-    //   start: '2024-12-12',
-    //   end: '2024-12-14',
-    //   allDay: true,
-    // },
+    {
+      key: 3,
+      title: 'All-day Event 1',
+      start: '2024-12-12',
+      end: '2024-12-14',
+      allDay: true,
+    },
     {
       key: 5,
       title: 'All-day Event 3',

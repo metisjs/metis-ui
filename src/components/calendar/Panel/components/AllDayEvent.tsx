@@ -14,6 +14,7 @@ interface AllDayEventProps<DateType extends object = Dayjs> extends AllDayEventT
   eventKey: SafeKey;
   selected?: boolean;
   borderWidth?: number;
+  maxDuration?: number;
   onSelect?: (key: SafeKey) => void;
 }
 
@@ -28,12 +29,12 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
     title,
     color,
     duration,
+    maxDuration = duration,
     rangeStart,
     rangeEnd,
     index,
     borderWidth = 1,
     selected,
-    outOfView,
     onSelect,
   } = props;
 
@@ -70,18 +71,15 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
 
   const titleCls = clsx(`${prefixCls}-allday-event-title`, 'w-0 flex-1 truncate text-left');
 
+  const mergedDuration = Math.min(duration, maxDuration);
   const style: CSSProperties = {
     height: EVENT_HEIGHT,
-    width: `calc(${duration * 100}% + ${(duration - 1) * borderWidth}px - ${rangeStart ? EVENT_GAP * 2 : 0}px - ${rangeEnd ? EVENT_GAP * 2 : 0}px)`,
+    width: `calc(${mergedDuration * 100}% + ${(mergedDuration - 1) * borderWidth}px - ${rangeStart ? EVENT_GAP * 2 : 0}px - ${rangeEnd ? EVENT_GAP * 2 : 0}px)`,
     top: index * (EVENT_HEIGHT + EVENT_GAP) + EVENT_GAP * 2,
     left: rangeStart ? EVENT_GAP * 2 : 0,
     backgroundColor: selected ? mergedColor : bgColor,
     color: selected ? 'white' : mergedColor,
   };
-
-  if (outOfView) {
-    return null;
-  }
 
   return (
     <div

@@ -18,6 +18,8 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
     allDayEventRecord,
     timeEventRecord,
     lunar,
+    onChange,
+    onModeChange,
   } = props;
 
   const semanticCls = useSemanticCls(className);
@@ -35,6 +37,12 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
       ? generateConfig.locale.getShortWeekDays(locale.locale)
       : []);
 
+  // ========================= Events =========================
+  const handleGotoDay = (date: DateType) => {
+    onChange(date);
+    onModeChange('day');
+  };
+
   // ========================= Style =========================
   const rootCls = clsx(
     `${prefixCls}-week-panel`,
@@ -42,7 +50,10 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
     semanticCls.root,
   );
 
-  const headerCls = clsx(`${prefixCls}-week-header`, 'flex border-b border-border pl-12');
+  const headerCls = clsx(
+    `${prefixCls}-week-header`,
+    'flex select-none border-b border-border pl-12',
+  );
 
   const headerCellCls = clsx(
     `${prefixCls}-week-header-cell`,
@@ -74,6 +85,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
                   isToday &&
                     'inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white',
                 )}
+                onDoubleClick={() => handleGotoDay(date)}
               >
                 {generateConfig.getDate(date)}
               </span>
