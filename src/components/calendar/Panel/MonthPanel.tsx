@@ -12,9 +12,11 @@ import type { CellRenderInfo } from '../../date-picker/interface';
 import type { PickerPanelProps, PickerPanelRef } from '../../date-picker/PickerPanel';
 import PickerPanel from '../../date-picker/PickerPanel';
 import { isSameDate } from '../../date-picker/utils/dateUtil';
+import { EVENT_GAP, EVENT_HEIGHT } from '../constant';
 import type { AllDayEventType, SharedPanelProps, TimeEventType } from '../interface';
 import { getDateKey } from '../util';
-import AllDayEvent, { EVENT_GAP, EVENT_HEIGHT } from './components/AllDayEvent';
+import AllDayEvent from './components/AllDayEvent';
+import TimeEvent from './components/TimeEvent';
 import useWinClick from './hooks/useWinClick';
 
 type CellSemanticClassName = GetProp<
@@ -57,9 +59,10 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
     const remindHeight = eventContainerHeight - limit * EVENT_HEIGHT - (limit - 1) * EVENT_GAP;
 
-    const eventRecord: Record<string, (TimeEventType<DateType> | AllDayEventType<DateType>)[]> = {
-      ...timeEventRecord,
-    };
+    const eventRecord: Record<string, (TimeEventType<DateType> | AllDayEventType<DateType>)[]> =
+      Object.fromEntries(
+        Object.entries(timeEventRecord).map(([dateKey, events]) => [dateKey, [...events]]),
+      );
 
     const allDayEvents = Object.values(allDayEventRecord).flat();
     for (const event of allDayEvents) {
@@ -151,7 +154,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
       const dateKey = getDateKey(date, generateConfig);
       const allDayEvents = allDayEventRecord[dateKey] ?? [];
-      // const timeEvents = timeEventRecord[dateKey] ?? [];
+      const timeEvents = timeEventRecord[dateKey] ?? [];
 
       const isFirstOfWeek =
         generateConfig.getWeekDay(date) === generateConfig.locale.getWeekFirstDay(locale.locale);
@@ -205,6 +208,21 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
                   />
                 ),
             )}
+            {timeEvents.map(
+              ({ key, outOfView, rangeStart, ...rest }) =>
+                !outOfView &&
+                rangeStart && (
+                  <TimeEvent
+                    prefixCls={prefixCls}
+                    key={key}
+                    eventKey={key}
+                    rangeStart={rangeStart}
+                    {...rest}
+                    selected={selectedEventKey === key}
+                    onSelect={setSelectedEventKey}
+                  />
+                ),
+            )}
             {more.count > 0 && (
               <div
                 className="absolute text-xs text-text-secondary"
@@ -222,7 +240,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
   return (
     <ResizeObserver
       onResize={() => {
-        if (firstResize) {
+        if (firstResize.current) {
           calcEventMore();
         }
         firstResize.current = true;

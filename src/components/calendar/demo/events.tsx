@@ -91,6 +91,24 @@ export function fakeFetchEvents(): EventsType {
       end: '2024-12-21',
       allDay: true,
     },
+    {
+      key: 9,
+      title: 'Time Event',
+      start: '2024-12-13 09:00',
+      end: '2024-12-21 18:30',
+    },
+    {
+      key: 10,
+      title: 'Time Event',
+      start: '2024-12-13 07:00',
+      end: '2024-12-13 18:30',
+    },
+    {
+      key: 11,
+      title: 'Time Event',
+      start: '2024-12-15 09:00',
+      end: '2024-12-18 18:30',
+    },
   ];
 }
 

@@ -8,10 +8,11 @@ import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../../../../date-picker/interface';
 import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
+import { EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
 import type { AllDayEventType, CalendarLocale, TimeEventType } from '../../../interface';
 import { getDateKey } from '../../../util';
 import useWinClick from '../../hooks/useWinClick';
-import AllDayEvent, { EVENT_GAP, EVENT_HEIGHT } from '../AllDayEvent';
+import AllDayEvent from '../AllDayEvent';
 
 export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   prefixCls: string;

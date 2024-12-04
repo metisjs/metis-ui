@@ -4,7 +4,7 @@ import type { Dayjs } from 'dayjs';
 import { groupBy } from 'lodash';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
-import { isSame, isSameOrAfter } from '../date-picker/utils/dateUtil';
+import { isSame, isSameOrAfter, isSameOrBefore } from '../date-picker/utils/dateUtil';
 import type { AllDayEventType, CalendarLocale, EventType, TimeEventType } from './interface';
 
 const FORMAT_LIST = [
@@ -115,16 +115,22 @@ function calcTimeEventsIndent<DateType extends AnyObject = Dayjs>(
 
 /**
  * Calculate events index
- * 同一周内duration越长，越靠前
- * @param events
- * @returns
+ * - all-day event 优先级高于 time event
+ * - 同一周内duration越长，越靠前
+ * - time event 按开始时间排序
  */
-function calcAllDayEventsIndex<DateType extends AnyObject = Dayjs>(
+function calcEventsIndex<DateType extends AnyObject = Dayjs>(
   allDayEventRecord: Record<string, AllDayEventType<DateType>[]>,
+  timeEventRecord: Record<string, TimeEventType<DateType>[]>,
   generateConfig: GenerateConfig<DateType>,
   locale: CalendarLocale,
 ) {
-  const events = Object.values(allDayEventRecord).flat();
+  const events = [
+    ...Object.values(allDayEventRecord).flat(),
+    ...Object.values(timeEventRecord)
+      .flat()
+      .filter((event) => event.rangeStart),
+  ];
   const weeksEvents = Object.values(
     groupBy(
       events,
@@ -134,33 +140,65 @@ function calcAllDayEventsIndex<DateType extends AnyObject = Dayjs>(
   );
 
   for (const weekEvents of weeksEvents) {
-    weekEvents.sort((a, b) => b.duration - a.duration);
+    weekEvents.sort((a, b) => {
+      const aAllday = 'duration' in a;
+      const bAllday = 'duration' in b;
+
+      if (aAllday && bAllday) {
+        return b.duration - a.duration;
+      }
+
+      if (!aAllday && !bAllday) {
+        if (a.start.hour !== b.start.hour) {
+          return a.start.hour - b.start.hour;
+        }
+        return a.start.minute - b.start.minute;
+      }
+
+      if (aAllday) {
+        return -1;
+      }
+
+      return 1;
+    });
 
     for (let i = 1; i < weekEvents.length; i++) {
       const currentEvent = weekEvents[i];
+      const currentDuration = 'duration' in currentEvent ? currentEvent.duration : 1;
 
-      for (let j = 0; j < i; j++) {
+      let j = 0;
+      while (j < i) {
         const prevEvent = weekEvents[j];
+        const prevDuration = 'duration' in prevEvent ? prevEvent.duration : 1;
 
         if (
           prevEvent.index === currentEvent.index &&
           // 时间段有重叠
-          !generateConfig.isAfter(
+          isSameOrBefore(
+            generateConfig,
+            locale,
             prevEvent.date,
-            generateConfig.addDate(currentEvent.date, currentEvent.duration - 1),
+            generateConfig.addDate(currentEvent.date, currentDuration - 1),
+            'date',
           ) &&
-          !generateConfig.isAfter(
+          isSameOrBefore(
+            generateConfig,
+            locale,
             currentEvent.date,
-            generateConfig.addDate(prevEvent.date, prevEvent.duration - 1),
+            generateConfig.addDate(prevEvent.date, prevDuration - 1),
+            'date',
           )
         ) {
           currentEvent.index += 1;
+          j = 0;
+        } else {
+          j += 1;
         }
       }
     }
   }
 
-  return allDayEventRecord;
+  return [allDayEventRecord, timeEventRecord];
 }
 
 /**
@@ -315,7 +353,7 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
     locale,
   );
 
-  groupedAllDayEvents = calcAllDayEventsIndex(groupedAllDayEvents, generateConfig, locale);
+  calcEventsIndex(groupedAllDayEvents, groupedTimeEvents, generateConfig, locale);
 
   return [groupedAllDayEvents, groupedTimeEvents] as const;
 }

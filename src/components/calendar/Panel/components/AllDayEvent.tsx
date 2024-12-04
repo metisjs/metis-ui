@@ -7,6 +7,7 @@ import { getPresetColorCls, isPresetColor } from '@util/colors';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import useTheme from '../../../theme/useTheme';
+import { EVENT_GAP, EVENT_HEIGHT } from '../../constant';
 import type { AllDayEventType } from '../../interface';
 
 interface AllDayEventProps<DateType extends object = Dayjs> extends AllDayEventType<DateType> {
@@ -17,9 +18,6 @@ interface AllDayEventProps<DateType extends object = Dayjs> extends AllDayEventT
   maxDuration?: number;
   onSelect?: (key: SafeKey) => void;
 }
-
-export const EVENT_HEIGHT = 20;
-export const EVENT_GAP = 1;
 
 const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<DateType>) => {
   const {

@@ -211,6 +211,20 @@ export function isSameOrAfter<DateType>(
   return generateConfig.isAfter(date1!, date2!);
 }
 
+export function isSameOrBefore<DateType>(
+  generateConfig: GenerateConfig<DateType>,
+  locale: Locale,
+  date1: NullableDateType<DateType>,
+  date2: NullableDateType<DateType>,
+  type: InternalMode,
+) {
+  if (isSame(generateConfig, locale, date1, date2, type)) {
+    return true;
+  }
+
+  return !generateConfig.isAfter(date1!, date2!);
+}
+
 export function getWeekStartDate<DateType>(
   locale: string,
   generateConfig: GenerateConfig<DateType>,
