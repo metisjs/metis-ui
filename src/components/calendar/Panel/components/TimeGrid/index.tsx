@@ -100,7 +100,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
 
   const nowLineCls = clsx(
     `${prefixCls}-time-event-now-line`,
-    'absolute right-0 z-10 h-px w-[calc(100%-3rem+0.25rem)] bg-primary opacity-45 transition-all',
+    'absolute right-0 z-[100] h-px w-[calc(100%-3rem+0.25rem)] bg-primary opacity-45 transition-all',
   );
 
   // ========================= Render =======================

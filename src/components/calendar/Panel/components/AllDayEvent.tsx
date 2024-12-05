@@ -46,10 +46,19 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
   const bgColor = useMemo(() => {
     const tinyColor = new TinyColor(mergedColor);
     if (isDark) {
-      return tinyColor.darken(45).toRgbString();
+      return tinyColor.darken(color ? 35 : 45).toRgbString();
     }
 
     return tinyColor.brighten(50).toRgbString();
+  }, [color, isDark]);
+
+  const textColor = useMemo(() => {
+    const tinyColor = new TinyColor(mergedColor);
+    if (isDark) {
+      return tinyColor.brighten(40).toRgbString();
+    }
+
+    return tinyColor.darken(20).toRgbString();
   }, [color, isDark]);
 
   const rootCls = clsx(
@@ -58,7 +67,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
     {
       'rounded-s-full': rangeStart,
       'rounded-e-full': rangeEnd,
-      'pl-3': !rangeStart,
+      'pl-6': !rangeStart,
     },
   );
 
@@ -76,7 +85,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
     top: index * (EVENT_HEIGHT + EVENT_GAP) + EVENT_GAP * 2,
     left: rangeStart ? EVENT_GAP * 2 : 0,
     backgroundColor: selected ? mergedColor : bgColor,
-    color: selected ? 'white' : mergedColor,
+    color: selected ? 'white' : textColor,
   };
 
   return (

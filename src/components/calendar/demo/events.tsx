@@ -67,7 +67,7 @@ export function fakeFetchEvents(): EventsType {
     {
       key: 5,
       title: 'All-day Event 3',
-      start: '2024-12-09',
+      start: '2024-12-08',
       end: '2024-12-12',
       allDay: true,
     },
@@ -119,6 +119,13 @@ export function fakeFetchEvents(): EventsType {
       start: '2024-12-13 13:00',
       end: '2024-12-13 13:25',
       color: 'pink',
+    },
+    {
+      key: 13,
+      title: 'Time Event',
+      start: '2024-12-10 08:00',
+      end: '2024-12-10 17:30',
+      color: 'green',
     },
   ];
 }

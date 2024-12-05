@@ -49,13 +49,22 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     return tinyColor.brighten(50).toRgbString();
   }, [color, isDark]);
 
+  const textColor = useMemo(() => {
+    const tinyColor = new TinyColor(mergedColor);
+    if (isDark) {
+      return tinyColor.brighten(40).toRgbString();
+    }
+
+    return tinyColor.darken(20).toRgbString();
+  }, [color, isDark]);
+
   const secondTextColor = useMemo(() => {
     const tinyColor = new TinyColor(mergedColor);
     if (isDark) {
-      return tinyColor.darken(10).toRgbString();
+      return tinyColor.brighten(10).toRgbString();
     }
 
-    return tinyColor.brighten(15).toRgbString();
+    return tinyColor.toRgbString();
   }, [color, isDark]);
 
   const height =
@@ -63,8 +72,8 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
 
   const rootCls = clsx(
     `${prefixCls}-time-event`,
-    'absolute z-10 select-none overflow-hidden !border-0 py-1 pl-2 pr-1 text-xs',
-    'before:absolute before:bottom-1 before:left-0.5 before:top-1 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
+    'absolute z-10 select-none overflow-hidden !border-0 py-1 pl-2.5 pr-1 text-xs',
+    'before:absolute before:bottom-1.5 before:left-1 before:top-1.5 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
     {
       'rounded-se-md rounded-ss-md': rangeStart,
       'rounded-ee-md rounded-es-md': rangeEnd,
@@ -80,7 +89,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     // @ts-ignore
     ['--metis-calendar-event-color']: mergedColor,
     backgroundColor: selected ? mergedColor : bgColor,
-    color: selected ? 'white' : mergedColor,
+    color: selected ? 'white' : textColor,
     top: (start.hour + start.minute / 60) * CELL_ONE_HOUR_HEIGHT,
     height: Math.max(height, EVENT_HEIGHT),
     left: EVENT_GAP * 2 + indent * EVENT_GAP * 8,
