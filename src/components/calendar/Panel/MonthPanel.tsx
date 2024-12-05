@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import React, { useRef, useState } from 'react';
 import type { SemanticRecord } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
@@ -124,9 +125,10 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
   useLayoutEffect(() => calcEventMore(), [calcEventMore]);
 
   // ========================= Events =========================
-  const handleGotoDay = (date: DateType) => {
+  const handleGotoDay = (date: DateType, e: MouseEvent) => {
     onChange(date);
     onModeChange('day');
+    e.stopPropagation();
   };
 
   // ========================= Style =========================
@@ -198,7 +200,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
                   'justify-center bg-primary text-white': isToday,
                 },
               )}
-              onDoubleClick={() => handleGotoDay(date)}
+              onDoubleClick={(e) => handleGotoDay(date, e)}
             >
               {generateConfig.getDate(date)}
             </span>

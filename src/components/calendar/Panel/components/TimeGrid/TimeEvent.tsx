@@ -42,6 +42,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
 
   const bgColor = useMemo(() => {
     const tinyColor = new TinyColor(mergedColor);
+    tinyColor.setAlpha(0.65);
     if (isDark) {
       return tinyColor.darken(45).toRgbString();
     }
@@ -81,9 +82,9 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     },
   );
 
-  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-full truncate');
+  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-full');
 
-  const timeCls = clsx(`${prefixCls}-time-event-time`, 'flex w-full items-center gap-1 truncate');
+  const timeCls = clsx(`${prefixCls}-time-event-time`, 'flex w-full items-center gap-0.5 truncate');
 
   const style: CSSProperties = {
     // @ts-ignore

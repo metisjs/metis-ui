@@ -127,6 +127,27 @@ export function fakeFetchEvents(): EventsType {
       end: '2024-12-10 17:30',
       color: 'green',
     },
+    {
+      key: 14,
+      title: 'Time Event',
+      start: '2024-12-10 09:00',
+      end: '2024-12-10 18:30',
+      color: 'green',
+    },
+    {
+      key: 15,
+      title: 'Time Event',
+      start: '2024-12-10 09:30',
+      end: '2024-12-10 18:45',
+      color: 'green',
+    },
+    {
+      key: 16,
+      title: 'Time Event',
+      start: '2024-12-10 10:30',
+      end: '2024-12-10 19:45',
+      color: 'green',
+    },
   ];
 }
 

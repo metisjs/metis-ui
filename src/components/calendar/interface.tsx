@@ -95,6 +95,8 @@ export type EventType<DateType extends AnyObject = Dayjs> = {
   end: DateValue<DateType>;
   allDay?: boolean;
   color?: LiteralUnion<PresetColorType>;
+  readonly?: boolean;
+  [key: string]: any;
 };
 
 export interface AllDayEventType<DateType extends AnyObject = Dayjs>

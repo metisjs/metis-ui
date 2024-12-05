@@ -6,6 +6,7 @@ import type { AnyObject, SafeKey } from '@util/type';
 import { useInterval } from 'ahooks';
 import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../../../../date-picker/interface';
+import { isSame } from '../../../../date-picker/utils/dateUtil';
 import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
 import { CELL_ONE_HOUR_HEIGHT, EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
@@ -193,7 +194,10 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     });
 
   const renderBaseline = () => {
-    if (!hour || !minute) return null;
+    const now = generateConfig.getNow();
+    const includeToday = dates.some((d) => isSame(generateConfig, locale, d, now, 'date'));
+
+    if (!hour || !minute || !includeToday) return null;
 
     const top = hour * CELL_ONE_HOUR_HEIGHT + (minute * CELL_ONE_HOUR_HEIGHT) / 60;
     return (

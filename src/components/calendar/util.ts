@@ -2,6 +2,7 @@ import type { AnyObject } from '@util/type';
 import warning from '@util/warning';
 import type { Dayjs } from 'dayjs';
 import { groupBy } from 'lodash';
+import omit from 'rc-util/lib/omit';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
 import { isSame, isSameOrAfter, isSameOrBefore } from '../date-picker/utils/dateUtil';
@@ -60,7 +61,7 @@ export function getDateKey<DateType extends AnyObject = Dayjs>(
 }
 
 /**
- * Sort by start time ascending.
+ * Sort by start time asc and end time desc.
  * @param events
  * @returns
  */
@@ -74,7 +75,13 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
       if (a.start.hour !== b.start.hour) {
         return a.start.hour - b.start.hour;
       }
-      return a.start.minute - b.start.minute;
+      if (a.start.minute !== b.start.minute) {
+        return a.start.minute - b.start.minute;
+      }
+      if (a.end.hour !== b.end.hour) {
+        return b.end.hour - a.end.hour;
+      }
+      return b.end.minute - a.end.minute;
     });
   });
 
@@ -152,7 +159,13 @@ function calcEventsIndex<DateType extends AnyObject = Dayjs>(
         if (a.start.hour !== b.start.hour) {
           return a.start.hour - b.start.hour;
         }
-        return a.start.minute - b.start.minute;
+        if (a.start.minute !== b.start.minute) {
+          return a.start.minute - b.start.minute;
+        }
+        if (a.end.hour !== b.end.hour) {
+          return b.end.hour - a.end.hour;
+        }
+        return b.end.minute - a.end.minute;
       }
 
       if (aAllday) {
@@ -251,10 +264,7 @@ function groupAllDayEvents<DateType extends AnyObject = Dayjs>(
       }
 
       groupedEvents[dateKey].push({
-        key: event.key,
-        icon: event.icon,
-        title: event.title,
-        color: event.color,
+        ...omit(event, ['start', 'end']),
         dateKey: dateKey,
         date: currentStartDate,
         rangeStart,
@@ -305,10 +315,7 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
       const rangeEnd = isSame(generateConfig, locale, currentDate, endDate, 'date');
 
       const dateEvent: TimeEventType<DateType> = {
-        key: event.key,
-        icon: event.icon,
-        title: event.title,
-        color: event.color,
+        ...omit(event, ['start', 'end']),
         dateKey: currentDateKey,
         date: currentDate,
         start: {
