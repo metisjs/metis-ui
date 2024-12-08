@@ -88,7 +88,14 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
   return events;
 }
 
-function calcTimeEventsIndent<DateType extends AnyObject = Dayjs>(
+/**
+ * 计算事件显示位置信息
+ * - 事件开始时间相差小于15min，则采用分栏显示
+ * - 如果事件于前面事件时间重叠，则在重叠的事件indent基础上+1
+ * @param events
+ * @returns
+ */
+function calcTimeEventsPosition<DateType extends AnyObject = Dayjs>(
   events: Record<string, TimeEventType<DateType>[]>,
 ) {
   sortTimeEvents(events);
@@ -326,10 +333,11 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
           hour: rangeEnd ? generateConfig.getHour(endDate) : 23,
           minute: rangeEnd ? generateConfig.getMinute(endDate) : 59,
         },
-        indent: 0,
         rangeStart,
         rangeEnd,
         index: 0,
+        offset: 0,
+        spans: [1],
       };
 
       groupedEvents[currentDateKey].push(dateEvent);
@@ -339,7 +347,7 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
     }
   }
 
-  groupedEvents = calcTimeEventsIndent(groupedEvents);
+  groupedEvents = calcTimeEventsPosition(groupedEvents);
 
   return groupedEvents;
 }

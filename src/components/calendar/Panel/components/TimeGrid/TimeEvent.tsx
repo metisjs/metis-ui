@@ -14,7 +14,6 @@ interface TimeEventProps<DateType extends object = Dayjs> extends TimeEventType<
   prefixCls: string;
   eventKey: SafeKey;
   selected?: boolean;
-  borderWidth?: number;
   onSelect?: (key: SafeKey) => void;
 }
 
@@ -24,12 +23,13 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     eventKey,
     title,
     color,
-    indent,
     selected,
     start,
     end,
     rangeStart,
     rangeEnd,
+    span,
+    // offset,
     onSelect,
   } = props;
 
@@ -71,6 +71,22 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const height =
     (end.hour + end.minute / 60 - start.hour - start.minute / 60) * CELL_ONE_HOUR_HEIGHT;
 
+  const indent = span.length - 1;
+
+  /**
+   * Event width calc
+   * (((100% * event.span[0] - indentWidth) * event.span[1] - indentWidth) * event.span[n-1] - indentWidth) * span[n]
+   */
+  // const width = useMemo(() => {}, []);
+
+  /**
+   * Event left calc
+   * offset===0: indent * indentWidth
+   * offset!==0: 100 * span[0]*span[1]*offset + (span.length -1) * indent *(1- offset*span[n] )
+   */
+  // const left = useMemo(() => {}, []);
+
+  // ============================== Style ==============================
   const rootCls = clsx(
     `${prefixCls}-time-event`,
     'absolute z-10 select-none overflow-hidden !border-0 py-1 pl-2.5 pr-1 text-xs',
@@ -99,6 +115,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     opacity: selected ? 0.8 : 1,
   };
 
+  // ============================== Render ==============================
   const startTime = `${String(start.hour).padStart(2, '0')}:${String(start.minute).padStart(2, '0')}`;
   const endTime = `${String(end.hour).padStart(2, '0')}:${String(end.minute).padStart(2, '0')}`;
 

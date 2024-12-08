@@ -121,8 +121,10 @@ export interface TimeEventType<DateType extends AnyObject = Dayjs>
   end: { hour: number; minute: number };
   rangeStart: boolean;
   rangeEnd: boolean;
-  /* show indent for resolving time conflicts in the day and week views */
-  indent: number;
   index: number;
   outOfView?: boolean;
+
+  /* layout info in Time-grid view */
+  offsets: number[];
+  spans: number[];
 }
