@@ -7,8 +7,13 @@ import { getPresetColorCls, isPresetColor } from '@util/colors';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import useTheme from '../../../../theme/useTheme';
-import { CELL_ONE_HOUR_HEIGHT, EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
-import type { TimeEventType } from '../../../interface';
+import {
+  CELL_ONE_HOUR_HEIGHT,
+  EVENT_GAP,
+  EVENT_HEIGHT,
+  TIME_EVENT_INDENT,
+} from '../../../constant';
+import type { TimeEventPos, TimeEventType } from '../../../interface';
 
 interface TimeEventProps<DateType extends object = Dayjs> extends TimeEventType<DateType> {
   prefixCls: string;
@@ -28,7 +33,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     end,
     rangeStart,
     rangeEnd,
-    span,
+    pos,
     // offset,
     onSelect,
   } = props;
@@ -71,13 +76,28 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const height =
     (end.hour + end.minute / 60 - start.hour - start.minute / 60) * CELL_ONE_HOUR_HEIGHT;
 
-  const indent = span.length - 1;
+  const indent = useMemo(() => {
+    let curr = pos;
+    let i = 0;
+    while (curr.parent) {
+      i += 1;
+      curr = curr.parent;
+    }
+    return i;
+  }, [pos]);
 
-  /**
-   * Event width calc
-   * (((100% * event.span[0] - indentWidth) * event.span[1] - indentWidth) * event.span[n-1] - indentWidth) * span[n]
-   */
-  // const width = useMemo(() => {}, []);
+  const getStyleWidth = (position: TimeEventPos): string => {
+    const parentWidth = position.parent
+      ? getStyleWidth(position.parent)
+      : `100% - ${EVENT_GAP * 4}`; // padding x 2*EVENT_GAP
+
+    if (position.span <= 1) {
+      // 先缩进，再按span计算
+      return `calc(${parentWidth} - ${TIME_EVENT_INDENT} - ${EVENT_GAP * (position.column.value - position.span)}) * ${position.span / position.column.value}`;
+    }
+    // 先按span计算，再缩进
+    return `calc(${parentWidth} * ${position.span / position.column.value}) - ${TIME_EVENT_INDENT}`;
+  };
 
   /**
    * Event left calc
@@ -102,6 +122,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
 
   const timeCls = clsx(`${prefixCls}-time-event-time`, 'flex w-full items-center gap-0.5 truncate');
 
+  const width = useMemo(() => getStyleWidth(pos), [pos]);
   const style: CSSProperties = {
     // @ts-ignore
     ['--metis-calendar-event-color']: mergedColor,
@@ -110,7 +131,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     top: (start.hour + start.minute / 60) * CELL_ONE_HOUR_HEIGHT,
     height: Math.max(height, EVENT_HEIGHT),
     left: EVENT_GAP * 2 + indent * EVENT_GAP * 8,
-    right: EVENT_GAP * 2,
+    width,
     zIndex: selected ? 99 : indent + 10,
     opacity: selected ? 0.8 : 1,
   };
