@@ -112,11 +112,10 @@ export interface AllDayEventType<DateType extends AnyObject = Dayjs>
   outOfView?: boolean;
 }
 
-export type TimeEventPos = {
-  column: { value: number };
-  offset: number;
-  span: number;
-  parent: TimeEventPos | null;
+export type TimeEventGroup = {
+  key: string;
+  column: number;
+  parent: { group: TimeEventGroup; offset: number; span: number } | null;
 };
 
 export interface TimeEventType<DateType extends AnyObject = Dayjs>
@@ -131,6 +130,8 @@ export interface TimeEventType<DateType extends AnyObject = Dayjs>
   index: number;
   outOfView?: boolean;
 
-  /* position info in Time-grid view */
-  pos: TimeEventPos;
+  /* Layout info in Time-grid view */
+  group: TimeEventGroup;
+  offset: number;
+  span: number;
 }

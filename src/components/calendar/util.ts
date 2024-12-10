@@ -1,7 +1,7 @@
 import type { AnyObject } from '@util/type';
 import warning from '@util/warning';
 import type { Dayjs } from 'dayjs';
-import { groupBy } from 'lodash';
+import { groupBy, uniqueId } from 'lodash';
 import omit from 'rc-util/lib/omit';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
@@ -72,16 +72,18 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
     const eventList = events[dateKey];
 
     eventList.sort((a, b) => {
-      if (a.start.hour !== b.start.hour) {
-        return a.start.hour - b.start.hour;
+      const aStartMinute = a.start.minute + a.start.hour * 60;
+      const aEndMinute = a.end.minute + a.end.hour * 60;
+      const bStartMinute = b.start.minute + b.start.hour * 60;
+      const bEndMinute = b.end.minute + b.end.hour * 60;
+      const aDuration = aEndMinute - aStartMinute;
+      const bDuration = bEndMinute - bStartMinute;
+
+      if (Math.abs(aStartMinute - bStartMinute) <= 15) {
+        return bDuration - aDuration;
       }
-      if (a.start.minute !== b.start.minute) {
-        return a.start.minute - b.start.minute;
-      }
-      if (a.end.hour !== b.end.hour) {
-        return b.end.hour - a.end.hour;
-      }
-      return b.end.minute - a.end.minute;
+
+      return aStartMinute - bStartMinute;
     });
   });
 
@@ -91,11 +93,10 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
 /**
  * 计算事件显示位置信息
  * - 事件开始时间相差小于15min，则采用分栏显示
- * - 如果事件于前面事件时间重叠，则在重叠的事件indent基础上+1
  * @param events
  * @returns
  */
-function calcTimeEventsPosition<DateType extends AnyObject = Dayjs>(
+function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
   events: Record<string, TimeEventType<DateType>[]>,
 ) {
   sortTimeEvents(events);
@@ -336,8 +337,9 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
         rangeStart,
         rangeEnd,
         index: 0,
+        group: { key: uniqueId('group-'), column: 1, parent: null },
         offset: 0,
-        spans: [1],
+        span: 1,
       };
 
       groupedEvents[currentDateKey].push(dateEvent);
@@ -347,7 +349,7 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
     }
   }
 
-  groupedEvents = calcTimeEventsPosition(groupedEvents);
+  groupedEvents = calcTimeEventsLayout(groupedEvents);
 
   return groupedEvents;
 }
@@ -372,6 +374,8 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
   );
 
   calcEventsIndex(groupedAllDayEvents, groupedTimeEvents, generateConfig, locale);
+
+  console.log(groupedTimeEvents);
 
   return [groupedAllDayEvents, groupedTimeEvents] as const;
 }

@@ -145,6 +145,36 @@ export function fakeFetchEvents(): EventsType {
       start: '2024-12-05 04:45',
       end: '2024-12-05 06:00',
     },
+    {
+      key: 17,
+      title: 'Time Event',
+      start: '2024-12-25 13:00',
+      end: '2024-12-25 14:45',
+    },
+    {
+      key: 18,
+      title: 'Time Event',
+      start: '2024-12-25 13:15',
+      end: '2024-12-25 16:00',
+    },
+    {
+      key: 19,
+      title: 'Time Event',
+      start: '2024-12-25 13:10',
+      end: '2024-12-25 17:30',
+    },
+    {
+      key: 20,
+      title: 'Time Event',
+      start: '2024-12-25 15:30',
+      end: '2024-12-25 16:45',
+    },
+    {
+      key: 21,
+      title: 'Time Event',
+      start: '2024-12-25 15:45',
+      end: '2024-12-25 17:30',
+    },
   ];
 }
 

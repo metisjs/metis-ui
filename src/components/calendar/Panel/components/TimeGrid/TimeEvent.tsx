@@ -13,7 +13,7 @@ import {
   EVENT_HEIGHT,
   TIME_EVENT_INDENT,
 } from '../../../constant';
-import type { TimeEventPos, TimeEventType } from '../../../interface';
+import type { TimeEventGroup, TimeEventType } from '../../../interface';
 
 interface TimeEventProps<DateType extends object = Dayjs> extends TimeEventType<DateType> {
   prefixCls: string;
@@ -33,8 +33,9 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     end,
     rangeStart,
     rangeEnd,
-    pos,
-    // offset,
+    group,
+    offset,
+    span,
     onSelect,
   } = props;
 
@@ -77,34 +78,59 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     (end.hour + end.minute / 60 - start.hour - start.minute / 60) * CELL_ONE_HOUR_HEIGHT;
 
   const indent = useMemo(() => {
-    let curr = pos;
+    let curr = group;
     let i = 0;
     while (curr.parent) {
       i += 1;
-      curr = curr.parent;
+      curr = curr.parent.group;
     }
     return i;
-  }, [pos]);
+  }, [group]);
 
-  const getStyleWidth = (position: TimeEventPos): string => {
-    const parentWidth = position.parent
-      ? getStyleWidth(position.parent)
-      : `100% - ${EVENT_GAP * 4}`; // padding x 2*EVENT_GAP
-
-    if (position.span <= 1) {
-      // 先缩进，再按span计算
-      return `calc(${parentWidth} - ${TIME_EVENT_INDENT} - ${EVENT_GAP * (position.column.value - position.span)}) * ${position.span / position.column.value}`;
+  /**
+   * 获取宽度
+   *  X 轴 padding 2*EVENT_GAP
+   *  列间距 EVENT_GAP
+   */
+  const getStyleWidth = (
+    info: { group: TimeEventGroup; offset: number; span: number } | null,
+  ): string => {
+    if (info === null) {
+      return `100% - ${EVENT_GAP * 4}px`;
     }
-    // 先按span计算，再缩进
-    return `calc(${parentWidth} * ${position.span / position.column.value}) - ${TIME_EVENT_INDENT}`;
+
+    const { group, span } = info;
+
+    const parentWidth = getStyleWidth(group.parent);
+    const indent = group.parent === null ? 0 : TIME_EVENT_INDENT;
+
+    return `((${parentWidth}) - ${indent + EVENT_GAP * (group.column - 1)}px) * ${span / group.column} + ${(span - 1) * EVENT_GAP}px`;
   };
 
   /**
-   * Event left calc
-   * offset===0: indent * indentWidth
-   * offset!==0: 100 * span[0]*span[1]*offset + (span.length -1) * indent *(1- offset*span[n] )
+   * 获取左侧位置
+   *  X 轴 padding 2*EVENT_GAP
+   *  列间距 EVENT_GAP
    */
-  // const left = useMemo(() => {}, []);
+  const getStyleLeft = (
+    info: { group: TimeEventGroup; offset: number; span: number } | null,
+  ): string => {
+    if (info === null) {
+      return `${EVENT_GAP * 2}px`;
+    }
+
+    const { group, offset } = info;
+
+    const parentLeft = getStyleLeft(group.parent);
+    const parentWidth = getStyleWidth(group.parent);
+
+    const indent = group.parent === null ? 0 : TIME_EVENT_INDENT;
+    // 去除缩进和间距后组宽度
+    const groupWidth = `((${parentWidth}) - ${indent + EVENT_GAP * (group.column - 1)}px`;
+    const offsetWidth = `(${groupWidth}) * ${offset / group.column}`;
+
+    return `(${parentLeft}) + (${offsetWidth}) + ${indent + offset * EVENT_GAP}px`;
+  };
 
   // ============================== Style ==============================
   const rootCls = clsx(
@@ -118,11 +144,18 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     },
   );
 
-  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-full');
+  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-full break-words');
 
   const timeCls = clsx(`${prefixCls}-time-event-time`, 'flex w-full items-center gap-0.5 truncate');
 
-  const width = useMemo(() => getStyleWidth(pos), [pos]);
+  const width = useMemo(
+    () => `calc(${getStyleWidth({ group, offset, span })})`,
+    [group, offset, span],
+  );
+  const left = useMemo(
+    () => `calc(${getStyleLeft({ group, offset, span })})`,
+    [group, offset, span],
+  );
   const style: CSSProperties = {
     // @ts-ignore
     ['--metis-calendar-event-color']: mergedColor,
@@ -130,9 +163,9 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     color: selected ? 'white' : textColor,
     top: (start.hour + start.minute / 60) * CELL_ONE_HOUR_HEIGHT,
     height: Math.max(height, EVENT_HEIGHT),
-    left: EVENT_GAP * 2 + indent * EVENT_GAP * 8,
+    left,
     width,
-    zIndex: selected ? 99 : indent + 10,
+    zIndex: selected ? 199 : indent + 10,
     opacity: selected ? 0.8 : 1,
   };
 
