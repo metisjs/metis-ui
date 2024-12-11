@@ -76,11 +76,9 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
       const aEndMinute = a.end.minute + a.end.hour * 60;
       const bStartMinute = b.start.minute + b.start.hour * 60;
       const bEndMinute = b.end.minute + b.end.hour * 60;
-      const aDuration = aEndMinute - aStartMinute;
-      const bDuration = bEndMinute - bStartMinute;
 
       if (Math.abs(aStartMinute - bStartMinute) <= 15) {
-        return bDuration - aDuration;
+        return bEndMinute - aEndMinute;
       }
 
       return aStartMinute - bStartMinute;
@@ -92,7 +90,7 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
 
 /**
  * 计算事件显示位置信息
- * - 事件开始时间相差小于15min，则采用分栏显示
+ * - 事件开始时间相差小于15min，则采用多列显示
  * @param events
  * @returns
  */
@@ -106,20 +104,37 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
 
     for (let index = 0; index < eventList.length; index++) {
       const event = eventList[index];
-
-      if (event.allDay) continue;
+      const eventStartMinute = event.start.minute + event.start.hour * 60;
+      // const eventEndMinute = event.end.minute + event.end.hour * 60;
 
       for (let i = 0; i < index; i++) {
-        const previousEvent = eventList[i];
+        const prevEvent = eventList[i];
+        const prevEventStartMinute = prevEvent.start.minute + prevEvent.start.hour * 60;
+        const prevEventEndMinute = prevEvent.end.minute + prevEvent.end.hour * 60;
 
-        if (previousEvent.allDay) continue;
-
-        if (
-          event.start.hour < previousEvent.end.hour ||
-          (event.start.hour === previousEvent.end.hour &&
-            event.start.minute < previousEvent.end.minute)
-        ) {
-          event.indent = previousEvent.indent + 1;
+        if (eventStartMinute < prevEventEndMinute) {
+          if (Math.abs(eventStartMinute - prevEventStartMinute) <= 15) {
+            // 多列显示
+            const group = prevEvent.group;
+            if (event.group !== group) {
+              group.column += 1;
+              event.group = group;
+            }
+            event.offset = prevEvent.offset + prevEvent.span;
+          } else {
+            event.group.column -= 1;
+            event.group = {
+              key: uniqueId('group_'),
+              column: 1,
+              parent: {
+                group: prevEvent.group,
+                offset: prevEvent.offset,
+                span: prevEvent.group.column - prevEvent.offset,
+              },
+            };
+            event.offset = 0;
+            event.span = 1;
+          }
         }
       }
     }
@@ -375,7 +390,7 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
 
   calcEventsIndex(groupedAllDayEvents, groupedTimeEvents, generateConfig, locale);
 
-  console.log(groupedTimeEvents);
+  console.log(groupedTimeEvents['20241225']);
 
   return [groupedAllDayEvents, groupedTimeEvents] as const;
 }

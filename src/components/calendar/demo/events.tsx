@@ -1,6 +1,7 @@
 import React from 'react';
 import { GiftOutline } from '@metisjs/icons';
 import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import type { CalendarProps, GetProp } from 'metis-ui';
 import { Button, Calendar } from 'metis-ui';
 
@@ -147,34 +148,34 @@ export function fakeFetchEvents(): EventsType {
     },
     {
       key: 17,
-      title: 'Time Event',
+      title: 'Time Event 17',
       start: '2024-12-25 13:00',
-      end: '2024-12-25 14:45',
+      end: '2024-12-25 16:30',
     },
     {
       key: 18,
-      title: 'Time Event',
-      start: '2024-12-25 13:15',
-      end: '2024-12-25 16:00',
+      title: 'Time Event 18',
+      start: '2024-12-25 13:25',
+      end: '2024-12-25 16:10',
     },
     {
       key: 19,
-      title: 'Time Event',
-      start: '2024-12-25 13:10',
-      end: '2024-12-25 17:30',
+      title: 'Time Event 19',
+      start: '2024-12-25 13:15',
+      end: '2024-12-25 17:35',
     },
     {
       key: 20,
-      title: 'Time Event',
-      start: '2024-12-25 15:30',
-      end: '2024-12-25 16:45',
+      title: 'Time Event 20',
+      start: '2024-12-25 13:45',
+      end: '2024-12-25 15:15',
     },
-    {
-      key: 21,
-      title: 'Time Event',
-      start: '2024-12-25 15:45',
-      end: '2024-12-25 17:30',
-    },
+    // {
+    //   key: 21,
+    //   title: 'Time Event 21',
+    //   start: '2024-12-25 15:45',
+    //   end: '2024-12-25 17:30',
+    // },
   ];
 }
 
@@ -182,6 +183,8 @@ const App: React.FC = () => (
   <Calendar
     events={fakeFetchEvents()}
     extra={<Button type="primary">Add Event</Button>}
+    mode="day"
+    value={dayjs('2024-12-25')}
     className="h-screen"
   />
 );
