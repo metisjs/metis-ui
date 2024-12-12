@@ -88,6 +88,47 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
   return events;
 }
 
+function isTimeEventOverlap<DateType extends AnyObject = Dayjs>(
+  source: TimeEventType<DateType>,
+  target: TimeEventType<DateType>,
+) {
+  const sourceStartMinute = source.start.minute + source.start.hour * 60;
+  const sourceEndMinute = source.end.minute + source.end.hour * 60;
+  const targetStartMinute = target.start.minute + target.start.hour * 60;
+  const targetEndMinute = target.end.minute + target.end.hour * 60;
+
+  // 基本时间重叠判断
+  const timeOverlap = sourceStartMinute < targetEndMinute && targetStartMinute < sourceEndMinute;
+
+  if (source.group.parent?.group === target.group) {
+    return false;
+  }
+
+  if (target.group.parent?.group === source.group) {
+    return false;
+  }
+
+  if (source.group === target.group) {
+    return (
+      timeOverlap &&
+      source.offset < target.offset + target.span &&
+      target.offset < source.offset + source.span
+    );
+  }
+
+  return timeOverlap;
+}
+
+function isClosely<DateType extends AnyObject = Dayjs>(
+  source: TimeEventType<DateType>,
+  target: TimeEventType<DateType>,
+) {
+  const sourceStartMinute = source.start.minute + source.start.hour * 60;
+  const targetStartMinute = target.start.minute + target.start.hour * 60;
+
+  return Math.abs(sourceStartMinute - targetStartMinute) <= 15;
+}
+
 /**
  * 计算事件显示位置信息
  * - 事件开始时间相差小于15min，则采用多列显示
@@ -103,37 +144,39 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
     const eventList = events[dateKey];
 
     for (let index = 0; index < eventList.length; index++) {
-      const event = eventList[index];
-      const eventStartMinute = event.start.minute + event.start.hour * 60;
-      // const eventEndMinute = event.end.minute + event.end.hour * 60;
+      const currEvent = eventList[index];
 
       for (let i = 0; i < index; i++) {
         const prevEvent = eventList[i];
-        const prevEventStartMinute = prevEvent.start.minute + prevEvent.start.hour * 60;
-        const prevEventEndMinute = prevEvent.end.minute + prevEvent.end.hour * 60;
+        const prevGroup = prevEvent.group;
 
-        if (eventStartMinute < prevEventEndMinute) {
-          if (Math.abs(eventStartMinute - prevEventStartMinute) <= 15) {
-            // 多列显示
-            const group = prevEvent.group;
-            if (event.group !== group) {
-              group.column += 1;
-              event.group = group;
-            }
-            event.offset = prevEvent.offset + prevEvent.span;
-          } else {
-            event.group.column -= 1;
-            event.group = {
-              key: uniqueId('group_'),
+        if (isTimeEventOverlap(currEvent, prevEvent)) {
+          if (isClosely(currEvent, prevEvent)) {
+            currEvent.group.column -= 1;
+            prevGroup.column += 1;
+            currEvent.group = prevGroup;
+            currEvent.offset = prevEvent.offset + prevEvent.span;
+            currEvent.span = 1;
+          } else if (currEvent.group.column > 1) {
+            // 当前事件已在多列分组中，需要重新分组
+            currEvent.group.column -= 1;
+            currEvent.group = {
+              key: uniqueId('group-'),
               column: 1,
               parent: {
-                group: prevEvent.group,
+                group: prevGroup,
                 offset: prevEvent.offset,
-                span: prevEvent.group.column - prevEvent.offset,
+                span: prevGroup.column - prevEvent.offset,
               },
             };
-            event.offset = 0;
-            event.span = 1;
+            currEvent.offset = 0;
+            currEvent.span = 1;
+          } else {
+            currEvent.group.parent = {
+              group: prevGroup,
+              offset: prevEvent.offset,
+              span: prevGroup.column - prevEvent.offset,
+            };
           }
         }
       }
