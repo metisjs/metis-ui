@@ -44,13 +44,13 @@ export function fakeFetchEvents(): EventsType {
       end: '2024-12-12',
       allDay: true,
     },
-    // {
-    //   key: 4,
-    //   title: 'All-day Event 2',
-    //   start: '2024-12-09',
-    //   end: '2024-12-11',
-    //   allDay: true,
-    // },
+    {
+      key: 4,
+      title: 'All-day Event 2',
+      start: '2024-12-09',
+      end: '2024-12-11',
+      allDay: true,
+    },
     {
       key: 2,
       title: 'All-day Event 1',
@@ -150,7 +150,7 @@ export function fakeFetchEvents(): EventsType {
       key: 17,
       title: 'Time Event 17',
       start: '2024-12-25 13:00',
-      end: '2024-12-25 15:30',
+      end: '2024-12-25 14:30',
     },
     {
       key: 18,
@@ -167,14 +167,32 @@ export function fakeFetchEvents(): EventsType {
     {
       key: 20,
       title: 'Time Event 20',
-      start: '2024-12-25 14:15',
-      end: '2024-12-25 15:30',
+      start: '2024-12-25 14:55',
+      end: '2024-12-25 18:30',
+    },
+    {
+      key: 21,
+      title: 'Time Event 21',
+      start: '2024-12-25 14:05',
+      end: '2024-12-25 17:30',
+    },
+    {
+      key: 22,
+      title: 'Time Event 22',
+      start: '2024-12-25 14:55',
+      end: '2024-12-25 16:30',
     },
     // {
-    //   key: 21,
-    //   title: 'Time Event 21',
-    //   start: '2024-12-25 15:45',
-    //   end: '2024-12-25 17:30',
+    //   key: 23,
+    //   title: 'Time Event 23',
+    //   start: '2024-12-25 14:55',
+    //   end: '2024-12-25 16:30',
+    // },
+    // {
+    //   key: 24,
+    //   title: 'Time Event 24',
+    //   start: '2024-12-25 14:55',
+    //   end: '2024-12-25 16:30',
     // },
   ];
 }

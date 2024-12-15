@@ -2,11 +2,17 @@ import type { AnyObject } from '@util/type';
 import warning from '@util/warning';
 import type { Dayjs } from 'dayjs';
 import { groupBy, uniqueId } from 'lodash';
-import omit from 'rc-util/lib/omit';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
 import { isSame, isSameOrAfter, isSameOrBefore } from '../date-picker/utils/dateUtil';
-import type { AllDayEventType, CalendarLocale, EventType, TimeEventType } from './interface';
+import { CELL_ONE_HOUR_HEIGHT, EVENT_HEIGHT, TIME_EVENT_MULTI_COLUMN_DIFF } from './constant';
+import type {
+  AllDayEventType,
+  CalendarLocale,
+  EventType,
+  TimeEventGroup,
+  TimeEventType,
+} from './interface';
 
 const FORMAT_LIST = [
   'YYYY-MM-DD HH:mm:ss',
@@ -77,7 +83,10 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
       const bStartMinute = b.start.minute + b.start.hour * 60;
       const bEndMinute = b.end.minute + b.end.hour * 60;
 
-      if (Math.abs(aStartMinute - bStartMinute) <= 15) {
+      if (
+        Math.abs(aStartMinute - bStartMinute) <= TIME_EVENT_MULTI_COLUMN_DIFF &&
+        aEndMinute !== bEndMinute
+      ) {
         return bEndMinute - aEndMinute;
       }
 
@@ -88,50 +97,158 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
   return events;
 }
 
+/**
+ * 在 1440 * 1440 的容器中来模拟时间轴上事件的位置信息
+ * @param event
+ * @returns
+ */
+function getTimeEventPosition<DateType extends AnyObject = Dayjs>(event: TimeEventType<DateType>) {
+  const getWidth = (
+    info: { group: TimeEventGroup; offset: number; span: number } | null,
+  ): number => {
+    if (info === null) {
+      return 1440; // 假设总宽度为 1440
+    }
+
+    const { group, span } = info;
+    const parentWidth = getWidth(group.parent);
+    const indent = group.parent === null ? 0 : 1;
+
+    return ((parentWidth - indent) * span) / group.column;
+  };
+  const getLeft = (
+    info: { group: TimeEventGroup; offset: number; span: number } | null,
+  ): number => {
+    if (info === null) {
+      return 0;
+    }
+
+    const { group, offset } = info;
+
+    const parentLeft = getLeft(group.parent);
+    const parentWidth = getWidth(group.parent);
+
+    const indent = group.parent === null ? 0 : 1;
+    const groupWidth = parentWidth - indent;
+    const offsetWidth = (groupWidth * offset) / group.column;
+
+    return parentLeft + offsetWidth + indent;
+  };
+
+  const width = getWidth({ group: event.group, offset: event.offset, span: event.span });
+  const left = getLeft({ group: event.group, offset: event.offset, span: event.span });
+  const top = (event.start.hour + event.start.minute / 60) * CELL_ONE_HOUR_HEIGHT;
+
+  return {
+    x: left,
+    width,
+    y: top,
+    // 显示最小高度为 EVENT_HEIGHT
+    height: Math.max(
+      (event.end.hour + event.end.minute / 60) * CELL_ONE_HOUR_HEIGHT - top,
+      EVENT_HEIGHT,
+    ),
+  };
+}
+
+/**
+ * 判断同一天内的两个时间事件是否重叠
+ * @param target
+ * @param source
+ * @returns
+ */
 function isTimeEventOverlap<DateType extends AnyObject = Dayjs>(
-  source: TimeEventType<DateType>,
   target: TimeEventType<DateType>,
+  source: TimeEventType<DateType> | TimeEventType<DateType>,
 ) {
-  const sourceStartMinute = source.start.minute + source.start.hour * 60;
-  const sourceEndMinute = source.end.minute + source.end.hour * 60;
+  if (target.dateKey !== source.dateKey) {
+    return false;
+  }
+  // 显示时需要保留最小高度，比较时以显示高度为准
   const targetStartMinute = target.start.minute + target.start.hour * 60;
-  const targetEndMinute = target.end.minute + target.end.hour * 60;
+  const targetEndMinute = Math.max(
+    target.end.minute + target.end.hour * 60,
+    targetStartMinute + EVENT_HEIGHT / (CELL_ONE_HOUR_HEIGHT / 60),
+  );
+  const sourceStartMinute = source.start.minute + source.start.hour * 60;
+  const sourceEndMinute = Math.max(
+    source.end.minute + source.end.hour * 60,
+    sourceStartMinute + EVENT_HEIGHT / (CELL_ONE_HOUR_HEIGHT / 60),
+  );
 
-  // 基本时间重叠判断
   const timeOverlap = sourceStartMinute < targetEndMinute && targetStartMinute < sourceEndMinute;
-
-  if (source.group.parent?.group === target.group) {
-    return false;
-  }
-
-  if (target.group.parent?.group === source.group) {
-    return false;
-  }
 
   if (source.group === target.group) {
     return (
-      timeOverlap &&
-      source.offset < target.offset + target.span &&
-      target.offset < source.offset + source.span
+      source.offset + source.span > source.group.column ||
+      (timeOverlap &&
+        source.offset < target.offset + target.span &&
+        target.offset < source.offset + source.span)
     );
   }
 
-  return timeOverlap;
+  if (source.group.parent === null && source.group.column === 1) {
+    return timeOverlap;
+  }
+
+  if (source.group.parent?.group === target.group) {
+    const targetStart = (1 / target.group.column) * target.offset;
+    const targetEnd = targetStart + (1 / target.group.column) * target.span;
+
+    const sourceStart =
+      (1 / target.group.column) * source.group.parent!.offset +
+      (((1 / target.group.column) * source.group.parent!.span) / source.group.column) *
+        source.offset;
+    const sourceEnd =
+      sourceStart +
+      (((1 / target.group.column) * source.group.parent!.span) / source.group.column) * source.span;
+
+    return (
+      source.offset + source.span > source.group.column ||
+      source.group.parent.offset + source.group.parent.span > source.group.parent.group.column ||
+      (timeOverlap &&
+        targetStart !== sourceStart &&
+        targetStart < sourceEnd &&
+        sourceStart < targetEnd)
+    );
+  }
+
+  const targetPos = getTimeEventPosition(target);
+  const sourcePos = getTimeEventPosition(source);
+
+  return (
+    sourcePos.x + sourcePos.width > 1440 ||
+    !(
+      sourcePos.x + sourcePos.width <= targetPos.x ||
+      sourcePos.x >= targetPos.x + targetPos.width ||
+      sourcePos.y >= targetPos.y + targetPos.height ||
+      sourcePos.y + targetPos.height <= targetPos.y ||
+      (source.group.path.includes(target.group.key) && sourcePos.x > targetPos.x)
+    )
+  );
 }
 
 function isClosely<DateType extends AnyObject = Dayjs>(
-  source: TimeEventType<DateType>,
   target: TimeEventType<DateType>,
+  source: TimeEventType<DateType>,
 ) {
   const sourceStartMinute = source.start.minute + source.start.hour * 60;
   const targetStartMinute = target.start.minute + target.start.hour * 60;
 
-  return Math.abs(sourceStartMinute - targetStartMinute) <= 15;
+  return Math.abs(sourceStartMinute - targetStartMinute) <= TIME_EVENT_MULTI_COLUMN_DIFF;
+}
+
+function getTimeGroups(group: TimeEventGroup): TimeEventGroup[] {
+  if (group.parent !== null) {
+    return [...getTimeGroups(group.parent.group), group];
+  }
+
+  return [group];
 }
 
 /**
  * 计算事件显示位置信息
- * - 事件开始时间相差小于15min，则采用多列显示
+ * - 事件开始时间相差小于20min，则采用多列显示
  * @param events
  * @returns
  */
@@ -140,44 +257,106 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
 ) {
   sortTimeEvents(events);
 
+  // 缓存组下的所有事件，包括子组内事件
+  const groupEventsCache = new Map<string, Set<TimeEventType<DateType>>>();
+  const cacheGroupEvent = (group: TimeEventGroup, event: TimeEventType<DateType>) => {
+    const groupKey = group.key;
+    const groupEvents = groupEventsCache.get(groupKey) ?? new Set();
+
+    groupEvents.add(event);
+    groupEventsCache.set(groupKey, groupEvents);
+
+    if (group.parent !== null) {
+      cacheGroupEvent(group.parent.group, event);
+    }
+  };
+
   Object.keys(events).forEach((dateKey) => {
     const eventList = events[dateKey];
 
     for (let index = 0; index < eventList.length; index++) {
       const currEvent = eventList[index];
+      cacheGroupEvent(currEvent.group, currEvent);
 
-      for (let i = 0; i < index; i++) {
-        const prevEvent = eventList[i];
-        const prevGroup = prevEvent.group;
+      // 找出与当前事件重叠的事件列表
+      let overlayEvents = eventList
+        .slice(0, index)
+        .filter((event) => isTimeEventOverlap(event, currEvent));
 
-        if (isTimeEventOverlap(currEvent, prevEvent)) {
-          if (isClosely(currEvent, prevEvent)) {
-            currEvent.group.column -= 1;
-            prevGroup.column += 1;
-            currEvent.group = prevGroup;
-            currEvent.offset = prevEvent.offset + prevEvent.span;
-            currEvent.span = 1;
-          } else if (currEvent.group.column > 1) {
-            // 当前事件已在多列分组中，需要重新分组
-            currEvent.group.column -= 1;
-            currEvent.group = {
-              key: uniqueId('group-'),
-              column: 1,
-              parent: {
-                group: prevGroup,
-                offset: prevEvent.offset,
-                span: prevGroup.column - prevEvent.offset,
-              },
-            };
-            currEvent.offset = 0;
-            currEvent.span = 1;
-          } else {
-            currEvent.group.parent = {
-              group: prevGroup,
-              offset: prevEvent.offset,
-              span: prevGroup.column - prevEvent.offset,
-            };
+      if (overlayEvents.length) {
+        const targetGroupList = new Set(
+          overlayEvents.map((event) => getTimeGroups(event.group)).flat(),
+        );
+
+        let foundPosition = false;
+        groupLoop: for (const targetGroup of targetGroupList) {
+          const targetEventList = groupEventsCache.get(targetGroup.key);
+
+          if (!targetEventList?.size) {
+            continue;
           }
+
+          let offset = 0;
+          let span = targetGroup.column;
+          while (span > 0) {
+            currEvent.group.parent = { group: targetGroup, offset, span };
+            currEvent.group.path.unshift(targetGroup.key);
+
+            foundPosition = targetEventList
+              ? [...targetEventList].every(
+                  (targetEvent) => !isTimeEventOverlap(targetEvent, currEvent),
+                )
+              : false;
+
+            if (foundPosition) {
+              break groupLoop;
+            }
+
+            if (currEvent.group.parent !== null) {
+              currEvent.group.parent = null;
+              currEvent.group.path.shift();
+            }
+
+            if (offset + span < targetGroup.column) {
+              offset++;
+            } else {
+              span--;
+              offset = 0;
+            }
+          }
+        }
+
+        if (foundPosition) {
+          if (currEvent.group.parent) {
+            const targetGroup = currEvent.group.parent.group;
+            // targetGroup下的事件列表，不包括子事件
+            const targetEventList = [
+              ...(groupEventsCache.get(targetGroup.key) ?? new Set()),
+            ].filter((event) => event.group.key === targetGroup.key);
+
+            const closelyCount = targetEventList.filter((event) =>
+              isClosely(event, currEvent),
+            ).length;
+            if (closelyCount === targetEventList.length) {
+              // 分栏
+              groupEventsCache.delete(currEvent.group.key);
+              const groupedEvent = targetEventList[0];
+              currEvent.group = groupedEvent.group;
+              currEvent.group.column += 1;
+              currEvent.offset = currEvent.group.column - 1;
+              currEvent.span = 1;
+            } else if (closelyCount > 0) {
+              // 换位置
+              for (const targetEvent of targetEventList) {
+                if (!isClosely(targetEvent, currEvent)) {
+                  currEvent.group.parent!.offset = targetEvent.offset;
+                  currEvent.group.parent!.span = targetEvent.span;
+                  break;
+                }
+              }
+            }
+          }
+          cacheGroupEvent(currEvent.group, currEvent);
         }
       }
     }
@@ -241,14 +420,19 @@ function calcEventsIndex<DateType extends AnyObject = Dayjs>(
       return 1;
     });
 
+    const endDateCache = Object.fromEntries(
+      weekEvents.map((event) => {
+        const duration = 'duration' in event ? event.duration : 1;
+        return [event.key, generateConfig.addDate(event.date, duration - 1)];
+      }),
+    );
+
     for (let i = 1; i < weekEvents.length; i++) {
       const currentEvent = weekEvents[i];
-      const currentDuration = 'duration' in currentEvent ? currentEvent.duration : 1;
 
       let j = 0;
       while (j < i) {
         const prevEvent = weekEvents[j];
-        const prevDuration = 'duration' in prevEvent ? prevEvent.duration : 1;
 
         if (
           prevEvent.index === currentEvent.index &&
@@ -257,14 +441,14 @@ function calcEventsIndex<DateType extends AnyObject = Dayjs>(
             generateConfig,
             locale,
             prevEvent.date,
-            generateConfig.addDate(currentEvent.date, currentDuration - 1),
+            endDateCache[currentEvent.key],
             'date',
           ) &&
           isSameOrBefore(
             generateConfig,
             locale,
             currentEvent.date,
-            generateConfig.addDate(prevEvent.date, prevDuration - 1),
+            endDateCache[prevEvent.key],
             'date',
           )
         ) {
@@ -330,13 +514,19 @@ function groupAllDayEvents<DateType extends AnyObject = Dayjs>(
       }
 
       groupedEvents[dateKey].push({
-        ...omit(event, ['start', 'end']),
+        key: event.key,
+        icon: event.icon,
+        title: event.title,
+        color: event.color,
+        allDay: true,
+        readonly: event.readonly,
         dateKey: dateKey,
         date: currentStartDate,
         rangeStart,
         rangeEnd,
         duration,
         index: 0,
+        data: event,
       });
 
       currentStartDate = generateConfig.addDate(currentEndOfWeek, 1);
@@ -380,8 +570,14 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
       const rangeStart = isSame(generateConfig, locale, currentDate, startDate, 'date');
       const rangeEnd = isSame(generateConfig, locale, currentDate, endDate, 'date');
 
-      const dateEvent: TimeEventType<DateType> = {
-        ...omit(event, ['start', 'end']),
+      const groupKey = uniqueId('group-');
+      const dateEvent = {
+        key: event.key,
+        icon: event.icon,
+        title: event.title,
+        color: event.color,
+        allDay: false,
+        readonly: event.readonly,
         dateKey: currentDateKey,
         date: currentDate,
         start: {
@@ -395,9 +591,10 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
         rangeStart,
         rangeEnd,
         index: 0,
-        group: { key: uniqueId('group-'), column: 1, parent: null },
+        group: { key: groupKey, column: 1, parent: null, path: [groupKey] },
         offset: 0,
         span: 1,
+        data: event,
       };
 
       groupedEvents[currentDateKey].push(dateEvent);
@@ -431,9 +628,10 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
     locale,
   );
 
+  console.time('calcEventsIndex');
   calcEventsIndex(groupedAllDayEvents, groupedTimeEvents, generateConfig, locale);
-
   console.log(groupedTimeEvents['20241225']);
+  console.timeEnd('calcEventsIndex');
 
   return [groupedAllDayEvents, groupedTimeEvents] as const;
 }

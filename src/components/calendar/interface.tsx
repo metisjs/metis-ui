@@ -100,7 +100,7 @@ export type EventType<DateType extends AnyObject = Dayjs> = {
 };
 
 export interface AllDayEventType<DateType extends AnyObject = Dayjs>
-  extends Omit<EventType<DateType>, 'start' | 'end'> {
+  extends Pick<EventType<DateType>, 'key' | 'icon' | 'title' | 'allDay' | 'color' | 'readonly'> {
   /* YYYYMMDD */
   dateKey: string;
   date: DateType;
@@ -110,16 +110,18 @@ export interface AllDayEventType<DateType extends AnyObject = Dayjs>
   duration: number;
   index: number;
   outOfView?: boolean;
+  data: EventType<DateType>;
 }
 
 export type TimeEventGroup = {
   key: string;
   column: number;
   parent: { group: TimeEventGroup; offset: number; span: number } | null;
+  path: string[];
 };
 
 export interface TimeEventType<DateType extends AnyObject = Dayjs>
-  extends Omit<EventType<DateType>, 'start' | 'end'> {
+  extends Pick<EventType<DateType>, 'key' | 'icon' | 'title' | 'allDay' | 'color' | 'readonly'> {
   /* YYYYMMDD */
   dateKey: string;
   date: DateType;
@@ -129,6 +131,7 @@ export interface TimeEventType<DateType extends AnyObject = Dayjs>
   rangeEnd: boolean;
   index: number;
   outOfView?: boolean;
+  data: EventType<DateType>;
 
   /* Layout info in Time-grid view */
   group: TimeEventGroup;
