@@ -23,6 +23,7 @@ export type GenerateConfig<DateType> = {
   getNow: () => DateType;
   getFixedDate: (fixed: string) => DateType;
   getEndDate: (value: DateType) => DateType;
+  getTimestamp: (value: DateType) => number;
 
   // difference
   diffDate: (date1: DateType, date2: DateType) => number;

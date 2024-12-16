@@ -1,42 +1,60 @@
 import React from 'react';
 import { GiftOutline } from '@metisjs/icons';
 import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
 import type { CalendarProps, GetProp } from 'metis-ui';
 import { Button, Calendar } from 'metis-ui';
 
 type EventsType = GetProp<CalendarProps<Dayjs>, 'events'>;
 
+// function generateRandomEvents(count: number): EventType<Dayjs>[] {
+//   const events: EventType<Dayjs>[] = [];
+
+//   for (let i = 1; i <= count; i++) {
+//     // Random day between 1 and 31
+//     const day = Math.floor(Math.random() * 31) + 1;
+
+//     // Random month between 1 (January) and 12 (December)
+//     const month = Math.floor(Math.random() * 12);
+
+//     // Random start time
+//     const startHour = Math.floor(Math.random() * 24);
+//     const startMinute = Math.floor(Math.random() * 60);
+
+//     // Start datetime object
+//     const start = new Date(2024, month, day, startHour, startMinute);
+
+//     // Random duration between 1 and 240 minutes (1 to 4 hours)
+//     const duration = Math.floor(Math.random() * 240) + 1;
+
+//     // End datetime object
+//     const end = new Date(start.getTime() + duration * 60000); // Add duration in milliseconds
+
+//     // Format dates to "YYYY-MM-DD HH:mm"
+//     const formatDate = (date: Date): string => {
+//       const pad = (num: number): string => num.toString().padStart(2, '0');
+//       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(
+//         date.getHours(),
+//       )}:${pad(date.getMinutes())}`;
+//     };
+
+//     // Add event to list
+//     events.push({
+//       key: i,
+//       title: `Time Event ${i}`,
+//       start: formatDate(start),
+//       end: formatDate(end),
+//     });
+//   }
+
+//   return events;
+// }
+
+// const fakeEvents = generateRandomEvents(2000);
+
 export function fakeFetchEvents(): EventsType {
   // const now = dayjs();
 
   return [
-    // {
-    //   key: 1,
-    //   title: 'All-day Event 1',
-    //   start: now,
-    //   end: now,
-    //   allDay: true,
-    // },
-    // {
-    //   key: 2,
-    //   title: 'Event',
-    //   start: now.add(-5, 'day').set('hour', 9).set('minute', 30),
-    //   end: now.add(3, 'day').set('hour', 22).set('minute', 30),
-    // },
-    // {
-    //   key: 3,
-    //   title: 'All-day Event 2',
-    //   start: now.add(-2, 'day'),
-    //   end: now.add(6, 'day'),
-    //   allDay: true,
-    // },
-    // {
-    //   key: 4,
-    //   title: 'Event',
-    //   start: now.add(-1, 'day').set('hour', 7).set('minute', 15),
-    //   end: now.add(2, 'day').set('hour', 20).set('minute', 45),
-    // },
     {
       key: 1,
       title: 'All-day Event 0',
@@ -176,12 +194,12 @@ export function fakeFetchEvents(): EventsType {
       start: '2024-12-25 14:05',
       end: '2024-12-25 17:30',
     },
-    {
-      key: 22,
-      title: 'Time Event 22',
-      start: '2024-12-25 14:55',
-      end: '2024-12-25 16:30',
-    },
+    // {
+    //   key: 22,
+    //   title: 'Time Event 22',
+    //   start: '2024-12-25 14:55',
+    //   end: '2024-12-25 16:30',
+    // },
     // {
     //   key: 23,
     //   title: 'Time Event 23',
@@ -194,6 +212,42 @@ export function fakeFetchEvents(): EventsType {
     //   start: '2024-12-25 14:55',
     //   end: '2024-12-25 16:30',
     // },
+    {
+      key: 25,
+      title: 'Time Event 25',
+      start: '2024-12-25 15:55',
+      end: '2024-12-25 18:30',
+    },
+    {
+      key: 26,
+      title: 'Time Event 26',
+      start: '2024-12-25 16:05',
+      end: '2024-12-25 18:30',
+    },
+    {
+      key: 27,
+      title: 'Time Event 27',
+      start: '2024-12-25 16:05',
+      end: '2024-12-25 18:30',
+    },
+    {
+      key: 28,
+      title: 'Time Event 28',
+      start: '2024-12-25 16:05',
+      end: '2024-12-25 18:30',
+    },
+    {
+      key: 29,
+      title: 'Time Event 29',
+      start: '2024-12-25 16:35',
+      end: '2024-12-25 18:30',
+    },
+    {
+      key: 30,
+      title: 'Time Event 30',
+      start: '2024-12-25 15:05',
+      end: '2024-12-25 18:30',
+    },
   ];
 }
 
@@ -201,8 +255,8 @@ const App: React.FC = () => (
   <Calendar
     events={fakeFetchEvents()}
     extra={<Button type="primary">Add Event</Button>}
-    mode="day"
-    value={dayjs('2024-12-25')}
+    // mode="day"
+    // value={dayjs('2024-12-25')}
     className="h-screen"
   />
 );

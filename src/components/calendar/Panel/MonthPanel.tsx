@@ -122,7 +122,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
     );
   });
 
-  useLayoutEffect(() => calcEventMore(), [calcEventMore]);
+  useLayoutEffect(() => calcEventMore(), [calcEventMore, timeEventRecord, allDayEventRecord]);
 
   // ========================= Events =========================
   const handleGotoDay = (date: DateType, e: MouseEvent) => {
@@ -176,6 +176,10 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
         left: EVENT_GAP * 4,
         top: more.index * (EVENT_HEIGHT + EVENT_GAP) + EVENT_GAP * 2,
       };
+
+      if (dateKey === '20240901') {
+        console.log(timeEvents);
+      }
 
       return (
         <div

@@ -77,15 +77,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const height =
     (end.hour + end.minute / 60 - start.hour - start.minute / 60) * CELL_ONE_HOUR_HEIGHT;
 
-  const indent = useMemo(() => {
-    let curr = group;
-    let i = 0;
-    while (curr.parent) {
-      i += 1;
-      curr = curr.parent.group;
-    }
-    return i;
-  }, [group]);
+  const indent = useMemo(() => group.path.length, [group]);
 
   /**
    * 获取宽度

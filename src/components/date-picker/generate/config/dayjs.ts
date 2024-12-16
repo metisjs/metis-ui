@@ -122,6 +122,7 @@ const generateConfig: GenerateConfig<Dayjs> = {
   getMinute: (date) => date.minute(),
   getSecond: (date) => date.second(),
   getMillisecond: (date) => date.millisecond(),
+  getTimestamp: (date) => date.valueOf(),
 
   // difference
   diffDate: (date1, date2) => date1.diff(date2, 'day'),

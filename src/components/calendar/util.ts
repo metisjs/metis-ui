@@ -1,7 +1,7 @@
 import type { AnyObject } from '@util/type';
 import warning from '@util/warning';
 import type { Dayjs } from 'dayjs';
-import { groupBy, uniqueId } from 'lodash';
+import { groupBy, uniq, uniqueId } from 'lodash';
 import type { GenerateConfig } from '../date-picker/interface';
 import { parseDate } from '../date-picker/PickerInput/hooks/useFilledProps';
 import { isSame, isSameOrAfter, isSameOrBefore } from '../date-picker/utils/dateUtil';
@@ -14,7 +14,7 @@ import type {
   TimeEventType,
 } from './interface';
 
-const FORMAT_LIST = [
+export const FORMAT_LIST = [
   'YYYY-MM-DD HH:mm:ss',
   'YYYY/MM/DD HH:mm:ss',
   'YYYY-MM-DD HH:mm',
@@ -40,13 +40,7 @@ function checkEventsDate<DateType extends AnyObject = Dayjs>(
   if (
     !startDate ||
     !endDate ||
-    !isSameOrAfter(
-      generateConfig,
-      locale,
-      parseDate(event.end, generateConfig, locale, FORMAT_LIST)!,
-      parseDate(event.start, generateConfig, locale, FORMAT_LIST)!,
-      event.allDay ? 'date' : 'datetime',
-    )
+    !isSameOrAfter(generateConfig, locale, endDate, startDate, event.allDay ? 'date' : 'datetime')
   ) {
     warning(false, 'Invalid event date range.');
     return false;
@@ -79,16 +73,7 @@ function sortTimeEvents<DateType extends AnyObject = Dayjs>(
 
     eventList.sort((a, b) => {
       const aStartMinute = a.start.minute + a.start.hour * 60;
-      const aEndMinute = a.end.minute + a.end.hour * 60;
       const bStartMinute = b.start.minute + b.start.hour * 60;
-      const bEndMinute = b.end.minute + b.end.hour * 60;
-
-      if (
-        Math.abs(aStartMinute - bStartMinute) <= TIME_EVENT_MULTI_COLUMN_DIFF &&
-        aEndMinute !== bEndMinute
-      ) {
-        return bEndMinute - aEndMinute;
-      }
 
       return aStartMinute - bStartMinute;
     });
@@ -155,11 +140,13 @@ function getTimeEventPosition<DateType extends AnyObject = Dayjs>(event: TimeEve
  * 判断同一天内的两个时间事件是否重叠
  * @param target
  * @param source
+ * @param timeOnly 只判断时间不考虑位置
  * @returns
  */
 function isTimeEventOverlap<DateType extends AnyObject = Dayjs>(
   target: TimeEventType<DateType>,
   source: TimeEventType<DateType> | TimeEventType<DateType>,
+  timeOnly: boolean = false,
 ) {
   if (target.dateKey !== source.dateKey) {
     return false;
@@ -177,6 +164,10 @@ function isTimeEventOverlap<DateType extends AnyObject = Dayjs>(
   );
 
   const timeOverlap = sourceStartMinute < targetEndMinute && targetStartMinute < sourceEndMinute;
+
+  if (timeOnly) {
+    return timeOverlap;
+  }
 
   if (source.group === target.group) {
     return (
@@ -247,12 +238,12 @@ function getTimeGroups(group: TimeEventGroup): TimeEventGroup[] {
 }
 
 /**
- * 计算事件显示位置信息
+ * 计算事件在TimeGrid中显示位置信息
  * - 事件开始时间相差小于20min，则采用多列显示
  * @param events
  * @returns
  */
-function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
+export function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
   events: Record<string, TimeEventType<DateType>[]>,
 ) {
   sortTimeEvents(events);
@@ -284,9 +275,20 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
         .filter((event) => isTimeEventOverlap(event, currEvent));
 
       if (overlayEvents.length) {
-        const targetGroupList = new Set(
+        const targetGroupList = uniq(
           overlayEvents.map((event) => getTimeGroups(event.group)).flat(),
         );
+
+        targetGroupList.sort((a, b) => {
+          if (a.path.length === b.path.length) {
+            return a.column - b.column;
+          }
+          return a.path.length - b.path.length;
+        });
+
+        if (currEvent.key === 20) {
+          console.log(targetGroupList);
+        }
 
         let foundPosition = false;
         groupLoop: for (const targetGroup of targetGroupList) {
@@ -300,13 +302,63 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
           let span = targetGroup.column;
           while (span > 0) {
             currEvent.group.parent = { group: targetGroup, offset, span };
-            currEvent.group.path.unshift(targetGroup.key);
+            currEvent.group.path.unshift(...targetGroup.path);
 
-            foundPosition = targetEventList
-              ? [...targetEventList].every(
-                  (targetEvent) => !isTimeEventOverlap(targetEvent, currEvent),
-                )
-              : false;
+            foundPosition = true;
+            for (const targetEvent of [...targetEventList]) {
+              if (
+                isTimeEventOverlap(targetEvent, currEvent) ||
+                // 多列显示时，同一列时间上必须要有重叠
+                (targetGroup.column > 1 &&
+                  targetEvent.group === targetGroup &&
+                  targetEvent.offset === offset &&
+                  !isTimeEventOverlap(targetEvent, currEvent, true))
+              ) {
+                foundPosition = false;
+              }
+            }
+
+            if (foundPosition) {
+              // 找到上级组中同列的事件
+              const targetGroupEvents = [...targetEventList].filter(
+                (event) => event.group === targetGroup,
+              );
+
+              let targetEvent: TimeEventType<DateType> | null = null;
+              for (const event of targetGroupEvents) {
+                if (event.offset === offset) {
+                  targetEvent = event;
+                  break;
+                }
+              }
+
+              // 目标组为多列，且目标事件是组中最后一个，且目标事件与当前事件时间相近，则分栏
+              if (targetEvent !== null && isClosely(targetEvent, currEvent)) {
+                if (
+                  targetGroup.column > 1 &&
+                  targetEvent.offset + targetEvent.span !== targetGroup.column
+                ) {
+                  foundPosition = false;
+                } else {
+                  // 分栏
+                  groupEventsCache.delete(currEvent.group.key);
+
+                  currEvent.group = targetGroup;
+                  currEvent.group.column += 1;
+                  currEvent.span = 1;
+
+                  // 重新排序，end越大越靠前
+                  [...targetGroupEvents, currEvent]
+                    .sort((a, b) => {
+                      const aEndMinute = a.end.hour * 60 + a.end.minute;
+                      const bEndMinute = b.end.hour * 60 + b.end.minute;
+
+                      return bEndMinute - aEndMinute;
+                    })
+                    .forEach((event, index) => (event.offset = index));
+                }
+              }
+            }
 
             if (foundPosition) {
               break groupLoop;
@@ -314,7 +366,7 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
 
             if (currEvent.group.parent !== null) {
               currEvent.group.parent = null;
-              currEvent.group.path.shift();
+              currEvent.group.path.splice(0, targetGroup.path.length);
             }
 
             if (offset + span < targetGroup.column) {
@@ -327,35 +379,6 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
         }
 
         if (foundPosition) {
-          if (currEvent.group.parent) {
-            const targetGroup = currEvent.group.parent.group;
-            // targetGroup下的事件列表，不包括子事件
-            const targetEventList = [
-              ...(groupEventsCache.get(targetGroup.key) ?? new Set()),
-            ].filter((event) => event.group.key === targetGroup.key);
-
-            const closelyCount = targetEventList.filter((event) =>
-              isClosely(event, currEvent),
-            ).length;
-            if (closelyCount === targetEventList.length) {
-              // 分栏
-              groupEventsCache.delete(currEvent.group.key);
-              const groupedEvent = targetEventList[0];
-              currEvent.group = groupedEvent.group;
-              currEvent.group.column += 1;
-              currEvent.offset = currEvent.group.column - 1;
-              currEvent.span = 1;
-            } else if (closelyCount > 0) {
-              // 换位置
-              for (const targetEvent of targetEventList) {
-                if (!isClosely(targetEvent, currEvent)) {
-                  currEvent.group.parent!.offset = targetEvent.offset;
-                  currEvent.group.parent!.span = targetEvent.span;
-                  break;
-                }
-              }
-            }
-          }
           cacheGroupEvent(currEvent.group, currEvent);
         }
       }
@@ -371,7 +394,7 @@ function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
  * - 同一周内duration越长，越靠前
  * - time event 按开始时间排序
  */
-function calcEventsIndex<DateType extends AnyObject = Dayjs>(
+export function calcEventsIndex<DateType extends AnyObject = Dayjs>(
   allDayEventRecord: Record<string, AllDayEventType<DateType>[]>,
   timeEventRecord: Record<string, TimeEventType<DateType>[]>,
   generateConfig: GenerateConfig<DateType>,
@@ -483,8 +506,8 @@ function groupAllDayEvents<DateType extends AnyObject = Dayjs>(
       continue;
     }
 
-    const startDate = parseDate(event.start, generateConfig, locale, ['YYYY-MM-DD'])!;
-    const endDate = parseDate(event.end, generateConfig, locale, ['YYYY-MM-DD'])!;
+    const startDate = parseDate(event.start, generateConfig, locale, FORMAT_LIST)!;
+    const endDate = parseDate(event.end, generateConfig, locale, FORMAT_LIST)!;
 
     let currentStartDate = startDate;
     let rangeStart = true;
@@ -604,8 +627,6 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
     }
   }
 
-  groupedEvents = calcTimeEventsLayout(groupedEvents);
-
   return groupedEvents;
 }
 
@@ -616,6 +637,7 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
   events: EventType<DateType>[],
   generateConfig: GenerateConfig<DateType>,
   locale: CalendarLocale,
+  ignoreTimeLayout?: boolean,
 ): [Record<string, AllDayEventType<DateType>[]>, Record<string, TimeEventType<DateType>[]>] {
   let groupedAllDayEvents = groupAllDayEvents(
     events.filter((e) => e.allDay),
@@ -628,10 +650,11 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
     locale,
   );
 
-  console.time('calcEventsIndex');
+  if (!ignoreTimeLayout) {
+    calcTimeEventsLayout(groupedTimeEvents);
+  }
+
   calcEventsIndex(groupedAllDayEvents, groupedTimeEvents, generateConfig, locale);
-  console.log(groupedTimeEvents['20241225']);
-  console.timeEnd('calcEventsIndex');
 
   return [groupedAllDayEvents, groupedTimeEvents] as const;
 }
