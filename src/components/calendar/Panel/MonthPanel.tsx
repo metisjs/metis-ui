@@ -239,6 +239,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
               <div
                 className="absolute text-xs text-text-secondary"
                 style={moreStyle}
+                onDoubleClick={(e) => handleGotoDay(date, e)}
               >{`+${more.count} ${locale.more}`}</div>
             )}
           </div>

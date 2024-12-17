@@ -15,7 +15,7 @@ export function fakeFetchEvents(): EventsType {
       key: 1,
       title: 'Event 0',
       start: now.subtract(15, 'day'),
-      end: now.add(1, 'day'),
+      end: now.subtract(2, 'day'),
       allDay: true,
     },
     {
@@ -172,7 +172,7 @@ const App: React.FC = () => (
   <Calendar
     events={fakeFetchEvents()}
     extra={<Button type="primary">Add Event</Button>}
-    className="h-screen"
+    className="h-[768px]"
   />
 );
 

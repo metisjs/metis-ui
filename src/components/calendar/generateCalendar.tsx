@@ -99,9 +99,10 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
         {headerRender ? (
           headerRender({
             value: mergedValue,
-            type: mergedMode,
-            onChange: (nextDate) => {},
-            onTypeChange: triggerModeChange,
+            mode: mergedMode,
+            modeOptions: mergedModeOptions,
+            onChange: triggerChange,
+            onModeChange: triggerModeChange,
           })
         ) : (
           <CalendarHeader

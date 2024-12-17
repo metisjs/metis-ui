@@ -18,7 +18,7 @@ const DefaultComponents = {
 };
 
 export interface PanelProps<DateType extends object = Dayjs>
-  extends Omit<SharedPanelProps<DateType>, 'events'> {
+  extends Omit<SharedPanelProps<DateType>, 'allDayEventRecord' | 'timeEventRecord'> {
   events?: EventType<DateType>[];
 }
 

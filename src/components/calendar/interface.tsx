@@ -57,9 +57,10 @@ export interface CalendarProps<DateType extends AnyObject = Dayjs> {
 
 export type HeaderRender<DateType> = (config: {
   value: DateType;
-  type: CalendarMode;
+  mode: CalendarMode;
+  modeOptions: CalendarMode[];
   onChange: (date: DateType) => void;
-  onTypeChange: (type: CalendarMode) => void;
+  onModeChange: (mode: CalendarMode) => void;
 }) => React.ReactNode;
 
 export interface SharedPanelProps<DateType extends object = any> {
