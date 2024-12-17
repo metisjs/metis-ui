@@ -18,8 +18,10 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
     allDayEventRecord,
     timeEventRecord,
     lunar,
+    selectedEventKeys,
     onChange,
     onModeChange,
+    onEventClick,
   } = props;
 
   const semanticCls = useSemanticCls(className);
@@ -102,8 +104,10 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
         dates={weekDates}
         allDayEventRecord={allDayEventRecord}
         timeEventRecord={timeEventRecord}
+        selectedEventKeys={selectedEventKeys}
         locale={locale}
         generateConfig={generateConfig}
+        onEventClick={onEventClick}
       />
     </div>
   );

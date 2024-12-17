@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
@@ -7,12 +7,12 @@ import { useInterval } from 'ahooks';
 import type { Dayjs } from 'dayjs';
 import type { GenerateConfig } from '../../../../date-picker/interface';
 import { isSame } from '../../../../date-picker/utils/dateUtil';
+import type { ScrollbarRef } from '../../../../scrollbar';
 import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
 import { CELL_ONE_HOUR_HEIGHT, EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
-import type { AllDayEventType, CalendarLocale, TimeEventType } from '../../../interface';
+import type { AllDayEventType, CalendarLocale, EventType, TimeEventType } from '../../../interface';
 import { getDateKey } from '../../../util';
-import useWinClick from '../../hooks/useWinClick';
 import AllDayEvent from '../AllDayEvent';
 import TimeEvent from './TimeEvent';
 
@@ -24,6 +24,11 @@ export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   dates: DateType[];
   locale: CalendarLocale;
   generateConfig: GenerateConfig<DateType>;
+  selectedEventKeys?: SafeKey[];
+  onEventClick?: (
+    event: EventType<DateType>,
+    domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
 }
 
 const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateType>) => {
@@ -33,16 +38,17 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     allDayEventRecord,
     timeEventRecord,
     dates,
+    selectedEventKeys,
     locale,
     generateConfig,
+    onEventClick,
   } = props;
 
   // ========================= States =======================
   const [hour, setHour] = useState<number>();
   const [minute, setMinute] = useState<number>();
-  const [selectedEventKey, setSelectedEventKey] = useState<SafeKey>();
 
-  useWinClick(() => setSelectedEventKey(undefined));
+  const scrollbarRef = useRef<ScrollbarRef>(null);
 
   useInterval(
     () => {
@@ -53,6 +59,17 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     1000,
     { immediate: true },
   );
+
+  const includeToday = useMemo(
+    () => dates.some((d) => isSame(generateConfig, locale, d, generateConfig.getNow(), 'date')),
+    [],
+  );
+
+  useEffect(() => {
+    if (includeToday && hour) {
+      scrollbarRef.current?.scrollTo(0, CELL_ONE_HOUR_HEIGHT * hour);
+    }
+  }, [hour]);
 
   // ========================= Styles =======================
   const semanticCls = useSemanticCls(className);
@@ -96,12 +113,12 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
 
   const nowTagCls = clsx(
     `${prefixCls}-time-event-now-tag`,
-    'absolute right-[calc(100%-3rem+0.25rem)] bg-primary px-1 py-0.5 text-white transition-all',
+    'absolute right-[calc(100%-3rem+0.25rem)] z-[101] bg-primary px-1 py-0.5 text-white transition-all',
   );
 
   const nowLineCls = clsx(
     `${prefixCls}-time-event-now-line`,
-    'absolute right-0 z-[100] h-px w-[calc(100%-3rem+0.25rem)] bg-primary opacity-45 transition-all',
+    'absolute right-0 z-[100] h-0.5 w-[calc(100%-3rem+0.5rem)] bg-primary transition-all',
   );
 
   // ========================= Render =======================
@@ -141,8 +158,8 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
                     eventKey={key}
                     {...rest}
                     maxDuration={dates.length}
-                    selected={selectedEventKey === key}
-                    onSelect={setSelectedEventKey}
+                    selected={selectedEventKeys?.includes(key)}
+                    onClick={(e) => onEventClick?.(rest.data, e)}
                   />
                 ))}
               </div>
@@ -183,8 +200,8 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
                 key={key}
                 eventKey={key}
                 {...rest}
-                selected={selectedEventKey === key}
-                onSelect={setSelectedEventKey}
+                selected={selectedEventKeys?.includes(key)}
+                onClick={(e) => onEventClick?.(rest.data, e)}
               />
             ))}
           </div>
@@ -205,7 +222,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
         <Tag bordered={false} className={nowTagCls} style={{ top }}>
           {String(hour).padStart(2, '0')}:{String(minute).padStart(2, '0')}
         </Tag>
-        <div className={nowLineCls} style={{ top: top + 9.5 }} />
+        <div className={nowLineCls} style={{ top: top + 9 }} />
       </>
     );
   };
@@ -213,7 +230,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   return (
     <div className={rootCls}>
       {renderAllDayRow()}
-      <Scrollbar className={{ view: 'flex divide-x divide-border-secondary' }}>
+      <Scrollbar ref={scrollbarRef} className={{ view: 'flex divide-x divide-border-secondary' }}>
         {renderTimeColumn()}
         {renderEventColumns()}
         {renderBaseline()}

@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import type { DateValue, GenerateConfig } from '../../date-picker/interface';
 import { isSame } from '../../date-picker/utils/dateUtil';
 import type { CalendarLocale, EventType, SharedPanelProps } from '../interface';
 import { groupEventsByDate } from '../util';
 import DayPanel from './DayPanel';
+import useWinClick from './hooks/useWinClick';
 import MonthPanel from './MonthPanel';
 import WeekPanel from './WeekPanel';
 import YearPanel from './YearPanel';
@@ -18,8 +19,12 @@ const DefaultComponents = {
 };
 
 export interface PanelProps<DateType extends object = Dayjs>
-  extends Omit<SharedPanelProps<DateType>, 'allDayEventRecord' | 'timeEventRecord'> {
+  extends Omit<
+    SharedPanelProps<DateType>,
+    'allDayEventRecord' | 'timeEventRecord' | 'onEventClick'
+  > {
   events?: EventType<DateType>[];
+  onEventSelectChange: (arg: SafeKey[] | ((origin: SafeKey[]) => SafeKey[])) => void;
 }
 
 const MS_PER_DAY = 86400000;
@@ -64,9 +69,13 @@ const Panel = <DateType extends object = Dayjs>({
   mode,
   generateConfig,
   locale,
+  selectedEventKeys,
+  onEventSelectChange,
   ...restProps
 }: PanelProps<DateType>) => {
   const PanelComponent = DefaultComponents[mode] as typeof MonthPanel;
+
+  useWinClick(() => onEventSelectChange([]));
 
   const validEventDateRange = useMemo<[DateType, DateType] | null>(() => {
     if (mode === 'year') {
@@ -108,15 +117,29 @@ const Panel = <DateType extends object = Dayjs>({
     return groupEventsByDate(validEvents, generateConfig, locale, mode === 'month');
   }, [events, mode, validEventDateRange?.[0], validEventDateRange?.[1]]);
 
+  const onEventClick = (
+    event: EventType<DateType>,
+    domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (domEvent.metaKey || domEvent.ctrlKey) {
+      onEventSelectChange((origin) => [...origin, event.key]);
+    } else {
+      onEventSelectChange([event.key]);
+    }
+    domEvent.stopPropagation();
+  };
+
   return (
     <PanelComponent
       {...restProps}
       mode={mode}
       value={value}
+      selectedEventKeys={selectedEventKeys}
       generateConfig={generateConfig}
       locale={locale}
       allDayEventRecord={allDayEventRecord}
       timeEventRecord={timeEventRecord}
+      onEventClick={onEventClick}
     />
   );
 };

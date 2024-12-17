@@ -31,8 +31,10 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
       extra,
       events,
       lunar,
+      selectedEvents,
       onChange,
       onModeChange,
+      onEventSelectChange,
     } = props;
     const { getPrefixCls } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('calendar', customizePrefixCls);
@@ -53,6 +55,12 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
     const [mergedMode, setMergedMode] = useMergedState('month', {
       value: mode,
       defaultValue: defaultMode,
+    });
+
+    // Event
+    const [mergedSelectedEventKeys, setMergedSelectedEventKeys] = useMergedState([], {
+      value: selectedEvents,
+      onChange: onEventSelectChange,
     });
 
     const prevMode = usePrevious(mergedMode);
@@ -125,9 +133,11 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
           prevMode={prevMode}
           mode={mergedMode}
           events={events}
+          selectedEventKeys={mergedSelectedEventKeys}
           lunar={mergedLunar}
           onChange={triggerChange}
           onModeChange={triggerModeChange}
+          onEventSelectChange={setMergedSelectedEventKeys}
         />
       </div>
     );

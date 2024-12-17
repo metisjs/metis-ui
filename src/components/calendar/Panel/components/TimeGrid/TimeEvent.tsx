@@ -19,13 +19,12 @@ interface TimeEventProps<DateType extends object = Dayjs> extends TimeEventType<
   prefixCls: string;
   eventKey: SafeKey;
   selected?: boolean;
-  onSelect?: (key: SafeKey) => void;
+  onClick?: (domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateType>) => {
   const {
     prefixCls,
-    eventKey,
     title,
     color,
     selected,
@@ -36,7 +35,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     group,
     offset,
     span,
-    onSelect,
+    onClick,
   } = props;
 
   const { primary, isDark } = useTheme();
@@ -166,16 +165,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const endTime = `${String(end.hour).padStart(2, '0')}:${String(end.minute).padStart(2, '0')}`;
 
   return (
-    <div
-      className={rootCls}
-      style={style}
-      onClick={(e) => {
-        if (!selected) {
-          onSelect?.(eventKey);
-        }
-        e.stopPropagation();
-      }}
-    >
+    <div className={rootCls} style={style} onClick={onClick}>
       <div className={titleCls}>{title}</div>
       {rangeStart && (
         <div className={timeCls} style={{ color: selected ? 'white' : secondTextColor }}>

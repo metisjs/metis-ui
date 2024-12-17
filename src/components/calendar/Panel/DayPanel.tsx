@@ -20,7 +20,9 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
     allDayEventRecord,
     timeEventRecord,
     lunar,
+    selectedEventKeys,
     onChange,
+    onEventClick,
   } = props;
 
   const semanticCls = useSemanticCls(className);
@@ -111,8 +113,10 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
             dates={[value]}
             allDayEventRecord={mergedAllDayEvents}
             timeEventRecord={timeEventRecord}
+            selectedEventKeys={selectedEventKeys}
             locale={locale}
             generateConfig={generateConfig}
+            onEventClick={onEventClick}
           />
         </div>
         <div className={calendarCls}>

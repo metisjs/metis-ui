@@ -16,13 +16,12 @@ interface AllDayEventProps<DateType extends object = Dayjs> extends AllDayEventT
   selected?: boolean;
   borderWidth?: number;
   maxDuration?: number;
-  onSelect?: (key: SafeKey) => void;
+  onClick?: (domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<DateType>) => {
   const {
     prefixCls,
-    eventKey,
     icon = <CalendarOutline />,
     title,
     color,
@@ -33,7 +32,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
     index,
     borderWidth = 1,
     selected,
-    onSelect,
+    onClick,
   } = props;
 
   const { primary, isDark } = useTheme();
@@ -89,16 +88,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
   };
 
   return (
-    <div
-      className={rootCls}
-      style={style}
-      onClick={(e) => {
-        if (!selected) {
-          onSelect?.(eventKey);
-        }
-        e.stopPropagation();
-      }}
-    >
+    <div className={rootCls} style={style} onClick={onClick}>
       {rangeStart && icon && (
         <span className={iconCls} style={{ backgroundColor: mergedColor }}>
           {icon}

@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import type { SemanticRecord } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import type { AnyObject, GetProp, SafeKey } from '@util/type';
+import type { AnyObject, GetProp } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
@@ -18,7 +18,6 @@ import type { AllDayEventType, SharedPanelProps, TimeEventType } from '../interf
 import { getDateKey } from '../util';
 import AllDayEvent from './components/AllDayEvent';
 import TimeEvent from './components/TimeEvent';
-import useWinClick from './hooks/useWinClick';
 
 type CellSemanticClassName = GetProp<
   SemanticRecord<GetProp<PickerPanelProps, 'className'>>,
@@ -35,8 +34,10 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
     lunar,
     allDayEventRecord,
     timeEventRecord,
+    selectedEventKeys,
     onChange,
     onModeChange,
+    onEventClick,
   } = props;
 
   const panelRef = React.useRef<PickerPanelRef>(null);
@@ -46,12 +47,9 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
   const today = generateConfig.getNow();
 
   // ========================= States =========================
-  const [selectedEventKey, setSelectedEventKey] = useState<SafeKey>();
   const [eventMoreInfo, setEventMoreInfo] = useState<
     Record<string, { count: number; index: number }>
   >({});
-
-  useWinClick(() => setSelectedEventKey(undefined));
 
   const resetEventOutOfView = useEvent(
     (eventRecord: Record<string, (TimeEventType<DateType> | AllDayEventType<DateType>)[]>) => {
@@ -215,8 +213,8 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
                     eventKey={key}
                     borderWidth={isFirstOfWeek ? 0.5 : 1}
                     {...rest}
-                    selected={selectedEventKey === key}
-                    onSelect={setSelectedEventKey}
+                    selected={selectedEventKeys?.includes(key)}
+                    onClick={(e) => onEventClick?.(rest.data, e)}
                   />
                 ),
             )}
@@ -230,8 +228,8 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
                     eventKey={key}
                     rangeStart={rangeStart}
                     {...rest}
-                    selected={selectedEventKey === key}
-                    onSelect={setSelectedEventKey}
+                    selected={selectedEventKeys?.includes(key)}
+                    onClick={(e) => onEventClick?.(rest.data, e)}
                   />
                 ),
             )}

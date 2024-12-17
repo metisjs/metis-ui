@@ -37,6 +37,10 @@ export interface CalendarLocale extends DatePickerLocal {
 
 export type CalendarMode = 'year' | 'month' | 'week' | 'day';
 
+export type EventSelectHandler = (selectedKeys: SafeKey[]) => void;
+
+export type EventChangeHandler = (info: { action: 'remove' }) => void;
+
 export interface CalendarProps<DateType extends AnyObject = Dayjs> {
   prefixCls?: string;
   className?: string;
@@ -51,8 +55,10 @@ export interface CalendarProps<DateType extends AnyObject = Dayjs> {
   events?: EventType<DateType>[];
   extra?: React.ReactNode;
   lunar?: boolean;
+  selectedEvents?: SafeKey[];
   onChange?: (date: DateType) => void;
   onModeChange?: (mode: CalendarMode) => void;
+  onEventSelectChange?: EventSelectHandler;
 }
 
 export type HeaderRender<DateType> = (config: {
@@ -79,6 +85,8 @@ export interface SharedPanelProps<DateType extends object = any> {
   // Value
   value: DateType;
 
+  selectedEventKeys?: SafeKey[];
+
   allDayEventRecord: Record<string, AllDayEventType<DateType>[]>;
   timeEventRecord: Record<string, TimeEventType<DateType>[]>;
 
@@ -86,6 +94,10 @@ export interface SharedPanelProps<DateType extends object = any> {
 
   onChange: (date: DateType) => void;
   onModeChange: (mode: CalendarMode) => void;
+  onEventClick: (
+    event: EventType<DateType>,
+    domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => void;
 }
 
 export type EventType<DateType extends AnyObject = Dayjs> = {
