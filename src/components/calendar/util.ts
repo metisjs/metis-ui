@@ -97,7 +97,7 @@ function getTimeEventPosition<DateType extends AnyObject = Dayjs>(event: TimeEve
 
     const { group, span } = info;
     const parentWidth = getWidth(group.parent);
-    const indent = group.parent === null ? 0 : 1;
+    const indent = group.parent === null || group.parent.unindent ? 0 : 1;
 
     return ((parentWidth - indent) * span) / group.column;
   };
@@ -113,7 +113,7 @@ function getTimeEventPosition<DateType extends AnyObject = Dayjs>(event: TimeEve
     const parentLeft = getLeft(group.parent);
     const parentWidth = getWidth(group.parent);
 
-    const indent = group.parent === null ? 0 : 1;
+    const indent = group.parent === null || group.parent.unindent ? 0 : 1;
     const groupWidth = parentWidth - indent;
     const offsetWidth = (groupWidth * offset) / group.column;
 
@@ -286,10 +286,6 @@ export function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
           return a.path.length - b.path.length;
         });
 
-        if (currEvent.key === 20) {
-          console.log(targetGroupList);
-        }
-
         let foundPosition = false;
         groupLoop: for (const targetGroup of targetGroupList) {
           const targetEventList = groupEventsCache.get(targetGroup.key);
@@ -304,19 +300,21 @@ export function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
             currEvent.group.parent = { group: targetGroup, offset, span };
             currEvent.group.path.unshift(...targetGroup.path);
 
-            foundPosition = true;
-            for (const targetEvent of [...targetEventList]) {
-              if (
-                isTimeEventOverlap(targetEvent, currEvent) ||
-                // 多列显示时，同一列时间上必须要有重叠
-                (targetGroup.column > 1 &&
-                  targetEvent.group === targetGroup &&
-                  targetEvent.offset === offset &&
-                  !isTimeEventOverlap(targetEvent, currEvent, true))
-              ) {
-                foundPosition = false;
-              }
-            }
+            foundPosition = [...targetEventList].every(
+              (targetEvent) => !isTimeEventOverlap(targetEvent, currEvent),
+            );
+            // for (const targetEvent of [...targetEventList]) {
+            //   if (
+            //     isTimeEventOverlap(targetEvent, currEvent) ||
+            //     // 多列显示时，同一列时间上必须要有重叠
+            //     (targetGroup.column > 1 &&
+            //       targetEvent.group === targetGroup &&
+            //       targetEvent.offset === offset &&
+            //       !isTimeEventOverlap(targetEvent, currEvent, true))
+            //   ) {
+            //     foundPosition = false;
+            //   }
+            // }
 
             if (foundPosition) {
               // 找到上级组中同列的事件
@@ -332,30 +330,38 @@ export function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
                 }
               }
 
-              // 目标组为多列，且目标事件是组中最后一个，且目标事件与当前事件时间相近，则分栏
-              if (targetEvent !== null && isClosely(targetEvent, currEvent)) {
-                if (
-                  targetGroup.column > 1 &&
-                  targetEvent.offset + targetEvent.span !== targetGroup.column
-                ) {
-                  foundPosition = false;
-                } else {
-                  // 分栏
-                  groupEventsCache.delete(currEvent.group.key);
+              if (targetEvent !== null) {
+                if (!isTimeEventOverlap(targetEvent, currEvent, true)) {
+                  // 多列显示时，同一列时间上没有重叠，尝试取消组缩进
+                  currEvent.group.parent.unindent = true;
+                  foundPosition = [...targetEventList].every(
+                    (targetEvent) => !isTimeEventOverlap(targetEvent, currEvent),
+                  );
+                } else if (isClosely(targetEvent, currEvent)) {
+                  // 目标组为多列，且目标事件是组中最后一个，且目标事件与当前事件时间相近，则分栏
+                  if (
+                    targetGroup.column > 1 &&
+                    targetEvent.offset + targetEvent.span !== targetGroup.column
+                  ) {
+                    foundPosition = false;
+                  } else {
+                    // 分栏
+                    groupEventsCache.delete(currEvent.group.key);
 
-                  currEvent.group = targetGroup;
-                  currEvent.group.column += 1;
-                  currEvent.span = 1;
+                    currEvent.group = targetGroup;
+                    currEvent.group.column += 1;
+                    currEvent.span = 1;
 
-                  // 重新排序，end越大越靠前
-                  [...targetGroupEvents, currEvent]
-                    .sort((a, b) => {
-                      const aEndMinute = a.end.hour * 60 + a.end.minute;
-                      const bEndMinute = b.end.hour * 60 + b.end.minute;
+                    // 重新排序，end越大越靠前
+                    [...targetGroupEvents, currEvent]
+                      .sort((a, b) => {
+                        const aEndMinute = a.end.hour * 60 + a.end.minute;
+                        const bEndMinute = b.end.hour * 60 + b.end.minute;
 
-                      return bEndMinute - aEndMinute;
-                    })
-                    .forEach((event, index) => (event.offset = index));
+                        return bEndMinute - aEndMinute;
+                      })
+                      .forEach((event, index) => (event.offset = index));
+                  }
                 }
               }
             }

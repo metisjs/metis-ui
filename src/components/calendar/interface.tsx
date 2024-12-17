@@ -116,7 +116,7 @@ export interface AllDayEventType<DateType extends AnyObject = Dayjs>
 export type TimeEventGroup = {
   key: string;
   column: number;
-  parent: { group: TimeEventGroup; offset: number; span: number } | null;
+  parent: { group: TimeEventGroup; offset: number; span: number; unindent?: boolean } | null;
   path: string[];
 };
 

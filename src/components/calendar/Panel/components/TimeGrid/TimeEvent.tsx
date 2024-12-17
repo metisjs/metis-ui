@@ -77,7 +77,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const height =
     (end.hour + end.minute / 60 - start.hour - start.minute / 60) * CELL_ONE_HOUR_HEIGHT;
 
-  const indent = useMemo(() => group.path.length, [group]);
+  const zIndex = useMemo(() => group.path.length + 10, [group]);
 
   /**
    * 获取宽度
@@ -94,7 +94,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     const { group, span } = info;
 
     const parentWidth = getStyleWidth(group.parent);
-    const indent = group.parent === null ? 0 : TIME_EVENT_INDENT;
+    const indent = group.parent === null || group.parent.unindent ? 0 : TIME_EVENT_INDENT;
 
     return `((${parentWidth}) - ${indent + EVENT_GAP * (group.column - 1)}px) * ${span / group.column} + ${(span - 1) * EVENT_GAP}px`;
   };
@@ -116,7 +116,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     const parentLeft = getStyleLeft(group.parent);
     const parentWidth = getStyleWidth(group.parent);
 
-    const indent = group.parent === null ? 0 : TIME_EVENT_INDENT;
+    const indent = group.parent === null || group.parent.unindent ? 0 : TIME_EVENT_INDENT;
     // 去除缩进和间距后组宽度
     const groupWidth = `((${parentWidth}) - ${indent + EVENT_GAP * (group.column - 1)}px`;
     const offsetWidth = `(${groupWidth}) * ${offset / group.column}`;
@@ -157,7 +157,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     height: Math.max(height, EVENT_HEIGHT),
     left,
     width,
-    zIndex: selected ? 199 : indent + 10,
+    zIndex: selected ? 199 : zIndex,
     opacity: selected ? 0.8 : 1,
   };
 

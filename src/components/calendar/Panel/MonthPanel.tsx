@@ -177,10 +177,6 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
         top: more.index * (EVENT_HEIGHT + EVENT_GAP) + EVENT_GAP * 2,
       };
 
-      if (dateKey === '20240901') {
-        console.log(timeEvents);
-      }
-
       return (
         <div
           className={clsx(innerCellCls, {
