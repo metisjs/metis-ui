@@ -19,6 +19,9 @@ const App: React.FC = () => (
     <Popover content={content} title="Title" trigger="click">
       <Button>Click me</Button>
     </Popover>
+    <Popover content={content} title="Title" trigger="doubleClick">
+      <Button>Double click me</Button>
+    </Popover>
   </Space>
 );
 

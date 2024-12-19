@@ -93,7 +93,7 @@ export type ArrowPos = {
 
 export type BuildInPlacements = Record<string, AlignType>;
 
-export type ActionType = 'hover' | 'focus' | 'click' | 'contextMenu';
+export type ActionType = 'hover' | 'focus' | 'click' | 'contextMenu' | 'doubleClick';
 
 export interface Point {
   pageX: number;

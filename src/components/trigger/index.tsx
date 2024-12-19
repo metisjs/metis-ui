@@ -355,7 +355,8 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const [showActions, hideActions] = useAction(mobile, action, showAction, hideAction);
 
     const clickToShow = showActions.has('click');
-    const clickToHide = hideActions.has('click') || hideActions.has('contextMenu');
+    const clickToHide =
+      hideActions.has('click') || hideActions.has('contextMenu') || hideActions.has('doubleClick');
 
     const triggerAlign = useEvent(() => {
       if (!inTransition) {
@@ -543,6 +544,13 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
         // Pass to origin
         originChildProps.onContextMenu?.(event, ...args);
       };
+    }
+
+    // ==================== Action: DoubleClick =====================
+    if (showActions.has('doubleClick')) {
+      wrapperAction<React.MouseEvent<HTMLElement>>('onDoubleClick', true, 0, (event) => {
+        setMousePosByEvent(event);
+      });
     }
 
     // ========================= ClassName ==========================
