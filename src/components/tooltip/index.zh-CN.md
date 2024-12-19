@@ -27,9 +27,9 @@ demo:
 ## API
 
 | 参数      | 说明             | 类型                         | 默认值 |
-| --------- | ---------------- | ---------------------------- | ------ | --- |
+| --------- | ---------------- | ---------------------------- | ------ |
 | title     | 提示文字         | ReactNode \| () => ReactNode | -      |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | -      |     |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | -      |
 
 ### 共同的 API
 

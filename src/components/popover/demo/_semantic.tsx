@@ -14,6 +14,7 @@ const App: React.FC = () => (
     semantics={[
       { name: 'root' },
       { name: 'overlay' },
+      { name: 'inner' },
       { name: 'arrow' },
       { name: 'title' },
       { name: 'content' },
