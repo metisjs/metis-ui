@@ -166,6 +166,13 @@ export function fakeFetchEvents(): EventsType {
       start: now.hour(15).minute(30),
       end: now.hour(19).minute(20),
     },
+    {
+      key: 31,
+      title: 'Time Event 18',
+      start: now.subtract(1, 'day').hour(9).minute(0),
+      end: now.subtract(1, 'day').hour(13).minute(15),
+      color: 'orange',
+    },
   ];
 }
 
