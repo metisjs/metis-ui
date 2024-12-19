@@ -32,6 +32,7 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
       events,
       lunar,
       selectedEvents,
+      eventRender,
       onChange,
       onModeChange,
       onEventSelectChange,
@@ -135,6 +136,7 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
           events={events}
           selectedEventKeys={mergedSelectedEventKeys}
           lunar={mergedLunar}
+          eventRender={eventRender}
           onChange={triggerChange}
           onModeChange={triggerModeChange}
           onEventSelectChange={setMergedSelectedEventKeys}

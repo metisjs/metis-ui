@@ -548,7 +548,6 @@ function groupAllDayEvents<DateType extends AnyObject = Dayjs>(
         title: event.title,
         color: event.color,
         allDay: true,
-        readonly: event.readonly,
         dateKey: dateKey,
         date: currentStartDate,
         rangeStart,
@@ -606,7 +605,6 @@ function groupTimeEvents<DateType extends AnyObject = Dayjs>(
         title: event.title,
         color: event.color,
         allDay: false,
-        readonly: event.readonly,
         dateKey: currentDateKey,
         date: currentDate,
         start: {

@@ -7,6 +7,8 @@ import type {
   DateValue,
   GenerateConfig,
 } from '../date-picker/interface';
+import type { AllDayEventProps } from './Panel/components/AllDayEvent';
+import type { TimeEventProps } from './Panel/components/TimeEvent';
 
 export interface CalendarLocale extends DatePickerLocal {
   headerDateFormat?: string;
@@ -39,7 +41,10 @@ export type CalendarMode = 'year' | 'month' | 'week' | 'day';
 
 export type EventSelectHandler = (selectedKeys: SafeKey[]) => void;
 
-export type EventChangeHandler = (info: { action: 'remove' }) => void;
+export type EventRender<DateType extends AnyObject = Dayjs> = (
+  props: TimeEventProps<DateType> | AllDayEventProps<DateType>,
+  DefaultEvent: React.ComponentType<TimeEventProps<DateType> | AllDayEventProps<DateType>>,
+) => React.ReactElement;
 
 export interface CalendarProps<DateType extends AnyObject = Dayjs> {
   prefixCls?: string;
@@ -56,6 +61,7 @@ export interface CalendarProps<DateType extends AnyObject = Dayjs> {
   extra?: React.ReactNode;
   lunar?: boolean;
   selectedEvents?: SafeKey[];
+  eventRender?: EventRender<DateType>;
   onChange?: (date: DateType) => void;
   onModeChange?: (mode: CalendarMode) => void;
   onEventSelectChange?: EventSelectHandler;
@@ -92,6 +98,8 @@ export interface SharedPanelProps<DateType extends object = any> {
 
   lunar?: boolean;
 
+  eventRender?: EventRender<DateType>;
+
   onChange: (date: DateType) => void;
   onModeChange: (mode: CalendarMode) => void;
   onEventClick: (
@@ -108,12 +116,11 @@ export type EventType<DateType extends AnyObject = Dayjs> = {
   end: DateValue<DateType>;
   allDay?: boolean;
   color?: LiteralUnion<PresetColorType>;
-  readonly?: boolean;
   [key: string]: any;
 };
 
 export interface AllDayEventType<DateType extends AnyObject = Dayjs>
-  extends Pick<EventType<DateType>, 'key' | 'icon' | 'title' | 'allDay' | 'color' | 'readonly'> {
+  extends Pick<EventType<DateType>, 'key' | 'icon' | 'title' | 'allDay' | 'color'> {
   /* YYYYMMDD */
   dateKey: string;
   date: DateType;
@@ -134,7 +141,7 @@ export type TimeEventGroup = {
 };
 
 export interface TimeEventType<DateType extends AnyObject = Dayjs>
-  extends Pick<EventType<DateType>, 'key' | 'icon' | 'title' | 'allDay' | 'color' | 'readonly'> {
+  extends Pick<EventType<DateType>, 'key' | 'icon' | 'title' | 'allDay' | 'color'> {
   /* YYYYMMDD */
   dateKey: string;
   date: DateType;

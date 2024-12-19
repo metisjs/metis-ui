@@ -16,7 +16,9 @@ import { isSameDate } from '../../date-picker/utils/dateUtil';
 import { EVENT_GAP, EVENT_HEIGHT } from '../constant';
 import type { AllDayEventType, SharedPanelProps, TimeEventType } from '../interface';
 import { getDateKey } from '../util';
+import type { AllDayEventProps } from './components/AllDayEvent';
 import AllDayEvent from './components/AllDayEvent';
+import type { TimeEventProps } from './components/TimeEvent';
 import TimeEvent from './components/TimeEvent';
 
 type CellSemanticClassName = GetProp<
@@ -35,6 +37,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
     allDayEventRecord,
     timeEventRecord,
     selectedEventKeys,
+    eventRender,
     onChange,
     onModeChange,
     onEventClick,
@@ -62,8 +65,12 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
   );
 
   const calcEventMore = useEvent(() => {
+    if (!panelRef.current) {
+      return;
+    }
+
     const eventContainerHeight =
-      (panelRef.current!.nativeElement.offsetHeight - 36) / 6 - 34 - 1 - 4; //  ((PanelHeight - THeadHeight) / 6) - CellValueHeight - BorderHeight - PaddingHeight
+      (panelRef.current.nativeElement.offsetHeight - 36) / 6 - 34 - 1 - 4; //  ((PanelHeight - THeadHeight) / 6) - CellValueHeight - BorderHeight - PaddingHeight
     const limit = Math.floor((eventContainerHeight + EVENT_GAP) / (EVENT_HEIGHT + EVENT_GAP));
 
     const remindHeight = eventContainerHeight - limit * EVENT_HEIGHT - (limit - 1) * EVENT_GAP;
@@ -147,6 +154,20 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
   const innerCellCls = clsx(`${prefixCls}-cell-inner`, `${prefixCls}-date`, 'flex h-full flex-col');
 
   // ========================= Render =========================
+  const allDayEventRender = (props: AllDayEventProps<DateType>) => {
+    if (eventRender) {
+      return eventRender(props, AllDayEvent);
+    }
+    return <AllDayEvent key={props.eventKey} {...props} />;
+  };
+
+  const timeEventRender = (props: TimeEventProps<DateType>) => {
+    if (eventRender) {
+      return eventRender(props, TimeEvent);
+    }
+    return <TimeEvent key={props.eventKey} {...props} />;
+  };
+
   const cellRender = React.useCallback(
     (date: DateType, info: CellRenderInfo): React.ReactNode => {
       const isToday = isSameDate(generateConfig, today, date);
@@ -206,32 +227,28 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
           <div className={clsx(`${prefixCls}-date-events`, 'relative h-0 flex-1')}>
             {allDayEvents.map(
               ({ key, outOfView, ...rest }) =>
-                !outOfView && (
-                  <AllDayEvent
-                    prefixCls={prefixCls}
-                    key={key}
-                    eventKey={key}
-                    borderWidth={isFirstOfWeek ? 0.5 : 1}
-                    {...rest}
-                    selected={selectedEventKeys?.includes(key)}
-                    onClick={(e) => onEventClick?.(rest.data, e)}
-                  />
-                ),
+                !outOfView &&
+                allDayEventRender({
+                  prefixCls,
+                  eventKey: key,
+                  borderWidth: isFirstOfWeek ? 0.5 : 1,
+                  ...rest,
+                  selected: selectedEventKeys?.includes(key),
+                  onClick: (e) => onEventClick?.(rest.data, e),
+                }),
             )}
             {timeEvents.map(
               ({ key, outOfView, rangeStart, ...rest }) =>
                 !outOfView &&
-                rangeStart && (
-                  <TimeEvent
-                    prefixCls={prefixCls}
-                    key={key}
-                    eventKey={key}
-                    rangeStart={rangeStart}
-                    {...rest}
-                    selected={selectedEventKeys?.includes(key)}
-                    onClick={(e) => onEventClick?.(rest.data, e)}
-                  />
-                ),
+                rangeStart &&
+                timeEventRender({
+                  prefixCls,
+                  eventKey: key,
+                  rangeStart,
+                  ...rest,
+                  selected: selectedEventKeys?.includes(key),
+                  onClick: (e) => onEventClick?.(rest.data, e),
+                }),
             )}
             {more.count > 0 && (
               <div

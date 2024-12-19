@@ -6,20 +6,22 @@ import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
+import omit from 'rc-util/lib/omit';
 import useTheme from '../../../theme/useTheme';
 import { EVENT_GAP, EVENT_HEIGHT } from '../../constant';
 import type { AllDayEventType } from '../../interface';
 
-interface AllDayEventProps<DateType extends object = Dayjs> extends AllDayEventType<DateType> {
+export interface AllDayEventProps<DateType extends object = Dayjs>
+  extends Omit<AllDayEventType<DateType>, 'key'>,
+    React.DOMAttributes<HTMLDivElement> {
   prefixCls: string;
   eventKey: SafeKey;
   selected?: boolean;
   borderWidth?: number;
   maxDuration?: number;
-  onClick?: (domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<DateType>) => {
+const AllDayEvent = React.forwardRef<HTMLDivElement, AllDayEventProps>((props, ref) => {
   const {
     prefixCls,
     icon = <CalendarOutline />,
@@ -32,7 +34,7 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
     index,
     borderWidth = 1,
     selected,
-    onClick,
+    ...restProps
   } = props;
 
   const { primary, isDark } = useTheme();
@@ -88,7 +90,12 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
   };
 
   return (
-    <div className={rootCls} style={style} onClick={onClick}>
+    <div
+      ref={ref}
+      className={rootCls}
+      style={style}
+      {...omit(restProps, ['eventKey', 'allDay', 'dateKey'])}
+    >
       {rangeStart && icon && (
         <span className={iconCls} style={{ backgroundColor: mergedColor }}>
           {icon}
@@ -97,6 +104,10 @@ const AllDayEvent = <DateType extends object = Dayjs>(props: AllDayEventProps<Da
       <span className={titleCls}>{title}</span>
     </div>
   );
-};
+}) as unknown as <DateType extends object = Dayjs>(
+  props: AllDayEventProps<DateType> & {
+    ref?: React.Ref<HTMLDivElement>;
+  },
+) => React.ReactElement;
 
 export default AllDayEvent;

@@ -11,9 +11,17 @@ import type { ScrollbarRef } from '../../../../scrollbar';
 import Scrollbar from '../../../../scrollbar';
 import Tag from '../../../../tag';
 import { CELL_ONE_HOUR_HEIGHT, EVENT_GAP, EVENT_HEIGHT } from '../../../constant';
-import type { AllDayEventType, CalendarLocale, EventType, TimeEventType } from '../../../interface';
+import type {
+  AllDayEventType,
+  CalendarLocale,
+  EventRender,
+  EventType,
+  TimeEventType,
+} from '../../../interface';
 import { getDateKey } from '../../../util';
+import type { AllDayEventProps } from '../AllDayEvent';
 import AllDayEvent from '../AllDayEvent';
+import type { TimeEventProps } from './TimeEvent';
 import TimeEvent from './TimeEvent';
 
 export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
@@ -25,6 +33,7 @@ export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   locale: CalendarLocale;
   generateConfig: GenerateConfig<DateType>;
   selectedEventKeys?: SafeKey[];
+  eventRender?: EventRender<DateType>;
   onEventClick?: (
     event: EventType<DateType>,
     domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -41,6 +50,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     selectedEventKeys,
     locale,
     generateConfig,
+    eventRender,
     onEventClick,
   } = props;
 
@@ -122,6 +132,20 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   );
 
   // ========================= Render =======================
+  const allDayEventRender = (props: AllDayEventProps<DateType>) => {
+    if (eventRender) {
+      return eventRender(props, AllDayEvent);
+    }
+    return <AllDayEvent key={props.eventKey} {...props} />;
+  };
+
+  const timeEventRender = (props: TimeEventProps<DateType>) => {
+    if (eventRender) {
+      return eventRender(props, TimeEvent);
+    }
+    return <TimeEvent key={props.eventKey} {...props} />;
+  };
+
   const renderAllDayRow = () => {
     const rowCount =
       dates.reduce((max, date) => {
@@ -151,17 +175,16 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
                 className={eventCellCls}
                 style={{ minHeight: height }}
               >
-                {events.map(({ key, ...rest }) => (
-                  <AllDayEvent
-                    prefixCls={prefixCls}
-                    key={key}
-                    eventKey={key}
-                    {...rest}
-                    maxDuration={dates.length}
-                    selected={selectedEventKeys?.includes(key)}
-                    onClick={(e) => onEventClick?.(rest.data, e)}
-                  />
-                ))}
+                {events.map(({ key, ...rest }) =>
+                  allDayEventRender({
+                    prefixCls,
+                    eventKey: key,
+                    ...rest,
+                    maxDuration: dates.length,
+                    selected: selectedEventKeys?.includes(key),
+                    onClick: (e) => onEventClick?.(rest.data, e),
+                  }),
+                )}
               </div>
             );
           })}
@@ -194,16 +217,15 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
             {Array.from({ length: 24 }).map((_, index) => (
               <div key={index} className={eventCellCls} style={{ height: CELL_ONE_HOUR_HEIGHT }} />
             ))}
-            {events.map(({ key, ...rest }) => (
-              <TimeEvent
-                prefixCls={prefixCls}
-                key={key}
-                eventKey={key}
-                {...rest}
-                selected={selectedEventKeys?.includes(key)}
-                onClick={(e) => onEventClick?.(rest.data, e)}
-              />
-            ))}
+            {events.map(({ key, ...rest }) =>
+              timeEventRender({
+                prefixCls,
+                eventKey: key,
+                ...rest,
+                selected: selectedEventKeys?.includes(key),
+                onClick: (e) => onEventClick?.(rest.data, e),
+              }),
+            )}
           </div>
           <div className={placeholderCellCls}></div>
         </div>

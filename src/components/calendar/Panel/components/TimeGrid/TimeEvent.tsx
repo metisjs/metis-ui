@@ -6,6 +6,7 @@ import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
+import omit from 'rc-util/lib/omit';
 import useTheme from '../../../../theme/useTheme';
 import {
   CELL_ONE_HOUR_HEIGHT,
@@ -15,14 +16,15 @@ import {
 } from '../../../constant';
 import type { TimeEventGroup, TimeEventType } from '../../../interface';
 
-interface TimeEventProps<DateType extends object = Dayjs> extends TimeEventType<DateType> {
+export interface TimeEventProps<DateType extends object = Dayjs>
+  extends Omit<TimeEventType<DateType>, 'key'>,
+    React.DOMAttributes<HTMLDivElement> {
   prefixCls: string;
   eventKey: SafeKey;
   selected?: boolean;
-  onClick?: (domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateType>) => {
+const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) => {
   const {
     prefixCls,
     title,
@@ -35,7 +37,7 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
     group,
     offset,
     span,
-    onClick,
+    ...restProps
   } = props;
 
   const { primary, isDark } = useTheme();
@@ -165,7 +167,12 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const endTime = `${String(end.hour).padStart(2, '0')}:${String(end.minute).padStart(2, '0')}`;
 
   return (
-    <div className={rootCls} style={style} onClick={onClick}>
+    <div
+      ref={ref}
+      className={rootCls}
+      style={style}
+      {...omit(restProps, ['eventKey', 'allDay', 'dateKey'])}
+    >
       <div className={titleCls}>{title}</div>
       {rangeStart && (
         <div className={timeCls} style={{ color: selected ? 'white' : secondTextColor }}>
@@ -176,6 +183,10 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
       )}
     </div>
   );
-};
+}) as unknown as <DateType extends object = Dayjs>(
+  props: TimeEventProps<DateType> & {
+    ref?: React.Ref<HTMLDivElement>;
+  },
+) => React.ReactElement;
 
 export default TimeEvent;

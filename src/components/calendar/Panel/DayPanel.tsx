@@ -21,6 +21,7 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
     timeEventRecord,
     lunar,
     selectedEventKeys,
+    eventRender,
     onChange,
     onEventClick,
   } = props;
@@ -116,6 +117,7 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
             selectedEventKeys={selectedEventKeys}
             locale={locale}
             generateConfig={generateConfig}
+            eventRender={eventRender}
             onEventClick={onEventClick}
           />
         </div>

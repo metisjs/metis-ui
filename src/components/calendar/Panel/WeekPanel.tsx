@@ -19,6 +19,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
     timeEventRecord,
     lunar,
     selectedEventKeys,
+    eventRender,
     onChange,
     onModeChange,
     onEventClick,
@@ -107,6 +108,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
         selectedEventKeys={selectedEventKeys}
         locale={locale}
         generateConfig={generateConfig}
+        eventRender={eventRender}
         onEventClick={onEventClick}
       />
     </div>

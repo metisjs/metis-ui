@@ -3,9 +3,10 @@ import { GiftOutline } from '@metisjs/icons';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import type { CalendarProps, GetProp } from 'metis-ui';
-import { Button, Calendar } from 'metis-ui';
+import { Button, Calendar, Popover, Space } from 'metis-ui';
 
 type EventsType = GetProp<CalendarProps<Dayjs>, 'events'>;
+type EventsRender = GetProp<CalendarProps<Dayjs>, 'eventRender'>;
 
 export function fakeFetchEvents(): EventsType {
   const now = dayjs();
@@ -168,12 +169,78 @@ export function fakeFetchEvents(): EventsType {
   ];
 }
 
-const App: React.FC = () => (
-  <Calendar
-    events={fakeFetchEvents()}
-    extra={<Button type="primary">Add Event</Button>}
-    className="h-[768px]"
-  />
-);
+const CustomEvent = ({
+  children,
+  data,
+}: {
+  children: React.ReactNode;
+  data: EventsType[number];
+}) => {
+  const { title, start, end, allDay } = data;
+
+  const content = (
+    <div onClick={(e) => e.stopPropagation()}>
+      <div className="mb-0 border-b border-b-border-secondary px-3 py-2">{title}</div>
+      <div className="px-3 py-2">
+        {allDay && (
+          <Space>
+            <span>{dayjs(start, 'YYYY/MM/DD').format('YYYY/MM/DD')}</span>
+            <span>~</span>
+            <span>{dayjs(end, 'YYYY/MM/DD').format('YYYY/MM/DD')}</span>
+          </Space>
+        )}
+        {!allDay && (
+          <Space>
+            <span>{dayjs(start, 'YYYY/MM/DD').format('YYYY/MM/DD')}</span>
+            <Space size={4}>
+              <span>{dayjs(start, 'YYYY/MM/DD HH:mm').format('HH:mm')}</span>
+              <span>~</span>
+              <span>{dayjs(end, 'YYYY/MM/DD HH:mm').format('HH:mm')}</span>
+            </Space>
+          </Space>
+        )}
+      </div>
+      <div className="flex justify-end px-3 py-2">
+        <Button type="primary" size="mini" danger>
+          Remove
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <Popover
+      trigger="doubleClick"
+      placement="right"
+      content={content}
+      className={{
+        inner: 'w-64 p-0',
+      }}
+    >
+      {children}
+    </Popover>
+  );
+};
+
+const App: React.FC = () => {
+  const eventRender: EventsRender = (props, EventComponent) => {
+    const { eventKey, data } = props;
+
+    return (
+      <CustomEvent key={eventKey} data={data}>
+        <EventComponent {...props} />
+      </CustomEvent>
+    );
+  };
+
+  return (
+    <Calendar
+      events={fakeFetchEvents()}
+      extra={<Button type="primary">Add Event</Button>}
+      eventRender={eventRender}
+      className="h-[768px]"
+    />
+  );
+};
 
 export default App;

@@ -4,19 +4,21 @@ import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
+import omit from 'rc-util/lib/omit';
 import useTheme from '../../../theme/useTheme';
 import { EVENT_GAP, EVENT_HEIGHT } from '../../constant';
 import type { TimeEventType } from '../../interface';
 
-interface TimeEventProps<DateType extends object = Dayjs> extends TimeEventType<DateType> {
+export interface TimeEventProps<DateType extends object = Dayjs>
+  extends Omit<TimeEventType<DateType>, 'key'>,
+    React.DOMAttributes<HTMLDivElement> {
   prefixCls: string;
   eventKey: SafeKey;
   selected?: boolean;
-  onClick?: (domEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateType>) => {
-  const { prefixCls, title, color, index, selected, start, onClick } = props;
+const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) => {
+  const { prefixCls, title, color, index, selected, start, ...restProps } = props;
 
   const { primary } = useTheme();
 
@@ -53,11 +55,20 @@ const TimeEvent = <DateType extends object = Dayjs>(props: TimeEventProps<DateTy
   const startTime = `${String(start.hour).padStart(2, '0')}:${String(start.minute).padStart(2, '0')}`;
 
   return (
-    <div className={rootCls} style={style} onClick={onClick}>
+    <div
+      ref={ref}
+      className={rootCls}
+      style={style}
+      {...omit(restProps, ['eventKey', 'allDay', 'dateKey', 'rangeStart', 'rangeEnd'])}
+    >
       <span className={titleCls}>{title}</span>
       <span className={startCls}>{startTime}</span>
     </div>
   );
-};
+}) as unknown as <DateType extends object = Dayjs>(
+  props: TimeEventProps<DateType> & {
+    ref?: React.Ref<HTMLDivElement>;
+  },
+) => React.ReactElement;
 
 export default TimeEvent;
