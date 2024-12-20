@@ -1,14 +1,29 @@
 import React, { useMemo } from 'react';
-import { clsx } from '@util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import { SolarDay } from 'tyme4ts';
 import { isSameDate } from '../../date-picker/utils/dateUtil';
 import type { SharedPanelProps } from '../interface';
+import type { TimeGridProps } from './components/TimeGrid';
 import TimeGrid from './components/TimeGrid';
 
-const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<DateType>) => {
+export type WeekPanelClassName = SemanticClassName<{
+  header?: string;
+  headerCell?: SemanticClassName<
+    { date?: string; weekDay?: string; lunar?: string },
+    { today: boolean }
+  >;
+  body?: TimeGridProps['className'];
+}>;
+
+export type WeekPanelProps<DateType extends AnyObject = Dayjs> = SharedPanelProps<DateType> & {
+  className?: WeekPanelClassName;
+};
+
+const WeekPanel = <DateType extends AnyObject = Dayjs>(props: WeekPanelProps<DateType>) => {
   const {
     prefixCls,
     className,
@@ -56,11 +71,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
   const headerCls = clsx(
     `${prefixCls}-week-header`,
     'flex select-none border-b border-border pl-12',
-  );
-
-  const headerCellCls = clsx(
-    `${prefixCls}-week-header-cell`,
-    'inline-flex h-9 w-0 flex-1 items-center justify-center gap-1',
+    semanticCls.header,
   );
 
   // ========================= Render =========================
@@ -69,6 +80,15 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
       <div className={headerCls}>
         {weekDates.map((date) => {
           const isToday = isSameDate(generateConfig, today, date);
+
+          const cellSemanticCls = getSemanticCls(semanticCls.headerCell, { today: isToday });
+
+          const headerCellCls = clsx(
+            `${prefixCls}-week-header-cell`,
+            'inline-flex h-9 w-0 flex-1 items-center justify-center gap-1',
+            cellSemanticCls.root,
+          );
+
           let lunarName;
 
           if (lunar) {
@@ -85,23 +105,40 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<D
             <div key={generateConfig.getWeekDay(date)} className={headerCellCls}>
               <span
                 className={clsx(
+                  `${prefixCls}-week-header-date`,
                   isToday &&
                     'inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white',
+                  cellSemanticCls.date,
                 )}
                 onDoubleClick={() => handleGotoDay(date)}
               >
                 {generateConfig.getDate(date)}
               </span>
-              <span className="text-text-secondary xs:hidden">
+              <span
+                className={clsx(
+                  `${prefixCls}-week-header-week-day`,
+                  'text-text-secondary xs:hidden',
+                  cellSemanticCls.weekDay,
+                )}
+              >
                 {weekDaysLocale[generateConfig.getWeekDay(date)]}
               </span>
-              <span className="ml-2 text-text-secondary empty:hidden md:hidden">{lunarName}</span>
+              <span
+                className={clsx(
+                  `${prefixCls}-week-header-lunar`,
+                  'ml-2 text-text-secondary empty:hidden md:hidden',
+                  cellSemanticCls.lunar,
+                )}
+              >
+                {lunarName}
+              </span>
             </div>
           );
         })}
       </div>
       <TimeGrid
         prefixCls={prefixCls}
+        className={semanticCls.body}
         dates={weekDates}
         allDayEventRecord={allDayEventRecord}
         timeEventRecord={timeEventRecord}

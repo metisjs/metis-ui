@@ -5,10 +5,14 @@ import type { DateValue, GenerateConfig } from '../../date-picker/interface';
 import { isSame } from '../../date-picker/utils/dateUtil';
 import type { CalendarLocale, EventType, SharedPanelProps } from '../interface';
 import { groupEventsByDate } from '../util';
+import type { DayPanelClassName } from './DayPanel';
 import DayPanel from './DayPanel';
 import useWinClick from './hooks/useWinClick';
+import type { MonthPanelClassName } from './MonthPanel';
 import MonthPanel from './MonthPanel';
+import type { WeekPanelClassName } from './WeekPanel';
 import WeekPanel from './WeekPanel';
+import type { YearPanelClassName } from './YearPanel';
 import YearPanel from './YearPanel';
 
 const DefaultComponents = {
@@ -23,6 +27,10 @@ export interface PanelProps<DateType extends object = Dayjs>
     SharedPanelProps<DateType>,
     'allDayEventRecord' | 'timeEventRecord' | 'onEventClick'
   > {
+  dayPanelClassName?: DayPanelClassName;
+  weekPanelClassName?: WeekPanelClassName;
+  monthPanelClassName?: MonthPanelClassName;
+  yearPanelClassName?: YearPanelClassName;
   events?: EventType<DateType>[];
   onEventSelectChange: (arg: SafeKey[] | ((origin: SafeKey[]) => SafeKey[])) => void;
 }
@@ -70,6 +78,10 @@ const Panel = <DateType extends object = Dayjs>({
   generateConfig,
   locale,
   selectedEventKeys,
+  dayPanelClassName,
+  weekPanelClassName,
+  monthPanelClassName,
+  yearPanelClassName,
   onEventSelectChange,
   ...restProps
 }: PanelProps<DateType>) => {
@@ -129,9 +141,17 @@ const Panel = <DateType extends object = Dayjs>({
     domEvent.stopPropagation();
   };
 
+  const className = {
+    year: yearPanelClassName,
+    month: monthPanelClassName,
+    week: weekPanelClassName,
+    day: dayPanelClassName,
+  }[mode];
+
   return (
     <PanelComponent
       {...restProps}
+      className={className}
       mode={mode}
       value={value}
       selectedEventKeys={selectedEventKeys}

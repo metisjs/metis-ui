@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import usePrevious from '@util/hooks/usePrevious';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import type { Dayjs } from 'dayjs';
@@ -39,6 +40,7 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
     } = props;
     const { getPrefixCls } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('calendar', customizePrefixCls);
+    const semanticCls = useSemanticCls(className);
 
     // ====================== Locale =======================
     const [contextLocale] = useLocale('Calendar', enUS);
@@ -104,7 +106,7 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
 
     // ====================== Render ======================
     return (
-      <div className={clsx(prefixCls, 'flex flex-col', className)} style={style}>
+      <div className={clsx(prefixCls, 'flex flex-col', semanticCls.root)} style={style}>
         {headerRender ? (
           headerRender({
             value: mergedValue,
@@ -116,6 +118,7 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
         ) : (
           <CalendarHeader
             prefixCls={prefixCls}
+            className={semanticCls.header}
             value={mergedValue}
             generateConfig={generateConfig}
             mode={mergedMode}
@@ -128,6 +131,10 @@ const generateCalendar = <DateType extends AnyObject = Dayjs>(
         )}
         <Panel
           prefixCls={prefixCls}
+          yearPanelClassName={semanticCls.yearPanel}
+          monthPanelClassName={semanticCls.monthPanel}
+          weekPanelClassName={semanticCls.weekPanel}
+          dayPanelClassName={semanticCls.dayPanel}
           locale={locale}
           generateConfig={generateConfig}
           value={mergedValue}

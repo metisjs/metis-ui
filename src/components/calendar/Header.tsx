@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Bars3Outline, ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import { uniq, upperFirst } from 'lodash';
 import Button from '../button';
 import type { GenerateConfig } from '../date-picker/interface';
@@ -13,9 +14,15 @@ import Segmented from '../segmented';
 import Space from '../space';
 import type { CalendarLocale, CalendarMode } from './interface';
 
+export type HeaderClassName = SemanticClassName<{
+  title?: string;
+  actions?: string;
+  extra?: string;
+}>;
+
 export interface CalendarHeaderProps<DateType> {
   prefixCls: string;
-  className?: SemanticClassName<{ title?: string; modeSwitcher?: string }>;
+  className?: HeaderClassName;
   value: DateType;
   generateConfig: GenerateConfig<DateType>;
   locale: CalendarLocale;
@@ -28,6 +35,7 @@ export interface CalendarHeaderProps<DateType> {
 function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
   const {
     prefixCls,
+    className,
     locale,
     value,
     mode,
@@ -133,11 +141,20 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
   };
 
   // ========================= Style =========================
-  const rootCls = clsx(`${prefixCls}-header`, 'relative flex items-center gap-4 px-4 pb-1 pt-4');
-  const titleCls = clsx(`${prefixCls}-header-title`, 'text-2xl font-medium');
-  const actionsCls = clsx(`${prefixCls}-header-actions`, 'ml-auto flex items-center gap-4');
+  const semanticCls = useSemanticCls(className);
+  const rootCls = clsx(
+    `${prefixCls}-header`,
+    'relative flex items-center gap-4 px-4 pb-1 pt-4',
+    semanticCls.root,
+  );
+  const titleCls = clsx(`${prefixCls}-header-title`, 'text-2xl font-medium', semanticCls.title);
+  const actionsCls = clsx(
+    `${prefixCls}-header-actions`,
+    'ml-auto flex items-center gap-4',
+    semanticCls.actions,
+  );
   const iconCls = 'h-4 w-4 font-normal text-text-tertiary sm:text-text';
-  const extraCls = clsx(`${prefixCls}-header-extra`);
+  const extraCls = clsx(`${prefixCls}-header-extra`, semanticCls.extra);
 
   // ========================= Render =========================
   const actionMenu = React.useMemo<MenuProps>(() => {
@@ -180,14 +197,12 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
       <div className={titleCls}>{title}</div>
       <div className={actionsCls}>
         {showModeSwitcher && (
-          <>
-            <Segmented
-              options={mergedModeOptions}
-              value={mode}
-              onChange={onModeChange}
-              className="md:hidden"
-            />
-          </>
+          <Segmented
+            options={mergedModeOptions}
+            value={mode}
+            onChange={onModeChange}
+            className={'md:hidden'}
+          />
         )}
         <Space.Compact className="md:hidden">
           <Button icon={<ChevronLeftOutline className={iconCls} />} onClick={handlePrev} />

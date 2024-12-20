@@ -1,7 +1,9 @@
 import type { CSSProperties } from 'react';
 import React from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import omit from 'rc-util/lib/omit';
@@ -13,14 +15,17 @@ export interface TimeEventProps<DateType extends object = Dayjs>
   extends Omit<TimeEventType<DateType>, 'key'>,
     React.DOMAttributes<HTMLDivElement> {
   prefixCls: string;
+  className?: SemanticClassName<{ time?: string; title?: string }>;
   eventKey: SafeKey;
   selected?: boolean;
 }
 
 const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) => {
-  const { prefixCls, title, color, index, selected, start, ...restProps } = props;
+  const { prefixCls, className, title, color, index, selected, start, ...restProps } = props;
 
   const { primary } = useTheme();
+
+  const semanticCls = useSemanticCls(className);
 
   const isInternalColor = isPresetColor(color);
   const mergedColor = isInternalColor
@@ -34,13 +39,23 @@ const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) 
     {
       'text-white': selected,
     },
+    semanticCls.root,
   );
 
-  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-0 flex-1 truncate text-left');
+  const titleCls = clsx(
+    `${prefixCls}-time-event-title`,
+    'w-0 flex-1 truncate text-left',
+    semanticCls.title,
+  );
 
-  const startCls = clsx(`${prefixCls}-time-event-start`, 'text-text-tertiary', {
-    'text-white': selected,
-  });
+  const startCls = clsx(
+    `${prefixCls}-time-event-start`,
+    'text-text-tertiary',
+    {
+      'text-white': selected,
+    },
+    semanticCls.time,
+  );
 
   const style: CSSProperties = {
     // @ts-ignore

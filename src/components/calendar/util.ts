@@ -303,18 +303,6 @@ export function calcTimeEventsLayout<DateType extends AnyObject = Dayjs>(
             foundPosition = [...targetEventList].every(
               (targetEvent) => !isTimeEventOverlap(targetEvent, currEvent),
             );
-            // for (const targetEvent of [...targetEventList]) {
-            //   if (
-            //     isTimeEventOverlap(targetEvent, currEvent) ||
-            //     // 多列显示时，同一列时间上必须要有重叠
-            //     (targetGroup.column > 1 &&
-            //       targetEvent.group === targetGroup &&
-            //       targetEvent.offset === offset &&
-            //       !isTimeEventOverlap(targetEvent, currEvent, true))
-            //   ) {
-            //     foundPosition = false;
-            //   }
-            // }
 
             if (foundPosition) {
               // 找到上级组中同列的事件

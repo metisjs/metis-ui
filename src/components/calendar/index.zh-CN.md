@@ -48,3 +48,7 @@ description: 按照日历形式展示数据的容器。
 | onChange | 日期变化回调 | function(date: Dayjs) | - |  |
 | onPanelChange | 日期面板变化回调 | function(date: Dayjs, mode: string) | - |  |
 | onSelect | 选择日期回调，包含来源信息 | function(date: Dayjs, info: { source: 'year' \| 'month' \| 'date' \| 'customize' }) | - | `info`: 5.6.0 |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

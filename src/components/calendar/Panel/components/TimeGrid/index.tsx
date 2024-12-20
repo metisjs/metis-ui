@@ -26,7 +26,17 @@ import TimeEvent from './TimeEvent';
 
 export interface TimeGridProps<DateType extends AnyObject = Dayjs> {
   prefixCls: string;
-  className?: SemanticClassName;
+  className?: SemanticClassName<{
+    allDayRow?: string;
+    timeColumn?: string;
+    eventColumn?: string;
+    eventCell?: string;
+    nowTag?: string;
+    nowLine?: string;
+    timeCell?: string;
+    allDayEvent?: AllDayEventProps['className'];
+    timeEvent?: TimeEventProps['className'];
+  }>;
   allDayEventRecord: Record<string, AllDayEventType<DateType>[]>;
   timeEventRecord: Record<string, TimeEventType<DateType>[]>;
   dates: DateType[];
@@ -55,8 +65,8 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   } = props;
 
   // ========================= States =======================
-  const [hour, setHour] = useState<number>();
-  const [minute, setMinute] = useState<number>();
+  const [hour, setHour] = useState<number>(-1);
+  const [minute, setMinute] = useState<number>(-1);
 
   const scrollbarRef = useRef<ScrollbarRef>(null);
 
@@ -93,17 +103,20 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   const allDayRowCls = clsx(
     `${prefixCls}-time-event-row-all-day`,
     'flex h-auto divide-x divide-border-secondary border-b-2 border-b-border-secondary leading-6 *:top-0',
+    semanticCls.allDayRow,
   );
 
   const timeColumnCls = clsx(
     `${prefixCls}-time-grid-column`,
     `${prefixCls}-time-grid-column-time`,
     'relative h-fit w-12',
+    semanticCls.timeColumn,
   );
 
   const columnCls = clsx(
     `${prefixCls}-time-grid-column`,
     'relative h-fit w-0 flex-1 divide-y divide-border-tertiary',
+    semanticCls.eventColumn,
   );
 
   const placeholderCellCls = clsx(
@@ -114,21 +127,25 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   const timeCellCls = clsx(
     `${prefixCls}-time-event-time`,
     'relative -top-2 w-12 pr-1 text-right text-text-tertiary',
+    semanticCls.timeCell,
   );
 
   const eventCellCls = clsx(
     `${prefixCls}-time-event-cell`,
     'relative h-full min-h-6 w-full flex-1',
+    semanticCls.eventCell,
   );
 
   const nowTagCls = clsx(
     `${prefixCls}-time-event-now-tag`,
-    'absolute right-[calc(100%-3rem+0.25rem)] z-[101] bg-primary px-1 py-0.5 text-white transition-all',
+    'absolute right-[calc(100%-3rem+0.25rem)] z-[101] bg-primary px-1 py-0.5 text-white',
+    semanticCls.nowTag,
   );
 
   const nowLineCls = clsx(
     `${prefixCls}-time-event-now-line`,
-    'absolute right-0 z-[100] h-0.5 w-[calc(100%-3rem+0.5rem)] bg-primary transition-all',
+    'absolute right-0 z-[100] h-0.5 w-[calc(100%-3rem+0.5rem)] bg-primary',
+    semanticCls.nowLine,
   );
 
   // ========================= Render =======================
@@ -136,14 +153,14 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     if (eventRender) {
       return eventRender(props, AllDayEvent);
     }
-    return <AllDayEvent key={props.eventKey} {...props} />;
+    return <AllDayEvent key={props.eventKey} {...props} className={semanticCls.allDayEvent} />;
   };
 
   const timeEventRender = (props: TimeEventProps<DateType>) => {
     if (eventRender) {
       return eventRender(props, TimeEvent);
     }
-    return <TimeEvent key={props.eventKey} {...props} />;
+    return <TimeEvent key={props.eventKey} {...props} className={semanticCls.timeEvent} />;
   };
 
   const renderAllDayRow = () => {
@@ -236,7 +253,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
     const now = generateConfig.getNow();
     const includeToday = dates.some((d) => isSame(generateConfig, locale, d, now, 'date'));
 
-    if (!hour || !minute || !includeToday) return null;
+    if (hour < 0 || minute < 0 || !includeToday) return null;
 
     const top = hour * CELL_ONE_HOUR_HEIGHT + (minute * CELL_ONE_HOUR_HEIGHT) / 60;
     return (

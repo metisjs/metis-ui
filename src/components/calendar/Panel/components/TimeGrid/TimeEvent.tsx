@@ -2,8 +2,10 @@ import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
 import { TinyColor } from '@ctrl/tinycolor';
 import { ClockOutline } from '@metisjs/icons';
+import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import omit from 'rc-util/lib/omit';
@@ -20,6 +22,7 @@ export interface TimeEventProps<DateType extends object = Dayjs>
   extends Omit<TimeEventType<DateType>, 'key'>,
     React.DOMAttributes<HTMLDivElement> {
   prefixCls: string;
+  className?: SemanticClassName<{ time?: string; title?: string }>;
   eventKey: SafeKey;
   selected?: boolean;
 }
@@ -27,6 +30,7 @@ export interface TimeEventProps<DateType extends object = Dayjs>
 const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) => {
   const {
     prefixCls,
+    className,
     title,
     color,
     selected,
@@ -41,6 +45,8 @@ const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) 
   } = props;
 
   const { primary, isDark } = useTheme();
+
+  const semanticCls = useSemanticCls(className);
 
   const isInternalColor = isPresetColor(color);
   const mergedColor = isInternalColor
@@ -135,11 +141,16 @@ const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) 
       'rounded-ee-md rounded-es-md': rangeEnd,
       'py-0.5': height <= EVENT_HEIGHT,
     },
+    semanticCls.root,
   );
 
-  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-full break-words');
+  const titleCls = clsx(`${prefixCls}-time-event-title`, 'w-full break-words', semanticCls.title);
 
-  const timeCls = clsx(`${prefixCls}-time-event-time`, 'flex w-full items-center gap-0.5 truncate');
+  const timeCls = clsx(
+    `${prefixCls}-time-event-time`,
+    'flex w-full items-center gap-0.5 truncate',
+    semanticCls.time,
+  );
 
   const width = useMemo(
     () => `calc(${getStyleWidth({ group, offset, span })})`,

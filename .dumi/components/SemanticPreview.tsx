@@ -12,7 +12,7 @@ type SemanticArg = {
   version?: string;
 };
 
-type SemanticItem = {
+export type SemanticItem = {
   name: string;
   args?: SemanticArg[];
   version?: string;
@@ -22,6 +22,7 @@ type SemanticItem = {
 };
 
 export interface SemanticPreviewProps {
+  compact?: boolean;
   transform?: boolean;
   semantics: SemanticItem[];
   children: React.ReactNode | ((hover?: { name: string; path: string }) => React.ReactNode);
@@ -149,7 +150,16 @@ function parseSemanticCls(
 }
 
 const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props, ref) => {
-  const { transform, semantics = [], children, height, rootArgs, extra, targetIndex = 0 } = props;
+  const {
+    compact,
+    transform,
+    semantics = [],
+    children,
+    height,
+    rootArgs,
+    extra,
+    targetIndex = 0,
+  } = props;
 
   // ======================= Semantic =======================
   const getMarkClassName = React.useCallback(
@@ -243,7 +253,10 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
           {extra && <div className="flex h-[62px] items-center px-5">{extra}</div>}
           <div
             ref={ref}
-            className="relative flex flex-auto items-center justify-center overflow-hidden p-5"
+            className={clsx(
+              'relative flex flex-auto items-center justify-center overflow-hidden p-5',
+              compact && 'p-0',
+            )}
             style={transform ? { transform: 'translate(0, 0)' } : {}}
           >
             {mergedChildren}

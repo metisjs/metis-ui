@@ -2,8 +2,10 @@ import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
 import { TinyColor } from '@ctrl/tinycolor';
 import { CalendarOutline } from '@metisjs/icons';
+import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import omit from 'rc-util/lib/omit';
@@ -15,6 +17,7 @@ export interface AllDayEventProps<DateType extends object = Dayjs>
   extends Omit<AllDayEventType<DateType>, 'key'>,
     React.DOMAttributes<HTMLDivElement> {
   prefixCls: string;
+  className?: SemanticClassName<{ icon?: string; title?: string }>;
   eventKey: SafeKey;
   selected?: boolean;
   borderWidth?: number;
@@ -24,6 +27,7 @@ export interface AllDayEventProps<DateType extends object = Dayjs>
 const AllDayEvent = React.forwardRef<HTMLDivElement, AllDayEventProps>((props, ref) => {
   const {
     prefixCls,
+    className,
     icon = <CalendarOutline />,
     title,
     color,
@@ -38,6 +42,8 @@ const AllDayEvent = React.forwardRef<HTMLDivElement, AllDayEventProps>((props, r
   } = props;
 
   const { primary, isDark } = useTheme();
+
+  const semanticCls = useSemanticCls(className);
 
   const isInternalColor = isPresetColor(color);
   const mergedColor = isInternalColor
@@ -70,14 +76,20 @@ const AllDayEvent = React.forwardRef<HTMLDivElement, AllDayEventProps>((props, r
       'rounded-e-full': rangeEnd,
       'pl-6': !rangeStart,
     },
+    semanticCls.root,
   );
 
   const iconCls = clsx(
     `${prefixCls}-allday-event-icon`,
     'flex h-4 w-4 items-center justify-center rounded-full text-white',
+    semanticCls.icon,
   );
 
-  const titleCls = clsx(`${prefixCls}-allday-event-title`, 'w-0 flex-1 truncate text-left');
+  const titleCls = clsx(
+    `${prefixCls}-allday-event-title`,
+    'w-0 flex-1 truncate text-left',
+    semanticCls.title,
+  );
 
   const mergedDuration = Math.min(duration, maxDuration);
   const style: CSSProperties = {

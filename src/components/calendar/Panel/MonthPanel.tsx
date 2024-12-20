@@ -1,16 +1,16 @@
 import type { MouseEvent } from 'react';
 import React, { useRef, useState } from 'react';
-import type { SemanticRecord } from '@util/classNameUtils';
-import { clsx } from '@util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, getSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import type { AnyObject, GetProp } from '@util/type';
+import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { SolarDay } from 'tyme4ts';
 import type { CellRenderInfo } from '../../date-picker/interface';
-import type { PickerPanelProps, PickerPanelRef } from '../../date-picker/PickerPanel';
+import type { PickerPanelRef } from '../../date-picker/PickerPanel';
 import PickerPanel from '../../date-picker/PickerPanel';
 import { isSameDate } from '../../date-picker/utils/dateUtil';
 import { EVENT_GAP, EVENT_HEIGHT } from '../constant';
@@ -21,12 +21,20 @@ import AllDayEvent from './components/AllDayEvent';
 import type { TimeEventProps } from './components/TimeEvent';
 import TimeEvent from './components/TimeEvent';
 
-type CellSemanticClassName = GetProp<
-  SemanticRecord<GetProp<PickerPanelProps, 'className'>>,
-  'cell'
->;
+export type MonthPanelClassName = SemanticClassName<{
+  cell?: SemanticClassName<
+    { dateRow?: string; date?: string; lunar?: string; eventMore?: string },
+    { today?: boolean; inView?: boolean }
+  >;
+  allDayEvent?: AllDayEventProps['className'];
+  timeEvent?: TimeEventProps['className'];
+}>;
 
-const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<DateType>) => {
+export type MonthPanelProps<DateType extends AnyObject = Dayjs> = SharedPanelProps<DateType> & {
+  className?: MonthPanelClassName;
+};
+
+const MonthPanel = <DateType extends AnyObject = Dayjs>(props: MonthPanelProps<DateType>) => {
   const {
     prefixCls,
     className,
@@ -141,36 +149,37 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
   const bodyCls = clsx(
     'h-full p-0 *:h-full [&_th]:border-b [&_th]:border-b-border [&_th]:px-3 [&_th]:text-right [&_tr:last-of-type_>_td]:border-b-0',
+    semanticCls.body,
   );
 
-  const cellCls: CellSemanticClassName = ({ inView }) =>
-    clsx(
-      'cursor-default border border-border-secondary p-0 first-of-type:border-l-0 last-of-type:border-r-0',
-      {
-        'bg-fill-quinary': !inView,
-      },
-    );
-
-  const innerCellCls = clsx(`${prefixCls}-cell-inner`, `${prefixCls}-date`, 'flex h-full flex-col');
+  const cellCls = clsx(
+    'group/cell cursor-default border border-border-secondary p-0 first-of-type:border-l-0 last-of-type:border-r-0',
+  );
 
   // ========================= Render =========================
   const allDayEventRender = (props: AllDayEventProps<DateType>) => {
     if (eventRender) {
       return eventRender(props, AllDayEvent);
     }
-    return <AllDayEvent key={props.eventKey} {...props} />;
+    return <AllDayEvent key={props.eventKey} {...props} className={semanticCls.allDayEvent} />;
   };
 
   const timeEventRender = (props: TimeEventProps<DateType>) => {
     if (eventRender) {
       return eventRender(props, TimeEvent);
     }
-    return <TimeEvent key={props.eventKey} {...props} />;
+    return <TimeEvent key={props.eventKey} {...props} className={semanticCls.timeEvent} />;
   };
 
   const cellRender = React.useCallback(
     (date: DateType, info: CellRenderInfo): React.ReactNode => {
       const isToday = isSameDate(generateConfig, today, date);
+
+      const cellSemanticCls = getSemanticCls(semanticCls.cell, {
+        today: isToday,
+        inView: info.inView,
+      });
+
       let lunarName;
 
       if (lunar) {
@@ -198,26 +207,42 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
 
       return (
         <div
-          className={clsx(innerCellCls, {
-            [`${prefixCls}-date-today`]: isToday,
-          })}
+          className={clsx(
+            `${prefixCls}-cell-inner`,
+            'relative flex h-full flex-col',
+            { 'bg-fill-quinary': !info.inView },
+            cellSemanticCls.root,
+          )}
         >
-          <div className={clsx(`${prefixCls}-date-value`, 'flex items-center px-1 pb-0.5 pt-1')}>
+          <div
+            className={clsx(
+              `${prefixCls}-date-row`,
+              'flex items-center px-1 pb-0.5 pt-1',
+              cellSemanticCls.dateRow,
+            )}
+          >
             {lunar && (
               <span
-                className={clsx('text-text-secondary', {
-                  'text-text-tertiary': !info.inView,
-                })}
+                className={clsx(
+                  `${prefixCls}-date-lunar`,
+                  'text-text-secondary',
+                  {
+                    'text-text-tertiary': !info.inView,
+                  },
+                  cellSemanticCls.lunar,
+                )}
               >
                 {lunarName}
               </span>
             )}
             <span
               className={clsx(
+                `${prefixCls}-date`,
                 'ml-auto inline-flex h-7 w-7 items-center justify-end rounded-full px-2',
                 {
                   'justify-center bg-primary text-white': isToday,
                 },
+                cellSemanticCls.date,
               )}
               onDoubleClick={(e) => handleGotoDay(date, e)}
             >
@@ -252,7 +277,11 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
             )}
             {more.count > 0 && (
               <div
-                className="absolute text-xs text-text-secondary"
+                className={clsx(
+                  `${prefixCls}-event-more`,
+                  'absolute text-xs text-text-secondary',
+                  cellSemanticCls.eventMore,
+                )}
                 style={moreStyle}
                 onDoubleClick={(e) => handleGotoDay(date, e)}
               >{`+${more.count} ${locale.more}`}</div>
@@ -261,7 +290,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<
         </div>
       );
     },
-    [generateConfig, today, innerCellCls, lunar, allDayEventRecord, timeEventRecord],
+    [today, lunar, allDayEventRecord, timeEventRecord],
   );
 
   const firstResize = useRef(false);

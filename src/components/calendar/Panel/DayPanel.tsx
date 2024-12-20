@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { clsx } from '@util/classNameUtils';
+import type { SemanticClassName } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
@@ -8,9 +9,25 @@ import { SolarDay } from 'tyme4ts';
 import PickerPanel from '../../date-picker/PickerPanel';
 import type { AllDayEventType, SharedPanelProps } from '../interface';
 import { getDateKey } from '../util';
+import type { TimeGridProps } from './components/TimeGrid';
 import TimeGrid from './components/TimeGrid';
 
-const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<DateType>) => {
+export type DayPanelClassName = SemanticClassName<{
+  header?: string;
+  headerCell?: SemanticClassName<
+    { date?: string; weekDay?: string; lunar?: string },
+    { today: boolean }
+  >;
+  body?: string;
+  eventGrid?: TimeGridProps['className'];
+  calendar?: string;
+}>;
+
+export type DayPanelProps<DateType extends AnyObject = Dayjs> = SharedPanelProps<DateType> & {
+  className?: DayPanelClassName;
+};
+
+const DayPanel = <DateType extends AnyObject = Dayjs>(props: DayPanelProps<DateType>) => {
   const {
     prefixCls,
     className,
@@ -89,15 +106,15 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
   const headerCls = clsx(
     `${prefixCls}-day-header`,
     'flex justify-between border-b border-border pr-4 text-lg leading-9',
+    semanticCls.header,
   );
 
-  const bodyCls = clsx(`${prefixCls}-day-body`, 'flex h-0 flex-1');
-
-  const eventsCls = clsx(`${prefixCls}-day-event-container`, 'relative flex w-0 flex-1 flex-col');
+  const bodyCls = clsx(`${prefixCls}-day-body`, 'flex h-0 flex-1', semanticCls.body);
 
   const calendarCls = clsx(
     `${prefixCls}-day-calendar`,
     'w-72 border-l border-border-secondary sm:hidden',
+    semanticCls.calendar,
   );
 
   // ========================= Render =========================
@@ -108,23 +125,25 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: SharedPanelProps<Da
         {lunarName && <div>{lunarName}</div>}
       </div>
       <div className={bodyCls}>
-        <div className={eventsCls}>
-          <TimeGrid
-            prefixCls={prefixCls}
-            dates={[value]}
-            allDayEventRecord={mergedAllDayEvents}
-            timeEventRecord={timeEventRecord}
-            selectedEventKeys={selectedEventKeys}
-            locale={locale}
-            generateConfig={generateConfig}
-            eventRender={eventRender}
-            onEventClick={onEventClick}
-          />
-        </div>
+        <TimeGrid
+          prefixCls={prefixCls}
+          className={mergeSemanticCls(
+            'relative flex h-full w-0 flex-1 flex-col',
+            semanticCls.eventGrid,
+          )}
+          dates={[value]}
+          allDayEventRecord={mergedAllDayEvents}
+          timeEventRecord={timeEventRecord}
+          selectedEventKeys={selectedEventKeys}
+          locale={locale}
+          generateConfig={generateConfig}
+          eventRender={eventRender}
+          onEventClick={onEventClick}
+        />
         <div className={calendarCls}>
           <PickerPanel
-            value={value}
             prefixCls={prefixCls}
+            value={value}
             locale={locale}
             generateConfig={generateConfig}
             mode="date"

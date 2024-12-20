@@ -7,8 +7,13 @@ import type {
   DateValue,
   GenerateConfig,
 } from '../date-picker/interface';
+import type { HeaderClassName } from './Header';
 import type { AllDayEventProps } from './Panel/components/AllDayEvent';
 import type { TimeEventProps } from './Panel/components/TimeEvent';
+import type { DayPanelClassName } from './Panel/DayPanel';
+import type { MonthPanelClassName } from './Panel/MonthPanel';
+import type { WeekPanelClassName } from './Panel/WeekPanel';
+import type { YearPanelClassName } from './Panel/YearPanel';
 
 export interface CalendarLocale extends DatePickerLocal {
   headerDateFormat?: string;
@@ -48,7 +53,13 @@ export type EventRender<DateType extends AnyObject = Dayjs> = (
 
 export interface CalendarProps<DateType extends AnyObject = Dayjs> {
   prefixCls?: string;
-  className?: string;
+  className?: SemanticClassName<{
+    header?: HeaderClassName;
+    yearPanel?: YearPanelClassName;
+    monthPanel?: MonthPanelClassName;
+    weekPanel?: WeekPanelClassName;
+    dayPanel?: DayPanelClassName;
+  }>;
   style?: React.CSSProperties;
   locale?: CalendarLocale;
   headerRender?: HeaderRender<DateType>;
@@ -78,7 +89,6 @@ export type HeaderRender<DateType> = (config: {
 export interface SharedPanelProps<DateType extends object = any> {
   // Style
   prefixCls: string;
-  className?: SemanticClassName;
 
   // Date Library
   locale: CalendarLocale;
