@@ -71,7 +71,7 @@ export interface CalendarProps<DateType extends AnyObject = Dayjs> {
   events?: EventType<DateType>[];
   extra?: React.ReactNode;
   lunar?: boolean;
-  selectedEvents?: SafeKey[];
+  selectedEventKeys?: SafeKey[];
   eventRender?: EventRender<DateType>;
   onChange?: (date: DateType) => void;
   onModeChange?: (mode: CalendarMode) => void;

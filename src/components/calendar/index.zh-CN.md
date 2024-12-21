@@ -16,9 +16,6 @@ description: 按照日历形式展示数据的容器。
 <code src="./demo/events.tsx" compact>事件</code>
 <code src="./demo/lunar.tsx" compact>农历</code>
 
-<!--
-<code src="./demo/customize-header.tsx">自定义头部</code> -->
-
 ## API
 
 **注意**：Calendar 部分 locale 是从 value 中读取，所以请先正确设置 dayjs 的 locale。
@@ -29,25 +26,45 @@ description: 按照日历形式展示数据的容器。
 // import 'dayjs/locale/zh-cn';
 // dayjs.locale('zh-cn');
 
-<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />
+<Calendar />
 ```
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| cellRender | 自定义单元格的内容 | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
-| dateFullCellRender | 自定义渲染日期单元格，返回内容覆盖单元格，>= 5.4.0 请用 `fullCellRender` | function(date: Dayjs): ReactNode | - | < 5.4.0 |
-| fullCellRender | 自定义单元格的内容 | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | 默认展示的日期 | [dayjs](https://day.js.org/) | - |  |
-| disabledDate | 不可选择的日期，参数为当前 `value`，注意使用时[不要直接修改](https://github.com/ant-design/ant-design/issues/30987) | (currentDate: Dayjs) => boolean | - |  |
-| fullscreen | 是否全屏显示 | boolean | true |  |
-| headerRender | 自定义头部内容 | function(object:{value: Dayjs, type: string, onChange: f(), onTypeChange: f()}) | - |  |
-| locale | 国际化配置 | object | [(默认配置)](https://github.com/ant-design/ant-design/blob/master/components/date-picker/locale/example.json) |  |
-| mode | 初始模式 | `month` \| `year` | `month` |  |
-| validRange | 设置可以显示的日期 | \[[dayjs](https://day.js.org/), [dayjs](https://day.js.org/)] | - |  |
+| defaultMode | 默认展示的模式 | [CalendarMode](#calendarmode) | - |  |
+| headerRender | 自定义头部内容 | function(object:{value: Dayjs, mode: CalendarMode, onChange: f(), onModeChange: f()}) | - |  |
+| locale | 国际化配置 | object |  |  |
+| mode | 模式 | [CalendarMode](#calendarmode) | `month` |  |
+| modeOptions | 模式选项 | [CalendarMode](#calendarmode)\[] \| null | `month` |  |
 | value | 展示日期 | [dayjs](https://day.js.org/) | - |  |
 | onChange | 日期变化回调 | function(date: Dayjs) | - |  |
-| onPanelChange | 日期面板变化回调 | function(date: Dayjs, mode: string) | - |  |
-| onSelect | 选择日期回调，包含来源信息 | function(date: Dayjs, info: { source: 'year' \| 'month' \| 'date' \| 'customize' }) | - | `info`: 5.6.0 |
+| events | 事件集合 | [EventType](#eventtype)\[] | - |  |
+| extra | 右上角的操作区域 | ReactNode | - |  |
+| lunar | 显示农历 | false | - |  |
+| selectedEventKeys | 已选中的事件 | Key[] | - |  |
+| eventRender | 替换 Event，用于二次封装事件 | function(props:EventProps, DefaultEvent：ComponentClass) | - |  |
+| onModeChange | 模式变化回调 | function(mode: CalendarMode) | - |  |
+| onEventSelectChange | 事件选中变化回调 | function(selectedKeys: Key[]) | - |  |
+
+### CalendarMode
+
+```typescript
+type CalendarMode = 'day' | 'week' | 'month' | 'year';
+```
+
+### EventType
+
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| key | 唯一标志 | Key | - |  |
+| icon | 图标 | ReactNode | `<CalendarOutline />` |  |
+| title | 标题 | string | - |  |
+| start | 开始时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| end | 结束时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| allDay | 是否为全天事件 | boolean | false |  |
+| color | 显示颜色 | string | `主题色` |  |
 
 ## Semantic DOM
 
