@@ -73,6 +73,7 @@ The properties of config are as follows:
 
 | Argument | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | duration | Time before auto-dismiss, in seconds | number | 3 |  |
 | getContainer | Return the mount node for Message, but still display at fullScreen | () => HTMLElement | () => document.body |  |
 | maxCount | Max message show, drop oldest if exceed limit | number | - |  |
@@ -80,7 +81,6 @@ The properties of config are as follows:
 | top | Distance from top | number | 8 |  |
 | transition | transition config | [TransitionProps](/components/transition) |  |  |
 | onAllRemoved | trigger on all notification removed | VoidFunction |  |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Global static methods
 

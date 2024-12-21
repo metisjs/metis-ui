@@ -38,9 +38,9 @@ When there are more than a few options to choose from, you can wrap them in a `D
 | --- | --- | --- | --- | --- |
 | arrow | Whether the dropdown arrow should be visible | boolean \| { pointAtCenter: boolean } | false |  |
 | autoAdjustOverflow | Whether to adjust dropdown placement automatically when dropdown is off screen | boolean | true |  |
+| autoDestroy | Whether destroy dropdown when hidden | boolean | false |  |
 | autoFocus | Focus element in `overlay` when opened | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| autoDestroy | Whether destroy dropdown when hidden | boolean | false |  |
 | disabled | Whether the dropdown menu is disabled | boolean | - |  |
 | getPopupContainer | To set the container of the dropdown menu. The default is to create a div element in body, but you can reset it to the scrolling area and make a relative reposition. | (triggerNode: HTMLElement) => HTMLElement | () => document.body |  |
 | menu | The menu props | [MenuProps](/components/menu/#api) | - |  |

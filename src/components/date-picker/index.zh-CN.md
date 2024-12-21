@@ -62,6 +62,7 @@ demo:
 | allowClear | 自定义清除按钮 | boolean \| { clearIcon?: ReactNode } | true |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | cellRender | 自定义单元格的内容 | (current: dayjs, info: { originNode: React.ReactElement,today: DateType, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | components | 自定义面板 | Record&lt;Panel \| 'input', React.ComponentType> | - |  |
 | disabled | 禁用 | boolean | false |  |
 | disabledDate | 不可选择的日期 | (currentDate: dayjs, info: { from?: dayjs }) => boolean | - |  |
@@ -92,7 +93,6 @@ demo:
 | variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
 | onOpenChange | 弹出日历和关闭日历的回调 | function(open) | - |  |
 | onPanelChange | 日历面板切换的回调 | function(value, mode) | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### 共同的方法
 

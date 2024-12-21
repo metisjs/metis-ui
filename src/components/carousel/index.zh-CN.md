@@ -27,20 +27,20 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| showArrow | 是否显示箭头 | boolean | false |  |
+| animation | 动画效果 | 'slide' \| 'fade' \| 'card' \| false | `slide` |  |
 | autoPlay | 是否自动切换 | boolean \| { interval?: number; hoverToPause?: boolean } | false |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultIndex | 默认显示位置 | number | 0 |  |
-| speed | 自动切换的间隔（毫秒） | number | 3000 |  |
-| animation | 动画效果 | 'slide' \| 'fade' \| 'card' \| false | `slide` |
-| indicatorPosition | 面板指示点位置 | 'bottom' \| 'top' \| 'left' \| 'right' \| 'outer' | `bottom` |  |
+| icons | 自定义图标 | {prev?: ReactNode; next?: ReactNode;} | - |  |
 | indicator | 是否显示面板指示点 | boolean | true |  |
-| timingFunc | 过渡速度曲线, 默认匀速 | string | `cubic-bezier(0.34, 0.69, 0.1, 1)` |  |
+| indicatorPosition | 面板指示点位置 | 'bottom' \| 'top' \| 'left' \| 'right' \| 'outer' | `bottom` |  |
 | lazy | 是否仅渲染满足动画效果的最少数量的 children | boolean | false |  |
-| onChange | 切换面板的回调 | (current: number, next: number) => void | - |  |
+| showArrow | 是否显示箭头 | boolean | false |  |
+| speed | 自动切换的间隔（毫秒） | number | 3000 |  |
+| timingFunc | 过渡速度曲线, 默认匀速 | string | `cubic-bezier(0.34, 0.69, 0.1, 1)` |  |
 | trigger | 切换触发方式, click/hover 指示器 | 'click' \| 'hover' | `click` |  |
 | vertical | 竖向切换 | boolean | false |  |
-| icons | 自定义图标 | {prev?: ReactNode; next?: ReactNode;} | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+| onChange | 切换面板的回调 | (current: number, next: number) => void | - |  |
 
 ## 方法
 

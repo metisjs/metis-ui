@@ -42,6 +42,7 @@ demo:
 | allowClear | 支持清除 | boolean \| { clearIcon?: ReactNode } | false |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | children | 自定义输入框 | HTMLInputElement \| HTMLTextAreaElement \| React.ReactElement&lt;InputProps> | &lt;Input /> |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultActiveFirstOption | 是否默认高亮第一个选项 | boolean | true |  |
 | defaultOpen | 是否默认展开下拉菜单 | boolean | - |  |
 | defaultValue | 指定默认选中的条目 | string | - |  |
@@ -68,7 +69,6 @@ demo:
 | onPopupOpenChange | 展开下拉菜单的回调 | function(open) | - |  |
 | onSearch | 搜索补全项的时候调用 | function(value) | - |  |
 | onSelect | 被选中时调用，参数为选中项的 value 值 | function(value, option) | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 #### FileNames
 

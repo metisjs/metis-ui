@@ -16,6 +16,7 @@ group: Data Display
 <code src="./demo/customize.tsx">Customize</code>
 
 <!-- TODO: ConfigProvider -->
+
 <!-- <code src="./demo/config-provider.tsx">ConfigProvider</code> -->
 
 <code src="./demo/description.tsx">No description</code>

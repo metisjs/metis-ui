@@ -61,27 +61,27 @@ More layouts with navigation: [Layout](/components/layout).
 
 | Param | Description | Type | Default value | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | danger | Display the danger style | boolean | false |  |
 | disabled | Whether menu item is disabled | boolean | false |  |
 | icon | The icon of the menu item | ReactNode | - |  |
 | key | Unique ID of the menu item | string | - |  |
 | label | Menu label | ReactNode | - |  |
 | title | Set display title for collapsed item | string | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 #### SubMenuType
 
 | Property | Description | Type | Default value | Version |  |
 | --- | --- | --- | --- | --- | --- |
 | children | Sub-menus or sub-menu items | [ItemType\[\]](#itemtype) | - |  |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |  |
 | disabled | Whether sub-menu is disabled | boolean | false |  |  |
 | icon | Icon of sub menu | ReactNode | - |  |  |
 | key | Unique ID of the sub-menu | string | - |  |  |
 | label | Menu label | ReactNode | - |  |  |
 | popupOffset | Sub-menu offset, not working when `mode="inline"` | \[number, number] | - |  |  |
 | theme | Color theme of the SubMenu (inherits from Menu by default) |  | `light` \| `dark` | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 #### MenuItemGroupType
 
@@ -98,8 +98,8 @@ const groupItem = {
 | Param     | Description            | Type                              | Default value | Version |
 | --------- | ---------------------- | --------------------------------- | ------------- | ------- |
 | children  | Sub-menu items         | [MenuItemType\[\]](#menuitemtype) | -             |         |
-| label     | The title of the group | ReactNode                         | -             |         |
 | className | Semantic DOM class     | [SemanticDOM](#semantic-dom)      | -             |         |
+| label     | The title of the group | ReactNode                         | -             |         |
 
 #### MenuDividerType
 

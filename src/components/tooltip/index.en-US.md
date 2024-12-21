@@ -26,8 +26,8 @@ demo:
 
 | Property  | Description                   | Type                         | Default |
 | --------- | ----------------------------- | ---------------------------- | ------- |
-| title     | The text shown in the tooltip | ReactNode \| () => ReactNode | -       |
 | className | Semantic DOM class            | [SemanticDOM](#semantic-dom) | -       |
+| title     | The text shown in the tooltip | ReactNode \| () => ReactNode | -       |
 
 ### Common API
 

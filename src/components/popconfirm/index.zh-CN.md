@@ -28,9 +28,9 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | cancelText | 取消按钮文字 | string | `取消` |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | description | 确认内容的详细描述 | ReactNode \| () => ReactNode | - |  |
 | disabled | 阻止点击 Popconfirm 子元素时弹出确认框 | boolean | false |  |
 | icon | 自定义弹出气泡 Icon 图标 | ReactNode | &lt;ExclamationTriangleOutline /> |  |

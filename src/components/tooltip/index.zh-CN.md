@@ -28,8 +28,8 @@ demo:
 
 | 参数      | 说明             | 类型                         | 默认值 |
 | --------- | ---------------- | ---------------------------- | ------ |
-| title     | 提示文字         | ReactNode \| () => ReactNode | -      |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | -      |
+| title     | 提示文字         | ReactNode \| () => ReactNode | -      |
 
 ### 共同的 API
 
@@ -52,7 +52,7 @@ demo:
 | placement | 气泡框位置，可选 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | string | `top` |  |
 | trigger | 触发行为，可选 `hover` \| `focus` \| `click` \| `contextMenu`，可使用数组设置多个触发行为 | string \| string\[] | `hover` |  |
 | zIndex | 设置 Tooltip 的 `z-index` | number | - |  |
-| onOpenChange | 显示隐藏的回调 | (open: boolean) => void | - |
+| onOpenChange | 显示隐藏的回调 | (open: boolean) => void | - |  |
 
 ## Semantic DOM
 

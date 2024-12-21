@@ -48,12 +48,13 @@ demo:
 | defaultSelectedKeys | 默认选中的树节点 | string\[] | \[] |  |
 | disabled | 将树禁用 | boolean | false |  |
 | draggable | 设置节点可拖拽，可以通过 `icon: true` 开启拖拽提示图标 | boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| boolean, nodeDraggable?: (node: DataNode) => boolean } | false |  |
-| expandAction | 展开逻辑，可选：false \| `click` \| `doubleClick` | string \| boolean | `false` |     |
+| expandAction | 展开逻辑，可选：false \| `click` \| `doubleClick` | string \| boolean | `false` |  |
 | expandedKeys | （受控）展开指定的树节点 | string\[] | \[] |  |
 | fieldNames | 自定义节点 title、key、children 等字段 | object | { title: `title`, key: `key`, children: `children`, leaf: `leaf`， disabled: `disabled` } |  |
 | height | 设置虚拟滚动容器高度，设置后内部节点不再支持横向滚动 | number | - |  |
 | icon | 在标题之前插入自定义图标。需要设置 `showIcon` 为 true | ReactNode \| (props) => ReactNode | - |  |
-| lazyLoad | 懒加载，点击节点时加载，仅使用 `request` 配置时有效 boolean | false |  |     |
+| indent | 缩进大小 | number | `8` |  |
+| lazyLoad | 懒加载，点击节点时加载，仅使用 `request` 配置时有效 boolean | false |  |  |
 | loadedKeys | （受控）已经加载的节点，需要配合 `loadData` 使用 | string\[] | \[] |  |
 | multiple | 支持点选多个节点（节点本身） | boolean | false |  |
 | request | 远程获取 options 方法 | `RequestConfig` | - |  |
@@ -76,7 +77,6 @@ demo:
 | onExpand | 展开/收起节点时触发 | function(expandedKeys, {expanded: boolean, node}) | - |  |
 | onRightClick | 响应右键点击 | function({event, node}) | - |  |
 | onSelect | 点击树节点触发 | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
-| indent | 缩进大小 | number | `8` |  |
 
 ### TreeNode props
 

@@ -30,6 +30,7 @@ description: 可以折叠/展开的内容区域。
 | accordion | 手风琴模式 | boolean | false |  |
 | activeKey | 当前激活 tab 面板的 key | string\[] \| string <br/> number\[] \| number | [手风琴模式](#collapse-demo-accordion)下默认第一个元素 |  |
 | bordered | 带边框风格的折叠面板 | boolean | true |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | collapsible | 所有子面板是否可折叠或指定可折叠触发区域 | `header` \| `icon` \| `disabled` | - |  |
 | defaultActiveKey | 初始化选中面板的 key | string\[] \| string<br/> number\[] \| number | - |  |
 | destroyInactivePanel | 销毁折叠隐藏的面板 | boolean | false |  |
@@ -38,7 +39,6 @@ description: 可以折叠/展开的内容区域。
 | ghost | 使折叠面板透明且无边框 | boolean | false |  |
 | items | 折叠项目内容 | [ItemType](#itemtype) | - |  |
 | onChange | 切换面板的回调 | function | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### ItemType
 

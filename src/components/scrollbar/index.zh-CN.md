@@ -21,11 +21,11 @@ group: 其他
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | autoHeight | 启用自动高度模式。需要设置最小、最大高度 | [autoHeightMin:number, autoHeightMax:number] | false |  |
 | autoHide | 启用自动隐藏模式。为 `true` 时，滚动条会自动隐藏，只在滚动时显示 | boolean | true |  |
 | autoHideDuration | 隐藏动画的持续时间（毫秒） | number | 500 |  |
 | autoHideTimeout | 隐藏延迟时间（毫秒） | number | 1000 |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | className | 语义化结构 class | string \| Record&lt;'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
 | thumbMinSize | 滑块最小尺寸 | number | 20 |  |
 | thumbSize | 滑块尺寸 | number | - |  |

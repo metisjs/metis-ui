@@ -42,6 +42,7 @@ The differences with Select are:
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | children (for customize input element) | Customize input element | HTMLInputElement \| HTMLTextAreaElement \| React.ReactElement&lt;InputProps> | &lt;Input /> |  |
 | children (for dataSource) | Data source to auto complete | React.ReactElement&lt;OptionProps> \| Array&lt;React.ReactElement&lt;OptionProps>> | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
 | defaultOpen | Initial open state of dropdown | boolean | - |  |
 | defaultValue | Initial selected option | string | - |  |
@@ -67,7 +68,6 @@ The differences with Select are:
 | onPopupOpenChange | Call when dropdown open | function(open) | - |  |
 | onSearch | Called when searching items | function(value) | - |  |
 | onSelect | Called when a option is selected. param is option's value and option instance | function(value, option) | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 #### FileNames
 

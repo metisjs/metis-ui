@@ -74,6 +74,7 @@ config 参数如下：
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | duration | 默认自动关闭延时，单位秒 | number | 3 |  |
 | getContainer | 配置渲染节点的输出位置，但依旧为全屏展示 | () => HTMLElement | () => document.body |  |
 | maxCount | 最大显示数，超过限制时，最早的消息会被自动关闭 | number | - |  |
@@ -81,7 +82,6 @@ config 参数如下：
 | top | 消息距离顶部的位置 | number | 8 |  |
 | transition | 动画配置 | [TransitionProps](/components/transition-cn) |  |  |
 | onAllRemoved | 通知框全消失时触发 | VoidFunction |  |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### 全局方法
 

@@ -32,21 +32,21 @@ description: 按照日历形式展示数据的容器。
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| defaultValue | 默认展示的日期 | [dayjs](https://day.js.org/) | - |  |
 | defaultMode | 默认展示的模式 | [CalendarMode](#calendarmode) | - |  |
-| headerRender | 自定义头部内容 | function(object:{value: Dayjs, mode: CalendarMode, onChange: f(), onModeChange: f()}) | - |  |
-| locale | 国际化配置 | object |  |  |
-| mode | 模式 | [CalendarMode](#calendarmode) | `month` |  |
-| modeOptions | 模式选项 | [CalendarMode](#calendarmode)\[] \| null | `month` |  |
-| value | 展示日期 | [dayjs](https://day.js.org/) | - |  |
-| onChange | 日期变化回调 | function(date: Dayjs) | - |  |
+| defaultValue | 默认展示的日期 | [dayjs](https://day.js.org/) | - |  |
+| eventRender | 替换 Event，用于二次封装事件 | function(props:EventProps, DefaultEvent：ComponentClass) | - |  |
 | events | 事件集合 | [EventType](#eventtype)\[] | - |  |
 | extra | 右上角的操作区域 | ReactNode | - |  |
+| headerRender | 自定义头部内容 | function(object:{value: Dayjs, mode: CalendarMode, onChange: f(), onModeChange: f()}) | - |  |
+| locale | 国际化配置 | object |  |  |
 | lunar | 显示农历 | false | - |  |
-| selectedEventKeys | 已选中的事件 | Key[] | - |  |
-| eventRender | 替换 Event，用于二次封装事件 | function(props:EventProps, DefaultEvent：ComponentClass) | - |  |
+| mode | 模式 | [CalendarMode](#calendarmode) | `month` |  |
+| modeOptions | 模式选项 | [CalendarMode](#calendarmode)\[] \| null | `month` |  |
+| selectedEventKeys | 已选中的事件 | Key\[] | - |  |
+| value | 展示日期 | [dayjs](https://day.js.org/) | - |  |
+| onChange | 日期变化回调 | function(date: Dayjs) | - |  |
+| onEventSelectChange | 事件选中变化回调 | function(selectedKeys: Key\[]) | - |  |
 | onModeChange | 模式变化回调 | function(mode: CalendarMode) | - |  |
-| onEventSelectChange | 事件选中变化回调 | function(selectedKeys: Key[]) | - |  |
 
 ### CalendarMode
 
@@ -58,13 +58,13 @@ type CalendarMode = 'day' | 'week' | 'month' | 'year';
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| key | 唯一标志 | Key | - |  |
-| icon | 图标 | ReactNode | `<CalendarOutline />` |  |
-| title | 标题 | string | - |  |
-| start | 开始时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
-| end | 结束时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
 | allDay | 是否为全天事件 | boolean | false |  |
 | color | 显示颜色 | string | `主题色` |  |
+| end | 结束时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| icon | 图标 | ReactNode | `<CalendarOutline />` |  |
+| key | 唯一标志 | Key | - |  |
+| start | 开始时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| title | 标题 | string | - |  |
 
 ## Semantic DOM
 

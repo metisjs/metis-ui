@@ -28,26 +28,26 @@ Commonly displayed on the details page.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | bordered | Whether to display the border | boolean | false |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | colon | Change default props `colon` value of Descriptions.Item. Indicates whether the colon after the label is displayed | boolean | true |  |
-| column | The number of `DescriptionItems` in a row,could be a number or a object like `{ xs: 8, sm: 16, md: 24}`,(Only set `bordered={true}` to take effect) | number \| [Record<Breakpoint, number>](https://github.com/ant-design/ant-design/blob/84ca0d23ae52e4f0940f20b0e22eabe743f90dca/components/descriptions/index.tsx#L111C21-L111C56) | 3 |  |
+| column | The number of `DescriptionItems` in a row,could be a number or a object like `{ xs: 8, sm: 16, md: 24}`,(Only set `bordered={true}` to take effect) | number \| [Record&lt;Breakpoint, number>](https://github.com/ant-design/ant-design/blob/84ca0d23ae52e4f0940f20b0e22eabe743f90dca/components/descriptions/index.tsx#L111C21-L111C56) | 3 |  |
 | contentStyle | Customize content style | CSSProperties | - |  |
 | extra | The action area of the description list, placed at the top-right | ReactNode | - |  |
-| items | Describe the contents of the list item | [DescriptionsItem](#descriptionitem)[] | - |  |
+| items | Describe the contents of the list item | [DescriptionsItem](#descriptionitem)\[] | - |  |
 | labelStyle | Customize label style | CSSProperties | - |  |
 | layout | Define description layout | `horizontal` \| `vertical` | `horizontal` |  |
 | size | Set the size of the list. Can be set to `middle`,`small`, or not filled | `default` \| `middle` \| `small` | - |  |
 | title | The title of the description list, placed at the top | ReactNode | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### DescriptionItem
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | contentStyle | Customize content style | CSSProperties | - |  |
 | label | The description of the content | ReactNode | - |  |
 | labelStyle | Customize label style | CSSProperties | - |  |
 | span | The number of columns included | number \| [Screens](/components/grid#col) | 1 | `screens: ` |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 > The number of span Description.Item. Span={2} takes up the width of two DescriptionItems. When both `style` and `labelStyle`(or `contentStyle`) configured, both of them will work. And next one will overwrite first when conflict.
 

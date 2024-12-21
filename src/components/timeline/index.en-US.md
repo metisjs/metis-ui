@@ -28,12 +28,12 @@ demo:
 
 | Property | Description | Type | Default |
 | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
+| items | Each node of timeline | [ItemType](#itemtype)\[] |  |
 | mode | By sending `alternate` the timeline will distribute the nodes to the left and right | `left` \| `alternate` \| `right` | - |
 | pending | Set the last ghost node's existence or its content | ReactNode | false |
-| pendingDot | Set the dot of the last ghost node when pending is true | ReactNode | &lt;LoadingOutline /&gt; |
+| pendingDot | Set the dot of the last ghost node when pending is true | ReactNode | &lt;LoadingOutline /> |
 | reverse | Whether reverse nodes or not | boolean | false |
-| items | Each node of timeline | [ItemType](#itemtype)[] |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
 
 ### ItemType
 
@@ -41,11 +41,11 @@ Node of timeline.
 
 | Property | Description | Type | Default |
 | --- | --- | --- | --- |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
 | color | Set the circle's color to `blue`, `red`, `green` or other custom colors | string | `blue` |
+| content | Set the content | ReactNode | - |
 | dot | Customize timeline dot | ReactNode | - |
 | label | Set the label | ReactNode | - |
-| content | Set the content | ReactNode | - |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |
 
 ## Semantic DOM
 

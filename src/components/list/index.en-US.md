@@ -23,17 +23,17 @@ A list can be used to display content related to a single subject. The content c
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | bordered | Toggles rendering of the border around the list | boolean | false |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | dataSource | DataSource array for list | any\[] | - |  |
 | footer | List footer renderer | ReactNode | - |  |
 | header | List header renderer | ReactNode | - |  |
+| lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean | false |  |
 | loading | Shows a loading indicator while the contents of the list are being fetched | boolean \| [SpinProps](/components/spin/#api) | false |  |
 | locale | The i18n text | {emptyText?: string, noMoreText?: string} | {emptyText: `No Data`} |  |
 | renderItem | Customize list item when using `dataSource` | (item) => ReactNode | - |  |
+| request | Method to fetch remote data | `RequestConfig` | - |  |
 | rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T \| (item: T) => `React.Key` | `"key"` |  |
 | split | Toggles rendering of the split under the list item | boolean | true |  |
-| lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean | false |  |
-| request | Method to fetch remote data | `RequestConfig` | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | virtual | Use virtual list | boolean \| [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |
 
 ### List.Item
@@ -41,17 +41,17 @@ A list can be used to display content related to a single subject. The content c
 | Property  | Description                       | Type                         | Default | Version |
 | --------- | --------------------------------- | ---------------------------- | ------- | ------- |
 | actions   | The actions content of list item. | Array&lt;ReactNode>          | -       |         |
-| extra     | The extra content of list item.   | ReactNode                    | -       |         |
 | className | Semantic DOM class                | [SemanticDOM](#semantic-dom) | -       |         |
+| extra     | The extra content of list item.   | ReactNode                    | -       |         |
 
 ### List.Item.Meta
 
 | Property    | Description                  | Type                         | Default | Version |
 | ----------- | ---------------------------- | ---------------------------- | ------- | ------- |
 | avatar      | The avatar of list item      | ReactNode                    | -       |         |
+| className   | Semantic DOM class           | [SemanticDOM](#semantic-dom) | -       |         |
 | description | The description of list item | ReactNode                    | -       |         |
 | title       | The title of list item       | ReactNode                    | -       |         |
-| className   | Semantic DOM class           | [SemanticDOM](#semantic-dom) | -       |         |
 
 ## Semantic DOM
 

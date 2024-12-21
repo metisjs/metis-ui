@@ -36,6 +36,7 @@ Used when the user needs to make a customized color selection.
 | allowClear | Allow clearing color selected | boolean | false |  |
 | arrow | Configuration for popup arrow | `boolean \| { pointAtCenter: boolean }` | true |  |
 | children | Trigger of ColorPicker | React.ReactNode | - |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultFormat | Default format of color | `rgb` \| `hex` \| `hsb` | - |  |
 | defaultValue | Default value of color | string \| `Color` | - |  |
 | destroyTooltipOnHide | Whether destroy popover when hidden | `boolean` | false |  |
@@ -56,7 +57,6 @@ Used when the user needs to make a customized color selection.
 | onClear | Called when clear | `() => void` | - |  |
 | onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - |  |
 | onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Color
 

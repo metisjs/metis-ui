@@ -20,11 +20,11 @@ group: Other
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | autoHeight | Enable auto-height mode. Requires setting minimum and maximum height | [autoHeightMin:number, autoHeightMax:number] | false |  |
 | autoHide | Enable auto-hide mode. If `true`, the scrollbar will hide automatically and only show when scrolling | boolean | true |  |
 | autoHideDuration | Duration of the hide animation (ms) | number | 500 |  |
 | autoHideTimeout | Hide delay time (ms) | number | 1000 |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | className | Semantic structure class | string \| Record&lt;'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
 | thumbMinSize | Set thumb min size | number | 20 |  |
 | thumbSize | fixed a thumb size | number | - |  |

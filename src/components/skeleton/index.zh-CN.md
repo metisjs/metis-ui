@@ -25,15 +25,15 @@ group: 反馈
 
 ### Skeleton
 
-| 属性 | 说明 | 类型 | 默认值 |
+| 属性 | 说明 | 类型 | 默认值 |  |
 | --- | --- | --- | --- | --- |
+| active | 是否展示动画效果 | boolean | false |  |
+| avatar | 是否显示头像占位图 | boolean \| [SkeletonAvatarProps](#skeletonavatarprops) | false |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| active | 是否展示动画效果 | boolean | false |
-| avatar | 是否显示头像占位图 | boolean \| [SkeletonAvatarProps](#skeletonavatarprops) | false |
-| loading | 为 true 时，显示占位图。反之则直接展示子组件 | boolean | - |
-| paragraph | 是否显示段落占位图 | boolean \| [SkeletonParagraphProps](#skeletonparagraphprops) | true |
-| round | 为 true 时，段落和标题显示圆角 | boolean | false |
-| title | 是否显示标题占位图 | boolean \| [SkeletonTitleProps](#skeletontitleprops) | true |
+| loading | 为 true 时，显示占位图。反之则直接展示子组件 | boolean | - |  |
+| paragraph | 是否显示段落占位图 | boolean \| [SkeletonParagraphProps](#skeletonparagraphprops) | true |  |
+| round | 为 true 时，段落和标题显示圆角 | boolean | false |  |
+| title | 是否显示标题占位图 | boolean \| [SkeletonTitleProps](#skeletontitleprops) | true |  |
 
 ### Skeleton.Avatar
 

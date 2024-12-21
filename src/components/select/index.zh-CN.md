@@ -50,6 +50,7 @@ demo:
 | allowClear | 支持清除 | boolean \| { clearIcon?: ReactNode } | false |  |
 | autoClearSearchValue | 是否在选中项后清空搜索框，只在 `mode` 为 `multiple` 或 `tags` 时有效 | boolean | true |  |
 | autoFocus | 默认获取焦点 | boolean | false |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultActiveFirstOption | 是否默认高亮第一个选项 | boolean | true |  |
 | defaultOpen | 是否默认展开下拉菜单 | boolean | - |  |
 | defaultValue | 指定默认选中的条目 | string \| string\[] \|<br />number \| number\[] \| <br />Option \| Option\[] | - |  |
@@ -101,7 +102,6 @@ demo:
 | onPopupScroll | 下拉列表滚动时的回调 | function | - |  |
 | onSearch | 文本框值变化时回调 | function(value: string) | - |  |
 | onSelect | 被选中时调用，参数为选中项的 value (或 key) 值 | function(value: string \| number, option: Option) | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 > 注意，如果发现下拉菜单跟随页面滚动，或者需要在其他弹层中触发 Select，请尝试使用 `getPopupContainer={triggerNode => triggerNode.parentElement}` 将下拉弹层渲染节点固定在触发器的父元素中。
 

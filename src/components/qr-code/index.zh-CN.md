@@ -29,19 +29,19 @@ group: 数据展示
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | :-- | :-- | :-- | :-- | :-- |
-| value | 扫描后的文本 | string | - |
-| type | 渲染类型 | `canvas \| svg ` | `canvas` |  |
-| icon | 二维码中图片的地址（目前只支持图片地址） | string | - |
-| size | 二维码大小 | number | 160 |
-| iconSize | 二维码中图片的大小 | number \| { width: number; height: number } | 40 |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| color | 二维码颜色 | string | `#000` |
 | bgColor | 二维码背景颜色 | string | `transparent` |  |
-| bordered | 是否有边框 | boolean | `true` |
-| errorLevel | 二维码纠错等级 | `'L' \| 'M' \| 'Q' \| 'H' ` | `M` |
+| bordered | 是否有边框 | boolean | `true` |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+| color | 二维码颜色 | string | `#000` |  |
+| errorLevel | 二维码纠错等级 | `'L' \| 'M' \| 'Q' \| 'H' ` | `M` |  |
+| icon | 二维码中图片的地址（目前只支持图片地址） | string | - |  |
+| iconSize | 二维码中图片的大小 | number \| { width: number; height: number } | 40 |  |
+| size | 二维码大小 | number | 160 |  |
 | status | 二维码状态 | `active \| expired \| loading \| scanned` | `active` | scanned: |
 | statusRender | 自定义状态渲染器 | (info: [StatusRenderInfo](/components/qr-code-cn#statusrenderinfo)) => React.ReactNode | - |  |
-| onRefresh | 点击"点击刷新"的回调 | `() => void` | - |
+| type | 渲染类型 | `canvas \| svg ` | `canvas` |  |
+| value | 扫描后的文本 | string | - |  |
+| onRefresh | 点击"点击刷新"的回调 | `() => void` | - |  |
 
 ### StatusRenderInfo
 

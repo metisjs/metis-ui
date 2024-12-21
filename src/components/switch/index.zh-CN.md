@@ -27,17 +27,17 @@ demo:
 | --- | --- | --- | --- | --- |
 | autoFocus | 组件自动获取焦点 | boolean | false |  |
 | checked | 指定当前是否选中 | boolean | false |  |
-| checkedChildren | 选中时的内容 | ReactNode | - |
+| checkedChildren | 选中时的内容 | ReactNode | - |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultChecked | 初始是否选中 | boolean | false |  |
+| defaultValue | `defaultChecked` 的别名 | boolean | - |  |
 | disabled | 是否禁用 | boolean | false |  |
 | loading | 加载中的开关 | boolean | false |  |
 | size | 开关大小，可选值：`default` `small` | string | `default` |  |
 | unCheckedChildren | 非选中时的内容 | ReactNode | - |  |
+| value | `checked` 的别名 | boolean | - |  |
 | onChange | 变化时的回调函数 | function(checked: boolean, event: Event) | - |  |
 | onClick | 点击时的回调函数 | function(checked: boolean, event: Event) | - |  |
-| value | `checked` 的别名 | boolean | - |  |
-| defaultValue | `defaultChecked` 的别名 | boolean | - |  |
 
 ### 方法
 

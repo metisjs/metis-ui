@@ -31,6 +31,7 @@ group: 导航
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | className | 语义化结构 class | string \| Record&lt;'root' \| 'item' \| 'itemInner' \| 'itemIcon' \| 'group' \| 'groupTitle' \| 'groupList', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultOpenKeys | 初始展开的 SubMenu 菜单项 key 数组 | string\[] | - |  |
 | defaultSelectedKeys | 初始选中的菜单项 key 数组 | string\[] | - |  |
 | expandIcon | 自定义展开图标 | ReactNode \| `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |
@@ -53,7 +54,6 @@ group: 导航
 | onDeselect | 取消选中时调用，仅在 multiple 生效 | function({ item, key, keyPath, selectedKeys, domEvent }) | - |  |
 | onOpenChange | SubMenu 展开/关闭的回调 | function(openKeys: string\[]) | - |  |
 | onSelect | 被选中时调用 | function({ item, key, keyPath, selectedKeys, domEvent }) | -   |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### ItemType
 
@@ -63,13 +63,13 @@ group: 导航
 
 | 参数      | 说明                     | 类型                         | 默认值 | 版本 |
 | --------- | ------------------------ | ---------------------------- | ------ | ---- |
+| className | 语义化结构 class         | [SemanticDOM](#semantic-dom) | -      |      |
 | danger    | 展示错误状态样式         | boolean                      | false  |      |
 | disabled  | 是否禁用                 | boolean                      | false  |      |
 | icon      | 菜单图标                 | ReactNode                    | -      |      |
 | key       | item 的唯一标志          | string                       | -      |      |
 | label     | 菜单项标题               | ReactNode                    | -      |      |
 | title     | 设置收缩时展示的悬浮标题 | string                       | -      |      |
-| className | 语义化结构 class         | [SemanticDOM](#semantic-dom) | -      |      |
 
 #### SubMenuType
 
@@ -77,6 +77,7 @@ group: 导航
 | --- | --- | --- | --- | --- |
 | children | 子菜单的菜单项 | [ItemType\[\]](#itemtype) | - |  |
 | className | 语义化结构 class | string \| Record&lt;'root' \| 'icon' \| 'title' \| 'inner' \| "content" \| 'popup', string> | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | disabled | 是否禁用 | boolean | false |  |
 | icon | 菜单图标 | ReactNode | - |  |
 | key | 唯一标志 | string | - |  |
@@ -84,7 +85,6 @@ group: 导航
 | popupOffset | 子菜单偏移量，`mode="inline"` 时无效 | \[number, number] | - |  |
 | theme | 设置子菜单的主题，默认从 Menu 上继承 | `light` \| `dark` | - |  |
 | onTitleClick | 点击子菜单标题 | function({ key, domEvent }) | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 #### MenuItemGroupType
 
@@ -101,8 +101,8 @@ const groupItem = {
 | 参数      | 说明             | 类型                              | 默认值 | 版本 |
 | --------- | ---------------- | --------------------------------- | ------ | ---- |
 | children  | 分组的菜单项     | [MenuItemType\[\]](#menuitemtype) | -      |      |
-| label     | 分组标题         | ReactNode                         | -      |      |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom)      | -      |      |
+| label     | 分组标题         | ReactNode                         | -      |      |
 
 #### MenuDividerType
 

@@ -28,19 +28,19 @@ Used when the text needs to be converted into a QR Code.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| value | scanned text | string | - |
-| type | render type | `canvas \| svg ` | `canvas` |  |
-| icon | include image url (only image link are supported) | string | - |
-| size | QRCode size | number | 160 |
-| iconSize | include image size | number \| { width: number; height: number } | 40 |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| color | QRCode Color | string | `#000` |
 | bgColor | QRCode Background Color | string | `transparent` |  |
-| bordered | Whether has border style | boolean | `true` |
-| errorLevel | Error Code Level | `'L' \| 'M' \| 'Q' \| 'H' ` | `M` |
+| bordered | Whether has border style | boolean | `true` |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
+| color | QRCode Color | string | `#000` |  |
+| errorLevel | Error Code Level | `'L' \| 'M' \| 'Q' \| 'H' ` | `M` |  |
+| icon | include image url (only image link are supported) | string | - |  |
+| iconSize | include image size | number \| { width: number; height: number } | 40 |  |
+| size | QRCode size | number | 160 |  |
 | status | QRCode status | `active \| expired \| loading \| scanned` | `active` | scanned: |
-| statusRender | custom status render | `(info: \[StatusRenderInfo](/components/qr-code-cn#statusrenderinfo)) => React.ReactNode` |  |
-| onRefresh | callback | `() => void` | - |
+| statusRender | custom status render | `(info: \[StatusRenderInfo](/components/qr-code-cn#statusrenderinfo)) => React.ReactNode` |  |  |
+| type | render type | `canvas \| svg ` | `canvas` |  |
+| value | scanned text | string | - |  |
+| onRefresh | callback | `() => void` | - |  |
 
 ### StatusRenderInfo
 
