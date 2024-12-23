@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
 import useLatestValue from '@util/hooks/useLatestValue';
-import findDOMNode from 'rc-util/lib/Dom/findDOMNode';
 import { fillRef, supportRef } from 'rc-util/lib/ref';
 import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
@@ -82,14 +81,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   function getDomElement() {
     try {
-      // Here we're avoiding call for findDOMNode since it's deprecated
-      // in strict mode. We're calling it only when node ref is not
-      // an instance of DOM HTMLElement. Otherwise use
-      // findDOMNode as a final resort
-      return nodeRef.current instanceof HTMLElement
-        ? nodeRef.current
-        : // eslint-disable-next-line react/no-find-dom-node
-          findDOMNode<HTMLElement>(wrapperNodeRef.current);
+      return nodeRef.current;
     } catch (e) {
       // Only happen when `deadline` trigger but element removed.
       return null;
