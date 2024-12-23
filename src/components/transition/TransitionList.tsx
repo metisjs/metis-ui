@@ -4,7 +4,14 @@ import type { SafeKey } from '@util/type';
 import type { TransitionProps } from './Transition';
 import Transition from './Transition';
 import type { KeyObject } from './util/diff';
-import { diffKeys, parseKeys, STATUS_ADD, STATUS_KEEP, STATUS_REMOVED } from './util/diff';
+import {
+  diffKeys,
+  parseKeys,
+  STATUS_ADD,
+  STATUS_KEEP,
+  STATUS_REMOVE,
+  STATUS_REMOVED,
+} from './util/diff';
 
 const TRANSITION_PROP_NAMES: (keyof TransitionProps)[] = [
   'eventProps',
@@ -89,7 +96,9 @@ class TransitionList extends React.Component<TransitionListProps, TransitionList
       },
       () => {
         const { keyEntities } = this.state;
-        const restKeysCount = keyEntities.filter(({ status }) => status !== STATUS_REMOVED).length;
+        const restKeysCount = keyEntities.filter(
+          ({ status }) => status !== STATUS_REMOVED && status !== STATUS_REMOVE,
+        ).length;
 
         if (restKeysCount === 0 && this.props.onAllRemoved) {
           this.props.onAllRemoved();

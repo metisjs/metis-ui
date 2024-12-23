@@ -91,7 +91,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
         : // eslint-disable-next-line react/no-find-dom-node
           findDOMNode<HTMLElement>(wrapperNodeRef.current);
     } catch (e) {
-      // Only happen when `motionDeadline` trigger but element removed.
+      // Only happen when `deadline` trigger but element removed.
       return null;
     }
   }
