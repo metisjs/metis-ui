@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
+import ContextIsolator from '@util/ContextIsolator';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getStatusClassNames } from '@util/statusUtils';
 import type { PartialWith } from '@util/type';
@@ -690,67 +691,69 @@ function Picker<DateType extends object = any>(
   );
 
   return (
-    <PickerContext.Provider value={context}>
-      <PickerTrigger
-        {...pickTriggerProps(filledProps)}
-        popupElement={panel}
-        popupClassName={semanticCls.popup}
-        open={mergedOpen}
-        onClose={onPopupClose}
-        zIndex={popupZIndex}
-      >
-        <SingleSelector
-          // Shared
-          {...filledProps}
-          placeholder={getPlaceholder(locale, picker, placeholder)}
-          className={{
-            root: rootCls,
-            item: selectorItemCls,
-            placeholder: selectorPlaceholderCls,
-            clear: clearCls,
-            input: semanticCls.input,
-            suffix: semanticCls.suffix,
-          }}
-          // Ref
-          ref={selectorRef}
-          // Icon
-          suffixIcon={suffixIcon}
-          removeIcon={removeIcon}
-          // Active
-          activeHelp={!!internalHoverValue}
-          allHelp={!!internalHoverValue && hoverSource === 'preset'}
-          focused={focused}
-          onFocus={onSelectorFocus}
-          onBlur={onSelectorBlur}
-          onKeyDown={onSelectorKeyDown}
-          onSubmit={triggerConfirm}
-          // Change
-          value={selectorValues}
-          maskFormat={maskFormat}
-          onChange={onSelectorChange}
-          onInputChange={onSelectorInputChange}
-          internalPicker={internalPicker}
-          // Format
-          format={formatList}
-          inputReadOnly={inputReadOnly}
-          // Disabled
-          disabled={!!disabled}
-          // Open
+    <ContextIsolator space>
+      <PickerContext.Provider value={context}>
+        <PickerTrigger
+          {...pickTriggerProps(filledProps)}
+          popupElement={panel}
+          popupClassName={semanticCls.popup}
           open={mergedOpen}
-          onOpenChange={triggerOpen}
-          // Click
-          onClick={onSelectorClick}
-          onClear={onSelectorClear}
-          // Invalid
-          invalid={submitInvalidate}
-          onInvalid={(invalid) => {
-            // Only `single` mode support type date.
-            // `multiple` mode can not typing.
-            onSelectorInvalid(invalid, 0);
-          }}
-        />
-      </PickerTrigger>
-    </PickerContext.Provider>
+          onClose={onPopupClose}
+          zIndex={popupZIndex}
+        >
+          <SingleSelector
+            // Shared
+            {...filledProps}
+            placeholder={getPlaceholder(locale, picker, placeholder)}
+            className={{
+              root: rootCls,
+              item: selectorItemCls,
+              placeholder: selectorPlaceholderCls,
+              clear: clearCls,
+              input: semanticCls.input,
+              suffix: semanticCls.suffix,
+            }}
+            // Ref
+            ref={selectorRef}
+            // Icon
+            suffixIcon={suffixIcon}
+            removeIcon={removeIcon}
+            // Active
+            activeHelp={!!internalHoverValue}
+            allHelp={!!internalHoverValue && hoverSource === 'preset'}
+            focused={focused}
+            onFocus={onSelectorFocus}
+            onBlur={onSelectorBlur}
+            onKeyDown={onSelectorKeyDown}
+            onSubmit={triggerConfirm}
+            // Change
+            value={selectorValues}
+            maskFormat={maskFormat}
+            onChange={onSelectorChange}
+            onInputChange={onSelectorInputChange}
+            internalPicker={internalPicker}
+            // Format
+            format={formatList}
+            inputReadOnly={inputReadOnly}
+            // Disabled
+            disabled={!!disabled}
+            // Open
+            open={mergedOpen}
+            onOpenChange={triggerOpen}
+            // Click
+            onClick={onSelectorClick}
+            onClear={onSelectorClear}
+            // Invalid
+            invalid={submitInvalidate}
+            onInvalid={(invalid) => {
+              // Only `single` mode support type date.
+              // `multiple` mode can not typing.
+              onSelectorInvalid(invalid, 0);
+            }}
+          />
+        </PickerTrigger>
+      </PickerContext.Provider>
+    </ContextIsolator>
   );
 }
 

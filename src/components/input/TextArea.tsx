@@ -226,10 +226,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     );
     const suffixCls = clsx(
       `${prefixCls}-textarea-suffix`,
-      'pointer-events-none absolute bottom-0 right-3 top-0 z-[1] inline-flex flex-none items-center gap-x-2 text-text-secondary',
+      'pointer-events-none absolute bottom-0 right-3 top-0 z-[1] inline-flex flex-none items-center gap-x-2 text-text-secondary [&_.metis-icon]:text-base',
       {
-        '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
-        '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+        '[&_.metis-icon]:text-lg': mergedSize === 'large',
         'right-2': mergedSize === 'mini',
       },
       mergedDisabled && 'text-text-tertiary',
@@ -247,10 +246,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       semanticCls.count,
     );
     const clearCls = clsx(
-      'absolute right-2 top-2 inline-flex text-text-tertiary hover:text-text-secondary',
+      'absolute right-2 top-2 inline-flex text-base text-text-tertiary hover:text-text-secondary',
       {
-        'text-lg': mergedSize === 'large' || mergedSize === 'middle',
-        'text-base': mergedSize === 'small' || mergedSize === 'mini',
+        'text-lg': mergedSize === 'large',
         'right-2 top-1': mergedSize === 'mini',
         'right-3 top-1.5': mergedSize === 'small',
         'right-3 top-2': mergedSize === 'middle',

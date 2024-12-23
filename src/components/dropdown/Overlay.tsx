@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react';
 import React, { forwardRef } from 'react';
-import { clsx } from '@util/classNameUtils';
 import { cloneElement } from '@util/reactNode';
 import warning from '@util/warning';
 import { composeRef, supportRef } from 'rc-util/lib/ref';
@@ -28,16 +27,16 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
       onClick={onClick}
       className={{
         root: 'py-1',
-        item: ({ hasIcon }) => ({
+        item: {
           root: 'px-1',
-          inner: clsx('h-8 gap-1 px-3 py-1 pe-3 ps-3 font-normal leading-6', hasIcon && 'ps-2'),
-          icon: 'h-[1.125rem] w-[1.125rem]',
-        }),
-        sub: ({ hasIcon }) => ({
+          inner: 'h-8 gap-1.5 px-3 py-1 pe-3 ps-3 font-normal leading-6',
+          icon: 'h-4 w-4',
+        },
+        sub: {
           root: 'px-1',
-          inner: clsx('h-8 gap-1 px-1 py-1 pe-3 ps-3 font-normal leading-6', hasIcon && 'ps-2'),
-          icon: 'h-[1.125rem] w-[1.125rem]',
-        }),
+          inner: 'h-8 gap-1.5 px-1 py-1 pe-3 ps-3 font-normal leading-6',
+          icon: 'h-4 w-4',
+        },
         group: {
           label: 'pe-3 ps-3',
           list: 'px-2',

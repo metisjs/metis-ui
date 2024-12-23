@@ -363,8 +363,8 @@ export default function useFilledProps<
   const [zIndex] = useZIndex('DatePicker', popupZIndex);
 
   const suffixIconCls = clsx({
-    'text-lg': mergedSize === 'large' || mergedSize === 'middle',
-    'text-base': mergedSize === 'small' || mergedSize === 'mini',
+    'text-lg': mergedSize === 'large',
+    'text-base': mergedSize === 'middle' || mergedSize === 'small' || mergedSize === 'mini',
   });
   const suffixIcon = (
     <>

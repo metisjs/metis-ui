@@ -569,6 +569,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     const passedEventList = [
       'onContextMenu',
       'onClick',
+      'onDoubleClick',
       'onMouseDown',
       'onTouchStart',
       'onMouseEnter',

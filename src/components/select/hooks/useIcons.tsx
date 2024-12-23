@@ -37,8 +37,8 @@ export default function useIcons({
   size?: SizeType;
 }) {
   const sizeCls = clsx({
-    'text-lg': size === 'large' || size === 'middle',
-    'text-base': size === 'small' || size === 'mini',
+    'text-lg': size === 'large',
+    'text-base': size === 'middle' || size === 'small' || size === 'mini',
   });
   // Clear Icon
   const mergedClearIcon = clearIcon ?? <XCircleSolid className={sizeCls} />;

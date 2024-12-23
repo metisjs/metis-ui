@@ -814,19 +814,17 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1',
+    'flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
     {
-      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
-      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+      '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-2 text-text-secondary',
+    'flex flex-none items-center gap-x-2 text-text-secondary [&_.metis-icon]:text-base',
     {
-      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
-      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+      '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },
     semanticCls.suffix,
   );

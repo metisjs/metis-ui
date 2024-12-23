@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
@@ -6,7 +5,7 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
 import getArrowClassName from '@util/placementArrow';
 import getPlacements from '@util/placements';
-import { cloneElement, isFragment, isValidElement } from '@util/reactNode';
+import { isFragment } from '@util/reactNode';
 import ZIndexContext from '@util/ZIndexContext';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
@@ -15,65 +14,6 @@ import Trigger from '../trigger';
 import type { TooltipProps, TooltipRef } from './interface';
 import Popup from './Popup';
 import { parseColor } from './util';
-
-const splitObject = <T extends CSSProperties>(
-  obj: T,
-  keys: (keyof T)[],
-): Record<'picked' | 'omitted', T> => {
-  const picked: T = {} as T;
-  const omitted: T = { ...obj };
-  keys.forEach((key) => {
-    if (obj && key in obj) {
-      picked[key] = obj[key];
-      delete omitted[key];
-    }
-  });
-  return { picked, omitted };
-};
-
-function getDisabledCompatibleChildren(element: React.ReactElement<any>, prefixCls: string) {
-  const elementType = element.type as any;
-  if (
-    ((elementType.__METIS_BUTTON === true || element.type === 'button') &&
-      element.props.disabled) ||
-    (elementType.__METIS_SWITCH === true && (element.props.disabled || element.props.loading)) ||
-    (elementType.__METIS_RADIO === true && element.props.disabled)
-  ) {
-    const { picked, omitted } = splitObject(element.props.style, [
-      'position',
-      'left',
-      'right',
-      'top',
-      'bottom',
-      'float',
-      'display',
-      'zIndex',
-    ]);
-    const spanStyle: React.CSSProperties = {
-      display: 'inline-block', // default inline-block is important
-      ...picked,
-      cursor: 'not-allowed',
-      width: element.props.block ? '100%' : undefined,
-    };
-    const buttonStyle: React.CSSProperties = {
-      ...omitted,
-      pointerEvents: 'none',
-    };
-    const child = cloneElement(element, {
-      style: buttonStyle,
-      className: null,
-    });
-    return (
-      <span
-        style={spanStyle}
-        className={clsx(element.props.className, `${prefixCls}-disabled-compatible-wrapper`)}
-      >
-        {child}
-      </span>
-    );
-  }
-  return element;
-}
 
 const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   const {
@@ -180,10 +120,8 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
   );
 
   // ============================= Render =============================
-  const child = getDisabledCompatibleChildren(
-    isValidElement(children) && !isFragment(children) ? children : <span>{children}</span>,
-    prefixCls,
-  );
+  const child =
+    React.isValidElement(children) && !isFragment(children) ? children : <span>{children}</span>;
 
   // Color
   const colorInfo = parseColor(color);

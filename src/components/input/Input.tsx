@@ -329,20 +329,18 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-text-secondary',
+    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
     {
-      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
-      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+      '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },
     mergedDisabled && 'text-text-tertiary',
     semanticCls.prefix,
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-2 text-text-secondary',
+    'flex flex-none items-center gap-x-2 text-text-secondary [&_.metis-icon]:text-base',
     {
-      '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
-      '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+      '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },
     mergedDisabled && 'text-text-tertiary',
     semanticCls.suffix,

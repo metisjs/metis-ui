@@ -550,10 +550,9 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     );
     const suffixCls = clsx(
       mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-      'flex flex-none items-center gap-x-1 text-text-secondary',
+      'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
       {
-        '[&_.metis-icon]:text-lg': mergedSize === 'large' || mergedSize === 'middle',
-        '[&_.metis-icon]:text-base': mergedSize === 'small' || mergedSize === 'mini',
+        '[&_.metis-icon]:text-lg': mergedSize === 'large',
       },
       mergedDisabled && 'text-text-tertiary',
     );

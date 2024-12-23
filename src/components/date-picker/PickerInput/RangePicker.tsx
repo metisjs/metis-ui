@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
+import ContextIsolator from '@util/ContextIsolator';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getStatusClassNames } from '@util/statusUtils';
 import type { PartialWith } from '@util/type';
@@ -18,11 +19,11 @@ import type {
   OpenConfig,
   PanelMode,
   PickerMode,
-  PopupClassName,
   RangePickerRef,
   RangeTimeProps,
   SelectorProps,
   SharedHTMLAttrs,
+  SharedPanelProps,
   SharedPickerProps,
   ValueDate,
 } from '../interface';
@@ -43,6 +44,7 @@ import useRangeValue, { useInnerValue } from './hooks/useRangeValue';
 import useShowNow from './hooks/useShowNow';
 import type { PopupShowTimeConfig } from './Popup';
 import Popup from './Popup';
+import type { PresetPanelClassName } from './Popup/PresetPanel';
 import RangeSelector, { type SelectorIdType } from './Selector/RangeSelector';
 
 function separateConfig<T>(config: T | [T, T] | null | undefined, defaultConfig: T): [T, T] {
@@ -70,11 +72,14 @@ export interface BaseRangePickerProps<DateType extends object>
   > {
   className?: SemanticClassName<
     {
-      popup?: PopupClassName;
+      popup?: string;
       input?: string;
       suffix?: string;
       clear?: string;
       item?: string;
+      presets?: PresetPanelClassName;
+      panel?: SharedPanelProps<any>['className'];
+      footer?: string;
     },
     { open?: boolean; disabled: [boolean, boolean] }
   >;
@@ -697,7 +702,6 @@ function RangePicker<DateType extends object = any>(
 
   // ======================== Style ========================
   const semanticCls = useSemanticCls(className, 'datePicker', { open: mergedOpen, disabled });
-  const popupSemanticCls = useSemanticCls(semanticCls.popup);
 
   const rootCls = clsx(
     {
@@ -756,7 +760,9 @@ function RangePicker<DateType extends object = any>(
     <Popup<any>
       // MISC
       {...panelProps}
-      semanticClassName={popupSemanticCls}
+      panelClassName={semanticCls.panel}
+      presetsClassName={semanticCls.presets}
+      footerClassName={semanticCls.footer}
       showNow={mergedShowNow}
       showTime={mergedShowTime}
       // Range
@@ -803,59 +809,61 @@ function RangePicker<DateType extends object = any>(
   );
 
   return (
-    <PickerContext.Provider value={context}>
-      <PickerTrigger
-        {...pickTriggerProps(filledProps)}
-        popupElement={panel}
-        popupClassName={popupSemanticCls.root}
-        open={mergedOpen}
-        onClose={onPopupClose}
-        // Range
-        range
-        zIndex={popupZIndex}
-      >
-        <RangeSelector
-          // Shared
-          {...filledProps}
-          placeholder={getRangePlaceholder(locale, picker, placeholder)}
-          className={{ root: rootCls, activeBar: activeBarCls }}
-          // Ref
-          ref={selectorRef}
-          // Icon
-          suffixIcon={suffixIcon}
-          // Active
-          activeIndex={focused || mergedOpen ? activeIndex : -1}
-          activeHelp={!!internalHoverValues}
-          allHelp={!!internalHoverValues && hoverSource === 'preset'}
-          focused={focused}
-          onFocus={onSelectorFocus}
-          onBlur={onSelectorBlur}
-          onKeyDown={onSelectorKeyDown}
-          onSubmit={triggerPartConfirm}
-          // Change
-          value={hoverValues}
-          maskFormat={maskFormat}
-          onChange={onSelectorChange}
-          onInputChange={onSelectorInputChange}
-          // Format
-          format={formatList}
-          inputReadOnly={inputReadOnly}
-          // Disabled
-          disabled={disabled}
-          // Open
+    <ContextIsolator space>
+      <PickerContext.Provider value={context}>
+        <PickerTrigger
+          {...pickTriggerProps(filledProps)}
+          popupElement={panel}
+          popupClassName={semanticCls.popup}
           open={mergedOpen}
-          onOpenChange={triggerOpen}
-          // Click
-          onClick={onSelectorClick}
-          onClear={onSelectorClear}
-          // Invalid
-          invalid={submitInvalidates}
-          onInvalid={onSelectorInvalid}
-          // Offset
-          onActiveOffset={setActiveOffset}
-        />
-      </PickerTrigger>
-    </PickerContext.Provider>
+          onClose={onPopupClose}
+          // Range
+          range
+          zIndex={popupZIndex}
+        >
+          <RangeSelector
+            // Shared
+            {...filledProps}
+            placeholder={getRangePlaceholder(locale, picker, placeholder)}
+            className={{ root: rootCls, activeBar: activeBarCls }}
+            // Ref
+            ref={selectorRef}
+            // Icon
+            suffixIcon={suffixIcon}
+            // Active
+            activeIndex={focused || mergedOpen ? activeIndex : -1}
+            activeHelp={!!internalHoverValues}
+            allHelp={!!internalHoverValues && hoverSource === 'preset'}
+            focused={focused}
+            onFocus={onSelectorFocus}
+            onBlur={onSelectorBlur}
+            onKeyDown={onSelectorKeyDown}
+            onSubmit={triggerPartConfirm}
+            // Change
+            value={hoverValues}
+            maskFormat={maskFormat}
+            onChange={onSelectorChange}
+            onInputChange={onSelectorInputChange}
+            // Format
+            format={formatList}
+            inputReadOnly={inputReadOnly}
+            // Disabled
+            disabled={disabled}
+            // Open
+            open={mergedOpen}
+            onOpenChange={triggerOpen}
+            // Click
+            onClick={onSelectorClick}
+            onClear={onSelectorClear}
+            // Invalid
+            invalid={submitInvalidates}
+            onInvalid={onSelectorInvalid}
+            // Offset
+            onActiveOffset={setActiveOffset}
+          />
+        </PickerTrigger>
+      </PickerContext.Provider>
+    </ContextIsolator>
   );
 }
 

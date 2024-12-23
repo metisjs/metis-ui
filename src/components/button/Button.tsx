@@ -148,14 +148,16 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     }
   }, [buttonRef]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => {
-    const { onClick } = props;
-    if (innerLoading || mergedDisabled) {
-      e.preventDefault();
-      return;
-    }
-    (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)?.(e);
-  };
+  const handleClick = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => {
+      if (innerLoading || mergedDisabled) {
+        e.preventDefault();
+        return;
+      }
+      (props.onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)?.(e);
+    },
+    [props.onClick, innerLoading, mergedDisabled],
+  );
 
   const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
 
@@ -163,7 +165,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const mergedSize = useSize((ctxSize) => customizeSize ?? compactSize ?? ctxSize);
 
-  const sizeCls = mergedSize ? sizeClassNameMap[mergedSize] || '' : '';
+  const sizeCls = mergedSize ? (sizeClassNameMap[mergedSize] ?? '') : '';
 
   const iconType = innerLoading ? 'loading' : icon;
 
