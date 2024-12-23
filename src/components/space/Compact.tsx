@@ -33,6 +33,9 @@ export const useCompactItemContext = (prefixCls: string) => {
         !vertical && {
           '-me-[1px]': !isLastItem,
         },
+        vertical && {
+          '-mb-[1px]': !isLastItem,
+        },
       ),
       clsx(
         'focus-within:z-[2] focus:z-[2]',
@@ -41,6 +44,14 @@ export const useCompactItemContext = (prefixCls: string) => {
           'rounded-l-none': isLastItem && !isFirstItem,
           'rounded-none': !isFirstItem && !isLastItem,
         },
+        vertical && [
+          'w-auto',
+          {
+            'rounded-b-none': isFirstItem && !isLastItem,
+            'rounded-t-none': isLastItem && !isFirstItem,
+            'rounded-none': !isFirstItem && !isLastItem,
+          },
+        ],
       ),
     ];
   }, [compactItemContext]);

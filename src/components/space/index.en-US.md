@@ -11,14 +11,11 @@ group: Layout
 
 ## Examples
 
-<!-- TODO: Component 待开发 -->
-
 <!-- prettier-ignore -->
-<!-- <code src="./demo/base.tsx">Basic Usage</code>
+<code src="./demo/base.tsx">Basic Usage</code>
 <code src="./demo/vertical.tsx">Vertical Space</code>
 <code src="./demo/size.tsx">Space Size</code>
 <code src="./demo/align.tsx">Align</code>
-<code src="./demo/customize.tsx">Customize Size</code>
 <code src="./demo/wrap.tsx">Wrap</code>
 <code src="./demo/split.tsx">Split</code>
 <code src="./demo/compact.tsx">Compact Mode for form component</code>
@@ -27,7 +24,7 @@ group: Layout
 <code src="./demo/compact-debug.tsx" debug>Input addon debug</code>
 <code src="./demo/compact-nested.tsx" debug>Nested Space Compact</code>
 <code src="./demo/debug.tsx" debug>Diverse Child</code>
-<code src="./demo/gap-in-line.tsx" debug>Flex gap style</code> -->
+<code src="./demo/gap-in-line.tsx" debug>Flex gap style</code>
 
 ## API
 
@@ -56,7 +53,6 @@ Use Space.Compact when child form components are compactly connected and the bor
 - Input
 - Select
 - TimePicker
-- TreeSelect
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |

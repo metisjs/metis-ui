@@ -1,34 +1,34 @@
 import React from 'react';
-import { Space } from 'metis-ui';
+import { Button, Space } from 'metis-ui';
 
 const App: React.FC = () => (
-  <div className="space-align-container">
-    <div className="space-align-block">
+  <div className="flex flex-wrap items-start">
+    <div className="mx-2 my-1 flex-none border border-primary p-1">
       <Space align="center">
         center
-        <div className="bg-primary">Primary</div>
-        <span className="mock-block">Block</span>
+        <Button type="primary">Primary</Button>
+        <span className="inline-block bg-fill-secondary px-2 pb-4 pt-8">Block</span>
       </Space>
     </div>
-    <div className="space-align-block">
+    <div className="mx-2 my-1 flex-none border border-primary p-1">
       <Space align="start">
         start
-        <div>Primary</div>
-        <span className="mock-block">Block</span>
+        <Button type="primary">Primary</Button>
+        <span className="inline-block bg-fill-secondary px-2 pb-4 pt-8">Block</span>
       </Space>
     </div>
-    <div className="space-align-block">
+    <div className="mx-2 my-1 flex-none border border-primary p-1">
       <Space align="end">
         end
-        <div>Primary</div>
-        <span className="mock-block">Block</span>
+        <Button type="primary">Primary</Button>
+        <span className="inline-block bg-fill-secondary px-2 pb-4 pt-8">Block</span>
       </Space>
     </div>
-    <div className="space-align-block">
+    <div className="mx-2 my-1 flex-none border border-primary p-1">
       <Space align="baseline">
         baseline
-        <div>Primary</div>
-        <span className="mock-block">Block</span>
+        <Button type="primary">Primary</Button>
+        <span className="inline-block bg-fill-secondary px-2 pb-4 pt-8">Block</span>
       </Space>
     </div>
   </div>
