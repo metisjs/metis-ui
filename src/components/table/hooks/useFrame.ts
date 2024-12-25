@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export type Updater<State> = (prev: State) => State;
 
@@ -11,7 +11,7 @@ export function useLayoutState<State>(
   const stateRef = useRef(defaultState);
   const [, forceUpdate] = useState({});
 
-  const lastPromiseRef = useRef<Promise<void>>(null);
+  const lastPromiseRef = useRef<Promise<void> | null>(null);
   const updateBatchRef = useRef<Updater<State>[]>([]);
 
   function setFrameState(updater: Updater<State>) {
@@ -26,7 +26,7 @@ export function useLayoutState<State>(
         const prevState = stateRef.current;
         updateBatchRef.current = [];
 
-        prevBatch.forEach(batchUpdater => {
+        prevBatch.forEach((batchUpdater) => {
           stateRef.current = batchUpdater(stateRef.current);
         });
 
@@ -50,7 +50,9 @@ export function useLayoutState<State>(
 }
 
 /** Lock frame, when frame pass reset the lock. */
-export function useTimeoutLock<State>(defaultState?: State): [(state: State) => void, () => State | null] {
+export function useTimeoutLock<State>(
+  defaultState?: State,
+): [(state: State) => void, () => State | null] {
   const frameRef = useRef<State | null>(defaultState || null);
   const timeoutRef = useRef<number>();
 

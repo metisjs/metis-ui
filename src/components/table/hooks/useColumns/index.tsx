@@ -1,12 +1,11 @@
-import toArray from 'rc-util/lib/Children/toArray';
-import warning from 'rc-util/lib/warning';
 import * as React from 'react';
+import { devUseWarning } from '@util/warning';
+import toArray from 'rc-util/lib/Children/toArray';
 import { EXPAND_COLUMN } from '../../constant';
 import type {
   ColumnGroupType,
   ColumnsType,
   ColumnType,
-  Direction,
   FixedType,
   GetRowKey,
   Key,
@@ -20,7 +19,7 @@ export function convertChildrenToColumns<RecordType>(
   children: React.ReactNode,
 ): ColumnsType<RecordType> {
   return toArray(children)
-    .filter(node => React.isValidElement(node))
+    .filter((node) => React.isValidElement(node))
     .map(({ key, props }: React.ReactElement) => {
       const { children: nodeChildren, ...restProps } = props;
       const column = {
@@ -40,8 +39,8 @@ function filterHiddenColumns<RecordType>(
   columns: ColumnsType<RecordType>,
 ): ColumnsType<RecordType> {
   return columns
-    .filter(column => column && typeof column === 'object' && !column.hidden)
-    .map(column => {
+    .filter((column) => column && typeof column === 'object' && !column.hidden)
+    .map((column) => {
       const subColumns = (column as ColumnGroupType<RecordType>).children;
 
       if (subColumns && subColumns.length > 0) {
@@ -60,7 +59,7 @@ function flatColumns<RecordType>(
   parentKey = 'key',
 ): ColumnType<RecordType>[] {
   return columns
-    .filter(column => column && typeof column === 'object')
+    .filter((column) => column && typeof column === 'object')
     .reduce((list, column, index) => {
       const { fixed } = column;
       // Convert `fixed='true'` to `fixed='left'` instead
@@ -71,7 +70,7 @@ function flatColumns<RecordType>(
       if (subColumns && subColumns.length > 0) {
         return [
           ...list,
-          ...flatColumns(subColumns, mergedKey).map(subColum => ({
+          ...flatColumns(subColumns, mergedKey).map((subColum) => ({
             fixed: parsedFixed,
             ...subColum,
           })),
@@ -86,24 +85,6 @@ function flatColumns<RecordType>(
         },
       ];
     }, []);
-}
-
-function revertForRtl<RecordType>(columns: ColumnsType<RecordType>): ColumnsType<RecordType> {
-  return columns.map(column => {
-    const { fixed, ...restProps } = column;
-
-    // Convert `fixed='left'` to `fixed='right'` instead
-    let parsedFixed = fixed;
-    if (fixed === 'left') {
-      parsedFixed = 'right';
-    } else if (fixed === 'right') {
-      parsedFixed = 'left';
-    }
-    return {
-      fixed: parsedFixed,
-      ...restProps,
-    };
-  });
 }
 
 /**
@@ -121,15 +102,13 @@ function useColumns<RecordType>(
     onTriggerExpand,
     expandIcon,
     rowExpandable,
-    expandIconColumnIndex,
-    direction,
     expandRowByClick,
     columnWidth,
     fixed,
     scrollWidth,
     clientWidth,
   }: {
-    prefixCls?: string;
+    prefixCls: string;
     columns?: ColumnsType<RecordType>;
     children?: React.ReactNode;
     expandable: boolean;
@@ -137,10 +116,8 @@ function useColumns<RecordType>(
     columnTitle?: React.ReactNode;
     getRowKey: GetRowKey<RecordType>;
     onTriggerExpand: TriggerEventHandler<RecordType>;
-    expandIcon?: RenderExpandIcon<RecordType>;
+    expandIcon: RenderExpandIcon<RecordType>;
     rowExpandable?: (record: RecordType) => boolean;
-    expandIconColumnIndex?: number;
-    direction?: Direction;
     expandRowByClick?: boolean;
     columnWidth?: number | string;
     clientWidth: number;
@@ -162,47 +139,34 @@ function useColumns<RecordType>(
 
   // ========================== Expand ==========================
   const withExpandColumns = React.useMemo<ColumnsType<RecordType>>(() => {
+    const warning = devUseWarning('Table');
+
     if (expandable) {
       let cloneColumns = baseColumns.slice();
 
-      // >>> Warning if use `expandIconColumnIndex`
-      if (process.env.NODE_ENV !== 'production' && expandIconColumnIndex >= 0) {
-        warning(
-          false,
-          '`expandIconColumnIndex` is deprecated. Please use `Table.EXPAND_COLUMN` in `columns` instead.',
-        );
-      }
-
       // >>> Insert expand column if not exist
       if (!cloneColumns.includes(EXPAND_COLUMN)) {
-        const expandColIndex = expandIconColumnIndex || 0;
-        if (expandColIndex >= 0) {
-          cloneColumns.splice(expandColIndex, 0, EXPAND_COLUMN);
-        }
+        cloneColumns.unshift(EXPAND_COLUMN);
       }
 
       // >>> Deduplicate additional expand column
-      if (
-        process.env.NODE_ENV !== 'production' &&
-        cloneColumns.filter(c => c === EXPAND_COLUMN).length > 1
-      ) {
-        warning(false, 'There exist more than one `EXPAND_COLUMN` in `columns`.');
-      }
+      warning(
+        cloneColumns.filter((c) => c === EXPAND_COLUMN).length <= 1,
+        'usage',
+        'There exist more than one `EXPAND_COLUMN` in `columns`.',
+      );
+
       const expandColumnIndex = cloneColumns.indexOf(EXPAND_COLUMN);
       cloneColumns = cloneColumns.filter(
         (column, index) => column !== EXPAND_COLUMN || index === expandColumnIndex,
       );
 
       // >>> Check if expand column need to fixed
-      const prevColumn = baseColumns[expandColumnIndex];
+      const nextColumn = cloneColumns[expandColumnIndex + 1];
 
-      let fixedColumn: FixedType | null;
-      if ((fixed === 'left' || fixed) && !expandIconColumnIndex) {
-        fixedColumn = 'left';
-      } else if ((fixed === 'right' || fixed) && expandIconColumnIndex === baseColumns.length) {
-        fixedColumn = 'right';
-      } else {
-        fixedColumn = prevColumn ? prevColumn.fixed : null;
+      let fixedColumn = fixed;
+      if (!fixed && nextColumn?.fixed) {
+        fixedColumn = nextColumn.fixed;
       }
 
       // >>> Create expandable column
@@ -215,7 +179,7 @@ function useColumns<RecordType>(
         fixed: fixedColumn,
         className: `${prefixCls}-row-expand-icon-cell`,
         width: columnWidth,
-        render: (_, record, index) => {
+        render: (_: any, record: RecordType, index: number) => {
           const rowKey = getRowKey(record, index);
           const expanded = expandedKeys.has(rowKey);
           const recordExpandable = rowExpandable ? rowExpandable(record) : true;
@@ -229,21 +193,23 @@ function useColumns<RecordType>(
           });
 
           if (expandRowByClick) {
-            return <span onClick={e => e.stopPropagation()}>{icon}</span>;
+            return <span onClick={(e) => e.stopPropagation()}>{icon}</span>;
           }
           return icon;
         },
       };
 
-      return cloneColumns.map(col => (col === EXPAND_COLUMN ? expandColumn : col));
+      return cloneColumns.map((col) => (col === EXPAND_COLUMN ? expandColumn : col));
     }
 
-    if (process.env.NODE_ENV !== 'production' && baseColumns.includes(EXPAND_COLUMN)) {
-      warning(false, '`expandable` is not config but there exist `EXPAND_COLUMN` in `columns`.');
-    }
+    warning(
+      !baseColumns.includes(EXPAND_COLUMN),
+      'usage',
+      '`expandable` is not config but there exist `EXPAND_COLUMN` in `columns`.',
+    );
 
-    return baseColumns.filter(col => col !== EXPAND_COLUMN);
-  }, [expandable, baseColumns, getRowKey, expandedKeys, expandIcon, direction]);
+    return baseColumns.filter((col) => col !== EXPAND_COLUMN);
+  }, [expandable, baseColumns, getRowKey, expandedKeys, expandIcon]);
 
   // ========================= Transform ========================
   const mergedColumns = React.useMemo(() => {
@@ -261,15 +227,13 @@ function useColumns<RecordType>(
       ];
     }
     return finalColumns;
-  }, [transformColumns, withExpandColumns, direction]);
+  }, [transformColumns, withExpandColumns]);
 
   // ========================== Flatten =========================
-  const flattenColumns = React.useMemo(() => {
-    if (direction === 'rtl') {
-      return revertForRtl(flatColumns(mergedColumns));
-    }
-    return flatColumns(mergedColumns);
-  }, [mergedColumns, direction, scrollWidth]);
+  const flattenColumns = React.useMemo(
+    () => flatColumns(mergedColumns),
+    [mergedColumns, scrollWidth],
+  );
 
   // ========================= Gap Fixed ========================
   const hasGapFixed = React.useMemo(() => {

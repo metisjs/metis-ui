@@ -1,6 +1,5 @@
-import warning from 'rc-util/lib/warning';
 import * as React from 'react';
-import { INTERNAL_HOOKS } from '../constant';
+import warning from 'rc-util/lib/warning';
 import type {
   ExpandableConfig,
   ExpandableType,
@@ -9,12 +8,10 @@ import type {
   RenderExpandIcon,
   TriggerEventHandler,
 } from '../interface';
-import type { TableProps } from '../Table';
 import { findAllChildrenKeys, renderExpandIcon } from '../utils/expandUtil';
-import { getExpandableProps } from '../utils/legacyUtil';
 
 export default function useExpand<RecordType>(
-  props: TableProps<RecordType>,
+  expandable: ExpandableConfig<RecordType> = {},
   mergedData: readonly RecordType[],
   getRowKey: GetRowKey<RecordType>,
 ): [
@@ -22,10 +19,13 @@ export default function useExpand<RecordType>(
   expandableType: ExpandableType,
   expandedKeys: Set<Key>,
   expandIcon: RenderExpandIcon<RecordType>,
-  childrenColumnName: string,
+  childrenColumnName: keyof RecordType,
   onTriggerExpand: TriggerEventHandler<RecordType>,
 ] {
-  const expandableConfig = getExpandableProps(props);
+  const expandableConfig = { ...expandable };
+  if (expandableConfig.showExpandColumn === false) {
+    expandableConfig.expandIconColumnIndex = -1;
+  }
 
   const {
     expandIcon,
@@ -39,31 +39,18 @@ export default function useExpand<RecordType>(
   } = expandableConfig;
 
   const mergedExpandIcon = expandIcon || renderExpandIcon;
-  const mergedChildrenColumnName = childrenColumnName || 'children';
+  const mergedChildrenColumnName = childrenColumnName || ('children' as keyof RecordType);
   const expandableType = React.useMemo<ExpandableType>(() => {
     if (expandedRowRender) {
       return 'row';
     }
-    /* eslint-disable no-underscore-dangle */
-    /**
-     * Fix https://github.com/ant-design/ant-design/issues/21154
-     * This is a workaround to not to break current behavior.
-     * We can remove follow code after final release.
-     *
-     * To other developer:
-     *  Do not use `__PARENT_RENDER_ICON__` in prod since we will remove this when refactor
-     */
     if (
-      (props.expandable &&
-        props.internalHooks === INTERNAL_HOOKS &&
-        (props.expandable as any).__PARENT_RENDER_ICON__) ||
       mergedData.some(
-        record => record && typeof record === 'object' && record[mergedChildrenColumnName],
+        (record) => record && typeof record === 'object' && record[mergedChildrenColumnName],
       )
     ) {
       return 'nest';
     }
-    /* eslint-enable */
     return false;
   }, [!!expandedRowRender, mergedData]);
 

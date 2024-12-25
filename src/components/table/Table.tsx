@@ -37,7 +37,6 @@ import type {
   GetComponent,
   GetComponentProps,
   GetRowKey,
-  LegacyExpandableProps,
   PanelRender,
   Reference,
   RowClassName,
@@ -54,13 +53,12 @@ import { getColumnsKey, validateValue, validNumberValue } from './utils/valueUti
 export const DEFAULT_PREFIX = 'metis-table';
 
 // Used for conditions cache
-const EMPTY_DATA = [];
+const EMPTY_DATA = [] as const;
 
 // Used for customize scroll
 const EMPTY_SCROLL_TARGET = {};
 
-export interface TableProps<RecordType = any>
-  extends Omit<LegacyExpandableProps<RecordType>, 'showExpandColumn'> {
+export interface TableProps<RecordType = any> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -80,6 +78,7 @@ export interface TableProps<RecordType = any>
   rowClassName?: string | RowClassName<RecordType>;
 
   // Additional Part
+  title?: PanelRender<RecordType>;
   footer?: PanelRender<RecordType>;
   summary?: (data: readonly RecordType[]) => React.ReactNode;
   caption?: React.ReactNode;
@@ -203,24 +202,6 @@ function Table<RecordType extends DefaultRecordType>(
 
   const useInternalHooks = internalHooks === INTERNAL_HOOKS;
 
-  // ===================== Warning ======================
-  if (process.env.NODE_ENV !== 'production') {
-    [
-      'onRowClick',
-      'onRowDoubleClick',
-      'onRowContextMenu',
-      'onRowMouseEnter',
-      'onRowMouseLeave',
-    ].forEach((name) => {
-      warning(props[name] === undefined, `\`${name}\` is removed, please use \`onRow\` instead.`);
-    });
-
-    warning(
-      !('getBodyWrapper' in props),
-      '`getBodyWrapper` is deprecated, please use custom `components` instead.',
-    );
-  }
-
   // ==================== Customize =====================
   const getComponent = React.useCallback<GetComponent>(
     (path, defaultComponent) => getValue(components, path) || defaultComponent,
@@ -272,11 +253,8 @@ function Table<RecordType extends DefaultRecordType>(
       columnTitle: expandableConfig.columnTitle,
       expandedKeys: mergedExpandedKeys,
       getRowKey,
-      // https://github.com/ant-design/ant-design/issues/23894
       onTriggerExpand,
       expandIcon: mergedExpandIcon,
-      expandIconColumnIndex: expandableConfig.expandIconColumnIndex,
-      direction,
       scrollWidth: useInternalHooks && tailor && typeof scrollX === 'number' ? scrollX : null,
       clientWidth: componentWidth,
     },

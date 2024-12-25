@@ -18,7 +18,7 @@ import type { FixedInfo } from '../utils/fixUtil';
 const { makeImmutable, responseImmutable, useImmutableMark } = createImmutable();
 export { makeImmutable, responseImmutable, useImmutableMark };
 
-export interface TableContextProps<RecordType = any> {
+export interface TableContextProps<RecordType> {
   // Scroll
   scrollX: number | string | true;
 
@@ -65,7 +65,7 @@ export interface TableContextProps<RecordType = any> {
 
   expandedKeys: Set<React.Key>;
   getRowKey: GetRowKey<RecordType>;
-  childrenColumnName: string;
+  childrenColumnName: keyof RecordType;
 
   rowHoverable?: boolean;
 }

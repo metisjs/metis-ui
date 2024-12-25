@@ -1,23 +1,6 @@
 import type * as React from 'react';
 import type { DeepNamePath } from './namePathType';
 
-/**
- * ColumnType which applied in antd: https://ant.design/components/table-cn/#Column
- * - defaultSortOrder
- * - filterDropdown
- * - filterDropdownVisible
- * - filtered
- * - filteredValue
- * - filterIcon
- * - filterMultiple
- * - filters
- * - sorter
- * - sortOrder
- * - sortDirections
- * - onFilter
- * - onFilterDropdownVisibleChange
- */
-
 export type Key = React.Key;
 
 export type FixedType = 'left' | 'right' | boolean;
@@ -65,16 +48,7 @@ export interface RenderedCell<RecordType> {
   children?: React.ReactNode;
 }
 
-export type Direction = 'ltr' | 'rtl';
-
-// SpecialString will be removed in antd@6
-export type SpecialString<T> = T | (string & {});
-
-export type DataIndex<T = any> =
-  | DeepNamePath<T>
-  | SpecialString<T>
-  | number
-  | (SpecialString<T> | number)[];
+export type DataIndex<T = any> = DeepNamePath<T> | number | string;
 
 export type CellEllipsisType = { showTitle?: boolean } | boolean;
 
@@ -115,8 +89,6 @@ export interface ColumnType<RecordType> extends ColumnSharedType<RecordType> {
   width?: number | string;
   minWidth?: number;
   onCell?: GetComponentProps<RecordType>;
-  /** @deprecated Please use `onCell` instead */
-  onCellClick?: (record: RecordType, e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export type ColumnsType<RecordType = unknown> = readonly (
@@ -186,34 +158,6 @@ export type GetComponent = (
 // =================== Expand ===================
 export type ExpandableType = false | 'row' | 'nest';
 
-export interface LegacyExpandableProps<RecordType> {
-  /** @deprecated Use `expandable.expandedRowKeys` instead */
-  expandedRowKeys?: Key[];
-  /** @deprecated Use `expandable.defaultExpandedRowKeys` instead */
-  defaultExpandedRowKeys?: Key[];
-  /** @deprecated Use `expandable.expandedRowRender` instead */
-  expandedRowRender?: ExpandedRowRender<RecordType>;
-  /** @deprecated Use `expandable.expandRowByClick` instead */
-  expandRowByClick?: boolean;
-  /** @deprecated Use `expandable.expandIcon` instead */
-  expandIcon?: RenderExpandIcon<RecordType>;
-  /** @deprecated Use `expandable.onExpand` instead */
-  onExpand?: (expanded: boolean, record: RecordType) => void;
-  /** @deprecated Use `expandable.onExpandedRowsChange` instead */
-  onExpandedRowsChange?: (expandedKeys: Key[]) => void;
-  /** @deprecated Use `expandable.defaultExpandAllRows` instead */
-  defaultExpandAllRows?: boolean;
-  /** @deprecated Use `expandable.indentSize` instead */
-  indentSize?: number;
-  /** @deprecated Use `expandable.expandIconColumnIndex` instead */
-  expandIconColumnIndex?: number;
-  /** @deprecated Use `expandable.expandedRowClassName` instead */
-  expandedRowClassName?: RowClassName<RecordType>;
-  /** @deprecated Use `expandable.childrenColumnName` instead */
-  childrenColumnName?: string;
-  title?: PanelRender<RecordType>;
-}
-
 export type ExpandedRowRender<ValueType> = (
   record: ValueType,
   index: number,
@@ -244,11 +188,10 @@ export interface ExpandableConfig<RecordType> {
   onExpandedRowsChange?: (expandedKeys: readonly Key[]) => void;
   defaultExpandAllRows?: boolean;
   indentSize?: number;
-  /** @deprecated Please use `EXPAND_COLUMN` in `columns` directly */
   expandIconColumnIndex?: number;
   showExpandColumn?: boolean;
   expandedRowClassName?: string | RowClassName<RecordType>;
-  childrenColumnName?: string;
+  childrenColumnName?: keyof RecordType;
   rowExpandable?: (record: RecordType) => boolean;
   columnWidth?: number | string;
   fixed?: FixedType;

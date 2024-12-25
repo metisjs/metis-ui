@@ -17,10 +17,10 @@ function parseColWidth(totalWidth: number, width: string | number = '') {
  */
 export default function useWidthColumns(
   flattenColumns: ColumnsType<any>,
-  scrollWidth: number,
+  scrollWidth: number | undefined,
   clientWidth: number,
 ) {
-  return React.useMemo<[columns: ColumnsType<any>, realScrollWidth: number]>(() => {
+  return React.useMemo<[columns: ColumnsType<any>, realScrollWidth?: number]>(() => {
     // Fill width if needed
     if (scrollWidth && scrollWidth > 0) {
       let totalWidth = 0;

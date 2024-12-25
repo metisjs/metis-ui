@@ -1,9 +1,9 @@
 import { useContext } from '@rc-component/context';
+import classNames from 'classnames';
+import { useEvent } from 'rc-util';
 import type { TableContextProps } from '../context/TableContext';
 import TableContext from '../context/TableContext';
 import { getColumnsKey } from '../utils/valueUtil';
-import { useEvent } from 'rc-util';
-import classNames from 'classnames';
 
 export default function useRowInfo<RecordType>(
   record: RecordType,
@@ -11,7 +11,7 @@ export default function useRowInfo<RecordType>(
   recordIndex: number,
   indent: number,
 ): Pick<
-  TableContextProps,
+  TableContextProps<RecordType>,
   | 'prefixCls'
   | 'fixedInfoList'
   | 'flattenColumns'
@@ -37,7 +37,7 @@ export default function useRowInfo<RecordType>(
   expandable: boolean;
   rowProps: React.HTMLAttributes<any> & React.TdHTMLAttributes<any>;
 } {
-  const context: TableContextProps = useContext(TableContext, [
+  const context: TableContextProps<RecordType> = useContext(TableContext, [
     'prefixCls',
     'fixedInfoList',
     'flattenColumns',
@@ -77,7 +77,7 @@ export default function useRowInfo<RecordType>(
 
   const expanded = expandedKeys && expandedKeys.has(rowKey);
 
-  const hasNestChildren = childrenColumnName && record && record[childrenColumnName];
+  const hasNestChildren = childrenColumnName && record && !!record[childrenColumnName];
 
   const onInternalTriggerExpand = useEvent(onTriggerExpand);
 
@@ -94,7 +94,7 @@ export default function useRowInfo<RecordType>(
   };
 
   // ====================== RowClassName ======================
-  let computeRowClassName: string;
+  let computeRowClassName: string | undefined;
   if (typeof rowClassName === 'string') {
     computeRowClassName = rowClassName;
   } else if (typeof rowClassName === 'function') {

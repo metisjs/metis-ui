@@ -6,7 +6,7 @@ function fillRecords<T>(
   list: FlattenData<T>[],
   record: T,
   indent: number,
-  childrenColumnName: string,
+  childrenColumnName: keyof T,
   expandedKeys: Set<Key>,
   getRowKey: GetRowKey<T>,
   index: number,
@@ -56,7 +56,7 @@ export interface FlattenData<RecordType> {
  */
 export default function useFlattenRecords<T>(
   data: T[] | readonly T[],
-  childrenColumnName: string,
+  childrenColumnName: keyof T,
   expandedKeys: Set<Key>,
   getRowKey: GetRowKey<T>,
 ): FlattenData<T>[] {

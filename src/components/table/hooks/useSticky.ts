@@ -15,7 +15,7 @@ export default function useSticky(
   offsetSummary: number;
   offsetScroll: number;
   stickyClassName: string;
-  container: Window | HTMLElement;
+  container: Window | HTMLElement | null;
 } {
   const {
     offsetHeader = 0,
@@ -28,14 +28,15 @@ export default function useSticky(
 
   const isSticky = !!sticky;
 
-  return React.useMemo(() => {
-    return {
+  return React.useMemo(
+    () => ({
       isSticky,
       stickyClassName: isSticky ? `${prefixCls}-sticky-holder` : '',
       offsetHeader,
       offsetSummary,
       offsetScroll,
       container,
-    };
-  }, [isSticky, offsetScroll, offsetHeader, offsetSummary, prefixCls, container]);
+    }),
+    [isSticky, offsetScroll, offsetHeader, offsetSummary, prefixCls, container],
+  );
 }

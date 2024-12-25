@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import type { RenderExpandIconProps, Key, GetRowKey, ExpandableConfig } from '../interface';
+import type { ExpandableConfig, GetRowKey, Key, RenderExpandIconProps } from '../interface';
 
 export function renderExpandIcon<RecordType>({
   prefixCls,
@@ -15,7 +15,7 @@ export function renderExpandIcon<RecordType>({
     return <span className={classNames(expandClassName, `${prefixCls}-row-spaced`)} />;
   }
 
-  const onClick: React.MouseEventHandler<HTMLElement> = event => {
+  const onClick: React.MouseEventHandler<HTMLElement> = (event) => {
     onExpand(record, event);
     event.stopPropagation();
   };
@@ -34,7 +34,7 @@ export function renderExpandIcon<RecordType>({
 export function findAllChildrenKeys<RecordType>(
   data: readonly RecordType[],
   getRowKey: GetRowKey<RecordType>,
-  childrenColumnName: string,
+  childrenColumnName: keyof RecordType,
 ): Key[] {
   const keys: Key[] = [];
 

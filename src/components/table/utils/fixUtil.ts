@@ -1,8 +1,8 @@
-import type { Direction, FixedType, StickyOffsets } from '../interface';
+import type { FixedType, StickyOffsets } from '../interface';
 
 export interface FixedInfo {
-  fixLeft: number | false;
-  fixRight: number | false;
+  fixLeft?: number;
+  fixRight?: number;
   lastFixLeft: boolean;
   firstFixRight: boolean;
 
@@ -18,18 +18,17 @@ export function getCellFixedInfo(
   colEnd: number,
   columns: readonly { fixed?: FixedType }[],
   stickyOffsets: StickyOffsets,
-  direction: Direction,
 ): FixedInfo {
   const startColumn = columns[colStart] || {};
   const endColumn = columns[colEnd] || {};
 
-  let fixLeft: number;
-  let fixRight: number;
+  let fixLeft: number | undefined;
+  let fixRight: number | undefined;
 
   if (startColumn.fixed === 'left') {
-    fixLeft = stickyOffsets.left[direction === 'rtl' ? colEnd : colStart];
+    fixLeft = stickyOffsets.left[colStart];
   } else if (endColumn.fixed === 'right') {
-    fixRight = stickyOffsets.right[direction === 'rtl' ? colStart : colEnd];
+    fixRight = stickyOffsets.right[colEnd];
   }
 
   let lastFixLeft: boolean = false;
@@ -45,17 +44,9 @@ export function getCellFixedInfo(
   const canLastFix =
     (nextColumn && !nextColumn.fixed) ||
     (prevColumn && !prevColumn.fixed) ||
-    columns.every(col => col.fixed === 'left');
+    columns.every((col) => col.fixed === 'left');
 
-  if (direction === 'rtl') {
-    if (fixLeft !== undefined) {
-      const prevFixLeft = prevColumn && prevColumn.fixed === 'left';
-      firstFixLeft = !prevFixLeft && canLastFix;
-    } else if (fixRight !== undefined) {
-      const nextFixRight = nextColumn && nextColumn.fixed === 'right';
-      lastFixRight = !nextFixRight && canLastFix;
-    }
-  } else if (fixLeft !== undefined) {
+  if (fixLeft !== undefined) {
     const nextFixLeft = nextColumn && nextColumn.fixed === 'left';
     lastFixLeft = !nextFixLeft && canLastFix;
   } else if (fixRight !== undefined) {
@@ -70,6 +61,6 @@ export function getCellFixedInfo(
     firstFixRight,
     lastFixRight,
     firstFixLeft,
-    isSticky: stickyOffsets.isSticky,
+    isSticky: !!stickyOffsets.isSticky,
   };
 }
