@@ -1,8 +1,8 @@
 import { createContext, createImmutable } from '@rc-component/context';
+import type { AnyObject } from '@util/type';
 import type {
   ColumnsType,
   ColumnType,
-  Direction,
   ExpandableType,
   ExpandedRowRender,
   GetComponent,
@@ -18,7 +18,7 @@ import type { FixedInfo } from '../utils/fixUtil';
 const { makeImmutable, responseImmutable, useImmutableMark } = createImmutable();
 export { makeImmutable, responseImmutable, useImmutableMark };
 
-export interface TableContextProps<RecordType> {
+export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   // Scroll
   scrollX: number | string | true;
 
@@ -26,7 +26,6 @@ export interface TableContextProps<RecordType> {
   prefixCls: string;
   getComponent: GetComponent;
   scrollbarSize: number;
-  direction: Direction;
   fixedInfoList: readonly FixedInfo[];
   isSticky: boolean;
   supportSticky: boolean;

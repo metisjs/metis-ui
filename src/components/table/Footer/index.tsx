@@ -1,24 +1,22 @@
-import { useContext } from '@rc-component/context';
 import * as React from 'react';
+import { useContext } from '@rc-component/context';
+import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
-import devRenderTimes from '../hooks/useRenderTimes';
 import type { ColumnType, StickyOffsets } from '../interface';
 import Summary from './Summary';
 import SummaryContext from './SummaryContext';
 
-type FlattenColumns<RecordType> = readonly (ColumnType<RecordType> & { scrollbar?: boolean })[];
+type FlattenColumns<RecordType extends AnyObject> = readonly (ColumnType<RecordType> & {
+  scrollbar?: boolean;
+})[];
 
-export interface FooterProps<RecordType> {
+export interface FooterProps<RecordType extends AnyObject> {
   children: React.ReactNode;
   stickyOffsets: StickyOffsets;
   flattenColumns: FlattenColumns<RecordType>;
 }
 
-function Footer<RecordType>(props: FooterProps<RecordType>) {
-  if (process.env.NODE_ENV !== 'production') {
-    devRenderTimes(props);
-  }
-
+function Footer<RecordType extends AnyObject>(props: FooterProps<RecordType>) {
   const { children, stickyOffsets, flattenColumns } = props;
 
   const prefixCls = useContext(TableContext, 'prefixCls');

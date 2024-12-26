@@ -1,6 +1,6 @@
 import type { DataIndex, Key } from '../interface';
 
-const INTERNAL_KEY_PREFIX = 'RC_TABLE_KEY';
+const INTERNAL_KEY_PREFIX = 'METIS_TABLE_KEY';
 
 function toArray<T>(arr: T | readonly T[]): T[] {
   if (arr === undefined || arr === null) {
@@ -18,7 +18,7 @@ export function getColumnsKey<T = any>(columns: readonly GetColumnKeyColumn<T>[]
   const columnKeys: React.Key[] = [];
   const keys: Record<PropertyKey, boolean> = {};
 
-  columns.forEach(column => {
+  columns.forEach((column) => {
     const { key, dataIndex } = column || {};
 
     let mergedKey = key || toArray(dataIndex).join('-') || INTERNAL_KEY_PREFIX;

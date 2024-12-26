@@ -1,14 +1,14 @@
-import classNames from 'classnames';
 import * as React from 'react';
+import type { AnyObject } from '@util/type';
+import classNames from 'classnames';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
-import devRenderTimes from '../hooks/useRenderTimes';
 import useRowInfo from '../hooks/useRowInfo';
 import type { ColumnType, CustomizeComponent } from '../interface';
-import ExpandedRow from './ExpandedRow';
 import { computedExpandedClassName } from '../utils/expandUtil';
+import ExpandedRow from './ExpandedRow';
 
-export interface BodyRowProps<RecordType> {
+export interface BodyRowProps<RecordType extends AnyObject> {
   record: RecordType;
   index: number;
   renderIndex: number;
@@ -24,7 +24,7 @@ export interface BodyRowProps<RecordType> {
 // ==================================================================================
 // ==                                 getCellProps                                 ==
 // ==================================================================================
-export function getCellProps<RecordType>(
+export function getCellProps<RecordType extends AnyObject>(
   rowInfo: ReturnType<typeof useRowInfo<RecordType>>,
   column: ColumnType<RecordType>,
   colIndex: number,
@@ -68,7 +68,7 @@ export function getCellProps<RecordType>(
     );
   }
 
-  let additionalCellProps: React.TdHTMLAttributes<HTMLElement>;
+  let additionalCellProps: React.TdHTMLAttributes<HTMLElement> = {};
   if (column.onCell) {
     additionalCellProps = column.onCell(record, index);
   }
@@ -77,20 +77,14 @@ export function getCellProps<RecordType>(
     key,
     fixedInfo,
     appendCellNode,
-    additionalCellProps: additionalCellProps || {},
+    additionalCellProps,
   };
 }
 
 // ==================================================================================
 // ==                                 getCellProps                                 ==
 // ==================================================================================
-function BodyRow<RecordType extends { children?: readonly RecordType[] }>(
-  props: BodyRowProps<RecordType>,
-) {
-  if (process.env.NODE_ENV !== 'production') {
-    devRenderTimes(props);
-  }
-
+function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) {
   const {
     className,
     style,
@@ -119,10 +113,6 @@ function BodyRow<RecordType extends { children?: readonly RecordType[] }>(
   // Force render expand row if expanded before
   const expandedRef = React.useRef(false);
   expandedRef.current ||= expanded;
-
-  if (process.env.NODE_ENV !== 'production') {
-    devRenderTimes(props);
-  }
 
   // 若没有 expandedRowRender 参数, 将使用 baseRowNode 渲染 Children
   // 此时如果 level > 1 则说明是 expandedRow, 一样需要附加 computedExpandedRowClassName
@@ -180,7 +170,7 @@ function BodyRow<RecordType extends { children?: readonly RecordType[] }>(
   );
 
   // ======================== Expand Row =========================
-  let expandRowNode: React.ReactElement;
+  let expandRowNode: React.ReactElement | undefined;
   if (rowSupportExpand && (expandedRef.current || expanded)) {
     const expandContent = expandedRowRender(record, index, indent + 1, expanded);
 

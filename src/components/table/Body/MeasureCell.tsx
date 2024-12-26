@@ -7,7 +7,7 @@ export interface MeasureCellProps {
 }
 
 export default function MeasureCell({ columnKey, onColumnResize }: MeasureCellProps) {
-  const cellRef = React.useRef<HTMLTableCellElement>();
+  const cellRef = React.useRef<HTMLTableCellElement>(null);
 
   React.useEffect(() => {
     if (cellRef.current) {

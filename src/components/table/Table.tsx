@@ -538,7 +538,7 @@ function Table<RecordType extends DefaultRecordType>(
   // Header props
   const headerProps = {
     colWidths,
-    columCount: flattenColumns.length,
+    columnCount: flattenColumns.length,
     stickyOffsets,
     onHeaderRow,
     fixHeader,

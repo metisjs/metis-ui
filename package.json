@@ -142,7 +142,8 @@
   "pnpm": {
     "patchedDependencies": {
       "rc-overflow@1.3.1": "patches/rc-overflow@1.3.1.patch",
-      "@umijs/plugins@4.3.1": "patches/@umijs__plugins@4.3.1.patch"
+      "@umijs/plugins@4.3.1": "patches/@umijs__plugins@4.3.1.patch",
+      "@rc-component/context@1.4.0": "patches/@rc-component__context@1.4.0.patch"
     }
   }
 }

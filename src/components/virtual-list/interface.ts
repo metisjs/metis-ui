@@ -44,7 +44,11 @@ export type ScrollConfig = ScrollTarget | ScrollPos;
 
 export type ScrollTo = (arg: number | ScrollConfig) => void;
 
-export type VirtualListRef = { scrollTo: ScrollTo; getScrollInfo: () => ScrollInfo };
+export type VirtualListRef = {
+  scrollTo: ScrollTo;
+  getScrollInfo: () => ScrollInfo;
+  nativeElement: HTMLElement;
+};
 
 export type VirtualType =
   | boolean

@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
+import type { AnyObject } from '@util/type';
 import type { ColumnType, StickyOffsets } from '../interface';
 
 /**
  * Get sticky column offset width
  */
-function useStickyOffsets<RecordType>(
+function useStickyOffsets<RecordType extends AnyObject>(
   colWidths: number[],
   flattenColumns: readonly ColumnType<RecordType>[],
 ) {

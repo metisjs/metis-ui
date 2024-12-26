@@ -1,11 +1,10 @@
-import { EXPAND_COLUMN, INTERNAL_HOOKS } from './constant';
+import { EXPAND_COLUMN, INTERNAL_COL_DEFINE, INTERNAL_HOOKS } from './constant';
 import { FooterComponents as Summary } from './Footer';
-import type { ColumnType, ColumnsType, Reference } from './interface';
+import type { ColumnsType, ColumnType, Reference } from './interface';
 import Column from './sugar/Column';
 import ColumnGroup from './sugar/ColumnGroup';
 import type { TableProps } from './Table';
 import Table, { genTable } from './Table';
-import { INTERNAL_COL_DEFINE } from './utils/legacyUtil';
 import type { VirtualTableProps } from './VirtualTable';
 import VirtualTable, { genVirtualTable } from './VirtualTable';
 

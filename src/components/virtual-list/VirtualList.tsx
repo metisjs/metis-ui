@@ -121,6 +121,7 @@ const InternalVirtualList = <D, C>(
   });
 
   useImperativeHandle(ref, () => ({
+    nativeElement: scrollbarRef.current!.view!,
     getScrollInfo: () => {
       const position = scrollbarRef.current?.getValues();
       return position

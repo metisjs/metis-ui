@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { useContext } from '@rc-component/context';
+import type { AnyObject } from '@util/type';
 import Cell from '../Cell';
 import TableContext from '../context/TableContext';
-import { useContext } from '@rc-component/context';
 import type {
   CellType,
   ColumnType,
@@ -12,7 +13,7 @@ import type {
 import { getCellFixedInfo } from '../utils/fixUtil';
 import { getColumnsKey } from '../utils/valueUtil';
 
-export interface RowProps<RecordType> {
+export interface RowProps<RecordType extends AnyObject> {
   cells: readonly CellType<RecordType>[];
   stickyOffsets: StickyOffsets;
   flattenColumns: readonly ColumnType<RecordType>[];
@@ -22,7 +23,7 @@ export interface RowProps<RecordType> {
   index: number;
 }
 
-const HeaderRow = <RecordType extends any>(props: RowProps<RecordType>) => {
+const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) => {
   const {
     cells,
     stickyOffsets,
@@ -32,46 +33,50 @@ const HeaderRow = <RecordType extends any>(props: RowProps<RecordType>) => {
     onHeaderRow,
     index,
   } = props;
-  const { prefixCls, direction } = useContext(TableContext, ['prefixCls', 'direction']);
-  let rowProps: React.HTMLAttributes<HTMLElement>;
+  const { prefixCls } = useContext(TableContext, ['prefixCls']);
+  let rowProps: React.HTMLAttributes<HTMLElement> = {};
   if (onHeaderRow) {
     rowProps = onHeaderRow(
-      cells.map(cell => cell.column),
+      cells.map((cell) => cell.column!),
       index,
     );
   }
 
-  const columnsKey = getColumnsKey(cells.map(cell => cell.column));
+  const columnsKey = getColumnsKey(cells.map((cell) => cell.column!));
 
   return (
     <RowComponent {...rowProps}>
       {cells.map((cell: CellType<RecordType>, cellIndex) => {
         const { column } = cell;
         const fixedInfo = getCellFixedInfo(
-          cell.colStart,
-          cell.colEnd,
+          cell.colStart!,
+          cell.colEnd!,
           flattenColumns,
           stickyOffsets,
-          direction,
         );
 
-        let additionalProps: React.HTMLAttributes<HTMLElement>;
+        let additionalProps: React.HTMLAttributes<HTMLElement> | undefined;
         if (column && column.onHeaderCell) {
-          additionalProps = cell.column.onHeaderCell(column);
+          additionalProps = column.onHeaderCell(column);
         }
 
         return (
           <Cell
             {...cell}
-            scope={column.title ? (cell.colSpan > 1 ? 'colgroup' : 'col') : null}
-            ellipsis={column.ellipsis}
-            align={column.align}
+            scope={
+              column?.title ? (cell.colSpan && cell.colSpan > 1 ? 'colgroup' : 'col') : undefined
+            }
+            ellipsis={column?.ellipsis}
+            align={column?.align}
             component={CellComponent}
             prefixCls={prefixCls}
             key={columnsKey[cellIndex]}
             {...fixedInfo}
             additionalProps={additionalProps}
             rowType="header"
+            record={null!}
+            index={-1}
+            renderIndex={-1}
           />
         );
       })}

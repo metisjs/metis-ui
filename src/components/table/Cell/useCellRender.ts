@@ -1,36 +1,27 @@
+import type * as React from 'react';
+import type { AnyObject } from '@util/type';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import getValue from 'rc-util/lib/utils/get';
-import warning from 'rc-util/lib/warning';
-import * as React from 'react';
-import PerfContext from '../context/PerfContext';
-import type { CellType, ColumnType, DataIndex, RenderedCell } from '../interface';
-import { validateValue } from '../utils/valueUtil';
 import { useImmutableMark } from '../context/TableContext';
+import type { ColumnType, DataIndex } from '../interface';
+import { validateValue } from '../utils/valueUtil';
 
-function isRenderCell<RecordType>(
-  data: React.ReactNode | RenderedCell<RecordType>,
-): data is RenderedCell<RecordType> {
-  return data && typeof data === 'object' && !Array.isArray(data) && !React.isValidElement(data);
-}
-
-export default function useCellRender<RecordType>(
+export default function useCellRender<RecordType extends AnyObject>(
   record: RecordType,
-  dataIndex: DataIndex<RecordType>,
+  dataIndex: DataIndex<RecordType> | null | undefined,
   renderIndex: number,
   children?: React.ReactNode,
   render?: ColumnType<RecordType>['render'],
   shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'],
 ) {
-  // TODO: Remove this after next major version
-  const perfRecord = React.useContext(PerfContext);
   const mark = useImmutableMark();
 
   // ======================== Render ========================
-  const retData = useMemo<[React.ReactNode, CellType<RecordType>] | [React.ReactNode]>(
+  const retData = useMemo<React.ReactNode>(
     () => {
       if (validateValue(children)) {
-        return [children];
+        return children;
       }
 
       const path =
@@ -42,29 +33,7 @@ export default function useCellRender<RecordType>(
 
       const value: React.ReactNode = getValue(record, path as any);
 
-      // Customize render node
-      let returnChildNode = value;
-      let returnCellProps: CellType<RecordType> | undefined = undefined;
-
-      if (render) {
-        const renderData = render(value, record, renderIndex);
-
-        if (isRenderCell(renderData)) {
-          if (process.env.NODE_ENV !== 'production') {
-            warning(
-              false,
-              '`columns.render` return cell props is deprecated with perf issue, please use `onCell` instead.',
-            );
-          }
-          returnChildNode = renderData.children;
-          returnCellProps = renderData.props;
-          perfRecord.renderWithProps = true;
-        } else {
-          returnChildNode = renderData;
-        }
-      }
-
-      return [returnChildNode, returnCellProps];
+      return render?.(value, record, renderIndex) ?? value;
     },
     [
       // Force update deps
@@ -76,17 +45,12 @@ export default function useCellRender<RecordType>(
       dataIndex,
       render,
       renderIndex,
-    ],
+    ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {
         const [, prevRecord] = prev;
         const [, nextRecord] = next;
         return shouldCellUpdate(nextRecord, prevRecord);
-      }
-
-      // Legacy mode should always update
-      if (perfRecord.renderWithProps) {
-        return true;
       }
 
       return !isEqual(prev, next, true);

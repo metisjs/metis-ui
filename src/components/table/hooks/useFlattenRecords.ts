@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { AnyObject } from '@util/type';
 import type { GetRowKey, Key } from '../interface';
 
 // recursion (flat tree structure)
@@ -54,7 +55,7 @@ export interface FlattenData<RecordType> {
  * @param {GetRowKey<T>} getRowKey  : 获取当前rowKey的方法
  * @returns flattened data
  */
-export default function useFlattenRecords<T>(
+export default function useFlattenRecords<T extends AnyObject>(
   data: T[] | readonly T[],
   childrenColumnName: keyof T,
   expandedKeys: Set<Key>,

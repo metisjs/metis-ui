@@ -1,7 +1,8 @@
 import * as React from 'react';
+import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import toArray from 'rc-util/lib/Children/toArray';
-import { EXPAND_COLUMN } from '../../constant';
+import { EXPAND_COLUMN, INTERNAL_COL_DEFINE } from '../../constant';
 import type {
   ColumnGroupType,
   ColumnsType,
@@ -12,10 +13,9 @@ import type {
   RenderExpandIcon,
   TriggerEventHandler,
 } from '../../interface';
-import { INTERNAL_COL_DEFINE } from '../../utils/legacyUtil';
 import useWidthColumns from './useWidthColumns';
 
-export function convertChildrenToColumns<RecordType>(
+export function convertChildrenToColumns<RecordType extends AnyObject>(
   children: React.ReactNode,
 ): ColumnsType<RecordType> {
   return toArray(children)
@@ -35,7 +35,7 @@ export function convertChildrenToColumns<RecordType>(
     });
 }
 
-function filterHiddenColumns<RecordType>(
+function filterHiddenColumns<RecordType extends AnyObject>(
   columns: ColumnsType<RecordType>,
 ): ColumnsType<RecordType> {
   return columns
@@ -54,7 +54,7 @@ function filterHiddenColumns<RecordType>(
     });
 }
 
-function flatColumns<RecordType>(
+function flatColumns<RecordType extends AnyObject>(
   columns: ColumnsType<RecordType>,
   parentKey = 'key',
 ): ColumnType<RecordType>[] {
@@ -90,7 +90,7 @@ function flatColumns<RecordType>(
 /**
  * Parse `columns` & `children` into `columns`.
  */
-function useColumns<RecordType>(
+function useColumns<RecordType extends AnyObject>(
   {
     prefixCls,
     columns,

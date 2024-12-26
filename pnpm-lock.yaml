@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
+  '@rc-component/context@1.4.0':
+    hash: s4f2hrepw25usa7hyavsj42lja
+    path: patches/@rc-component__context@1.4.0.patch
   '@umijs/plugins@4.3.1':
     hash: efw7avpmecg6eoapmvfqom7lpq
     path: patches/@umijs__plugins@4.3.1.patch
@@ -27,7 +30,7 @@ dependencies:
     version: 5.0.4
   '@rc-component/context':
     specifier: ^1.4.0
-    version: 1.4.0(react-dom@18.3.1)(react@18.3.1)
+    version: 1.4.0(patch_hash=s4f2hrepw25usa7hyavsj42lja)(react-dom@18.3.1)(react@18.3.1)
   '@rc-component/mini-decimal':
     specifier: ^1.1.0
     version: 1.1.0
@@ -2601,7 +2604,7 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: true
 
-  /@rc-component/context@1.4.0(react-dom@18.3.1)(react@18.3.1):
+  /@rc-component/context@1.4.0(patch_hash=s4f2hrepw25usa7hyavsj42lja)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-kFcNxg9oLRMoL3qki0OMxK+7g5mypjgaaJp/pkOis/6rVxma9nJBF/8kCIuTYHUQNr0ii7MxqE33wirPZLJQ2w==}
     peerDependencies:
       react: '>=16.9.0'
@@ -2611,6 +2614,7 @@ packages:
       rc-util: 5.43.0(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    patched: true
 
   /@rc-component/mini-decimal@1.1.0:
     resolution: {integrity: sha512-jS4E7T9Li2GuYwI6PyiVXmxTiM6b07rlD9Ge8uGZSCz3WlzcG5ZK7g5bbuKNeZ9pgUuPK/5guV781ujdVpm4HQ==}
@@ -13186,7 +13190,7 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.24.7
-      '@rc-component/context': 1.4.0(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/context': 1.4.0(patch_hash=s4f2hrepw25usa7hyavsj42lja)(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
       rc-resize-observer: 1.4.0(react-dom@18.3.1)(react@18.3.1)
       rc-util: 5.43.0(react-dom@18.3.1)(react@18.3.1)

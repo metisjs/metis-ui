@@ -1,6 +1,7 @@
+import type { AnyObject } from '@util/type';
 import type { ColumnType } from '../interface';
 
-export interface ColumnProps<RecordType> extends ColumnType<RecordType> {
+export interface ColumnProps<RecordType extends AnyObject> extends ColumnType<RecordType> {
   children?: null;
 }
 
@@ -10,7 +11,7 @@ export interface ColumnProps<RecordType> extends ColumnType<RecordType> {
  * So HOC will not work on this.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function Column<RecordType>(_: ColumnProps<RecordType>) {
+function Column<RecordType extends AnyObject>(_: ColumnProps<RecordType>) {
   return null;
 }
 

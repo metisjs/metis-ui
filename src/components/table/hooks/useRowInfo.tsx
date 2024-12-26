@@ -1,11 +1,12 @@
 import { useContext } from '@rc-component/context';
+import type { AnyObject } from '@util/type';
 import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import type { TableContextProps } from '../context/TableContext';
 import TableContext from '../context/TableContext';
 import { getColumnsKey } from '../utils/valueUtil';
 
-export default function useRowInfo<RecordType>(
+export default function useRowInfo<RecordType extends AnyObject>(
   record: RecordType,
   rowKey: React.Key,
   recordIndex: number,
@@ -37,7 +38,7 @@ export default function useRowInfo<RecordType>(
   expandable: boolean;
   rowProps: React.HTMLAttributes<any> & React.TdHTMLAttributes<any>;
 } {
-  const context: TableContextProps<RecordType> = useContext(TableContext, [
+  const context = useContext(TableContext, [
     'prefixCls',
     'fixedInfoList',
     'flattenColumns',
@@ -77,7 +78,7 @@ export default function useRowInfo<RecordType>(
 
   const expanded = expandedKeys && expandedKeys.has(rowKey);
 
-  const hasNestChildren = childrenColumnName && record && !!record[childrenColumnName];
+  const hasNestChildren = !!childrenColumnName && !!record && !!record[childrenColumnName];
 
   const onInternalTriggerExpand = useEvent(onTriggerExpand);
 

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
-import type { PerfRecord } from '../context/PerfContext';
-import PerfContext from '../context/PerfContext';
+import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
 import useFlattenRecords from '../hooks/useFlattenRecords';
-import devRenderTimes from '../hooks/useRenderTimes';
 import { getColumnsKey } from '../utils/valueUtil';
 import BodyRow from './BodyRow';
 import ExpandedRow from './ExpandedRow';
@@ -15,11 +13,7 @@ export interface BodyProps<RecordType> {
   measureColumnWidth: boolean;
 }
 
-function Body<RecordType>(props: BodyProps<RecordType>) {
-  if (process.env.NODE_ENV !== 'production') {
-    devRenderTimes(props);
-  }
-
+function Body<RecordType extends AnyObject>(props: BodyProps<RecordType>) {
   const { data, measureColumnWidth } = props;
 
   const {
@@ -44,11 +38,6 @@ function Body<RecordType>(props: BodyProps<RecordType>) {
 
   const flattenData: { record: RecordType; indent: number; index: number }[] =
     useFlattenRecords<RecordType>(data, childrenColumnName, expandedKeys, getRowKey);
-
-  // =================== Performance ====================
-  const perfRef = React.useRef<PerfRecord>({
-    renderWithProps: false,
-  });
 
   // ====================== Render ======================
   const WrapperComponent = getComponent(['body', 'wrapper'], 'tbody');
@@ -96,20 +85,14 @@ function Body<RecordType>(props: BodyProps<RecordType>) {
   const columnsKey = getColumnsKey(flattenColumns);
 
   return (
-    <PerfContext.Provider value={perfRef.current}>
-      <WrapperComponent className={`${prefixCls}-tbody`}>
-        {/* Measure body column width with additional hidden col */}
-        {measureColumnWidth && (
-          <MeasureRow
-            prefixCls={prefixCls}
-            columnsKey={columnsKey}
-            onColumnResize={onColumnResize}
-          />
-        )}
+    <WrapperComponent className={`${prefixCls}-tbody`}>
+      {/* Measure body column width with additional hidden col */}
+      {measureColumnWidth && (
+        <MeasureRow prefixCls={prefixCls} columnsKey={columnsKey} onColumnResize={onColumnResize} />
+      )}
 
-        {rows}
-      </WrapperComponent>
-    </PerfContext.Provider>
+      {rows}
+    </WrapperComponent>
   );
 }
 

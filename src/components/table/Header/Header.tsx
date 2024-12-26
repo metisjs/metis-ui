@@ -1,7 +1,7 @@
-import { useContext } from '@rc-component/context';
 import * as React from 'react';
+import { useContext } from '@rc-component/context';
+import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
-import devRenderTimes from '../hooks/useRenderTimes';
 import type {
   CellType,
   ColumnGroupType,
@@ -12,7 +12,7 @@ import type {
 } from '../interface';
 import HeaderRow from './HeaderRow';
 
-function parseHeaderRows<RecordType>(
+function parseHeaderRows<RecordType extends AnyObject>(
   rootColumns: ColumnsType<RecordType>,
 ): CellType<RecordType>[][] {
   const rows: CellType<RecordType>[][] = [];
@@ -26,7 +26,7 @@ function parseHeaderRows<RecordType>(
     rows[rowIndex] = rows[rowIndex] || [];
 
     let currentColIndex = colIndex;
-    const colSpans: number[] = columns.filter(Boolean).map(column => {
+    const colSpans: number[] = columns.filter(Boolean).map((column) => {
       const cell: CellType<RecordType> = {
         key: column.key,
         className: column.className || '',
@@ -46,7 +46,7 @@ function parseHeaderRows<RecordType>(
         cell.hasSubColumns = true;
       }
 
-      if ('colSpan' in column) {
+      if ('colSpan' in column && column.colSpan) {
         ({ colSpan } = column);
       }
 
@@ -55,7 +55,7 @@ function parseHeaderRows<RecordType>(
       }
 
       cell.colSpan = colSpan;
-      cell.colEnd = cell.colStart + colSpan - 1;
+      cell.colEnd = cell.colStart! + colSpan - 1;
       rows[rowIndex].push(cell);
 
       currentColIndex += colSpan;
@@ -72,7 +72,7 @@ function parseHeaderRows<RecordType>(
   // Handle `rowSpan`
   const rowCount = rows.length;
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
-    rows[rowIndex].forEach(cell => {
+    rows[rowIndex].forEach((cell) => {
       if (!('rowSpan' in cell) && !cell.hasSubColumns) {
         // eslint-disable-next-line no-param-reassign
         cell.rowSpan = rowCount - rowIndex;
@@ -83,18 +83,14 @@ function parseHeaderRows<RecordType>(
   return rows;
 }
 
-export interface HeaderProps<RecordType> {
+export interface HeaderProps<RecordType extends AnyObject> {
   columns: ColumnsType<RecordType>;
   flattenColumns: readonly ColumnType<RecordType>[];
   stickyOffsets: StickyOffsets;
   onHeaderRow: GetComponentProps<readonly ColumnType<RecordType>[]>;
 }
 
-const Header = <RecordType extends any>(props: HeaderProps<RecordType>) => {
-  if (process.env.NODE_ENV !== 'production') {
-    devRenderTimes(props);
-  }
-
+const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) => {
   const { stickyOffsets, columns, flattenColumns, onHeaderRow } = props;
 
   const { prefixCls, getComponent } = useContext(TableContext, ['prefixCls', 'getComponent']);

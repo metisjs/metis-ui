@@ -1,32 +1,31 @@
-import { useContext } from '@rc-component/context';
-import classNames from 'classnames';
 import * as React from 'react';
+import { useContext } from '@rc-component/context';
+import type { AnyObject } from '@util/type';
+import classNames from 'classnames';
+import { useEvent } from 'rc-util';
 import TableContext from '../context/TableContext';
-import devRenderTimes from '../hooks/useRenderTimes';
 import type {
   AlignType,
   CellEllipsisType,
   ColumnType,
   CustomizeComponent,
   DataIndex,
-  DefaultRecordType,
   ScopeType,
 } from '../interface';
 import useCellRender from './useCellRender';
 import useHoverState from './useHoverState';
-import { useEvent } from 'rc-util';
 
-export interface CellProps<RecordType extends DefaultRecordType> {
+export interface CellProps<RecordType extends AnyObject> {
   prefixCls?: string;
   className?: string;
-  record?: RecordType;
+  record: RecordType;
   /** `column` index is the real show rowIndex */
-  index?: number;
+  index: number;
   /** the index of the record. For the render(value, record, renderIndex) */
-  renderIndex?: number;
+  renderIndex: number;
   dataIndex?: DataIndex<RecordType>;
   render?: ColumnType<RecordType>['render'];
-  component?: CustomizeComponent;
+  component: CustomizeComponent;
   children?: React.ReactNode;
   colSpan?: number;
   rowSpan?: number;
@@ -60,8 +59,8 @@ const getTitleFromCellRenderChildren = ({
   rowType,
   children,
 }: Pick<CellProps<any>, 'ellipsis' | 'rowType' | 'children'>) => {
-  let title: string;
-  const ellipsisConfig: CellEllipsisType = ellipsis === true ? { showTitle: true } : ellipsis;
+  let title: string | undefined;
+  const ellipsisConfig = ellipsis === true ? { showTitle: true } : ellipsis;
   if (ellipsisConfig && (ellipsisConfig.showTitle || rowType === 'header')) {
     if (typeof children === 'string' || typeof children === 'number') {
       title = children.toString();
@@ -72,11 +71,7 @@ const getTitleFromCellRenderChildren = ({
   return title;
 };
 
-function Cell<RecordType>(props: CellProps<RecordType>) {
-  if (process.env.NODE_ENV !== 'production') {
-    devRenderTimes(props);
-  }
-
+function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   const {
     component: Component,
     children,
@@ -125,7 +120,7 @@ function Cell<RecordType>(props: CellProps<RecordType>) {
   ]);
 
   // ====================== Value =======================
-  const [childNode, legacyCellProps] = useCellRender(
+  const childNode = useCellRender(
     record,
     dataIndex,
     renderIndex,
@@ -149,13 +144,13 @@ function Cell<RecordType>(props: CellProps<RecordType>) {
   }
 
   // ================ RowSpan & ColSpan =================
-  const mergedColSpan = legacyCellProps?.colSpan ?? additionalProps.colSpan ?? colSpan ?? 1;
-  const mergedRowSpan = legacyCellProps?.rowSpan ?? additionalProps.rowSpan ?? rowSpan ?? 1;
+  const mergedColSpan = additionalProps.colSpan ?? colSpan ?? 1;
+  const mergedRowSpan = additionalProps.rowSpan ?? rowSpan ?? 1;
 
   // ====================== Hover =======================
   const [hovering, onHover] = useHoverState(index, mergedRowSpan);
 
-  const onMouseEnter: React.MouseEventHandler<HTMLTableCellElement> = useEvent(event => {
+  const onMouseEnter: React.MouseEventHandler<HTMLTableCellElement> = useEvent((event) => {
     if (record) {
       onHover(index, index + mergedRowSpan - 1);
     }
@@ -163,7 +158,7 @@ function Cell<RecordType>(props: CellProps<RecordType>) {
     additionalProps?.onMouseEnter?.(event);
   });
 
-  const onMouseLeave: React.MouseEventHandler<HTMLTableCellElement> = useEvent(event => {
+  const onMouseLeave: React.MouseEventHandler<HTMLTableCellElement> = useEvent((event) => {
     if (record) {
       onHover(-1, -1);
     }
@@ -200,10 +195,9 @@ function Cell<RecordType>(props: CellProps<RecordType>) {
       [`${cellPrefixCls}-ellipsis`]: ellipsis,
       [`${cellPrefixCls}-with-append`]: appendNode,
       [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky && supportSticky,
-      [`${cellPrefixCls}-row-hover`]: !legacyCellProps && hovering,
+      [`${cellPrefixCls}-row-hover`]: hovering,
     },
     additionalProps.className,
-    legacyCellProps?.className,
   );
 
   // >>>>> Style
@@ -213,9 +207,7 @@ function Cell<RecordType>(props: CellProps<RecordType>) {
   }
 
   // The order is important since user can overwrite style.
-  // For example ant-design/ant-design#51763
   const mergedStyle = {
-    ...legacyCellProps?.style,
     ...fixedStyle,
     ...alignStyle,
     ...additionalProps.style,
@@ -239,7 +231,6 @@ function Cell<RecordType>(props: CellProps<RecordType>) {
 
   return (
     <Component
-      {...legacyCellProps}
       {...additionalProps}
       className={mergedClassName}
       style={mergedStyle}

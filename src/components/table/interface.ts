@@ -1,11 +1,10 @@
 import type * as React from 'react';
-import type { DeepNamePath } from './namePathType';
+import type { AnyObject } from '@util/type';
+import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
 
 export type Key = React.Key;
 
 export type FixedType = 'left' | 'right' | boolean;
-
-export type DefaultRecordType = Record<string, any>;
 
 export type TableLayout = 'auto' | 'fixed';
 
@@ -28,7 +27,7 @@ export type RowClassName<RecordType> = (
 ) => string;
 
 // =================== Column ===================
-export interface CellType<RecordType> {
+export interface CellType<RecordType extends AnyObject> {
   key?: Key;
   className?: string;
   style?: React.CSSProperties;
@@ -43,11 +42,6 @@ export interface CellType<RecordType> {
   colEnd?: number;
 }
 
-export interface RenderedCell<RecordType> {
-  props?: CellType<RecordType>;
-  children?: React.ReactNode;
-}
-
 export type DataIndex<T = any> = DeepNamePath<T> | number | string;
 
 export type CellEllipsisType = { showTitle?: boolean } | boolean;
@@ -58,7 +52,7 @@ export type RowScopeType = 'row' | 'rowgroup';
 
 export type ScopeType = ColScopeType | RowScopeType;
 
-interface ColumnSharedType<RecordType> {
+interface ColumnSharedType<RecordType extends AnyObject> {
   title?: React.ReactNode;
   key?: Key;
   className?: string;
@@ -70,20 +64,17 @@ interface ColumnSharedType<RecordType> {
   rowScope?: RowScopeType;
 }
 
-export interface ColumnGroupType<RecordType> extends ColumnSharedType<RecordType> {
+export interface ColumnGroupType<RecordType extends AnyObject>
+  extends ColumnSharedType<RecordType> {
   children: ColumnsType<RecordType>;
 }
 
 export type AlignType = 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
 
-export interface ColumnType<RecordType> extends ColumnSharedType<RecordType> {
+export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedType<RecordType> {
   colSpan?: number;
   dataIndex?: DataIndex<RecordType>;
-  render?: (
-    value: any,
-    record: RecordType,
-    index: number,
-  ) => React.ReactNode | RenderedCell<RecordType>;
+  render?: (value: any, record: RecordType, index: number) => React.ReactNode;
   shouldCellUpdate?: (record: RecordType, prevRecord: RecordType) => boolean;
   rowSpan?: number;
   width?: number | string;
@@ -91,7 +82,7 @@ export interface ColumnType<RecordType> extends ColumnSharedType<RecordType> {
   onCell?: GetComponentProps<RecordType>;
 }
 
-export type ColumnsType<RecordType = unknown> = readonly (
+export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
   | ColumnGroupType<RecordType>
   | ColumnType<RecordType>
 )[];

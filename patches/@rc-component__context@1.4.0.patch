@@ -1,0 +1,24 @@
+diff --git a/es/context.d.ts b/es/context.d.ts
+index 1716b4a5bc8265c3ba29f608f06d6eeaadddec49..bb76359a121a4ad7619a64c872d9c853812e7709 100644
+--- a/es/context.d.ts
++++ b/es/context.d.ts
+@@ -21,6 +21,6 @@ export declare function useContext<ContextProps>(holder: SelectorContext<Context
+ /** e.g. useSelect(userContext, user => user.name) => user.name */
+ export declare function useContext<ContextProps, SelectorValue>(holder: SelectorContext<ContextProps>, selector: Selector<ContextProps, SelectorValue>): SelectorValue;
+ /** e.g. useSelect(userContext, ['name', 'age']) => user { name, age } */
+-export declare function useContext<ContextProps, SelectorValue extends Partial<ContextProps>>(holder: SelectorContext<ContextProps>, selector: (keyof ContextProps)[]): SelectorValue;
++export declare function useContext<ContextProps, PropName extends keyof ContextProps>(holder: SelectorContext<ContextProps>, selector: PropName[]): Pick<ContextProps, PropName>;
+ /** e.g. useSelect(userContext, 'name') => user.name */
+ export declare function useContext<ContextProps, PropName extends keyof ContextProps>(holder: SelectorContext<ContextProps>, selector: PropName): ContextProps[PropName];
+diff --git a/lib/context.d.ts b/lib/context.d.ts
+index 1716b4a5bc8265c3ba29f608f06d6eeaadddec49..bb76359a121a4ad7619a64c872d9c853812e7709 100644
+--- a/lib/context.d.ts
++++ b/lib/context.d.ts
+@@ -21,6 +21,6 @@ export declare function useContext<ContextProps>(holder: SelectorContext<Context
+ /** e.g. useSelect(userContext, user => user.name) => user.name */
+ export declare function useContext<ContextProps, SelectorValue>(holder: SelectorContext<ContextProps>, selector: Selector<ContextProps, SelectorValue>): SelectorValue;
+ /** e.g. useSelect(userContext, ['name', 'age']) => user { name, age } */
+-export declare function useContext<ContextProps, SelectorValue extends Partial<ContextProps>>(holder: SelectorContext<ContextProps>, selector: (keyof ContextProps)[]): SelectorValue;
++export declare function useContext<ContextProps, PropName extends keyof ContextProps>(holder: SelectorContext<ContextProps>, selector: PropName[]): Pick<ContextProps, PropName>;
+ /** e.g. useSelect(userContext, 'name') => user.name */
+ export declare function useContext<ContextProps, PropName extends keyof ContextProps>(holder: SelectorContext<ContextProps>, selector: PropName): ContextProps[PropName];
