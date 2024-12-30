@@ -7,7 +7,7 @@ const defaultContainer = canUseDom() ? window : null;
 
 /** Sticky header hooks */
 export default function useSticky(
-  sticky: boolean | TableSticky,
+  sticky: boolean | TableSticky = false,
   prefixCls: string,
 ): {
   isSticky: boolean;

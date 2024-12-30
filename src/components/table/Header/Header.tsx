@@ -87,7 +87,7 @@ export interface HeaderProps<RecordType extends AnyObject> {
   columns: ColumnsType<RecordType>;
   flattenColumns: readonly ColumnType<RecordType>[];
   stickyOffsets: StickyOffsets;
-  onHeaderRow: GetComponentProps<readonly ColumnType<RecordType>[]>;
+  onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
 }
 
 const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) => {

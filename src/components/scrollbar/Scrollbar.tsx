@@ -448,8 +448,14 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     height: `calc(100% + ${scrollbarWidth}px)`,
     ...(autoHeight && {
       height: 'auto',
-      minHeight: autoHeight[0] + scrollbarWidth,
-      maxHeight: autoHeight[1] + scrollbarWidth,
+      minHeight:
+        typeof autoHeight[0] === 'number'
+          ? autoHeight[0] + scrollbarWidth
+          : `calc(${autoHeight[0]} + ${scrollbarWidth}px)`,
+      maxHeight:
+        typeof autoHeight[1] === 'number'
+          ? autoHeight[1] + scrollbarWidth
+          : `calc(${autoHeight[1]} + ${scrollbarWidth}px)`,
     }),
     ...(autoHeight &&
       universal &&

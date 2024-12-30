@@ -1,13 +1,8 @@
+import toArray from '@util/toArray';
+import type { AnyObject } from '@util/type';
 import type { DataIndex, Key } from '../interface';
 
 const INTERNAL_KEY_PREFIX = 'METIS_TABLE_KEY';
-
-function toArray<T>(arr: T | readonly T[]): T[] {
-  if (arr === undefined || arr === null) {
-    return [];
-  }
-  return (Array.isArray(arr) ? arr : [arr]) as T[];
-}
 
 export interface GetColumnKeyColumn<T = any> {
   key?: Key;
@@ -31,6 +26,23 @@ export function getColumnsKey<T = any>(columns: readonly GetColumnKeyColumn<T>[]
   });
 
   return columnKeys;
+}
+
+export const getColumnKey = <RecordType extends AnyObject = AnyObject>(
+  column: GetColumnKeyColumn<RecordType>,
+  defaultKey: string,
+): Key => {
+  if ('key' in column && column.key !== undefined && column.key !== null) {
+    return column.key;
+  }
+  if (column.dataIndex) {
+    return Array.isArray(column.dataIndex) ? column.dataIndex.join('.') : (column.dataIndex as Key);
+  }
+  return defaultKey;
+};
+
+export function getColumnPos(index: number, pos?: string) {
+  return pos ? `${pos}-${index}` : `${index}`;
 }
 
 export function validateValue<T>(val: T) {

@@ -7,7 +7,7 @@ import TableContext from './context/TableContext';
 import type { ColumnType } from './interface';
 
 export interface ColGroupProps<RecordType extends AnyObject> {
-  colWidths: readonly (number | string)[];
+  colWidths: readonly (number | string | undefined)[];
   columns?: readonly ColumnType<RecordType>[];
   columnCount?: number;
 }

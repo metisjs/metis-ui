@@ -1,18 +1,7 @@
 import * as React from 'react';
 import type { AnyObject } from '@util/type';
-import { devUseWarning } from '@util/warning';
 import toArray from 'rc-util/lib/Children/toArray';
-import { EXPAND_COLUMN, INTERNAL_COL_DEFINE } from '../../constant';
-import type {
-  ColumnGroupType,
-  ColumnsType,
-  ColumnType,
-  FixedType,
-  GetRowKey,
-  Key,
-  RenderExpandIcon,
-  TriggerEventHandler,
-} from '../../interface';
+import type { ColumnGroupType, ColumnsType, ColumnTitleProps, ColumnType } from '../../interface';
 import useWidthColumns from './useWidthColumns';
 
 export function convertChildrenToColumns<RecordType extends AnyObject>(
@@ -87,44 +76,41 @@ function flatColumns<RecordType extends AnyObject>(
     }, []);
 }
 
+const fillTitle = <RecordType extends AnyObject = AnyObject>(
+  columns: ColumnsType<RecordType>,
+  columnTitleProps: ColumnTitleProps<RecordType>,
+): ColumnsType<RecordType> => {
+  const finalColumns = columns.map((column) => {
+    const cloneColumn: ColumnGroupType<RecordType> | ColumnType<RecordType> = { ...column };
+    if (typeof column.title === 'function') {
+      cloneColumn.title = column.title(columnTitleProps);
+    }
+    if ('children' in cloneColumn) {
+      cloneColumn.children = fillTitle<RecordType>(cloneColumn.children, columnTitleProps);
+    }
+    return cloneColumn;
+  });
+  return finalColumns;
+};
+
 /**
  * Parse `columns` & `children` into `columns`.
  */
 function useColumns<RecordType extends AnyObject>(
   {
-    prefixCls,
     columns,
     children,
-    expandable,
-    expandedKeys,
-    columnTitle,
-    getRowKey,
-    onTriggerExpand,
-    expandIcon,
-    rowExpandable,
-    expandRowByClick,
-    columnWidth,
-    fixed,
     scrollWidth,
     clientWidth,
+    columnTitleProps,
   }: {
-    prefixCls: string;
     columns?: ColumnsType<RecordType>;
     children?: React.ReactNode;
-    expandable: boolean;
-    expandedKeys: Set<Key>;
-    columnTitle?: React.ReactNode;
-    getRowKey: GetRowKey<RecordType>;
-    onTriggerExpand: TriggerEventHandler<RecordType>;
-    expandIcon: RenderExpandIcon<RecordType>;
-    rowExpandable?: (record: RecordType) => boolean;
-    expandRowByClick?: boolean;
-    columnWidth?: number | string;
     clientWidth: number;
-    fixed?: FixedType;
     scrollWidth?: number;
+    columnTitleProps: ColumnTitleProps<RecordType>;
   },
-  transformColumns: (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
+  transformColumns?: (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
 ): [
   columns: ColumnsType<RecordType>,
   flattenColumns: readonly ColumnType<RecordType>[],
@@ -137,83 +123,9 @@ function useColumns<RecordType extends AnyObject>(
     return filterHiddenColumns(newColumns.slice());
   }, [columns, children]);
 
-  // ========================== Expand ==========================
-  const withExpandColumns = React.useMemo<ColumnsType<RecordType>>(() => {
-    const warning = devUseWarning('Table');
-
-    if (expandable) {
-      let cloneColumns = baseColumns.slice();
-
-      // >>> Insert expand column if not exist
-      if (!cloneColumns.includes(EXPAND_COLUMN)) {
-        cloneColumns.unshift(EXPAND_COLUMN);
-      }
-
-      // >>> Deduplicate additional expand column
-      warning(
-        cloneColumns.filter((c) => c === EXPAND_COLUMN).length <= 1,
-        'usage',
-        'There exist more than one `EXPAND_COLUMN` in `columns`.',
-      );
-
-      const expandColumnIndex = cloneColumns.indexOf(EXPAND_COLUMN);
-      cloneColumns = cloneColumns.filter(
-        (column, index) => column !== EXPAND_COLUMN || index === expandColumnIndex,
-      );
-
-      // >>> Check if expand column need to fixed
-      const nextColumn = cloneColumns[expandColumnIndex + 1];
-
-      let fixedColumn = fixed;
-      if (!fixed && nextColumn?.fixed) {
-        fixedColumn = nextColumn.fixed;
-      }
-
-      // >>> Create expandable column
-      const expandColumn = {
-        [INTERNAL_COL_DEFINE]: {
-          className: `${prefixCls}-expand-icon-col`,
-          columnType: 'EXPAND_COLUMN',
-        },
-        title: columnTitle,
-        fixed: fixedColumn,
-        className: `${prefixCls}-row-expand-icon-cell`,
-        width: columnWidth,
-        render: (_: any, record: RecordType, index: number) => {
-          const rowKey = getRowKey(record, index);
-          const expanded = expandedKeys.has(rowKey);
-          const recordExpandable = rowExpandable ? rowExpandable(record) : true;
-
-          const icon = expandIcon({
-            prefixCls,
-            expanded,
-            expandable: recordExpandable,
-            record,
-            onExpand: onTriggerExpand,
-          });
-
-          if (expandRowByClick) {
-            return <span onClick={(e) => e.stopPropagation()}>{icon}</span>;
-          }
-          return icon;
-        },
-      };
-
-      return cloneColumns.map((col) => (col === EXPAND_COLUMN ? expandColumn : col));
-    }
-
-    warning(
-      !baseColumns.includes(EXPAND_COLUMN),
-      'usage',
-      '`expandable` is not config but there exist `EXPAND_COLUMN` in `columns`.',
-    );
-
-    return baseColumns.filter((col) => col !== EXPAND_COLUMN);
-  }, [expandable, baseColumns, getRowKey, expandedKeys, expandIcon]);
-
   // ========================= Transform ========================
   const mergedColumns = React.useMemo(() => {
-    let finalColumns = withExpandColumns;
+    let finalColumns = fillTitle(baseColumns, columnTitleProps);
     if (transformColumns) {
       finalColumns = transformColumns(finalColumns);
     }
@@ -227,7 +139,7 @@ function useColumns<RecordType extends AnyObject>(
       ];
     }
     return finalColumns;
-  }, [transformColumns, withExpandColumns]);
+  }, [transformColumns, baseColumns]);
 
   // ========================== Flatten =========================
   const flattenColumns = React.useMemo(

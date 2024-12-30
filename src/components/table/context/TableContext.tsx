@@ -20,23 +20,21 @@ export { makeImmutable, responseImmutable, useImmutableMark };
 
 export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   // Scroll
-  scrollX: number | string | true;
+  scrollX?: number | string | true;
 
   // Table
   prefixCls: string;
   getComponent: GetComponent;
-  scrollbarSize: number;
   fixedInfoList: readonly FixedInfo[];
   isSticky: boolean;
-  supportSticky: boolean;
   componentWidth: number;
   fixHeader: boolean;
   fixColumn: boolean;
   horizonScroll: boolean;
 
   // Body
-  rowClassName: string | RowClassName<RecordType>;
-  expandedRowClassName: string | RowClassName<RecordType>;
+  rowClassName?: string | RowClassName<RecordType>;
+  expandedRowClassName?: string | RowClassName<RecordType>;
   onRow?: GetComponentProps<RecordType>;
   emptyNode?: React.ReactNode;
 
@@ -45,7 +43,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   indentSize: number;
   expandableType: ExpandableType;
   expandRowByClick: boolean;
-  expandedRowRender: ExpandedRowRender<RecordType>;
+  expandedRowRender?: ExpandedRowRender<RecordType>;
   expandIcon: RenderExpandIcon<RecordType>;
   onTriggerExpand: TriggerEventHandler<RecordType>;
   expandIconColumnIndex: number;
@@ -60,7 +58,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   hoverStartRow: number;
   hoverEndRow: number;
   onHover: (start: number, end: number) => void;
-  rowExpandable: (record: RecordType) => boolean;
+  rowExpandable?: (record: RecordType) => boolean;
 
   expandedKeys: Set<React.Key>;
   getRowKey: GetRowKey<RecordType>;

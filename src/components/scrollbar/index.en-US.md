@@ -25,7 +25,6 @@ group: Other
 | autoHideDuration | Duration of the hide animation (ms) | number | 500 |  |
 | autoHideTimeout | Hide delay time (ms) | number | 1000 |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| className | Semantic structure class | string \| Record&lt;'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
 | thumbMinSize | Set thumb min size | number | 20 |  |
 | thumbSize | fixed a thumb size | number | - |  |
 | universal | App runs on both client and server, activate the universal mode | boolean | false |  |

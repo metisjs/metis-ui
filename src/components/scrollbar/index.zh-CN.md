@@ -26,7 +26,6 @@ group: 其他
 | autoHideDuration | 隐藏动画的持续时间（毫秒） | number | 500 |  |
 | autoHideTimeout | 隐藏延迟时间（毫秒） | number | 1000 |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| className | 语义化结构 class | string \| Record&lt;'root' \| 'view' \| 'trackHorizontal' \| 'trackVertical' \| 'thumbHorizontal' \| 'thumbVertical', string> | - |  |
 | thumbMinSize | 滑块最小尺寸 | number | 20 |  |
 | thumbSize | 滑块尺寸 | number | - |  |
 | universal | 服务端渲染时激活 | boolean | false |  |

@@ -1,6 +1,13 @@
 import type * as React from 'react';
+import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject } from '@util/type';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
+import type { CheckboxProps } from '../checkbox';
+import type { DropdownProps } from '../dropdown';
+import type { PaginationProps } from '../pagination';
+import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
+import type { TooltipProps } from '../tooltip';
+import type { InternalSelectionItem } from './hooks/useSelection';
 
 export type Key = React.Key;
 
@@ -19,6 +26,8 @@ export type Reference = {
   scrollTo: (config: ScrollConfig) => void;
 };
 
+export type GetPopupContainer = (triggerNode: HTMLElement) => HTMLElement;
+
 // ==================== Row =====================
 export type RowClassName<RecordType> = (
   record: RecordType,
@@ -27,6 +36,82 @@ export type RowClassName<RecordType> = (
 ) => string;
 
 // =================== Column ===================
+export type SortOrder = 'descend' | 'ascend' | null;
+
+export type SorterTooltipTarget = 'full-header' | 'sorter-icon';
+
+export type SorterTooltipProps = TooltipProps & {
+  target?: SorterTooltipTarget;
+};
+
+const _TableActions = ['paginate', 'sort', 'filter'] as const;
+export type TableAction = (typeof _TableActions)[number];
+
+export type CompareFn<T = AnyObject> = (a: T, b: T, sortOrder?: SortOrder) => number;
+
+export interface ColumnFilterItem {
+  text: React.ReactNode;
+  value: React.Key | boolean;
+  children?: ColumnFilterItem[];
+}
+
+export interface ColumnTitleProps<RecordType extends AnyObject = AnyObject> {
+  sortColumns?: { column: ColumnType<RecordType>; order: SortOrder }[];
+  filters?: Record<string, FilterValue>;
+}
+
+export type ColumnTitle<RecordType extends AnyObject = AnyObject> =
+  | React.ReactNode
+  | ((props: ColumnTitleProps<RecordType>) => React.ReactNode);
+
+export interface TableCurrentDataSource<RecordType = AnyObject> {
+  currentDataSource: RecordType[];
+  action: TableAction;
+}
+
+export interface SorterResult<RecordType extends AnyObject = AnyObject> {
+  column?: ColumnType<RecordType>;
+  order?: SortOrder;
+  field?: Key | readonly Key[];
+  columnKey?: Key;
+}
+
+export type FilterValue = (Key | boolean)[];
+export type FilterKey = (string | number)[] | null;
+export type FilterSearchType<RecordType = AnyObject> =
+  | boolean
+  | ((input: string, record: RecordType) => boolean);
+export interface FilterConfirmProps {
+  closeDropdown: boolean;
+}
+
+export interface FilterRestProps {
+  confirm?: boolean;
+  closeDropdown?: boolean;
+}
+
+export interface ColumnFilterItem {
+  text: React.ReactNode;
+  value: React.Key | boolean;
+  children?: ColumnFilterItem[];
+}
+
+export interface FilterDropdownProps {
+  prefixCls: string;
+  setSelectedKeys: (selectedKeys: React.Key[]) => void;
+  selectedKeys: React.Key[];
+  /**
+   * Confirm filter value, if you want to close dropdown before commit, you can call with
+   * {closeDropdown: true}
+   */
+  confirm: (param?: FilterConfirmProps) => void;
+  clearFilters?: (param?: FilterRestProps) => void;
+  filters?: ColumnFilterItem[];
+  /** Only close filterDropdown */
+  close: () => void;
+  visible: boolean;
+}
+
 export interface CellType<RecordType extends AnyObject> {
   key?: Key;
   className?: string;
@@ -53,7 +138,6 @@ export type RowScopeType = 'row' | 'rowgroup';
 export type ScopeType = ColScopeType | RowScopeType;
 
 interface ColumnSharedType<RecordType extends AnyObject> {
-  title?: React.ReactNode;
   key?: Key;
   className?: string;
   hidden?: boolean;
@@ -62,16 +146,57 @@ interface ColumnSharedType<RecordType extends AnyObject> {
   ellipsis?: CellEllipsisType;
   align?: AlignType;
   rowScope?: RowScopeType;
+  // Sorter
+  sorter?: ColumnSorter<RecordType>;
+  // Filter
+  filter?: ColumnFilter<RecordType>;
+  // Responsive
+  responsive?: Breakpoint[];
 }
 
 export interface ColumnGroupType<RecordType extends AnyObject>
   extends ColumnSharedType<RecordType> {
+  title?: React.ReactNode;
   children: ColumnsType<RecordType>;
 }
 
 export type AlignType = 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
 
+interface CoverableDropdownProps extends Omit<DropdownProps, 'onOpenChange'> {
+  onOpenChange?: (open: boolean) => void;
+}
+
+export type ColumnSorter<RecordType extends AnyObject> =
+  | boolean
+  | {
+      compare?: CompareFn<RecordType>;
+      /** Config multiple sorter order priority */
+      multiple?: number;
+      order?: SortOrder;
+      defaultOrder?: SortOrder;
+      directions?: SortOrder[];
+      icon?: (props: { order: SortOrder }) => React.ReactNode;
+      showTooltip?: boolean | SorterTooltipProps;
+    };
+
+export type ColumnFilter<RecordType extends AnyObject> = {
+  filtered?: boolean;
+  items?: ColumnFilterItem[];
+  dropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
+  triggerOnClose?: boolean;
+  multiple?: boolean;
+  filteredValue?: FilterValue | null;
+  defaultFilteredValue?: FilterValue | null;
+  icon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
+  mode?: 'menu' | 'tree';
+  search?: FilterSearchType<ColumnFilterItem>;
+  onFilter?: (value: React.Key | boolean, record: RecordType) => boolean;
+  dropdownProps?: CoverableDropdownProps;
+  resetToDefaultFilteredValue?: boolean;
+};
+
 export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedType<RecordType> {
+  title?: ColumnTitle<RecordType>;
   colSpan?: number;
   dataIndex?: DataIndex<RecordType>;
   render?: (value: any, record: RecordType, index: number) => React.ReactNode;
@@ -110,17 +235,11 @@ type Component<P> =
 
 export type CustomizeComponent = Component<any>;
 
-export type OnCustomizeScroll = (info: {
-  currentTarget?: HTMLElement;
-  scrollLeft?: number;
-}) => void;
-
 export type CustomizeScrollBody<RecordType> = (
   data: readonly RecordType[],
   info: {
-    scrollbarSize: number;
-    ref: React.Ref<{ scrollLeft: number; scrollTo?: (scrollConfig: ScrollConfig) => void }>;
-    onScroll: OnCustomizeScroll;
+    ref: React.Ref<ScrollbarRef>;
+    onScroll: ScrollbarProps['onScroll'];
   },
 ) => React.ReactNode;
 
@@ -203,4 +322,82 @@ export interface TableSticky {
   offsetSummary?: number;
   offsetScroll?: number;
   getContainer?: () => Window | HTMLElement;
+}
+
+// =================== Selection ===================
+export type RowSelectionType = 'checkbox' | 'radio';
+
+export type SelectionSelectFn<T = AnyObject> = (
+  record: T,
+  selected: boolean,
+  selectedRows: T[],
+  nativeEvent: Event,
+) => void;
+
+export type RowSelectMethod = 'all' | 'none' | 'invert' | 'single' | 'multiple';
+
+export type SelectionItemSelectFn = (currentRowKeys: Key[]) => void;
+
+export interface SelectionItem {
+  key: string;
+  text: React.ReactNode;
+  onSelect?: SelectionItemSelectFn;
+}
+
+export interface TableRowSelection<T extends AnyObject = AnyObject> {
+  /** Keep the selection keys in list even the key not exist in `dataSource` anymore */
+  preserveSelectedRowKeys?: boolean;
+  type?: RowSelectionType;
+  selectedRowKeys?: Key[];
+  defaultSelectedRowKeys?: Key[];
+  onChange?: (selectedRowKeys: Key[], selectedRows: T[], info: { type: RowSelectMethod }) => void;
+  getCheckboxProps?: (record: T) => Partial<Omit<CheckboxProps, 'checked' | 'defaultChecked'>>;
+  onSelect?: SelectionSelectFn<T>;
+  selections?: InternalSelectionItem[] | boolean;
+  hideSelectAll?: boolean;
+  fixed?: FixedType;
+  columnWidth?: string | number;
+  columnTitle?: React.ReactNode | ((checkboxNode: React.ReactNode) => React.ReactNode);
+  checkStrictly?: boolean;
+  renderCell?: (
+    value: boolean,
+    record: T,
+    index: number,
+    originNode: React.ReactNode,
+  ) => React.ReactNode;
+  onCell?: GetComponentProps<T>;
+}
+
+// =================== Locale ===================
+export interface TableLocale {
+  filterTitle?: string;
+  filterConfirm?: React.ReactNode;
+  filterReset?: React.ReactNode;
+  filterEmptyText?: React.ReactNode;
+  filterCheckall?: React.ReactNode;
+  filterSearchPlaceholder?: string;
+  emptyText?: React.ReactNode | (() => React.ReactNode);
+  selectAll?: React.ReactNode;
+  selectNone?: React.ReactNode;
+  selectInvert?: React.ReactNode;
+  selectionAll?: React.ReactNode;
+  sortTitle?: string;
+  expand?: string;
+  collapse?: string;
+  triggerDesc?: string;
+  triggerAsc?: string;
+  cancelSort?: string;
+}
+
+type TablePaginationPosition =
+  | 'topLeft'
+  | 'topCenter'
+  | 'topRight'
+  | 'bottomLeft'
+  | 'bottomCenter'
+  | 'bottomRight'
+  | 'none';
+
+export interface TablePaginationConfig extends PaginationProps {
+  position?: TablePaginationPosition[];
 }

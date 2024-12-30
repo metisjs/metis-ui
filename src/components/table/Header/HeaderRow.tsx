@@ -19,7 +19,7 @@ export interface RowProps<RecordType extends AnyObject> {
   flattenColumns: readonly ColumnType<RecordType>[];
   rowComponent: CustomizeComponent;
   cellComponent: CustomizeComponent;
-  onHeaderRow: GetComponentProps<readonly ColumnType<RecordType>[]>;
+  onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
   index: number;
 }
 

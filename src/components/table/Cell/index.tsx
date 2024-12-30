@@ -113,8 +113,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
-  const { supportSticky, allColumnsFixedLeft, rowHoverable } = useContext(TableContext, [
-    'supportSticky',
+  const { allColumnsFixedLeft, rowHoverable } = useContext(TableContext, [
     'allColumnsFixedLeft',
     'rowHoverable',
   ]);
@@ -131,8 +130,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
 
   // ====================== Fixed =======================
   const fixedStyle: React.CSSProperties = {};
-  const isFixLeft = typeof fixLeft === 'number' && supportSticky;
-  const isFixRight = typeof fixRight === 'number' && supportSticky;
+  const isFixLeft = typeof fixLeft === 'number';
+  const isFixRight = typeof fixRight === 'number';
 
   if (isFixLeft) {
     fixedStyle.position = 'sticky';
@@ -185,16 +184,16 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     cellPrefixCls,
     className,
     {
-      [`${cellPrefixCls}-fix-left`]: isFixLeft && supportSticky,
-      [`${cellPrefixCls}-fix-left-first`]: firstFixLeft && supportSticky,
-      [`${cellPrefixCls}-fix-left-last`]: lastFixLeft && supportSticky,
-      [`${cellPrefixCls}-fix-left-all`]: lastFixLeft && allColumnsFixedLeft && supportSticky,
-      [`${cellPrefixCls}-fix-right`]: isFixRight && supportSticky,
-      [`${cellPrefixCls}-fix-right-first`]: firstFixRight && supportSticky,
-      [`${cellPrefixCls}-fix-right-last`]: lastFixRight && supportSticky,
+      [`${cellPrefixCls}-fix-left`]: isFixLeft,
+      [`${cellPrefixCls}-fix-left-first`]: firstFixLeft,
+      [`${cellPrefixCls}-fix-left-last`]: lastFixLeft,
+      [`${cellPrefixCls}-fix-left-all`]: lastFixLeft && allColumnsFixedLeft,
+      [`${cellPrefixCls}-fix-right`]: isFixRight,
+      [`${cellPrefixCls}-fix-right-first`]: firstFixRight,
+      [`${cellPrefixCls}-fix-right-last`]: lastFixRight,
       [`${cellPrefixCls}-ellipsis`]: ellipsis,
       [`${cellPrefixCls}-with-append`]: appendNode,
-      [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky && supportSticky,
+      [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky,
       [`${cellPrefixCls}-row-hover`]: hovering,
     },
     additionalProps.className,

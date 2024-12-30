@@ -4,7 +4,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 export interface ScrollbarProps {
   prefixCls?: string;
   children?: React.ReactNode;
-  autoHeight?: false | number[];
+  autoHeight?: false | (string | number)[];
   autoHide?: boolean;
   autoHideDuration?: number;
   autoHideTimeout?: number;

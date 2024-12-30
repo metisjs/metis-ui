@@ -8,6 +8,7 @@ import type { ValidateMessages } from '../form/interface';
 import type { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
 import type { PopconfirmLocale } from '../popconfirm/Overlay';
+import type { TableLocale } from '../table/interface';
 import type { TourLocale } from '../tour/interface';
 import type { TransferLocale } from '../transfer';
 import type { UploadLocale } from '../upload/interface';
@@ -24,7 +25,7 @@ export interface Locale {
   DatePicker?: DatePickerLocale;
   TimePicker?: Record<string, any>;
   Calendar?: CalendarLocale;
-  // Table?: TableLocale;
+  Table?: TableLocale;
   Modal?: ModalLocale;
   Tour?: TourLocale;
   Popconfirm?: PopconfirmLocale;

@@ -1,14 +1,13 @@
+import * as React from 'react';
 import type { CompareProps } from '@rc-component/context/lib/Immutable';
 import classNames from 'classnames';
 import { useEvent, warning } from 'rc-util';
-import * as React from 'react';
-import { INTERNAL_HOOKS } from '../constant';
+import getValue from 'rc-util/lib/utils/get';
 import { makeImmutable } from '../context/TableContext';
 import type { CustomizeScrollBody, GetComponent, Reference } from '../interface';
-import Table, { DEFAULT_PREFIX, type TableProps } from '../Table';
+import Table, { DEFAULT_PREFIX, type TableProps } from '../InternalTable';
 import Grid from './BodyGrid';
 import { StaticContext } from './context';
-import getValue from 'rc-util/lib/utils/get';
 
 const renderBody: CustomizeScrollBody<any> = (rawData, props) => {
   const { ref, onScroll } = props;
@@ -26,7 +25,7 @@ export interface VirtualTableProps<RecordType> extends Omit<TableProps<RecordTyp
 
 function VirtualTable<RecordType>(props: VirtualTableProps<RecordType>, ref: React.Ref<Reference>) {
   const {
-    data,
+    dataSource: data,
     columns,
     scroll,
     sticky,
@@ -82,12 +81,9 @@ function VirtualTable<RecordType>(props: VirtualTableProps<RecordType>, ref: Rea
         }}
         components={{
           ...components,
-          // fix https://github.com/ant-design/ant-design/issues/48991
           body: data?.length ? renderBody : undefined,
         }}
         columns={columns}
-        internalHooks={INTERNAL_HOOKS}
-        tailor
         ref={ref}
       />
     </StaticContext.Provider>
