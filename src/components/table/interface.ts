@@ -50,7 +50,7 @@ export type TableAction = (typeof _TableActions)[number];
 export type CompareFn<T = AnyObject> = (a: T, b: T, sortOrder?: SortOrder) => number;
 
 export interface ColumnFilterItem {
-  text: React.ReactNode;
+  label: React.ReactNode;
   value: React.Key | boolean;
   children?: ColumnFilterItem[];
 }
@@ -91,7 +91,7 @@ export interface FilterRestProps {
 }
 
 export interface ColumnFilterItem {
-  text: React.ReactNode;
+  label: React.ReactNode;
   value: React.Key | boolean;
   children?: ColumnFilterItem[];
 }
@@ -340,7 +340,7 @@ export type SelectionItemSelectFn = (currentRowKeys: Key[]) => void;
 
 export interface SelectionItem {
   key: string;
-  text: React.ReactNode;
+  label: React.ReactNode;
   onSelect?: SelectionItemSelectFn;
 }
 

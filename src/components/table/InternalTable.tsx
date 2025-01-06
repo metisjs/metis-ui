@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
@@ -12,11 +13,12 @@ import getValue from 'rc-util/lib/utils/get';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
-import type { SizeType } from '../config-provider/SizeContext';
 import defaultLocale from '../locale/en_US';
+import Pagination from '../pagination';
 import type { ScrollbarRef, ScrollValues } from '../scrollbar';
 import Scrollbar from '../scrollbar';
 import type { SpinProps } from '../spin';
+import Spin from '../spin';
 import Body from './Body';
 import ColGroup from './ColGroup';
 import type { TableContextProps } from './context/TableContext';
@@ -29,17 +31,24 @@ import Summary from './Footer/Summary';
 import Header from './Header/Header';
 import useColumns from './hooks/useColumns';
 import useExpand from './hooks/useExpand';
+import type { FilterConfig } from './hooks/useFilter';
+import useFilter, { getFilterData, type FilterState } from './hooks/useFilter';
 import useFixedInfo from './hooks/useFixedInfo';
 import { useLayoutState, useTimeoutLock } from './hooks/useFrame';
 import useHover from './hooks/useHover';
+import useLazyKVMap from './hooks/useLazyKVMap';
+import usePagination, { DEFAULT_PAGE_SIZE, getPaginationParam } from './hooks/usePagination';
 import useSelection from './hooks/useSelection';
+import useSorter, { getSortData, type SortState } from './hooks/useSorter';
 import useSticky from './hooks/useSticky';
 import useStickyOffsets from './hooks/useStickyOffsets';
 import type {
   ColumnsType,
+  ColumnTitleProps,
   ColumnType,
   CustomizeScrollBody,
   ExpandableConfig,
+  ExpandableType,
   FilterValue,
   GetComponent,
   GetComponentProps,
@@ -51,6 +60,7 @@ import type {
   SorterResult,
   SorterTooltipProps,
   SortOrder,
+  TableAction,
   TableComponents,
   TableCurrentDataSource,
   TableLayout,
@@ -62,16 +72,30 @@ import type {
 import Panel from './Panel';
 import { getColumnsKey, validateValue } from './utils/valueUtil';
 
-export const DEFAULT_PREFIX = 'metis-table';
-
 // Used for conditions cache
-const EMPTY_DATA = [] as const;
+const EMPTY_LIST = [] as const;
 
 // Used for customize scroll
 const EMPTY_SCROLL_TARGET = {};
 
-export interface TableProps<RecordType extends AnyObject> {
+interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
+  pagination: {
+    current?: number;
+    pageSize?: number;
+    total?: number;
+  };
+  filters: Record<string, FilterValue | null>;
+  sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+
+  filterStates: FilterState<RecordType>[];
+  sorterStates: SortState<RecordType>[];
+
+  resetPagination: (current?: number, pageSize?: number) => void;
+}
+
+export interface TableProps<RecordType extends AnyObject = AnyObject> {
   prefixCls?: string;
+  dropdownPrefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -110,7 +134,7 @@ export interface TableProps<RecordType extends AnyObject> {
   pagination?: false | TablePaginationConfig;
 
   loading?: boolean | SpinProps;
-  size?: SizeType;
+  size?: 'default' | 'middle' | 'small';
   bordered?: boolean;
   locale?: TableLocale;
 
@@ -140,12 +164,18 @@ function InternalTable<RecordType extends AnyObject>(
   props: InternalTableProps<RecordType>,
   ref: React.Ref<Reference>,
 ) {
+  // ==================== Warning =====================
+  const warning = devUseWarning('Table');
+
   const {
     prefixCls: customizePrefixCls,
+    dropdownPrefixCls: customizeDropdownPrefixCls,
     className,
     rowClassName,
     style,
-    dataSource: data,
+    size: customizeSize,
+    bordered,
+    dataSource,
     rowKey = 'key',
     scroll,
     tableLayout,
@@ -153,6 +183,7 @@ function InternalTable<RecordType extends AnyObject>(
 
     expandable,
     rowSelection,
+    pagination,
 
     // Additional Part
     title,
@@ -169,34 +200,51 @@ function InternalTable<RecordType extends AnyObject>(
 
     // Events
     onScroll,
+    onChange,
 
     sticky,
-    rowHoverable = true,
+    rowHoverable,
     locale,
+    sortDirections,
+    showSorterTooltip = { target: 'full-header' },
+    loading,
 
     children,
   } = props;
 
   const {
     locale: contextLocale = defaultLocale,
+    table,
     renderEmpty,
     getPrefixCls,
     getPopupContainer: getContextPopupContainer,
   } = React.useContext<ConfigConsumerProps>(ConfigContext);
   const prefixCls = getPrefixCls('table', customizePrefixCls);
+  const dropdownPrefixCls = getPrefixCls('dropdown', customizeDropdownPrefixCls);
 
+  const mergedSize = customizeSize ?? table?.size ?? 'default';
   const tableLocale: TableLocale = { ...contextLocale.Table, ...locale };
 
-  const mergedData = data || EMPTY_DATA;
-  const hasData = !!mergedData.length;
+  const rawData = dataSource || EMPTY_LIST;
+
+  const { childrenColumnName = 'children', expandedRowRender } = expandable ?? {};
+
+  const expandableType = React.useMemo<ExpandableType>(() => {
+    if (rawData.some((item) => item?.[childrenColumnName])) {
+      return 'nest';
+    }
+
+    if (expandedRowRender) {
+      return 'row';
+    }
+
+    return false;
+  }, [rawData, childrenColumnName, !!expandedRowRender]);
 
   const emptyText =
     typeof locale?.emptyText !== 'undefined'
       ? locale.emptyText
       : renderEmpty?.('Table') || <DefaultRenderEmpty componentName="Table" />;
-
-  // ==================== Warning =====================
-  const warning = devUseWarning('Table');
 
   // ==================== Customize =====================
   const getComponent = React.useCallback<GetComponent>(
@@ -209,7 +257,7 @@ function InternalTable<RecordType extends AnyObject>(
       return rowKey;
     }
     return (record: RecordType) => {
-      const key = record && record[rowKey];
+      const key = record?.[rowKey];
 
       warning(
         key !== undefined,
@@ -226,16 +274,147 @@ function InternalTable<RecordType extends AnyObject>(
   // ====================== Hover =======================
   const [startRow, endRow, onHover] = useHover();
 
-  // ====================== Expand ======================
-  const [
-    transformExpandableColumns,
-    expandableConfig,
-    expandableType,
-    expandedKeys,
-    expandIcon,
-    childrenColumnName,
-    onTriggerExpand,
-  ] = useExpand(prefixCls, expandable, mergedData, getRowKey);
+  const [getRecordByKey] = useLazyKVMap(rawData, childrenColumnName, getRowKey);
+
+  // ============================ Events =============================
+  const changeEventInfo: Partial<ChangeEventInfo<RecordType>> = {};
+
+  const triggerOnChange = (
+    info: Partial<ChangeEventInfo<RecordType>>,
+    action: TableAction,
+    reset = false,
+  ) => {
+    const changeInfo = {
+      ...changeEventInfo,
+      ...info,
+    };
+
+    if (reset) {
+      changeEventInfo.resetPagination?.();
+
+      // Reset event param
+      if (changeInfo.pagination?.current) {
+        changeInfo.pagination.current = 1;
+      }
+
+      // Trigger pagination events
+      if (pagination) {
+        pagination.onChange?.(1, changeInfo.pagination!.pageSize!);
+      }
+    }
+
+    if (scroll && scroll.scrollToFirstRowOnChange !== false) {
+      // TODO: scroll to top
+    }
+
+    onChange?.(changeInfo.pagination!, changeInfo.filters!, changeInfo.sorter!, {
+      currentDataSource: getFilterData(
+        getSortData(rawData, changeInfo.sorterStates!, childrenColumnName),
+        changeInfo.filterStates!,
+        childrenColumnName,
+      ),
+      action,
+    });
+  };
+
+  // ============================ Sorter =============================
+  const onSorterChange = (
+    sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
+    sorterStates: SortState<RecordType>[],
+  ) => {
+    triggerOnChange(
+      {
+        sorter,
+        sorterStates,
+      },
+      'sort',
+      false,
+    );
+  };
+  const [transformSorterColumns, sortStates, sorterTitleProps, getSorters] = useSorter<RecordType>({
+    prefixCls,
+    columns,
+    onSorterChange,
+    sortDirections: sortDirections ?? ['ascend', 'descend'],
+    tableLocale,
+    showSorterTooltip,
+  });
+  const sortedData = React.useMemo(
+    () => getSortData(rawData, sortStates, childrenColumnName),
+    [rawData, sortStates],
+  );
+
+  changeEventInfo.sorter = getSorters();
+  changeEventInfo.sorterStates = sortStates;
+
+  // ============================ Filter ============================
+  const onFilterChange: FilterConfig<RecordType>['onFilterChange'] = (filters, filterStates) => {
+    triggerOnChange({ filters, filterStates }, 'filter', true);
+  };
+
+  const [transformFilterColumns, filterStates, filters] = useFilter<RecordType>({
+    prefixCls,
+    locale: tableLocale,
+    dropdownPrefixCls,
+    columns,
+    onFilterChange,
+    getPopupContainer: getPopupContainer || getContextPopupContainer,
+  });
+  const mergedData = getFilterData(sortedData, filterStates, childrenColumnName);
+
+  changeEventInfo.filters = filters;
+  changeEventInfo.filterStates = filterStates;
+
+  // ========================== Pagination ==========================
+  const onPaginationChange = (current: number, pageSize: number) => {
+    triggerOnChange(
+      {
+        pagination: { ...changeEventInfo.pagination, current, pageSize },
+      },
+      'paginate',
+    );
+  };
+
+  const [mergedPagination, resetPagination] = usePagination(
+    mergedData.length,
+    onPaginationChange,
+    pagination,
+  );
+
+  changeEventInfo.pagination =
+    pagination === false ? {} : getPaginationParam(mergedPagination, pagination);
+
+  changeEventInfo.resetPagination = resetPagination;
+
+  const pageData = React.useMemo<RecordType[]>(() => {
+    if (pagination === false || !mergedPagination.pageSize) {
+      return mergedData;
+    }
+
+    const { current = 1, total, pageSize = DEFAULT_PAGE_SIZE } = mergedPagination;
+    warning(current > 0, 'usage', '`current` should be positive number.');
+
+    // Dynamic table data
+    if (mergedData.length < total!) {
+      if (mergedData.length > pageSize) {
+        warning(
+          false,
+          'usage',
+          '`dataSource` length is less than `pagination.total` but large than `pagination.pageSize`. Please make sure your config correct data with async mode.',
+        );
+        return mergedData.slice((current - 1) * pageSize, current * pageSize);
+      }
+      return mergedData;
+    }
+
+    return mergedData.slice((current - 1) * pageSize, current * pageSize);
+  }, [
+    !!pagination,
+    mergedData,
+    mergedPagination?.current,
+    mergedPagination?.pageSize,
+    mergedPagination?.total,
+  ]);
 
   // ====================== Selection ======================
   const [transformSelectionColumns, selectedKeySet] = useSelection(
@@ -253,16 +432,40 @@ function InternalTable<RecordType extends AnyObject>(
     rowSelection,
   );
 
+  // ====================== Expand ======================
+  const defaultExpandIconColumnIndex = React.useMemo(() => {
+    if (expandableType === 'nest' && expandable?.expandIconColumnIndex === undefined) {
+      return rowSelection ? 1 : 0;
+    }
+    if (expandable && expandable.expandIconColumnIndex! > 0 && rowSelection) {
+      return expandable.expandIconColumnIndex! - 1;
+    }
+    return undefined;
+  }, [expandableType, !!rowSelection]);
+  const [transformExpandableColumns, expandableConfig, expandedKeys, expandIcon, onTriggerExpand] =
+    useExpand(prefixCls, expandable, pageData, getRowKey, defaultExpandIconColumnIndex);
+
   // ====================== Column ======================
   const scrollX = scroll?.x;
   const [componentWidth, setComponentWidth] = React.useState(0);
 
+  const columnTitleProps = React.useMemo<ColumnTitleProps<RecordType>>(() => {
+    const mergedFilters: Record<string, FilterValue> = {};
+    Object.keys(filters).forEach((filterKey) => {
+      if (filters[filterKey] !== null) {
+        mergedFilters[filterKey] = filters[filterKey]!;
+      }
+    });
+    return {
+      ...sorterTitleProps,
+      filters: mergedFilters,
+    };
+  }, [sorterTitleProps, filters]);
+
   const transformColumns = React.useCallback(
     (innerColumns: ColumnsType<RecordType>): ColumnsType<RecordType> =>
-      transformTitleColumns(
-        transformSelectionColumns(
-          transformFilterColumns(transformSorterColumns(transformExpandableColumns(innerColumns))),
-        ),
+      transformSelectionColumns(
+        transformFilterColumns(transformSorterColumns(transformExpandableColumns(innerColumns))),
       ),
     [transformSorterColumns, transformFilterColumns, transformSelectionColumns],
   );
@@ -273,9 +476,11 @@ function InternalTable<RecordType extends AnyObject>(
       scrollWidth: typeof scrollX === 'number' ? scrollX : undefined,
       clientWidth: componentWidth,
       children,
+      columnTitleProps,
     },
     transformColumns,
   );
+
   const mergedScrollX = flattenScrollX ?? scrollX;
 
   const columnContext = React.useMemo(
@@ -323,7 +528,7 @@ function InternalTable<RecordType extends AnyObject>(
     useSticky(sticky, prefixCls);
 
   // Footer (Fix footer must fixed header)
-  const summaryNode = React.useMemo(() => summary?.(mergedData), [summary, mergedData]);
+  const summaryNode = React.useMemo(() => summary?.(pageData), [summary, pageData]);
   const fixFooter =
     (fixHeader || isSticky) &&
     React.isValidElement(summaryNode) &&
@@ -445,14 +650,83 @@ function InternalTable<RecordType extends AnyObject>(
     if (mounted.current) {
       triggerOnScroll();
     }
-  }, [horizonScroll, data, mergedColumns.length]);
+  }, [horizonScroll, dataSource, mergedColumns.length]);
   React.useEffect(() => {
     mounted.current = true;
   }, []);
 
+  // ====================== Style ======================
+  const rootCls = clsx(
+    prefixCls,
+    {
+      [`${prefixCls}-ping-left`]: pingedLeft,
+      [`${prefixCls}-ping-right`]: pingedRight,
+      [`${prefixCls}-layout-fixed`]: tableLayout === 'fixed',
+      [`${prefixCls}-fixed-header`]: fixHeader,
+      [`${prefixCls}-fixed-column`]: fixColumn,
+      [`${prefixCls}-fixed-column-gapped`]: fixColumn && hasGapFixed,
+      [`${prefixCls}-scroll-horizontal`]: horizonScroll,
+      [`${prefixCls}-has-fix-left`]: flattenColumns[0] && flattenColumns[0].fixed,
+      [`${prefixCls}-has-fix-right`]:
+        flattenColumns[flattenColumns.length - 1] &&
+        flattenColumns[flattenColumns.length - 1].fixed === 'right',
+    },
+    'max-w-full bg-container text-sm text-text',
+  );
+
+  const containerCls = clsx(`${prefixCls}-container`, 'relative', {
+    'border-l border-t border-border': bordered,
+  });
+
+  const tableCls = clsx('w-full border-separate border-spacing-0 text-left');
+
   // ========================================================================
   // ==                               Render                               ==
   // ========================================================================
+  // =================== Render: Pagination ===================
+  let topPaginationNode: React.ReactNode;
+  let bottomPaginationNode: React.ReactNode;
+  if (pagination !== false && mergedPagination?.total) {
+    let paginationSize: TablePaginationConfig['size'];
+    if (mergedPagination.size) {
+      paginationSize = mergedPagination.size;
+    } else {
+      paginationSize = mergedSize === 'small' || mergedSize === 'middle' ? 'small' : undefined;
+    }
+
+    const renderPagination = (position: string) => (
+      <Pagination
+        {...mergedPagination}
+        className={clsx(
+          `${prefixCls}-pagination`,
+          `${prefixCls}-pagination-${position}`,
+          'flex flex-wrap gap-y-2 py-4',
+          {
+            'justify-end': position === 'right',
+          },
+        )}
+        size={paginationSize}
+      />
+    );
+    const { position } = mergedPagination;
+    if (position !== null && Array.isArray(position)) {
+      const topPos = position.find((p) => p.includes('top'));
+      const bottomPos = position.find((p) => p.includes('bottom'));
+      const isDisable = position.every((p) => `${p}` === 'none');
+      if (!topPos && !bottomPos && !isDisable) {
+        bottomPaginationNode = renderPagination('right');
+      }
+      if (topPos) {
+        topPaginationNode = renderPagination(topPos.toLowerCase().replace('top', ''));
+      }
+      if (bottomPos) {
+        bottomPaginationNode = renderPagination(bottomPos.toLowerCase().replace('bottom', ''));
+      }
+    } else {
+      bottomPaginationNode = renderPagination('right');
+    }
+  }
+
   // =================== Render: Func ===================
   const renderFixedHeaderTable = React.useCallback<FixedHolderProps<RecordType>['children']>(
     (fixedHeaderPassProps) => (
@@ -500,6 +774,7 @@ function InternalTable<RecordType extends AnyObject>(
     scroll,
   };
 
+  const hasData = !!pageData.length;
   // Empty
   const emptyNode: React.ReactNode = React.useMemo(() => {
     if (hasData) {
@@ -514,7 +789,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   // Body
   const bodyTable = (
-    <Body data={mergedData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
+    <Body data={pageData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
   );
 
   const bodyColGroup = (
@@ -529,7 +804,7 @@ function InternalTable<RecordType extends AnyObject>(
     let bodyContent: React.ReactNode;
 
     if (typeof customizeScrollBody === 'function') {
-      bodyContent = customizeScrollBody(mergedData, {
+      bodyContent = customizeScrollBody(pageData, {
         ref: scrollBodyRef,
         onScroll: onInternalScroll,
       });
@@ -556,6 +831,7 @@ function InternalTable<RecordType extends AnyObject>(
           className={classNames(`${prefixCls}-body`)}
         >
           <TableComponent
+            className={tableCls}
             style={{
               ...scrollTableStyle,
               tableLayout: mergedTableLayout,
@@ -576,7 +852,7 @@ function InternalTable<RecordType extends AnyObject>(
 
     // Fixed holder share the props
     const fixedHolderProps = {
-      noData: !mergedData.length,
+      noData: !pageData.length,
       maxContentScroll: horizonScroll && mergedScrollX === 'max-content',
       ...headerProps,
       ...columnContext,
@@ -633,6 +909,7 @@ function InternalTable<RecordType extends AnyObject>(
         ref={scrollBodyRef}
       >
         <TableComponent
+          className={tableCls}
           style={{ ...scrollTableStyle, tableLayout: mergedTableLayout }}
           {...ariaProps}
         >
@@ -649,32 +926,29 @@ function InternalTable<RecordType extends AnyObject>(
     );
   }
 
+  let spinProps: SpinProps | undefined;
+  if (typeof loading === 'boolean') {
+    spinProps = {
+      spinning: loading,
+    };
+  } else if (typeof loading === 'object') {
+    spinProps = {
+      spinning: true,
+      ...loading,
+    };
+  }
+
   let fullTable = (
-    <div
-      className={classNames(prefixCls, className, {
-        [`${prefixCls}-ping-left`]: pingedLeft,
-        [`${prefixCls}-ping-right`]: pingedRight,
-        [`${prefixCls}-layout-fixed`]: tableLayout === 'fixed',
-        [`${prefixCls}-fixed-header`]: fixHeader,
-        /** No used but for compatible */
-        [`${prefixCls}-fixed-column`]: fixColumn,
-        [`${prefixCls}-fixed-column-gapped`]: fixColumn && hasGapFixed,
-        [`${prefixCls}-scroll-horizontal`]: horizonScroll,
-        [`${prefixCls}-has-fix-left`]: flattenColumns[0] && flattenColumns[0].fixed,
-        [`${prefixCls}-has-fix-right`]:
-          flattenColumns[flattenColumns.length - 1] &&
-          flattenColumns[flattenColumns.length - 1].fixed === 'right',
-      })}
-      style={style}
-      id={id}
-      ref={fullTableRef}
-      {...dataProps}
-    >
-      {title && <Panel className={`${prefixCls}-title`}>{title(mergedData)}</Panel>}
-      <div ref={containerRef} className={`${prefixCls}-container`}>
-        {groupTableNode}
-      </div>
-      {footer && <Panel className={`${prefixCls}-footer`}>{footer(mergedData)}</Panel>}
+    <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
+      <Spin spinning={false} {...spinProps}>
+        {topPaginationNode}
+        {title && <Panel className={`${prefixCls}-title`}>{title(pageData)}</Panel>}
+        <div ref={containerRef} className={containerCls}>
+          {groupTableNode}
+        </div>
+        {footer && <Panel className={`${prefixCls}-footer`}>{footer(pageData)}</Panel>}
+        {bottomPaginationNode}
+      </Spin>
     </div>
   );
 
@@ -694,6 +968,9 @@ function InternalTable<RecordType extends AnyObject>(
       getComponent,
       fixedInfoList,
       isSticky,
+      selectedRowKeys: selectedKeySet,
+      size: mergedSize,
+      bordered,
 
       componentWidth,
       fixHeader,
@@ -741,6 +1018,9 @@ function InternalTable<RecordType extends AnyObject>(
       getComponent,
       fixedInfoList,
       isSticky,
+      selectedKeySet,
+      mergedSize,
+      bordered,
 
       componentWidth,
       fixHeader,

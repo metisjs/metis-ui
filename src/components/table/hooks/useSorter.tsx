@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { CaretDownSolid, CaretUpSolid } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
-import KeyCode from 'rc-util/lib/KeyCode';
 import type { AnyObject } from '../../_util/type';
 import type { TooltipProps } from '../../tooltip';
 import Tooltip from '../../tooltip';
+import { getTitleFromCellRenderChildren } from '../Cell';
 import type {
   ColumnGroupType,
   ColumnSorter,
@@ -18,7 +18,7 @@ import type {
   SortOrder,
   TableLocale,
 } from '../interface';
-import { getColumnKey, getColumnPos } from '../utils/valueUtil';
+import { getColumnKey, getColumnPos, renderColumnTitle } from '../utils/valueUtil';
 
 const ASCEND = 'ascend';
 const DESCEND = 'descend';
@@ -119,42 +119,64 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
     const columnPos = getColumnPos(index, pos);
     let newColumn: ColumnsType<RecordType>[number] = column;
     if (newColumn.sorter) {
-      const sortDirections: SortOrder[] = newColumn.sortDirections || defaultSortDirections;
+      const sorter = typeof newColumn.sorter === 'object' ? newColumn.sorter : {};
+      const sortDirections: SortOrder[] = sorter.directions || defaultSortDirections;
       const showSorterTooltip =
-        newColumn.showSorterTooltip === undefined
-          ? tableShowSorterTooltip
-          : newColumn.showSorterTooltip;
+        sorter.showTooltip === undefined ? tableShowSorterTooltip : sorter.showTooltip;
 
       const columnKey = getColumnKey(newColumn, columnPos);
       const sorterState = sorterStates.find(({ key }) => key === columnKey);
       const sortOrder = sorterState ? sorterState.sortOrder : null;
       const nextSortOrder = nextSortDirection(sortDirections, sortOrder);
 
-      let sorter: React.ReactNode;
-      if (column.sortIcon) {
-        sorter = column.sortIcon({ sortOrder });
+      let sorterNode: React.ReactNode;
+      if (sorter.icon) {
+        sorterNode = sorter.icon({ order: sortOrder });
       } else {
         const upNode: React.ReactNode = sortDirections.includes(ASCEND) && (
           <CaretUpSolid
-            className={clsx(`${prefixCls}-column-sorter-up`, {
-              active: sortOrder === ASCEND,
-            })}
+            className={clsx(
+              `${prefixCls}-column-sorter-up`,
+              {
+                active: sortOrder === ASCEND,
+              },
+              {
+                'text-primary': sortOrder === ASCEND,
+              },
+            )}
           />
         );
         const downNode: React.ReactNode = sortDirections.includes(DESCEND) && (
           <CaretDownSolid
-            className={clsx(`${prefixCls}-column-sorter-down`, {
-              active: sortOrder === DESCEND,
-            })}
+            className={clsx(
+              `${prefixCls}-column-sorter-down`,
+              {
+                active: sortOrder === DESCEND,
+              },
+              {
+                '-mt-[0.25rem]': upNode,
+                'text-primary': sortOrder === DESCEND,
+              },
+            )}
           />
         );
-        sorter = (
+        sorterNode = (
           <span
-            className={clsx(`${prefixCls}-column-sorter`, {
-              [`${prefixCls}-column-sorter-full`]: !!(upNode && downNode),
-            })}
+            className={clsx(
+              `${prefixCls}-column-sorter`,
+              {
+                [`${prefixCls}-column-sorter-full`]: !!(upNode && downNode),
+              },
+              'ms-1 flex items-center text-xs text-text-tertiary transition-colors group-hover/sorter-header:text-text-secondary',
+            )}
           >
-            <span className={`${prefixCls}-column-sorter-inner`} aria-hidden="true">
+            <span
+              className={clsx(
+                `${prefixCls}-column-sorter-inner`,
+                'inline-flex flex-col items-center',
+              )}
+              aria-hidden="true"
+            >
               {upNode}
               {downNode}
             </span>
@@ -178,18 +200,25 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           : { title: sortTip };
       newColumn = {
         ...newColumn,
-        className: clsx(newColumn.className, { [`${prefixCls}-column-sort`]: sortOrder }),
+        className: clsx(
+          newColumn.className,
+          { [`${prefixCls}-column-sort`]: sortOrder },
+          { 'bg-fill-quinary': sortOrder },
+        ),
         title: (renderProps: ColumnTitleProps<RecordType>) => {
-          const columnSortersClass = `${prefixCls}-column-sorters`;
+          const columnSortersClass = clsx(
+            `${prefixCls}-column-sorters`,
+            'flex items-center justify-between',
+          );
           const renderColumnTitleWrapper = (
-            <span className={`${prefixCls}-column-title`}>
+            <span className={clsx(`${prefixCls}-column-title`, 'relative flex-1')}>
               {renderColumnTitle(column.title, renderProps)}
             </span>
           );
           const renderSortTitle = (
             <div className={columnSortersClass}>
               {renderColumnTitleWrapper}
-              {sorter}
+              {sorterNode}
             </div>
           );
           if (showSorterTooltip) {
@@ -202,7 +231,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
                   className={`${columnSortersClass} ${prefixCls}-column-sorters-tooltip-target-sorter`}
                 >
                   {renderColumnTitleWrapper}
-                  <Tooltip {...tooltipProps}>{sorter}</Tooltip>
+                  <Tooltip {...tooltipProps}>{sorterNode}</Tooltip>
                 </div>
               );
             }
@@ -224,7 +253,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
             originOnClick?.(event);
           };
           cell.onKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-            if (event.keyCode === KeyCode.ENTER) {
+            if (event.key === 'Enter') {
               triggerSorter({
                 column,
                 key: columnKey,
@@ -235,7 +264,11 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
             }
           };
 
-          const renderTitle = safeColumnTitle(column.title, {});
+          const renderTitle = getTitleFromCellRenderChildren({
+            ellipsis: column.ellipsis,
+            rowType: 'header',
+            children: typeof column.title === 'function' ? column.title({}) : column.title,
+          });
           const displayTitle = renderTitle?.toString();
 
           // Inform the screen-reader so it can tell the visually impaired user which column is sorted
@@ -244,7 +277,12 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           } else {
             cell['aria-label'] = displayTitle || '';
           }
-          cell.className = clsx(cell.className, `${prefixCls}-column-has-sorters`);
+          cell.className = clsx(
+            `${prefixCls}-column-has-sorters`,
+            'group/sorter-header',
+            'cursor-pointer hover:bg-fill-quinary',
+            cell.className,
+          );
           cell.tabIndex = 0;
           if (column.ellipsis) {
             cell.title = (renderTitle ?? '').toString();
@@ -316,7 +354,7 @@ const generateSorterInfo = <RecordType extends AnyObject = AnyObject>(
 export const getSortData = <RecordType extends AnyObject = AnyObject>(
   data: readonly RecordType[],
   sortStates: SortState<RecordType>[],
-  childrenColumnName: string,
+  childrenColumnName: keyof RecordType,
 ): RecordType[] => {
   const innerSorterStates = sortStates
     .slice()
@@ -369,7 +407,7 @@ export const getSortData = <RecordType extends AnyObject = AnyObject>(
 
 interface SorterConfig<RecordType extends AnyObject = AnyObject> {
   prefixCls: string;
-  mergedColumns: ColumnsType<RecordType>;
+  columns?: ColumnsType<RecordType>;
   onSorterChange: (
     sorterResult: SorterResult<RecordType> | SorterResult<RecordType>[],
     sortStates: SortState<RecordType>[],
@@ -389,7 +427,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
 ] => {
   const {
     prefixCls,
-    mergedColumns,
+    columns = [],
     sortDirections,
     tableLocale,
     showSorterTooltip,
@@ -397,7 +435,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
   } = props;
 
   const [sortStates, setSortStates] = React.useState<SortState<RecordType>[]>(
-    collectSortStates<RecordType>(mergedColumns, true),
+    collectSortStates<RecordType>(columns, true),
   );
 
   const getColumnKeys = (columns: ColumnsType<RecordType>, pos?: string): Key[] => {
@@ -414,11 +452,11 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
   };
   const mergedSorterStates = React.useMemo<SortState<RecordType>[]>(() => {
     let validate = true;
-    const collectedStates = collectSortStates<RecordType>(mergedColumns, false);
+    const collectedStates = collectSortStates<RecordType>(columns, false);
 
     // Return if not controlled
     if (!collectedStates.length) {
-      const mergedColumnsKeys = getColumnKeys(mergedColumns);
+      const mergedColumnsKeys = getColumnKeys(columns);
       return sortStates.filter(({ key }) => mergedColumnsKeys.includes(key));
     }
 
@@ -456,7 +494,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     });
 
     return validateStates;
-  }, [mergedColumns, sortStates]);
+  }, [columns, sortStates]);
 
   // Get render columns title required props
   const columnTitleSorterProps = React.useMemo<ColumnTitleProps<RecordType>>(() => {
@@ -467,9 +505,6 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
 
     return {
       sortColumns,
-      // Legacy
-      sortColumn: sortColumns[0]?.column,
-      sortOrder: sortColumns[0]?.order,
     };
   }, [mergedSorterStates]);
 

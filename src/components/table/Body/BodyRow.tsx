@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import classNames from 'classnames';
 import Cell from '../Cell';
@@ -107,6 +108,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
 
     // Misc
     expanded,
+    selected,
     rowSupportExpand,
   } = rowInfo;
 
@@ -123,14 +125,15 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     <RowComponent
       {...rowProps}
       data-row-key={rowKey}
-      className={classNames(
-        className,
+      className={clsx(
         `${prefixCls}-row`,
         `${prefixCls}-row-level-${indent}`,
-        rowProps?.className,
         {
+          [`${prefixCls}-row-selected`]: selected,
           [expandedClsName]: indent >= 1,
         },
+        className,
+        rowProps?.className,
       )}
       style={{ ...style, ...rowProps?.style }}
     >
@@ -145,9 +148,17 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
           index,
         );
 
+        const mergedCls = clsx(
+          {
+            'bg-fill-quinary first:before:absolute first:before:bottom-0 first:before:left-0 first:before:top-0 first:before:w-0.5 first:before:bg-primary':
+              selected,
+          },
+          columnClassName,
+        );
+
         return (
           <Cell<RecordType>
-            className={columnClassName}
+            className={mergedCls}
             ellipsis={column.ellipsis}
             align={column.align}
             scope={column.rowScope}
@@ -172,7 +183,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
   // ======================== Expand Row =========================
   let expandRowNode: React.ReactElement | undefined;
   if (rowSupportExpand && (expandedRef.current || expanded)) {
-    const expandContent = expandedRowRender(record, index, indent + 1, expanded);
+    const expandContent = expandedRowRender!(record, index, indent + 1, expanded);
 
     expandRowNode = (
       <ExpandedRow

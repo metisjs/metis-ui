@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { EXPAND_COLUMN, INTERNAL_COL_DEFINE } from '../constant';
 import type {
   ColumnsType,
   ExpandableConfig,
-  ExpandableType,
   GetRowKey,
   Key,
   TriggerEventHandler,
@@ -17,10 +17,15 @@ export default function useExpand<RecordType extends AnyObject>(
   expandable: ExpandableConfig<RecordType> = {},
   mergedData: readonly RecordType[],
   getRowKey: GetRowKey<RecordType>,
+  defaultExpandIconColumnIndex?: number,
 ) {
   const warning = devUseWarning('Table');
 
-  const expandableConfig = { ...expandable, indentSize: expandable.indentSize ?? 15 };
+  const expandableConfig = {
+    ...expandable,
+    indentSize: expandable.indentSize ?? 15,
+    expandIconColumnIndex: defaultExpandIconColumnIndex ?? expandable.expandIconColumnIndex,
+  };
   if (expandableConfig.showExpandColumn === false) {
     expandableConfig.expandIconColumnIndex = -1;
   }
@@ -43,19 +48,6 @@ export default function useExpand<RecordType extends AnyObject>(
 
   const mergedExpandIcon = expandIcon || renderExpandIcon;
   const mergedChildrenColumnName = childrenColumnName || ('children' as keyof RecordType);
-  const expandableType = React.useMemo<ExpandableType>(() => {
-    if (expandedRowRender) {
-      return 'row';
-    }
-    if (
-      mergedData.some(
-        (record) => record && typeof record === 'object' && record[mergedChildrenColumnName],
-      )
-    ) {
-      return 'nest';
-    }
-    return false;
-  }, [!!expandedRowRender, mergedData]);
 
   const [innerExpandedKeys, setInnerExpandedKeys] = React.useState(() => {
     if (defaultExpandedRowKeys) {
@@ -140,7 +132,7 @@ export default function useExpand<RecordType extends AnyObject>(
         // >>> Create expandable column
         const expandColumn = {
           [INTERNAL_COL_DEFINE]: {
-            className: `${prefixCls}-expand-icon-col`,
+            className: clsx(`${prefixCls}-expand-icon-col`, 'before:hidden'),
             columnType: 'EXPAND_COLUMN',
           },
           title: columnTitle,
@@ -184,10 +176,8 @@ export default function useExpand<RecordType extends AnyObject>(
   return [
     transformColumns,
     expandableConfig,
-    expandableType,
     mergedExpandedKeys,
     mergedExpandIcon,
-    mergedChildrenColumnName,
     onTriggerExpand,
   ] as const;
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
-import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import TableContext from '../context/TableContext';
 import type {
@@ -54,7 +54,7 @@ export interface CellProps<RecordType extends AnyObject> {
   isSticky?: boolean;
 }
 
-const getTitleFromCellRenderChildren = ({
+export const getTitleFromCellRenderChildren = ({
   ellipsis,
   rowType,
   children,
@@ -92,7 +92,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
 
     // Row
     index,
-    rowType,
+    rowType = 'body',
 
     // Span
     colSpan,
@@ -113,9 +113,11 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
-  const { allColumnsFixedLeft, rowHoverable } = useContext(TableContext, [
+  const { allColumnsFixedLeft, rowHoverable, size, bordered } = useContext(TableContext, [
     'allColumnsFixedLeft',
     'rowHoverable',
+    'size',
+    'bordered',
   ]);
 
   // ====================== Value =======================
@@ -180,9 +182,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     });
 
   // >>>>> ClassName
-  const mergedClassName = classNames(
+  const mergedClassName = clsx(
     cellPrefixCls,
-    className,
     {
       [`${cellPrefixCls}-fix-left`]: isFixLeft,
       [`${cellPrefixCls}-fix-left-first`]: firstFixLeft,
@@ -196,6 +197,26 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky,
       [`${cellPrefixCls}-row-hover`]: hovering,
     },
+    'relative border-b border-b-border-secondary px-3 py-4 transition-colors',
+    {
+      'px-2 py-3': size === 'middle',
+      'px-2 py-2': size === 'small',
+    },
+    { 'border-r border-border-secondary last:border-border': bordered },
+    rowType === 'header' && [
+      'border-b border-b-border py-3.5 font-semibold',
+      {
+        'py-2.5': size === 'middle',
+        'py-1.5': size === 'small',
+      },
+      {
+        'border-b-0 text-center': mergedColSpan > 1,
+        'after:absolute after:end-0 after:top-1/2 after:h-5 after:w-px after:-translate-y-1/2 after:bg-border-tertiary last:after:hidden':
+          mergedColSpan === 1 && !bordered,
+      },
+    ],
+    rowType === 'body' && [{ 'bg-fill-quinary': hovering }],
+    className,
     additionalProps.className,
   );
 

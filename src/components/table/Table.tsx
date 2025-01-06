@@ -1,13 +1,13 @@
 import * as React from 'react';
 import type { AnyObject } from '../_util/type';
-import { EXPAND_COLUMN } from './constant';
-import Summary from './Footer/Summary';
 import {
+  EXPAND_COLUMN,
   SELECTION_ALL,
   SELECTION_COLUMN,
   SELECTION_INVERT,
   SELECTION_NONE,
-} from './hooks/useSelection';
+} from './constant';
+import Summary from './Footer/Summary';
 import type { Reference } from './interface';
 import type { TableProps } from './InternalTable';
 import InternalTable from './InternalTable';

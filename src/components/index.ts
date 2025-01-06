@@ -16,6 +16,14 @@ export type { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb';
 export { default as Button } from './button';
 export type { ButtonProps } from './button';
 export { default as Calendar } from './calendar';
+export { default as Table } from './table';
+export type {
+  ColumnGroupType as TableColumnGroupType,
+  ColumnType as TableColumnType,
+  ColumnsType as TableColumnsType,
+  TablePaginationConfig,
+  TableProps,
+} from './table';
 export type { CalendarProps } from './calendar';
 export { default as Card } from './card';
 export type { CardProps } from './card';

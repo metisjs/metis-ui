@@ -4,14 +4,14 @@ import type { GetRowKey, Key } from '../interface';
 
 interface MapCache<RecordType extends AnyObject = AnyObject> {
   data?: readonly RecordType[];
-  childrenColumnName?: string;
+  childrenColumnName?: keyof RecordType;
   kvMap?: Map<Key, RecordType>;
   getRowKey?: (record: RecordType, index: number) => Key;
 }
 
 const useLazyKVMap = <RecordType extends AnyObject = AnyObject>(
   data: readonly RecordType[],
-  childrenColumnName: string,
+  childrenColumnName: keyof RecordType,
   getRowKey: GetRowKey<RecordType>,
 ) => {
   const mapCacheRef = React.useRef<MapCache<RecordType>>({});

@@ -15,7 +15,7 @@ const extendsObject = <T extends AnyObject = AnyObject>(...list: T[]) => {
     }
   }
 
-  return result;
+  return result as T;
 };
 
 export default extendsObject;

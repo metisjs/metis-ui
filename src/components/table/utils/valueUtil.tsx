@@ -1,6 +1,6 @@
 import toArray from '@util/toArray';
 import type { AnyObject } from '@util/type';
-import type { DataIndex, Key } from '../interface';
+import type { ColumnTitle, ColumnTitleProps, DataIndex, Key } from '../interface';
 
 const INTERNAL_KEY_PREFIX = 'METIS_TABLE_KEY';
 
@@ -44,6 +44,16 @@ export const getColumnKey = <RecordType extends AnyObject = AnyObject>(
 export function getColumnPos(index: number, pos?: string) {
   return pos ? `${pos}-${index}` : `${index}`;
 }
+
+export const renderColumnTitle = <RecordType extends AnyObject = AnyObject>(
+  title: ColumnTitle<RecordType>,
+  props: ColumnTitleProps<RecordType>,
+) => {
+  if (typeof title === 'function') {
+    return title(props);
+  }
+  return title;
+};
 
 export function validateValue<T>(val: T) {
   return val !== null && val !== undefined;

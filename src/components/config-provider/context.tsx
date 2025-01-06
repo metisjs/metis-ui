@@ -50,6 +50,7 @@ import type { SplitterProps } from '../splitter';
 import type { StatisticProps } from '../statistic';
 import type { StepsProps } from '../steps';
 import type { SwitchProps } from '../switch';
+import type { TableProps } from '../table';
 import type { TabsProps } from '../tabs';
 import type { TagProps } from '../tag';
 import type { TimelineProps } from '../timeline';
@@ -168,6 +169,8 @@ export type StepsConfig = Pick<StepsProps, 'className'>;
 
 export type SwitchConfig = Pick<SwitchProps, 'className'>;
 
+export type TableConfig = Pick<TableProps, 'className' | 'size'>;
+
 export type TabsConfig = Pick<TabsProps, 'className'>;
 
 export type TagConfig = Pick<TagProps, 'className'>;
@@ -246,7 +249,7 @@ export interface ConfigConsumerProps {
   message?: MessageConfig;
   scrollbar?: ScrollbarConfig;
   tag?: TagConfig;
-  // table?: TableConfig;
+  table?: TableConfig;
   card?: CardConfig;
   tabs?: TabsConfig;
   timeline?: TimelineConfig;

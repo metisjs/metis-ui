@@ -1,7 +1,11 @@
 import * as React from 'react';
+import useBreakpoint from '@util/hooks/useBreakpoint';
+import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject } from '@util/type';
 import toArray from 'rc-util/lib/Children/toArray';
+import { EXPAND_COLUMN, SELECTION_COLUMN } from '../../constant';
 import type { ColumnGroupType, ColumnsType, ColumnTitleProps, ColumnType } from '../../interface';
+import { renderColumnTitle } from '../../utils/valueUtil';
 import useWidthColumns from './useWidthColumns';
 
 export function convertChildrenToColumns<RecordType extends AnyObject>(
@@ -81,10 +85,12 @@ const fillTitle = <RecordType extends AnyObject = AnyObject>(
   columnTitleProps: ColumnTitleProps<RecordType>,
 ): ColumnsType<RecordType> => {
   const finalColumns = columns.map((column) => {
-    const cloneColumn: ColumnGroupType<RecordType> | ColumnType<RecordType> = { ...column };
-    if (typeof column.title === 'function') {
-      cloneColumn.title = column.title(columnTitleProps);
+    if (column === SELECTION_COLUMN || column === EXPAND_COLUMN) {
+      return column;
     }
+
+    const cloneColumn: ColumnGroupType<RecordType> | ColumnType<RecordType> = { ...column };
+    cloneColumn.title = renderColumnTitle(column.title, columnTitleProps);
     if ('children' in cloneColumn) {
       cloneColumn.children = fillTitle<RecordType>(cloneColumn.children, columnTitleProps);
     }
@@ -123,12 +129,24 @@ function useColumns<RecordType extends AnyObject>(
     return filterHiddenColumns(newColumns.slice());
   }, [columns, children]);
 
+  const needResponsive = React.useMemo(
+    () => baseColumns.some((col: ColumnType<RecordType>) => col.responsive),
+    [baseColumns],
+  );
+
+  const screens = useBreakpoint(needResponsive);
+
   // ========================= Transform ========================
   const mergedColumns = React.useMemo(() => {
-    let finalColumns = fillTitle(baseColumns, columnTitleProps);
+    const matched = new Set(Object.keys(screens).filter((m) => screens[m as Breakpoint]));
+
+    let finalColumns = baseColumns;
     if (transformColumns) {
       finalColumns = transformColumns(finalColumns);
     }
+
+    finalColumns.filter((c) => !c.responsive || c.responsive.some((r) => matched.has(r)));
+    finalColumns = fillTitle(finalColumns, columnTitleProps);
 
     // Always provides at least one column for table display
     if (!finalColumns.length) {
@@ -139,7 +157,7 @@ function useColumns<RecordType extends AnyObject>(
       ];
     }
     return finalColumns;
-  }, [transformColumns, baseColumns]);
+  }, [transformColumns, baseColumns, screens]);
 
   // ========================== Flatten =========================
   const flattenColumns = React.useMemo(

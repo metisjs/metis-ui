@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
-import classNames from 'classnames';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import useMultipleSelect from '../../_util/hooks/useMultipleSelect';
 import type { AnyObject } from '../../_util/type';
@@ -280,7 +280,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (selection === SELECTION_ALL) {
           return {
             key: 'all',
-            text: tableLocale.selectionAll,
+            label: tableLocale.selectionAll,
             onSelect() {
               setSelectedKeys(
                 data
@@ -297,7 +297,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (selection === SELECTION_INVERT) {
           return {
             key: 'invert',
-            text: tableLocale.selectInvert,
+            label: tableLocale.selectInvert,
             onSelect() {
               const keySet = new Set(derivedSelectedKeySet);
               pageData.forEach((record, index) => {
@@ -322,7 +322,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (selection === SELECTION_NONE) {
           return {
             key: 'none',
-            text: tableLocale.selectNone,
+            label: tableLocale.selectNone,
             onSelect() {
               setSelectedKeys(
                 Array.from(derivedSelectedKeySet).filter((key) => {
@@ -403,7 +403,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           const menu = {
             getPopupContainer,
             items: mergedSelections.map((selection, index) => {
-              const { key, text, onSelect: onSelectionClick } = selection;
+              const { key, label: text, onSelect: onSelectionClick } = selection;
 
               return {
                 key: key ?? index,
@@ -415,11 +415,23 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             }),
           };
           customizeSelections = (
-            <div className={`${prefixCls}-selection-extra`}>
-              <Dropdown menu={menu} getPopupContainer={getPopupContainer}>
-                <span>
-                  <ChevronDownOutline />
-                </span>
+            <div
+              className={clsx(
+                `${prefixCls}-selection-extra`,
+                'absolute -left-[1.125rem] top-1/2 z-[1] -translate-y-1/2 cursor-pointer',
+              )}
+            >
+              <Dropdown
+                menu={menu}
+                getPopupContainer={getPopupContainer}
+                className={({ open }) =>
+                  clsx(
+                    'text-text-tertiary transition-colors hover:text-text-secondary',
+                    open && 'text-text-secondary',
+                  )
+                }
+              >
+                <ChevronDownOutline className="h-4 w-4" />
               </Dropdown>
             </div>
           );
@@ -455,11 +467,12 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             disabled={flattedData.length === 0 || allDisabled}
             aria-label={customizeSelections ? 'Custom selection' : 'Select all'}
             skipGroup
+            className={{ indicator: 'peer-focus/checkbox:outline-0' }}
           />
         );
 
         title = !hideSelectAll && (
-          <div className={`${prefixCls}-selection`}>
+          <div className={clsx(`${prefixCls}-selection`, 'relative inline-flex align-text-top')}>
             {columnTitleCheckbox}
             {customizeSelections}
           </div>
@@ -481,6 +494,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             node: (
               <Radio
                 {...checkboxProps}
+                className={mergeSemanticCls(
+                  { root: 'align-text-top', indicator: 'peer-focus/radio:outline-0' },
+                  checkboxProps?.className,
+                )}
                 checked={checked}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -519,6 +536,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             node: (
               <Checkbox
                 {...checkboxProps}
+                className={mergeSemanticCls(
+                  { root: 'align-text-top', indicator: 'peer-focus/checkbox:outline-0' },
+                  checkboxProps?.className,
+                )}
                 indeterminate={mergedIndeterminate}
                 checked={checked}
                 skipGroup
@@ -649,9 +670,13 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         prevCol.fixed = mergedFixed;
       }
 
-      const columnCls = classNames(`${prefixCls}-selection-col`, {
-        [`${prefixCls}-selection-col-with-dropdown`]: selections && selectionType === 'checkbox',
-      });
+      const columnCls = clsx(
+        `${prefixCls}-selection-col`,
+        {
+          [`${prefixCls}-selection-col-with-dropdown`]: selections && selectionType === 'checkbox',
+        },
+        'w-0',
+      );
 
       const renderColumnTitle = () => {
         if (!rowSelection?.columnTitle) {
@@ -669,11 +694,14 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       } = {
         fixed: mergedFixed,
         width: selectionColWidth,
-        className: `${prefixCls}-selection-column`,
+        className: clsx(
+          `${prefixCls}-selection-column`,
+          'px-1 after:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+        ),
         title: renderColumnTitle(),
         render: renderSelectionCell,
         onCell: rowSelection.onCell,
-        [INTERNAL_COL_DEFINE]: { className: columnCls },
+        [INTERNAL_COL_DEFINE]: { className: columnCls, columnType: 'SELECTION_COLUMN' },
       };
 
       return cloneColumns.map((col) => (col === SELECTION_COLUMN ? selectionColumn : col));

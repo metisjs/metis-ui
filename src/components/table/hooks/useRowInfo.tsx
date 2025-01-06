@@ -29,6 +29,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
   | 'childrenColumnName'
   | 'onRow'
 > & {
+  selected: boolean;
   columnsKey: React.Key[];
   nestExpandable: boolean;
   expanded: boolean;
@@ -55,6 +56,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
     'childrenColumnName',
     'rowExpandable',
     'onRow',
+    'selectedRowKeys',
   ]);
 
   const {
@@ -67,6 +69,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
     onRow,
     expandRowByClick,
     rowClassName,
+    selectedRowKeys,
   } = context;
 
   // ======================= Expandable =======================
@@ -107,6 +110,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
 
   return {
     ...context,
+    selected: !!selectedRowKeys?.has(rowKey),
     columnsKey,
     nestExpandable,
     expanded,

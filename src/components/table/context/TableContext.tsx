@@ -31,6 +31,9 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   fixHeader: boolean;
   fixColumn: boolean;
   horizonScroll: boolean;
+  selectedRowKeys: Set<React.Key>;
+  size: 'default' | 'middle' | 'small';
+  bordered?: boolean;
 
   // Body
   rowClassName?: string | RowClassName<RecordType>;

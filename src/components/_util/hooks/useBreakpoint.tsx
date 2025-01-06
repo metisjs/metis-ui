@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { useUpdate } from 'ahooks';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import type { ScreenMap } from '../responsiveObserver';
 import useResponsiveObserver from '../responsiveObserver';
+import useForceUpdate from './useForceUpdate';
 
 function useBreakpoint(refreshOnChange = true): ScreenMap {
   const screensRef = useRef<ScreenMap>({});
-  const forceUpdate = useUpdate();
+  const forceUpdate = useForceUpdate();
   const responsiveObserver = useResponsiveObserver();
 
   useLayoutEffect(() => {
