@@ -1,6 +1,7 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import type { RequestConfig } from '@util/type';
+import type { CheckboxProps } from '../checkbox';
 import type { SpinProps } from '../spin';
 import type { ScrollTo, VirtualListProps, VirtualType } from '../virtual-list';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
@@ -135,6 +136,7 @@ export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
       icon?: string;
       title?: string;
       indent?: string;
+      checkbox?: CheckboxProps['className'];
     },
     {
       selected?: boolean;

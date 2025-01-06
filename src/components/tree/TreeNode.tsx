@@ -352,6 +352,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
         disabled={mergedDisabled || disableCheckbox}
         indeterminate={halfChecked}
         onClick={onCheck}
+        className={semanticCls.checkbox}
       />
     );
   };
