@@ -26,20 +26,21 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
       selectable={false}
       onClick={onClick}
       className={{
-        root: 'py-1',
+        root: 'gap-0 py-1',
         item: {
           root: 'px-1',
           inner: 'h-8 gap-1.5 px-3 py-1 pe-3 ps-3 font-normal leading-6',
           icon: 'h-4 w-4',
         },
         sub: {
-          root: 'px-1',
+          root: 'gap-0 px-1 *:px-0',
           inner: 'h-8 gap-1.5 px-1 py-1 pe-3 ps-3 font-normal leading-6',
           icon: 'h-4 w-4',
+          list: 'gap-0',
         },
         group: {
           label: 'pe-3 ps-3',
-          list: 'px-2',
+          list: 'gap-0 px-2',
         },
       }}
       validator={({ mode }) => {

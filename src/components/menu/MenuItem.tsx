@@ -31,6 +31,8 @@ export interface MenuItemProps
 
   /** @private Do not use. Private warning empty usage */
   warnKey?: boolean;
+
+  grouped?: boolean;
 }
 
 /**
@@ -48,6 +50,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     warnKey,
     disabled,
     children,
+    grouped,
 
     // Aria
     role,
@@ -182,6 +185,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
     selected,
     hasIcon: !!icon,
     level,
+    grouped,
   });
 
   const rootCls = clsx(
@@ -219,7 +223,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         // >>> Light Vertical
         vertical: {
           'h-10 truncate rounded-md p-2 leading-10': true,
-          'pe-4 ps-4 [.item-group_&]:ps-7': !firstLevel,
+          'pe-4 ps-4': !firstLevel,
+          'ps-7': !firstLevel && grouped,
           'pe-8': firstLevel && !isInlineCollapsed,
           'bg-fill-quaternary text-primary': selected,
           'hover:bg-fill-quaternary': !selected && !mergedDisabled,
@@ -246,7 +251,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         // >>> Dark Vertical
         vertical: {
           'h-10 truncate rounded-md p-2 leading-10 text-text-tertiary': true,
-          'pe-4 ps-4 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
+          'pe-4 ps-4 text-gray-300': !firstLevel,
+          'ps-7': !firstLevel && grouped,
           'pe-8': firstLevel && !isInlineCollapsed,
           'bg-gray-700 text-white': selected,
           'hover:bg-gray-700': !selected && !mergedDisabled,

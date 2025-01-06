@@ -435,7 +435,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
             mode={triggerMode === 'horizontal' ? 'vertical' : triggerMode}
             theme={mergedTheme}
           >
-            <SubMenuList id={popupId} ref={popupRef}>
+            <SubMenuList id={popupId} ref={popupRef} className={semanticCls.list}>
               {children}
             </SubMenuList>
           </MenuContextProvider>

@@ -14,6 +14,7 @@ export interface SubMenuType<T extends MenuItemType = MenuItemType> {
       icon?: string;
       label?: string;
       popup?: string;
+      list?: string;
     },
     {
       disabled?: boolean;
@@ -58,7 +59,13 @@ export interface MenuItemType
   title?: string;
   className?: SemanticClassName<
     { inner?: string; icon?: string; label?: string },
-    { disabled?: boolean; selected?: boolean; hasIcon?: boolean; level: number }
+    {
+      disabled?: boolean;
+      selected?: boolean;
+      hasIcon?: boolean;
+      level: number;
+      grouped?: boolean;
+    }
   >;
 
   // >>>>> Active

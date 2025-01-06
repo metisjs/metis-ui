@@ -70,7 +70,9 @@ export default function MenuItemGroup({
   ...props
 }: MenuItemGroupProps): React.ReactElement {
   const connectedKeyPath = useFullPath(props.eventKey);
-  const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath);
+  const childList: React.ReactElement[] = parseChildren(children, connectedKeyPath, {
+    grouped: true,
+  });
 
   const measure = useMeasure();
   if (measure) {

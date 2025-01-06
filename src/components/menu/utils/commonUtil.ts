@@ -2,7 +2,11 @@ import * as React from 'react';
 import type { SafeKey } from '@util/type';
 import toArray from 'rc-util/lib/Children/toArray';
 
-export function parseChildren(children: React.ReactNode | undefined, keyPath: SafeKey[]) {
+export function parseChildren(
+  children: React.ReactNode | undefined,
+  keyPath: SafeKey[],
+  props?: Record<string, any>,
+) {
   return toArray(children).map((child, index) => {
     if (React.isValidElement(child)) {
       const { key } = child;
@@ -17,6 +21,7 @@ export function parseChildren(children: React.ReactNode | undefined, keyPath: Sa
       const cloneProps = {
         key: eventKey,
         eventKey,
+        ...props,
       } as any;
 
       if (process.env.NODE_ENV !== 'production' && emptyKey) {
