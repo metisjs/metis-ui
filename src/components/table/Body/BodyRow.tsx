@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
-import classNames from 'classnames';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
 import useRowInfo from '../hooks/useRowInfo';
@@ -132,6 +131,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
           [`${prefixCls}-row-selected`]: selected,
           [expandedClsName]: indent >= 1,
         },
+        'group/body-row',
         className,
         rowProps?.className,
       )}
@@ -188,9 +188,10 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     expandRowNode = (
       <ExpandedRow
         expanded={expanded}
-        className={classNames(
+        className={clsx(
           `${prefixCls}-expanded-row`,
           `${prefixCls}-expanded-row-level-${indent + 1}`,
+          '*:bg-fill-quinary',
           expandedClsName,
         )}
         prefixCls={prefixCls}

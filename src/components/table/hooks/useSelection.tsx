@@ -431,7 +431,9 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
                   )
                 }
               >
-                <ChevronDownOutline className="h-4 w-4" />
+                <span>
+                  <ChevronDownOutline className="h-4 w-4" />
+                </span>
               </Dropdown>
             </div>
           );

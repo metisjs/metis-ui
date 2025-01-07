@@ -30,7 +30,7 @@ function parseHeaderRows<RecordType extends AnyObject>(
       const cell: CellType<RecordType> = {
         key: column.key,
         className: column.className || '',
-        children: column.title,
+        children: column.title as React.ReactNode,
         column,
         colStart: currentColIndex,
       };
@@ -46,8 +46,8 @@ function parseHeaderRows<RecordType extends AnyObject>(
         cell.hasSubColumns = true;
       }
 
-      if ('colSpan' in column && column.colSpan) {
-        ({ colSpan } = column);
+      if ('colSpan' in column) {
+        ({ colSpan = 1 } = column);
       }
 
       if ('rowSpan' in column) {

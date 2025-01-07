@@ -674,11 +674,53 @@ function InternalTable<RecordType extends AnyObject>(
     'max-w-full bg-container text-sm text-text',
   );
 
-  const containerCls = clsx(`${prefixCls}-container`, 'relative', {
-    'border-l border-t border-border': bordered,
-  });
+  const containerCls = clsx(
+    `${prefixCls}-container`,
+    'relative',
+    bordered && [
+      'rounded-lg border border-border',
+      {
+        'rounded-md': mergedSize === 'middle',
+        ['rounded']: mergedSize === 'small',
+        'rounded-se-none rounded-ss-none': title,
+        'rounded-ee-none rounded-es-none': footer,
+      },
+    ],
+  );
 
   const tableCls = clsx('w-full border-separate border-spacing-0 text-left');
+
+  const titleCls = clsx(
+    `${prefixCls}-title`,
+    'px-3 py-4',
+    {
+      'py-2.5': mergedSize === 'middle',
+      'py-1.5': mergedSize === 'small',
+    },
+    bordered && [
+      'rounded-se-lg rounded-ss-lg border border-b-0 border-border',
+      {
+        'rounded-se-md rounded-ss-md': mergedSize === 'middle',
+        'rounded-se rounded-ss': mergedSize === 'small',
+      },
+    ],
+  );
+
+  const footerCls = clsx(
+    `${prefixCls}-footer`,
+    'px-3 py-4',
+    {
+      'py-2.5': mergedSize === 'middle',
+      'py-1.5': mergedSize === 'small',
+    },
+    bordered && [
+      'rounded-ee-lg rounded-es-lg border border-t-0 border-border',
+      {
+        'rounded-ee-md rounded-es-md': mergedSize === 'middle',
+        'rounded-ee rounded-es': mergedSize === 'small',
+      },
+    ],
+  );
 
   // ========================================================================
   // ==                               Render                               ==
@@ -942,11 +984,11 @@ function InternalTable<RecordType extends AnyObject>(
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
       <Spin spinning={false} {...spinProps}>
         {topPaginationNode}
-        {title && <Panel className={`${prefixCls}-title`}>{title(pageData)}</Panel>}
+        {title && <Panel className={titleCls}>{title(pageData)}</Panel>}
         <div ref={containerRef} className={containerCls}>
           {groupTableNode}
         </div>
-        {footer && <Panel className={`${prefixCls}-footer`}>{footer(pageData)}</Panel>}
+        {footer && <Panel className={footerCls}>{footer(pageData)}</Panel>}
         {bottomPaginationNode}
       </Spin>
     </div>

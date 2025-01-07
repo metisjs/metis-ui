@@ -202,7 +202,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       'px-2 py-3': size === 'middle',
       'px-2 py-2': size === 'small',
     },
-    { 'border-r border-border-secondary last:border-border': bordered },
+    { 'border-r border-border-secondary last:border-r-0 group-last/body-row:border-b-0': bordered },
     rowType === 'header' && [
       'border-b border-b-border py-3.5 font-semibold',
       {
@@ -210,7 +210,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
         'py-1.5': size === 'small',
       },
       {
-        'border-b-0 text-center': mergedColSpan > 1,
+        'border-b-0 text-center group-last/header-row:border-b': mergedColSpan > 1,
         'after:absolute after:end-0 after:top-1/2 after:h-5 after:w-px after:-translate-y-1/2 after:bg-border-tertiary last:after:hidden':
           mergedColSpan === 1 && !bordered,
       },

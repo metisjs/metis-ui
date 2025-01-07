@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import Cell from '../Cell';
 import TableContext from '../context/TableContext';
@@ -41,6 +42,7 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
       index,
     );
   }
+  rowProps.className = clsx('group/header-row', rowProps.className);
 
   const columnsKey = getColumnsKey(cells.map((cell) => cell.column!));
 

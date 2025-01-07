@@ -13,7 +13,10 @@ export default function useHoverState(
   rowSpan: number,
 ): [hovering: boolean, onHover: OnHover] {
   return useContext(TableContext, (ctx) => {
-    const hovering = inHoverRange(rowIndex, rowSpan || 1, ctx.hoverStartRow, ctx.hoverEndRow);
+    const hovering =
+      rowIndex < 0
+        ? false
+        : inHoverRange(rowIndex, rowSpan || 1, ctx.hoverStartRow, ctx.hoverEndRow);
 
     return [hovering, ctx.onHover];
   });

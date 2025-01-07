@@ -132,12 +132,15 @@ export default function useExpand<RecordType extends AnyObject>(
         // >>> Create expandable column
         const expandColumn = {
           [INTERNAL_COL_DEFINE]: {
-            className: clsx(`${prefixCls}-expand-icon-col`, 'before:hidden'),
+            className: clsx(`${prefixCls}-expand-icon-col`, 'w-0'),
             columnType: 'EXPAND_COLUMN',
           },
           title: columnTitle,
           fixed: fixedColumn,
-          className: `${prefixCls}-row-expand-icon-cell`,
+          className: clsx(
+            `${prefixCls}-row-expand-icon-cell`,
+            'px-1 after:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+          ),
           width: columnWidth,
           render: (_: any, record: RecordType, index: number) => {
             const rowKey = getRowKey(record, index);
