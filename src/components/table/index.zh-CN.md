@@ -72,15 +72,15 @@ const columns = [
 <code src="./demo/expand.tsx">可展开</code>
 <code src="./demo/order-column.tsx">特殊列排序</code>
 <code src="./demo/colspan-rowspan.tsx">表格行/列合并</code>
-
-<!--
-<code src="./demo/request.tsx">远程加载数据</code>
 <code src="./demo/tree-data.tsx">树形数据展示</code>
 <code src="./demo/tree-table-ellipsis.tsx" debug>树形数据省略情况测试</code>
 <code src="./demo/tree-table-preserveSelectedRowKeys.tsx" debug>树形数据保留key测试</code>
 <code src="./demo/fixed-header.tsx">固定表头</code>
 <code src="./demo/fixed-columns.tsx">固定列</code>
-<code src="./demo/fixed-gapped-columns.tsx" version="5.14.0">堆叠固定列</code>
+<code src="./demo/fixed-gapped-columns.tsx">堆叠固定列</code>
+
+<!--
+<code src="./demo/request.tsx">远程加载数据</code>
 <code src="./demo/fixed-columns-header.tsx">固定头和列</code>
 <code src="./demo/hidden-columns.tsx" version="5.13.0">隐藏列</code>
 <code src="./demo/grouping-columns.tsx">表头分组</code>

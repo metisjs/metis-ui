@@ -418,7 +418,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             <div
               className={clsx(
                 `${prefixCls}-selection-extra`,
-                'absolute -left-[1.125rem] top-1/2 z-[1] -translate-y-1/2 cursor-pointer',
+                'absolute left-[1.125rem] top-1/2 z-[1] -translate-y-1/2 cursor-pointer',
               )}
             >
               <Dropdown
@@ -432,7 +432,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
                 }
               >
                 <span>
-                  <ChevronDownOutline className="h-4 w-4" />
+                  <ChevronDownOutline className="h-3 w-3" />
                 </span>
               </Dropdown>
             </div>
@@ -698,7 +698,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         width: selectionColWidth,
         className: clsx(
           `${prefixCls}-selection-column`,
-          'px-1 after:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+          'px-1 text-center before:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
         ),
         title: renderColumnTitle(),
         render: renderSelectionCell,

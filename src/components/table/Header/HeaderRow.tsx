@@ -6,9 +6,11 @@ import Cell from '../Cell';
 import TableContext from '../context/TableContext';
 import type {
   CellType,
+  ColumnsPos,
   ColumnType,
   CustomizeComponent,
   GetComponentProps,
+  ScrollOffset,
   StickyOffsets,
 } from '../interface';
 import { getCellFixedInfo } from '../utils/fixUtil';
@@ -17,6 +19,8 @@ import { getColumnsKey } from '../utils/valueUtil';
 export interface RowProps<RecordType extends AnyObject> {
   cells: readonly CellType<RecordType>[];
   stickyOffsets: StickyOffsets;
+  scrollOffset: ScrollOffset;
+  columnsPos: ColumnsPos;
   flattenColumns: readonly ColumnType<RecordType>[];
   rowComponent: CustomizeComponent;
   cellComponent: CustomizeComponent;
@@ -28,6 +32,8 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
   const {
     cells,
     stickyOffsets,
+    scrollOffset,
+    columnsPos,
     flattenColumns,
     rowComponent: RowComponent,
     cellComponent: CellComponent,
@@ -55,6 +61,8 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
           cell.colEnd!,
           flattenColumns,
           stickyOffsets,
+          scrollOffset,
+          columnsPos,
         );
 
         let additionalProps: React.HTMLAttributes<HTMLElement> | undefined;

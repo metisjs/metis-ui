@@ -221,6 +221,16 @@ export interface StickyOffsets {
   isSticky?: boolean;
 }
 
+export interface ColumnsPos {
+  left: readonly number[];
+  right: readonly number[];
+}
+
+export interface ScrollOffset {
+  left: number;
+  right: number;
+}
+
 // ================= Customized =================
 export type GetComponentProps<DataType> = (
   data: DataType,
@@ -280,6 +290,7 @@ export interface RenderExpandIconProps<RecordType> {
   expanded: boolean;
   record: RecordType;
   expandable: boolean;
+  nestExpandable: boolean;
   onExpand: TriggerEventHandler<RecordType>;
 }
 

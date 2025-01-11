@@ -1,25 +1,6 @@
 import React from 'react';
 import { Table } from 'metis-ui';
 import type { TableColumnsType } from 'metis-ui';
-import { createStyles } from 'metis-ui-style';
-
-const useStyle = createStyles(({ css, token }) => {
-  const { antCls } = token;
-  return {
-    customTable: css`
-      ${antCls}-table {
-        ${antCls}-table-container {
-          ${antCls}-table-body,
-          ${antCls}-table-content {
-            scrollbar-width: thin;
-            scrollbar-color: #eaeaea transparent;
-            scrollbar-gutter: stable;
-          }
-        }
-      }
-    `,
-  };
-});
 
 interface DataType {
   key: React.Key;
@@ -78,17 +59,13 @@ const dataSource: DataType[] = [
   { key: '2', name: 'Ethan', age: 40, address: 'London Park' },
 ];
 
-const App: React.FC = () => {
-  const { styles } = useStyle();
-  return (
-    <Table<DataType>
-      className={styles.customTable}
-      pagination={false}
-      columns={columns}
-      dataSource={dataSource}
-      scroll={{ x: 'max-content' }}
-    />
-  );
-};
+const App: React.FC = () => (
+  <Table<DataType>
+    pagination={false}
+    columns={columns}
+    dataSource={dataSource}
+    scroll={{ x: 'max-content' }}
+  />
+);
 
 export default App;

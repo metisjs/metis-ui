@@ -139,7 +139,7 @@ export default function useExpand<RecordType extends AnyObject>(
           fixed: fixedColumn,
           className: clsx(
             `${prefixCls}-row-expand-icon-cell`,
-            'px-1 after:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+            'px-1 text-center before:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
           ),
           width: columnWidth,
           render: (_: any, record: RecordType, index: number) => {
@@ -152,6 +152,7 @@ export default function useExpand<RecordType extends AnyObject>(
               expanded,
               expandable: recordExpandable,
               record,
+              nestExpandable: false,
               onExpand: onTriggerExpand,
             });
 

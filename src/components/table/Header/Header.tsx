@@ -5,9 +5,11 @@ import TableContext, { responseImmutable } from '../context/TableContext';
 import type {
   CellType,
   ColumnGroupType,
+  ColumnsPos,
   ColumnsType,
   ColumnType,
   GetComponentProps,
+  ScrollOffset,
   StickyOffsets,
 } from '../interface';
 import HeaderRow from './HeaderRow';
@@ -87,11 +89,13 @@ export interface HeaderProps<RecordType extends AnyObject> {
   columns: ColumnsType<RecordType>;
   flattenColumns: readonly ColumnType<RecordType>[];
   stickyOffsets: StickyOffsets;
+  scrollOffset: ScrollOffset;
+  columnsPos: ColumnsPos;
   onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
 }
 
 const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) => {
-  const { stickyOffsets, columns, flattenColumns, onHeaderRow } = props;
+  const { stickyOffsets, columnsPos, scrollOffset, columns, flattenColumns, onHeaderRow } = props;
 
   const { prefixCls, getComponent } = useContext(TableContext, ['prefixCls', 'getComponent']);
   const rows = React.useMemo<CellType<RecordType>[][]>(() => parseHeaderRows(columns), [columns]);
@@ -109,6 +113,8 @@ const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) =>
             flattenColumns={flattenColumns}
             cells={row}
             stickyOffsets={stickyOffsets}
+            columnsPos={columnsPos}
+            scrollOffset={scrollOffset}
             rowComponent={trComponent}
             cellComponent={thComponent}
             onHeaderRow={onHeaderRow}

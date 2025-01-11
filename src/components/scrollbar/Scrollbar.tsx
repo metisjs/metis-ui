@@ -237,11 +237,13 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleScroll = (event: UIEvent<HTMLElement>) => {
+    const currentTarget = event.currentTarget;
     update((values: ScrollValues) => {
       const { scrollLeft, scrollTop } = values;
 
       viewScrollLeft.current = scrollLeft;
       viewScrollTop.current = scrollTop;
+      event.currentTarget = currentTarget;
       onScroll?.(values, event);
     });
     detectScrolling();

@@ -47,6 +47,7 @@ function Body<RecordType extends AnyObject>(props: BodyProps<RecordType>) {
 
   let rows: React.ReactNode;
   if (data.length) {
+    const totalRowCount = flattenData.length;
     rows = flattenData.map((item, idx) => {
       const { record, indent, index: renderIndex } = item;
 
@@ -63,6 +64,7 @@ function Body<RecordType extends AnyObject>(props: BodyProps<RecordType>) {
           cellComponent={tdComponent}
           scopeCellComponent={thComponent}
           indent={indent}
+          totalRowCount={totalRowCount}
         />
       );
     });

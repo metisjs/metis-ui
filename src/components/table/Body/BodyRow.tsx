@@ -19,6 +19,7 @@ export interface BodyRowProps<RecordType extends AnyObject> {
   scopeCellComponent: CustomizeComponent;
   indent?: number;
   rowKey: React.Key;
+  totalRowCount?: number;
 }
 
 // ==================================================================================
@@ -62,6 +63,7 @@ export function getCellProps<RecordType extends AnyObject>(
           expanded,
           expandable: hasNestChildren,
           record,
+          nestExpandable,
           onExpand: onTriggerExpand,
         })}
       </>
@@ -93,6 +95,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     renderIndex,
     rowKey,
     indent = 0,
+    totalRowCount,
     rowComponent: RowComponent,
     cellComponent,
     scopeCellComponent,
@@ -174,6 +177,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             {...fixedInfo}
             appendNode={appendCellNode}
             additionalProps={additionalCellProps}
+            totalRowCount={totalRowCount}
           />
         );
       })}

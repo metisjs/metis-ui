@@ -105,9 +105,6 @@ const rowSelection: TableRowSelection<DataType> = {
   onSelect: (record, selected, selectedRows) => {
     console.log(record, selected, selectedRows);
   },
-  onSelectAll: (selected, selectedRows, changeRows) => {
-    console.log(selected, selectedRows, changeRows);
-  },
 };
 
 const App: React.FC = () => {

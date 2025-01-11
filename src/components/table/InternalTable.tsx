@@ -34,14 +34,13 @@ import useExpand from './hooks/useExpand';
 import type { FilterConfig } from './hooks/useFilter';
 import useFilter, { getFilterData, type FilterState } from './hooks/useFilter';
 import useFixedInfo from './hooks/useFixedInfo';
-import { useLayoutState, useTimeoutLock } from './hooks/useFrame';
+import { useTimeoutLock } from './hooks/useFrame';
 import useHover from './hooks/useHover';
 import useLazyKVMap from './hooks/useLazyKVMap';
 import usePagination, { DEFAULT_PAGE_SIZE, getPaginationParam } from './hooks/usePagination';
 import useSelection from './hooks/useSelection';
 import useSorter, { getSortData, type SortState } from './hooks/useSorter';
 import useSticky from './hooks/useSticky';
-import useStickyOffsets from './hooks/useStickyOffsets';
 import type {
   ColumnsType,
   ColumnTitleProps,
@@ -57,6 +56,7 @@ import type {
   PanelRender,
   Reference,
   RowClassName,
+  ScrollOffset,
   SorterResult,
   SorterTooltipProps,
   SortOrder,
@@ -70,7 +70,7 @@ import type {
   TableSticky,
 } from './interface';
 import Panel from './Panel';
-import { getColumnsKey, validateValue } from './utils/valueUtil';
+import { validateValue } from './utils/valueUtil';
 
 // Used for conditions cache
 const EMPTY_LIST = [] as const;
@@ -470,7 +470,15 @@ function InternalTable<RecordType extends AnyObject>(
     [transformSorterColumns, transformFilterColumns, transformSelectionColumns],
   );
 
-  const [mergedColumns, flattenColumns, flattenScrollX, hasGapFixed] = useColumns(
+  const [
+    mergedColumns,
+    flattenColumns,
+    flattenScrollX,
+    colWidths,
+    updateColsWidths,
+    stickyOffsets,
+    columnsPos,
+  ] = useColumns(
     {
       columns,
       scrollWidth: typeof scrollX === 'number' ? scrollX : undefined,
@@ -506,18 +514,12 @@ function InternalTable<RecordType extends AnyObject>(
   });
 
   // ====================== Scroll ======================
-  const [pingedLeft, setPingedLeft] = React.useState(false);
-  const [pingedRight, setPingedRight] = React.useState(false);
-  const [colsWidths, updateColsWidths] = useLayoutState(new Map<React.Key, number>());
+  const [scrollOffset, setScrollOffset] = React.useState<ScrollOffset>({ left: 0, right: 0 });
 
-  // Convert map to number width
-  const colsKeys = getColumnsKey(flattenColumns);
-  const pureColWidths = colsKeys.map((columnKey) => colsWidths.get(columnKey)!);
-  const colWidths = React.useMemo(() => pureColWidths, [pureColWidths.join('_')]);
-  const stickyOffsets = useStickyOffsets(colWidths, flattenColumns);
   const fixHeader = !!scroll && validateValue(scroll.y);
   const horizonScroll = (scroll && validateValue(mergedScrollX)) || Boolean(expandableConfig.fixed);
   const fixColumn = horizonScroll && flattenColumns.some(({ fixed }) => fixed);
+  const fixedInfoList = useFixedInfo(flattenColumns, stickyOffsets, scrollOffset, columnsPos);
 
   // Sticky
   const stickyRef = React.useRef<{
@@ -599,12 +601,16 @@ function InternalTable<RecordType extends AnyObject>(
         const clientWidth = measureTarget.clientWidth;
         // There is no space to scroll
         if (scrollWidth === clientWidth) {
-          setPingedLeft(false);
-          setPingedRight(false);
+          setScrollOffset({
+            left: 0,
+            right: 0,
+          });
           return;
         }
-        setPingedLeft(scrollLeft > 0);
-        setPingedRight(scrollLeft < scrollWidth - clientWidth);
+        setScrollOffset({
+          left: scrollLeft,
+          right: scrollWidth - clientWidth - scrollLeft,
+        });
       }
     },
   );
@@ -620,8 +626,10 @@ function InternalTable<RecordType extends AnyObject>(
         currentTarget: getDOM(scrollBodyRef.current.view),
       } as React.UIEvent<HTMLDivElement>);
     } else {
-      setPingedLeft(false);
-      setPingedRight(false);
+      setScrollOffset({
+        left: 0,
+        right: 0,
+      });
     }
   };
 
@@ -656,27 +664,33 @@ function InternalTable<RecordType extends AnyObject>(
   }, []);
 
   // ====================== Style ======================
+  const hasPingLeft = fixedInfoList.some((item) => item.lastPingLeft);
+  const hasPingRight = fixedInfoList.some((item) => item.firstPingRight);
+
   const rootCls = clsx(
     prefixCls,
     {
-      [`${prefixCls}-ping-left`]: pingedLeft,
-      [`${prefixCls}-ping-right`]: pingedRight,
       [`${prefixCls}-layout-fixed`]: tableLayout === 'fixed',
       [`${prefixCls}-fixed-header`]: fixHeader,
       [`${prefixCls}-fixed-column`]: fixColumn,
-      [`${prefixCls}-fixed-column-gapped`]: fixColumn && hasGapFixed,
       [`${prefixCls}-scroll-horizontal`]: horizonScroll,
-      [`${prefixCls}-has-fix-left`]: flattenColumns[0] && flattenColumns[0].fixed,
-      [`${prefixCls}-has-fix-right`]:
-        flattenColumns[flattenColumns.length - 1] &&
-        flattenColumns[flattenColumns.length - 1].fixed === 'right',
+      [`${prefixCls}-has-ping-left`]: hasPingLeft,
+      [`${prefixCls}-has-ping-right`]: hasPingRight,
     },
     'max-w-full bg-container text-sm text-text',
   );
 
   const containerCls = clsx(
     `${prefixCls}-container`,
-    'relative',
+    'relative overflow-hidden',
+    'before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-[3] before:w-7 before:transition-shadow',
+    'after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-[3] after:w-7 after:transition-shadow',
+    {
+      'before:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
+        !hasPingLeft && !!scrollOffset.left,
+      'after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
+        !hasPingRight && !!scrollOffset.right,
+    },
     bordered && [
       'rounded-lg border border-border',
       {
@@ -688,7 +702,7 @@ function InternalTable<RecordType extends AnyObject>(
     ],
   );
 
-  const tableCls = clsx('w-full border-separate border-spacing-0 text-left');
+  const tableCls = clsx('w-full border-separate border-spacing-0 text-start');
 
   const titleCls = clsx(
     `${prefixCls}-title`,
@@ -811,6 +825,8 @@ function InternalTable<RecordType extends AnyObject>(
     colWidths,
     columnCount: flattenColumns.length,
     stickyOffsets,
+    columnsPos,
+    scrollOffset,
     onHeaderRow,
     fixHeader,
     scroll,
@@ -883,7 +899,12 @@ function InternalTable<RecordType extends AnyObject>(
             {bodyColGroup}
             {bodyTable}
             {!fixFooter && summaryNode && (
-              <Footer stickyOffsets={stickyOffsets} flattenColumns={flattenColumns}>
+              <Footer
+                stickyOffsets={stickyOffsets}
+                columnsPos={columnsPos}
+                scrollOffset={scrollOffset}
+                flattenColumns={flattenColumns}
+              >
                 {summaryNode}
               </Footer>
             )}
@@ -959,7 +980,12 @@ function InternalTable<RecordType extends AnyObject>(
           {showHeader !== false && <Header {...headerProps} {...columnContext} />}
           {bodyTable}
           {summaryNode && (
-            <Footer stickyOffsets={stickyOffsets} flattenColumns={flattenColumns}>
+            <Footer
+              stickyOffsets={stickyOffsets}
+              scrollOffset={scrollOffset}
+              columnsPos={columnsPos}
+              flattenColumns={flattenColumns}
+            >
               {summaryNode}
             </Footer>
           )}
@@ -997,8 +1023,6 @@ function InternalTable<RecordType extends AnyObject>(
   if (horizonScroll) {
     fullTable = <ResizeObserver onResize={onFullTableResize}>{fullTable}</ResizeObserver>;
   }
-
-  const fixedInfoList = useFixedInfo(flattenColumns, stickyOffsets);
 
   const TableContextValue = React.useMemo<TableContextProps<RecordType>>(
     () => ({

@@ -4,8 +4,19 @@ import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject } from '@util/type';
 import toArray from 'rc-util/lib/Children/toArray';
 import { EXPAND_COLUMN, SELECTION_COLUMN } from '../../constant';
-import type { ColumnGroupType, ColumnsType, ColumnTitleProps, ColumnType } from '../../interface';
-import { renderColumnTitle } from '../../utils/valueUtil';
+import type {
+  ColumnGroupType,
+  ColumnsPos,
+  ColumnsType,
+  ColumnTitleProps,
+  ColumnType,
+  StickyOffsets,
+} from '../../interface';
+import { getColumnsKey, renderColumnTitle } from '../../utils/valueUtil';
+import type { Updater } from '../useFrame';
+import { useLayoutState } from '../useFrame';
+import useStickyOffsets from '../useStickyOffsets';
+import useColumnsPos from './useColumnsPos';
 import useWidthColumns from './useWidthColumns';
 
 export function convertChildrenToColumns<RecordType extends AnyObject>(
@@ -121,8 +132,13 @@ function useColumns<RecordType extends AnyObject>(
   columns: ColumnsType<RecordType>,
   flattenColumns: readonly ColumnType<RecordType>[],
   realScrollWidth: undefined | number,
-  hasGapFixed: boolean,
+  colWidths: number[],
+  updateColsWidths: (updater: Updater<Map<React.Key, number>>) => void,
+  stickyOffsets: StickyOffsets,
+  position: ColumnsPos,
 ] {
+  const [colsWidths, updateColsWidths] = useLayoutState(new Map<React.Key, number>());
+
   const baseColumns = React.useMemo<ColumnsType<RecordType>>(() => {
     const newColumns = columns || convertChildrenToColumns(children) || [];
 
@@ -165,41 +181,6 @@ function useColumns<RecordType extends AnyObject>(
     [mergedColumns, scrollWidth],
   );
 
-  // ========================= Gap Fixed ========================
-  const hasGapFixed = React.useMemo(() => {
-    // Fixed: left, since old browser not support `findLastIndex`, we should use reverse loop
-    let lastLeftIndex = -1;
-    for (let i = flattenColumns.length - 1; i >= 0; i -= 1) {
-      const colFixed = flattenColumns[i].fixed;
-      if (colFixed === 'left' || colFixed === true) {
-        lastLeftIndex = i;
-        break;
-      }
-    }
-
-    if (lastLeftIndex >= 0) {
-      for (let i = 0; i <= lastLeftIndex; i += 1) {
-        const colFixed = flattenColumns[i].fixed;
-        if (colFixed !== 'left' && colFixed !== true) {
-          return true;
-        }
-      }
-    }
-
-    // Fixed: right
-    const firstRightIndex = flattenColumns.findIndex(({ fixed: colFixed }) => colFixed === 'right');
-    if (firstRightIndex >= 0) {
-      for (let i = firstRightIndex; i < flattenColumns.length; i += 1) {
-        const colFixed = flattenColumns[i].fixed;
-        if (colFixed !== 'right') {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }, [flattenColumns]);
-
   // ========================= FillWidth ========================
   const [filledColumns, realScrollWidth] = useWidthColumns(
     flattenColumns,
@@ -207,7 +188,21 @@ function useColumns<RecordType extends AnyObject>(
     clientWidth,
   );
 
-  return [mergedColumns, filledColumns, realScrollWidth, hasGapFixed];
+  const colsKeys = getColumnsKey(filledColumns);
+  const pureColWidths = colsKeys.map((columnKey) => colsWidths.get(columnKey)!);
+  const colWidths = React.useMemo(() => pureColWidths, [pureColWidths.join('_')]);
+  const stickyOffsets = useStickyOffsets(colWidths, filledColumns);
+  const position = useColumnsPos(colWidths, filledColumns);
+
+  return [
+    mergedColumns,
+    filledColumns,
+    realScrollWidth,
+    colWidths,
+    updateColsWidths,
+    stickyOffsets,
+    position,
+  ];
 }
 
 export default useColumns;

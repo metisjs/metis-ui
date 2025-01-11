@@ -8,6 +8,7 @@ export function renderExpandIcon<RecordType>({
   onExpand,
   expanded,
   expandable,
+  nestExpandable,
 }: RenderExpandIconProps<RecordType>) {
   const iconPrefix = `${prefixCls}-row-expand-icon`;
 
@@ -26,12 +27,12 @@ export function renderExpandIcon<RecordType>({
           [`${iconPrefix}-collapsed`]: expandable && !expanded,
         },
         'relative inline-flex h-4 w-4 select-none rounded align-sub outline-none ring-1 ring-inset ring-border transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
-        'before:absolute before:left-1/2 before:top-1/2 before:h-px before:w-2.5 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-text-tertiary before:transition-transform before:duration-300',
-        'after:absolute after:left-1/2 after:top-1/2 after:h-2.5 after:w-px after:-translate-x-1/2 after:-translate-y-1/2 after:bg-text-tertiary after:transition-transform after:duration-300',
-        'hover:before:bg-text-secondary hover:after:bg-text-secondary',
+        'before:absolute before:left-1/2 before:top-1/2 before:h-px before:w-2.5 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-text-secondary before:transition-transform before:duration-300',
+        'after:absolute after:left-1/2 after:top-1/2 after:h-2.5 after:w-px after:-translate-x-1/2 after:-translate-y-1/2 after:bg-text-secondary after:transition-transform after:duration-300',
         {
           ['invisible']: !expandable,
           'before:rotate-180 after:rotate-90': expandable && expanded,
+          'mr-2': nestExpandable,
         },
       )}
       aria-expanded={expanded}

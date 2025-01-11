@@ -114,6 +114,7 @@ const FixedHolder = React.forwardRef<HTMLDivElement, FixedHolderProps<AnyObject>
     >
       <TableComponent
         style={{
+          textAlign: 'left',
           tableLayout: 'fixed',
           visibility: noData || mergedColumnWidth ? null : 'hidden',
         }}

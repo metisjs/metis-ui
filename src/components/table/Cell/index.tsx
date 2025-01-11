@@ -23,6 +23,7 @@ export interface CellProps<RecordType extends AnyObject> {
   index: number;
   /** the index of the record. For the render(value, record, renderIndex) */
   renderIndex: number;
+  totalRowCount?: number;
   dataIndex?: DataIndex<RecordType>;
   render?: ColumnType<RecordType>['render'];
   component: CustomizeComponent;
@@ -38,10 +39,9 @@ export interface CellProps<RecordType extends AnyObject> {
   // Fixed
   fixLeft?: number | false;
   fixRight?: number | false;
-  firstFixLeft?: boolean;
-  lastFixLeft?: boolean;
-  firstFixRight?: boolean;
-  lastFixRight?: boolean;
+  pinged?: boolean;
+  lastPingLeft?: boolean;
+  firstPingRight?: boolean;
   allColsFixedLeft?: boolean;
 
   // ====================== Private Props ======================
@@ -88,6 +88,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     render,
     dataIndex,
     renderIndex,
+    totalRowCount,
     shouldCellUpdate,
 
     // Row
@@ -101,10 +102,9 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     // Fixed
     fixLeft,
     fixRight,
-    firstFixLeft,
-    lastFixLeft,
-    firstFixRight,
-    lastFixRight,
+    lastPingLeft,
+    firstPingRight,
+    pinged,
 
     // Private
     appendNode,
@@ -181,17 +181,18 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       children: childNode,
     });
 
+  const atBottom = rowType === 'body' && totalRowCount && index + mergedRowSpan === totalRowCount;
+
   // >>>>> ClassName
   const mergedClassName = clsx(
     cellPrefixCls,
     {
       [`${cellPrefixCls}-fix-left`]: isFixLeft,
-      [`${cellPrefixCls}-fix-left-first`]: firstFixLeft,
-      [`${cellPrefixCls}-fix-left-last`]: lastFixLeft,
-      [`${cellPrefixCls}-fix-left-all`]: lastFixLeft && allColumnsFixedLeft,
+      [`${cellPrefixCls}-ping-left-last`]: lastPingLeft,
+      [`${cellPrefixCls}-ping-left`]: isFixLeft && pinged,
       [`${cellPrefixCls}-fix-right`]: isFixRight,
-      [`${cellPrefixCls}-fix-right-first`]: firstFixRight,
-      [`${cellPrefixCls}-fix-right-last`]: lastFixRight,
+      [`${cellPrefixCls}-ping-right-first`]: firstPingRight,
+      [`${cellPrefixCls}-ping-right`]: isFixRight && pinged,
       [`${cellPrefixCls}-ellipsis`]: ellipsis,
       [`${cellPrefixCls}-with-append`]: appendNode,
       [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky,
@@ -202,7 +203,17 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       'px-2 py-3': size === 'middle',
       'px-2 py-2': size === 'small',
     },
-    { 'border-r border-border-secondary last:border-r-0 group-last/body-row:border-b-0': bordered },
+    {
+      'border-r border-border-secondary last:border-r-0 group-last/body-row:border-b-0': bordered,
+      'border-b-0': bordered && atBottom,
+      ['truncate']: ellipsis,
+      'sticky z-[2] bg-container': isFixLeft || isFixRight,
+      'after:pointer-events-none after:absolute after:-bottom-px after:right-0 after:top-0 after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow':
+        lastPingLeft,
+      'after:pointer-events-none after:absolute after:-bottom-px after:left-0 after:top-0 after:w-7 after:-translate-x-full after:border-r after:border-r-border-secondary after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow':
+        firstPingRight,
+      'after:hidden': lastPingLeft && allColumnsFixedLeft,
+    },
     rowType === 'header' && [
       'border-b border-b-border py-3.5 font-semibold',
       {
@@ -211,8 +222,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       },
       {
         'border-b-0 text-center group-last/header-row:border-b': mergedColSpan > 1,
-        'after:absolute after:end-0 after:top-1/2 after:h-5 after:w-px after:-translate-y-1/2 after:bg-border-tertiary last:after:hidden':
-          mergedColSpan === 1 && !bordered,
+        'before:absolute before:end-0 before:top-1/2 before:h-5 before:w-px before:-translate-y-1/2 before:bg-border-tertiary last:before:hidden':
+          mergedColSpan === 1 && !bordered && !lastPingLeft,
       },
     ],
     rowType === 'body' && [{ 'bg-fill-quinary': hovering }],
@@ -245,7 +256,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     mergedChildNode = null;
   }
 
-  if (ellipsis && (lastFixLeft || firstFixRight)) {
+  if (ellipsis && (lastPingLeft || firstPingRight)) {
     mergedChildNode = <span className={`${cellPrefixCls}-content`}>{mergedChildNode}</span>;
   }
 
