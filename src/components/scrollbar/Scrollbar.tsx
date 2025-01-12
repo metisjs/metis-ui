@@ -21,24 +21,29 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const {
     prefixCls: customizePrefixCls,
     autoHeight = false,
-    autoHide = true,
-    autoHideDuration = 500,
-    autoHideTimeout = 1000,
+    autoHide: customizeAutoHide,
+    autoHideDuration: customizeAutoHideDuration,
+    autoHideTimeout: customizeAutoHideTimeout,
     children,
     className,
     onScroll,
     onScrollStart,
     onScrollStop,
-    thumbMinSize = 20,
+    thumbMinSize: customizeThumbMinSize,
     thumbSize,
     universal = false,
     component: Component = 'div',
     renderView,
     style,
   } = props;
-  const { getPrefixCls } = useContext(ConfigContext);
+  const { getPrefixCls, scrollbar } = useContext(ConfigContext);
   const prefixCls = getPrefixCls('scrollbar', customizePrefixCls);
   const semanticCls = useSemanticCls(className, 'scrollbar');
+
+  const mergedAutoHide = customizeAutoHide ?? scrollbar?.autoHide ?? true;
+  const mergedAutoHideDuration = customizeAutoHideDuration ?? scrollbar?.autoHideDuration ?? 500;
+  const mergedAutoHideTimeout = customizeAutoHideTimeout ?? scrollbar?.autoHideTimeout ?? 1000;
+  const mergedThumbMinSize = customizeThumbMinSize ?? scrollbar?.thumbMinSize ?? 20;
 
   // ======================== Ref ========================
   const viewRef = useRef<HTMLDivElement>(null);
@@ -62,7 +67,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   // ======================== State ========================
   const [didMountUniversal, setDidMountUniversal] = useState(false);
   const [scrollbarWidth, setScrollbarWidth] = useState(getScrollbarWidth);
-  const [trackVisible, setTrackVisible] = useState(!autoHide);
+  const [trackVisible, setTrackVisible] = useState(!mergedAutoHide);
   const [scrolling, setScrolling] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [trackMouseOver, setTrackMouseOver] = useState(false);
@@ -101,19 +106,23 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     const width = Math.ceil((clientWidth / scrollWidth) * trackWidth);
     if (trackWidth === width) return 0;
     if (thumbSize) return thumbSize;
-    return Math.max(width, thumbMinSize);
+    return Math.max(width, mergedThumbMinSize);
   };
 
   const getThumbVerticalHeight = () => {
     if (!viewRef.current) return 0;
 
     const { scrollHeight, clientHeight } = viewRef.current;
-    const trackHeight = getInnerHeight(trackVerticalRef.current);
+
     if (!scrollHeight) return 0;
+
+    const trackHeight = getInnerHeight(trackVerticalRef.current);
     const height = Math.ceil((clientHeight / scrollHeight) * trackHeight);
+
     if (trackHeight === height) return 0;
     if (thumbSize) return thumbSize;
-    return Math.max(height, thumbMinSize);
+
+    return Math.max(height, mergedThumbMinSize);
   };
 
   const update = (callback?: (values: ScrollValues) => void) => {
@@ -167,16 +176,16 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     clearTimeout(hideTracksTimeout.current);
     hideTracksTimeout.current = setTimeout(() => {
       setTrackVisible(false);
-    }, autoHideTimeout);
+    }, mergedAutoHideTimeout);
   };
 
   const handleDragEndAutoHide = () => {
-    if (!autoHide) return;
+    if (!mergedAutoHide) return;
     hideTracks();
   };
 
   const handleTrackMouseEnterAutoHide = () => {
-    if (!autoHide) return;
+    if (!mergedAutoHide) return;
     showTracks();
   };
 
@@ -186,7 +195,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleTrackMouseLeaveAutoHide = () => {
-    if (!autoHide) return;
+    if (!mergedAutoHide) return;
     hideTracks();
   };
 
@@ -196,7 +205,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleScrollStartAutoHide = () => {
-    if (!autoHide) return;
+    if (!mergedAutoHide) return;
     showTracks();
   };
 
@@ -206,7 +215,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   };
 
   const handleScrollStopAutoHide = () => {
-    if (!autoHide) return;
+    if (!mergedAutoHide) return;
     hideTracks();
   };
 
@@ -468,31 +477,43 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     ...(universal && !didMountUniversal && { marginRight: 0, marginBottom: 0 }),
   };
 
+  const horizontalScroll =
+    scrollbarWidth && thumbHorizontalStyle?.width && (!universal || !didMountUniversal);
+  const verticalScroll =
+    scrollbarWidth && thumbVerticalStyle?.height && (!universal || !didMountUniversal);
+
   const trackHorizontalCls = clsx(
     `${prefixCls}-track ${prefixCls}-track-horizontal`,
-    'absolute bottom-0 left-0 right-0 z-[100] h-3 px-1 py-0.5 opacity-0 hover:h-[14px] hover:bg-scrollbar-track',
+    'peer/track absolute bottom-0 left-0 right-0 z-[100] h-3 px-1 py-0.5 opacity-0 hover:h-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
-      hidden: !scrollbarWidth || !thumbHorizontalStyle?.width || (universal && !didMountUniversal),
-      'h-[14px] bg-scrollbar-track': dragging || trackMouseOver,
+      hidden: !horizontalScroll,
+      'right-[14px]': verticalScroll,
     },
     semanticCls.trackHorizontal,
   );
 
   const trackVerticalCls = clsx(
     `${prefixCls}-track ${prefixCls}-track-vertical`,
-    'absolute bottom-0 right-0 top-0 z-[100] w-3 px-0.5 py-1 opacity-0 hover:w-[14px] hover:bg-scrollbar-track',
+    'peer/track absolute bottom-0 right-0 top-0 z-[100] w-3 px-0.5 py-1 opacity-0 hover:w-[14px] hover:bg-scrollbar-track',
     {
       'opacity-100': trackVisible,
-      hidden: !scrollbarWidth || !thumbVerticalStyle?.height || (universal && !didMountUniversal),
-      'w-[14px] bg-scrollbar-track': dragging,
+      hidden: !verticalScroll,
+      'bottom-[14px]': horizontalScroll,
     },
     semanticCls.trackVertical,
   );
 
+  const trackCornerCls = clsx(
+    'absolute bottom-0 right-0 z-[100] h-[14px] w-[14px] peer-hover/track:bg-scrollbar-track',
+    {
+      'bg-scrollbar-track': trackMouseOver,
+    },
+  );
+
   const trackStyle = {
     transitionProperty: 'opacity,background-color,width',
-    transitionDuration: `${autoHideDuration}ms`,
+    transitionDuration: `${mergedAutoHideDuration}ms`,
   };
 
   const thumbCls = clsx(
@@ -536,6 +557,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
           style={thumbVerticalStyle}
         ></div>
       </div>
+      <div className={trackCornerCls} {...sharedTrackProps}></div>
     </div>
   );
 };

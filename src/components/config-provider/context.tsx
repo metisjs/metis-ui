@@ -151,7 +151,10 @@ export type SelectConfig = Pick<SelectProps, 'className'>;
 
 export type SegmentedConfig = Pick<SegmentedProps, 'className'>;
 
-export type ScrollbarConfig = Pick<ScrollbarProps, 'className'>;
+export type ScrollbarConfig = Pick<
+  ScrollbarProps,
+  'className' | 'autoHide' | 'autoHideDuration' | 'autoHideTimeout' | 'thumbMinSize'
+>;
 
 export type SkeletonConfig = Pick<SkeletonProps, 'className'>;
 
