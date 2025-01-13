@@ -69,7 +69,7 @@ const columns = [
 <code src="./demo/ajax.tsx">Ajax</code>
 <code src="./demo/size.tsx">size</code>
 <code src="./demo/narrow.tsx" debug>size</code>
-<code src="./demo/bordered.tsx">border, title and footer</code>
+<code src="./demo/vertical-line.tsx">vertical lines</code>
 <code src="./demo/expand.tsx">Expandable Row</code>
 <code src="./demo/order-column.tsx">Order Specific Column</code>
 <code src="./demo/colspan-rowspan.tsx">colSpan and rowSpan</code>
@@ -86,7 +86,6 @@ const columns = [
 <code src="./demo/nested-table.tsx">Nested tables</code>
 <code src="./demo/drag-sorting.tsx">Drag sorting</code>
 <code src="./demo/drag-column-sorting.tsx">Drag Column sorting</code>
-<code src="./demo/drag-sorting-handler.tsx">Drag sorting with handler</code>
 <code src="./demo/resizable-column.tsx" debug>Resizable column</code>
 <code src="./demo/ellipsis.tsx">ellipsis column</code>
 <code src="./demo/ellipsis-custom-tooltip.tsx">ellipsis column custom tooltip</code>
@@ -107,7 +106,7 @@ const columns = [
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| bordered | Whether to show all table borders | boolean | false |  |
+| verticalLine | Whether to show all table borders | boolean | false |  |
 | columns | Columns of table | [ColumnsType](#column)\[] | - |  |
 | components | Override default table elements | [TableComponents](https://github.com/react-component/table/blob/75ee0064e54a4b3215694505870c9d6c817e9e4a/src/interface.ts#L129) | - |  |
 | dataSource | Data record array to be displayed | object\[] | - |  |

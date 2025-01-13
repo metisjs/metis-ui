@@ -119,6 +119,7 @@ const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) =>
             cellComponent={thComponent}
             onHeaderRow={onHeaderRow}
             index={rowIndex}
+            totalRowCount={rows.length}
           />
         );
         return rowNode;

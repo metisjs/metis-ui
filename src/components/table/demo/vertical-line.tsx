@@ -52,7 +52,7 @@ const App: React.FC = () => (
   <Table<DataType>
     columns={columns}
     dataSource={data}
-    bordered
+    verticalLine
     title={() => 'Header'}
     footer={() => 'Footer'}
   />

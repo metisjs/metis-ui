@@ -29,11 +29,12 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   isSticky: boolean;
   componentWidth: number;
   fixHeader: boolean;
+  fixFooter: boolean | 'top' | 'bottom';
   fixColumn: boolean;
   horizonScroll: boolean;
   selectedRowKeys: Set<React.Key>;
   size: 'default' | 'middle' | 'small';
-  bordered?: boolean;
+  verticalLine?: boolean;
 
   // Body
   rowClassName?: string | RowClassName<RecordType>;

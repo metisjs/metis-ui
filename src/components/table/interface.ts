@@ -1,6 +1,6 @@
 import type * as React from 'react';
 import type { Breakpoint } from '@util/responsiveObserver';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, SafeKey } from '@util/type';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
 import type { CheckboxProps } from '../checkbox';
 import type { DropdownProps } from '../dropdown';
@@ -9,7 +9,7 @@ import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
 import type { TooltipProps } from '../tooltip';
 import type { InternalSelectionItem } from './hooks/useSelection';
 
-export type Key = React.Key;
+export type Key = SafeKey;
 
 export type FixedType = 'left' | 'right' | boolean;
 
@@ -317,9 +317,6 @@ export interface ExpandableConfig<RecordType> {
   columnWidth?: number | string;
   fixed?: FixedType;
 }
-
-// =================== Render ===================
-export type PanelRender<RecordType> = (data: readonly RecordType[]) => React.ReactNode;
 
 // =================== Events ===================
 export type TriggerEventHandler<RecordType> = (

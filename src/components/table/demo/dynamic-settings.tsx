@@ -77,7 +77,7 @@ const defaultTitle = () => 'Here is title';
 const defaultFooter = () => 'Here is footer';
 
 const App: React.FC = () => {
-  const [bordered, setBordered] = useState(false);
+  const [verticalLine, setBordered] = useState(false);
   const [loading, setLoading] = useState(false);
   const [size, setSize] = useState<SizeType>('large');
   const [expandable, setExpandable] = useState<ExpandableConfig<DataType>>(defaultExpandable);
@@ -160,7 +160,7 @@ const App: React.FC = () => {
   }
 
   const tableProps: TableProps<DataType> = {
-    bordered,
+    verticalLine,
     loading,
     size,
     expandable,
@@ -176,7 +176,7 @@ const App: React.FC = () => {
     <>
       <Form layout="inline" className="table-demo-control-bar" style={{ marginBottom: 16 }}>
         <Form.Item label="Bordered">
-          <Switch checked={bordered} onChange={handleBorderChange} />
+          <Switch checked={verticalLine} onChange={handleBorderChange} />
         </Form.Item>
         <Form.Item label="loading">
           <Switch checked={loading} onChange={handleLoadingChange} />

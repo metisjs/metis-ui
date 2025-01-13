@@ -4,4 +4,4 @@
 
 ## en-US
 
-To see if bordered style applied to other tables.
+To see if verticalLine style applied to other tables.

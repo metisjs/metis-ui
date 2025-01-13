@@ -26,6 +26,7 @@ export interface RowProps<RecordType extends AnyObject> {
   cellComponent: CustomizeComponent;
   onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
   index: number;
+  totalRowCount?: number;
 }
 
 const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) => {
@@ -39,6 +40,7 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
     cellComponent: CellComponent,
     onHeaderRow,
     index,
+    totalRowCount,
   } = props;
   const { prefixCls } = useContext(TableContext, ['prefixCls']);
   let rowProps: React.HTMLAttributes<HTMLElement> = {};
@@ -85,8 +87,11 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
             additionalProps={additionalProps}
             rowType="header"
             record={null!}
-            index={-1}
+            rowIndex={index}
+            index={cellIndex}
             renderIndex={-1}
+            totalRowCount={totalRowCount}
+            totalColCount={flattenColumns.length}
           />
         );
       })}

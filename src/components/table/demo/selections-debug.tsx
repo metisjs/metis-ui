@@ -47,7 +47,7 @@ const data: DataType[] = [
 
 const App: React.FC = () => (
   <Table<DataType>
-    bordered
+    verticalLine
     rowSelection={{ type: 'checkbox', selections: true }}
     columns={columns}
     dataSource={data}

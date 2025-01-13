@@ -163,7 +163,7 @@ const App: React.FC = () => {
         components={{
           body: { cell: EditableCell },
         }}
-        bordered
+        verticalLine
         dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"

@@ -68,7 +68,7 @@ const columns = [
 <code src="./demo/custom-filter-panel.tsx">自定义筛选菜单</code>
 <code src="./demo/size.tsx">紧凑型</code>
 <code src="./demo/narrow.tsx" debug>紧凑型</code>
-<code src="./demo/bordered.tsx">带边框</code>
+<code src="./demo/vertical-line.tsx">带分隔线</code>
 <code src="./demo/expand.tsx">可展开</code>
 <code src="./demo/order-column.tsx">特殊列排序</code>
 <code src="./demo/colspan-rowspan.tsx">表格行/列合并</code>
@@ -78,24 +78,31 @@ const columns = [
 <code src="./demo/fixed-header.tsx">固定表头</code>
 <code src="./demo/fixed-columns.tsx">固定列</code>
 <code src="./demo/fixed-gapped-columns.tsx">堆叠固定列</code>
-
-<!--
-<code src="./demo/request.tsx">远程加载数据</code>
 <code src="./demo/fixed-columns-header.tsx">固定头和列</code>
-<code src="./demo/hidden-columns.tsx" version="5.13.0">隐藏列</code>
+<code src="./demo/hidden-columns.tsx" >隐藏列</code>
 <code src="./demo/grouping-columns.tsx">表头分组</code>
-<code src="./demo/edit-cell.tsx">可编辑单元格</code>
-<code src="./demo/edit-row.tsx">可编辑行</code>
 <code src="./demo/nested-table.tsx">嵌套子表格</code>
 <code src="./demo/drag-sorting.tsx">拖拽排序</code>
 <code src="./demo/drag-column-sorting.tsx">列拖拽排序</code>
-<code src="./demo/drag-sorting-handler.tsx">拖拽手柄列</code>
 <code src="./demo/resizable-column.tsx" debug>可伸缩列</code>
 <code src="./demo/ellipsis.tsx">单元格自动省略</code>
 <code src="./demo/ellipsis-custom-tooltip.tsx">自定义单元格省略提示</code>
 <code src="./demo/custom-empty.tsx">自定义空状态</code>
 <code src="./demo/summary.tsx">总结栏</code>
-<code src="./demo/virtual-list.tsx" version="5.9.0">虚拟列表</code>
+
+<!--
+<code src="./demo/request.tsx">远程加载数据</code>
+<code src="./demo/edit-cell.tsx">可编辑单元格</code>
+<code src="./demo/edit-row.tsx">可编辑行</code>
+
+
+
+
+
+
+
+
+<code src="./demo/virtual-list.tsx">虚拟列表</code>
 <code src="./demo/responsive.tsx">响应式</code>
 <code src="./demo/nest-table-border-debug.tsx" debug>嵌套带边框的表格 Debug</code>
 <code src="./demo/pagination.tsx">分页设置</code>
@@ -110,7 +117,7 @@ const columns = [
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| bordered | 是否展示外边框和列边框 | boolean | false |  |
+| verticalLine | 是否展示外边框和列边框 | boolean | false |  |
 | columns | 表格列的配置描述，具体项见下表 | [ColumnsType](#column)\[] | - |  |
 | components | 覆盖默认的 table 元素 | [TableComponents](https://github.com/react-component/table/blob/75ee0064e54a4b3215694505870c9d6c817e9e4a/src/interface.ts#L129) | - |  |
 | dataSource | 数据数组 | object\[] | - |  |

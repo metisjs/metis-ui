@@ -64,12 +64,12 @@ const expandedDataSource = Array.from({ length: 3 }).map<ExpandedDataType>((_, i
   upgradeNum: 'Upgraded: 56',
 }));
 
-const createExpandedRowRender = (bordered: boolean) => () => (
+const createExpandedRowRender = (verticalLine: boolean) => () => (
   <Table<ExpandedDataType>
     columns={expandedColumns}
     dataSource={expandedDataSource}
     pagination={false}
-    bordered={bordered}
+    verticalLine={verticalLine}
   />
 );
 
@@ -112,7 +112,7 @@ const App: React.FC = () => {
         columns={columns}
         expandable={{ expandedRowRender: createExpandedRowRender(childTableBordered) }}
         dataSource={dataSource}
-        bordered={rootTableBordered}
+        verticalLine={rootTableBordered}
       />
     </>
   );

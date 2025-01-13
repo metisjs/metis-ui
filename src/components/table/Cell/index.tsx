@@ -19,11 +19,12 @@ export interface CellProps<RecordType extends AnyObject> {
   prefixCls?: string;
   className?: string;
   record: RecordType;
-  /** `column` index is the real show rowIndex */
+  rowIndex: number;
   index: number;
   /** the index of the record. For the render(value, record, renderIndex) */
   renderIndex: number;
   totalRowCount?: number;
+  totalColCount?: number;
   dataIndex?: DataIndex<RecordType>;
   render?: ColumnType<RecordType>['render'];
   component: CustomizeComponent;
@@ -77,6 +78,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     children,
     ellipsis,
     scope,
+    index,
 
     // Style
     prefixCls,
@@ -89,10 +91,11 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     dataIndex,
     renderIndex,
     totalRowCount,
+    totalColCount,
     shouldCellUpdate,
 
     // Row
-    index,
+    rowIndex,
     rowType = 'body',
 
     // Span
@@ -113,12 +116,10 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
-  const { allColumnsFixedLeft, rowHoverable, size, bordered } = useContext(TableContext, [
-    'allColumnsFixedLeft',
-    'rowHoverable',
-    'size',
-    'bordered',
-  ]);
+  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter } = useContext(
+    TableContext,
+    ['allColumnsFixedLeft', 'rowHoverable', 'size', 'verticalLine', 'fixFooter'],
+  );
 
   // ====================== Value =======================
   const childNode = useCellRender(
@@ -149,11 +150,11 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   const mergedRowSpan = additionalProps.rowSpan ?? rowSpan ?? 1;
 
   // ====================== Hover =======================
-  const [hovering, onHover] = useHoverState(index, mergedRowSpan);
+  const [hovering, onHover] = useHoverState(rowIndex, mergedRowSpan);
 
   const onMouseEnter: React.MouseEventHandler<HTMLTableCellElement> = useEvent((event) => {
     if (record) {
-      onHover(index, index + mergedRowSpan - 1);
+      onHover(rowIndex, rowIndex + mergedRowSpan - 1);
     }
 
     additionalProps?.onMouseEnter?.(event);
@@ -181,7 +182,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       children: childNode,
     });
 
-  const atBottom = rowType === 'body' && totalRowCount && index + mergedRowSpan === totalRowCount;
+  const atBottom = totalRowCount && rowIndex + mergedRowSpan === totalRowCount;
+  const atRight = totalColCount && index + mergedColSpan === totalColCount;
 
   // >>>>> ClassName
   const mergedClassName = clsx(
@@ -198,35 +200,55 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky,
       [`${cellPrefixCls}-row-hover`]: hovering,
     },
-    'relative border-b border-b-border-secondary px-3 py-4 transition-colors',
+    'relative border-b border-b-border-secondary bg-container px-3 py-4 transition-colors',
     {
       'px-2 py-3': size === 'middle',
       'px-2 py-2': size === 'small',
     },
     {
-      'border-r border-border-secondary last:border-r-0 group-last/body-row:border-b-0': bordered,
-      'border-b-0': bordered && atBottom,
+      'border-b-0': atBottom,
       ['truncate']: ellipsis,
-      'sticky z-[2] bg-container': isFixLeft || isFixRight,
-      'after:pointer-events-none after:absolute after:-bottom-px after:right-0 after:top-0 after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow':
+      'sticky z-[2]': isFixLeft || isFixRight,
+      'after:pointer-events-none after:absolute after:-bottom-px after:right-0 after:top-0 after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
         lastPingLeft,
-      'after:pointer-events-none after:absolute after:-bottom-px after:left-0 after:top-0 after:w-7 after:-translate-x-full after:border-r after:border-r-border-secondary after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow':
+      'after:pointer-events-none after:absolute after:-bottom-px after:left-0 after:top-0 after:w-7 after:-translate-x-full after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
         firstPingRight,
+      'after:border-r after:border-r-border-secondary': firstPingRight && verticalLine,
+      'after:bottom-0': atBottom && (firstPingRight || lastPingLeft),
       'after:hidden': lastPingLeft && allColumnsFixedLeft,
     },
     rowType === 'header' && [
-      'border-b border-b-border py-3.5 font-semibold',
+      'border-b border-b-border py-3.5 text-start font-semibold',
       {
         'py-2.5': size === 'middle',
         'py-1.5': size === 'small',
       },
       {
-        'border-b-0 text-center group-last/header-row:border-b': mergedColSpan > 1,
+        'border-b-0 text-center': mergedColSpan > 1,
         'before:absolute before:end-0 before:top-1/2 before:h-5 before:w-px before:-translate-y-1/2 before:bg-border-tertiary last:before:hidden':
-          mergedColSpan === 1 && !bordered && !lastPingLeft,
+          mergedColSpan === 1 && !verticalLine && !lastPingLeft,
       },
     ],
     rowType === 'body' && [{ 'bg-fill-quinary': hovering }],
+    rowType === 'footer' && [
+      'group-first/footer-row:border-t group-first/footer-row:border-t-border-secondary',
+      {
+        'border-b border-b-border-secondary group-first/footer-row:border-t-0': fixFooter === 'top',
+      },
+    ],
+    /** >>> Bordered */
+    verticalLine && [
+      'border-r border-border-secondary',
+      {
+        'border-r-0': atRight,
+      },
+      rowType === 'header' && [
+        'border-b border-b-border-secondary',
+        {
+          'border-b-border': atBottom,
+        },
+      ],
+    ],
     className,
     additionalProps.className,
   );

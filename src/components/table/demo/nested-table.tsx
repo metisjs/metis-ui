@@ -1,5 +1,5 @@
 import React from 'react';
-import { DownOutlined } from '@ant-design/icons';
+import { ArrowDownTrayOutline } from '@metisjs/icons';
 import type { TableColumnsType } from 'metis-ui';
 import { Badge, Dropdown, Space, Table } from 'metis-ui';
 
@@ -59,9 +59,7 @@ const expandColumns: TableColumnsType<ExpandedDataType> = [
         <a>Pause</a>
         <a>Stop</a>
         <Dropdown menu={{ items }}>
-          <a>
-            More <DownOutlined />
-          </a>
+          <a>More</a>
         </Dropdown>
       </Space>
     ),

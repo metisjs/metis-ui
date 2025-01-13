@@ -115,6 +115,6 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} bordered />;
+const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} verticalLine />;
 
 export default App;

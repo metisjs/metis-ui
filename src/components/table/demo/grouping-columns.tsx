@@ -1,25 +1,6 @@
 import React from 'react';
 import { Table } from 'metis-ui';
 import type { TableColumnsType } from 'metis-ui';
-import { createStyles } from 'metis-ui-style';
-
-const useStyle = createStyles(({ css, token }) => {
-  const { antCls } = token;
-  return {
-    customTable: css`
-      ${antCls}-table {
-        ${antCls}-table-container {
-          ${antCls}-table-body,
-          ${antCls}-table-content {
-            scrollbar-width: thin;
-            scrollbar-color: #eaeaea transparent;
-            scrollbar-gutter: stable;
-          }
-        }
-      }
-    `,
-  };
-});
 
 interface DataType {
   key: React.Key;
@@ -40,17 +21,19 @@ const columns: TableColumnsType<DataType> = [
     key: 'name',
     width: 100,
     fixed: 'left',
-    filters: [
-      {
-        label: 'Joe',
-        value: 'Joe',
-      },
-      {
-        label: 'John',
-        value: 'John',
-      },
-    ],
-    onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+    filter: {
+      items: [
+        {
+          label: 'Joe',
+          value: 'Joe',
+        },
+        {
+          label: 'John',
+          value: 'John',
+        },
+      ],
+      onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+    },
   },
   {
     title: 'Other',
@@ -60,7 +43,7 @@ const columns: TableColumnsType<DataType> = [
         dataIndex: 'age',
         key: 'age',
         width: 150,
-        sorter: (a, b) => a.age - b.age,
+        sorter: { compare: (a, b) => a.age - b.age },
       },
       {
         title: 'Address',
@@ -129,18 +112,14 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
   gender: 'M',
 }));
 
-const App: React.FC = () => {
-  const { styles } = useStyle();
-  return (
-    <Table<DataType>
-      className={styles.customTable}
-      columns={columns}
-      dataSource={dataSource}
-      bordered
-      size="middle"
-      scroll={{ x: 'calc(700px + 50%)', y: 47 * 5 }}
-    />
-  );
-};
+const App: React.FC = () => (
+  <Table<DataType>
+    columns={columns}
+    dataSource={dataSource}
+    verticalLine
+    size="middle"
+    scroll={{ x: 'calc(700px + 50%)', y: 47 * 5 }}
+  />
+);
 
 export default App;

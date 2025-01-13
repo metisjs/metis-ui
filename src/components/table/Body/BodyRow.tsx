@@ -169,7 +169,8 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             prefixCls={prefixCls}
             key={key}
             record={record}
-            index={index}
+            rowIndex={index}
+            index={colIndex}
             renderIndex={renderIndex}
             dataIndex={dataIndex}
             render={render}
@@ -178,6 +179,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             appendNode={appendCellNode}
             additionalProps={additionalCellProps}
             totalRowCount={totalRowCount}
+            totalColCount={flattenColumns.length}
           />
         );
       })}

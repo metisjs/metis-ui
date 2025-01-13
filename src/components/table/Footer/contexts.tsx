@@ -12,6 +12,11 @@ const SummaryContext = React.createContext<{
   flattenColumns: FlattenColumns<any>;
   columnsPos: ColumnsPos;
   scrollOffset: ScrollOffset;
+  totalRowCount: number;
 }>(null!);
 
-export default SummaryContext;
+const SummaryRowContext = React.createContext<{
+  rowIndex: number;
+}>(null!);
+
+export { SummaryContext, SummaryRowContext };

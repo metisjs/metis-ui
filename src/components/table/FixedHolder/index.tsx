@@ -113,9 +113,8 @@ const FixedHolder = React.forwardRef<HTMLDivElement, FixedHolderProps<AnyObject>
       })}
     >
       <TableComponent
+        className="w-full table-fixed border-separate border-spacing-0 text-start"
         style={{
-          textAlign: 'left',
-          tableLayout: 'fixed',
           visibility: noData || mergedColumnWidth ? null : 'hidden',
         }}
       >

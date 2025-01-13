@@ -105,7 +105,7 @@ const getData = (length: number) =>
 
 const App: React.FC = () => {
   const [fixed, setFixed] = React.useState(true);
-  const [bordered, setBordered] = React.useState(true);
+  const [verticalLine, setBordered] = React.useState(true);
   const [expanded, setExpanded] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
   const [count, setCount] = React.useState(10000);
@@ -143,8 +143,8 @@ const App: React.FC = () => {
       <Space direction="vertical" style={{ width: '100%' }}>
         <Space>
           <Switch
-            checked={bordered}
-            onChange={() => setBordered(!bordered)}
+            checked={verticalLine}
+            onChange={() => setBordered(!verticalLine)}
             checkedChildren="Bordered"
             unCheckedChildren="Bordered"
           />
@@ -184,7 +184,7 @@ const App: React.FC = () => {
         </Space>
 
         <Table<RecordType>
-          bordered={bordered}
+          verticalLine={verticalLine}
           virtual
           columns={mergedColumns}
           scroll={{ x: 2000, y: 400 }}

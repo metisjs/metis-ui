@@ -53,7 +53,6 @@ import type {
   GetComponentProps,
   GetPopupContainer,
   GetRowKey,
-  PanelRender,
   Reference,
   RowClassName,
   ScrollOffset,
@@ -69,7 +68,6 @@ import type {
   TableRowSelection,
   TableSticky,
 } from './interface';
-import Panel from './Panel';
 import { validateValue } from './utils/valueUtil';
 
 // Used for conditions cache
@@ -116,8 +114,6 @@ export interface TableProps<RecordType extends AnyObject = AnyObject> {
   rowSelection?: TableRowSelection<RecordType>;
 
   // Additional Part
-  title?: PanelRender<RecordType>;
-  footer?: PanelRender<RecordType>;
   summary?: (data: readonly RecordType[]) => React.ReactNode;
 
   // Customize
@@ -135,7 +131,7 @@ export interface TableProps<RecordType extends AnyObject = AnyObject> {
 
   loading?: boolean | SpinProps;
   size?: 'default' | 'middle' | 'small';
-  bordered?: boolean;
+  verticalLine?: boolean;
   locale?: TableLocale;
 
   onChange?: (
@@ -174,7 +170,7 @@ function InternalTable<RecordType extends AnyObject>(
     rowClassName,
     style,
     size: customizeSize,
-    bordered,
+    verticalLine,
     dataSource,
     rowKey = 'key',
     scroll,
@@ -186,8 +182,6 @@ function InternalTable<RecordType extends AnyObject>(
     pagination,
 
     // Additional Part
-    title,
-    footer,
     summary,
 
     // Customize
@@ -609,7 +603,7 @@ function InternalTable<RecordType extends AnyObject>(
         }
         setScrollOffset({
           left: scrollLeft,
-          right: scrollWidth - clientWidth - scrollLeft,
+          right: Math.floor(scrollWidth - clientWidth - scrollLeft),
         });
       }
     },
@@ -687,54 +681,13 @@ function InternalTable<RecordType extends AnyObject>(
     'after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-[3] after:w-7 after:transition-shadow',
     {
       'before:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
-        !hasPingLeft && !!scrollOffset.left,
+        !hasPingLeft && scrollOffset.left > 0,
       'after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
-        !hasPingRight && !!scrollOffset.right,
+        !hasPingRight && scrollOffset.right > 0,
     },
-    bordered && [
-      'rounded-lg border border-border',
-      {
-        'rounded-md': mergedSize === 'middle',
-        ['rounded']: mergedSize === 'small',
-        'rounded-se-none rounded-ss-none': title,
-        'rounded-ee-none rounded-es-none': footer,
-      },
-    ],
   );
 
   const tableCls = clsx('w-full border-separate border-spacing-0 text-start');
-
-  const titleCls = clsx(
-    `${prefixCls}-title`,
-    'px-3 py-4',
-    {
-      'py-2.5': mergedSize === 'middle',
-      'py-1.5': mergedSize === 'small',
-    },
-    bordered && [
-      'rounded-se-lg rounded-ss-lg border border-b-0 border-border',
-      {
-        'rounded-se-md rounded-ss-md': mergedSize === 'middle',
-        'rounded-se rounded-ss': mergedSize === 'small',
-      },
-    ],
-  );
-
-  const footerCls = clsx(
-    `${prefixCls}-footer`,
-    'px-3 py-4',
-    {
-      'py-2.5': mergedSize === 'middle',
-      'py-1.5': mergedSize === 'small',
-    },
-    bordered && [
-      'rounded-ee-lg rounded-es-lg border border-t-0 border-border',
-      {
-        'rounded-ee-md rounded-es-md': mergedSize === 'middle',
-        'rounded-ee rounded-es': mergedSize === 'small',
-      },
-    ],
-  );
 
   // ========================================================================
   // ==                               Render                               ==
@@ -886,7 +839,7 @@ function InternalTable<RecordType extends AnyObject>(
           autoHeight={fixHeader ? [0, scroll.y!] : false}
           onScroll={onBodyScroll}
           ref={scrollBodyRef}
-          className={classNames(`${prefixCls}-body`)}
+          className={`${prefixCls}-body`}
         >
           <TableComponent
             className={tableCls}
@@ -1010,11 +963,9 @@ function InternalTable<RecordType extends AnyObject>(
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
       <Spin spinning={false} {...spinProps}>
         {topPaginationNode}
-        {title && <Panel className={titleCls}>{title(pageData)}</Panel>}
         <div ref={containerRef} className={containerCls}>
           {groupTableNode}
         </div>
-        {footer && <Panel className={footerCls}>{footer(pageData)}</Panel>}
         {bottomPaginationNode}
       </Spin>
     </div>
@@ -1036,10 +987,11 @@ function InternalTable<RecordType extends AnyObject>(
       isSticky,
       selectedRowKeys: selectedKeySet,
       size: mergedSize,
-      bordered,
+      verticalLine,
 
       componentWidth,
       fixHeader,
+      fixFooter,
       fixColumn,
       horizonScroll,
 
@@ -1086,10 +1038,11 @@ function InternalTable<RecordType extends AnyObject>(
       isSticky,
       selectedKeySet,
       mergedSize,
-      bordered,
+      verticalLine,
 
       componentWidth,
       fixHeader,
+      fixFooter,
       fixColumn,
       horizonScroll,
 

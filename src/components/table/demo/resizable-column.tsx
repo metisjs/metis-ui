@@ -26,9 +26,15 @@ const ResizableTitle: React.FC<Readonly<React.HTMLAttributes<any> & TitlePropsTy
 
   return (
     <Resizable
+      className="relative bg-clip-padding"
       width={width}
       height={0}
-      handle={<span className="react-resizable-handle" onClick={(e) => e.stopPropagation()} />}
+      handle={
+        <span
+          className="absolute -end-[5px] bottom-0 z-[1] h-full w-[10px] cursor-col-resize"
+          onClick={(e) => e.stopPropagation()}
+        />
+      }
       onResize={onResize}
       draggableOpts={{ enableUserSelectHack: false }}
     >
@@ -112,7 +118,7 @@ const App: React.FC = () => {
 
   return (
     <Table<DataType>
-      bordered
+      verticalLine
       components={{ header: { cell: ResizableTitle } }}
       columns={mergedColumns}
       dataSource={data}

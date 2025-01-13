@@ -208,7 +208,7 @@ const App: React.FC = () => {
       <Table<DataType>
         components={components}
         rowClassName={() => 'editable-row'}
-        bordered
+        verticalLine
         dataSource={dataSource}
         columns={columns as ColumnTypes}
       />

@@ -67,7 +67,7 @@ const dataSource: DataType[] = [
 
 const App: React.FC = () => (
   <Table<DataType>
-    bordered
+    verticalLine
     columns={columns}
     dataSource={dataSource}
     scroll={{ x: 'max-content' }}

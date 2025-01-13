@@ -66,7 +66,8 @@ function ExpandedRow(props: ExpandedRowProps) {
         colSpan={colSpan}
         record={null!}
         renderIndex={-1}
-        index={-1}
+        rowIndex={-1}
+        index={0}
       >
         {contentNode}
       </Cell>

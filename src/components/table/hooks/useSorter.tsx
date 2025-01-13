@@ -208,7 +208,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
         title: (renderProps: ColumnTitleProps<RecordType>) => {
           const columnSortersClass = clsx(
             `${prefixCls}-column-sorters`,
-            'flex items-center justify-between',
+            'flex items-center justify-between after:absolute after:inset-0 after:h-full after:w-full',
           );
           const renderColumnTitleWrapper = (
             <span className={clsx(`${prefixCls}-column-title`, 'relative flex-1')}>

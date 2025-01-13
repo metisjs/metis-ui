@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import classNames from 'classnames';
-import * as React from 'react';
 import { getCellProps } from '../Body/BodyRow';
 import Cell from '../Cell';
 import type useRowInfo from '../hooks/useRowInfo';
@@ -120,7 +120,7 @@ function VirtualCell<RecordType = any>(props: VirtualCellProps<RecordType>) {
       prefixCls={rowInfo.prefixCls}
       key={key}
       record={record}
-      index={index}
+      rowIndex={index}
       renderIndex={renderIndex}
       dataIndex={dataIndex}
       render={mergedRender}

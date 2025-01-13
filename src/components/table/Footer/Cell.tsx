@@ -4,12 +4,12 @@ import Cell from '../Cell';
 import TableContext from '../context/TableContext';
 import type { AlignType } from '../interface';
 import { getCellFixedInfo } from '../utils/fixUtil';
-import SummaryContext from './SummaryContext';
+import { SummaryContext, SummaryRowContext } from './contexts';
 
 export interface SummaryCellProps {
   className?: string;
-  children?: React.ReactNode;
   index: number;
+  children?: React.ReactNode;
   colSpan?: number;
   rowSpan?: number;
   align?: AlignType;
@@ -20,12 +20,20 @@ export default function SummaryCell({
   index,
   children,
   colSpan = 1,
-  rowSpan,
+  rowSpan = 1,
   align,
 }: SummaryCellProps) {
   const { prefixCls } = useContext(TableContext, ['prefixCls']);
-  const { scrollColumnIndex, stickyOffsets, flattenColumns, scrollOffset, columnsPos } =
-    React.useContext(SummaryContext);
+  const {
+    scrollColumnIndex,
+    stickyOffsets,
+    flattenColumns,
+    scrollOffset,
+    columnsPos,
+    totalRowCount,
+  } = React.useContext(SummaryContext);
+  const { rowIndex } = React.useContext(SummaryRowContext);
+
   const lastIndex = index + colSpan - 1;
   const mergedColSpan = lastIndex + 1 === scrollColumnIndex ? colSpan + 1 : colSpan;
 
@@ -41,9 +49,11 @@ export default function SummaryCell({
   return (
     <Cell
       className={className}
+      rowIndex={rowIndex}
       index={index}
       component="td"
       prefixCls={prefixCls}
+      rowType="footer"
       record={null!}
       dataIndex={-1}
       align={align}
@@ -52,6 +62,8 @@ export default function SummaryCell({
       render={() => children}
       {...fixedInfo}
       renderIndex={-1}
+      totalColCount={flattenColumns.length}
+      totalRowCount={totalRowCount}
     />
   );
 }
