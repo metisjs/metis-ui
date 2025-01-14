@@ -1,6 +1,6 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
-import type { RequestConfig } from '@util/type';
+import type { RequestConfig, SafeKey } from '@util/type';
 import type { CheckboxProps } from '../checkbox';
 import type { SpinProps } from '../spin';
 import type { ScrollTo, VirtualListProps, VirtualType } from '../virtual-list';
@@ -197,15 +197,7 @@ export type FieldDataNode<T, ChildFieldName extends string = 'children'> = Basic
   T &
   Partial<Record<ChildFieldName, FieldDataNode<T, ChildFieldName>[]>>;
 
-export type Key = React.Key;
-
-/**
- * Typescript not support `bigint` as index type yet.
- * We use this to mark the `bigint` type is for `Key` usage.
- * It's safe to remove this when typescript fix:
- * https://github.com/microsoft/TypeScript/issues/50217
- */
-export type SafeKey = Exclude<Key, bigint>;
+export type Key = SafeKey;
 
 export type KeyEntities<DateType extends BasicDataNode = any> = Record<
   SafeKey,

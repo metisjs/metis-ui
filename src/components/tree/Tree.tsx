@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import type { RequestConfig } from '@util/type';
+import type { RequestConfig, SafeKey } from '@util/type';
 import { useSetState } from 'ahooks';
 import { useEvent } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
@@ -18,7 +18,6 @@ import type {
   DataNode,
   EventDataNode,
   Key,
-  SafeKey,
   TreeProps,
   TreeRef,
 } from './interface';
