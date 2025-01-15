@@ -10,12 +10,12 @@ import React, {
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
+import getScrollBarSize from 'rc-util/lib/getScrollBarSize';
 import raf from 'rc-util/lib/raf';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
 import getInnerHeight from './utils/getInnerHeight';
 import getInnerWidth from './utils/getInnerWidth';
-import getScrollbarWidth from './utils/getScrollbarWidth';
 
 const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const {
@@ -66,7 +66,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   // ======================== State ========================
   const [didMountUniversal, setDidMountUniversal] = useState(false);
-  const [scrollbarWidth, setScrollbarWidth] = useState(getScrollbarWidth);
+  const [scrollbarWidth, setScrollbarWidth] = useState(getScrollBarSize);
   const [trackVisible, setTrackVisible] = useState(!mergedAutoHide);
   const [scrolling, setScrolling] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -131,7 +131,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
     rafId.current = raf(() => {
       const values = getValues();
 
-      const freshScrollbarWidth = getScrollbarWidth();
+      const freshScrollbarWidth = getScrollBarSize();
 
       if (scrollbarWidth !== freshScrollbarWidth) {
         setScrollbarWidth(freshScrollbarWidth);
