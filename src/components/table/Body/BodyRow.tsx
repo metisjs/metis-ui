@@ -151,17 +151,9 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
           index,
         );
 
-        const mergedCls = clsx(
-          {
-            'bg-fill-quinary first:before:absolute first:before:bottom-0 first:before:left-0 first:before:top-0 first:before:w-0.5 first:before:bg-primary':
-              selected,
-          },
-          columnClassName,
-        );
-
         return (
           <Cell<RecordType>
-            className={mergedCls}
+            className={columnClassName}
             ellipsis={column.ellipsis}
             align={column.align}
             scope={column.rowScope}
@@ -170,6 +162,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             key={key}
             record={record}
             rowIndex={index}
+            rowSelected={selected}
             index={colIndex}
             renderIndex={renderIndex}
             dataIndex={dataIndex}

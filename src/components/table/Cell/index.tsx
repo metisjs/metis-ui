@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
+import useTheme from 'metis-ui/es/theme/useTheme';
 import { useEvent } from 'rc-util';
 import TableContext from '../context/TableContext';
 import type {
@@ -17,9 +19,10 @@ import useHoverState from './useHoverState';
 
 export interface CellProps<RecordType extends AnyObject> {
   prefixCls?: string;
-  className?: string;
+  className?: ColumnType<RecordType>['className'];
   record: RecordType;
   rowIndex: number;
+  rowSelected?: boolean;
   index: number;
   /** the index of the record. For the render(value, record, renderIndex) */
   renderIndex: number;
@@ -97,6 +100,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     // Row
     rowIndex,
     rowType = 'body',
+    rowSelected,
 
     // Span
     colSpan,
@@ -152,6 +156,9 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   // ====================== Hover =======================
   const [hovering, onHover] = useHoverState(rowIndex, mergedRowSpan);
 
+  // ====================== SemanticClassName =======================
+  const semanticCls = useSemanticCls(className, { rowType, hovering });
+
   const onMouseEnter: React.MouseEventHandler<HTMLTableCellElement> = useEvent((event) => {
     if (record) {
       onHover(rowIndex, rowIndex + mergedRowSpan - 1);
@@ -206,6 +213,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       'px-2 py-2': size === 'small',
     },
     {
+      'backdrop-blur': isSticky || isFixLeft || isFixRight,
       'border-b-0': atBottom,
       ['truncate']: ellipsis,
       'sticky z-[2]': isFixLeft || isFixRight,
@@ -236,6 +244,14 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
         'border-b border-b-border-secondary group-first/footer-row:border-t-0': fixFooter === 'top',
       },
     ],
+    /** >>> Selected */
+    rowSelected && [
+      'bg-fill-quinary',
+      {
+        'first:before:absolute first:before:bottom-0 first:before:left-0 first:before:top-0 first:before:w-0.5 first:before:bg-primary':
+          index === 0,
+      },
+    ],
     /** >>> Bordered */
     verticalLine && [
       'border-r border-border-secondary',
@@ -249,7 +265,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
         },
       ],
     ],
-    className,
+
+    semanticCls.root,
     additionalProps.className,
   );
 
@@ -264,6 +281,9 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     ...fixedStyle,
     ...alignStyle,
     ...additionalProps.style,
+    ...((isSticky || isFixLeft || isFixRight) && {
+      backgroundColor: 'color-mix(in oklab, hsla(var(--container)) 75%, transparent)',
+    }),
   };
 
   // >>>>> Children Node

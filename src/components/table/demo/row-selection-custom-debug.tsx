@@ -22,14 +22,12 @@ const dataSource = Array.from({ length: 46 }).map<DataType>((_, i) => ({
 }));
 
 const rowSelection: TableRowSelection<DataType> = {
-  renderCell: (checked, _record, index, node) => ({
-    props: { rowSpan: index % 2 === 0 ? 2 : 0 },
-    children: (
-      <>
-        {String(checked)}: {node}
-      </>
-    ),
-  }),
+  renderCell: (checked, _, __, node) => (
+    <>
+      {String(checked)}: {node}
+    </>
+  ),
+  onCell: (_, index = 0) => ({ rowSpan: index % 2 === 0 ? 2 : 0 }),
 };
 
 const App: React.FC = () => (

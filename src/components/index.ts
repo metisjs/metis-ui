@@ -1,4 +1,3 @@
-export type { GetProp, GetProps, GetRef } from '@util/type';
 export { default as Affix } from './affix';
 export type { AffixProps, AffixRef } from './affix';
 export { default as Alert } from './alert';
@@ -145,3 +144,4 @@ export type { WatermarkProps } from './watermark';
 
 export * from '@util/classNameUtils';
 export { default as useTheme } from './theme/useTheme';
+export type * from '@util/type';

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import classNames from 'classnames';
 import { useComposeRef } from 'rc-util/lib/ref';
@@ -104,13 +105,16 @@ const FixedHolder = React.forwardRef<HTMLDivElement, FixedHolderProps<AnyObject>
   return (
     <div
       style={{
-        overflow: 'hidden',
         ...(isSticky ? { top: stickyTopOffset, bottom: stickyBottomOffset } : {}),
       }}
       ref={composeRef}
-      className={classNames(className, {
-        [stickyClassName!]: !!stickyClassName,
-      })}
+      className={clsx(
+        'sticky z-[3] overflow-hidden',
+        {
+          [stickyClassName!]: !!stickyClassName,
+        },
+        className,
+      )}
     >
       <TableComponent
         className="w-full table-fixed border-separate border-spacing-0 text-start"

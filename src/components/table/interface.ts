@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject, SafeKey } from '@util/type';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
@@ -51,7 +52,7 @@ export type CompareFn<T = AnyObject> = (a: T, b: T, sortOrder?: SortOrder) => nu
 
 export interface ColumnFilterItem {
   label: React.ReactNode;
-  value: React.Key | boolean;
+  value: Key | boolean;
   children?: ColumnFilterItem[];
 }
 
@@ -92,14 +93,14 @@ export interface FilterRestProps {
 
 export interface ColumnFilterItem {
   label: React.ReactNode;
-  value: React.Key | boolean;
+  value: Key | boolean;
   children?: ColumnFilterItem[];
 }
 
 export interface FilterDropdownProps {
   prefixCls: string;
-  setSelectedKeys: (selectedKeys: React.Key[]) => void;
-  selectedKeys: React.Key[];
+  setSelectedKeys: (selectedKeys: Key[]) => void;
+  selectedKeys: Key[];
   /**
    * Confirm filter value, if you want to close dropdown before commit, you can call with
    * {closeDropdown: true}
@@ -139,7 +140,10 @@ export type ScopeType = ColScopeType | RowScopeType;
 
 interface ColumnSharedType<RecordType extends AnyObject> {
   key?: Key;
-  className?: string;
+  className?: SemanticClassName<
+    { root: string },
+    { rowType?: 'header' | 'body' | 'footer'; hovering?: boolean }
+  >;
   hidden?: boolean;
   fixed?: FixedType;
   onHeaderCell?: GetComponentProps<ColumnsType<RecordType>[number]>;
@@ -190,7 +194,7 @@ export type ColumnFilter<RecordType extends AnyObject> = {
   icon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
   mode?: 'menu' | 'tree';
   search?: FilterSearchType<ColumnFilterItem>;
-  onFilter?: (value: React.Key | boolean, record: RecordType) => boolean;
+  onFilter?: (value: Key | boolean, record: RecordType) => boolean;
   dropdownProps?: CoverableDropdownProps;
   resetToDefaultFilteredValue?: boolean;
 };

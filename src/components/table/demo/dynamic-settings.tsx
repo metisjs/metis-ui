@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import type { GetProp, RadioChangeEvent, TableProps } from 'metis-ui';
+import type { GetProp, TableProps } from 'metis-ui';
 import { Form, Radio, Space, Switch, Table } from 'metis-ui';
 
 type SizeType = TableProps['size'];
@@ -26,22 +25,24 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Age',
     dataIndex: 'age',
-    sorter: (a, b) => a.age - b.age,
+    sorter: { compare: (a, b) => a.age - b.age },
   },
   {
     title: 'Address',
     dataIndex: 'address',
-    filters: [
-      {
-        label: 'London',
-        value: 'London',
-      },
-      {
-        label: 'New York',
-        value: 'New York',
-      },
-    ],
-    onFilter: (value, record) => record.address.indexOf(value as string) === 0,
+    filter: {
+      items: [
+        {
+          label: 'London',
+          value: 'London',
+        },
+        {
+          label: 'New York',
+          value: 'New York',
+        },
+      ],
+      onFilter: (value, record) => record.address.indexOf(value as string) === 0,
+    },
   },
   {
     title: 'Action',
@@ -51,10 +52,7 @@ const columns: ColumnsType<DataType> = [
       <Space size="middle">
         <a>Delete</a>
         <a>
-          <Space>
-            More actions
-            <DownOutlined />
-          </Space>
+          <Space>More actions</Space>
         </a>
       </Space>
     ),
@@ -73,17 +71,12 @@ const defaultExpandable: ExpandableConfig<DataType> = {
   expandedRowRender: (record: DataType) => <p>{record.description}</p>,
 };
 
-const defaultTitle = () => 'Here is title';
-const defaultFooter = () => 'Here is footer';
-
 const App: React.FC = () => {
-  const [verticalLine, setBordered] = useState(false);
+  const [verticalLine, setVerticalLine] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [size, setSize] = useState<SizeType>('large');
+  const [size, setSize] = useState<SizeType>('default');
   const [expandable, setExpandable] = useState<ExpandableConfig<DataType>>(defaultExpandable);
-  const [showTitle, setShowTitle] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
-  const [showFooter, setShowFooter] = useState(true);
   const [rowSelection, setRowSelection] = useState<TableRowSelection<DataType> | undefined>({});
   const [hasData, setHasData] = useState(true);
   const [tableLayout, setTableLayout] = useState<string>('unset');
@@ -93,56 +86,12 @@ const App: React.FC = () => {
   const [yScroll, setYScroll] = useState(false);
   const [xScroll, setXScroll] = useState<string>('unset');
 
-  const handleBorderChange = (enable: boolean) => {
-    setBordered(enable);
-  };
-
-  const handleLoadingChange = (enable: boolean) => {
-    setLoading(enable);
-  };
-
-  const handleSizeChange = (e: RadioChangeEvent) => {
-    setSize(e.target.value);
-  };
-
-  const handleTableLayoutChange = (e: RadioChangeEvent) => {
-    setTableLayout(e.target.value);
-  };
-
   const handleExpandChange = (enable: boolean) => {
     setExpandable(enable ? defaultExpandable : undefined);
   };
 
-  const handleEllipsisChange = (enable: boolean) => {
-    setEllipsis(enable);
-  };
-
-  const handleTitleChange = (enable: boolean) => {
-    setShowTitle(enable);
-  };
-
-  const handleHeaderChange = (enable: boolean) => {
-    setShowHeader(enable);
-  };
-
-  const handleFooterChange = (enable: boolean) => {
-    setShowFooter(enable);
-  };
-
   const handleRowSelectionChange = (enable: boolean) => {
     setRowSelection(enable ? {} : undefined);
-  };
-
-  const handleYScrollChange = (enable: boolean) => {
-    setYScroll(enable);
-  };
-
-  const handleXScrollChange = (e: RadioChangeEvent) => {
-    setXScroll(e.target.value);
-  };
-
-  const handleDataChange = (newHasData: boolean) => {
-    setHasData(newHasData);
   };
 
   const scroll: { x?: number | string; y?: number | string } = {};
@@ -159,14 +108,14 @@ const App: React.FC = () => {
     tableColumns[tableColumns.length - 1].fixed = 'right';
   }
 
+  console.log(expandable);
+
   const tableProps: TableProps<DataType> = {
     verticalLine,
     loading,
     size,
     expandable,
-    title: showTitle ? defaultTitle : undefined,
     showHeader,
-    footer: showFooter ? defaultFooter : undefined,
     rowSelection,
     scroll,
     tableLayout: tableLayout === 'unset' ? undefined : (tableLayout as TableProps['tableLayout']),
@@ -174,21 +123,15 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Form layout="inline" className="table-demo-control-bar" style={{ marginBottom: 16 }}>
-        <Form.Item label="Bordered">
-          <Switch checked={verticalLine} onChange={handleBorderChange} />
+      <Form layout="inline" className={{ root: 'mb-4 gap-x-4', item: 'mb-1' }}>
+        <Form.Item label="VerticalLine">
+          <Switch checked={verticalLine} onChange={setVerticalLine} />
         </Form.Item>
         <Form.Item label="loading">
-          <Switch checked={loading} onChange={handleLoadingChange} />
-        </Form.Item>
-        <Form.Item label="Title">
-          <Switch checked={showTitle} onChange={handleTitleChange} />
+          <Switch checked={loading} onChange={setLoading} />
         </Form.Item>
         <Form.Item label="Column Header">
-          <Switch checked={showHeader} onChange={handleHeaderChange} />
-        </Form.Item>
-        <Form.Item label="Footer">
-          <Switch checked={showFooter} onChange={handleFooterChange} />
+          <Switch checked={showHeader} onChange={setShowHeader} />
         </Form.Item>
         <Form.Item label="Expandable">
           <Switch checked={!!expandable} onChange={handleExpandChange} />
@@ -197,49 +140,117 @@ const App: React.FC = () => {
           <Switch checked={!!rowSelection} onChange={handleRowSelectionChange} />
         </Form.Item>
         <Form.Item label="Fixed Header">
-          <Switch checked={!!yScroll} onChange={handleYScrollChange} />
+          <Switch checked={!!yScroll} onChange={setYScroll} />
         </Form.Item>
         <Form.Item label="Has Data">
-          <Switch checked={!!hasData} onChange={handleDataChange} />
+          <Switch checked={!!hasData} onChange={setHasData} />
         </Form.Item>
         <Form.Item label="Ellipsis">
-          <Switch checked={!!ellipsis} onChange={handleEllipsisChange} />
+          <Switch checked={!!ellipsis} onChange={setEllipsis} />
         </Form.Item>
         <Form.Item label="Size">
-          <Radio.Group value={size} onChange={handleSizeChange}>
-            <Radio.Button value="large">Large</Radio.Button>
-            <Radio.Button value="middle">Middle</Radio.Button>
-            <Radio.Button value="small">Small</Radio.Button>
-          </Radio.Group>
+          <Radio.Group
+            options={[
+              {
+                value: 'default',
+                label: 'Default',
+              },
+              {
+                value: 'middle',
+                label: 'Middle',
+              },
+              {
+                value: 'small',
+                label: 'Small',
+              },
+            ]}
+            value={size}
+            onChange={setSize}
+          ></Radio.Group>
         </Form.Item>
         <Form.Item label="Table Scroll">
-          <Radio.Group value={xScroll} onChange={handleXScrollChange}>
-            <Radio.Button value="unset">Unset</Radio.Button>
-            <Radio.Button value="scroll">Scroll</Radio.Button>
-            <Radio.Button value="fixed">Fixed Columns</Radio.Button>
-          </Radio.Group>
+          <Radio.Group
+            options={[
+              {
+                value: 'unset',
+                label: 'Unset',
+              },
+              {
+                value: 'scroll',
+                label: 'Scroll',
+              },
+              {
+                value: 'fixed',
+                label: 'Fixed Columns',
+              },
+            ]}
+            value={xScroll}
+            onChange={setXScroll}
+          ></Radio.Group>
         </Form.Item>
         <Form.Item label="Table Layout">
-          <Radio.Group value={tableLayout} onChange={handleTableLayoutChange}>
-            <Radio.Button value="unset">Unset</Radio.Button>
-            <Radio.Button value="fixed">Fixed</Radio.Button>
-          </Radio.Group>
+          <Radio.Group
+            options={[
+              {
+                value: 'unset',
+                label: 'Unset',
+              },
+              {
+                value: 'fixed',
+                label: 'Fixed',
+              },
+            ]}
+            value={tableLayout}
+            onChange={setTableLayout}
+          ></Radio.Group>
         </Form.Item>
         <Form.Item label="Pagination Top">
-          <Radio.Group value={top} onChange={(e) => setTop(e.target.value)}>
-            <Radio.Button value="topLeft">TopLeft</Radio.Button>
-            <Radio.Button value="topCenter">TopCenter</Radio.Button>
-            <Radio.Button value="topRight">TopRight</Radio.Button>
-            <Radio.Button value="none">None</Radio.Button>
-          </Radio.Group>
+          <Radio.Group
+            options={[
+              {
+                value: 'topLeft',
+                label: 'TopLeft',
+              },
+              {
+                value: 'topCenter',
+                label: 'TopCenter',
+              },
+              {
+                value: 'topRight',
+                label: 'TopRight',
+              },
+              {
+                value: 'none',
+                label: 'None',
+              },
+            ]}
+            value={top}
+            onChange={setTop}
+          ></Radio.Group>
         </Form.Item>
         <Form.Item label="Pagination Bottom">
-          <Radio.Group value={bottom} onChange={(e) => setBottom(e.target.value)}>
-            <Radio.Button value="bottomLeft">BottomLeft</Radio.Button>
-            <Radio.Button value="bottomCenter">BottomCenter</Radio.Button>
-            <Radio.Button value="bottomRight">BottomRight</Radio.Button>
-            <Radio.Button value="none">None</Radio.Button>
-          </Radio.Group>
+          <Radio.Group
+            options={[
+              {
+                value: 'bottomLeft',
+                label: 'BottomLeft',
+              },
+              {
+                value: 'bottomCenter',
+                label: 'BottomCenter',
+              },
+              {
+                value: 'bottomRight',
+                label: 'BottomRight',
+              },
+              {
+                value: 'none',
+                label: 'None',
+              },
+            ]}
+            value={bottom}
+            onChange={setBottom}
+          ></Radio.Group>
         </Form.Item>
       </Form>
       <Table<DataType>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'metis-ui';
-import type { TableColumnsType, TableProps } from 'metis-ui';
+import type { SafeKey, TableColumnsType, TableProps } from 'metis-ui';
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
@@ -34,9 +34,9 @@ const dataSource = Array.from({ length: 46 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<SafeKey[]>([]);
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+  const onSelectChange = (newSelectedRowKeys: SafeKey[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };

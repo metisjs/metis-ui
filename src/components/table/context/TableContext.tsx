@@ -29,7 +29,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   isSticky: boolean;
   componentWidth: number;
   fixHeader: boolean;
-  fixFooter: boolean | 'top' | 'bottom';
+  fixFooter?: boolean | 'top' | 'bottom';
   fixColumn: boolean;
   horizonScroll: boolean;
   selectedRowKeys: Set<React.Key>;

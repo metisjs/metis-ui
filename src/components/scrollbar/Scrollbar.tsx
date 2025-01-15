@@ -557,7 +557,9 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
           style={thumbVerticalStyle}
         ></div>
       </div>
-      <div className={trackCornerCls} {...sharedTrackProps}></div>
+      {!!verticalScroll && !!horizontalScroll && (
+        <div className={trackCornerCls} {...sharedTrackProps}></div>
+      )}
     </div>
   );
 };

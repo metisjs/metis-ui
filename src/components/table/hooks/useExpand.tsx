@@ -18,6 +18,8 @@ export default function useExpand<RecordType extends AnyObject>(
   mergedData: readonly RecordType[],
   getRowKey: GetRowKey<RecordType>,
   defaultExpandIconColumnIndex?: number,
+  verticalLine?: boolean,
+  size?: 'default' | 'middle' | 'small',
 ) {
   const warning = devUseWarning('Table');
 
@@ -130,17 +132,39 @@ export default function useExpand<RecordType extends AnyObject>(
         }
 
         // >>> Create expandable column
-        const expandColumn = {
+        const expandColumn: ColumnsType<RecordType>[0] & {
+          [INTERNAL_COL_DEFINE]: Record<string, any>;
+        } = {
           [INTERNAL_COL_DEFINE]: {
-            className: clsx(`${prefixCls}-expand-icon-col`, 'w-0'),
+            className: clsx(
+              `${prefixCls}-expand-icon-col`,
+              'w-10',
+              {
+                'w-8': size === 'middle' || size === 'small',
+              },
+              !verticalLine && [
+                'w-6 first:w-9 last:w-9',
+                {
+                  'first:w-8 last:w-8': size === 'middle' || size === 'small',
+                },
+              ],
+            ),
             columnType: 'EXPAND_COLUMN',
           },
           title: columnTitle,
           fixed: fixedColumn,
-          className: clsx(
-            `${prefixCls}-row-expand-icon-cell`,
-            'px-1 text-center before:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
-          ),
+          className: ({ rowType }) =>
+            clsx(
+              `${prefixCls}-row-expand-icon-cell`,
+              !verticalLine && [
+                'px-1 text-center first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+                {
+                  'first:pl-3 first:pr-1 last:pl-1 last:pr-3':
+                    size === 'middle' || size === 'small',
+                  'before:hidden': rowType === 'header',
+                },
+              ],
+            ),
           width: columnWidth,
           render: (_: any, record: RecordType, index: number) => {
             const rowKey = getRowKey(record, index);
@@ -174,7 +198,14 @@ export default function useExpand<RecordType extends AnyObject>(
 
       return columns.filter((col) => col !== EXPAND_COLUMN);
     },
-    [!!expandableConfig.expandedRowRender, getRowKey, mergedExpandedKeys, mergedExpandIcon],
+    [
+      !!expandableConfig.expandedRowRender,
+      getRowKey,
+      mergedExpandedKeys,
+      mergedExpandIcon,
+      verticalLine,
+      size,
+    ],
   );
 
   return [

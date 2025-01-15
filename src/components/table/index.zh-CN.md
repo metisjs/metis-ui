@@ -89,27 +89,19 @@ const columns = [
 <code src="./demo/ellipsis-custom-tooltip.tsx">自定义单元格省略提示</code>
 <code src="./demo/custom-empty.tsx">自定义空状态</code>
 <code src="./demo/summary.tsx">总结栏</code>
-
-<!--
-<code src="./demo/request.tsx">远程加载数据</code>
-<code src="./demo/edit-cell.tsx">可编辑单元格</code>
-<code src="./demo/edit-row.tsx">可编辑行</code>
-
-
-
-
-
-
-
-
-<code src="./demo/virtual-list.tsx">虚拟列表</code>
 <code src="./demo/responsive.tsx">响应式</code>
 <code src="./demo/nest-table-border-debug.tsx" debug>嵌套带边框的表格 Debug</code>
 <code src="./demo/pagination.tsx">分页设置</code>
 <code src="./demo/row-selection-custom-debug.tsx" debug>自定义选择项组</code>
 <code src="./demo/sticky.tsx">随页面滚动的固定表头和滚动条</code>
 <code src="./demo/dynamic-settings.tsx">动态控制表格属性</code>
-<code src="./demo/selections-debug.tsx" debug>带下拉箭头的表头</code> -->
+<code src="./demo/selections-debug.tsx" debug>带下拉箭头的表头</code>
+
+<!--
+<code src="./demo/request.tsx">远程加载数据</code>
+<code src="./demo/edit-cell.tsx">可编辑单元格</code>
+<code src="./demo/edit-row.tsx">可编辑行</code>
+-->
 
 ## API
 

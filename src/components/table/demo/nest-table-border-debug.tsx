@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
 import type { TableColumnsType, TableProps } from 'metis-ui';
 import { Badge, Dropdown, Form, Space, Switch, Table } from 'metis-ui';
 
@@ -48,9 +47,7 @@ const expandedColumns: TableProps<ExpandedDataType>['columns'] = [
         <a>Pause</a>
         <a>Stop</a>
         <Dropdown menu={{ items }}>
-          <a>
-            More <DownOutlined />
-          </a>
+          <a>More</a>
         </Dropdown>
       </Space>
     ),
@@ -94,25 +91,23 @@ const dataSource = Array.from({ length: 3 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => {
-  const [rootTableBordered, setRootTableBordered] = useState(true);
-  const [childTableBordered, setChildTableBordered] = useState(true);
+  const [rootVerticalLine, setRootVerticalLine] = useState(true);
+  const [childVerticalLine, setChildVerticalLine] = useState(true);
   return (
     <>
       <Form layout="inline" className="table-demo-control-bar" style={{ marginBottom: 16 }}>
-        <Form.Item label="Root Table Bordered">
-          <Switch checked={rootTableBordered} onChange={(v) => setRootTableBordered(v)} />
+        <Form.Item label="Root Table Vertical Line">
+          <Switch checked={rootVerticalLine} onChange={(v) => setRootVerticalLine(v)} />
         </Form.Item>
-        <Form.Item label="Child Table Bordered">
-          <Switch checked={childTableBordered} onChange={(v) => setChildTableBordered(v)} />
+        <Form.Item label="Child Table Vertical Line">
+          <Switch checked={childVerticalLine} onChange={(v) => setChildVerticalLine(v)} />
         </Form.Item>
       </Form>
       <Table<DataType>
-        title={() => 'cool'}
-        footer={() => 'cool'}
         columns={columns}
-        expandable={{ expandedRowRender: createExpandedRowRender(childTableBordered) }}
+        expandable={{ expandedRowRender: createExpandedRowRender(childVerticalLine) }}
         dataSource={dataSource}
-        verticalLine={rootTableBordered}
+        verticalLine={rootVerticalLine}
       />
     </>
   );

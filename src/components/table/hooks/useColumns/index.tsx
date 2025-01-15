@@ -161,7 +161,9 @@ function useColumns<RecordType extends AnyObject>(
       finalColumns = transformColumns(finalColumns);
     }
 
-    finalColumns.filter((c) => !c.responsive || c.responsive.some((r) => matched.has(r)));
+    finalColumns = finalColumns.filter(
+      (c) => !c.responsive || c.responsive.some((r) => matched.has(r)),
+    );
     finalColumns = fillTitle(finalColumns, columnTitleProps);
 
     // Always provides at least one column for table display

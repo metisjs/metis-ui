@@ -52,11 +52,11 @@ const columns: ColumnsType<DataType> = [
     key: 'tags',
     dataIndex: 'tags',
     render: (tags: string[]) => (
-      <span>
+      <Space>
         {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
+          let color = tag.length > 5 ? 'processing' : 'green';
           if (tag === 'loser') {
-            color = 'volcano';
+            color = 'red';
           }
           return (
             <Tag color={color} key={tag}>
@@ -64,7 +64,7 @@ const columns: ColumnsType<DataType> = [
             </Tag>
           );
         })}
-      </span>
+      </Space>
     ),
   },
   {
@@ -113,18 +113,14 @@ const App: React.FC = () => {
           style={{ marginBottom: 10 }}
           options={topOptions}
           value={top}
-          onChange={(e) => {
-            setTop(e.target.value);
-          }}
+          onChange={setTop}
         />
       </div>
       <Radio.Group
         style={{ marginBottom: 10 }}
         options={bottomOptions}
         value={bottom}
-        onChange={(e) => {
-          setBottom(e.target.value);
-        }}
+        onChange={setBottom}
       />
       <Table<DataType>
         columns={columns}

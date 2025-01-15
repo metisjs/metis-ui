@@ -92,7 +92,7 @@ const App: React.FC = () => {
       scroll={{ x: 1500 }}
       summary={() => (
         <Table.Summary fixed={fixedTop ? 'top' : 'bottom'}>
-          <Table.Summary.Row>
+          <Table.Summary.Row index={0}>
             <Table.Summary.Cell index={0} colSpan={2}>
               <Switch
                 checkedChildren="Fixed Top"
@@ -110,7 +110,7 @@ const App: React.FC = () => {
           </Table.Summary.Row>
         </Table.Summary>
       )}
-      // antd site header height
+      // site header height
       sticky={{ offsetHeader: 64 }}
     />
   );

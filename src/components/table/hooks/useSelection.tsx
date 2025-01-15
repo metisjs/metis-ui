@@ -35,7 +35,7 @@ import type {
   TableRowSelection,
 } from '../interface';
 
-const EMPTY_LIST: React.Key[] = [];
+const EMPTY_LIST: Key[] = [];
 
 interface UseSelectionConfig<RecordType = AnyObject> {
   prefixCls: string;
@@ -46,6 +46,8 @@ interface UseSelectionConfig<RecordType = AnyObject> {
   expandableType: ExpandableType;
   childrenColumnName: keyof RecordType;
   locale: TableLocale;
+  verticalLine?: boolean;
+  size?: 'default' | 'middle' | 'small';
   getPopupContainer?: GetPopupContainer;
 }
 
@@ -98,6 +100,8 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     expandableType,
     childrenColumnName,
     locale: tableLocale,
+    verticalLine,
+    size,
     getPopupContainer,
   } = config;
 
@@ -677,7 +681,16 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         {
           [`${prefixCls}-selection-col-with-dropdown`]: selections && selectionType === 'checkbox',
         },
-        'w-0',
+        'w-10',
+        {
+          'w-8': size === 'middle' || size === 'small',
+        },
+        !verticalLine && [
+          'w-6 first:w-9 last:w-9',
+          {
+            'first:w-8 last:w-8': size === 'middle' || size === 'small',
+          },
+        ],
       );
 
       const renderColumnTitle = () => {
@@ -696,10 +709,20 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       } = {
         fixed: mergedFixed,
         width: selectionColWidth,
-        className: clsx(
-          `${prefixCls}-selection-column`,
-          'px-1 text-center before:hidden first:pl-4 first:pr-1 last:pl-1 last:pr-4',
-        ),
+        className: ({ rowType }) =>
+          clsx(
+            `${prefixCls}-selection-column`,
+            !verticalLine && [
+              'px-1 text-center first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+              {
+                'first:pl-3 first:pr-1 last:pl-1 last:pr-3': size === 'middle' || size === 'small',
+              },
+            ],
+            {
+              'before:hidden': rowType === 'header',
+              'px-4': verticalLine && mergedSelections,
+            },
+          ),
         title: renderColumnTitle(),
         render: renderSelectionCell,
         onCell: rowSelection.onCell,
@@ -721,6 +744,8 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       checkboxPropsMap,
       triggerSingleSelection,
       isCheckboxDisabled,
+      verticalLine,
+      size,
     ],
   );
 

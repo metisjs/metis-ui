@@ -68,6 +68,7 @@ import type {
   TableRowSelection,
   TableSticky,
 } from './interface';
+import StickyScrollBar from './StickyScrollBar';
 import { validateValue } from './utils/valueUtil';
 
 // Used for conditions cache
@@ -421,6 +422,8 @@ function InternalTable<RecordType extends AnyObject>(
       expandableType,
       childrenColumnName,
       locale: tableLocale,
+      verticalLine,
+      size: mergedSize,
       getPopupContainer: getPopupContainer || getContextPopupContainer,
     },
     rowSelection,
@@ -437,7 +440,15 @@ function InternalTable<RecordType extends AnyObject>(
     return undefined;
   }, [expandableType, !!rowSelection]);
   const [transformExpandableColumns, expandableConfig, expandedKeys, expandIcon, onTriggerExpand] =
-    useExpand(prefixCls, expandable, pageData, getRowKey, defaultExpandIconColumnIndex);
+    useExpand(
+      prefixCls,
+      expandable,
+      pageData,
+      getRowKey,
+      defaultExpandIconColumnIndex,
+      verticalLine,
+      mergedSize,
+    );
 
   // ====================== Column ======================
   const scrollX = scroll?.x;
@@ -585,7 +596,7 @@ function InternalTable<RecordType extends AnyObject>(
         forceScroll(scrollLeft, scrollHeaderRef.current);
         forceScroll(scrollLeft, (left) => scrollBodyRef.current?.scrollTo({ left }));
         forceScroll(scrollLeft, scrollSummaryRef.current);
-        // forceScroll(mergedScrollLeft, stickyRef.current?.setScrollLeft);
+        forceScroll(scrollLeft, (left) => stickyRef.current?.setScrollLeft(left));
       }
 
       const measureTarget = currentTarget || scrollHeaderRef.current;
@@ -676,7 +687,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   const containerCls = clsx(
     `${prefixCls}-container`,
-    'relative overflow-hidden',
+    'relative',
     'before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-[3] before:w-7 before:transition-shadow',
     'after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-[3] after:w-7 after:transition-shadow',
     {
@@ -711,6 +722,7 @@ function InternalTable<RecordType extends AnyObject>(
           `${prefixCls}-pagination-${position}`,
           'flex flex-wrap gap-y-2 py-4',
           {
+            'justify-center': position === 'center',
             'justify-end': position === 'right',
           },
         )}
@@ -905,15 +917,15 @@ function InternalTable<RecordType extends AnyObject>(
           </FixedHolder>
         )}
 
-        {/* {isSticky && scrollBodyRef.current && scrollBodyRef.current instanceof Element && (
+        {isSticky && scrollBodyRef.current && (
           <StickyScrollBar
             ref={stickyRef}
             offsetScroll={offsetScroll}
             scrollBodyRef={scrollBodyRef}
             onScroll={onInternalScroll}
-            container={container}
+            container={container!}
           />
-        )} */}
+        )}
       </>
     );
   } else {
