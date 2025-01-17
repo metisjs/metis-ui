@@ -432,7 +432,6 @@ function Picker<DateType extends object = any>(
     setHoverSource('preset');
   };
 
-  // TODO: handle this
   const onPresetSubmit = (nextValue: DateType) => {
     const nextCalendarValues = multiple ? toggleDates(getCalendarValue(), nextValue) : [nextValue];
     const passed = triggerSubmitChange(nextCalendarValues);
