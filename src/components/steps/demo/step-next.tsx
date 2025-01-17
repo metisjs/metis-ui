@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Steps } from 'metis-ui';
+import { Button, message, Steps } from 'metis-ui';
 
 const steps = [
   {
@@ -42,11 +42,7 @@ const App: React.FC = () => {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            // TODO: 组件待开发
-            // onClick={() => message.success('Processing complete!')}
-          >
+          <Button type="primary" onClick={() => message.success('Processing complete!')}>
             Done
           </Button>
         )}
