@@ -32,7 +32,6 @@ The differences with Select are:
 <code src="./demo/allow-clear.tsx">Customize clear button</code>
 <code src="./demo/request.tsx">Remote fetch</code>
 <code src="./demo/request-pagination.tsx">Remote fetch with pagination</code>
-<code src="./demo/form-debug.tsx" debug>Debug in Form</code>
 
 ## API
 

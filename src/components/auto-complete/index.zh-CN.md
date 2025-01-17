@@ -33,7 +33,6 @@ demo:
 <code src="./demo/allow-clear.tsx">自定义清除按钮</code>
 <code src="./demo/request.tsx">请求远程数据</code>
 <code src="./demo/request-pagination.tsx">分页请求远程数据</code>
-<code src="./demo/form-debug.tsx" debug>在 Form 中 Debug</code>
 
 ## API
 
