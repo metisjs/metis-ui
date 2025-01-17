@@ -14,11 +14,7 @@ group: Data Display
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
 <code src="./demo/customize.tsx">Customize</code>
-
-<!-- TODO: ConfigProvider -->
-
-<!-- <code src="./demo/config-provider.tsx">ConfigProvider</code> -->
-
+<code src="./demo/config-provider.tsx">ConfigProvider</code>
 <code src="./demo/description.tsx">No description</code>
 
 ## API

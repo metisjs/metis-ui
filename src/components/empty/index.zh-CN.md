@@ -15,9 +15,7 @@ group: 数据展示
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本</code>
 <code src="./demo/customize.tsx">自定义</code>
-
-<!-- <code src="./demo/config-provider.tsx">全局化配置</code> -->
-
+<code src="./demo/config-provider.tsx">全局化配置</code>
 <code src="./demo/description.tsx">无描述</code>
 
 ## API

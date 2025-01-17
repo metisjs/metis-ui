@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SmileOutlined } from '@ant-design/icons';
+import { FaceSmileOutline } from '@metisjs/icons';
 import {
   Cascader,
   ConfigProvider,
@@ -10,12 +10,11 @@ import {
   Switch,
   Table,
   Transfer,
-  TreeSelect,
 } from 'metis-ui';
 
 const customizeRenderEmpty = () => (
   <div style={{ textAlign: 'center' }}>
-    <SmileOutlined style={{ fontSize: 20 }} />
+    <FaceSmileOutline className="h-5 w-5" />
     <p>Data Not Found</p>
   </div>
 );
@@ -37,8 +36,6 @@ const App: React.FC = () => {
         <Space vertical block>
           <h4>Select</h4>
           <Select style={style} />
-          <h4>TreeSelect</h4>
-          <TreeSelect style={style} treeData={[]} />
           <h4>Cascader</h4>
           <Cascader style={style} options={[]} showSearch />
           <h4>Transfer</h4>
