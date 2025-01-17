@@ -242,7 +242,9 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
       bodyNode = filteredItems.length ? (
         bodyContent
       ) : (
-        <div className={`${prefixCls}-body-not-found`}>{notFoundContentEle}</div>
+        <div className={clsx(`${prefixCls}-body-not-found`, 'my-auto w-full flex-none')}>
+          {notFoundContentEle}
+        </div>
       );
     }
     return (
@@ -311,9 +313,11 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
       [`${prefixCls}-with-pagination`]: !!pagination,
       [`${prefixCls}-with-footer`]: !!footerDom,
     },
-    'flex h-60 w-52 flex-col rounded-lg border border-border',
+    'flex h-60 w-52 flex-col overflow-hidden rounded-lg border border-border',
     {
       'h-auto': !!pagination,
+      // customize render
+      'h-auto w-auto flex-1': !!renderList,
     },
     semanticCls.root,
   );
@@ -403,13 +407,15 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
   }
   const dropdown: React.ReactNode = (
     <Dropdown className={`${prefixCls}-header-dropdown`} menu={{ items }} disabled={disabled}>
-      {isValidIcon(selectionsIcon) ? (
-        cloneElement(selectionsIcon, (origin) => ({
-          classNames: clsx('h-4 w-4', origin.classNames),
-        }))
-      ) : (
-        <ChevronDownOutline className="h-4 w-4" />
-      )}
+      <span>
+        {isValidIcon(selectionsIcon) ? (
+          cloneElement(selectionsIcon, (origin) => ({
+            classNames: clsx('h-4 w-4', origin.classNames),
+          }))
+        ) : (
+          <ChevronDownOutline className="h-4 w-4" />
+        )}
+      </span>
     </Dropdown>
   );
 

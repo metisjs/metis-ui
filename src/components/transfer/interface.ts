@@ -1,6 +1,7 @@
+import type { SafeKey } from '@util/type';
 import type { PaginationProps } from '../pagination';
 
-export type TransferKey = React.Key;
+export type TransferKey = SafeKey;
 
 export type PaginationType =
   | boolean
