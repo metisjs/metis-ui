@@ -1,6 +1,6 @@
 import React from 'react';
 import { Cog6ToothOutline } from '@metisjs/icons';
-import { InputNumber, Select, Space } from 'metis-ui';
+import { Cascader, InputNumber, Select, Space } from 'metis-ui';
 
 const selectBefore = (
   <Select
@@ -30,11 +30,10 @@ const App: React.FC = () => (
     <InputNumber addonBefore="+" addonAfter="$" defaultValue={100} />
     <InputNumber addonBefore={selectBefore} addonAfter={selectAfter} defaultValue={100} />
     <InputNumber addonAfter={<Cog6ToothOutline />} defaultValue={100} />
-    {/* TODO: Cascader待开发 */}
-    {/* <InputNumber
+    <InputNumber
       addonBefore={<Cascader placeholder="cascader" style={{ width: 150 }} />}
       defaultValue={100}
-    /> */}
+    />
     <InputNumber
       addonBefore="+"
       addonAfter={<Cog6ToothOutline />}
