@@ -1,46 +1,46 @@
 import React from 'react';
-import { Badge, Descriptions } from 'metis-ui';
-import type { DescriptionsProps } from 'metis-ui';
+import { Badge, Descriptions, Table } from 'metis-ui';
+import type { DescriptionsProps, TableProps } from 'metis-ui';
 
-// interface DataType {
-//   key: React.Key;
-//   name: string;
-//   age: number;
-//   address: string;
-// }
+interface DataType {
+  key: React.Key;
+  name: string;
+  age: number;
+  address: string;
+}
 
-// const dataSource: DataType[] = [
-//   {
-//     key: '1',
-//     name: '胡彦斌',
-//     age: 32,
-//     address: '西湖区湖底公园1号',
-//   },
-//   {
-//     key: '2',
-//     name: '胡彦祖',
-//     age: 42,
-//     address: '西湖区湖底公园1号',
-//   },
-// ];
+const dataSource: DataType[] = [
+  {
+    key: '1',
+    name: '胡彦斌',
+    age: 32,
+    address: '西湖区湖底公园1号',
+  },
+  {
+    key: '2',
+    name: '胡彦祖',
+    age: 42,
+    address: '西湖区湖底公园1号',
+  },
+];
 
-// const columns: TableProps<DataType>['columns'] = [
-//   {
-//     title: '姓名',
-//     dataIndex: 'name',
-//     key: 'name',
-//   },
-//   {
-//     title: '年龄',
-//     dataIndex: 'age',
-//     key: 'age',
-//   },
-//   {
-//     title: '住址',
-//     dataIndex: 'address',
-//     key: 'address',
-//   },
-// ];
+const columns: TableProps<DataType>['columns'] = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
 
 const items: DescriptionsProps['items'] = [
   {
@@ -118,11 +118,9 @@ const items: DescriptionsProps['items'] = [
   {
     key: '12',
     label: 'Config Info',
-    content: '',
-    // (
-    // TODO: Table 待开发
-    // <Table<DataType> size="small" pagination={false} dataSource={dataSource} columns={columns} />
-    // ),
+    content: (
+      <Table<DataType> size="small" pagination={false} dataSource={dataSource} columns={columns} />
+    ),
   },
 ];
 
