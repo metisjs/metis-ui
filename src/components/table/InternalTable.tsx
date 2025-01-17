@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { clsx } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
@@ -241,6 +241,13 @@ function InternalTable<RecordType extends AnyObject>(
       ? locale.emptyText
       : renderEmpty?.('Table') || <DefaultRenderEmpty componentName="Table" />;
 
+  // ======================= Refs =======================
+  const fullTableRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const scrollHeaderRef = React.useRef<HTMLDivElement>(null);
+  const scrollBodyRef = React.useRef<ScrollbarRef>(null);
+  const scrollSummaryRef = React.useRef<HTMLDivElement>(null);
+
   // ==================== Customize =====================
   const getComponent = React.useCallback<GetComponent>(
     (path, defaultComponent) => getValue(components, path) || defaultComponent,
@@ -299,7 +306,7 @@ function InternalTable<RecordType extends AnyObject>(
     }
 
     if (scroll && scroll.scrollToFirstRowOnChange !== false) {
-      // TODO: scroll to top
+      scrollBodyRef.current?.scrollTo({ top: 0 });
     }
 
     onChange?.(changeInfo.pagination!, changeInfo.filters!, changeInfo.sorter!, {
@@ -504,13 +511,6 @@ function InternalTable<RecordType extends AnyObject>(
     [mergedColumns, flattenColumns],
   );
 
-  // ======================= Refs =======================
-  const fullTableRef = React.useRef<HTMLDivElement>(null);
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const scrollHeaderRef = React.useRef<HTMLDivElement>(null);
-  const scrollBodyRef = React.useRef<ScrollbarRef>(null);
-  const scrollSummaryRef = React.useRef<HTMLDivElement>(null);
-
   React.useImperativeHandle(ref, () => {
     return {
       nativeElement: fullTableRef.current!,
@@ -683,6 +683,7 @@ function InternalTable<RecordType extends AnyObject>(
       [`${prefixCls}-has-ping-right`]: hasPingRight,
     },
     'max-w-full bg-container text-sm text-text',
+    className,
   );
 
   const containerCls = clsx(
@@ -717,14 +718,17 @@ function InternalTable<RecordType extends AnyObject>(
     const renderPagination = (position: string) => (
       <Pagination
         {...mergedPagination}
-        className={clsx(
-          `${prefixCls}-pagination`,
-          `${prefixCls}-pagination-${position}`,
-          'flex flex-wrap gap-y-2 py-4',
-          {
-            'justify-center': position === 'center',
-            'justify-end': position === 'right',
-          },
+        className={mergeSemanticCls(
+          clsx(
+            `${prefixCls}-pagination`,
+            `${prefixCls}-pagination-${position}`,
+            'flex flex-wrap gap-y-2 py-4',
+            {
+              'justify-center': position === 'center',
+              'justify-end': position === 'right',
+            },
+          ),
+          mergedPagination.className,
         )}
         size={paginationSize}
       />
