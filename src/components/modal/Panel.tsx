@@ -99,12 +99,13 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
     prefixCls,
     'pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm text-text',
     !!centered && 'top-0 pb-0',
+    semanticCls.root,
   );
 
   const contentCls = clsx(
     `${prefixCls}-content`,
     'pointer-events-auto relative flex flex-col overflow-hidden rounded-lg bg-elevated shadow-xl',
-    semanticCls.root,
+    semanticCls.content,
   );
 
   const headerCls = clsx(

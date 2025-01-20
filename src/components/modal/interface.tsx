@@ -6,6 +6,7 @@ import type { ButtonProps, ButtonType } from '../button';
 
 export type ModalProps = {
   className?: SemanticClassName<{
+    content?: string;
     header?: string;
     body?: string;
     footer?: string;

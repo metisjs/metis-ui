@@ -7,6 +7,7 @@ const App: React.FC = () => (
     semantics={[
       { name: 'root' },
       { name: 'mask' },
+      { name: 'content' },
       { name: 'header' },
       { name: 'close' },
       { name: 'body' },
