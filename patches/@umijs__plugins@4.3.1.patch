@@ -1,7 +1,16 @@
 diff --git a/dist/tailwindcss.js b/dist/tailwindcss.js
-index 10c5433b24ab91a6bbbcc87c60a6ae3d0a2a7f35..4805ca8498a84a4bb69d94274cf4bd8ddd90a272 100644
+index 10c5433b24ab91a6bbbcc87c60a6ae3d0a2a7f35..1a4085d9cda99affa63ebab9bbdbcace4e6d324f 100644
 --- a/dist/tailwindcss.js
 +++ b/dist/tailwindcss.js
+@@ -26,7 +26,7 @@ var import_fs = require("fs");
+ var import_path = require("path");
+ var import_plugin_utils = require("umi/plugin-utils");
+ var CHECK_INTERVAL = 300;
+-var CHECK_TIMEOUT_UNIT_SECOND = 5;
++var CHECK_TIMEOUT_UNIT_SECOND = 20;
+ var tailwindcss_default = (api) => {
+   api.describe({
+     key: "tailwindcss",
 @@ -43,7 +43,7 @@ var tailwindcss_default = (api) => {
      const inputPath = (0, import_path.join)(api.cwd, "tailwind.css");
      const generatedPath = (0, import_path.join)(api.paths.absTmpPath, outputPath);
@@ -11,3 +20,12 @@ index 10c5433b24ab91a6bbbcc87c60a6ae3d0a2a7f35..4805ca8498a84a4bb69d94274cf4bd8d
      if (process.env.IS_UMI_BUILD_WORKER) {
        return;
      }
+@@ -84,7 +84,7 @@ var tailwindcss_default = (api) => {
+           if (!(0, import_fs.existsSync)(generatedPath)) {
+             clearInterval(timer);
+             api.logger.error(
+-              `tailwindcss generate failed after ${CHECK_TIMEOUT_UNIT_SECOND} seconds, please check your tailwind.css and tailwind.config.js`
++              `tailwindcss generate failed after ${CHECK_TIMEOUT_UNIT_SECOND} seconds, please check your tailwind.css and tailwind.config.ts`
+             );
+             process.exit(1);
+           }
