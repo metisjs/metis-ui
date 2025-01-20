@@ -731,6 +731,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
         hasPrefixSuffix,
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
+      'flex-1': addonBefore || addonAfter,
     },
     !hasPrefixSuffix && statusClassName,
     mergedDisabled && {
@@ -757,6 +758,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     {
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
+      'flex-1': addonBefore || addonAfter,
     },
     statusClassName,
     mergedDisabled && {
