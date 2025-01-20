@@ -722,7 +722,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
             [`${prefixCls}-arrow-loading`]: loading,
             'group-hover/select:opacity-0': !!clearNode,
             'opacity-0': !!clearNode && mode === 'combobox',
-            'pr-2': mergedSize === 'mini',
+            'right-2': mergedSize === 'mini',
           },
           semanticCls.arrow,
         )}
