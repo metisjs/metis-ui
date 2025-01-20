@@ -25,7 +25,7 @@ export interface BadgeProps {
   style?: React.CSSProperties;
   prefixCls?: string;
   scrollNumberPrefixCls?: string;
-  className?: SemanticClassName<{ indicator?: string }>;
+  className?: SemanticClassName<{ wrapper?: string }>;
   status?: PresetStatusColorType;
   color?: LiteralUnion<PresetColorType>;
   text?: React.ReactNode;
@@ -154,7 +154,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
     'relative -top-[2px] inline-block h-[0.375rem] w-[0.375rem] rounded-full bg-text-quaternary',
     isInternalColor && getPresetColorCls(color, { rawBackground: true }),
     presetStatusCls,
-    semanticCls.indicator,
+    semanticCls.root,
   );
 
   const statusTextCls = clsx(`${prefixCls}-status-text`, 'ms-2 text-sm text-text');
@@ -175,7 +175,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
     {
       'align-middle only:block': !children,
     },
-    semanticCls.root,
+    semanticCls.wrapper,
   );
 
   const isDot = isDotRef.current;
@@ -205,7 +205,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
     },
     isInternalColor && getPresetColorCls(color, { rawBackground: true }),
     isDot && !!status && presetStatusCls,
-    semanticCls.indicator,
+    semanticCls.root,
   );
   const customComponentCls = clsx(
     children &&

@@ -10,7 +10,7 @@ import { ConfigContext } from '../config-provider';
 type RibbonPlacement = 'start' | 'end';
 
 export interface RibbonProps {
-  className?: SemanticClassName<{ indicator?: string }>;
+  className?: SemanticClassName<{ wrapper?: string }>;
   prefixCls?: string;
   color?: LiteralUnion<PresetColorType>;
   text?: React.ReactNode;
@@ -33,7 +33,7 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
 
   const colorInPreset = isPresetColor(color);
 
-  const wrapperCls = clsx(`${prefixCls}-wrapper`, 'relative', semanticCls.root);
+  const wrapperCls = clsx(`${prefixCls}-wrapper`, 'relative', semanticCls.wrapper);
   const ribbonCls = clsx(
     prefixCls,
     `${prefixCls}-placement-${placement}`,
@@ -46,7 +46,7 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
       '-end-2 rounded-br-none': placement === 'end',
     },
     colorInPreset && getPresetColorCls(color, { rawBackground: true }),
-    semanticCls.indicator,
+    semanticCls.root,
   );
   const cornerCls = clsx(
     `${prefixCls}-corner`,
@@ -61,7 +61,7 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
   const colorStyle: React.CSSProperties = {};
   const cornerColorStyle: React.CSSProperties = {};
   if (color && !colorInPreset) {
-    colorStyle.color = color;
+    colorStyle.backgroundColor = color;
     cornerColorStyle.color = color;
   }
 
