@@ -94,7 +94,7 @@ const App: React.FC = () => {
           showCount
           addonAfter={<Cog6ToothOutline />}
         />
-        <Input addonBefore="Prefix" defaultValue="mysite" showCount />
+        <Input addonBefore="Prefix" defaultValue="mys1111ite" showCount />
       </Space.Compact>
       <br />
       <Space.Compact>
