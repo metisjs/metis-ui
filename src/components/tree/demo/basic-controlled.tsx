@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Tree } from 'metis-ui';
-import type { TreeDataNode, TreeProps } from 'metis-ui';
+import type { SafeKey, TreeDataNode, TreeProps } from 'metis-ui';
 
 const treeData: TreeDataNode[] = [
   {
@@ -47,9 +47,9 @@ const treeData: TreeDataNode[] = [
 ];
 
 const App: React.FC = () => {
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>(['0-0-0', '0-0-1']);
-  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(['0-0-0']);
-  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<SafeKey[]>(['0-0-0', '0-0-1']);
+  const [checkedKeys, setCheckedKeys] = useState<SafeKey[]>(['0-0-0']);
+  const [selectedKeys, setSelectedKeys] = useState<SafeKey[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
 
   const onExpand: TreeProps['onExpand'] = (expandedKeysValue) => {
@@ -62,7 +62,7 @@ const App: React.FC = () => {
 
   const onCheck: TreeProps['onCheck'] = (checkedKeysValue) => {
     console.log('onCheck', checkedKeysValue);
-    setCheckedKeys(checkedKeysValue as React.Key[]);
+    setCheckedKeys(checkedKeysValue as SafeKey[]);
   };
 
   const onSelect: TreeProps['onSelect'] = (selectedKeysValue, info) => {

@@ -1,5 +1,6 @@
 import { useContext, useMemo, useState } from 'react';
 import { mergeSemanticCls } from '@util/classNameUtils';
+import type { SafeKey } from '@util/type';
 import { useMergedState } from 'rc-util';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
 import { ConfigContext } from '../../config-provider';
@@ -66,7 +67,7 @@ export default function useFilledProps({
 
   // ===================================== ExpandedKeys =====================================
   const [mergedDefaultExpandedKeys, mergedExpandedKeys] = useMemo(() => {
-    let _defaultExpandedKeys: React.Key[] = defaultExpandedKeys;
+    let _defaultExpandedKeys: SafeKey[] = defaultExpandedKeys;
 
     if (customizeExpandedKeys) {
       return [

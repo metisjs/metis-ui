@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Transfer } from 'metis-ui';
-import type { TransferProps } from 'metis-ui';
+import type { SafeKey, TransferProps } from 'metis-ui';
 
 interface RecordType {
   key: string;
@@ -19,8 +19,8 @@ const mockData: RecordType[] = Array.from({ length: 20 }).map((_, i) => ({
 const oriTargetKeys = mockData.filter((item) => Number(item.key) % 3 > 1).map((item) => item.key);
 
 const App: React.FC = () => {
-  const [targetKeys, setTargetKeys] = useState<React.Key[]>(oriTargetKeys);
-  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+  const [targetKeys, setTargetKeys] = useState<SafeKey[]>(oriTargetKeys);
+  const [selectedKeys, setSelectedKeys] = useState<SafeKey[]>([]);
   const [disabled, setDisabled] = useState(false);
 
   const handleChange: TransferProps['onChange'] = (newTargetKeys, direction, moveKeys) => {

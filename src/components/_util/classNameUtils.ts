@@ -30,7 +30,7 @@ export function clsx(...args: classNames.ArgumentArray) {
 export type SemanticRecord<T extends SemanticClassName<any, any> | undefined> = T extends
   | string
   | undefined
-  ? { root?: string } & {
+  ? { root: string } & {
       [key: string]: string;
     }
   : T extends (...args: any) => any

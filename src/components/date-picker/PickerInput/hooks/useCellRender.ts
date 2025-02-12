@@ -3,7 +3,7 @@ import type { CellRender, CellRenderInfo, SharedPickerProps } from '../../interf
 
 export default function useCellRender<DateType extends object = any>(
   cellRender: SharedPickerProps<DateType>['cellRender'],
-  range?: CellRenderInfo<DateType>['range'],
+  range?: CellRenderInfo['range'],
 ) {
   // ======================== Render ========================
   // Merged render
@@ -12,7 +12,7 @@ export default function useCellRender<DateType extends object = any>(
       return cellRender;
     }
 
-    return (_: DateType | number, info: CellRenderInfo<DateType>) => {
+    return (_: DateType | number, info: CellRenderInfo) => {
       return info.originNode;
     };
   }, [cellRender]);

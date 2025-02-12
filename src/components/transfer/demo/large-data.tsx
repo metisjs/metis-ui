@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Transfer } from 'metis-ui';
-import type { TransferProps } from 'metis-ui';
+import type { SafeKey, TransferProps } from 'metis-ui';
 
 interface RecordType {
   key: string;
@@ -12,7 +12,7 @@ interface RecordType {
 const App: React.FC = () => {
   const [oneWay, setOneWay] = useState(false);
   const [mockData, setMockData] = useState<RecordType[]>([]);
-  const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);
+  const [targetKeys, setTargetKeys] = useState<SafeKey[]>([]);
 
   useEffect(() => {
     const newTargetKeys = [];

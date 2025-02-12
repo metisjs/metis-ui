@@ -1,6 +1,5 @@
-import type { Key } from 'react';
 import { useContext, useState } from 'react';
-import type { RequestConfig } from '@util/type';
+import type { RequestConfig, SafeKey } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
@@ -12,7 +11,7 @@ import { arrAdd, arrDel } from '../utils/miscUtil';
 
 export default function <TreeDataType extends BasicDataNode = DataNode>(
   fieldNames: FilledFieldNames,
-  customizeLoadedKeys?: Key[],
+  customizeLoadedKeys?: SafeKey[],
   request?: RequestConfig<TreeDataType, any[]>,
   lazyLoad?: boolean | string,
 ) {
@@ -22,7 +21,7 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
     typeof lazyLoad === 'string' ? lazyLoad : `parent${upperFirst(fieldNames.key)}`;
 
   const [treeData, setTreeData] = useState<TreeDataType[]>([]);
-  const [loadingKeys, setLoadingKeys] = useState<Key[]>([]);
+  const [loadingKeys, setLoadingKeys] = useState<SafeKey[]>([]);
   const [loadedKeys, setLoadedKeys] = useMergedState([], {
     value: customizeLoadedKeys,
   });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CalendarOutline } from '@metisjs/icons';
-import type { TreeDataNode, TreeProps } from 'metis-ui';
+import type { SafeKey, TreeDataNode, TreeProps } from 'metis-ui';
 import { Switch, Tree } from 'metis-ui';
 
 const x = 3;
@@ -33,7 +33,7 @@ const App: React.FC = () => {
   const [gData, setGData] = React.useState<TreeDataNode[]>(data);
   const [showLine, setShowLine] = React.useState<boolean>(true);
   const [showIcon, setShowIcon] = React.useState<boolean>(true);
-  const [expandedKeys, setExpandedKeys] = React.useState<React.Key[]>(['0-0', '0-0-0', '0-0-0-0']);
+  const [expandedKeys, setExpandedKeys] = React.useState<SafeKey[]>(['0-0', '0-0-0', '0-0-0-0']);
 
   const onDragEnter: TreeProps['onDragEnter'] = (info) => {
     console.log(info);

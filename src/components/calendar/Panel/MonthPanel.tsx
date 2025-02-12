@@ -149,7 +149,6 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: MonthPanelProps<D
 
   const bodyCls = clsx(
     'h-full p-0 *:h-full [&_th]:border-b [&_th]:border-b-border [&_th]:px-3 [&_th]:text-right [&_tr:last-of-type_>_td]:border-b-0',
-    semanticCls.body,
   );
 
   const cellCls = clsx(

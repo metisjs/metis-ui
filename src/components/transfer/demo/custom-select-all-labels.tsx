@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Transfer } from 'metis-ui';
-import type { TransferProps } from 'metis-ui';
+import type { SafeKey, TransferProps } from 'metis-ui';
 
 interface RecordType {
   key: string;
@@ -22,7 +22,7 @@ const selectAllLabels: TransferProps['selectAllLabels'] = [
 ];
 
 const App: React.FC = () => {
-  const [targetKeys, setTargetKeys] = useState<React.Key[]>(oriTargetKeys);
+  const [targetKeys, setTargetKeys] = useState<SafeKey[]>(oriTargetKeys);
   return (
     <Transfer
       dataSource={mockData}

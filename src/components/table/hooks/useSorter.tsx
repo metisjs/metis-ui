@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CaretDownSolid, CaretUpSolid } from '@metisjs/icons';
-import { clsx } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import type { AnyObject } from '../../_util/type';
 import type { TooltipProps } from '../../tooltip';
 import Tooltip from '../../tooltip';
@@ -200,10 +200,9 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           : { title: sortTip };
       newColumn = {
         ...newColumn,
-        className: clsx(
+        className: mergeSemanticCls(
+          clsx({ [`${prefixCls}-column-sort`]: sortOrder }, { 'bg-fill-quinary': sortOrder }),
           newColumn.className,
-          { [`${prefixCls}-column-sort`]: sortOrder },
-          { 'bg-fill-quinary': sortOrder },
         ),
         title: (renderProps: ColumnTitleProps<RecordType>) => {
           const columnSortersClass = clsx(

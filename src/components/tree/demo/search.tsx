@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { MagnifyingGlassOutline } from '@metisjs/icons';
 import { Input, Tree } from 'metis-ui';
-import type { TreeDataNode } from 'metis-ui';
+import type { SafeKey, TreeDataNode } from 'metis-ui';
 
 const x = 3;
 const y = 2;
@@ -60,11 +60,11 @@ const getParentKey = (key: React.Key, tree: TreeDataNode[]): React.Key => {
 };
 
 const App: React.FC = () => {
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<SafeKey[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const [autoExpandParent, setAutoExpandParent] = useState(true);
 
-  const onExpand = (newExpandedKeys: React.Key[]) => {
+  const onExpand = (newExpandedKeys: SafeKey[]) => {
     setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(false);
   };
@@ -77,7 +77,7 @@ const App: React.FC = () => {
         }
         return null;
       })
-      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i));
+      .filter((item, i, self): item is SafeKey => !!(item && self.indexOf(item) === i));
     setExpandedKeys(newExpandedKeys);
     setSearchValue(value);
     setAutoExpandParent(true);
