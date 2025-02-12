@@ -3,7 +3,6 @@ import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
-import useTheme from 'metis-ui/es/theme/useTheme';
 import { useEvent } from 'rc-util';
 import TableContext from '../context/TableContext';
 import type {

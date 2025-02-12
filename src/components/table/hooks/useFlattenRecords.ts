@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, SafeKey } from '@util/type';
 import type { GetRowKey, Key } from '../interface';
 
 // recursion (flat tree structure)
@@ -58,7 +58,7 @@ export interface FlattenData<RecordType> {
 export default function useFlattenRecords<T extends AnyObject>(
   data: T[] | readonly T[],
   childrenColumnName: keyof T,
-  expandedKeys: Set<Key>,
+  expandedKeys: Set<SafeKey>,
   getRowKey: GetRowKey<T>,
 ): FlattenData<T>[] {
   const arr: FlattenData<T>[] = React.useMemo(() => {

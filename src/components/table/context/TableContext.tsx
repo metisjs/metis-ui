@@ -1,5 +1,5 @@
 import { createContext, createImmutable } from '@rc-component/context';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, SafeKey } from '@util/type';
 import type {
   ColumnsType,
   ColumnType,
@@ -64,7 +64,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   onHover: (start: number, end: number) => void;
   rowExpandable?: (record: RecordType) => boolean;
 
-  expandedKeys: Set<React.Key>;
+  expandedKeys: Set<SafeKey>;
   getRowKey: GetRowKey<RecordType>;
   childrenColumnName: keyof RecordType;
 
