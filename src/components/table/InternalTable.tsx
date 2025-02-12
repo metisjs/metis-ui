@@ -418,6 +418,8 @@ function InternalTable<RecordType extends AnyObject>(
     mergedPagination?.total,
   ]);
 
+  console.log(filterStates);
+
   // ====================== Selection ======================
   const [transformSelectionColumns, selectedKeySet] = useSelection(
     {

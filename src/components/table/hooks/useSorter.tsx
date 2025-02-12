@@ -331,18 +331,6 @@ const generateSorterInfo = <RecordType extends AnyObject = AnyObject>(
     .filter(({ sortOrder }) => sortOrder)
     .map<SorterResult<RecordType>>(stateToInfo);
 
-  // =========== Legacy compatible support ===========
-  if (activeSorters.length === 0 && sorterStates.length) {
-    const lastIndex = sorterStates.length - 1;
-    return {
-      ...stateToInfo(sorterStates[lastIndex]),
-      column: undefined,
-      order: undefined,
-      field: undefined,
-      columnKey: undefined,
-    };
-  }
-
   if (activeSorters.length <= 1) {
     return activeSorters[0] || {};
   }
