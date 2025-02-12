@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import { SummaryRowContext } from './contexts';
-import Summary from './Summary';
 
 export interface FooterRowProps {
   children?: React.ReactNode;
