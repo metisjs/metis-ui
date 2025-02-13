@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { AnyObject } from '../_util/type';
+import type { AnyObject, RequestConfig } from '../_util/type';
 import {
   EXPAND_COLUMN,
   SELECTION_ALL,
@@ -8,7 +8,7 @@ import {
   SELECTION_NONE,
 } from './constant';
 import Summary from './Footer/Summary';
-import type { Reference } from './interface';
+import type { FilterValue, Reference, SorterResult, TablePaginationConfig } from './interface';
 import type { TableProps } from './InternalTable';
 import InternalTable from './InternalTable';
 import Column from './sugar/Column';
@@ -23,10 +23,31 @@ const Table = <RecordType extends AnyObject = AnyObject>(
   return <InternalTable<RecordType> {...props} ref={ref} _renderTimes={renderTimesRef.current} />;
 };
 
+type MixedTableProps<RecordType extends AnyObject = AnyObject> =
+  | (Omit<TableProps<RecordType>, 'pagination' | 'request'> & {
+      pagination: false;
+      request?: RequestConfig<RecordType, any[]>;
+    })
+  | (Omit<TableProps<RecordType>, 'pagination' | 'request'> & {
+      pagination?: TablePaginationConfig;
+      request?: RequestConfig<
+        RecordType,
+        [
+          {
+            filters: Record<string, FilterValue | null>;
+            sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+            pageSize: number;
+            current: number;
+          },
+          ...any[],
+        ]
+      >;
+    });
+
 const ForwardTable = React.forwardRef(Table) as unknown as (<
   RecordType extends AnyObject = AnyObject,
 >(
-  props: React.PropsWithChildren<TableProps<RecordType>> & React.RefAttributes<Reference>,
+  props: React.PropsWithChildren<MixedTableProps<RecordType>> & React.RefAttributes<Reference>,
 ) => React.ReactElement) & {
   displayName?: string;
   SELECTION_COLUMN: typeof SELECTION_COLUMN;

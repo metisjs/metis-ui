@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import type { Breakpoint } from '@util/responsiveObserver';
-import type { AnyObject, SafeKey } from '@util/type';
+import type { AnyObject, RequestConfig, SafeKey } from '@util/type';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
 import type { CheckboxProps } from '../checkbox';
 import type { DropdownProps } from '../dropdown';
@@ -413,3 +413,21 @@ type TablePaginationPosition =
 export interface TablePaginationConfig extends PaginationProps {
   position?: TablePaginationPosition[];
 }
+
+export type GetRequestType<
+  RecordType extends AnyObject,
+  Pagination extends false | TablePaginationConfig = TablePaginationConfig,
+> = Pagination extends false
+  ? RequestConfig<RecordType, any[]>
+  : RequestConfig<
+      RecordType,
+      [
+        {
+          filters: Record<string, FilterValue | null>;
+          sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+          pageSize: number;
+          current: number;
+        },
+        ...any[],
+      ]
+    >;

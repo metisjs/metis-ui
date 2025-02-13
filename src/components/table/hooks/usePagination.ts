@@ -28,12 +28,10 @@ export function getPaginationParam(
 }
 
 function usePagination(
-  total: number,
   onChange: (current: number, pageSize: number) => void,
   pagination?: TablePaginationConfig | false,
 ): readonly [TablePaginationConfig, (current?: number, pageSize?: number) => void] {
-  const { total: paginationTotal = 0, ...paginationObj } =
-    pagination && typeof pagination === 'object' ? pagination : {};
+  const paginationObj = pagination && typeof pagination === 'object' ? pagination : {};
 
   const [innerPagination, setInnerPagination] = useState<{ current?: number; pageSize?: number }>(
     () => ({
@@ -47,17 +45,7 @@ function usePagination(
   const mergedPagination = extendsObject<Partial<TablePaginationConfig>>(
     innerPagination,
     paginationObj,
-    {
-      total: paginationTotal > 0 ? paginationTotal : total,
-    },
   );
-
-  // Reset `current` if data length or pageSize changed
-  const maxPage = Math.ceil((paginationTotal || total) / mergedPagination.pageSize!);
-  if (mergedPagination.current! > maxPage) {
-    // Prevent a maximum page count of 0
-    mergedPagination.current = maxPage || 1;
-  }
 
   const refreshPagination = (current?: number, pageSize?: number) => {
     setInnerPagination({

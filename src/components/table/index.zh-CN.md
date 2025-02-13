@@ -66,6 +66,7 @@ const columns = [
 <code src="./demo/multiple-sorter.tsx">多列排序</code>
 <code src="./demo/reset-filter.tsx">可控的筛选和排序</code>
 <code src="./demo/custom-filter-panel.tsx">自定义筛选菜单</code>
+<code src="./demo/request.tsx">远程加载数据</code>
 <code src="./demo/size.tsx">紧凑型</code>
 <code src="./demo/narrow.tsx" debug>紧凑型</code>
 <code src="./demo/vertical-line.tsx">带分隔线</code>
@@ -98,7 +99,7 @@ const columns = [
 <code src="./demo/selections-debug.tsx" debug>带下拉箭头的表头</code>
 
 <!--
-<code src="./demo/request.tsx">远程加载数据</code>
+
 <code src="./demo/edit-cell.tsx">可编辑单元格</code>
 <code src="./demo/edit-row.tsx">可编辑行</code>
 -->

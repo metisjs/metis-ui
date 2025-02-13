@@ -78,7 +78,7 @@ const App: React.FC = () => {
       title: 'Amount',
       dataIndex: 'amount',
       width: 100,
-      sorter: (a, b) => a.amount - b.amount,
+      sorter: { compare: (a, b) => a.amount - b.amount },
     },
     {
       title: 'Type',
@@ -111,7 +111,7 @@ const App: React.FC = () => {
   const mergedColumns = columns.map<TableColumnsType<DataType>[number]>((col, index) => ({
     ...col,
     onHeaderCell: (column: TableColumnsType<DataType>[number]) => ({
-      width: column.width,
+      width: 'width' in column ? column.width : undefined,
       onResize: handleResize(index) as React.ReactEventHandler<any>,
     }),
   }));

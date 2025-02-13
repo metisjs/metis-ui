@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowDownTrayOutline } from '@metisjs/icons';
 import type { TableColumnsType } from 'metis-ui';
 import { Badge, Dropdown, Space, Table } from 'metis-ui';
 

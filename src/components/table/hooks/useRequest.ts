@@ -1,17 +1,37 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import type { AnyObject, RequestConfig } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { ConfigContext } from '../../config-provider';
 import type { FilterValue, SorterResult, TablePaginationConfig } from '../interface';
+import type { FilterState } from './useFilter';
+import type { SortState } from './useSorter';
 
 export default function <RecordType extends AnyObject>(
   filters: Record<string, FilterValue | null>,
+  filterStates: FilterState<RecordType>[],
   sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
-  pagination: TablePaginationConfig | false,
+  sortStates: SortState<RecordType>[],
+  getSortData: (
+    data: readonly RecordType[],
+    sortStates: SortState<RecordType>[],
+    childrenColumnName: keyof RecordType,
+  ) => RecordType[],
+  getFilterData: (
+    data: RecordType[],
+    filterStates: FilterState<RecordType>[],
+    childrenColumnName: keyof RecordType,
+  ) => RecordType[],
+  childrenColumnName: keyof RecordType,
+  pagination: TablePaginationConfig,
   request?: RequestConfig<RecordType, any[]>,
-) {
+): [boolean, RecordType[], number] {
   const { request: contextRequestOptions } = useContext(ConfigContext);
+
+  const [finalData, setFinalData] = useState<{ data: RecordType[]; total: number }>({
+    data: [],
+    total: -1,
+  });
 
   let requestService: Service<{ data: RecordType[]; total?: number }, any[]> | undefined =
     undefined;
@@ -25,15 +45,18 @@ export default function <RecordType extends AnyObject>(
   }
   const {
     refreshDeps = [],
+    onSuccess,
     ready,
     ...restOptions
   } = { ...contextRequestOptions, ...requestOptions };
 
-  const { loading, data } = useRequest(
+  const isPaginationActive = Object.keys(pagination).length > 0;
+
+  const { loading } = useRequest(
     async (...defaultParams: any[]) => {
       let firstParam: Record<string, any> | undefined = undefined;
 
-      if (pagination) {
+      if (isPaginationActive) {
         firstParam = {
           filters,
           sorter,
@@ -47,13 +70,25 @@ export default function <RecordType extends AnyObject>(
     {
       ready: !!requestService && ready,
       refreshDeps: [
-        pagination === false ? -1 : pagination.current,
-        pagination === false ? -1 : pagination.pageSize,
+        pagination.current,
+        pagination.pageSize,
+        filterStates,
+        sortStates,
         ...refreshDeps,
       ],
+      onSuccess: (d, params) => {
+        if (isPaginationActive) {
+          setFinalData(d);
+        } else {
+          const sortedData = getSortData(d.data, sortStates, childrenColumnName);
+          const mergedData = getFilterData(sortedData, filterStates, childrenColumnName);
+          setFinalData({ data: mergedData, total: d.length });
+        }
+        onSuccess?.(d, params);
+      },
       ...restOptions,
     },
   );
 
-  return [loading, data.data, data.total ?? -1] as const;
+  return [loading, finalData.data, finalData.total];
 }

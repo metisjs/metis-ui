@@ -38,6 +38,7 @@ import { useTimeoutLock } from './hooks/useFrame';
 import useHover from './hooks/useHover';
 import useLazyKVMap from './hooks/useLazyKVMap';
 import usePagination, { DEFAULT_PAGE_SIZE, getPaginationParam } from './hooks/usePagination';
+import useRequest from './hooks/useRequest';
 import useSelection from './hooks/useSelection';
 import useSorter, { getSortData, type SortState } from './hooks/useSorter';
 import useSticky from './hooks/useSticky';
@@ -52,6 +53,7 @@ import type {
   GetComponent,
   GetComponentProps,
   GetPopupContainer,
+  GetRequestType,
   GetRowKey,
   Reference,
   RowClassName,
@@ -92,7 +94,10 @@ interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
   resetPagination: (current?: number, pageSize?: number) => void;
 }
 
-export interface TableProps<RecordType extends AnyObject = AnyObject> {
+export interface TableProps<
+  RecordType extends AnyObject = AnyObject,
+  Pagination extends false | TablePaginationConfig = TablePaginationConfig,
+> {
   prefixCls?: string;
   dropdownPrefixCls?: string;
   className?: string;
@@ -128,7 +133,9 @@ export interface TableProps<RecordType extends AnyObject = AnyObject> {
 
   rowHoverable?: boolean;
 
-  pagination?: false | TablePaginationConfig;
+  pagination?: Pagination;
+
+  request?: GetRequestType<RecordType, Pagination>;
 
   loading?: boolean | SpinProps;
   size?: 'default' | 'middle' | 'small';
@@ -153,8 +160,9 @@ export interface TableProps<RecordType extends AnyObject = AnyObject> {
 }
 
 export interface InternalTableProps<RecordType extends AnyObject = AnyObject>
-  extends TableProps<RecordType> {
+  extends Omit<TableProps<RecordType>, 'pagination'> {
   _renderTimes: number;
+  pagination?: false | TablePaginationConfig;
 }
 
 function InternalTable<RecordType extends AnyObject>(
@@ -203,6 +211,8 @@ function InternalTable<RecordType extends AnyObject>(
     sortDirections,
     showSorterTooltip = { target: 'full-header' },
     loading,
+
+    request,
 
     children,
   } = props;
@@ -377,19 +387,41 @@ function InternalTable<RecordType extends AnyObject>(
     );
   };
 
-  const [mergedPagination, resetPagination] = usePagination(
-    mergedData.length,
-    onPaginationChange,
-    pagination,
-  );
+  const [mergedPagination, resetPagination] = usePagination(onPaginationChange, pagination);
 
   changeEventInfo.pagination =
     pagination === false ? {} : getPaginationParam(mergedPagination, pagination);
 
   changeEventInfo.resetPagination = resetPagination;
 
-  const pageData = React.useMemo<RecordType[]>(() => {
-    if (pagination === false || !mergedPagination.pageSize) {
+  // ========================== Request ==========================
+  const [requestLoading, requestData, total] = useRequest(
+    changeEventInfo.filters!,
+    filterStates,
+    changeEventInfo.sorter!,
+    sortStates,
+    getSortData,
+    getFilterData,
+    childrenColumnName,
+    changeEventInfo.pagination!,
+    request,
+  );
+
+  mergedPagination.total = !!request ? total : mergedData.length;
+
+  // Reset `current` if data length or pageSize changed
+  const maxPage = Math.ceil(mergedPagination.total / mergedPagination.pageSize!);
+  if (mergedPagination.current! > maxPage) {
+    // Prevent a maximum page count of 0
+    mergedPagination.current = maxPage || 1;
+  }
+
+  const finalData = React.useMemo<RecordType[]>(() => {
+    if (!!request) {
+      return requestData;
+    }
+
+    if (pagination === false) {
       return mergedData;
     }
 
@@ -411,6 +443,8 @@ function InternalTable<RecordType extends AnyObject>(
 
     return mergedData.slice((current - 1) * pageSize, current * pageSize);
   }, [
+    !!request,
+    requestData,
     !!pagination,
     mergedData,
     mergedPagination?.current,
@@ -418,14 +452,12 @@ function InternalTable<RecordType extends AnyObject>(
     mergedPagination?.total,
   ]);
 
-  console.log(filterStates);
-
   // ====================== Selection ======================
   const [transformSelectionColumns, selectedKeySet] = useSelection(
     {
       prefixCls,
       data: mergedData,
-      pageData,
+      pageData: finalData,
       getRowKey,
       getRecordByKey,
       expandableType,
@@ -452,7 +484,7 @@ function InternalTable<RecordType extends AnyObject>(
     useExpand(
       prefixCls,
       expandable,
-      pageData,
+      finalData,
       getRowKey,
       defaultExpandIconColumnIndex,
       verticalLine,
@@ -537,7 +569,7 @@ function InternalTable<RecordType extends AnyObject>(
     useSticky(sticky, prefixCls);
 
   // Footer (Fix footer must fixed header)
-  const summaryNode = React.useMemo(() => summary?.(pageData), [summary, pageData]);
+  const summaryNode = React.useMemo(() => summary?.(finalData), [summary, finalData]);
   const fixFooter =
     (fixHeader || isSticky) &&
     React.isValidElement(summaryNode) &&
@@ -803,7 +835,7 @@ function InternalTable<RecordType extends AnyObject>(
     scroll,
   };
 
-  const hasData = !!pageData.length;
+  const hasData = !!finalData.length;
   // Empty
   const emptyNode: React.ReactNode = React.useMemo(() => {
     if (hasData) {
@@ -818,7 +850,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   // Body
   const bodyTable = (
-    <Body data={pageData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
+    <Body data={finalData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
   );
 
   const bodyColGroup = (
@@ -833,7 +865,7 @@ function InternalTable<RecordType extends AnyObject>(
     let bodyContent: React.ReactNode;
 
     if (typeof customizeScrollBody === 'function') {
-      bodyContent = customizeScrollBody(pageData, {
+      bodyContent = customizeScrollBody(finalData, {
         ref: scrollBodyRef,
         onScroll: onInternalScroll,
       });
@@ -886,7 +918,7 @@ function InternalTable<RecordType extends AnyObject>(
 
     // Fixed holder share the props
     const fixedHolderProps = {
-      noData: !pageData.length,
+      noData: !finalData.length,
       maxContentScroll: horizonScroll && mergedScrollX === 'max-content',
       ...headerProps,
       ...columnContext,
@@ -979,7 +1011,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   let fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
-      <Spin spinning={false} {...spinProps}>
+      <Spin spinning={requestLoading} {...spinProps}>
         {topPaginationNode}
         <div ref={containerRef} className={containerCls}>
           {groupTableNode}
