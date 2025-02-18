@@ -27,6 +27,7 @@ const localeValues: Locale = {
   global: {
     inputPlaceholder: 'Please input',
     selectPlaceholder: 'Please select',
+    moneySymbol: '$',
   },
   Table: {
     filterTitle: 'Filter menu',

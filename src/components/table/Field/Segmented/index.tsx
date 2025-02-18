@@ -1,11 +1,10 @@
+import React, { useImperativeHandle, useRef } from 'react';
+import { objectToMap, proFieldParsingText } from '@ant-design/pro-utils';
 import { Segmented, Spin } from 'antd';
 import omit from 'rc-util/lib/omit';
-import React, { useImperativeHandle, useRef } from 'react';
 import type { ProFieldFC } from '../../index';
 import type { FieldSelectProps } from '../Select';
 import { useFieldFetchData } from '../Select';
-
-import { objectToMap, proFieldParsingText } from '@ant-design/pro-utils';
 import 'antd/lib/segmented/style';
 import 'antd/lib/spin/style';
 
@@ -20,14 +19,7 @@ const FieldSegmented: ProFieldFC<
     emptyText?: React.ReactNode;
   } & FieldSelectProps
 > = (props, ref) => {
-  const {
-    mode,
-    render,
-    renderFormItem,
-    fieldProps,
-    emptyText = '-',
-    ...rest
-  } = props;
+  const { mode, render, renderFormItem, editorProps, emptyText = '-', ...rest } = props;
 
   const inputRef = useRef<HTMLInputElement>();
 
@@ -54,18 +46,11 @@ const FieldSegmented: ProFieldFC<
       : undefined;
 
     const dom = (
-      <>
-        {proFieldParsingText(
-          rest.text,
-          objectToMap(rest.valueEnum || optionsValueEnum),
-        )}
-      </>
+      <>{proFieldParsingText(rest.text, objectToMap(rest.valueEnum || optionsValueEnum))}</>
     );
 
     if (render) {
-      return (
-        render(rest.text, { mode, ...fieldProps }, <>{dom}</>) ?? emptyText
-      );
+      return render(rest.text, <>{dom}</>) ?? emptyText;
     }
     return dom;
   }
@@ -73,17 +58,13 @@ const FieldSegmented: ProFieldFC<
     const dom = (
       <Segmented
         ref={inputRef}
-        {...(omit(fieldProps || {}, ['allowClear']) as any)}
+        {...(omit(editorProps || {}, ['allowClear']) as any)}
         options={options}
       />
     );
 
     if (renderFormItem) {
-      return renderFormItem(
-        rest.text,
-        { mode, ...fieldProps, options, loading },
-        dom,
-      );
+      return renderFormItem(rest.text, { mode, ...editorProps, options, loading }, dom);
     }
     return dom;
   }

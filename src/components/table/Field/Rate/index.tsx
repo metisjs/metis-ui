@@ -1,9 +1,9 @@
-import { Rate } from 'antd';
 import React from 'react';
+import { Rate } from 'antd';
 import type { ProFieldFC } from '../../index';
-
 // 兼容代码-----------
 import 'antd/lib/rate/style';
+
 //------------
 
 /**
@@ -13,20 +13,18 @@ import 'antd/lib/rate/style';
  */
 const FieldRate: ProFieldFC<{
   text: string;
-}> = ({ text, mode, render, renderFormItem, fieldProps }, ref) => {
+}> = ({ text, mode, render, renderFormItem, editorProps }, ref) => {
   if (mode === 'read') {
-    const dom = (
-      <Rate allowHalf disabled ref={ref} {...fieldProps} value={text} />
-    );
+    const dom = <Rate allowHalf disabled ref={ref} {...editorProps} value={text} />;
     if (render) {
-      return render(text, { mode, ...fieldProps }, <>{dom}</>);
+      return render(text, <>{dom}</>);
     }
     return dom;
   }
   if (mode === 'edit' || mode === 'update') {
-    const dom = <Rate allowHalf ref={ref} {...fieldProps} />;
+    const dom = <Rate allowHalf ref={ref} {...editorProps} />;
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, dom);
+      return renderFormItem(text, dom);
     }
     return dom;
   }

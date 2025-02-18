@@ -28,6 +28,7 @@ const localeValues: Locale = {
   global: {
     inputPlaceholder: '请输入',
     selectPlaceholder: '请选择',
+    moneySymbol: '¥',
   },
   Table: {
     filterTitle: '筛选',

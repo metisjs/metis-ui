@@ -1,16 +1,12 @@
+import React, { useState } from 'react';
 import { useIntl } from '@ant-design/pro-provider';
-import {
-  FieldLabel,
-  compatibleBorder,
-  parseValueToDay,
-} from '@ant-design/pro-utils';
+import { compatibleBorder, FieldLabel, parseValueToDay } from '@ant-design/pro-utils';
 import { DatePicker, TimePicker } from 'antd';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
 import type { ProFieldFC, ProFieldLightProps } from '../../index';
-
 // 兼容代码-----------
 import 'antd/lib/date-picker/style';
+
 //----------------------;
 
 /**
@@ -24,51 +20,36 @@ const FieldTimePicker: ProFieldFC<
     format: string;
   } & ProFieldLightProps
 > = (
-  {
-    text,
-    mode,
-    light,
-    label,
-    format,
-    render,
-    renderFormItem,
-    plain,
-    fieldProps,
-    lightLabel,
-  },
+  { text, mode, light, label, format, render, renderFormItem, plain, editorProps, lightLabel },
   ref,
 ) => {
   const [open, setOpen] = useState<boolean>(false);
   const intl = useIntl();
-  const finalFormat = fieldProps?.format || format || 'HH:mm:ss';
+  const finalFormat = editorProps?.format || format || 'HH:mm:ss';
 
   const isNumberOrMoment = dayjs.isDayjs(text) || typeof text === 'number';
 
   if (mode === 'read') {
     const dom = (
       <span ref={ref}>
-        {text
-          ? dayjs(text, isNumberOrMoment ? undefined : finalFormat).format(
-              finalFormat,
-            )
-          : '-'}
+        {text ? dayjs(text, isNumberOrMoment ? undefined : finalFormat).format(finalFormat) : '-'}
       </span>
     );
     if (render) {
-      return render(text, { mode, ...fieldProps }, <span>{dom}</span>);
+      return render(text, <span>{dom}</span>);
     }
     return dom;
   }
   if (mode === 'edit' || mode === 'update') {
     let dom;
-    const { disabled, value } = fieldProps;
+    const { disabled, value } = editorProps;
     const dayValue = parseValueToDay(value, finalFormat) as dayjs.Dayjs;
 
     if (light) {
       dom = (
         <FieldLabel
           onClick={() => {
-            fieldProps?.onOpenChange?.(true);
+            editorProps?.onOpenChange?.(true);
             setOpen(true);
           }}
           style={
@@ -86,15 +67,15 @@ const FieldTimePicker: ProFieldFC<
                 {...compatibleBorder(false)}
                 format={format}
                 ref={ref}
-                {...fieldProps}
+                {...editorProps}
                 placeholder={
-                  fieldProps.placeholder ??
+                  editorProps.placeholder ??
                   intl.getMessage('tableForm.selectPlaceholder', '请选择')
                 }
                 value={dayValue}
                 onOpenChange={(isOpen) => {
                   setOpen(isOpen);
-                  fieldProps?.onOpenChange?.(isOpen);
+                  editorProps?.onOpenChange?.(isOpen);
                 }}
                 open={open}
               />
@@ -111,13 +92,13 @@ const FieldTimePicker: ProFieldFC<
           ref={ref}
           format={format}
           {...compatibleBorder(plain === undefined ? true : !plain)}
-          {...fieldProps}
+          {...editorProps}
           value={dayValue}
         />
       );
     }
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, dom);
+      return renderFormItem(text, dom);
     }
     return dom;
   }
@@ -136,39 +117,21 @@ const FieldTimeRangePickerComponents: ProFieldFC<
     format: string;
   } & ProFieldLightProps
 > = (
-  {
-    text,
-    light,
-    label,
-    mode,
-    lightLabel,
-    format,
-    render,
-    renderFormItem,
-    plain,
-    fieldProps,
-  },
+  { text, light, label, mode, lightLabel, format, render, renderFormItem, plain, editorProps },
   ref,
 ) => {
   const intl = useIntl();
   const [open, setOpen] = useState<boolean>(false);
-  const finalFormat = fieldProps?.format || format || 'HH:mm:ss';
+  const finalFormat = editorProps?.format || format || 'HH:mm:ss';
   const [startText, endText] = Array.isArray(text) ? text : [];
-  const startTextIsNumberOrMoment =
-    dayjs.isDayjs(startText) || typeof startText === 'number';
-  const endTextIsNumberOrMoment =
-    dayjs.isDayjs(endText) || typeof endText === 'number';
+  const startTextIsNumberOrMoment = dayjs.isDayjs(startText) || typeof startText === 'number';
+  const endTextIsNumberOrMoment = dayjs.isDayjs(endText) || typeof endText === 'number';
 
   const parsedStartText: string = startText
-    ? dayjs(
-        startText,
-        startTextIsNumberOrMoment ? undefined : finalFormat,
-      ).format(finalFormat)
+    ? dayjs(startText, startTextIsNumberOrMoment ? undefined : finalFormat).format(finalFormat)
     : '';
   const parsedEndText: string = endText
-    ? dayjs(endText, endTextIsNumberOrMoment ? undefined : finalFormat).format(
-        finalFormat,
-      )
+    ? dayjs(endText, endTextIsNumberOrMoment ? undefined : finalFormat).format(finalFormat)
     : '';
 
   if (mode === 'read') {
@@ -179,15 +142,12 @@ const FieldTimeRangePickerComponents: ProFieldFC<
       </div>
     );
     if (render) {
-      return render(text, { mode, ...fieldProps }, <span>{dom}</span>);
+      return render(text, <span>{dom}</span>);
     }
     return dom;
   }
   if (mode === 'edit' || mode === 'update') {
-    const dayValue = parseValueToDay(
-      fieldProps.value,
-      finalFormat,
-    ) as dayjs.Dayjs[];
+    const dayValue = parseValueToDay(editorProps.value, finalFormat) as dayjs.Dayjs[];
     let dom;
     if (light) {
       const {
@@ -196,11 +156,11 @@ const FieldTimeRangePickerComponents: ProFieldFC<
           intl.getMessage('tableForm.selectPlaceholder', '请选择'),
           intl.getMessage('tableForm.selectPlaceholder', '请选择'),
         ],
-      } = fieldProps;
+      } = editorProps;
       dom = (
         <FieldLabel
           onClick={() => {
-            fieldProps?.onOpenChange?.(true);
+            editorProps?.onOpenChange?.(true);
             setOpen(true);
           }}
           style={
@@ -219,12 +179,12 @@ const FieldTimeRangePickerComponents: ProFieldFC<
                 {...compatibleBorder(false)}
                 format={format}
                 ref={ref}
-                {...fieldProps}
+                {...editorProps}
                 placeholder={placeholder}
                 value={dayValue}
                 onOpenChange={(isOpen) => {
                   setOpen(isOpen);
-                  fieldProps?.onOpenChange?.(isOpen);
+                  editorProps?.onOpenChange?.(isOpen);
                 }}
                 open={open}
               />
@@ -241,13 +201,13 @@ const FieldTimeRangePickerComponents: ProFieldFC<
           ref={ref}
           format={format}
           {...compatibleBorder(plain === undefined ? true : !plain)}
-          {...fieldProps}
+          {...editorProps}
           value={dayValue}
         />
       );
     }
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, dom);
+      return renderFormItem(text, dom);
     }
     return dom;
   }

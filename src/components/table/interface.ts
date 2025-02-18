@@ -513,8 +513,6 @@ export type ColumnValueTypeWithFieldProps = {
   percent: InputNumberProps;
   /** 数字输入框 */
   digit: InputNumberProps;
-  /** 数字范围输入框 */
-  digitRange: InputNumberProps;
   /** 头像 */
   avatar: AvatarProps;
   /** 开关 */
@@ -540,7 +538,7 @@ export type ColumnValueObject =
       precision?: number;
     }
   | {
-      type: 'percent' | 'digit' | 'digitRange';
+      type: 'percent' | 'digit';
       precision?: number;
     }
   | {

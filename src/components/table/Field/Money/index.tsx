@@ -1,36 +1,14 @@
-import { intlMap as allIntlMap, useIntl } from '@ant-design/pro-provider';
-import type { InputNumberProps } from 'antd';
-import { InputNumber, Popover } from 'antd';
+import React, { useCallback, useMemo } from 'react';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import omit from 'rc-util/lib/omit';
-import React, { useCallback, useMemo } from 'react';
-import type { ProFieldFC } from '../../index';
-
-// 兼容代码-----------
-import 'antd/lib/input-number/style';
-import 'antd/lib/popover/style';
-//----------------------
-
-import { openVisibleCompatible } from '@ant-design/pro-utils';
+import type { FieldFC } from '..';
+import type { InputNumberProps } from '../../../input-number';
+import { useLocale } from '../../../locale';
 
 export type FieldMoneyProps = {
   text: number;
-  moneySymbol?: boolean;
-  locale?: string;
-  /**
-   * 输入框内容为空的提示内容
-   */
-  placeholder?: string;
-  /**
-   * 自定义 money 的 Symbol
-   */
-  customSymbol?: string;
-  /**
-   * 自定义 Popover 的值，false 可以关闭他
-   */
-  numberPopoverRender?:
-    | ((props: InputNumberProps, defaultText: string) => React.ReactNode)
-    | boolean;
+  symbol?: boolean | string;
+  precision?: number;
   /**
    * NumberFormat 的配置，文档可以查看 mdn
    *
@@ -83,6 +61,7 @@ export type FieldMoneyProps = {
      */
     maximumSignificantDigits?: number;
   };
+  editorProps?: Partial<InputNumberProps>;
 };
 
 const defaultMoneyIntl = new Intl.NumberFormat('zh-Hans-CN', {
@@ -145,9 +124,7 @@ const getTextByLocale = (
   config?: any,
   moneySymbol: string = '',
 ) => {
-  let moneyText: number | string | undefined = paramsText
-    ?.toString()
-    .replaceAll(',', '');
+  let moneyText: number | string | undefined = paramsText?.toString().replaceAll(',', '');
   if (typeof moneyText === 'string') {
     const parsedNum = Number(moneyText);
     // 转换数字为NaN时，返回原始值展示
@@ -169,12 +146,9 @@ const getTextByLocale = (
   try {
     // Formatting the number, when readonly moneySymbol = false, unused currency.
     const initNumberFormatter = new Intl.NumberFormat(
-      supportFormat && locale !== false
-        ? locale?.replace('_', '-') || 'zh-Hans-CN'
-        : 'zh-Hans-CN',
+      supportFormat && locale !== false ? locale?.replace('_', '-') || 'zh-Hans-CN' : 'zh-Hans-CN',
       {
-        ...(intlMap[(locale as 'zh-Hans-CN') || 'zh-Hans-CN'] ||
-          defaultMoneyIntl),
+        ...(intlMap[(locale as 'zh-Hans-CN') || 'zh-Hans-CN'] || defaultMoneyIntl),
         maximumFractionDigits: precision,
         ...config,
       },
@@ -183,13 +157,13 @@ const getTextByLocale = (
     const finalMoneyText = initNumberFormatter.format(moneyText);
 
     // 同时出现两个符号的情况需要处理
-    const doubleSymbolFormat = (Text: string) => {
-      const match = Text.match(/\d+/);
+    const doubleSymbolFormat = (text: string) => {
+      const match = text.match(/\d+/);
       if (match) {
         const number = match[0];
-        return Text.slice(Text.indexOf(number));
+        return text.slice(text.indexOf(number));
       } else {
-        return Text;
+        return text;
       }
     };
     // 过滤一下，只留下数字
@@ -228,99 +202,58 @@ const InputNumberPopover = React.forwardRef<
     numberFormatOptions?: any;
     numberPopoverRender?: any;
   }
->(
-  (
-    {
-      contentRender: content,
-      numberFormatOptions,
-      numberPopoverRender,
-      open,
-      ...rest
-    },
-    ref,
-  ) => {
-    const [value, onChange] = useMergedState<any>(() => rest.defaultValue, {
-      value: rest.value,
-      onChange: rest.onChange,
-    });
+>(({ contentRender: content, numberFormatOptions, numberPopoverRender, open, ...rest }, ref) => {
+  const [value, onChange] = useMergedState<any>(() => rest.defaultValue, {
+    value: rest.value,
+    onChange: rest.onChange,
+  });
 
-    /**
-     * 如果content 存在要根据 content 渲染一下
-     */
-    const dom = content?.({
-      ...rest,
-      value,
-    });
+  /**
+   * 如果content 存在要根据 content 渲染一下
+   */
+  const dom = content?.({
+    ...rest,
+    value,
+  });
 
-    const props = openVisibleCompatible(dom ? open : false);
+  const props = openVisibleCompatible(dom ? open : false);
 
-    return (
-      <Popover
-        placement="topLeft"
-        {...props}
-        trigger={['focus', 'click']}
-        content={dom}
-        getPopupContainer={(triggerNode) => {
-          return triggerNode?.parentElement || document.body;
-        }}
-      >
-        <InputNumber ref={ref} {...rest} value={value} onChange={onChange} />
-      </Popover>
-    );
-  },
-);
+  return (
+    <Popover
+      placement="topLeft"
+      {...props}
+      trigger={['focus', 'click']}
+      content={dom}
+      getPopupContainer={(triggerNode) => {
+        return triggerNode?.parentElement || document.body;
+      }}
+    >
+      <InputNumber ref={ref} {...rest} value={value} onChange={onChange} />
+    </Popover>
+  );
+});
 
 /**
  * 金额组件
- *
- * @param FieldMoneyProps {
- *     text: number;
- *     moneySymbol?: string; }
  */
-const FieldMoney: ProFieldFC<FieldMoneyProps> = (
-  {
-    text,
-    mode: type,
-    render,
-    renderFormItem,
-    fieldProps,
-    proFieldKey,
-    plain,
-    valueEnum,
-    placeholder,
-    locale,
-    customSymbol = fieldProps.customSymbol,
-    numberFormatOptions = fieldProps?.numberFormatOptions,
-    numberPopoverRender = fieldProps?.numberPopoverRender || false,
-    ...rest
-  },
+const FieldMoney: FieldFC<FieldMoneyProps> = (
+  { text, mode, render, renderEditor, editorProps, precision, symbol, numberFormatOptions },
   ref,
 ) => {
-  const precision = fieldProps?.precision ?? DefaultPrecisionCont;
-  let intl = useIntl();
-  // 当手动传入locale时，应该以传入的locale为准，未传入时则根据全局的locale进行国际化
-  if (locale && allIntlMap[locale as 'zh-CN']) {
-    intl = allIntlMap[locale as 'zh-CN'];
-  }
-  const placeholderValue =
-    placeholder || intl.getMessage('tableForm.inputPlaceholder', '请输入');
+  const mergedPrecision = precision ?? editorProps?.precision ?? DefaultPrecisionCont;
 
-  /**
-   * 获取货币的符号
-   * 如果 customSymbol 存在直接使用 customSymbol
-   * 如果 moneySymbol 为 false，返回空
-   * 如果没有配置使用默认的
-   */
+  const [locale, localeCode] = useLocale('global');
+
   const moneySymbol = useMemo((): string | undefined => {
-    if (customSymbol) {
-      return customSymbol;
+    if (typeof symbol === 'string') {
+      return symbol;
     }
 
-    if (rest.moneySymbol === false || fieldProps.moneySymbol === false) {
+    if (symbol === false) {
       return undefined;
     }
-    return intl.getMessage('moneySymbol', '¥');
-  }, [customSymbol, fieldProps.moneySymbol, intl, rest.moneySymbol]);
+    return locale.moneySymbol;
+  }, [symbol]);
 
   /*
    * A function that formats the number.
@@ -328,11 +261,8 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
    */
   const getFormateValue = useCallback(
     (value?: string | number) => {
-      // 新建数字正则，需要配置小数点
       const reg = new RegExp(
-        `\\B(?=(\\d{${
-          3 + Math.max(precision - DefaultPrecisionCont, 0)
-        }})+(?!\\d))`,
+        `\\B(?=(\\d{${3 + Math.max(mergedPrecision - DefaultPrecisionCont, 0)}})+(?!\\d))`,
         'g',
       );
       // 切分为 整数 和 小数 不同
@@ -345,38 +275,32 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
       let resultFloat = '';
 
       /* Taking the floatStr and slicing it to the precision. */
-      if (floatStr && precision > 0) {
+      if (floatStr && mergedPrecision > 0) {
         resultFloat = `.${floatStr.slice(
           0,
-          precision === undefined ? DefaultPrecisionCont : precision,
+          mergedPrecision === undefined ? DefaultPrecisionCont : mergedPrecision,
         )}`;
       }
 
       return `${resultInt}${resultFloat}`;
     },
-    [precision],
+    [mergedPrecision],
   );
 
   // 如果是阅读模式，直接返回字符串
-  if (type === 'read') {
+  if (mode === 'read') {
     const dom = (
       <span ref={ref}>
-        {getTextByLocale(
-          locale || false,
-          text,
-          precision,
-          numberFormatOptions ?? fieldProps.numberFormatOptions,
-          moneySymbol,
-        )}
+        {getTextByLocale(localeCode, text, mergedPrecision, numberFormatOptions, moneySymbol)}
       </span>
     );
     if (render) {
-      return render(text, { mode: type, ...fieldProps }, dom);
+      return render(text, dom);
     }
     return dom;
   }
 
-  if (type === 'edit' || type === 'update') {
+  if (mode === 'edit') {
     const dom = (
       <InputNumberPopover
         contentRender={(props) => {
@@ -385,7 +309,7 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
           const localeText = getTextByLocale(
             moneySymbol || locale || false,
             `${getFormateValue(props.value)}`,
-            precision,
+            mergedPrecision,
             {
               ...numberFormatOptions,
               notation: 'compact',
@@ -399,7 +323,7 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
           return localeText;
         }}
         ref={ref}
-        precision={precision}
+        precision={mergedPrecision}
         // 删除默认min={0}，允许输入一个负数的金额，用户可自行配置min来限制是否允许小于0的金额
         formatter={(value) => {
           if (value && moneySymbol) {
@@ -409,15 +333,11 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
         }}
         parser={(value) => {
           if (moneySymbol && value) {
-            return value.replace(
-              new RegExp(`\\${moneySymbol}\\s?|(,*)`, 'g'),
-              '',
-            );
+            return value.replace(new RegExp(`\\${moneySymbol}\\s?|(,*)`, 'g'), '');
           }
           return value!;
         }}
-        placeholder={placeholderValue}
-        {...omit(fieldProps, [
+        {...omit(editorProps, [
           'numberFormatOptions',
           'precision',
           'numberPopoverRender',
@@ -427,24 +347,21 @@ const FieldMoney: ProFieldFC<FieldMoneyProps> = (
           'open',
         ])}
         onBlur={
-          fieldProps.onBlur
+          editorProps.onBlur
             ? (e) => {
                 let value = e.target.value;
                 if (moneySymbol && value) {
-                  value = value.replace(
-                    new RegExp(`\\${moneySymbol}\\s?|(,*)`, 'g'),
-                    '',
-                  );
+                  value = value.replace(new RegExp(`\\${moneySymbol}\\s?|(,*)`, 'g'), '');
                 }
-                fieldProps.onBlur?.(value);
+                editorProps.onBlur?.(value);
               }
             : undefined
         }
       />
     );
 
-    if (renderFormItem) {
-      return renderFormItem(text, { mode: type, ...fieldProps }, dom);
+    if (renderEditor) {
+      return renderEditor(text, dom);
     }
     return dom;
   }

@@ -1,7 +1,7 @@
-import { useIntl } from '@ant-design/pro-provider';
-import { InputNumber } from 'antd';
 import type { ReactNode } from 'react';
 import React, { Fragment, useMemo } from 'react';
+import { useIntl } from '@ant-design/pro-provider';
+import { InputNumber } from 'antd';
 import type { ProFieldFC } from '../../index';
 import {
   getColorByRealValue,
@@ -9,9 +9,9 @@ import {
   getSymbolByRealValue,
   toNumber,
 } from './util';
-
 // 兼容代码-----------
 import 'antd/lib/input-number/style';
+
 //------------
 
 export type PercentPropInt = {
@@ -39,15 +39,14 @@ const FieldPercent: ProFieldFC<PercentPropInt> = (
     showColor = false,
     render,
     renderFormItem,
-    fieldProps,
+    editorProps,
     placeholder,
     showSymbol: propsShowSymbol,
   },
   ref,
 ) => {
   const intl = useIntl();
-  const placeholderValue =
-    placeholder || intl.getMessage('tableForm.inputPlaceholder', '请输入');
+  const placeholderValue = placeholder || intl.getMessage('tableForm.inputPlaceholder', '请输入');
   const realValue = useMemo(
     () =>
       typeof text === 'string' && (text as string).includes('%')
@@ -75,11 +74,7 @@ const FieldPercent: ProFieldFC<PercentPropInt> = (
       </span>
     );
     if (render) {
-      return render(
-        text,
-        { mode, ...fieldProps, prefix, precision, showSymbol, suffix },
-        dom,
-      );
+      return render(text, { mode, ...editorProps, prefix, precision, showSymbol, suffix }, dom);
     }
     return dom;
   }
@@ -95,11 +90,11 @@ const FieldPercent: ProFieldFC<PercentPropInt> = (
         }}
         parser={(value) => (value ? value.replace(/.*\s|,/g, '') : '')}
         placeholder={placeholderValue}
-        {...fieldProps}
+        {...editorProps}
       />
     );
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, dom);
+      return renderFormItem(text, dom);
     }
     return dom;
   }

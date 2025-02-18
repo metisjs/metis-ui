@@ -46,28 +46,24 @@ export type FieldEmptyText = string | false;
 export type RenderFieldPropsType = {
   /**
    * 自定义只读模式的渲染器
-   * @params props 关于dom的配置
    * @params dom 默认的 dom
    * @return 返回一个用于读的 dom
    */
   render?:
     | ((
         text: any,
-        props: any,
         dom: JSX.Element,
       ) => JSX.Element)
     | undefined;
   /**
    * 一个自定义的编辑渲染器。
    * @params text 默认的值类型
-   * @params props 关于dom的配置
    * @params dom 默认的 dom
    * @return 返回一个用于编辑的dom
    */
   renderEditor?:
     | ((
         text: any,
-        props: any,
         dom: JSX.Element,
       ) => JSX.Element)
     | undefined;
@@ -103,13 +99,13 @@ const defaultRenderTextByObject = (
   valueType: ProFieldValueObjectType,
   props: RenderProps,
 ) => {
-  const pickFormItemProps = pickProProps(props.fieldProps);
+  const pickFormItemProps = pickProProps(props.editorProps);
   if (valueType.type === 'progress') {
     return (
       <FieldProgress
         {...props}
         text={text as number}
-        fieldProps={{
+        editorProps={{
           status: valueType.status ? valueType.status : undefined,
           ...pickFormItemProps,
         }}
@@ -121,7 +117,7 @@ const defaultRenderTextByObject = (
       <FieldMoney
         locale={valueType.locale}
         {...props}
-        fieldProps={pickFormItemProps}
+        editorProps={pickFormItemProps}
         text={text as number}
         moneySymbol={valueType.moneySymbol}
       />
@@ -134,7 +130,7 @@ const defaultRenderTextByObject = (
         text={text as number}
         showSymbol={valueType.showSymbol}
         precision={valueType.precision}
-        fieldProps={pickFormItemProps}
+        editorProps={pickFormItemProps}
         showColor={valueType.showColor}
       />
     );
@@ -163,9 +159,9 @@ const defaultRenderText = (
 
   if (emptyText !== false && mode === 'read' && valueType !== 'option' && valueType !== 'switch') {
     if (typeof dataValue !== 'boolean' && typeof dataValue !== 'number' && !dataValue) {
-      const { fieldProps, render } = props;
+      const { editorProps, render } = props;
       if (render) {
-        return render(dataValue, { mode, ...fieldProps }, <>{emptyText}</>);
+        return render(dataValue, <>{emptyText}</>);
       }
       return <>{emptyText}</>;
     }
@@ -230,16 +226,16 @@ const defaultRenderText = (
 
   /** 如果是周范围的值 */
   if (valueType === 'dateWeekRange') {
-    const { fieldProps, ...otherProps } = props;
+    const { editorProps, ...otherProps } = props;
     return (
       <FieldHOC isLight={props.light}>
         <FieldRangePicker
           text={dataValue as string[]}
           format="YYYY-W"
           showTime
-          fieldProps={{
+          editorProps={{
             picker: 'week',
-            ...fieldProps,
+            ...editorProps,
           }}
           {...otherProps}
         />
@@ -249,16 +245,16 @@ const defaultRenderText = (
 
   /** 如果是月范围的值 */
   if (valueType === 'dateMonthRange') {
-    const { fieldProps, ...otherProps } = props;
+    const { editorProps, ...otherProps } = props;
     return (
       <FieldHOC isLight={props.light}>
         <FieldRangePicker
           text={dataValue as string[]}
           format="YYYY-MM"
           showTime
-          fieldProps={{
+          editorProps={{
             picker: 'month',
-            ...fieldProps,
+            ...editorProps,
           }}
           {...otherProps}
         />
@@ -268,16 +264,16 @@ const defaultRenderText = (
 
   /** 如果是季范围的值 */
   if (valueType === 'dateQuarterRange') {
-    const { fieldProps, ...otherProps } = props;
+    const { editorProps, ...otherProps } = props;
     return (
       <FieldHOC isLight={props.light}>
         <FieldRangePicker
           text={dataValue as string[]}
           format="YYYY-Q"
           showTime
-          fieldProps={{
+          editorProps={{
             picker: 'quarter',
-            ...fieldProps,
+            ...editorProps,
           }}
           {...otherProps}
         />
@@ -287,16 +283,16 @@ const defaultRenderText = (
 
   /** 如果是年范围的值 */
   if (valueType === 'dateYearRange') {
-    const { fieldProps, ...otherProps } = props;
+    const { editorProps, ...otherProps } = props;
     return (
       <FieldHOC isLight={props.light}>
         <FieldRangePicker
           text={dataValue as string[]}
           format="YYYY"
           showTime
-          fieldProps={{
+          editorProps={{
             picker: 'year',
-            ...fieldProps,
+            ...editorProps,
           }}
           {...otherProps}
         />
@@ -420,9 +416,6 @@ const defaultRenderText = (
     return <FieldDigit text={dataValue as number} {...props} />;
   }
 
-  if (valueType === 'digitRange') {
-    return <FieldDigitRange text={dataValue as number[]} {...props} />;
-  }
 
   if (valueType === 'select' || (valueType === 'text' && (props.valueEnum || props.request))) {
     return (
@@ -498,7 +491,7 @@ const ProFieldComponent: React.ForwardRefRenderFunction<any, ProFieldPropsType> 
     renderFormItem,
     value,
     readonly,
-    fieldProps: restFieldProps,
+    editorProps: restFieldProps,
     ...rest
   },
   ref: any,
@@ -510,11 +503,11 @@ const ProFieldComponent: React.ForwardRefRenderFunction<any, ProFieldPropsType> 
     onChange?.(...restParams);
   });
 
-  const fieldProps: any = useDeepCompareMemo(() => {
+  const editorProps: any = useDeepCompareMemo(() => {
     return (
       (value !== undefined || restFieldProps) && {
         value,
-        // fieldProps 优先级更高，在类似 LightFilter 场景下需要覆盖默认的 value 和 onChange
+        // editorProps 优先级更高，在类似 LightFilter 场景下需要覆盖默认的 value 和 onChange
         ...omitUndefined(restFieldProps),
         onChange: onChangeCallBack,
       }
@@ -523,7 +516,7 @@ const ProFieldComponent: React.ForwardRefRenderFunction<any, ProFieldPropsType> 
   }, [value, restFieldProps, onChangeCallBack]);
 
   const renderedDom = defaultRenderText(
-    mode === 'edit' ? (fieldProps?.value ?? text ?? '') : (text ?? fieldProps?.value ?? ''),
+    mode === 'edit' ? (editorProps?.value ?? text ?? '') : (text ?? editorProps?.value ?? ''),
     valueType || 'text',
     omitUndefined({
       ref,
@@ -536,17 +529,17 @@ const ProFieldComponent: React.ForwardRefRenderFunction<any, ProFieldPropsType> 
             // renderFormItem 之后的dom可能没有props，这里会帮忙注入一下
             if (React.isValidElement(newDom))
               return React.cloneElement(newDom, {
-                ...fieldProps,
+                ...editorProps,
                 ...((newDom.props as any) || {}),
               });
             return newDom;
           }
         : undefined,
-      placeholder: renderFormItem ? undefined : (rest?.placeholder ?? fieldProps?.placeholder),
-      fieldProps: pickProProps(
+      placeholder: renderFormItem ? undefined : (rest?.placeholder ?? editorProps?.placeholder),
+      editorProps: pickProProps(
         omitUndefined({
-          ...fieldProps,
-          placeholder: renderFormItem ? undefined : (rest?.placeholder ?? fieldProps?.placeholder),
+          ...editorProps,
+          placeholder: renderFormItem ? undefined : (rest?.placeholder ?? editorProps?.placeholder),
         }),
       ),
     }),

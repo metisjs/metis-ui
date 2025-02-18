@@ -1,3 +1,12 @@
+import type { ReactNode } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useIntl } from '@ant-design/pro-provider';
 import {
   compatibleBorder,
@@ -17,22 +26,13 @@ import {
 } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Spin } from 'antd';
-import type { ReactNode } from 'react';
-import React, {
-  useContext,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
 import useSWR from 'swr';
 import type { ProFieldFC, ProFieldLightProps } from '../../index';
 import LightSelect from './LightSelect';
 import SearchSelect from './SearchSelect';
-
 // 兼容代码-----------
 import 'antd/lib/select/style';
+
 //------------
 
 type SelectOptionType = Partial<RequestOptionsType>[];
@@ -49,7 +49,7 @@ export type FieldSelectProps<FieldProps = any> = {
   params?: any;
 
   /** 组件的全局设置 */
-  fieldProps?: FieldProps;
+  editorProps?: FieldProps;
 
   bordered?: boolean;
   id?: string;
@@ -83,9 +83,7 @@ const Highlight: React.FC<{
   });
 
   const matchKeywordsRE = new RegExp(
-    words
-      .map((word) => word.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-      .join('|'),
+    words.map((word) => word.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&')).join('|'),
     'gi',
   );
 
@@ -153,11 +151,9 @@ function filerByItem(
     return true;
   }
   if (item.children || item.options) {
-    const findItem = [...(item.children || []), item.options || []].find(
-      (mapItem) => {
-        return filerByItem(mapItem, keyWords);
-      },
-    );
+    const findItem = [...(item.children || []), item.options || []].find((mapItem) => {
+      return filerByItem(mapItem, keyWords);
+    });
     if (findItem) return true;
   }
   return false;
@@ -214,11 +210,9 @@ export const useFieldFetchData = (
     cacheForSwr?: boolean;
   },
 ): [boolean, SelectOptionType, (keyWord?: string) => void, () => void] => {
-  const { cacheForSwr, fieldProps } = props;
+  const { cacheForSwr, editorProps } = props;
 
-  const [keyWords, setKeyWords] = useState<string | undefined>(
-    props.defaultKeyWords,
-  );
+  const [keyWords, setKeyWords] = useState<string | undefined>(props.defaultKeyWords);
   /** Key 是用来缓存请求的，如果不在是有问题 */
   const [cacheKey] = useState(() => {
     if (props.proFieldKey) {
@@ -232,38 +226,30 @@ export const useFieldFetchData = (
 
   const proFieldKeyRef = useRef(cacheKey);
 
-  const getOptionsFormValueEnum = useRefFunction(
-    (coverValueEnum: ProFieldValueEnumType) => {
-      return proFieldParsingValueEnumToArray(objectToMap(coverValueEnum)).map(
-        ({ value, text, ...rest }) => ({
-          label: text,
-          value,
-          key: value,
-          ...rest,
-        }),
-      );
-    },
-  );
+  const getOptionsFormValueEnum = useRefFunction((coverValueEnum: ProFieldValueEnumType) => {
+    return proFieldParsingValueEnumToArray(objectToMap(coverValueEnum)).map(
+      ({ value, text, ...rest }) => ({
+        label: text,
+        value,
+        key: value,
+        ...rest,
+      }),
+    );
+  });
 
   const defaultOptions = useDeepCompareMemo(() => {
-    if (!fieldProps) return undefined;
-    const data = fieldProps?.options || fieldProps?.treeData;
+    if (!editorProps) return undefined;
+    const data = editorProps?.options || editorProps?.treeData;
     if (!data) return undefined;
-    const { children, label, value } = fieldProps.fieldNames || {};
-    const traverseFieldKey = (
-      _options: typeof options,
-      type: 'children' | 'label' | 'value',
-    ) => {
+    const { children, label, value } = editorProps.fieldNames || {};
+    const traverseFieldKey = (_options: typeof options, type: 'children' | 'label' | 'value') => {
       if (!_options?.length) return;
       const length = _options.length;
       let i = 0;
       while (i < length) {
         const cur = _options[i++];
         if (cur[children] || cur[label] || cur[value]) {
-          cur[type] =
-            cur[
-              type === 'children' ? children : type === 'label' ? label : value
-            ];
+          cur[type] = cur[type === 'children' ? children : type === 'label' ? label : value];
           traverseFieldKey(cur[children], type);
         }
       }
@@ -273,7 +259,7 @@ export const useFieldFetchData = (
     if (label) traverseFieldKey(data, 'label');
     if (value) traverseFieldKey(data, 'value');
     return data;
-  }, [fieldProps]);
+  }, [editorProps]);
 
   const [options, setOptions] = useMountMergeState<SelectOptionType>(
     () => {
@@ -288,19 +274,14 @@ export const useFieldFetchData = (
   );
 
   useDeepCompareEffect(() => {
-    // 优先使用 fieldProps?.options
-    if (
-      !props.valueEnum ||
-      props.fieldProps?.options ||
-      props.fieldProps?.treeData
-    )
-      return;
+    // 优先使用 editorProps?.options
+    if (!props.valueEnum || props.editorProps?.options || props.editorProps?.treeData) return;
     setOptions(getOptionsFormValueEnum(props.valueEnum));
   }, [props.valueEnum]);
 
   const swrKey = useDebounceValue(
     [proFieldKeyRef.current, props.params, keyWords] as const,
-    props.debounceTime ?? props?.fieldProps?.debounceTime ?? 0,
+    props.debounceTime ?? props?.editorProps?.debounceTime ?? 0,
     [props.params, keyWords],
   );
 
@@ -343,12 +324,11 @@ export const useFieldFetchData = (
         };
       }
       if (item.children || item.options) {
-        const childrenOptions = [
-          ...(item.children || []),
-          ...(item.options || []),
-        ].filter((mapItem) => {
-          return filerByItem(mapItem, keyWords);
-        });
+        const childrenOptions = [...(item.children || []), ...(item.options || [])].filter(
+          (mapItem) => {
+            return filerByItem(mapItem, keyWords);
+          },
+        );
         return {
           ...item,
           children: childrenOptions,
@@ -359,10 +339,7 @@ export const useFieldFetchData = (
     });
 
     // filterOption 为 true 时 filter数据, filterOption 默认为true
-    if (
-      props.fieldProps?.filterOption === true ||
-      props.fieldProps?.filterOption === undefined
-    ) {
+    if (props.editorProps?.filterOption === true || props.editorProps?.filterOption === undefined) {
       return opt?.filter((item) => {
         if (!item) return false;
         if (!keyWords) return true;
@@ -371,7 +348,7 @@ export const useFieldFetchData = (
     }
 
     return opt;
-  }, [options, keyWords, props.fieldProps?.filterOption]);
+  }, [options, keyWords, props.editorProps?.filterOption]);
 
   return [
     isValidating,
@@ -400,7 +377,7 @@ const FieldSelect: ProFieldFC<
     render,
     renderFormItem,
     request,
-    fieldProps,
+    editorProps,
     plain,
     children,
     light,
@@ -417,11 +394,11 @@ const FieldSelect: ProFieldFC<
   const inputRef = useRef();
   const intl = useIntl();
   const keyWordsRef = useRef<string>('');
-  const { fieldNames } = fieldProps;
+  const { fieldNames } = editorProps;
 
   useEffect(() => {
-    keyWordsRef.current = fieldProps?.searchValue;
-  }, [fieldProps?.searchValue]);
+    keyWordsRef.current = editorProps?.searchValue;
+  }, [editorProps?.searchValue]);
 
   const [loading, options, fetchData, resetData] = useFieldFetchData(props);
   const { componentSize } = ConfigProvider?.useConfig?.() || {
@@ -469,15 +446,13 @@ const FieldSelect: ProFieldFC<
       <>
         {proFieldParsingText(
           rest.text,
-          objectToMap(
-            valueEnum || optionsValueEnum,
-          ) as unknown as ProSchemaValueEnumObj,
+          objectToMap(valueEnum || optionsValueEnum) as unknown as ProSchemaValueEnumObj,
         )}
       </>
     );
 
     if (render) {
-      return render(dom, { mode, ...fieldProps }, dom) ?? null;
+      return render(dom, dom) ?? null;
     }
     return dom;
   }
@@ -495,14 +470,11 @@ const FieldSelect: ProFieldFC<
             size={componentSize}
             options={options}
             label={label}
-            placeholder={intl.getMessage(
-              'tableForm.selectPlaceholder',
-              '请选择',
-            )}
+            placeholder={intl.getMessage('tableForm.selectPlaceholder', '请选择')}
             lightLabel={lightLabel}
             labelTrigger={labelTrigger}
             fetchData={fetchData}
-            {...fieldProps}
+            {...editorProps}
           />
         );
       }
@@ -520,9 +492,7 @@ const FieldSelect: ProFieldFC<
           ref={inputRef}
           allowClear
           defaultSearchValue={props.defaultKeyWords}
-          notFoundContent={
-            loading ? <Spin size="small" /> : fieldProps?.notFoundContent
-          }
+          notFoundContent={loading ? <Spin size="small" /> : editorProps?.notFoundContent}
           fetchData={(keyWord) => {
             keyWordsRef.current = keyWord ?? '';
             fetchData(keyWord);
@@ -531,28 +501,20 @@ const FieldSelect: ProFieldFC<
           preserveOriginalLabel
           optionItemRender={(item) => {
             if (typeof item.label === 'string' && keyWordsRef.current) {
-              return (
-                <Highlight label={item.label} words={[keyWordsRef.current]} />
-              );
+              return <Highlight label={item.label} words={[keyWordsRef.current]} />;
             }
             return item.label;
           }}
           placeholder={intl.getMessage('tableForm.selectPlaceholder', '请选择')}
           label={label}
-          {...fieldProps}
+          {...editorProps}
           options={options}
         />
       );
     };
     const dom = renderDom();
     if (renderFormItem) {
-      return (
-        renderFormItem(
-          rest.text,
-          { mode, ...fieldProps, options, loading },
-          dom,
-        ) ?? null
-      );
+      return renderFormItem(rest.text, { mode, ...editorProps, options, loading }, dom) ?? null;
     }
     return dom;
   }

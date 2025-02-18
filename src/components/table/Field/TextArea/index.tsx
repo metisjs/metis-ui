@@ -1,12 +1,12 @@
+import React from 'react';
 import { useIntl } from '@ant-design/pro-provider';
 import { Input } from 'antd';
 import omit from 'rc-util/lib/omit';
-import React from 'react';
 import type { ProFieldFC } from '../../index';
 import FieldTextAreaReadonly from './readonly';
-
 // 兼容代码-----------
 import 'antd/lib/input/style';
+
 //------------
 /**
  * 最基本的组件，就是个普通的 Input.TextArea
@@ -16,17 +16,13 @@ import 'antd/lib/input/style';
 const FieldTextArea: ProFieldFC<{
   text: string;
 }> = (props, ref) => {
-  const { text, mode, render, renderFormItem, fieldProps } = props;
+  const { text, mode, render, renderFormItem, editorProps } = props;
   const intl = useIntl();
 
   if (mode === 'read') {
     const dom = <FieldTextAreaReadonly {...props} ref={ref} />;
     if (render) {
-      return render(
-        text,
-        { mode, ...(omit(fieldProps, ['showCount']) as any) },
-        dom,
-      );
+      return render(text, { mode, ...(omit(editorProps, ['showCount']) as any) }, dom);
     }
     return dom;
   }
@@ -39,11 +35,11 @@ const FieldTextArea: ProFieldFC<{
           if (e.key === 'Enter') e.stopPropagation();
         }}
         placeholder={intl.getMessage('tableForm.inputPlaceholder', '请输入')}
-        {...fieldProps}
+        {...editorProps}
       />
     );
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, dom);
+      return renderFormItem(text, dom);
     }
     return dom;
   }

@@ -1,18 +1,14 @@
-import {
-  objectToMap,
-  proFieldParsingText,
-  useStyle,
-} from '@ant-design/pro-utils';
+import React, { useContext, useImperativeHandle, useRef } from 'react';
+import { objectToMap, proFieldParsingText, useStyle } from '@ant-design/pro-utils';
 import type { RadioGroupProps } from 'antd';
 import { ConfigProvider, Form, Radio, Spin } from 'antd';
 import classNames from 'classnames';
-import React, { useContext, useImperativeHandle, useRef } from 'react';
 import type { ProFieldFC } from '../../index';
 import type { FieldSelectProps } from '../Select';
 import { useFieldFetchData } from '../Select';
-
 // 兼容代码-----------
 import 'antd/lib/radio/style';
+
 //------------
 
 export type GroupProps = {
@@ -78,16 +74,11 @@ const FieldRadio: ProFieldFC<GroupProps> = (
         }, {})
       : undefined;
     const dom = (
-      <>
-        {proFieldParsingText(
-          rest.text,
-          objectToMap(rest.valueEnum || optionsValueEnum),
-        )}
-      </>
+      <>{proFieldParsingText(rest.text, objectToMap(rest.valueEnum || optionsValueEnum))}</>
     );
 
     if (render) {
-      return render(rest.text, { mode, ...rest.fieldProps }, dom) ?? null;
+      return render(rest.text, { mode, ...rest.editorProps }, dom) ?? null;
     }
     return dom;
   }
@@ -97,26 +88,22 @@ const FieldRadio: ProFieldFC<GroupProps> = (
       <Radio.Group
         ref={radioRef}
         optionType={radioType}
-        {...rest.fieldProps}
+        {...rest.editorProps}
         className={classNames(
-          rest.fieldProps?.className,
+          rest.editorProps?.className,
           {
             [`${layoutClassName}-error`]: status?.status === 'error',
             [`${layoutClassName}-warning`]: status?.status === 'warning',
           },
           hashId,
-          `${layoutClassName}-${rest.fieldProps.layout || 'horizontal'}`,
+          `${layoutClassName}-${rest.editorProps.layout || 'horizontal'}`,
         )}
         options={options}
       />,
     );
     if (renderFormItem) {
       return (
-        renderFormItem(
-          rest.text,
-          { mode, ...rest.fieldProps, options, loading },
-          dom,
-        ) ?? null
+        renderFormItem(rest.text, { mode, ...rest.editorProps, options, loading }, dom) ?? null
       );
     }
     return dom;

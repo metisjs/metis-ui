@@ -1,16 +1,12 @@
+import React, { useCallback } from 'react';
 import { useIntl } from '@ant-design/pro-provider';
-import {
-  FieldLabel,
-  compatibleBorder,
-  parseValueToDay,
-} from '@ant-design/pro-utils';
+import { compatibleBorder, FieldLabel, parseValueToDay } from '@ant-design/pro-utils';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import React, { useCallback } from 'react';
 import type { ProFieldFC, ProFieldLightProps } from '../../index';
-
 // 兼容代码-----------
 import 'antd/lib/date-picker/style';
+
 //------------
 
 /**
@@ -40,7 +36,7 @@ const FieldRangePicker: ProFieldFC<
     showTime,
     lightLabel,
     bordered,
-    fieldProps,
+    editorProps,
   },
   ref,
 ) => {
@@ -51,20 +47,18 @@ const FieldRangePicker: ProFieldFC<
   // antd 改了一下 交互，这里要兼容一下，不然会导致无法选中第二个数据
   const genFormatText = useCallback(
     (formatValue: dayjs.Dayjs) => {
-      if (typeof fieldProps?.format === 'function') {
-        return fieldProps?.format?.(formatValue);
+      if (typeof editorProps?.format === 'function') {
+        return editorProps?.format?.(formatValue);
       }
-      return fieldProps?.format || format || 'YYYY-MM-DD';
+      return editorProps?.format || format || 'YYYY-MM-DD';
     },
-    [fieldProps, format],
+    [editorProps, format],
   );
   // activePickerIndex for https://github.com/ant-design/ant-design/issues/22158
   const parsedStartText: string = startText
     ? dayjs(startText).format(genFormatText(dayjs(startText)))
     : '';
-  const parsedEndText: string = endText
-    ? dayjs(endText).format(genFormatText(dayjs(endText)))
-    : '';
+  const parsedEndText: string = endText ? dayjs(endText).format(genFormatText(dayjs(endText))) : '';
 
   if (mode === 'read') {
     const dom = (
@@ -82,13 +76,13 @@ const FieldRangePicker: ProFieldFC<
       </div>
     );
     if (render) {
-      return render(text, { mode, ...fieldProps }, <span>{dom}</span>);
+      return render(text, <span>{dom}</span>);
     }
     return dom;
   }
 
   if (mode === 'edit' || mode === 'update') {
-    const dayValue = parseValueToDay(fieldProps.value) as dayjs.Dayjs[];
+    const dayValue = parseValueToDay(editorProps.value) as dayjs.Dayjs[];
     let dom;
 
     if (light) {
@@ -96,7 +90,7 @@ const FieldRangePicker: ProFieldFC<
         <FieldLabel
           label={label}
           onClick={() => {
-            fieldProps?.onOpenChange?.(true);
+            editorProps?.onOpenChange?.(true);
             setOpen(true);
           }}
           style={
@@ -106,7 +100,7 @@ const FieldRangePicker: ProFieldFC<
                 }
               : undefined
           }
-          disabled={fieldProps.disabled}
+          disabled={editorProps.disabled}
           value={
             dayValue || open ? (
               <DatePicker.RangePicker
@@ -114,21 +108,21 @@ const FieldRangePicker: ProFieldFC<
                 showTime={showTime}
                 format={format}
                 {...compatibleBorder(false)}
-                {...fieldProps}
+                {...editorProps}
                 placeholder={
-                  fieldProps.placeholder ?? [
+                  editorProps.placeholder ?? [
                     intl.getMessage('tableForm.selectPlaceholder', '请选择'),
                     intl.getMessage('tableForm.selectPlaceholder', '请选择'),
                   ]
                 }
                 onClear={() => {
                   setOpen(false);
-                  fieldProps?.onClear?.();
+                  editorProps?.onClear?.();
                 }}
                 value={dayValue}
                 onOpenChange={(isOpen) => {
                   if (dayValue) setOpen(isOpen);
-                  fieldProps?.onOpenChange?.(isOpen);
+                  editorProps?.onOpenChange?.(isOpen);
                 }}
               />
             ) : null
@@ -150,13 +144,13 @@ const FieldRangePicker: ProFieldFC<
             intl.getMessage('tableForm.selectPlaceholder', '请选择'),
           ]}
           {...compatibleBorder(plain === undefined ? true : !plain)}
-          {...fieldProps}
+          {...editorProps}
           value={dayValue}
         />
       );
     }
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, dom);
+      return renderFormItem(text, dom);
     }
     return dom;
   }

@@ -64,7 +64,7 @@ type FieldStatusType = 'success' | 'warning' | 'error' | 'default' | 'processing
  */
 export const fieldParsingText = (
   text: string | number | (string | number)[],
-  valueEnumParams: ColumnValueEnumMap | ColumnValueEnumObj,
+  valueEnumParams: ColumnValueEnumMap | ColumnValueEnumObj = {},
   key?: number | string,
 ): React.ReactNode => {
   if (Array.isArray(text)) {
@@ -114,4 +114,14 @@ export const fieldParsingText = (
   return (
     <React.Fragment key={key}>{domText.text || (domText as any as React.ReactNode)}</React.Fragment>
   );
+};
+
+export const fieldParsingOptions = (valueEnumParams?: ColumnValueEnumMap | ColumnValueEnumObj) => {
+  if (!valueEnumParams) return undefined;
+
+  const valueEnum = objectToMap(valueEnumParams);
+  return Array.from(valueEnum).map(([value, label]) => ({
+    label: label && typeof label === 'object' && 'label' in label ? label.label : label,
+    value,
+  }));
 };

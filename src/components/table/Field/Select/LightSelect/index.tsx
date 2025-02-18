@@ -1,11 +1,10 @@
+import React, { useContext, useMemo, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { FieldLabel, compatibleBorder, useStyle } from '@ant-design/pro-utils';
+import { compatibleBorder, FieldLabel, useStyle } from '@ant-design/pro-utils';
 import type { SelectProps } from 'antd';
 import { ConfigProvider, Input, Select } from 'antd';
-
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
-import React, { useContext, useMemo, useState } from 'react';
 import type { ProFieldLightProps } from '../../../index';
 
 export type LightSelectProps = {
@@ -43,10 +42,10 @@ const getValueOrLabel = (
   return valueMap[v?.value] || v.label;
 };
 
-const LightSelect: React.ForwardRefRenderFunction<
-  any,
-  SelectProps<any> & LightSelectProps
-> = (props, ref) => {
+const LightSelect: React.ForwardRefRenderFunction<any, SelectProps<any> & LightSelectProps> = (
+  props,
+  ref,
+) => {
   const {
     label,
     prefixCls: customizePrefixCls,
@@ -76,8 +75,7 @@ const LightSelect: React.ForwardRefRenderFunction<
     ...restProps
   } = props;
   const { placeholder = label } = props;
-  const { label: labelPropsName = 'label', value: valuePropsName = 'value' } =
-    fieldNames || {};
+  const { label: labelPropsName = 'label', value: valuePropsName = 'value' } = fieldNames || {};
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('pro-field-select-light-select');
   const [open, setOpen] = useState<boolean>(false);
@@ -119,8 +117,8 @@ const LightSelect: React.ForwardRefRenderFunction<
     return values;
   }, [labelPropsName, options, valuePropsName, optionLabelProp]);
 
-  // 修复用户在使用ProFormSelect组件时，在fieldProps中使用open属性，不生效。
-  // ProComponents文档中写到“与select相同，且fieldProps同antd组件中的props”描述方案不相符
+  // 修复用户在使用ProFormSelect组件时，在editorProps中使用open属性，不生效。
+  // ProComponents文档中写到“与select相同，且editorProps同antd组件中的props”描述方案不相符
   const mergeOpen = useMemo(() => {
     if (Reflect.has(restProps, 'open')) {
       return restProps?.open;
@@ -248,19 +246,11 @@ const LightSelect: React.ForwardRefRenderFunction<
             ? options
             : options?.filter((o) => {
                 if (optionFilterProp) {
-                  return toArray(o[optionFilterProp])
-                    .join('')
-                    .toLowerCase()
-                    .includes(keyword);
+                  return toArray(o[optionFilterProp]).join('').toLowerCase().includes(keyword);
                 }
                 return (
-                  String(o[labelPropsName])
-                    ?.toLowerCase()
-                    ?.includes(keyword?.toLowerCase()) ||
-                  o[valuePropsName]
-                    ?.toString()
-                    ?.toLowerCase()
-                    ?.includes(keyword?.toLowerCase())
+                  String(o[labelPropsName])?.toLowerCase()?.includes(keyword?.toLowerCase()) ||
+                  o[valuePropsName]?.toString()?.toLowerCase()?.includes(keyword?.toLowerCase())
                 );
               })
         }

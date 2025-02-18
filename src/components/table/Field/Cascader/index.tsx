@@ -2,15 +2,17 @@
 import type { FieldFC } from '..';
 import type { CascaderProps } from '../../../cascader';
 import Cascader from '../../../cascader';
-import { fieldParsingText, objectToMap } from '../../utils/fieldUtil';
+import { fieldParsingText } from '../../utils/fieldUtil';
 
 /**
  * 级联选择组件
  */
 const FieldCascader: FieldFC<{
   text: string | string[];
-  fieldProps?: CascaderProps;
-}> = ({ text, renderEditor, mode, render, fieldProps, valueEnum }, ref) => {
+  options?: CascaderProps['options'];
+  fieldNames?: CascaderProps['fieldNames'];
+  editorProps?: Partial<CascaderProps>;
+}> = ({ text, renderEditor, mode, render, editorProps, valueEnum, options, fieldNames }, ref) => {
   const optionsValueEnum = useMemo(() => {
     if (mode !== 'read') return;
 
@@ -18,7 +20,7 @@ const FieldCascader: FieldFC<{
       value: valuePropsName = 'value',
       label: labelPropsName = 'label',
       children: childrenPropsName = 'children',
-    } = fieldProps?.fieldNames || {};
+    } = fieldNames || {};
 
     const valuesMap = new Map();
 
@@ -37,23 +39,31 @@ const FieldCascader: FieldFC<{
       return valuesMap;
     };
 
-    return traverseOptions(fieldProps?.options);
-  }, [mode, fieldProps?.options, fieldProps?.fieldNames]);
+    return traverseOptions(options);
+  }, [mode, editorProps?.options, editorProps?.fieldNames]);
 
   if (mode === 'read') {
-    const dom = <>{fieldParsingText(text, objectToMap(valueEnum || optionsValueEnum))}</>;
+    const dom = <>{fieldParsingText(text, valueEnum || optionsValueEnum)}</>;
 
     if (render) {
-      return render(text, { mode, ...fieldProps }, dom) ?? null;
+      return render(text, dom) ?? null;
     }
     return dom;
   }
 
   if (mode === 'edit') {
-    let dom = <Cascader ref={ref} allowClear={fieldProps?.allowClear !== false} {...fieldProps} />;
+    let dom = (
+      <Cascader
+        ref={ref}
+        allowClear={editorProps?.allowClear !== false}
+        options={options}
+        fieldNames={fieldNames}
+        {...editorProps}
+      />
+    );
 
     if (renderEditor) {
-      dom = renderEditor(text, { mode, ...fieldProps }, dom) ?? null;
+      dom = renderEditor(text, dom) ?? null;
     }
 
     return dom;

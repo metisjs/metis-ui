@@ -1,13 +1,13 @@
+import React, { useMemo } from 'react';
 import { useIntl } from '@ant-design/pro-provider';
+// 兼容代码-----------
+import { FieldLabel } from '@ant-design/pro-utils';
 import type { SwitchProps } from 'antd';
 import { Switch } from 'antd';
 import omit from 'rc-util/lib/omit';
-import React, { useMemo } from 'react';
 import type { ProFieldFC } from '../../index';
-
-// 兼容代码-----------
-import { FieldLabel } from '@ant-design/pro-utils';
 import 'antd/lib/switch/style';
+
 //------------
 
 /**
@@ -15,23 +15,22 @@ import 'antd/lib/switch/style';
  *
  * @param
  */
-const FieldSwitch: ProFieldFC<{ text: boolean; fieldProps?: SwitchProps }> = (
-  { text, mode, render, light, label, renderFormItem, fieldProps },
+const FieldSwitch: ProFieldFC<{ text: boolean; editorProps?: SwitchProps }> = (
+  { text, mode, render, light, label, renderFormItem, editorProps },
   ref,
 ) => {
   const intl = useIntl();
   const dom = useMemo(() => {
     if (text === undefined || text === null || `${text}`.length < 1) return '-';
     return text
-      ? fieldProps?.checkedChildren ?? intl.getMessage('switch.open', '打开')
-      : fieldProps?.unCheckedChildren ??
-          intl.getMessage('switch.close', '关闭');
+      ? (editorProps?.checkedChildren ?? intl.getMessage('switch.open', '打开'))
+      : (editorProps?.unCheckedChildren ?? intl.getMessage('switch.close', '关闭'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldProps?.checkedChildren, fieldProps?.unCheckedChildren, text]);
+  }, [editorProps?.checkedChildren, editorProps?.unCheckedChildren, text]);
 
   if (mode === 'read') {
     if (render) {
-      return render(text, { mode, ...fieldProps }, <>{dom}</>);
+      return render(text, <>{dom}</>);
     }
     return dom ?? '-';
   }
@@ -40,12 +39,12 @@ const FieldSwitch: ProFieldFC<{ text: boolean; fieldProps?: SwitchProps }> = (
       <Switch
         ref={ref}
         size={light ? 'small' : undefined}
-        {...omit(fieldProps, ['value'])}
-        checked={fieldProps?.checked ?? fieldProps?.value}
+        {...omit(editorProps, ['value'])}
+        checked={editorProps?.checked ?? editorProps?.value}
       />
     );
     if (light) {
-      const { disabled, bordered } = fieldProps;
+      const { disabled, bordered } = editorProps;
       return (
         <FieldLabel
           label={label}
@@ -67,7 +66,7 @@ const FieldSwitch: ProFieldFC<{ text: boolean; fieldProps?: SwitchProps }> = (
     }
 
     if (renderFormItem) {
-      return renderFormItem(text, { mode, ...fieldProps }, editDom);
+      return renderFormItem(text, editDom);
     }
     return editDom;
   }
