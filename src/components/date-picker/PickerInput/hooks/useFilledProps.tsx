@@ -88,7 +88,7 @@ function useList<T>(value: T | T[], fillMode = false) {
 }
 
 export function parseDate<T>(
-  value: DateValue<T>,
+  value: DateValue<T> | string | number,
   generateConfig: GenerateConfig<T>,
   locale: Locale,
   formatList: string[],
