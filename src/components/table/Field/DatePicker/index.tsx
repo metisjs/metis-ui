@@ -17,25 +17,31 @@ import { useLocale } from '../../../locale';
 const FieldDatePicker: FieldFC<{
   text: string | number;
   format?: DatePickerProps['format'];
-  picker: DatePickerProps['picker'];
+  showTime?: boolean;
+  picker?: DatePickerProps['picker'];
   editorProps?: Partial<DatePickerProps>;
-}> = ({ text, mode, render, renderEditor, picker = 'date', format, editorProps }, ref) => {
+}> = (
+  { text, mode, render, renderEditor, showTime, picker = 'date', format, editorProps },
+  ref,
+) => {
   const [locale] = useLocale('DatePicker');
+  const mergedPicker = showTime ? 'datetime' : picker;
   const [, localeTimeProps] = getTimeProps({
-    ...editorProps,
-    picker,
+    picker: mergedPicker,
     format,
+    showTime,
+    ...editorProps,
     locale,
   });
   const mergedLocale = fillLocale(locale, localeTimeProps);
-  const [formatList] = useFieldFormat<Dayjs>(picker, mergedLocale, format);
+  const [formatList] = useFieldFormat<Dayjs>(mergedPicker, mergedLocale, format);
 
   const stringFormatList = React.useMemo(
     () =>
       formatList.map((format) =>
-        typeof format === 'function' ? getRowFormat(picker, locale) : format,
+        typeof format === 'function' ? getRowFormat(mergedPicker, locale) : format,
       ) as string[],
-    [formatList, picker, locale],
+    [formatList, mergedPicker, locale],
   );
 
   if (mode === 'read') {
@@ -53,7 +59,9 @@ const FieldDatePicker: FieldFC<{
   }
 
   if (mode === 'edit') {
-    const dom = <DatePicker ref={ref} format={format} picker={picker} {...editorProps} />;
+    const dom = (
+      <DatePicker ref={ref} format={format} showTime={showTime} picker={picker} {...editorProps} />
+    );
     if (renderEditor) {
       return renderEditor(text, dom);
     }

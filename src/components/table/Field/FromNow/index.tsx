@@ -27,6 +27,8 @@ const FieldFromNow: FieldFC<{
   const [locale] = useLocale('DatePicker');
   const [, localeTimeProps] = getTimeProps({
     ...editorProps,
+    picker: 'datetime',
+    showTime: true,
     format,
     locale,
   });

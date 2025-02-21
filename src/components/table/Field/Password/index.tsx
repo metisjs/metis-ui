@@ -1,32 +1,23 @@
 import React from 'react';
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
-import { useIntl } from '@ant-design/pro-provider';
-import { Input, Space } from 'antd';
+import { EyeOutline, EyeSlashOutline } from '@metisjs/icons';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import type { ProFieldFC } from '../../index';
-// 兼容代码-----------
-import 'antd/lib/input/style';
-import 'antd/lib/space/style';
-
-//----------------------
+import type { FieldFC } from '..';
+import type { PasswordProps } from '../../../input';
+import Input from '../../../input';
+import Space from '../../../space';
 
 /**
- * 最基本的组件，就是个普通的 Input.Password
- *
- * @param
+ * 密码组件
  */
-const FieldPassword: ProFieldFC<{
+const FieldPassword: FieldFC<{
   text: string;
-  visible?: boolean;
-  onVisible?: (visible: boolean) => void;
   open?: boolean;
   onOpenChange?: (visible: boolean) => void;
-}> = ({ text, mode, render, renderFormItem, editorProps, proFieldKey, ...rest }, ref) => {
-  const intl = useIntl();
-
-  const [open, setOpen] = useMergedState<boolean>(() => rest.open || rest.visible || false, {
-    value: rest.open || rest.visible,
-    onChange: rest.onOpenChange || rest.onVisible,
+  editorProps?: Partial<PasswordProps>;
+}> = ({ text, mode, render, renderEditor, editorProps, ...rest }, ref) => {
+  const [open, setOpen] = useMergedState<boolean>(() => rest.open || false, {
+    value: rest.open,
+    onChange: rest.onOpenChange,
   });
 
   if (mode === 'read') {
@@ -35,7 +26,7 @@ const FieldPassword: ProFieldFC<{
       dom = (
         <Space>
           <span ref={ref}>{open ? text : '********'}</span>
-          <a onClick={() => setOpen(!open)}>{open ? <EyeOutlined /> : <EyeInvisibleOutlined />}</a>
+          <a onClick={() => setOpen(!open)}>{open ? <EyeOutline /> : <EyeSlashOutline />}</a>
         </Space>
       );
     }
@@ -44,16 +35,10 @@ const FieldPassword: ProFieldFC<{
     }
     return dom;
   }
-  if (mode === 'edit' || mode === 'update') {
-    const dom = (
-      <Input.Password
-        placeholder={intl.getMessage('tableForm.inputPlaceholder', '请输入')}
-        ref={ref}
-        {...editorProps}
-      />
-    );
-    if (renderFormItem) {
-      return renderFormItem(text, dom);
+  if (mode === 'edit') {
+    const dom = <Input.Password ref={ref} {...editorProps} />;
+    if (renderEditor) {
+      return renderEditor(text, dom);
     }
     return dom;
   }

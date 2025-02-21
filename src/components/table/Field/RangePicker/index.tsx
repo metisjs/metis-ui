@@ -1,78 +1,76 @@
-import React, { useCallback } from 'react';
-import { useIntl } from '@ant-design/pro-provider';
-import { compatibleBorder, FieldLabel, parseValueToDay } from '@ant-design/pro-utils';
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import type { ProFieldFC, ProFieldLightProps } from '../../index';
-// 兼容代码-----------
-import 'antd/lib/date-picker/style';
-
-//------------
+import React from 'react';
+import type { Dayjs } from 'dayjs';
+import type { FieldFC } from '..';
+import type { RangePickerProps } from '../../../date-picker';
+import DatePicker from '../../../date-picker';
+import dayjsGenerateConfig from '../../../date-picker/generate/config/dayjs';
+import { getTimeProps } from '../../../date-picker/hooks/useTimeConfig';
+import { useFieldFormat } from '../../../date-picker/PickerInput/hooks/useFieldFormat';
+import { fillLocale, parseDate } from '../../../date-picker/PickerInput/hooks/useFilledProps';
+import { formatValue } from '../../../date-picker/utils/dateUtil';
+import { getRowFormat } from '../../../date-picker/utils/miscUtil';
+import { useLocale } from '../../../locale';
 
 /**
  * 日期范围选择组件
- *
- * @param
  */
-const FieldRangePicker: ProFieldFC<
-  {
-    text: string[];
-    format: string;
-    bordered?: boolean;
-    showTime?: boolean;
-    picker?: 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year';
-  } & ProFieldLightProps
-> = (
-  {
-    text,
-    mode,
-    light,
-    label,
-    format,
-    render,
-    picker,
-    renderFormItem,
-    plain,
-    showTime,
-    lightLabel,
-    bordered,
-    editorProps,
-  },
+const FieldRangePicker: FieldFC<{
+  text: string[];
+  format?: RangePickerProps['format'];
+  showTime?: boolean;
+  picker?: RangePickerProps['picker'];
+  editorProps?: Partial<RangePickerProps>;
+}> = (
+  { text, mode, render, renderEditor, showTime, picker = 'date', format, editorProps },
   ref,
 ) => {
-  const intl = useIntl();
-
   const [startText, endText] = Array.isArray(text) ? text : [];
-  const [open, setOpen] = React.useState<boolean>(false);
-  // antd 改了一下 交互，这里要兼容一下，不然会导致无法选中第二个数据
-  const genFormatText = useCallback(
-    (formatValue: dayjs.Dayjs) => {
-      if (typeof editorProps?.format === 'function') {
-        return editorProps?.format?.(formatValue);
-      }
-      return editorProps?.format || format || 'YYYY-MM-DD';
-    },
-    [editorProps, format],
+
+  const [locale] = useLocale('DatePicker');
+  const mergedPicker = showTime ? 'datetime' : picker;
+  const [, localeTimeProps] = getTimeProps({
+    picker: mergedPicker,
+    format,
+    ...editorProps,
+    showTime,
+    locale,
+  });
+  const mergedLocale = fillLocale(locale, localeTimeProps);
+  const [formatList] = useFieldFormat<Dayjs>(mergedPicker, mergedLocale, format);
+
+  const stringFormatList = React.useMemo(
+    () =>
+      formatList.map((format) =>
+        typeof format === 'function' ? getRowFormat(mergedPicker, locale) : format,
+      ) as string[],
+    [formatList, mergedPicker, locale],
   );
-  // activePickerIndex for https://github.com/ant-design/ant-design/issues/22158
-  const parsedStartText: string = startText
-    ? dayjs(startText).format(genFormatText(dayjs(startText)))
-    : '';
-  const parsedEndText: string = endText ? dayjs(endText).format(genFormatText(dayjs(endText))) : '';
 
   if (mode === 'read') {
+    const parsedStartText = parseDate<Dayjs>(
+      startText,
+      dayjsGenerateConfig,
+      locale,
+      stringFormatList,
+    );
+    const parsedEndText = parseDate<Dayjs>(endText, dayjsGenerateConfig, locale, stringFormatList);
+
     const dom = (
-      <div
-        ref={ref}
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 8,
-          alignItems: 'center',
-        }}
-      >
-        <div>{parsedStartText || '-'}</div>
-        <div>{parsedEndText || '-'}</div>
+      <div ref={ref} className="flex flex-wrap items-center gap-2">
+        <div>
+          {formatValue(parsedStartText, {
+            locale,
+            format: formatList[0],
+            generateConfig: dayjsGenerateConfig,
+          }) || '-'}
+        </div>
+        <div>
+          {formatValue(parsedEndText, {
+            locale,
+            format: formatList[0],
+            generateConfig: dayjsGenerateConfig,
+          }) || '-'}
+        </div>
       </div>
     );
     if (render) {
@@ -81,76 +79,12 @@ const FieldRangePicker: ProFieldFC<
     return dom;
   }
 
-  if (mode === 'edit' || mode === 'update') {
-    const dayValue = parseValueToDay(editorProps.value) as dayjs.Dayjs[];
-    let dom;
-
-    if (light) {
-      dom = (
-        <FieldLabel
-          label={label}
-          onClick={() => {
-            editorProps?.onOpenChange?.(true);
-            setOpen(true);
-          }}
-          style={
-            dayValue
-              ? {
-                  paddingInlineEnd: 0,
-                }
-              : undefined
-          }
-          disabled={editorProps.disabled}
-          value={
-            dayValue || open ? (
-              <DatePicker.RangePicker
-                picker={picker}
-                showTime={showTime}
-                format={format}
-                {...compatibleBorder(false)}
-                {...editorProps}
-                placeholder={
-                  editorProps.placeholder ?? [
-                    intl.getMessage('tableForm.selectPlaceholder', '请选择'),
-                    intl.getMessage('tableForm.selectPlaceholder', '请选择'),
-                  ]
-                }
-                onClear={() => {
-                  setOpen(false);
-                  editorProps?.onClear?.();
-                }}
-                value={dayValue}
-                onOpenChange={(isOpen) => {
-                  if (dayValue) setOpen(isOpen);
-                  editorProps?.onOpenChange?.(isOpen);
-                }}
-              />
-            ) : null
-          }
-          allowClear={false}
-          bordered={bordered}
-          ref={lightLabel}
-          downIcon={dayValue || open ? false : undefined}
-        />
-      );
-    } else {
-      dom = (
-        <DatePicker.RangePicker
-          ref={ref}
-          format={format}
-          showTime={showTime}
-          placeholder={[
-            intl.getMessage('tableForm.selectPlaceholder', '请选择'),
-            intl.getMessage('tableForm.selectPlaceholder', '请选择'),
-          ]}
-          {...compatibleBorder(plain === undefined ? true : !plain)}
-          {...editorProps}
-          value={dayValue}
-        />
-      );
-    }
-    if (renderFormItem) {
-      return renderFormItem(text, dom);
+  if (mode === 'edit') {
+    const dom = (
+      <DatePicker.RangePicker ref={ref} format={format} showTime={showTime} {...editorProps} />
+    );
+    if (renderEditor) {
+      return renderEditor(text, dom);
     }
     return dom;
   }

@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import omit from 'rc-util/lib/omit';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
+import InputNumber from '../../../input-number';
 import { useLocale } from '../../../locale';
 
 export type FieldMoneyProps = {
@@ -124,7 +123,7 @@ const getTextByLocale = (
   config?: any,
   moneySymbol: string = '',
 ) => {
-  let moneyText: number | string | undefined = paramsText?.toString().replaceAll(',', '');
+  let moneyText: number | string | undefined = paramsText?.toString().replace(/,/g, '');
   if (typeof moneyText === 'string') {
     const parsedNum = Number(moneyText);
     // 转换数字为NaN时，返回原始值展示
@@ -186,52 +185,6 @@ const getTextByLocale = (
 
 // 默认的代码类型
 const DefaultPrecisionCont = 2;
-
-/**
- * input 的弹框，用于显示格式化之后的内容
- *
- * @result 10,000 -> 一万
- * @result 10, 00, 000, 000 -> 一亿
- */
-const InputNumberPopover = React.forwardRef<
-  any,
-  InputNumberProps & {
-    open?: boolean;
-    contentRender?: (props: InputNumberProps) => React.ReactNode;
-  } & {
-    numberFormatOptions?: any;
-    numberPopoverRender?: any;
-  }
->(({ contentRender: content, numberFormatOptions, numberPopoverRender, open, ...rest }, ref) => {
-  const [value, onChange] = useMergedState<any>(() => rest.defaultValue, {
-    value: rest.value,
-    onChange: rest.onChange,
-  });
-
-  /**
-   * 如果content 存在要根据 content 渲染一下
-   */
-  const dom = content?.({
-    ...rest,
-    value,
-  });
-
-  const props = openVisibleCompatible(dom ? open : false);
-
-  return (
-    <Popover
-      placement="topLeft"
-      {...props}
-      trigger={['focus', 'click']}
-      content={dom}
-      getPopupContainer={(triggerNode) => {
-        return triggerNode?.parentElement || document.body;
-      }}
-    >
-      <InputNumber ref={ref} {...rest} value={value} onChange={onChange} />
-    </Popover>
-  );
-});
 
 /**
  * 金额组件
@@ -302,29 +255,9 @@ const FieldMoney: FieldFC<FieldMoneyProps> = (
 
   if (mode === 'edit') {
     const dom = (
-      <InputNumberPopover
-        contentRender={(props) => {
-          if (numberPopoverRender === false) return null;
-          if (!props.value) return null;
-          const localeText = getTextByLocale(
-            moneySymbol || locale || false,
-            `${getFormateValue(props.value)}`,
-            mergedPrecision,
-            {
-              ...numberFormatOptions,
-              notation: 'compact',
-            },
-            moneySymbol,
-          );
-
-          if (typeof numberPopoverRender === 'function') {
-            return numberPopoverRender?.(props, localeText) as React.ReactNode;
-          }
-          return localeText;
-        }}
+      <InputNumber
         ref={ref}
         precision={mergedPrecision}
-        // 删除默认min={0}，允许输入一个负数的金额，用户可自行配置min来限制是否允许小于0的金额
         formatter={(value) => {
           if (value && moneySymbol) {
             return `${moneySymbol} ${getFormateValue(value)}`;
@@ -337,26 +270,7 @@ const FieldMoney: FieldFC<FieldMoneyProps> = (
           }
           return value!;
         }}
-        {...omit(editorProps, [
-          'numberFormatOptions',
-          'precision',
-          'numberPopoverRender',
-          'customSymbol',
-          'moneySymbol',
-          'visible',
-          'open',
-        ])}
-        onBlur={
-          editorProps.onBlur
-            ? (e) => {
-                let value = e.target.value;
-                if (moneySymbol && value) {
-                  value = value.replace(new RegExp(`\\${moneySymbol}\\s?|(,*)`, 'g'), '');
-                }
-                editorProps.onBlur?.(value);
-              }
-            : undefined
-        }
+        {...editorProps}
       />
     );
 

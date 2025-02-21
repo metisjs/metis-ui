@@ -1,15 +1,12 @@
 import React, { useMemo } from 'react';
-import { useIntl } from '@ant-design/pro-provider';
-import { InputNumber, Progress } from 'antd';
-import type { ProFieldFC } from '../../index';
-import { toNumber } from '../Percent/util';
-// 兼容代码-----------
-import 'antd/lib/input-number/style';
-import 'antd/lib/progress/style';
+import type { FieldFC } from '..';
+import type { InputNumberProps } from '../../../input-number';
+import InputNumber from '../../../input-number';
+import type { ProgressProps } from '../../../progress';
+import Progress from '../../../progress';
+import { toNumber } from '../Percent';
 
-//------------
-
-export function getProgressStatus(text: number): 'success' | 'exception' | 'normal' | 'active' {
+export function getProgressStatus(text: number): ProgressProps['status'] {
   if (text === 100) {
     return 'success';
   }
@@ -28,12 +25,11 @@ export function getProgressStatus(text: number): 'success' | 'exception' | 'norm
  *
  * @param
  */
-const FieldProgress: ProFieldFC<{
+const FieldProgress: FieldFC<{
   text: number | string;
-  placeholder?: string;
-}> = ({ text, mode, render, plain, renderFormItem, editorProps, placeholder }, ref) => {
-  const intl = useIntl();
-  const placeholderValue = placeholder || intl.getMessage('tableForm.inputPlaceholder', '请输入');
+  status?: ProgressProps['status'];
+  editorProps?: Partial<InputNumberProps>;
+}> = ({ text, mode, status, render, renderEditor, editorProps }, ref) => {
   const realValue = useMemo(
     () =>
       typeof text === 'string' && (text as string).includes('%')
@@ -48,9 +44,7 @@ const FieldProgress: ProFieldFC<{
         size="small"
         style={{ minWidth: 100, maxWidth: 320 }}
         percent={realValue}
-        steps={plain ? 10 : undefined}
-        status={getProgressStatus(realValue as number)}
-        {...editorProps}
+        status={status ?? getProgressStatus(realValue as number)}
       />
     );
     if (render) {
@@ -59,10 +53,10 @@ const FieldProgress: ProFieldFC<{
     return dom;
   }
 
-  if (mode === 'edit' || mode === 'update') {
-    const dom = <InputNumber ref={ref} placeholder={placeholderValue} {...editorProps} />;
-    if (renderFormItem) {
-      return renderFormItem(text, dom);
+  if (mode === 'edit') {
+    const dom = <InputNumber ref={ref} {...editorProps} />;
+    if (renderEditor) {
+      return renderEditor(text, dom);
     }
     return dom;
   }
