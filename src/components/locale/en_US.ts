@@ -152,6 +152,10 @@ const localeValues: Locale = {
     collapse: 'Collapse',
     all: 'All',
   },
+  Switch: {
+    open: 'Open',
+    close: 'Close',
+  },
 };
 
 export default localeValues;

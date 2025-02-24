@@ -151,6 +151,10 @@ const localeValues: Locale = {
     collapse: '收起',
     all: '全部',
   },
+  Switch: {
+    open: '打开',
+    close: '关闭',
+  },
 };
 
 export default localeValues;

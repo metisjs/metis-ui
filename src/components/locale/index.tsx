@@ -64,6 +64,10 @@ export interface Locale {
     collapse: string;
     all: string;
   };
+  Switch: {
+    open: string;
+    close: string;
+  };
 }
 
 export interface LocaleProviderProps {
