@@ -9,6 +9,8 @@ import type {
   AlignType,
   CellEllipsisType,
   ColumnType,
+  ColumnValueEnum,
+  ColumnValueType,
   CustomizeComponent,
   DataIndex,
   ScopeType,
@@ -55,6 +57,9 @@ export interface CellProps<RecordType extends AnyObject> {
   rowType?: 'header' | 'body' | 'footer';
 
   isSticky?: boolean;
+
+  valueType?: ColumnValueType<RecordType>;
+  valueEnum?: ColumnValueEnum<RecordType>;
 }
 
 export const getTitleFromCellRenderChildren = ({
