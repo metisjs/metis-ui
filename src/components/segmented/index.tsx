@@ -75,7 +75,7 @@ export interface SegmentedOptionProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>, value: SegmentedRawOption) => void;
 }
 
-function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
+export function normalizeOptions(options: SegmentedOptions): SegmentedLabeledOption[] {
   return options.map((option) => {
     if (typeof option === 'object' && option !== null) {
       return option;
