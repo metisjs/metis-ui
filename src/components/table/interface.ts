@@ -211,7 +211,7 @@ export type ColumnValueType<RecordType extends AnyObject> =
   | ((record: RecordType) => FieldValueType | FieldValueObject);
 
 export type ColumnValueEnum<RecordType extends AnyObject> =
-  | ((record: RecordType) => FieldValueEnumObj | FieldValueEnumMap)
+  | ((record: RecordType) => FieldValueEnumObj | FieldValueEnumMap | GetRequestType<RecordType>)
   | FieldValueEnumObj
   | FieldValueEnumMap
   | GetRequestType<RecordType>;
