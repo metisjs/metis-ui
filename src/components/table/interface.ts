@@ -2,6 +2,10 @@ import type * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject, RequestConfig, SafeKey } from '@util/type';
+import type {
+  Options as RequestOptions,
+  Service as RequestService,
+} from 'ahooks/lib/useRequest/src/types';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
 import type { CheckboxProps } from '../checkbox';
 import type { DropdownProps } from '../dropdown';
@@ -210,11 +214,17 @@ export type ColumnValueType<RecordType extends AnyObject> =
   | FieldValueObject
   | ((record: RecordType) => FieldValueType | FieldValueObject);
 
+export type ColumnValueEnumRequestType<TData extends AnyObject> = {
+  request: RequestService<{ data: TData[]; total?: number }, any[]>;
+} & Omit<RequestOptions<{ data: TData[]; total?: number }, any[]>, 'manual'>;
+
 export type ColumnValueEnum<RecordType extends AnyObject> =
-  | ((record: RecordType) => FieldValueEnumObj | FieldValueEnumMap | GetRequestType<RecordType>)
+  | ((
+      record: RecordType,
+    ) => FieldValueEnumObj | FieldValueEnumMap | ColumnValueEnumRequestType<RecordType>)
   | FieldValueEnumObj
   | FieldValueEnumMap
-  | GetRequestType<RecordType>;
+  | ColumnValueEnumRequestType<RecordType>;
 
 export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedType<RecordType> {
   title?: ColumnTitle<RecordType>;
