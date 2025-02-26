@@ -160,6 +160,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             component={column.rowScope ? scopeCellComponent : cellComponent}
             prefixCls={prefixCls}
             key={key}
+            cellKey={key}
             record={record}
             rowIndex={index}
             rowSelected={selected}

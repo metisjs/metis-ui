@@ -13,6 +13,7 @@ export default function useCellRender<RecordType extends AnyObject>(
   renderIndex: number,
   valueType: ColumnValueType<RecordType> | undefined,
   valueEnum: ColumnValueEnum<RecordType> | undefined,
+  cacehKey: string,
   children?: React.ReactNode,
   render?: ColumnType<RecordType>['render'],
   shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'],

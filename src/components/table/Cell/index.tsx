@@ -21,6 +21,7 @@ import useHoverState from './useHoverState';
 export interface CellProps<RecordType extends AnyObject> {
   prefixCls?: string;
   className?: ColumnType<RecordType>['className'];
+  cellKey?: React.Key;
   record: RecordType;
   rowIndex: number;
   rowSelected?: boolean;
@@ -124,12 +125,13 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
 
     valueType,
     valueEnum,
+    cellKey,
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
-  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter } = useContext(
+  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter, tableKey } = useContext(
     TableContext,
-    ['allColumnsFixedLeft', 'rowHoverable', 'size', 'verticalLine', 'fixFooter'],
+    ['allColumnsFixedLeft', 'rowHoverable', 'size', 'verticalLine', 'fixFooter', 'tableKey'],
   );
 
   // ====================== Value =======================
@@ -139,6 +141,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     renderIndex,
     valueType,
     valueEnum,
+    `${tableKey}-cell-${cellKey}`,
     children,
     render,
     shouldCellUpdate,

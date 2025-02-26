@@ -136,6 +136,7 @@ function useColumns<RecordType extends AnyObject>(
   updateColsWidths: (updater: Updater<Map<React.Key, number>>) => void,
   stickyOffsets: StickyOffsets,
   position: ColumnsPos,
+  columnKeys: React.Key[],
 ] {
   const [colsWidths, updateColsWidths] = useLayoutState(new Map<React.Key, number>());
 
@@ -204,6 +205,7 @@ function useColumns<RecordType extends AnyObject>(
     updateColsWidths,
     stickyOffsets,
     position,
+    colsKeys,
   ];
 }
 

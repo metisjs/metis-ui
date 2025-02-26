@@ -524,6 +524,7 @@ function InternalTable<RecordType extends AnyObject>(
     updateColsWidths,
     stickyOffsets,
     columnsPos,
+    columnsKey,
   ] = useColumns(
     {
       columns,
@@ -1038,6 +1039,7 @@ function InternalTable<RecordType extends AnyObject>(
       selectedRowKeys: selectedKeySet,
       size: mergedSize,
       verticalLine,
+      tableKey: columnsKey.join('@#@'),
 
       componentWidth,
       fixHeader,
@@ -1113,6 +1115,7 @@ function InternalTable<RecordType extends AnyObject>(
       mergedColumns,
       flattenColumns,
       onColumnResize,
+      columnsKey.join('_'),
 
       // Row
       startRow,

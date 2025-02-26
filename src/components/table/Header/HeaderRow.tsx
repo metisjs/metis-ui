@@ -83,6 +83,7 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
             component={CellComponent}
             prefixCls={prefixCls}
             key={columnsKey[cellIndex]}
+            cellKey={columnsKey[cellIndex]}
             {...fixedInfo}
             additionalProps={additionalProps}
             rowType="header"

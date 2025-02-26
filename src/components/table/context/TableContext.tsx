@@ -35,6 +35,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   selectedRowKeys: Set<React.Key>;
   size: 'default' | 'middle' | 'small';
   verticalLine?: boolean;
+  tableKey: string;
 
   // Body
   rowClassName?: string | RowClassName<RecordType>;
