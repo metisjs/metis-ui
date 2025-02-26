@@ -2,6 +2,7 @@ import React from 'react';
 import type { FieldFC } from '..';
 import type { RadioGroupProps } from '../../../radio';
 import Radio from '../../../radio';
+import Spin from '../../../spin';
 import { fieldParsingOptions, fieldParsingText } from '../util';
 
 /**
@@ -10,8 +11,12 @@ import { fieldParsingOptions, fieldParsingText } from '../util';
 const FieldRadio: FieldFC<{
   text: string | number;
   editorProps?: Partial<RadioGroupProps>;
-}> = ({ text, renderEditor, mode, render, editorProps, valueEnum }, ref) => {
+}> = ({ text, renderEditor, mode, render, editorProps, valueEnum, loading }, ref) => {
   const options = editorProps?.options;
+
+  if (loading) {
+    return <Spin size="small" />;
+  }
 
   if (mode === 'read') {
     const optionsValueEnum = options?.length

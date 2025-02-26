@@ -1,6 +1,7 @@
 import React from 'react';
 import type { FieldFC } from '..';
 import Segmented, { normalizeOptions, type SegmentedProps } from '../../../segmented';
+import Spin from '../../../spin';
 import { fieldParsingOptions, fieldParsingText } from '../util';
 
 /**
@@ -11,8 +12,12 @@ const FieldSegmented: FieldFC<{
   emptyText?: React.ReactNode;
   editorProps?: Partial<SegmentedProps>;
 }> = (props, ref) => {
-  const { mode, render, renderEditor, editorProps, emptyText = '-', ...rest } = props;
+  const { mode, render, renderEditor, editorProps, emptyText = '-', loading, ...rest } = props;
   const options = normalizeOptions(editorProps?.options ?? []);
+
+  if (loading) {
+    return <Spin size="small" />;
+  }
 
   if (mode === 'read') {
     const optionsValueEnum = options?.length

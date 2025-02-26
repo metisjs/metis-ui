@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import type { SwitchProps } from 'metis-ui/es/switch';
 import type { FieldFC } from '..';
 import { useLocale } from '../../../locale';
+import Spin from '../../../spin';
 import Switch from '../../../switch';
 import { fieldParsingText } from '../util';
 
@@ -9,7 +10,7 @@ import { fieldParsingText } from '../util';
  * Switch 组件
  */
 const FieldSwitch: FieldFC<{ text: boolean; editorProps?: Partial<SwitchProps> }> = (
-  { text, mode, render, renderEditor, editorProps, valueEnum },
+  { text, mode, render, renderEditor, editorProps, valueEnum, loading },
   ref,
 ) => {
   const [locale] = useLocale('Switch');
@@ -19,6 +20,10 @@ const FieldSwitch: FieldFC<{ text: boolean; editorProps?: Partial<SwitchProps> }
       ? (fieldParsingText(`true`, valueEnum) ?? editorProps?.checkedChildren ?? locale.open)
       : (fieldParsingText(`false`, valueEnum) ?? editorProps?.unCheckedChildren ?? locale.close);
   }, [editorProps?.checkedChildren, editorProps?.unCheckedChildren, text]);
+
+  if (loading) {
+    return <Spin size="small" />;
+  }
 
   if (mode === 'read') {
     if (render) {

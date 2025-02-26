@@ -4,13 +4,15 @@ import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import getValue from 'rc-util/lib/utils/get';
 import { useImmutableMark } from '../context/TableContext';
-import type { ColumnType, DataIndex } from '../interface';
+import type { ColumnType, ColumnValueEnum, ColumnValueType, DataIndex } from '../interface';
 import { validateValue } from '../utils/valueUtil';
 
 export default function useCellRender<RecordType extends AnyObject>(
   record: RecordType,
   dataIndex: DataIndex<RecordType> | null | undefined,
   renderIndex: number,
+  valueType: ColumnValueType<RecordType> | undefined,
+  valueEnum: ColumnValueEnum<RecordType> | undefined,
   children?: React.ReactNode,
   render?: ColumnType<RecordType>['render'],
   shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'],

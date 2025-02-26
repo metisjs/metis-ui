@@ -121,6 +121,9 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     appendNode,
     additionalProps = {},
     isSticky,
+
+    valueType,
+    valueEnum,
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
@@ -134,6 +137,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     record,
     dataIndex,
     renderIndex,
+    valueType,
+    valueEnum,
     children,
     render,
     shouldCellUpdate,

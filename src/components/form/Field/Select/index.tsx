@@ -3,6 +3,7 @@ import type { FieldFC, FieldProps } from '..';
 import type { SelectProps } from '../../../select';
 import Select from '../../../select';
 import type { BaseOptionType, RawValueType } from '../../../select/interface';
+import Spin from '../../../spin';
 import { fieldParsingOptions, fieldParsingText } from '../util';
 
 /**
@@ -11,7 +12,7 @@ import { fieldParsingOptions, fieldParsingText } from '../util';
 const FieldSelect: FieldFC<{
   text: string | number;
   editorProps?: Partial<SelectProps>;
-}> = ({ text, mode, valueEnum, render, renderEditor, editorProps }, ref) => {
+}> = ({ text, mode, valueEnum, render, renderEditor, editorProps, loading }, ref) => {
   const optionsValueEnum = useMemo(() => {
     if (mode !== 'read') return;
 
@@ -41,6 +42,10 @@ const FieldSelect: FieldFC<{
   }, [mode, editorProps?.options, editorProps?.fieldNames]);
 
   if (mode === 'read') {
+    if (loading) {
+      return <Spin size="small" />;
+    }
+
     const dom = <>{fieldParsingText(text, valueEnum || optionsValueEnum)}</>;
 
     if (render) {
@@ -54,6 +59,7 @@ const FieldSelect: FieldFC<{
       <Select
         ref={ref}
         allowClear
+        loading={loading}
         options={fieldParsingOptions(valueEnum)}
         {...editorProps}
         style={{

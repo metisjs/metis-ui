@@ -1,3 +1,8 @@
+import type { AnyObject } from '@util/type';
+import type {
+  Options as RequestOptions,
+  Service as RequestService,
+} from 'ahooks/lib/useRequest/src/types';
 import type { AvatarProps } from '../avatar';
 import type { CascaderProps } from '../cascader';
 import type { CheckboxProps } from '../checkbox';
@@ -130,3 +135,24 @@ export type FieldValueEnumMap = Map<
 >;
 
 export type FieldValueEnumObj = Record<string, FieldValueEnumType | React.ReactNode>;
+
+export type RequestDataType = {
+  label?: React.ReactNode;
+  value?: string | number | boolean;
+  status?: string;
+  color?: string;
+  disabled?: boolean;
+  [key: string]: any;
+};
+
+export type FieldValueEnumRequestType = {
+  request: RequestService<{ data: RequestDataType[] }, any[]>;
+} & Omit<RequestOptions<{ data: RequestDataType[] }, any[]>, 'manual'> & {
+    fieldNames: {
+      value?: keyof RequestDataType;
+      label?: keyof RequestDataType;
+      status?: keyof RequestDataType;
+      color?: keyof RequestDataType;
+      disabled?: keyof RequestDataType;
+    };
+  };

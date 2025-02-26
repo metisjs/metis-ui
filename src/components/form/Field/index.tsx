@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { AnyObject } from '@util/type';
+import { useRequest } from 'ahooks';
 import omit from 'rc-util/lib/omit';
 import Avatar from '../../avatar';
 import type {
   FieldValueEnumMap,
   FieldValueEnumObj,
+  FieldValueEnumRequestType,
   FieldValueObject,
   FieldValueType,
+  RequestDataType,
 } from '../interface';
 import FieldCascader from './Cascader';
 import FieldCheckbox from './Checkbox';
@@ -30,6 +33,7 @@ import FieldText from './Text';
 import FieldTextArea from './TextArea';
 import FieldTimePicker from './TimePicker';
 import FieldTimeRangePicker from './TimeRangePicker';
+import { isValueEnumWithRequest } from './util';
 
 export type BaseFieldProps = {
   /** 值的类型 */
@@ -44,6 +48,7 @@ export type BaseFieldProps = {
   valueEnum?: FieldValueEnumMap | FieldValueEnumObj;
   editorProps?: AnyObject;
   emptyText?: React.ReactNode;
+  loading?: boolean;
 };
 
 export type FieldMode = 'read' | 'edit';
@@ -76,29 +81,110 @@ export type FieldTextType =
   | Record<string, any>
   | Record<string, any>[];
 
-/**
- * Render valueType object
- */
-const defaultRenderTextByObject = (
-  dataValue: FieldTextType,
-  valueType: FieldValueObject,
-  props: Omit<BaseFieldProps, 'text'> & RenderFieldProps & AnyObject,
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-) => defaultRenderText(dataValue, valueType.type, { ...omit(valueType, ['type']), ...props });
+export type FieldPropsType = {
+  text?: FieldTextType;
+  valueType?: FieldValueType | FieldValueObject;
+  valueEnum?: FieldValueEnumMap | FieldValueEnumObj | FieldValueEnumRequestType;
+  fieldKey?: string;
+} & Omit<BaseFieldProps, 'text' | 'valueEnum'> &
+  RenderFieldProps &
+  AnyObject;
 
-/**
- * 根据不同的类型来转化数值
- */
-const defaultRenderText = (
-  dataValue: FieldTextType,
-  valueType: FieldValueType | FieldValueObject,
-  props: Omit<BaseFieldProps, 'text'> & RenderFieldProps & AnyObject,
-): React.ReactNode => {
-  const { mode = 'read', emptyText = '-' } = props;
+const defaultFieldNames = {
+  label: 'label',
+  value: 'value',
+  status: 'status',
+  color: 'color',
+  disabled: 'disabled',
+};
 
-  if (emptyText !== false && mode === 'read' && valueType !== 'option' && valueType !== 'switch') {
+const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
+  {
+    text,
+    valueType = 'text',
+    mode = 'read',
+    renderEditor,
+    editorProps,
+    valueEnum,
+    fieldKey,
+    emptyText = '-',
+    ...rest
+  },
+  ref: any,
+) => {
+  const [remoteValueEnum, setRemoteValueEnum] = useState<FieldValueEnumObj>();
+
+  const isValueEnumRequest = isValueEnumWithRequest(valueEnum);
+  const fieldNames = isValueEnumRequest
+    ? {
+        ...defaultFieldNames,
+        ...valueEnum?.fieldNames,
+      }
+    : defaultFieldNames;
+
+  const { loading } = useRequest(
+    (...defaultParams: any[]) => {
+      if (isValueEnumRequest) {
+        return valueEnum.request(...defaultParams);
+      }
+      return new Promise(() => {});
+    },
+    {
+      loadingDelay: 100,
+      cacheKey: fieldKey,
+      staleTime: 1000 * 5,
+      ...(isValueEnumRequest
+        ? {
+            onSuccess: (
+              data: {
+                data: RequestDataType[];
+              },
+              params: any[],
+            ) => {
+              setRemoteValueEnum(() =>
+                data.data.reduce(
+                  (pre, cur) => ({
+                    ...pre,
+                    [cur[fieldNames.value]]: {
+                      label: cur[fieldNames.label],
+                      status: cur[fieldNames.status],
+                      color: cur[fieldNames.color],
+                      disabled: cur[fieldNames.disabled],
+                    },
+                  }),
+                  {} as FieldValueEnumObj,
+                ),
+              );
+              valueEnum.onSuccess?.(data, params);
+            },
+            ...omit(valueEnum, ['request', 'fieldNames', 'onSuccess']),
+          }
+        : { ready: false }),
+    },
+  );
+
+  const mergedValueEnum = isValueEnumRequest ? remoteValueEnum : valueEnum;
+  const dataValue =
+    mode === 'edit' ? (editorProps?.value ?? text ?? '') : (text ?? editorProps?.value ?? '');
+  const mergedValueType = typeof valueType === 'object' ? valueType.type : valueType;
+  const shareProps = {
+    ref,
+    mode,
+    valueEnum: mergedValueEnum,
+    emptyText,
+    loading,
+    ...(typeof valueType === 'object' ? omit(valueType, ['type']) : {}),
+    ...rest,
+  };
+
+  if (
+    emptyText !== false &&
+    mode === 'read' &&
+    mergedValueType !== 'option' &&
+    mergedValueType !== 'switch'
+  ) {
     if (typeof dataValue !== 'boolean' && typeof dataValue !== 'number' && !dataValue) {
-      const { render } = props;
+      const { render } = shareProps;
       if (render) {
         return render(dataValue, <>{emptyText}</>);
       }
@@ -106,166 +192,136 @@ const defaultRenderText = (
     }
   }
 
-  if (typeof valueType === 'object') {
-    return defaultRenderTextByObject(dataValue, valueType, props);
+  if (mergedValueType === 'money') {
+    return <FieldMoney text={dataValue as number} {...shareProps} />;
   }
 
-  if (valueType === 'money') {
-    return <FieldMoney text={dataValue as number} {...props} />;
+  if (mergedValueType === 'date') {
+    return <FieldDatePicker text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'date') {
-    return <FieldDatePicker text={dataValue as string} {...props} />;
+  if (mergedValueType === 'dateWeek') {
+    return <FieldDatePicker text={dataValue as string} picker="week" {...shareProps} />;
   }
 
-  if (valueType === 'dateWeek') {
-    return <FieldDatePicker text={dataValue as string} picker="week" {...props} />;
+  if (mergedValueType === 'dateWeekRange') {
+    return <FieldDateRangePicker text={dataValue as string[]} picker="week" {...shareProps} />;
   }
 
-  if (valueType === 'dateWeekRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="week" {...props} />;
+  if (mergedValueType === 'dateMonthRange') {
+    return <FieldDateRangePicker text={dataValue as string[]} picker="month" {...shareProps} />;
   }
 
-  if (valueType === 'dateMonthRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="month" {...props} />;
+  if (mergedValueType === 'dateQuarterRange') {
+    return <FieldDateRangePicker text={dataValue as string[]} picker="quarter" {...shareProps} />;
   }
 
-  if (valueType === 'dateQuarterRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="quarter" {...props} />;
+  if (mergedValueType === 'dateYearRange') {
+    return <FieldDateRangePicker text={dataValue as string[]} picker="year" {...shareProps} />;
   }
 
-  if (valueType === 'dateYearRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="year" {...props} />;
+  if (mergedValueType === 'dateMonth') {
+    return <FieldDatePicker text={dataValue as string} picker="month" {...shareProps} />;
   }
 
-  if (valueType === 'dateMonth') {
-    return <FieldDatePicker text={dataValue as string} picker="month" {...props} />;
+  if (mergedValueType === 'dateQuarter') {
+    return <FieldDatePicker text={dataValue as string} picker="quarter" {...shareProps} />;
   }
 
-  /** 如果是季度的值 */
-  if (valueType === 'dateQuarter') {
-    return <FieldDatePicker text={dataValue as string} picker="quarter" {...props} />;
+  if (mergedValueType === 'dateYear') {
+    return <FieldDatePicker text={dataValue as string} picker="year" {...shareProps} />;
   }
 
-  /** 如果是年的值 */
-  if (valueType === 'dateYear') {
-    return <FieldDatePicker text={dataValue as string} picker="year" {...props} />;
+  if (mergedValueType === 'dateRange') {
+    return <FieldDateRangePicker text={dataValue as string[]} {...shareProps} />;
   }
 
-  if (valueType === 'dateRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} {...props} />;
+  if (mergedValueType === 'dateTime') {
+    return <FieldDatePicker text={dataValue as string} showTime {...shareProps} />;
   }
 
-  if (valueType === 'dateTime') {
-    return <FieldDatePicker text={dataValue as string} showTime {...props} />;
+  if (mergedValueType === 'dateTimeRange') {
+    return <FieldDateRangePicker text={dataValue as string[]} showTime {...shareProps} />;
   }
 
-  if (valueType === 'dateTimeRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} showTime {...props} />;
+  if (mergedValueType === 'time') {
+    return <FieldTimePicker text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'time') {
-    return <FieldTimePicker text={dataValue as string} {...props} />;
+  if (mergedValueType === 'timeRange') {
+    return <FieldTimeRangePicker text={dataValue as string[]} {...shareProps} />;
   }
 
-  if (valueType === 'timeRange') {
-    return <FieldTimeRangePicker text={dataValue as string[]} {...props} />;
+  if (mergedValueType === 'fromNow') {
+    return <FieldFromNow text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'fromNow') {
-    return <FieldFromNow text={dataValue as string} {...props} />;
-  }
-
-  if (valueType === 'index') {
+  if (mergedValueType === 'index') {
     return <FieldIndexColumn>{(dataValue as number) + 1}</FieldIndexColumn>;
   }
 
-  if (valueType === 'indexBorder') {
+  if (mergedValueType === 'indexBorder') {
     return <FieldIndexColumn border>{(dataValue as number) + 1}</FieldIndexColumn>;
   }
 
-  if (valueType === 'progress') {
-    return <FieldProgress text={dataValue as number} {...props} />;
+  if (mergedValueType === 'progress') {
+    return <FieldProgress text={dataValue as number} {...shareProps} />;
   }
 
-  if (valueType === 'percent') {
-    return <FieldPercent text={dataValue as number} {...props} />;
+  if (mergedValueType === 'percent') {
+    return <FieldPercent text={dataValue as number} {...shareProps} />;
   }
 
-  if (valueType === 'avatar' && typeof dataValue === 'string' && props.mode === 'read') {
+  if (mergedValueType === 'avatar' && typeof dataValue === 'string' && shareProps.mode === 'read') {
     return <Avatar src={dataValue as string} size={22} shape="circle" />;
   }
 
-  if (valueType === 'textarea') {
-    return <FieldTextArea text={dataValue as string} {...props} />;
+  if (mergedValueType === 'textarea') {
+    return <FieldTextArea text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'digit') {
-    return <FieldDigit text={dataValue as number} {...props} />;
+  if (mergedValueType === 'digit') {
+    return <FieldDigit text={dataValue as number} {...shareProps} />;
   }
 
-  if (valueType === 'select' || (valueType === 'text' && props.valueEnum)) {
-    return <FieldSelect text={dataValue as string} {...props} />;
+  if (mergedValueType === 'select' || (mergedValueType === 'text' && shareProps.valueEnum)) {
+    return <FieldSelect text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'checkbox') {
-    return <FieldCheckbox text={dataValue as string} {...props} />;
+  if (mergedValueType === 'checkbox') {
+    return <FieldCheckbox text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'radio') {
-    return <FieldRadio text={dataValue as string} {...props} />;
+  if (mergedValueType === 'radio') {
+    return <FieldRadio text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'rate') {
-    return <FieldRate {...props} text={dataValue as number} />;
+  if (mergedValueType === 'rate') {
+    return <FieldRate {...shareProps} text={dataValue as number} />;
   }
-  if (valueType === 'slider') {
-    return <FieldSlider text={dataValue as string} {...props} />;
+  if (mergedValueType === 'slider') {
+    return <FieldSlider text={dataValue as string} {...shareProps} />;
   }
-  if (valueType === 'switch') {
-    return <FieldSwitch text={dataValue as boolean} {...props} />;
-  }
-
-  if (valueType === 'password') {
-    return <FieldPassword text={dataValue as string} {...props} />;
+  if (mergedValueType === 'switch') {
+    return <FieldSwitch text={dataValue as boolean} {...shareProps} />;
   }
 
-  if (valueType === 'image') {
-    return <FieldImage text={dataValue as string} {...props} />;
-  }
-  if (valueType === 'cascader') {
-    return <FieldCascader text={dataValue as string} {...props} />;
+  if (mergedValueType === 'password') {
+    return <FieldPassword text={dataValue as string} {...shareProps} />;
   }
 
-  if (valueType === 'segmented') {
-    return <FieldSegmented text={dataValue as string} {...props} />;
+  if (mergedValueType === 'image') {
+    return <FieldImage text={dataValue as string} {...shareProps} />;
+  }
+  if (mergedValueType === 'cascader') {
+    return <FieldCascader text={dataValue as string} {...shareProps} />;
   }
 
-  return <FieldText text={dataValue as string} {...props} />;
-};
+  if (mergedValueType === 'segmented') {
+    return <FieldSegmented text={dataValue as string} {...shareProps} />;
+  }
 
-export type FieldPropsType = {
-  text?: FieldTextType;
-  valueType?: FieldValueType | FieldValueObject;
-} & Omit<BaseFieldProps, 'text'> &
-  RenderFieldProps &
-  AnyObject;
-
-const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
-  { text, valueType = 'text', mode = 'read', renderEditor, editorProps, ...rest },
-  ref: any,
-) => {
-  const renderedDom = defaultRenderText(
-    mode === 'edit' ? (editorProps?.value ?? text ?? '') : (text ?? editorProps?.value ?? ''),
-    valueType,
-    {
-      ref,
-      mode,
-      ...rest,
-    },
-  );
-
-  return <React.Fragment>{renderedDom}</React.Fragment>;
+  return <FieldText text={dataValue as string} {...shareProps} />;
 };
 
 export default React.forwardRef(FieldComponent as any) as typeof FieldComponent;

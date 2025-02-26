@@ -2,6 +2,7 @@
 import type { FieldFC } from '..';
 import type { CheckboxGroupProps } from '../../../checkbox';
 import Checkbox from '../../../checkbox';
+import Spin from '../../../spin';
 import { fieldParsingOptions, fieldParsingText } from '../util';
 
 /**
@@ -10,8 +11,12 @@ import { fieldParsingOptions, fieldParsingText } from '../util';
 const FieldCheckbox: FieldFC<{
   text: string | string[];
   editorProps?: Partial<CheckboxGroupProps>;
-}> = ({ text, renderEditor, mode, render, editorProps, valueEnum }, ref) => {
+}> = ({ text, renderEditor, mode, render, editorProps, valueEnum, loading }, ref) => {
   const options = editorProps?.options;
+
+  if (loading) {
+    return <Spin size="small" />;
+  }
 
   if (mode === 'read') {
     const optionsValueEnum = options?.length

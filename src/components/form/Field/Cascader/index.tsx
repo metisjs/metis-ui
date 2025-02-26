@@ -2,6 +2,7 @@
 import type { FieldFC, FieldProps } from '..';
 import type { CascaderProps, DefaultOptionType } from '../../../cascader';
 import Cascader from '../../../cascader';
+import Spin from '../../../spin';
 import { fieldParsingText } from '../util';
 
 /**
@@ -12,7 +13,10 @@ const FieldCascader: FieldFC<{
   options?: CascaderProps['options'];
   fieldNames?: CascaderProps['fieldNames'];
   editorProps?: Partial<CascaderProps>;
-}> = ({ text, renderEditor, mode, render, editorProps, valueEnum, options, fieldNames }, ref) => {
+}> = (
+  { text, renderEditor, mode, render, editorProps, valueEnum, options, fieldNames, loading },
+  ref,
+) => {
   const optionsValueEnum = useMemo(() => {
     if (mode !== 'read') return;
 
@@ -43,6 +47,10 @@ const FieldCascader: FieldFC<{
   }, [mode, editorProps?.fieldNames]);
 
   if (mode === 'read') {
+    if (loading) {
+      return <Spin size="small" />;
+    }
+
     const dom = <>{fieldParsingText(text, valueEnum || optionsValueEnum)}</>;
 
     if (render) {
@@ -54,6 +62,7 @@ const FieldCascader: FieldFC<{
   if (mode === 'edit') {
     let dom = (
       <Cascader
+        loading={loading}
         ref={ref}
         allowClear={editorProps?.allowClear !== false}
         options={options}

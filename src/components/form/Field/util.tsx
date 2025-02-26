@@ -2,7 +2,7 @@
 import React from 'react';
 import Badge from '../../badge';
 import Space from '../../space';
-import type { FieldValueEnumMap, FieldValueEnumObj } from '../interface';
+import type { FieldValueEnumMap, FieldValueEnumObj, FieldValueEnumRequestType } from '../interface';
 
 /**
  * 获取类型的 type
@@ -125,3 +125,13 @@ export const fieldParsingOptions = (valueEnumParams?: FieldValueEnumMap | FieldV
     value,
   }));
 };
+
+export function isValueEnumWithRequest(
+  valueEnum?: FieldValueEnumMap | FieldValueEnumObj | FieldValueEnumRequestType,
+): valueEnum is FieldValueEnumRequestType {
+  return (
+    typeof valueEnum === 'object' &&
+    'request' in valueEnum &&
+    typeof valueEnum.request === 'function'
+  );
+}
