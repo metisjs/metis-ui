@@ -4,6 +4,14 @@ import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
 
+export type FieldPercentProps = {
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+  text?: number | string;
+  precision?: number;
+  editorProps?: Partial<InputNumberProps>;
+};
+
 function getRealTextWithPrecision(realValue: number, precision: number = 2) {
   return precision >= 0 ? realValue?.toFixed(precision) : realValue;
 }
@@ -19,13 +27,10 @@ export function toNumber(value: any): number {
 /**
  * 百分比组件
  */
-const FieldPercent: FieldFC<{
-  prefix?: ReactNode;
-  suffix?: ReactNode;
-  text?: number | string;
-  precision?: number;
-  editorProps?: Partial<InputNumberProps>;
-}> = ({ text, prefix, precision, suffix = '%', mode, render, renderEditor, editorProps }, ref) => {
+const FieldPercent: FieldFC<FieldPercentProps> = (
+  { text, prefix, precision, suffix = '%', mode, render, renderEditor, editorProps },
+  ref,
+) => {
   const realValue = useMemo(
     () =>
       typeof text === 'string' && (text as string).includes('%')

@@ -6,15 +6,20 @@ import type { PasswordProps } from '../../../input';
 import Input from '../../../input';
 import Space from '../../../space';
 
-/**
- * 密码组件
- */
-const FieldPassword: FieldFC<{
+export type FieldPasswordProps = {
   text: string;
   open?: boolean;
   onOpenChange?: (visible: boolean) => void;
   editorProps?: Partial<PasswordProps>;
-}> = ({ text, mode, render, renderEditor, editorProps, ...rest }, ref) => {
+};
+
+/**
+ * 密码组件
+ */
+const FieldPassword: FieldFC<FieldPasswordProps> = (
+  { text, mode, render, renderEditor, editorProps, ...rest },
+  ref,
+) => {
   const [open, setOpen] = useMergedState<boolean>(() => rest.open || false, {
     value: rest.open,
     onChange: rest.onOpenChange,

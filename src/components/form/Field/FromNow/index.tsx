@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { formatValue } from 'metis-ui/es/date-picker/utils/dateUtil';
 import type { FieldFC } from '..';
 import type { DatePickerProps } from '../../../date-picker';
@@ -14,16 +13,19 @@ import { getRowFormat } from '../../../date-picker/utils/miscUtil';
 import { useLocale } from '../../../locale';
 import Tooltip from '../../../tooltip';
 
-dayjs.extend(relativeTime);
+export type FieldFromNowProps = {
+  text: string | number;
+  format?: DatePickerProps['format'];
+  editorProps?: Partial<DatePickerProps>;
+};
 
 /**
  * 与当前的时间进行比较
  */
-const FieldFromNow: FieldFC<{
-  text: string;
-  format?: DatePickerProps['format'];
-  editorProps?: Partial<DatePickerProps>;
-}> = ({ text, mode, render, renderEditor, format, editorProps }, ref) => {
+const FieldFromNow: FieldFC<FieldFromNowProps> = (
+  { text, mode, render, renderEditor, format, editorProps },
+  ref,
+) => {
   const [locale] = useLocale('DatePicker');
   const [, localeTimeProps] = getTimeProps({
     ...editorProps,

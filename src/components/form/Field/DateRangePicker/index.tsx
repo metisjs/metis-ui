@@ -11,16 +11,18 @@ import { formatValue } from '../../../date-picker/utils/dateUtil';
 import { getRowFormat } from '../../../date-picker/utils/miscUtil';
 import { useLocale } from '../../../locale';
 
-/**
- * 日期范围选择组件
- */
-const FieldDateRangePicker: FieldFC<{
+export type FieldDateRangePickerProps = {
   text: string[];
   format?: RangePickerProps['format'];
   showTime?: boolean;
   picker?: RangePickerProps['picker'];
   editorProps?: Partial<RangePickerProps>;
-}> = (
+};
+
+/**
+ * 日期范围选择组件
+ */
+const FieldDateRangePicker: FieldFC<FieldDateRangePickerProps> = (
   { text, mode, render, renderEditor, showTime, picker = 'date', format, editorProps },
   ref,
 ) => {
@@ -56,7 +58,7 @@ const FieldDateRangePicker: FieldFC<{
     const parsedEndText = parseDate<Dayjs>(endText, dayjsGenerateConfig, locale, stringFormatList);
 
     const dom = (
-      <div ref={ref} className="flex flex-wrap items-center gap-2">
+      <div ref={ref} className="flex flex-wrap items-center gap-1">
         <div>
           {formatValue(parsedStartText, {
             locale,

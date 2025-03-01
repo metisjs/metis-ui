@@ -11,14 +11,19 @@ import { useLocale } from '../../../locale';
 import type { TimePickerProps } from '../../../time-picker';
 import TimePicker from '../../../time-picker';
 
-/**
- * 时间选择组件
- */
-const FieldTimePicker: FieldFC<{
+export type FieldTimePickerProps = {
   text: string | number;
   format?: TimePickerProps['format'];
   editorProps?: Partial<TimePickerProps>;
-}> = ({ text, mode, format, render, renderEditor, editorProps }, ref) => {
+};
+
+/**
+ * 时间选择组件
+ */
+const FieldTimePicker: FieldFC<FieldTimePickerProps> = (
+  { text, mode, format, render, renderEditor, editorProps },
+  ref,
+) => {
   const [locale] = useLocale('DatePicker');
   const [, localeTimeProps] = getTimeProps({
     picker: 'time',

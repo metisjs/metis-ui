@@ -54,7 +54,7 @@ const FieldStatus: {
   warning: ({ children }) => <Badge status="warning" text={children} />,
 };
 
-type FieldStatusType = 'success' | 'warning' | 'error' | 'default' | 'processing';
+export type FieldStatusType = 'success' | 'warning' | 'error' | 'default' | 'processing';
 
 /**
  * 转化 text 和 valueEnum 通过 type 来添加 Status
@@ -86,7 +86,7 @@ export const fieldParsingText = (
   }
 
   const domText = (valueEnum.get(text) || valueEnum.get(`${text}`)) as unknown as {
-    text: ReactNode;
+    label: ReactNode;
     status: FieldStatusType;
     color?: string;
   };
@@ -100,19 +100,21 @@ export const fieldParsingText = (
 
   const Status = FieldStatus[status];
   if (Status) {
-    return <Status key={key}>{domText.text}</Status>;
+    return <Status key={key}>{domText.label}</Status>;
   }
 
   if (color) {
     return (
       <FieldBadgeColor key={key} color={color}>
-        {domText.text}
+        {domText.label}
       </FieldBadgeColor>
     );
   }
 
   return (
-    <React.Fragment key={key}>{domText.text || (domText as any as React.ReactNode)}</React.Fragment>
+    <React.Fragment key={key}>
+      {domText.label || (domText as any as React.ReactNode)}
+    </React.Fragment>
   );
 };
 

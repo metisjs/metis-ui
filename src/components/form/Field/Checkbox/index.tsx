@@ -25,12 +25,16 @@ const FieldCheckbox: FieldFC<{
         }, {})
       : undefined;
 
-    const dom = fieldParsingText(text, valueEnum || optionsValueEnum);
+    const dom = (
+      <div className="flex flex-wrap items-center gap-3">
+        {fieldParsingText(text, valueEnum || optionsValueEnum)}
+      </div>
+    );
 
     if (render) {
-      return render(text, <>{dom}</>) ?? null;
+      return render(text, dom) ?? null;
     }
-    return <div className="flex flex-wrap items-center gap-3">{dom}</div>;
+    return dom;
   }
 
   if (mode === 'edit') {

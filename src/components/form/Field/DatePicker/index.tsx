@@ -11,16 +11,18 @@ import { formatValue } from '../../../date-picker/utils/dateUtil';
 import { getRowFormat } from '../../../date-picker/utils/miscUtil';
 import { useLocale } from '../../../locale';
 
-/**
- * 日期选择组件
- */
-const FieldDatePicker: FieldFC<{
+export type FieldDatePickerProps = {
   text: string | number;
   format?: DatePickerProps['format'];
   showTime?: boolean;
   picker?: DatePickerProps['picker'];
   editorProps?: Partial<DatePickerProps>;
-}> = (
+};
+
+/**
+ * 日期选择组件
+ */
+const FieldDatePicker: FieldFC<FieldDatePickerProps> = (
   { text, mode, render, renderEditor, showTime, picker = 'date', format, editorProps },
   ref,
 ) => {

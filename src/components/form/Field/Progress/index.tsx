@@ -6,6 +6,11 @@ import type { ProgressProps } from '../../../progress';
 import Progress from '../../../progress';
 import { toNumber } from '../Percent';
 
+export type FieldProgressProps = {
+  text: number | string;
+  editorProps?: Partial<InputNumberProps>;
+} & Partial<ProgressProps>;
+
 export function getProgressStatus(text: number): ProgressProps['status'] {
   if (text === 100) {
     return 'success';
@@ -25,11 +30,10 @@ export function getProgressStatus(text: number): ProgressProps['status'] {
  *
  * @param
  */
-const FieldProgress: FieldFC<{
-  text: number | string;
-  status?: ProgressProps['status'];
-  editorProps?: Partial<InputNumberProps>;
-}> = ({ text, mode, status, render, renderEditor, editorProps }, ref) => {
+const FieldProgress: FieldFC<FieldProgressProps> = (
+  { text, mode, status, render, renderEditor, editorProps, ...restProps },
+  ref,
+) => {
   const realValue = useMemo(
     () =>
       typeof text === 'string' && (text as string).includes('%')
@@ -45,6 +49,7 @@ const FieldProgress: FieldFC<{
         style={{ minWidth: 100, maxWidth: 320 }}
         percent={realValue}
         status={status ?? getProgressStatus(realValue as number)}
+        {...restProps}
       />
     );
     if (render) {

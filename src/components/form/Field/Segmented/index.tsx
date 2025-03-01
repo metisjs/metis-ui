@@ -9,10 +9,9 @@ import { fieldParsingOptions, fieldParsingText } from '../util';
  */
 const FieldSegmented: FieldFC<{
   text: string;
-  emptyText?: React.ReactNode;
   editorProps?: Partial<SegmentedProps>;
 }> = (props, ref) => {
-  const { mode, render, renderEditor, editorProps, emptyText = '-', loading, ...rest } = props;
+  const { mode, render, renderEditor, editorProps, loading, ...rest } = props;
   const options = normalizeOptions(editorProps?.options ?? []);
 
   if (loading) {
@@ -29,7 +28,7 @@ const FieldSegmented: FieldFC<{
     const dom = <>{fieldParsingText(rest.text, rest.valueEnum || optionsValueEnum)}</>;
 
     if (render) {
-      return render(rest.text, <>{dom}</>) ?? emptyText;
+      return render(rest.text, <>{dom}</>);
     }
     return dom;
   }

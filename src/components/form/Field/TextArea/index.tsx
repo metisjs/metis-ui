@@ -5,13 +5,12 @@ import Input from '../../../input';
 
 const FieldTextArea: FieldFC<{
   text: string;
-  emptyText?: React.ReactNode;
   editorProps?: Partial<TextAreaProps>;
 }> = (props, ref) => {
-  const { text, mode, render, renderEditor, editorProps, emptyText = '-' } = props;
+  const { text, mode, render, renderEditor, editorProps } = props;
 
   if (mode === 'read') {
-    const dom = <>{text ?? emptyText}</>;
+    const dom = <>{text}</>;
     if (render) {
       return render(text, dom);
     }

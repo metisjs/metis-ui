@@ -3,14 +3,19 @@ import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
 
-/**
- * 数字组件
- */
-const FieldDigit: FieldFC<{
+export type FieldDigitProps = {
   text: number;
   precision?: number;
   editorProps?: Partial<InputNumberProps>;
-}> = ({ text, mode, render, renderEditor, precision, editorProps }, ref) => {
+};
+
+/**
+ * 数字组件
+ */
+const FieldDigit: FieldFC<FieldDigitProps> = (
+  { text, mode, render, renderEditor, precision, editorProps },
+  ref,
+) => {
   if (mode === 'read') {
     let fractionDigits = {} as Record<string, any> as any;
     if (precision || editorProps?.precision) {

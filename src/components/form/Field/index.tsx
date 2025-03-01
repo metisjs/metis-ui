@@ -29,6 +29,7 @@ import FieldSegmented from './Segmented';
 import FieldSelect from './Select';
 import FieldSlider from './Slider';
 import FieldSwitch from './Switch';
+import FieldTag from './Tag';
 import FieldText from './Text';
 import FieldTextArea from './TextArea';
 import FieldTimePicker from './TimePicker';
@@ -47,7 +48,6 @@ export type BaseFieldProps = {
   /** 映射值的类型 */
   valueEnum?: FieldValueEnumMap | FieldValueEnumObj;
   editorProps?: AnyObject;
-  emptyText?: React.ReactNode;
   loading?: boolean;
 };
 
@@ -171,7 +171,6 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
     ref,
     mode,
     valueEnum: mergedValueEnum,
-    emptyText,
     loading,
     ...(typeof valueType === 'object' ? omit(valueType, ['type']) : {}),
     ...rest,
@@ -273,7 +272,14 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
   }
 
   if (mergedValueType === 'avatar' && typeof dataValue === 'string' && shareProps.mode === 'read') {
-    return <Avatar src={dataValue as string} size={22} shape="circle" />;
+    return (
+      <Avatar
+        src={dataValue as string}
+        size={36}
+        shape="circle"
+        {...(typeof valueType === 'object' ? omit(valueType, ['type']) : {})}
+      />
+    );
   }
 
   if (mergedValueType === 'textarea') {
@@ -319,6 +325,10 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
 
   if (mergedValueType === 'segmented') {
     return <FieldSegmented text={dataValue as string} {...shareProps} />;
+  }
+
+  if (mergedValueType === 'tag') {
+    return <FieldTag text={dataValue as string} {...shareProps} />;
   }
 
   return <FieldText text={dataValue as string} {...shareProps} />;

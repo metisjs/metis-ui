@@ -6,22 +6,21 @@ import Input from '../../../input';
 
 const FieldText: FieldFC<{
   text: string;
-  emptyText?: React.ReactNode;
   prefix?: ReactNode;
   suffix?: ReactNode;
   editorProps?: Partial<InputProps>;
-}> = ({ text, mode, render, renderEditor, editorProps, emptyText = '-', prefix, suffix }, ref) => {
+}> = ({ text, mode, render, renderEditor, editorProps, prefix, suffix }, ref) => {
   if (mode === 'read') {
     const dom = (
       <>
         {prefix}
-        {text ?? emptyText}
+        {text}
         {suffix}
       </>
     );
 
     if (render) {
-      return render(text, dom) ?? emptyText;
+      return render(text, dom);
     }
     return dom;
   }

@@ -11,14 +11,19 @@ import { useLocale } from '../../../locale';
 import type { TimeRangePickerProps } from '../../../time-picker';
 import TimePicker from '../../../time-picker';
 
-/**
- * 时间范围选择组件
- */
-const FieldTimeRangePicker: FieldFC<{
+export type FieldTimeRangePickerProps = {
   text: string[];
   format?: TimeRangePickerProps['format'];
   editorProps?: Partial<TimeRangePickerProps>;
-}> = ({ text, mode, render, renderEditor, format, editorProps }, ref) => {
+};
+
+/**
+ * 时间范围选择组件
+ */
+const FieldTimeRangePicker: FieldFC<FieldTimeRangePickerProps> = (
+  { text, mode, render, renderEditor, format, editorProps },
+  ref,
+) => {
   const [startText, endText] = Array.isArray(text) ? text : [];
 
   const [locale] = useLocale('DatePicker');
@@ -49,7 +54,7 @@ const FieldTimeRangePicker: FieldFC<{
     const parsedEndText = parseDate<Dayjs>(endText, dayjsGenerateConfig, locale, stringFormatList);
 
     const dom = (
-      <div ref={ref} className="flex flex-wrap items-center gap-2">
+      <div ref={ref} className="flex flex-wrap items-center gap-1">
         <div>
           {formatValue(parsedStartText, {
             locale,

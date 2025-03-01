@@ -5,15 +5,17 @@ import Cascader from '../../../cascader';
 import Spin from '../../../spin';
 import { fieldParsingText } from '../util';
 
-/**
- * 级联选择组件
- */
-const FieldCascader: FieldFC<{
+export type FieldCascaderProps = {
   text: string | string[];
   options?: CascaderProps['options'];
   fieldNames?: CascaderProps['fieldNames'];
   editorProps?: Partial<CascaderProps>;
-}> = (
+};
+
+/**
+ * 级联选择组件
+ */
+const FieldCascader: FieldFC<FieldCascaderProps> = (
   { text, renderEditor, mode, render, editorProps, valueEnum, options, fieldNames, loading },
   ref,
 ) => {
