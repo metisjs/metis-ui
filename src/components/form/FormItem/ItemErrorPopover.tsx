@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Spin from 'metis-ui/es/spin';
 import type { PopoverProps } from '../../popover';
 import Popover from '../../popover';
@@ -11,13 +11,6 @@ const ItemErrorPopover: React.FC<{
   popoverProps?: PopoverProps;
 }> = ({ inputProps, input, extra, errorList, popoverProps }) => {
   const [open, setOpen] = useState<boolean | undefined>(false);
-  const [errorStringList, setErrorList] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (inputProps.validateStatus !== 'validating') {
-      setErrorList(inputProps.errors);
-    }
-  }, [inputProps.errors, inputProps.validateStatus]);
 
   const loading = inputProps.validateStatus === 'validating';
 
@@ -26,7 +19,7 @@ const ItemErrorPopover: React.FC<{
       key="popover"
       trigger={popoverProps?.trigger || ['click']}
       placement={popoverProps?.placement || 'topLeft'}
-      open={errorStringList.length < 1 ? false : open}
+      open={errorList === null ? false : open}
       onOpenChange={setOpen}
       getPopupContainer={popoverProps?.getPopupContainer}
       getTooltipContainer={popoverProps?.getTooltipContainer}
