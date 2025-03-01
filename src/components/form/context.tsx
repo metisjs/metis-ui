@@ -8,6 +8,7 @@ import type { Meta } from 'rc-field-form/lib/interface';
 import omit from 'rc-util/lib/omit';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
+import type { PopoverProps } from '../popover';
 import type { FormInstance, FormLayout, FormProps, RequiredMark } from './Form';
 import type { FeedbackIcons, ValidateStatus } from './FormItem';
 import type { FormLabelAlign } from './interface';
@@ -31,6 +32,7 @@ export interface FormContextProps {
   registerLabelWidth?: (val: number, oldVal?: number) => void;
   deregisterLabelWidth?: (val: number) => void;
   className?: FormProps<any>['className'];
+  errorPopover?: true | Omit<PopoverProps, 'content'>;
 }
 
 export const FormContext = React.createContext<FormContextProps>({

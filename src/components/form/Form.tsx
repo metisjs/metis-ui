@@ -15,6 +15,7 @@ import DisabledContext, { DisabledContextProvider } from '../config-provider/Dis
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import SizeContext from '../config-provider/SizeContext';
+import type { PopoverProps } from '../popover';
 import type { FormContextProps } from './context';
 import { FormContext, FormProvider, VariantContext } from './context';
 import type { FeedbackIcons, FormItemProps } from './FormItem';
@@ -49,6 +50,7 @@ export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form
   requiredMark?: RequiredMark;
   variant?: Variant;
   column?: number | Partial<Record<Breakpoint, number>>;
+  errorPopover?: true | Omit<PopoverProps, 'content'>;
 }
 
 const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props, ref) => {
@@ -74,6 +76,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     feedbackIcons,
     variant,
     column,
+    errorPopover,
     ...restFormProps
   } = props;
 
@@ -162,6 +165,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       registerLabelWidth,
       deregisterLabelWidth,
       className,
+      errorPopover,
     }),
     [
       name,
@@ -179,6 +183,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       registerLabelWidth,
       deregisterLabelWidth,
       clsxDependency(className),
+      errorPopover,
     ],
   );
 

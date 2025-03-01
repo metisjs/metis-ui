@@ -9,10 +9,10 @@ import omit from 'rc-util/lib/omit';
 import type { FormItemProps } from '.';
 import type { ReportMetaChange } from '../context';
 import { FormContext, NoStyleItemContext } from '../context';
-import FormItemInput from '../FormItemInput';
-import FormItemLabel from '../FormItemLabel';
 import useDebounce from '../hooks/useDebounce';
 import { getStatus } from '../util';
+import ItemInput from './ItemInput';
+import ItemLabel from './ItemLabel';
 import StatusProvider from './StatusProvider';
 
 export interface ItemHolderProps extends FormItemProps {
@@ -166,7 +166,7 @@ export default function ItemHolder(props: ItemHolderProps) {
       ])}
     >
       {/* Label */}
-      <FormItemLabel
+      <ItemLabel
         htmlFor={fieldId}
         {...props}
         requiredMark={requiredMark}
@@ -176,7 +176,7 @@ export default function ItemHolder(props: ItemHolderProps) {
         className={semanticCls.label}
       />
       {/* Input Group */}
-      <FormItemInput
+      <ItemInput
         {...props}
         {...meta}
         errors={debounceErrors}
@@ -201,7 +201,7 @@ export default function ItemHolder(props: ItemHolderProps) {
             {children}
           </StatusProvider>
         </NoStyleItemContext.Provider>
-      </FormItemInput>
+      </ItemInput>
     </div>
   );
 }

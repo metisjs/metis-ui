@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import omit from 'rc-util/lib/omit';
-import { FormContext, FormItemPrefixContext } from './context';
-import ErrorList from './ErrorList';
-import type { ValidateStatus } from './FormItem';
+import type { ValidateStatus } from '.';
+import { FormContext, FormItemPrefixContext } from '../context';
+import ErrorList from '../ErrorList';
+import ItemErrorPopover from './ItemErrorPopover';
 
-interface FormItemInputMiscProps {
+interface ItemInputMiscProps {
   prefixCls: string;
   className?: string;
   children: React.ReactNode;
@@ -15,14 +16,14 @@ interface FormItemInputMiscProps {
   onErrorVisibleChanged?: (visible: boolean) => void;
 }
 
-export interface FormItemInputProps {
+export interface ItemInputProps {
   extra?: React.ReactNode;
   status?: ValidateStatus;
   help?: React.ReactNode;
   fieldId?: string;
 }
 
-const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (props) => {
+const ItemInput: React.FC<ItemInputProps & ItemInputMiscProps> = (props) => {
   const {
     prefixCls,
     className,
@@ -45,13 +46,16 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
     'min-h-10': formContext.size === 'large',
   });
   const inputContentCls = clsx(`${prefixCls}-item-control-input-content`, 'max-w-full flex-auto');
-  const errorListCls = clsx(`${prefixCls}-item-explain-connected`, 'w-full');
+  const errorListCls = clsx(`${prefixCls}-item-explain-connected`, 'w-full', {
+    'text-sm': formContext.errorPopover,
+  });
   const extraCls = clsx(`${prefixCls}-item-extra`, 'text-text-tertiary');
 
   // Pass to sub FormItem should not with width info
   const subFormContext = React.useMemo(
     () => ({
       ...omit(formContext, [
+        'errorPopover',
         'autoLabelWidth',
         'labelWidth',
         'registerLabelWidth',
@@ -69,7 +73,7 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
   const formItemContext = React.useMemo(() => ({ prefixCls, status }), [prefixCls, status]);
   const errorListDom: React.ReactNode =
     marginBottom !== null || errors.length || warnings.length ? (
-      <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
+      <div className="flex flex-nowrap">
         <FormItemPrefixContext.Provider value={formItemContext}>
           <ErrorList
             fieldId={fieldId}
@@ -99,22 +103,34 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
     </div>
   ) : null;
 
+  const dom: React.ReactNode = formContext.errorPopover ? (
+    <ItemErrorPopover
+      inputProps={props}
+      popoverProps={formContext.errorPopover === true ? {} : formContext.errorPopover}
+      input={inputDom}
+      errorList={errorListDom}
+      extra={extraDom}
+    />
+  ) : (
+    <>
+      {inputDom}
+      {errorListDom}
+      {extraDom}
+      {!!marginBottom && (
+        <div
+          style={{
+            marginBottom: -marginBottom,
+          }}
+        />
+      )}
+    </>
+  );
+
   return (
     <FormContext.Provider value={subFormContext}>
-      <div className={rootCls}>
-        {inputDom}
-        {errorListDom}
-        {extraDom}
-        {!!marginBottom && (
-          <div
-            style={{
-              marginBottom: -marginBottom,
-            }}
-          />
-        )}
-      </div>
+      <div className={rootCls}>{dom}</div>
     </FormContext.Provider>
   );
 };
 
-export default FormItemInput;
+export default ItemInput;

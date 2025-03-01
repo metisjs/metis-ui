@@ -11,8 +11,6 @@ import { supportRef } from 'rc-util/lib/ref';
 import { ConfigContext } from '../../config-provider';
 import { FormContext, NoStyleItemContext } from '../context';
 import type { FormInstance, FormItemLayout } from '../Form';
-import type { FormItemInputProps } from '../FormItemInput';
-import type { FormItemLabelProps, LabelTooltipType } from '../FormItemLabel';
 import useChildren from '../hooks/useChildren';
 import useFormItemStatus from '../hooks/useFormItemStatus';
 import useFrameState from '../hooks/useFrameState';
@@ -20,6 +18,8 @@ import useItemRef from '../hooks/useItemRef';
 import { getFieldId, toArray } from '../util';
 import type { ItemHolderProps } from './ItemHolder';
 import ItemHolder from './ItemHolder';
+import type { ItemInputProps } from './ItemInput';
+import type { ItemLabelProps, LabelTooltipType } from './ItemLabel';
 import StatusProvider from './StatusProvider';
 
 const NAME_SPLIT = '__SPLIT__';
@@ -80,8 +80,8 @@ const MemoInput = React.memo(
 );
 
 export interface FormItemProps<Values = any>
-  extends Omit<FormItemLabelProps, 'requiredMark' | 'layout' | 'className'>,
-    FormItemInputProps,
+  extends Omit<ItemLabelProps, 'requiredMark' | 'layout' | 'className'>,
+    ItemInputProps,
     RcFieldProps<Values> {
   prefixCls?: string;
   noStyle?: boolean;

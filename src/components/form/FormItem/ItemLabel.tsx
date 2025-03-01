@@ -4,14 +4,14 @@ import { clsx } from '@util/classNameUtils';
 import { useGetState } from 'ahooks';
 import type { ResizeObserverProps } from 'rc-resize-observer';
 import ResizeObserver from 'rc-resize-observer';
-import { useLocale } from '../locale';
-import defaultLocale from '../locale/en_US';
-import type { TooltipProps } from '../tooltip';
-import Tooltip from '../tooltip';
-import type { FormContextProps } from './context';
-import { FormContext } from './context';
-import type { FormLayout, RequiredMark } from './Form';
-import type { FormLabelAlign } from './interface';
+import { useLocale } from '../../locale';
+import defaultLocale from '../../locale/en_US';
+import type { TooltipProps } from '../../tooltip';
+import Tooltip from '../../tooltip';
+import type { FormContextProps } from '../context';
+import { FormContext } from '../context';
+import type { FormLayout, RequiredMark } from '../Form';
+import type { FormLabelAlign } from '../interface';
 
 export type WrapperTooltipProps = TooltipProps & {
   icon?: React.ReactElement;
@@ -33,7 +33,7 @@ function toTooltipProps(tooltip: LabelTooltipType): WrapperTooltipProps | null {
   };
 }
 
-export interface FormItemLabelProps {
+export interface ItemLabelProps {
   colon?: boolean;
   htmlFor?: string;
   label?: React.ReactNode;
@@ -48,7 +48,7 @@ export interface FormItemLabelProps {
   className?: string;
 }
 
-const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixCls: string }> = ({
+const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: string }> = ({
   prefixCls,
   className,
   label,
@@ -243,4 +243,4 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
   );
 };
 
-export default FormItemLabel;
+export default ItemLabel;

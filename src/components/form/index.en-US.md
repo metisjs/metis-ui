@@ -83,6 +83,7 @@ description: High-performance form component with data domain management. Includ
 | onFinish | Trigger after submitting the form and verifying data successfully | function(values) | - |  |
 | onFinishFailed | Trigger after submitting the form and verifying data failed | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | Trigger when value updated | function(changedValues, allValues) | - |  |
+| errorType｜ Field validation failure prompt style | `popover` \| `default` | `default` |  |
 
 > It accepts all props which native forms support but `onSubmit`.
 
