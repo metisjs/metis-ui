@@ -1,6 +1,6 @@
 import React from 'react';
-import { Space, Table, Tag } from 'metis-ui';
 import type { TableProps } from 'metis-ui';
+import { Space, Table } from 'metis-ui';
 
 interface DataType {
   key: string;
@@ -15,7 +15,6 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (text) => <a>{text}</a>,
   },
   {
     title: 'Age',
@@ -31,21 +30,14 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Tags',
     key: 'tags',
     dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <Space>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'processing' : 'green';
-          if (tag === 'loser') {
-            color = 'red';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </Space>
-    ),
+    valueType: 'tag',
+    valueEnum: {
+      teacher: { label: 'Teacher', color: 'processing' },
+      developer: { label: 'Developer', color: 'processing' },
+      loser: { label: 'Loser', color: 'red' },
+      cool: { label: 'Cool', color: 'green' },
+      nice: { label: 'Nice', color: 'green' },
+    },
   },
   {
     title: 'Action',

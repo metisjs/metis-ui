@@ -141,7 +141,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
       style={{ ...style, ...rowProps?.style }}
     >
       {flattenColumns.map((column: ColumnType<RecordType>, colIndex) => {
-        const { render, dataIndex, className: columnClassName, valueType } = column;
+        const { render, dataIndex, className: columnClassName, valueType, valueEnum } = column;
 
         const { key, fixedInfo, appendCellNode, additionalCellProps } = getCellProps(
           rowInfo,
@@ -175,6 +175,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             totalRowCount={totalRowCount}
             totalColCount={flattenColumns.length}
             valueType={valueType}
+            valueEnum={valueEnum}
           />
         );
       })}

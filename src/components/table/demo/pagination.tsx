@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Radio, Space, Table, Tag } from 'metis-ui';
 import type { TableProps } from 'metis-ui';
+import { Radio, Space, Table } from 'metis-ui';
 
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 type TablePagination<T extends object> = NonNullable<Exclude<TableProps<T>['pagination'], boolean>>;
@@ -51,21 +51,14 @@ const columns: ColumnsType<DataType> = [
     title: 'Tags',
     key: 'tags',
     dataIndex: 'tags',
-    render: (tags: string[]) => (
-      <Space>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'processing' : 'green';
-          if (tag === 'loser') {
-            color = 'red';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </Space>
-    ),
+    valueType: 'tag',
+    valueEnum: {
+      teacher: { label: 'Teacher', color: 'processing' },
+      developer: { label: 'Developer', color: 'processing' },
+      loser: { label: 'Loser', color: 'red' },
+      cool: { label: 'Cool', color: 'green' },
+      nice: { label: 'Nice', color: 'green' },
+    },
   },
   {
     title: 'Action',

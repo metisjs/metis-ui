@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Table, Tag } from 'metis-ui';
+import { Space, Table } from 'metis-ui';
 
 const { Column, ColumnGroup } = Table;
 
@@ -47,25 +47,18 @@ const App: React.FC = () => (
     </ColumnGroup>
     <Column title="Age" dataIndex="age" key="age" />
     <Column title="Address" dataIndex="address" key="address" />
-    <Column
+    <Column<DataType>
       title="Tags"
       dataIndex="tags"
       key="tags"
-      render={(tags: string[]) => (
-        <Space>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? 'processing' : 'green';
-            if (tag === 'loser') {
-              color = 'red';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </Space>
-      )}
+      valueType="tag"
+      valueEnum={{
+        teacher: { label: 'Teacher', color: 'processing' },
+        developer: { label: 'Developer', color: 'processing' },
+        loser: { label: 'Loser', color: 'red' },
+        cool: { label: 'Cool', color: 'green' },
+        nice: { label: 'Nice', color: 'green' },
+      }}
     />
     <Column
       title="Action"
@@ -73,7 +66,7 @@ const App: React.FC = () => (
       render={(_: any, record: DataType) => (
         <Space size="middle">
           <a>Invite {record.lastName}</a>
-          <a>Delete</a>
+          <a>Delete</a>Ø
         </Space>
       )}
     />

@@ -95,6 +95,7 @@ const columns = [
 <code src="./demo/pagination.tsx">分页设置</code>
 <code src="./demo/row-selection-custom-debug.tsx" debug>自定义选择项组</code>
 <code src="./demo/sticky.tsx">随页面滚动的固定表头和滚动条</code>
+<code src="./demo/value-type.tsx">值类型</code>
 <code src="./demo/dynamic-settings.tsx">动态控制表格属性</code>
 <code src="./demo/selections-debug.tsx" debug>带下拉箭头的表头</code>
 

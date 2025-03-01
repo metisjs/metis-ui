@@ -1,8 +1,9 @@
-import type * as React from 'react';
+import * as React from 'react';
 import type { AnyObject } from '@util/type';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import getValue from 'rc-util/lib/utils/get';
+import FieldComponent from '../../form/Field';
 import { useImmutableMark } from '../context/TableContext';
 import type { ColumnType, ColumnValueEnum, ColumnValueType, DataIndex } from '../interface';
 import { validateValue } from '../utils/valueUtil';
@@ -13,7 +14,7 @@ export default function useCellRender<RecordType extends AnyObject>(
   renderIndex: number,
   valueType: ColumnValueType<RecordType> | undefined,
   valueEnum: ColumnValueEnum<RecordType> | undefined,
-  cacehKey: string,
+  cacheKey: string,
   children?: React.ReactNode,
   render?: ColumnType<RecordType>['render'],
   shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'],
@@ -34,9 +35,25 @@ export default function useCellRender<RecordType extends AnyObject>(
             ? dataIndex
             : [dataIndex];
 
-      const value: React.ReactNode = getValue(record, path as any);
+      const value: React.ReactNode =
+        valueType === 'index' || valueType === 'indexBorder'
+          ? renderIndex
+          : getValue(record, path as any);
 
-      return render?.(value, record, renderIndex) ?? value;
+      const mergedValueEnum = typeof valueEnum === 'function' ? valueEnum(record) : valueEnum;
+      const mergedValueType = typeof valueType === 'function' ? valueType(record) : valueType;
+
+      const dom = (
+        <FieldComponent
+          mode={'read'}
+          text={value}
+          valueType={mergedValueType}
+          valueEnum={mergedValueEnum}
+          fieldKey={cacheKey}
+        />
+      );
+
+      return render?.(dom, record, renderIndex) ?? dom;
     },
     [
       // Force update deps
@@ -48,6 +65,9 @@ export default function useCellRender<RecordType extends AnyObject>(
       dataIndex,
       render,
       renderIndex,
+      valueType,
+      valueEnum,
+      cacheKey,
     ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {
