@@ -27,7 +27,7 @@ const FieldImage: FieldFC<FieldImageProps> = (
       <Image
         width={width}
         src={text}
-        {...omit(restProps, ['loading'])}
+        {...omit(restProps, ['loading', 'valueEnum'])}
         preview={
           restProps.preview === false
             ? restProps.preview

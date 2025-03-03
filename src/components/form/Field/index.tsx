@@ -146,7 +146,7 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
                   (pre, cur) => ({
                     ...pre,
                     [cur[fieldNames.value]]: {
-                      label: cur[fieldNames.label],
+                      label: cur[fieldNames.label] ?? cur[fieldNames.value],
                       status: cur[fieldNames.status],
                       color: cur[fieldNames.color],
                       disabled: cur[fieldNames.disabled],

@@ -221,7 +221,7 @@ export type RequestDataType = {
 export type FieldValueEnumRequestType = {
   request: RequestService<{ data: RequestDataType[] }, any[]>;
 } & Omit<RequestOptions<{ data: RequestDataType[] }, any[]>, 'manual'> & {
-    fieldNames: {
+    fieldNames?: {
       value?: keyof RequestDataType;
       label?: keyof RequestDataType;
       status?: keyof RequestDataType;

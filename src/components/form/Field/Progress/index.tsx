@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import omit from 'rc-util/lib/omit';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
@@ -49,7 +50,7 @@ const FieldProgress: FieldFC<FieldProgressProps> = (
         style={{ minWidth: 100, maxWidth: 320 }}
         percent={realValue}
         status={status ?? getProgressStatus(realValue as number)}
-        {...restProps}
+        {...omit(restProps, ['valueEnum', 'loading'])}
       />
     );
     if (render) {
