@@ -170,6 +170,24 @@ const columns: TableProps<DataType>['columns'] = [
     dataIndex: 'createdAtRange',
     valueType: 'timeRange',
   },
+  // {
+  //   title: '操作',
+  //   key: 'option',
+  //   valueType: 'option',
+  //   fixed: 'right',
+  //   render: (_, record, index, action) => [
+  //     <a
+  //       key="edit"
+  //       onClick={() => {
+  //         action?.startEditable(record.key);
+  //       }}
+  //     >
+  //       Edit
+  //     </a>,
+  //     <a key="delete">Delete</a>,
+  //   ],
+  //   width: 120,
+  // },
 ];
 
 const data: DataType[] = [];

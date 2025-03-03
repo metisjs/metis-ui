@@ -5,12 +5,14 @@ import type { AnyObject, RequestConfig, SafeKey } from '@util/type';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
 import type { CheckboxProps } from '../checkbox';
 import type { DropdownProps } from '../dropdown';
+import type { FormInstance, FormItemProps, FormProps } from '../form';
 import type {
   FieldValueEnumMap,
   FieldValueEnumObj,
   FieldValueEnumRequestType,
   FieldValueObject,
   FieldValueType,
+  FieldValueTypeWithEditorProps,
 } from '../form/interface';
 import type { PaginationProps } from '../pagination';
 import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
@@ -217,6 +219,16 @@ export type ColumnValueEnum<RecordType extends AnyObject> =
   | FieldValueEnumMap
   | FieldValueEnumRequestType;
 
+export type ColumnEditableConfig<RecordType extends AnyObject> = {
+  editorProps?: FieldValueTypeWithEditorProps;
+  editorRender?: (form: FormInstance<RecordType>) => React.ReactNode;
+} & Omit<FormItemProps<RecordType>, 'children'>;
+
+export type ColumnEditable<RecordType extends AnyObject> =
+  | boolean
+  | ColumnEditableConfig<RecordType>
+  | ((value: any, record: RecordType, index: number) => boolean | ColumnEditableConfig<RecordType>);
+
 export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedType<RecordType> {
   title?: ColumnTitle<RecordType>;
   colSpan?: number;
@@ -229,6 +241,7 @@ export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedTy
   onCell?: GetComponentProps<RecordType>;
   valueType?: ColumnValueType<RecordType>;
   valueEnum?: ColumnValueEnum<RecordType>;
+  editable?: ColumnEditable<RecordType>;
 }
 
 export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
@@ -419,6 +432,9 @@ export interface TableLocale {
   triggerDesc?: string;
   triggerAsc?: string;
   cancelSort?: string;
+  saveText?: string;
+  cancelText?: string;
+  editingAlertMessage?: string;
 }
 
 type TablePaginationPosition =
@@ -451,3 +467,36 @@ export type GetRequestType<
         ...any[],
       ]
     >;
+
+export type EditableActionRenderFunction<T> = (
+  record: T,
+  defaultDoms: {
+    save: React.ReactNode;
+    delete: React.ReactNode;
+    cancel: React.ReactNode;
+  },
+) => React.ReactNode[];
+
+export type EditableConfig<RecordType extends AnyObject> = {
+  formProps?: Omit<
+    FormProps<RecordType> & {
+      formRef?: React.Ref<FormInstance | undefined>;
+      onInit?: (values: RecordType, form: FormInstance) => void;
+    },
+    | 'onFinish'
+    | 'colon'
+    | 'layout'
+    | 'labelAlign'
+    | 'labelWrap'
+    | 'labelWidth'
+    | 'size'
+    | 'requiredMark'
+    | 'column'
+    | 'errorPopover'
+  >;
+  form?: FormInstance;
+  editingRowKey?: Key;
+  onChange?: (editingRowKey?: Key, editingRecord?: RecordType) => void;
+  actionRender?: EditableActionRenderFunction<RecordType>;
+  onSave?: (record: RecordType, index: number) => Promise<any | void>;
+};

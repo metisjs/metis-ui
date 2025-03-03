@@ -47,6 +47,9 @@ const localeValues: Locale = {
     triggerDesc: 'Click to sort descending',
     triggerAsc: 'Click to sort ascending',
     cancelSort: 'Click to cancel sorting',
+    saveText: 'Save',
+    cancelText: 'Cancel',
+    editingAlertMessage: 'Only one line can be edited at a time',
   },
   Tour: {
     Next: 'Next',

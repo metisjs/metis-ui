@@ -119,6 +119,9 @@ export interface TableProps<
   // Selection
   rowSelection?: TableRowSelection<RecordType>;
 
+  // Editable
+  editable?: boolean;
+
   // Additional Part
   summary?: (data: readonly RecordType[]) => React.ReactNode;
 
@@ -234,18 +237,6 @@ function InternalTable<RecordType extends AnyObject>(
 
   const { childrenColumnName = 'children', expandedRowRender } = expandable ?? {};
 
-  const expandableType = React.useMemo<ExpandableType>(() => {
-    if (rawData.some((item) => item?.[childrenColumnName])) {
-      return 'nest';
-    }
-
-    if (expandedRowRender) {
-      return 'row';
-    }
-
-    return false;
-  }, [rawData, childrenColumnName, !!expandedRowRender]);
-
   const emptyText =
     typeof locale?.emptyText !== 'undefined'
       ? locale.emptyText
@@ -285,8 +276,6 @@ function InternalTable<RecordType extends AnyObject>(
 
   // ====================== Hover =======================
   const [startRow, endRow, onHover] = useHover();
-
-  const [getRecordByKey] = useLazyKVMap(rawData, childrenColumnName, getRowKey);
 
   // ============================ Events =============================
   const changeEventInfo: Partial<ChangeEventInfo<RecordType>> = {};
@@ -451,6 +440,24 @@ function InternalTable<RecordType extends AnyObject>(
     mergedPagination?.pageSize,
     mergedPagination?.total,
   ]);
+
+  const [getRecordByKey] = useLazyKVMap(
+    request ? requestData : rawData,
+    childrenColumnName,
+    getRowKey,
+  );
+
+  const expandableType = React.useMemo<ExpandableType>(() => {
+    if ((request ? requestData : rawData).some((item) => item?.[childrenColumnName])) {
+      return 'nest';
+    }
+
+    if (expandedRowRender) {
+      return 'row';
+    }
+
+    return false;
+  }, [rawData, requestData, childrenColumnName, !!expandedRowRender]);
 
   // ====================== Selection ======================
   const [transformSelectionColumns, selectedKeySet] = useSelection(
@@ -690,7 +697,7 @@ function InternalTable<RecordType extends AnyObject>(
     }
   };
 
-  // Sync scroll bar when init or `horizonScroll`, `data` and `columns.length` changed
+  // Sync scroll bar when init or `horizonScroll`, `columns.length` changed
   const mounted = React.useRef(false);
   React.useEffect(() => {
     // onFullTableResize will be trigger once when ResizeObserver is mounted
@@ -698,7 +705,7 @@ function InternalTable<RecordType extends AnyObject>(
     if (mounted.current) {
       triggerOnScroll();
     }
-  }, [horizonScroll, dataSource, mergedColumns.length]);
+  }, [horizonScroll, mergedColumns.length]);
   React.useEffect(() => {
     mounted.current = true;
   }, []);

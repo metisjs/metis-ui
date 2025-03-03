@@ -47,6 +47,9 @@ const localeValues: Locale = {
     triggerDesc: '点击降序',
     triggerAsc: '点击升序',
     cancelSort: '取消排序',
+    saveText: '保存',
+    cancelText: '取消',
+    editingAlertMessage: '只能同时编辑一行',
   },
   Modal: {
     okText: '确定',
