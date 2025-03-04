@@ -86,6 +86,7 @@ export type FieldPropsType = {
   valueType?: FieldValueType | FieldValueObject;
   valueEnum?: FieldValueEnumMap | FieldValueEnumObj | FieldValueEnumRequestType;
   fieldKey?: string;
+  emptyText?: React.ReactNode;
 } & Omit<BaseFieldProps, 'text' | 'valueEnum'> &
   RenderFieldProps &
   AnyObject;
