@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { GetProp, TableProps } from 'metis-ui';
-import { Form, Radio, Space, Switch, Table } from 'metis-ui';
+import { Form, Radio, Switch, Table } from 'metis-ui';
 
 type SizeType = TableProps['size'];
 type ColumnsType<T extends object> = GetProp<TableProps<T>, 'columns'>;
@@ -47,15 +47,9 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Action',
     key: 'action',
+    valueType: 'action',
+    render: () => [<a key="del">Delete</a>, <a key="more">More actions</a>],
     sorter: true,
-    render: () => (
-      <Space size="middle">
-        <a>Delete</a>
-        <a>
-          <Space>More actions</Space>
-        </a>
-      </Space>
-    ),
   },
 ];
 

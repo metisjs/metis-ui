@@ -1,6 +1,6 @@
 import React from 'react';
 import type { TableProps } from 'metis-ui';
-import { Space, Table } from 'metis-ui';
+import { Table } from 'metis-ui';
 
 interface DataType {
   key: string;
@@ -42,12 +42,8 @@ const columns: TableProps<DataType>['columns'] = [
   {
     title: 'Action',
     key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
+    valueType: 'action',
+    render: (_, record) => [<a key="invite">Invite {record.name}</a>, <a key="del">Delete</a>],
   },
 ];
 

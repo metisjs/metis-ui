@@ -229,11 +229,20 @@ export type ColumnEditable<RecordType extends AnyObject> =
   | ColumnEditableConfig<RecordType>
   | ((value: any, record: RecordType, index: number) => boolean | ColumnEditableConfig<RecordType>);
 
+export type ColumnRenderActionType = {
+  startEdit: () => boolean;
+};
+
 export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedType<RecordType> {
   title?: ColumnTitle<RecordType>;
   colSpan?: number;
   dataIndex?: DataIndex<RecordType>;
-  render?: (value: any, record: RecordType, index: number) => React.ReactNode;
+  render?: (
+    value: any,
+    record: RecordType,
+    index: number,
+    action: ColumnRenderActionType,
+  ) => React.ReactNode;
   shouldCellUpdate?: (record: RecordType, prevRecord: RecordType) => boolean;
   rowSpan?: number;
   width?: number | string;
@@ -450,7 +459,7 @@ export interface TablePaginationConfig extends PaginationProps {
   position?: TablePaginationPosition[];
 }
 
-export type GetRequestType<
+export type TableGetRequestType<
   RecordType extends AnyObject,
   Pagination extends false | TablePaginationConfig = TablePaginationConfig,
 > = Pagination extends false
@@ -472,12 +481,11 @@ export type EditableActionRenderFunction<T> = (
   record: T,
   defaultDoms: {
     save: React.ReactNode;
-    delete: React.ReactNode;
     cancel: React.ReactNode;
   },
 ) => React.ReactNode[];
 
-export type EditableConfig<RecordType extends AnyObject> = {
+export type TableEditableConfig<RecordType extends AnyObject> = {
   formProps?: Omit<
     FormProps<RecordType> & {
       formRef?: React.Ref<FormInstance | undefined>;

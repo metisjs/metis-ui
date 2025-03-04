@@ -4,7 +4,7 @@ import type { AnyObject } from '@util/type';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
 import useRowInfo from '../hooks/useRowInfo';
-import type { ColumnType, CustomizeComponent } from '../interface';
+import type { ColumnRenderActionType, ColumnType, CustomizeComponent, Key } from '../interface';
 import { computedExpandedClassName } from '../utils/expandUtil';
 import ExpandedRow from './ExpandedRow';
 
@@ -18,7 +18,7 @@ export interface BodyRowProps<RecordType extends AnyObject> {
   cellComponent: CustomizeComponent;
   scopeCellComponent: CustomizeComponent;
   indent?: number;
-  rowKey: React.Key;
+  rowKey: Key;
   totalRowCount?: number;
 }
 
@@ -112,6 +112,8 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     expanded,
     selected,
     rowSupportExpand,
+    editingRowKey,
+    startEdit,
   } = rowInfo;
 
   // Force render expand row if expanded before
@@ -121,6 +123,12 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
   // 若没有 expandedRowRender 参数, 将使用 baseRowNode 渲染 Children
   // 此时如果 level > 1 则说明是 expandedRow, 一样需要附加 computedExpandedRowClassName
   const expandedClsName = computedExpandedClassName(expandedRowClassName, record, index, indent);
+
+  const isEditing = editingRowKey === rowKey;
+  const renderAction = React.useMemo<ColumnRenderActionType>(
+    () => ({ startEdit: () => startEdit(rowKey) }),
+    [rowKey],
+  );
 
   // ======================== Base tr row ========================
   const baseRowNode = (
@@ -176,6 +184,8 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             totalColCount={flattenColumns.length}
             valueType={valueType}
             valueEnum={valueEnum}
+            editing={isEditing}
+            renderAction={renderAction}
           />
         );
       })}

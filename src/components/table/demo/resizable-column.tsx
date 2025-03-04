@@ -93,7 +93,8 @@ const App: React.FC = () => {
     {
       title: 'Action',
       key: 'action',
-      render: () => <a>Delete</a>,
+      valueType: 'action',
+      render: () => [<a key="del">Delete</a>],
     },
   ]);
 

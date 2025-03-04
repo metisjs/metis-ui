@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LoadingOutline } from '@metisjs/icons';
 import type { AnyObject } from '@util/type';
 import { useEvent } from 'rc-util';
@@ -8,7 +8,103 @@ import { merge } from 'rc-util/lib/utils/set';
 import Form from '../../form';
 import { useLocale } from '../../locale';
 import message from '../../message';
-import type { EditableActionRenderFunction, EditableConfig, GetRowKey, Key } from '../interface';
+import type {
+  EditableActionRenderFunction,
+  GetRowKey,
+  Key,
+  TableEditableConfig,
+} from '../interface';
+
+function editRowByKey<RecordType extends AnyObject>(keyProps: {
+  data: RecordType[];
+  childrenColumnName: keyof RecordType;
+  getRowKey: GetRowKey<RecordType>;
+  key: Key;
+  row: RecordType;
+}) {
+  const { getRowKey, row, data, key, childrenColumnName } = keyProps;
+
+  const kvMap = new Map<Key, RecordType & { parentKey?: Key }>();
+
+  function dig(records: RecordType[], map_row_parentKey?: Key, map_row_index?: number) {
+    records.forEach((record, index) => {
+      const eachIndex = (map_row_index || 0) * 10 + index;
+      const recordKey = getRowKey(record, eachIndex).toString();
+      // children 取在前面方便拼的时候按照反顺序放回去
+      if (record && typeof record === 'object' && childrenColumnName in record) {
+        dig((record as any)[childrenColumnName] || [], recordKey, eachIndex);
+      }
+      const newRecord = {
+        ...record,
+        map_row_key: recordKey,
+        children: undefined,
+        map_row_parentKey,
+      };
+      delete newRecord.children;
+      if (!map_row_parentKey) {
+        delete newRecord.map_row_parentKey;
+      }
+      kvMap.set(recordKey, newRecord);
+    });
+  }
+
+  dig(data);
+
+  kvMap.set(key, {
+    ...kvMap.get(key),
+    ...row,
+  });
+
+  const fill = (map: Map<Key, RecordType & { map_row_parentKey?: Key; map_row_key?: Key }>) => {
+    const kvArrayMap = new Map<Key, RecordType[]>();
+    const kvSource: RecordType[] = [];
+    const fillNewRecord = (fillChildren: boolean = true) => {
+      map.forEach((value) => {
+        if (value.map_row_parentKey && !value.map_row_key) {
+          const { map_row_parentKey, ...rest } = value;
+          if (!kvArrayMap.has(map_row_parentKey)) {
+            kvArrayMap.set(map_row_parentKey, []);
+          }
+          if (fillChildren) {
+            kvArrayMap.get(map_row_parentKey)?.push(rest as unknown as RecordType);
+          }
+        }
+      });
+    };
+
+    map.forEach((value) => {
+      if (value.map_row_parentKey && value.map_row_key) {
+        const { map_row_parentKey, map_row_key, ...rest } = value;
+        if (kvArrayMap.has(map_row_key)) {
+          (rest as any)[childrenColumnName] = kvArrayMap.get(map_row_key);
+        }
+        if (!kvArrayMap.has(map_row_parentKey)) {
+          kvArrayMap.set(map_row_parentKey, []);
+        }
+        kvArrayMap.get(map_row_parentKey)?.push(rest as unknown as RecordType);
+      }
+    });
+
+    fillNewRecord();
+
+    map.forEach((value) => {
+      if (!value.map_row_parentKey) {
+        const { map_row_key, ...rest } = value;
+        if (map_row_key && kvArrayMap.has(map_row_key)) {
+          const item = {
+            ...rest,
+            [childrenColumnName]: kvArrayMap.get(map_row_key),
+          };
+          kvSource.push(item as RecordType);
+          return;
+        }
+        kvSource.push(rest as RecordType);
+      }
+    });
+    return kvSource;
+  };
+  return fill(kvMap);
+}
 
 function SaveEditAction<RecordType extends AnyObject>({
   record,
@@ -19,7 +115,7 @@ function SaveEditAction<RecordType extends AnyObject>({
   record: RecordType;
   index: number;
   children: ReactNode;
-  onSave?: EditableConfig<RecordType>['onSave'];
+  onSave?: TableEditableConfig<RecordType>['onSave'];
 }) {
   const form = Form.useFormInstance();
   const [loading, setLoading] = useState<boolean>(false);
@@ -94,7 +190,7 @@ function defaultActionRender<RecordType extends AnyObject>(
   }: {
     saveText?: string;
     cancelText?: string;
-    onSave?: EditableConfig<RecordType>['onSave'];
+    onSave?: TableEditableConfig<RecordType>['onSave'];
     onCancel?: () => void;
   },
 ) {
@@ -112,12 +208,12 @@ function defaultActionRender<RecordType extends AnyObject>(
   };
 }
 
-function useEditableArray<RecordType extends AnyObject>(
-  props: EditableConfig<RecordType> & {
+function useEditable<RecordType extends AnyObject>(
+  props: TableEditableConfig<RecordType> & {
     getRowKey: GetRowKey<RecordType>;
     getRecordByKey: (key: Key) => RecordType;
     dataSource: RecordType[];
-    childrenColumnName: string | undefined;
+    childrenColumnName: keyof RecordType;
     setDataSource: (dataSource: RecordType[]) => void;
   },
 ) {
@@ -147,30 +243,40 @@ function useEditableArray<RecordType extends AnyObject>(
   });
 
   const cancelEdit = useEvent(async () => {
-    setEditingRowKey(undefined);
-
-    return true;
+    if (editingRowKey) {
+      setEditingRowKey(undefined);
+      return true;
+    }
+    return false;
   });
 
   const onSave = useEvent(async (record: RecordType, index: number) => {
     const res = await props?.onSave?.(record, index);
     cancelEdit();
 
-    props.setDataSource([]);
+    props.setDataSource(
+      editRowByKey({
+        data: props.dataSource,
+        getRowKey: props.getRowKey,
+        row: record,
+        key: props.getRowKey(record),
+        childrenColumnName: props.childrenColumnName,
+      }),
+    );
 
     return res;
   });
 
   const actionRender = (record: RecordType, index: number) => {
-    const key = props.getRowKey(record, index);
-
     const renderResult = defaultActionRender<RecordType>(record, index, {
       saveText: locale.saveText,
       cancelText: locale.cancelText,
+      onSave,
+      onCancel: cancelEdit,
     });
 
     if (existCustomActionRender)
-      return customActionRenderRef(record, index, {
+      return customActionRenderRef(record, {
         save: renderResult.save,
         cancel: renderResult.cancel,
       });
@@ -178,13 +284,17 @@ function useEditableArray<RecordType extends AnyObject>(
     return [renderResult.save, renderResult.cancel];
   };
 
+  useEffect(() => {
+    cancelEdit();
+  }, [props.dataSource]);
+
   return {
-    editingKey: editingRowKey,
-    setEditingKey: setEditingRowKey,
+    editingRowKey,
+    setEditingRowKey,
     actionRender,
     startEdit,
     cancelEdit,
   };
 }
 
-export default useEditableArray;
+export default useEditable;

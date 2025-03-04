@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import type { TableContextProps } from '../context/TableContext';
 import TableContext from '../context/TableContext';
+import type { Key } from '../interface';
 import { getColumnsKey } from '../utils/valueUtil';
 
 export default function useRowInfo<RecordType extends AnyObject>(
   record: RecordType,
-  rowKey: React.Key,
+  rowKey: Key,
   recordIndex: number,
   indent: number,
 ): Pick<
@@ -28,6 +29,8 @@ export default function useRowInfo<RecordType extends AnyObject>(
   | 'expandedKeys'
   | 'childrenColumnName'
   | 'onRow'
+  | 'editingRowKey'
+  | 'startEdit'
 > & {
   selected: boolean;
   columnsKey: React.Key[];
@@ -57,6 +60,8 @@ export default function useRowInfo<RecordType extends AnyObject>(
     'rowExpandable',
     'onRow',
     'selectedRowKeys',
+    'editingRowKey',
+    'startEdit',
   ]);
 
   const {

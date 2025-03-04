@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { TableProps } from 'metis-ui';
-import { Radio, Space, Table } from 'metis-ui';
+import { Radio, Table } from 'metis-ui';
 
 type ColumnsType<T extends object> = TableProps<T>['columns'];
 type TablePagination<T extends object> = NonNullable<Exclude<TableProps<T>['pagination'], boolean>>;
@@ -63,12 +63,8 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Action',
     key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
+    valueType: 'action',
+    render: (_, record) => [<a key="invite">Invite {record.name}</a>, <a key="del">Delete</a>],
   },
 ];
 

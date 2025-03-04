@@ -22,7 +22,7 @@ const columns: ColumnsType<DataType> = [
     title: 'Name',
     dataIndex: 'name',
     sorter: true,
-    render: (name) => `${name.first} ${name.last}`,
+    render: (_, record) => `${record.name.first} ${record.name.last}`,
     width: '20%',
   },
   {

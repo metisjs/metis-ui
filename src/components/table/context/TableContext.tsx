@@ -8,6 +8,7 @@ import type {
   GetComponent,
   GetComponentProps,
   GetRowKey,
+  Key,
   RenderExpandIcon,
   RowClassName,
   TableLayout,
@@ -64,6 +65,8 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   hoverEndRow: number;
   onHover: (start: number, end: number) => void;
   rowExpandable?: (record: RecordType) => boolean;
+  editingRowKey?: Key;
+  startEdit: (recordKey: Key) => boolean;
 
   expandedKeys: Set<SafeKey>;
   getRowKey: GetRowKey<RecordType>;

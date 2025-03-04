@@ -8,6 +8,7 @@ import TableContext from '../context/TableContext';
 import type {
   AlignType,
   CellEllipsisType,
+  ColumnRenderActionType,
   ColumnType,
   ColumnValueEnum,
   ColumnValueType,
@@ -61,6 +62,9 @@ export interface CellProps<RecordType extends AnyObject> {
 
   valueType?: ColumnValueType<RecordType>;
   valueEnum?: ColumnValueEnum<RecordType>;
+
+  editing?: boolean;
+  renderAction?: ColumnRenderActionType;
 }
 
 export const getTitleFromCellRenderChildren = ({
@@ -126,6 +130,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     valueType,
     valueEnum,
     cellKey,
+    editing,
+    renderAction,
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
@@ -135,17 +141,20 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   );
 
   // ====================== Value =======================
-  const childNode = useCellRender(
+  const childNode = useCellRender({
     record,
     dataIndex,
     renderIndex,
     valueType,
     valueEnum,
-    `${tableKey}-cell-${cellKey}`,
+    cacheKey: `${tableKey}-cell-${cellKey}`,
+    rowType,
     children,
+    editing,
     render,
     shouldCellUpdate,
-  );
+    renderAction,
+  });
 
   // ====================== Fixed =======================
   const fixedStyle: React.CSSProperties = {};

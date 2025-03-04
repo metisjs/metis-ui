@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Table } from 'metis-ui';
+import { Table } from 'metis-ui';
 
 const { Column, ColumnGroup } = Table;
 
@@ -60,15 +60,14 @@ const App: React.FC = () => (
         nice: { label: 'Nice', color: 'green' },
       }}
     />
-    <Column
+    <Column<DataType>
       title="Action"
       key="action"
-      render={(_: any, record: DataType) => (
-        <Space size="middle">
-          <a>Invite {record.lastName}</a>
-          <a>Delete</a>Ø
-        </Space>
-      )}
+      valueType="action"
+      render={(_, record) => [
+        <a key="invite">Invite {record.lastName}</a>,
+        <a key="del">Delete</a>,
+      ]}
     />
   </Table>
 );

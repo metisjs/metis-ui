@@ -30,6 +30,7 @@ import type { SummaryProps } from './Footer/Summary';
 import Summary from './Footer/Summary';
 import Header from './Header/Header';
 import useColumns from './hooks/useColumns';
+import useEditable from './hooks/useEditable';
 import useExpand from './hooks/useExpand';
 import type { FilterConfig } from './hooks/useFilter';
 import useFilter, { getFilterData, type FilterState } from './hooks/useFilter';
@@ -37,7 +38,7 @@ import useFixedInfo from './hooks/useFixedInfo';
 import { useTimeoutLock } from './hooks/useFrame';
 import useHover from './hooks/useHover';
 import useLazyKVMap from './hooks/useLazyKVMap';
-import usePagination, { DEFAULT_PAGE_SIZE, getPaginationParam } from './hooks/usePagination';
+import usePagination, { getPaginationParam } from './hooks/usePagination';
 import useRequest from './hooks/useRequest';
 import useSelection from './hooks/useSelection';
 import useSorter, { getSortData, type SortState } from './hooks/useSorter';
@@ -53,7 +54,6 @@ import type {
   GetComponent,
   GetComponentProps,
   GetPopupContainer,
-  GetRequestType,
   GetRowKey,
   Reference,
   RowClassName,
@@ -64,6 +64,8 @@ import type {
   TableAction,
   TableComponents,
   TableCurrentDataSource,
+  TableEditableConfig,
+  TableGetRequestType,
   TableLayout,
   TableLocale,
   TablePaginationConfig,
@@ -73,8 +75,7 @@ import type {
 import StickyScrollBar from './StickyScrollBar';
 import { validateValue } from './utils/valueUtil';
 
-// Used for conditions cache
-const EMPTY_LIST = [] as const;
+const EMPTY_LIST: any = [];
 
 // Used for customize scroll
 const EMPTY_SCROLL_TARGET = {};
@@ -120,7 +121,7 @@ export interface TableProps<
   rowSelection?: TableRowSelection<RecordType>;
 
   // Editable
-  editable?: boolean;
+  editable?: TableEditableConfig<RecordType>;
 
   // Additional Part
   summary?: (data: readonly RecordType[]) => React.ReactNode;
@@ -138,7 +139,7 @@ export interface TableProps<
 
   pagination?: Pagination;
 
-  request?: GetRequestType<RecordType, Pagination>;
+  request?: TableGetRequestType<RecordType, Pagination>;
 
   loading?: boolean | SpinProps;
   size?: 'default' | 'middle' | 'small';
@@ -183,7 +184,7 @@ function InternalTable<RecordType extends AnyObject>(
     style,
     size: customizeSize,
     verticalLine,
-    dataSource,
+    dataSource = EMPTY_LIST as RecordType[],
     rowKey = 'key',
     scroll,
     tableLayout,
@@ -216,6 +217,7 @@ function InternalTable<RecordType extends AnyObject>(
     loading,
 
     request,
+    editable,
 
     children,
   } = props;
@@ -232,8 +234,6 @@ function InternalTable<RecordType extends AnyObject>(
 
   const mergedSize = customizeSize ?? table?.size ?? 'default';
   const tableLocale: TableLocale = { ...contextLocale.Table, ...locale };
-
-  const rawData = dataSource || EMPTY_LIST;
 
   const { childrenColumnName = 'children', expandedRowRender } = expandable ?? {};
 
@@ -309,13 +309,13 @@ function InternalTable<RecordType extends AnyObject>(
     }
 
     onChange?.(changeInfo.pagination!, changeInfo.filters!, changeInfo.sorter!, {
-      currentDataSource: getFilterData(
-        getSortData(rawData, changeInfo.sorterStates!, childrenColumnName),
-        changeInfo.filterStates!,
-        childrenColumnName,
-      ),
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      currentDataSource: finalData,
       action,
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    cancelEdit();
   };
 
   // ============================ Sorter =============================
@@ -340,10 +340,6 @@ function InternalTable<RecordType extends AnyObject>(
     tableLocale,
     showSorterTooltip,
   });
-  const sortedData = React.useMemo(
-    () => getSortData(rawData, sortStates, childrenColumnName),
-    [rawData, sortStates],
-  );
 
   changeEventInfo.sorter = getSorters();
   changeEventInfo.sorterStates = sortStates;
@@ -361,7 +357,6 @@ function InternalTable<RecordType extends AnyObject>(
     onFilterChange,
     getPopupContainer: getPopupContainer || getContextPopupContainer,
   });
-  const mergedData = getFilterData(sortedData, filterStates, childrenColumnName);
 
   changeEventInfo.filters = filters;
   changeEventInfo.filterStates = filterStates;
@@ -384,19 +379,20 @@ function InternalTable<RecordType extends AnyObject>(
   changeEventInfo.resetPagination = resetPagination;
 
   // ========================== Request ==========================
-  const [requestLoading, requestData, total] = useRequest(
-    changeEventInfo.filters!,
+  const [requestLoading, finalData, total, setDataSource] = useRequest({
+    request,
+    dataSource,
+    filters: changeEventInfo.filters!,
     filterStates,
-    changeEventInfo.sorter!,
+    sorter: changeEventInfo.sorter!,
     sortStates,
     getSortData,
     getFilterData,
     childrenColumnName,
-    changeEventInfo.pagination!,
-    request,
-  );
+    pagination: changeEventInfo.pagination!,
+  });
 
-  mergedPagination.total = !!request ? total : mergedData.length;
+  mergedPagination.total = total;
 
   // Reset `current` if data length or pageSize changed
   const maxPage = Math.ceil(mergedPagination.total / mergedPagination.pageSize!);
@@ -405,50 +401,12 @@ function InternalTable<RecordType extends AnyObject>(
     mergedPagination.current = maxPage || 1;
   }
 
-  const finalData = React.useMemo<RecordType[]>(() => {
-    if (!!request) {
-      return requestData;
-    }
+  const rawData = request ? finalData : dataSource;
 
-    if (pagination === false) {
-      return mergedData;
-    }
-
-    const { current = 1, total, pageSize = DEFAULT_PAGE_SIZE } = mergedPagination;
-    warning(current > 0, 'usage', '`current` should be positive number.');
-
-    // Dynamic table data
-    if (mergedData.length < total!) {
-      if (mergedData.length > pageSize) {
-        warning(
-          false,
-          'usage',
-          '`dataSource` length is less than `pagination.total` but large than `pagination.pageSize`. Please make sure your config correct data with async mode.',
-        );
-        return mergedData.slice((current - 1) * pageSize, current * pageSize);
-      }
-      return mergedData;
-    }
-
-    return mergedData.slice((current - 1) * pageSize, current * pageSize);
-  }, [
-    !!request,
-    requestData,
-    !!pagination,
-    mergedData,
-    mergedPagination?.current,
-    mergedPagination?.pageSize,
-    mergedPagination?.total,
-  ]);
-
-  const [getRecordByKey] = useLazyKVMap(
-    request ? requestData : rawData,
-    childrenColumnName,
-    getRowKey,
-  );
+  const [getRecordByKey] = useLazyKVMap(rawData, childrenColumnName, getRowKey);
 
   const expandableType = React.useMemo<ExpandableType>(() => {
-    if ((request ? requestData : rawData).some((item) => item?.[childrenColumnName])) {
+    if (rawData.some((item) => item?.[childrenColumnName])) {
       return 'nest';
     }
 
@@ -457,13 +415,23 @@ function InternalTable<RecordType extends AnyObject>(
     }
 
     return false;
-  }, [rawData, requestData, childrenColumnName, !!expandedRowRender]);
+  }, [rawData, childrenColumnName, !!expandedRowRender]);
+
+  // ====================== Editable ======================
+  const { editingRowKey, startEdit, cancelEdit } = useEditable({
+    ...editable,
+    getRowKey,
+    getRecordByKey,
+    dataSource: finalData,
+    childrenColumnName,
+    setDataSource,
+  });
 
   // ====================== Selection ======================
   const [transformSelectionColumns, selectedKeySet] = useSelection(
     {
       prefixCls,
-      data: mergedData,
+      data: rawData,
       pageData: finalData,
       getRowKey,
       getRecordByKey,
@@ -1079,6 +1047,8 @@ function InternalTable<RecordType extends AnyObject>(
       onHover,
       rowExpandable: expandableConfig.rowExpandable,
       onRow,
+      editingRowKey,
+      startEdit,
 
       getRowKey,
       expandedKeys: expandedKeys,
@@ -1130,6 +1100,8 @@ function InternalTable<RecordType extends AnyObject>(
       onHover,
       expandableConfig.rowExpandable,
       onRow,
+      editingRowKey,
+      startEdit,
 
       getRowKey,
       expandedKeys,

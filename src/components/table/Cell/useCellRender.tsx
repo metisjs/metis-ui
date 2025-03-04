@@ -3,28 +3,51 @@ import type { AnyObject } from '@util/type';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import getValue from 'rc-util/lib/utils/get';
+import type { CellProps } from '.';
 import FieldComponent from '../../form/Field';
 import { useImmutableMark } from '../context/TableContext';
-import type { ColumnType, ColumnValueEnum, ColumnValueType, DataIndex } from '../interface';
+import type {
+  ColumnRenderActionType,
+  ColumnType,
+  ColumnValueEnum,
+  ColumnValueType,
+  DataIndex,
+} from '../interface';
 import { validateValue } from '../utils/valueUtil';
 
-export default function useCellRender<RecordType extends AnyObject>(
-  record: RecordType,
-  dataIndex: DataIndex<RecordType> | null | undefined,
-  renderIndex: number,
-  valueType: ColumnValueType<RecordType> | undefined,
-  valueEnum: ColumnValueEnum<RecordType> | undefined,
-  cacheKey: string,
-  children?: React.ReactNode,
-  render?: ColumnType<RecordType>['render'],
-  shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'],
-) {
+export default function useCellRender<RecordType extends AnyObject>({
+  record,
+  dataIndex,
+  renderIndex,
+  valueType,
+  valueEnum,
+  cacheKey,
+  rowType,
+  children,
+  editing,
+  render,
+  shouldCellUpdate,
+  renderAction,
+}: {
+  record: RecordType;
+  dataIndex: DataIndex<RecordType> | null | undefined;
+  renderIndex: number;
+  valueType: ColumnValueType<RecordType> | undefined;
+  valueEnum: ColumnValueEnum<RecordType> | undefined;
+  cacheKey: string;
+  rowType: CellProps<any>['rowType'];
+  children?: React.ReactNode;
+  editing?: boolean;
+  render?: ColumnType<RecordType>['render'];
+  shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'];
+  renderAction?: ColumnRenderActionType;
+}) {
   const mark = useImmutableMark();
 
   // ======================== Render ========================
   const retData = useMemo<React.ReactNode>(
     () => {
-      if (validateValue(children)) {
+      if (validateValue(children) || rowType !== 'body') {
         return children;
       }
 
@@ -45,15 +68,37 @@ export default function useCellRender<RecordType extends AnyObject>(
 
       const dom = (
         <FieldComponent
-          mode={'read'}
+          mode={editing ? 'edit' : 'read'}
           text={value}
           valueType={mergedValueType}
           valueEnum={mergedValueEnum}
           fieldKey={cacheKey}
+          editorProps={{}}
+          // renderEditor={() => {}}
         />
       );
 
-      return render?.(dom, record, renderIndex) ?? dom;
+      if (editing) {
+        if (mergedValueType === 'action') {
+          return (
+            <div className="inline-flex items-center gap-2">
+              {/* {editableUtils.actionRender({
+                ...rowData,
+                index: columnProps.index || index,
+              })} */}
+            </div>
+          );
+        }
+        return dom;
+      }
+
+      const renderDom = render?.(dom, record, renderIndex, renderAction!) ?? dom;
+
+      if (renderDom && mergedValueType === 'action' && Array.isArray(renderDom)) {
+        return <div className="inline-flex items-center gap-2">{renderDom}</div>;
+      }
+
+      return renderDom;
     },
     [
       // Force update deps
@@ -63,11 +108,13 @@ export default function useCellRender<RecordType extends AnyObject>(
       record,
       children,
       dataIndex,
+      rowType,
       render,
       renderIndex,
       valueType,
       valueEnum,
       cacheKey,
+      renderAction,
     ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {

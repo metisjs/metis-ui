@@ -112,7 +112,7 @@ export type FieldValueTypeWithFieldProps = {
   segmented: never;
   /** 标签 */
   tag: BaseFieldProps<FieldTagProps>;
-  option: never;
+  action: never;
 };
 
 export type FieldValueTypeWithEditorProps = {
@@ -186,7 +186,7 @@ export type FieldValueTypeWithEditorProps = {
   segmented: SegmentedProps;
   /** 标签 */
   tag: SelectProps;
-  option: Record<string, any>;
+  action: Record<string, any>;
 };
 
 export type FieldValueType = Extract<keyof FieldValueTypeWithFieldProps, any>;
