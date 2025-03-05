@@ -2,7 +2,12 @@
 import React from 'react';
 import Badge from '../../badge';
 import Space from '../../space';
-import type { FieldValueEnumMap, FieldValueEnumObj, FieldValueEnumRequestType } from '../interface';
+import type {
+  FieldStatusType,
+  FieldValueEnumMap,
+  FieldValueEnumObj,
+  FieldValueEnumRequestType,
+} from '../interface';
 
 /**
  * 获取类型的 type
@@ -53,8 +58,6 @@ const FieldStatus: {
   processing: ({ children }) => <Badge status="processing" text={children} />,
   warning: ({ children }) => <Badge status="warning" text={children} />,
 };
-
-export type FieldStatusType = 'success' | 'warning' | 'error' | 'default' | 'processing';
 
 /**
  * 转化 text 和 valueEnum 通过 type 来添加 Status

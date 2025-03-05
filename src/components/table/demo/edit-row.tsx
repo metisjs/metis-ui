@@ -1,176 +1,100 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { TableProps } from 'metis-ui';
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'metis-ui';
+import { Table } from 'metis-ui';
 
 interface DataType {
-  key: string;
+  key: number;
   name: string;
   age: number;
   address: string;
 }
 
-const originData = Array.from({ length: 100 }).map<DataType>((_, i) => ({
-  key: i.toString(),
+const waitTime = (time: number = 100) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
+};
+
+const data = Array.from({ length: 100 }).map<DataType>((_, i) => ({
+  key: i,
   name: `Edward ${i}`,
   age: 32,
   address: `London Park no. ${i}`,
 }));
 
-interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-  editing: boolean;
-  dataIndex: string;
-  title: any;
-  inputType: 'number' | 'text';
-  record: DataType;
-  index: number;
-}
-
-const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
-
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{ margin: 0 }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
-
-const App: React.FC = () => {
-  const [form] = Form.useForm();
-  const [data, setData] = useState<DataType[]>(originData);
-  const [editingKey, setEditingKey] = useState('');
-
-  const isEditing = (record: DataType) => record.key === editingKey;
-
-  const edit = (record: Partial<DataType> & { key: React.Key }) => {
-    form.setFieldsValue({ name: '', age: '', address: '', ...record });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey('');
-  };
-
-  const save = async (key: React.Key) => {
-    try {
-      const row = (await form.validateFields()) as DataType;
-
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey('');
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
+const columns: TableProps<DataType>['columns'] = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    editable: (_, __, index) => {
+      if (index === 0) {
+        return false;
       }
-    } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
-    }
-  };
-
-  const columns = [
-    {
-      title: 'name',
-      dataIndex: 'name',
-      width: '25%',
-      editable: true,
+      return { rules: index > 1 ? [{ required: true }] : [] };
     },
-    {
-      title: 'age',
-      dataIndex: 'age',
-      width: '15%',
-      editable: true,
-    },
-    {
-      title: 'address',
-      dataIndex: 'address',
-      width: '40%',
-      editable: true,
-    },
-    {
-      title: 'operation',
-      dataIndex: 'operation',
-      render: (_: any, record: DataType) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <Typography.Link onClick={() => save(record.key)} style={{ marginInlineEnd: 8 }}>
-              Save
-            </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </Typography.Link>
-        );
+    width: '15%',
+  },
+  {
+    title: 'State',
+    dataIndex: 'state',
+    valueType: 'select',
+    valueEnum: {
+      all: { label: 'All', status: 'default' },
+      open: {
+        label: 'Open',
+        status: 'error',
+      },
+      closed: {
+        label: 'Closed',
+        status: 'success',
       },
     },
-  ];
+  },
+  {
+    title: 'Description',
+    dataIndex: 'decs',
+    valueType: { type: 'text' },
+    editable: (form) => {
+      if (form.getFieldValue('title') === '不好玩') {
+        return {
+          editorProps: { disabled: true },
+        };
+      }
+      return true;
+    },
+  },
+  {
+    title: '活动时间',
+    dataIndex: 'createdAt',
+    valueType: 'date',
+  },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    valueType: 'action',
+    render: (_, __, ___, action) => [
+      <a key="edit" onClick={() => action.startEdit()}>
+        Edit
+      </a>,
+      <a key="delete">Delete</a>,
+    ],
+    width: 160,
+  },
+];
 
-  const mergedColumns: TableProps<DataType>['columns'] = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record: DataType) => ({
-        record,
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
-
-  return (
-    <Form form={form} component={false}>
-      <Table<DataType>
-        components={{
-          body: { cell: EditableCell },
-        }}
-        verticalLine
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{ onChange: cancel }}
-      />
-    </Form>
-  );
-};
+const App: React.FC = () => (
+  <Table<DataType>
+    dataSource={data}
+    columns={columns}
+    editable={{
+      onSave: async (record) => {
+        console.log(record);
+        await waitTime(2000);
+      },
+    }}
+  />
+);
 
 export default App;

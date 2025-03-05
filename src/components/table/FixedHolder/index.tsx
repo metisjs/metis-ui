@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
-import classNames from 'classnames';
 import { useComposeRef } from 'rc-util/lib/ref';
 import ColGroup from '../ColGroup';
 import TableContext from '../context/TableContext';

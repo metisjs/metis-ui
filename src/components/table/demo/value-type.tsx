@@ -170,24 +170,19 @@ const columns: TableProps<DataType>['columns'] = [
     dataIndex: 'createdAtRange',
     valueType: 'timeRange',
   },
-  // {
-  //   title: '操作',
-  //   key: 'option',
-  //   valueType: 'option',
-  //   fixed: 'right',
-  //   render: (_, record, index, action) => [
-  //     <a
-  //       key="edit"
-  //       onClick={() => {
-  //         action?.startEditable(record.key);
-  //       }}
-  //     >
-  //       Edit
-  //     </a>,
-  //     <a key="delete">Delete</a>,
-  //   ],
-  //   width: 120,
-  // },
+  {
+    title: '操作',
+    key: 'action',
+    valueType: 'action',
+    fixed: 'right',
+    render: (_, __, ___, action) => [
+      <a key="edit" onClick={() => action.startEdit()}>
+        Edit
+      </a>,
+      <a key="delete">Delete</a>,
+    ],
+    width: 160,
+  },
 ];
 
 const data: DataType[] = [];
@@ -216,7 +211,21 @@ for (let i = 0; i < 2; i += 1) {
 }
 
 const App: React.FC = () => (
-  <Table<DataType> columns={columns} dataSource={data} scroll={{ x: 'max-content' }} />
+  <Table<DataType>
+    columns={columns}
+    dataSource={data}
+    editable={{
+      onSave: (record) => {
+        console.log(record);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(0);
+          }, 2000);
+        });
+      },
+    }}
+    scroll={{ x: 'max-content' }}
+  />
 );
 
 export default App;

@@ -31,6 +31,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
   | 'onRow'
   | 'editingRowKey'
   | 'startEdit'
+  | 'actionRender'
 > & {
   selected: boolean;
   columnsKey: React.Key[];
@@ -62,6 +63,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
     'selectedRowKeys',
     'editingRowKey',
     'startEdit',
+    'actionRender',
   ]);
 
   const {

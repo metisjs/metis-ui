@@ -5,6 +5,7 @@ import type { AnyObject } from '@util/type';
 import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { merge } from 'rc-util/lib/utils/set';
+import type { FormInstance } from '../../form';
 import Form from '../../form';
 import { useLocale } from '../../locale';
 import message from '../../message';
@@ -124,7 +125,7 @@ function SaveEditAction<RecordType extends AnyObject>({
     try {
       setLoading(true);
 
-      const fields = await form.validateFields();
+      const fields = await form?.validateFields();
       const res = await onSave?.(merge(record, fields), index);
 
       setLoading(false);
@@ -141,12 +142,14 @@ function SaveEditAction<RecordType extends AnyObject>({
       onClick={async (e) => {
         e.stopPropagation();
         e.preventDefault();
+
         try {
-          await save();
+          if (!loading) await save();
         } catch {}
       }}
+      className="inline-flex items-center gap-1"
     >
-      {loading ? <LoadingOutline className="me-2 h-4 w-4 animate-spin" /> : null}
+      {loading ? <LoadingOutline className="h-4 w-4 animate-spin" /> : null}
       {children}
     </a>
   );
@@ -170,7 +173,7 @@ function CancelEditAction<RecordType extends AnyObject>({
         e.stopPropagation();
         e.preventDefault();
 
-        form.resetFields();
+        form?.resetFields();
         onCancel?.();
       }}
     >
@@ -231,12 +234,13 @@ function useEditable<RecordType extends AnyObject>(
     customActionRender as EditableActionRenderFunction<RecordType>,
   );
 
-  const startEdit = useEvent((recordKey: Key) => {
+  const startEdit = useEvent((recordKey: Key, form?: FormInstance) => {
     if (editingRowKey && editingRowKey !== recordKey) {
       message.warning(locale.editingAlertMessage);
       return false;
     }
 
+    form?.setFieldsValue(props.getRecordByKey(recordKey));
     setEditingRowKey(recordKey);
 
     return true;
@@ -267,7 +271,7 @@ function useEditable<RecordType extends AnyObject>(
     return res;
   });
 
-  const actionRender = (record: RecordType, index: number) => {
+  const actionRender = useEvent((record: RecordType, index: number) => {
     const renderResult = defaultActionRender<RecordType>(record, index, {
       saveText: locale.saveText,
       cancelText: locale.cancelText,
@@ -281,8 +285,8 @@ function useEditable<RecordType extends AnyObject>(
         cancel: renderResult.cancel,
       });
 
-    return [renderResult.save, renderResult.cancel];
-  };
+    return [renderResult.save, renderResult.cancel] as ReactNode[];
+  });
 
   useEffect(() => {
     cancelEdit();

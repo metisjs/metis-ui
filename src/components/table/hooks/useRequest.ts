@@ -106,7 +106,7 @@ export default function <RecordType extends AnyObject>({
       setFinalData(dataSource as RecordType[]);
       setTotal(dataSource.length);
     }
-  }, [dataSource]);
+  }, [JSON.stringify(dataSource)]);
 
   const [mergedDataSource, mergedTotal] = useMemo<[RecordType[], number]>(() => {
     if (!!request && isPaginationActive) {
@@ -142,7 +142,8 @@ export default function <RecordType extends AnyObject>({
     !!request,
     finalData,
     total,
-    pagination,
+    pagination.current,
+    pagination.pageSize,
     sortStates,
     filterStates,
     childrenColumnName,

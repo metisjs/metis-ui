@@ -10,9 +10,8 @@ import type {
   FieldValueEnumMap,
   FieldValueEnumObj,
   FieldValueEnumRequestType,
-  FieldValueObject,
   FieldValueType,
-  FieldValueTypeWithEditorProps,
+  FieldValueTypeWithFieldProps,
 } from '../form/interface';
 import type { PaginationProps } from '../pagination';
 import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
@@ -208,32 +207,66 @@ export type ColumnFilter<RecordType extends AnyObject> = {
   resetToDefaultFilteredValue?: boolean;
 };
 
-export type ColumnValueType<RecordType extends AnyObject> =
-  | FieldValueType
-  | FieldValueObject
-  | ((record: RecordType) => FieldValueType | FieldValueObject);
-
 export type ColumnValueEnum<RecordType extends AnyObject> =
-  | ((record: RecordType) => FieldValueEnumObj | FieldValueEnumMap | FieldValueEnumRequestType)
+  | ((
+      record: RecordType,
+      index: number,
+    ) => FieldValueEnumObj | FieldValueEnumMap | FieldValueEnumRequestType)
   | FieldValueEnumObj
   | FieldValueEnumMap
   | FieldValueEnumRequestType;
 
-export type ColumnEditableConfig<RecordType extends AnyObject> = {
-  editorProps?: FieldValueTypeWithEditorProps;
+export type ColumnEditableConfig<
+  RecordType extends AnyObject,
+  ValueType extends FieldValueType = 'text',
+> = {
+  editorProps?: FieldValueTypeWithFieldProps[ValueType]['edit'];
   editorRender?: (form: FormInstance<RecordType>) => React.ReactNode;
 } & Omit<FormItemProps<RecordType>, 'children'>;
 
-export type ColumnEditable<RecordType extends AnyObject> =
+export type ColumnEditable<
+  RecordType extends AnyObject,
+  ValueType extends FieldValueType = 'text',
+> =
   | boolean
-  | ColumnEditableConfig<RecordType>
-  | ((value: any, record: RecordType, index: number) => boolean | ColumnEditableConfig<RecordType>);
+  | ColumnEditableConfig<RecordType, ValueType>
+  | ((
+      form: FormInstance,
+      record: RecordType,
+      index: number,
+    ) => boolean | ColumnEditableConfig<RecordType, ValueType>);
 
 export type ColumnRenderActionType = {
   startEdit: () => boolean;
 };
 
-export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedType<RecordType> {
+export type ColumnValueTypeWithEditable<RecordType extends AnyObject> = {
+  [K in FieldValueType]: {
+    valueType?:
+      | K
+      | ({
+          type: K;
+        } & FieldValueTypeWithFieldProps[K]['read'])
+      | ((
+          record: RecordType,
+          index: number,
+        ) =>
+          | K
+          | ({
+              type: K;
+            } & FieldValueTypeWithFieldProps[K]['read']));
+    editable?: ColumnEditable<RecordType, K>;
+  };
+}[FieldValueType];
+
+// const text: ColumnValueTypeWithEditable<AnyObject> = {
+//   valueType: 'text',
+//   editable: { editorProps: { checkedChildren: 'true' } },
+// };
+
+// console.log(text);
+
+export type ColumnType<RecordType extends AnyObject> = {
   title?: ColumnTitle<RecordType>;
   colSpan?: number;
   dataIndex?: DataIndex<RecordType>;
@@ -248,10 +281,9 @@ export interface ColumnType<RecordType extends AnyObject> extends ColumnSharedTy
   width?: number | string;
   minWidth?: number;
   onCell?: GetComponentProps<RecordType>;
-  valueType?: ColumnValueType<RecordType>;
   valueEnum?: ColumnValueEnum<RecordType>;
-  editable?: ColumnEditable<RecordType>;
-}
+} & ColumnValueTypeWithEditable<RecordType> &
+  ColumnSharedType<RecordType>;
 
 export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
   | ColumnGroupType<RecordType>

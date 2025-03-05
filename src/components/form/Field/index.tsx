@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { AnyObject } from '@util/type';
 import { useRequest } from 'ahooks';
+import { useEvent } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import Avatar from '../../avatar';
 import type {
@@ -87,6 +88,8 @@ export type FieldPropsType = {
   valueEnum?: FieldValueEnumMap | FieldValueEnumObj | FieldValueEnumRequestType;
   fieldKey?: string;
   emptyText?: React.ReactNode;
+  value?: any;
+  onChange?: (...rest: any[]) => void;
 } & Omit<BaseFieldProps, 'text' | 'valueEnum'> &
   RenderFieldProps &
   AnyObject;
@@ -104,16 +107,32 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
     text,
     valueType = 'text',
     mode = 'read',
-    renderEditor,
     editorProps,
     valueEnum,
     fieldKey,
     emptyText = '-',
+    value,
+    onChange,
     ...rest
   },
   ref: any,
 ) => {
   const [remoteValueEnum, setRemoteValueEnum] = useState<FieldValueEnumObj>();
+
+  const onChangeCallBack = useEvent((...restParams: any[]) => {
+    editorProps?.onChange?.(...restParams);
+    onChange?.(...restParams);
+  });
+
+  const mergedEditorProps = useMemo(() => {
+    return (
+      (value !== undefined || editorProps) && {
+        value,
+        ...editorProps,
+        onChange: onChangeCallBack,
+      }
+    );
+  }, [value, editorProps, onChangeCallBack]);
 
   const isValueEnumRequest = isValueEnumWithRequest(valueEnum);
   const fieldNames = isValueEnumRequest
@@ -173,6 +192,7 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
     mode,
     valueEnum: mergedValueEnum,
     loading,
+    editorProps: mergedEditorProps,
     ...(typeof valueType === 'object' ? omit(valueType, ['type']) : {}),
     ...rest,
   };
@@ -180,7 +200,7 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
   if (
     emptyText !== false &&
     mode === 'read' &&
-    mergedValueType !== 'option' &&
+    mergedValueType !== 'action' &&
     mergedValueType !== 'switch'
   ) {
     if (typeof dataValue !== 'boolean' && typeof dataValue !== 'number' && !dataValue) {

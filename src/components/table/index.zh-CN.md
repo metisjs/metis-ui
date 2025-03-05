@@ -82,6 +82,7 @@ const columns = [
 <code src="./demo/fixed-columns-header.tsx">固定头和列</code>
 <code src="./demo/hidden-columns.tsx" >隐藏列</code>
 <code src="./demo/grouping-columns.tsx">表头分组</code>
+<code src="./demo/edit-row.tsx">行编辑</code>
 <code src="./demo/nested-table.tsx">嵌套子表格</code>
 <code src="./demo/drag-sorting.tsx">拖拽排序</code>
 <code src="./demo/drag-column-sorting.tsx">列拖拽排序</code>
@@ -98,12 +99,6 @@ const columns = [
 <code src="./demo/value-type.tsx">值类型</code>
 <code src="./demo/dynamic-settings.tsx">动态控制表格属性</code>
 <code src="./demo/selections-debug.tsx" debug>带下拉箭头的表头</code>
-
-<!--
-
-<code src="./demo/edit-cell.tsx">可编辑单元格</code>
-<code src="./demo/edit-row.tsx">可编辑行</code>
--->
 
 ## API
 

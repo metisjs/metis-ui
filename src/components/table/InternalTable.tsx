@@ -13,6 +13,7 @@ import getValue from 'rc-util/lib/utils/get';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
+import Form from '../form';
 import defaultLocale from '../locale/en_US';
 import Pagination from '../pagination';
 import type { ScrollbarRef, ScrollValues } from '../scrollbar';
@@ -418,7 +419,7 @@ function InternalTable<RecordType extends AnyObject>(
   }, [rawData, childrenColumnName, !!expandedRowRender]);
 
   // ====================== Editable ======================
-  const { editingRowKey, startEdit, cancelEdit } = useEditable({
+  const { editingRowKey, actionRender, startEdit, cancelEdit } = useEditable({
     ...editable,
     getRowKey,
     getRecordByKey,
@@ -1001,6 +1002,23 @@ function InternalTable<RecordType extends AnyObject>(
     fullTable = <ResizeObserver onResize={onFullTableResize}>{fullTable}</ResizeObserver>;
   }
 
+  if (editable) {
+    const formSize = mergedSize === 'middle' ? 'small' : mergedSize === 'small' ? 'mini' : 'middle';
+    fullTable = (
+      <Form
+        requiredMark={false}
+        errorPopover
+        colon={false}
+        form={editable.form}
+        size={formSize}
+        {...editable.formProps}
+        preserve
+      >
+        {fullTable}
+      </Form>
+    );
+  }
+
   const TableContextValue = React.useMemo<TableContextProps<RecordType>>(
     () => ({
       // Scroll
@@ -1049,6 +1067,7 @@ function InternalTable<RecordType extends AnyObject>(
       onRow,
       editingRowKey,
       startEdit,
+      actionRender,
 
       getRowKey,
       expandedKeys: expandedKeys,
@@ -1102,6 +1121,7 @@ function InternalTable<RecordType extends AnyObject>(
       onRow,
       editingRowKey,
       startEdit,
+      actionRender,
 
       getRowKey,
       expandedKeys,

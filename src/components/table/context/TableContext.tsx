@@ -1,5 +1,6 @@
 import { createContext, createImmutable } from '@rc-component/context';
 import type { AnyObject, SafeKey } from '@util/type';
+import type { FormInstance } from '../../form';
 import type {
   ColumnsType,
   ColumnType,
@@ -66,7 +67,8 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   onHover: (start: number, end: number) => void;
   rowExpandable?: (record: RecordType) => boolean;
   editingRowKey?: Key;
-  startEdit: (recordKey: Key) => boolean;
+  startEdit: (recordKey: Key, form: FormInstance) => boolean;
+  actionRender: (record: RecordType, index: number) => React.ReactNode[];
 
   expandedKeys: Set<SafeKey>;
   getRowKey: GetRowKey<RecordType>;

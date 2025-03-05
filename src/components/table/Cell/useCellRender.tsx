@@ -1,9 +1,13 @@
 import * as React from 'react';
+import { isNil } from '@util/isNil';
 import type { AnyObject } from '@util/type';
+import { devUseWarning } from '@util/warning';
+import { omit } from 'lodash';
 import useMemo from 'rc-util/lib/hooks/useMemo';
 import isEqual from 'rc-util/lib/isEqual';
 import getValue from 'rc-util/lib/utils/get';
 import type { CellProps } from '.';
+import Form from '../../form';
 import FieldComponent from '../../form/Field';
 import { useImmutableMark } from '../context/TableContext';
 import type {
@@ -24,10 +28,12 @@ export default function useCellRender<RecordType extends AnyObject>({
   cacheKey,
   rowType,
   children,
+  editable,
   editing,
   render,
   shouldCellUpdate,
   renderAction,
+  actionRender,
 }: {
   record: RecordType;
   dataIndex: DataIndex<RecordType> | null | undefined;
@@ -37,12 +43,18 @@ export default function useCellRender<RecordType extends AnyObject>({
   cacheKey: string;
   rowType: CellProps<any>['rowType'];
   children?: React.ReactNode;
+  editable?: ColumnType<RecordType>['editable'];
   editing?: boolean;
   render?: ColumnType<RecordType>['render'];
   shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'];
   renderAction?: ColumnRenderActionType;
+  actionRender?: (record: RecordType, index: number) => React.ReactNode[];
 }) {
+  const warning = devUseWarning('Table');
+
   const mark = useImmutableMark();
+
+  const editableForm = Form.useFormInstance();
 
   // ======================== Render ========================
   const retData = useMemo<React.ReactNode>(
@@ -63,30 +75,54 @@ export default function useCellRender<RecordType extends AnyObject>({
           ? renderIndex
           : getValue(record, path as any);
 
-      const mergedValueEnum = typeof valueEnum === 'function' ? valueEnum(record) : valueEnum;
-      const mergedValueType = typeof valueType === 'function' ? valueType(record) : valueType;
+      const mergedValueEnum =
+        typeof valueEnum === 'function' ? valueEnum(record, renderIndex) : valueEnum;
+      const mergedValueType =
+        typeof valueType === 'function' ? valueType(record, renderIndex) : valueType;
+      const mergedEditable =
+        typeof editable === 'function' ? editable(editableForm, record, renderIndex) : editable;
+      const editableConfig = typeof mergedEditable === 'boolean' ? {} : (mergedEditable ?? {});
 
-      const dom = (
+      let dom: React.ReactNode = (
         <FieldComponent
-          mode={editing ? 'edit' : 'read'}
+          mode={editing && mergedEditable !== false ? 'edit' : 'read'}
           text={value}
           valueType={mergedValueType}
           valueEnum={mergedValueEnum}
           fieldKey={cacheKey}
-          editorProps={{}}
-          // renderEditor={() => {}}
+          editorProps={editableConfig.editorProps}
         />
       );
+
+      if (editableConfig?.editorRender) {
+        dom = editableConfig?.editorRender(editableForm);
+      }
 
       if (editing) {
         if (mergedValueType === 'action') {
           return (
             <div className="inline-flex items-center gap-2">
-              {/* {editableUtils.actionRender({
-                ...rowData,
-                index: columnProps.index || index,
-              })} */}
+              {actionRender?.(record, renderIndex)}
             </div>
+          );
+        }
+
+        warning(
+          !isNil(dataIndex) || mergedEditable !== false,
+          'usage',
+          'Editable column should have a `dataIndex` value.',
+        );
+
+        if (!isNil(dataIndex) && mergedEditable !== false) {
+          return (
+            <Form.Item
+              name={dataIndex as any}
+              hasFeedback={false}
+              {...omit(editableConfig, ['editorProps', 'editorRender'])}
+              className="-mb-2 -mt-2"
+            >
+              {dom}
+            </Form.Item>
           );
         }
         return dom;
@@ -115,6 +151,8 @@ export default function useCellRender<RecordType extends AnyObject>({
       valueEnum,
       cacheKey,
       renderAction,
+      editing,
+      editable,
     ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {

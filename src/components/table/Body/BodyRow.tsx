@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
+import Form from '../../form';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
 import useRowInfo from '../hooks/useRowInfo';
@@ -114,7 +115,10 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     rowSupportExpand,
     editingRowKey,
     startEdit,
+    actionRender,
   } = rowInfo;
+
+  const editableForm = Form.useFormInstance();
 
   // Force render expand row if expanded before
   const expandedRef = React.useRef(false);
@@ -126,8 +130,8 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
 
   const isEditing = editingRowKey === rowKey;
   const renderAction = React.useMemo<ColumnRenderActionType>(
-    () => ({ startEdit: () => startEdit(rowKey) }),
-    [rowKey],
+    () => ({ startEdit: () => startEdit(rowKey, editableForm) }),
+    [rowKey, editableForm, startEdit],
   );
 
   // ======================== Base tr row ========================
@@ -149,7 +153,14 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
       style={{ ...style, ...rowProps?.style }}
     >
       {flattenColumns.map((column: ColumnType<RecordType>, colIndex) => {
-        const { render, dataIndex, className: columnClassName, valueType, valueEnum } = column;
+        const {
+          render,
+          dataIndex,
+          className: columnClassName,
+          valueType,
+          valueEnum,
+          editable,
+        } = column;
 
         const { key, fixedInfo, appendCellNode, additionalCellProps } = getCellProps(
           rowInfo,
@@ -184,8 +195,10 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             totalColCount={flattenColumns.length}
             valueType={valueType}
             valueEnum={valueEnum}
+            editable={editable}
             editing={isEditing}
             renderAction={renderAction}
+            actionRender={actionRender}
           />
         );
       })}

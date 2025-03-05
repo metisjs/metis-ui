@@ -44,7 +44,7 @@ const FieldImage: FieldFC<FieldImageProps> = (
     return dom;
   }
   if (mode === 'edit') {
-    const dom = <Input ref={ref} {...editorProps} />;
+    const dom = <Input ref={ref} allowClear {...editorProps} />;
     if (renderEditor) {
       return renderEditor(text, dom);
     }

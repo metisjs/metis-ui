@@ -62,9 +62,11 @@ export interface CellProps<RecordType extends AnyObject> {
 
   valueType?: ColumnValueType<RecordType>;
   valueEnum?: ColumnValueEnum<RecordType>;
-
+  editable?: ColumnType<RecordType>['editable'];
   editing?: boolean;
+
   renderAction?: ColumnRenderActionType;
+  actionRender?: (record: RecordType, index: number) => React.ReactNode[];
 }
 
 export const getTitleFromCellRenderChildren = ({
@@ -130,8 +132,10 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     valueType,
     valueEnum,
     cellKey,
+    editable,
     editing,
     renderAction,
+    actionRender,
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
@@ -150,10 +154,12 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     cacheKey: `${tableKey}-cell-${cellKey}`,
     rowType,
     children,
+    editable,
     editing,
     render,
     shouldCellUpdate,
     renderAction,
+    actionRender,
   });
 
   // ====================== Fixed =======================
