@@ -96,10 +96,7 @@ interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
   resetPagination: (current?: number, pageSize?: number) => void;
 }
 
-export interface TableProps<
-  RecordType extends AnyObject = AnyObject,
-  Pagination extends false | TablePaginationConfig = TablePaginationConfig,
-> {
+export type TableProps<RecordType extends AnyObject = AnyObject> = {
   prefixCls?: string;
   dropdownPrefixCls?: string;
   className?: string;
@@ -138,10 +135,6 @@ export interface TableProps<
 
   rowHoverable?: boolean;
 
-  pagination?: Pagination;
-
-  request?: TableGetRequestType<RecordType, Pagination>;
-
   loading?: boolean | SpinProps;
   size?: 'default' | 'middle' | 'small';
   verticalLine?: boolean;
@@ -162,7 +155,16 @@ export interface TableProps<
 
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
-}
+} & (
+  | {
+      pagination: false;
+      request?: TableGetRequestType<RecordType, false>;
+    }
+  | {
+      pagination?: TablePaginationConfig;
+      request?: TableGetRequestType<RecordType, true>;
+    }
+);
 
 export interface InternalTableProps<RecordType extends AnyObject = AnyObject>
   extends Omit<TableProps<RecordType>, 'pagination'> {
@@ -907,7 +909,7 @@ function InternalTable<RecordType extends AnyObject>(
       <>
         {/* Header Table */}
         {showHeader !== false && (
-          <FixedHolder
+          <FixedHolder<RecordType>
             {...fixedHolderProps}
             stickyTopOffset={offsetHeader}
             className={`${prefixCls}-header`}
@@ -922,7 +924,7 @@ function InternalTable<RecordType extends AnyObject>(
 
         {/* Summary Table */}
         {fixFooter && fixFooter !== 'top' && (
-          <FixedHolder
+          <FixedHolder<RecordType>
             {...fixedHolderProps}
             stickyBottomOffset={offsetSummary}
             className={`${prefixCls}-summary`}

@@ -143,4 +143,8 @@ if (process.env.NODE_ENV !== 'production') {
   FixedHolder.displayName = 'FixedHeader';
 }
 
-export default React.memo(FixedHolder);
+export default React.memo(FixedHolder) as unknown as <RecordType extends AnyObject>(
+  props: FixedHolderProps<RecordType> & {
+    ref?: React.Ref<HTMLDivElement>;
+  },
+) => React.ReactElement;

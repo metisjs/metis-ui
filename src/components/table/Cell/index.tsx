@@ -10,8 +10,6 @@ import type {
   CellEllipsisType,
   ColumnRenderActionType,
   ColumnType,
-  ColumnValueEnum,
-  ColumnValueType,
   CustomizeComponent,
   DataIndex,
   ScopeType,
@@ -60,8 +58,8 @@ export interface CellProps<RecordType extends AnyObject> {
 
   isSticky?: boolean;
 
-  valueType?: ColumnValueType<RecordType>;
-  valueEnum?: ColumnValueEnum<RecordType>;
+  valueType?: ColumnType<RecordType>['valueType'];
+  valueEnum?: ColumnType<RecordType>['valueEnum'];
   editable?: ColumnType<RecordType>['editable'];
   editing?: boolean;
 

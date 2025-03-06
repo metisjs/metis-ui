@@ -240,31 +240,29 @@ export type ColumnRenderActionType = {
   startEdit: () => boolean;
 };
 
-export type ColumnValueTypeWithEditable<RecordType extends AnyObject> = {
-  [K in FieldValueType]: {
-    valueType?:
-      | K
-      | ({
-          type: K;
-        } & FieldValueTypeWithFieldProps[K]['read'])
-      | ((
-          record: RecordType,
-          index: number,
-        ) =>
+export type ColumnValueTypeWithEditable<RecordType extends AnyObject> =
+  | {
+      valueType?: 'text';
+      editable?: ColumnEditable<RecordType, 'text'>;
+    }
+  | {
+      [K in FieldValueType]: {
+        valueType:
           | K
           | ({
               type: K;
-            } & FieldValueTypeWithFieldProps[K]['read']));
-    editable?: ColumnEditable<RecordType, K>;
-  };
-}[FieldValueType];
-
-// const text: ColumnValueTypeWithEditable<AnyObject> = {
-//   valueType: 'text',
-//   editable: { editorProps: { checkedChildren: 'true' } },
-// };
-
-// console.log(text);
+            } & FieldValueTypeWithFieldProps[K]['read'])
+          | ((
+              record: RecordType,
+              index: number,
+            ) =>
+              | K
+              | ({
+                  type: K;
+                } & FieldValueTypeWithFieldProps[K]['read']));
+        editable?: ColumnEditable<RecordType, K>;
+      };
+    }[FieldValueType];
 
 export type ColumnType<RecordType extends AnyObject> = {
   title?: ColumnTitle<RecordType>;
@@ -493,7 +491,7 @@ export interface TablePaginationConfig extends PaginationProps {
 
 export type TableGetRequestType<
   RecordType extends AnyObject,
-  Pagination extends false | TablePaginationConfig = TablePaginationConfig,
+  Pagination extends boolean = true,
 > = Pagination extends false
   ? RequestConfig<RecordType, any[]>
   : RequestConfig<

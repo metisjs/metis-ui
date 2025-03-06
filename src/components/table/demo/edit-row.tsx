@@ -55,15 +55,6 @@ const columns: TableProps<DataType>['columns'] = [
   {
     title: 'Description',
     dataIndex: 'decs',
-    valueType: { type: 'text' },
-    editable: (form) => {
-      if (form.getFieldValue('title') === '不好玩') {
-        return {
-          editorProps: { disabled: true },
-        };
-      }
-      return true;
-    },
   },
   {
     title: '活动时间',

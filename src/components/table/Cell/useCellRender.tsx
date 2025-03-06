@@ -10,13 +10,7 @@ import type { CellProps } from '.';
 import Form from '../../form';
 import FieldComponent from '../../form/Field';
 import { useImmutableMark } from '../context/TableContext';
-import type {
-  ColumnRenderActionType,
-  ColumnType,
-  ColumnValueEnum,
-  ColumnValueType,
-  DataIndex,
-} from '../interface';
+import type { ColumnRenderActionType, ColumnType, DataIndex } from '../interface';
 import { validateValue } from '../utils/valueUtil';
 
 export default function useCellRender<RecordType extends AnyObject>({
@@ -30,6 +24,7 @@ export default function useCellRender<RecordType extends AnyObject>({
   children,
   editable,
   editing,
+  title,
   render,
   shouldCellUpdate,
   renderAction,
@@ -38,11 +33,12 @@ export default function useCellRender<RecordType extends AnyObject>({
   record: RecordType;
   dataIndex: DataIndex<RecordType> | null | undefined;
   renderIndex: number;
-  valueType: ColumnValueType<RecordType> | undefined;
-  valueEnum: ColumnValueEnum<RecordType> | undefined;
+  valueType?: ColumnType<RecordType>['valueType'];
+  valueEnum?: ColumnType<RecordType>['valueEnum'];
   cacheKey: string;
   rowType: CellProps<any>['rowType'];
   children?: React.ReactNode;
+  title?: ColumnType<RecordType>['title'];
   editable?: ColumnType<RecordType>['editable'];
   editing?: boolean;
   render?: ColumnType<RecordType>['render'];
@@ -90,7 +86,7 @@ export default function useCellRender<RecordType extends AnyObject>({
           valueType={mergedValueType}
           valueEnum={mergedValueEnum}
           fieldKey={cacheKey}
-          editorProps={editableConfig.editorProps}
+          editorProps={editableConfig.editorProps as any}
         />
       );
 
@@ -120,6 +116,7 @@ export default function useCellRender<RecordType extends AnyObject>({
               hasFeedback={false}
               {...omit(editableConfig, ['editorProps', 'editorRender'])}
               className="-mb-2 -mt-2"
+              messageVariables={{ label: 'TTTTT' }}
             >
               {dom}
             </Form.Item>
@@ -153,6 +150,7 @@ export default function useCellRender<RecordType extends AnyObject>({
       renderAction,
       editing,
       editable,
+      title,
     ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {
