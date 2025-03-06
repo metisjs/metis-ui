@@ -3,16 +3,16 @@ import type {
   Service as RequestService,
 } from 'ahooks/lib/useRequest/src/types';
 import type { AvatarProps } from '../avatar';
-import type { CascaderProps } from '../cascader';
+import type { CascaderProps, DefaultOptionType } from '../cascader';
 import type { CheckboxProps } from '../checkbox';
 import type { DatePickerProps, RangePickerProps } from '../date-picker';
-import type { ImageProps } from '../image';
 import type { InputProps, PasswordProps, TextAreaProps } from '../input';
 import type { InputNumberProps } from '../input-number';
 import type { RadioProps } from '../radio';
 import type { RateProps } from '../rate';
 import type { SegmentedProps } from '../segmented';
 import type { SelectProps } from '../select';
+import type { BaseOptionType, RawValueType } from '../select/interface';
 import type { SliderRangeProps, SliderSingleProps } from '../slider';
 import type { SwitchProps } from '../switch';
 import type { TimePickerProps, TimeRangePickerProps } from '../time-picker';
@@ -41,6 +41,30 @@ export type { Options as ScrollOptions } from 'scroll-into-view-if-needed';
 export type FormLabelAlign = 'left' | 'right';
 
 type BaseFieldProps<T> = Omit<T, 'text' | 'editorProps'>;
+
+type CascaderEditorProps =
+  | CascaderProps<DefaultOptionType, false, false, false>
+  | CascaderProps<DefaultOptionType, true, false, false>
+  | CascaderProps<DefaultOptionType, true, false, true>
+  | CascaderProps<DefaultOptionType, true, true, false>
+  | CascaderProps<DefaultOptionType, true, true, true>
+  | CascaderProps<DefaultOptionType, false, true, false>
+  | CascaderProps<DefaultOptionType, false, true, true>
+  | CascaderProps<DefaultOptionType, false, false, true>;
+
+type SelectEditorProps =
+  | SelectProps<RawValueType, BaseOptionType, 'default', false, false>
+  | SelectProps<RawValueType, BaseOptionType, 'default', false, true>
+  | SelectProps<RawValueType, BaseOptionType, 'default', true, false>
+  | SelectProps<RawValueType, BaseOptionType, 'default', true, true>
+  | SelectProps<RawValueType, BaseOptionType, 'multiple', false, false>
+  | SelectProps<RawValueType, BaseOptionType, 'multiple', false, true>
+  | SelectProps<RawValueType, BaseOptionType, 'multiple', true, false>
+  | SelectProps<RawValueType, BaseOptionType, 'multiple', true, true>
+  | SelectProps<RawValueType, BaseOptionType, 'tags', false, false>
+  | SelectProps<RawValueType, BaseOptionType, 'tags', false, true>
+  | SelectProps<RawValueType, BaseOptionType, 'tags', true, false>
+  | SelectProps<RawValueType, BaseOptionType, 'tags', true, true>;
 
 export type FieldValueTypeWithFieldProps = {
   /** 文本输入框 */
@@ -86,7 +110,7 @@ export type FieldValueTypeWithFieldProps = {
   /** 时间范围选择器 */
   timeRange: { read: BaseFieldProps<FieldTimeRangePickerProps>; edit: TimeRangePickerProps };
   /** 下拉选择器 */
-  select: { read: void; edit: SelectProps };
+  select: { read: void; edit: SelectEditorProps };
   /** 复选框 */
   checkbox: { read: void; edit: CheckboxProps };
   /** 评分 */
@@ -108,11 +132,14 @@ export type FieldValueTypeWithFieldProps = {
   /** 图片 */
   image: { read: BaseFieldProps<FieldImageProps>; edit: InputProps };
   /** 级联选择 */
-  cascader: { read: BaseFieldProps<FieldCascaderProps>; edit: CascaderProps };
+  cascader: {
+    read: BaseFieldProps<FieldCascaderProps>;
+    edit: CascaderEditorProps;
+  };
   /** 分段器 */
   segmented: { read: void; edit: SegmentedProps };
   /** 标签 */
-  tag: { read: BaseFieldProps<FieldTagProps>; edit: SelectProps };
+  tag: { read: BaseFieldProps<FieldTagProps>; edit: SelectEditorProps };
   /** table action */
   action: { read: void; edit: void };
 };

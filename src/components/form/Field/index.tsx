@@ -208,7 +208,7 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
       if (render) {
         return render(dataValue, <>{emptyText}</>);
       }
-      return <>{emptyText}</>;
+      return <span className="text-text-tertiary">{emptyText}</span>;
     }
   }
 
