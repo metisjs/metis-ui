@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
@@ -271,6 +272,7 @@ const FieldMoney: FieldFC<FieldMoneyProps> = (
           return value!;
         }}
         {...editorProps}
+        className={mergeSemanticCls('w-full', editorProps?.className)}
       />
     );
 

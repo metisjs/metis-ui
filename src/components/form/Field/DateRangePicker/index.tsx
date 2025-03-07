@@ -1,4 +1,5 @@
 import React from 'react';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import type { Dayjs } from 'dayjs';
 import type { FieldFC } from '..';
 import type { RangePickerProps } from '../../../date-picker';
@@ -84,7 +85,13 @@ const FieldDateRangePicker: FieldFC<FieldDateRangePickerProps> = (
 
   if (mode === 'edit') {
     const dom = (
-      <DatePicker.RangePicker ref={ref} format={format} showTime={showTime} {...editorProps} />
+      <DatePicker.RangePicker
+        ref={ref}
+        format={format}
+        showTime={showTime}
+        {...editorProps}
+        className={mergeSemanticCls('w-full', editorProps?.className)}
+      />
     );
     if (renderEditor) {
       return renderEditor(text, dom);

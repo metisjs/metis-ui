@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import omit from 'rc-util/lib/omit';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
@@ -60,7 +61,13 @@ const FieldProgress: FieldFC<FieldProgressProps> = (
   }
 
   if (mode === 'edit') {
-    const dom = <InputNumber ref={ref} {...editorProps} />;
+    const dom = (
+      <InputNumber
+        ref={ref}
+        {...editorProps}
+        className={mergeSemanticCls('w-full', editorProps?.className)}
+      />
+    );
     if (renderEditor) {
       return renderEditor(text, dom);
     }

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import React, { useMemo } from 'react';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
@@ -64,6 +65,7 @@ const FieldPercent: FieldFC<FieldPercentProps> = (
         }}
         parser={(value) => (value ? value.replace(/.*\s|,/g, '') : '')}
         {...editorProps}
+        className={mergeSemanticCls('w-full', editorProps?.className)}
       />
     );
     if (renderEditor) {

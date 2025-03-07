@@ -1,4 +1,5 @@
 import React from 'react';
+import { mergeSemanticCls } from '@util/classNameUtils';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';
@@ -42,7 +43,13 @@ const FieldDigit: FieldFC<FieldDigitProps> = (
 
   if (mode === 'edit') {
     const dom = (
-      <InputNumber<number | string> ref={ref} min={0} precision={precision} {...editorProps} />
+      <InputNumber<number | string>
+        ref={ref}
+        min={0}
+        precision={precision}
+        {...editorProps}
+        className={mergeSemanticCls('w-full', editorProps?.className)}
+      />
     );
     if (renderEditor) {
       return renderEditor(text, dom);

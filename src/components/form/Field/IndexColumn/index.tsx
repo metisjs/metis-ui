@@ -13,7 +13,7 @@ const IndexColumn: React.ForwardRefRenderFunction<any, { border?: boolean; child
       ref={ref}
       className={clsx('inline-flex h-[1.125rem] w-[1.125rem] items-center justify-center', {
         'rounded-full bg-spotlight text-xs/3 text-white': border,
-        'bg-fill-secondary': (children as number) > 3,
+        'bg-text-tertiary': (children as number) > 3,
       })}
     >
       {children}
