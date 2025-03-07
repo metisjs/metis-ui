@@ -108,9 +108,11 @@ export default function <RecordType extends AnyObject>({
     }
   }, [JSON.stringify(dataSource)]);
 
-  const [mergedDataSource, mergedTotal] = useMemo<[RecordType[], number]>(() => {
+  const [mergedDataSource, pageData, mergedTotal] = useMemo<
+    [RecordType[], RecordType[], number]
+  >(() => {
     if (!!request && isPaginationActive) {
-      return [finalData, total];
+      return [finalData, finalData, total];
     }
 
     const sortedData = getSortData(finalData, sortStates, childrenColumnName);
@@ -118,7 +120,7 @@ export default function <RecordType extends AnyObject>({
     const mergedTotal = mergedData.length;
 
     if (!isPaginationActive) {
-      return [mergedData, mergedTotal];
+      return [mergedData, mergedData, mergedTotal];
     }
 
     const { current = 1, pageSize = DEFAULT_PAGE_SIZE } = pagination;
@@ -132,12 +134,20 @@ export default function <RecordType extends AnyObject>({
           'usage',
           '`dataSource` length is less than `pagination.total` but large than `pagination.pageSize`. Please make sure your config correct data with async mode.',
         );
-        return [mergedData.slice((current - 1) * pageSize, current * pageSize), mergedTotal];
+        return [
+          mergedData,
+          mergedData.slice((current - 1) * pageSize, current * pageSize),
+          mergedTotal,
+        ];
       }
-      return [mergedData, mergedTotal];
+      return [mergedData, mergedData, mergedTotal];
     }
 
-    return [mergedData.slice((current - 1) * pageSize, current * pageSize), mergedTotal];
+    return [
+      mergedData,
+      mergedData.slice((current - 1) * pageSize, current * pageSize),
+      mergedTotal,
+    ];
   }, [
     !!request,
     finalData,
@@ -152,5 +162,5 @@ export default function <RecordType extends AnyObject>({
     getFilterData,
   ]);
 
-  return [loading, mergedDataSource, mergedTotal, setFinalData] as const;
+  return [loading, mergedDataSource, pageData, mergedTotal, setFinalData] as const;
 }

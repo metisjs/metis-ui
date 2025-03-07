@@ -313,7 +313,7 @@ function InternalTable<RecordType extends AnyObject>(
 
     onChange?.(changeInfo.pagination!, changeInfo.filters!, changeInfo.sorter!, {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      currentDataSource: finalData,
+      currentDataSource: pageData,
       action,
     });
 
@@ -382,7 +382,7 @@ function InternalTable<RecordType extends AnyObject>(
   changeEventInfo.resetPagination = resetPagination;
 
   // ========================== Request ==========================
-  const [requestLoading, finalData, total, setDataSource] = useRequest({
+  const [requestLoading, mergedDataSource, pageData, total, setDataSource] = useRequest({
     request,
     dataSource,
     filters: changeEventInfo.filters!,
@@ -404,12 +404,10 @@ function InternalTable<RecordType extends AnyObject>(
     mergedPagination.current = maxPage || 1;
   }
 
-  const rawData = request ? finalData : dataSource;
-
-  const [getRecordByKey] = useLazyKVMap(rawData, childrenColumnName, getRowKey);
+  const [getRecordByKey] = useLazyKVMap(mergedDataSource, childrenColumnName, getRowKey);
 
   const expandableType = React.useMemo<ExpandableType>(() => {
-    if (rawData.some((item) => item?.[childrenColumnName])) {
+    if (mergedDataSource.some((item) => item?.[childrenColumnName])) {
       return 'nest';
     }
 
@@ -418,14 +416,14 @@ function InternalTable<RecordType extends AnyObject>(
     }
 
     return false;
-  }, [rawData, childrenColumnName, !!expandedRowRender]);
+  }, [mergedDataSource, childrenColumnName, !!expandedRowRender]);
 
   // ====================== Editable ======================
   const { editingRowKey, actionRender, startEdit, cancelEdit } = useEditable({
     ...editable,
     getRowKey,
     getRecordByKey,
-    dataSource: finalData,
+    dataSource: mergedDataSource,
     childrenColumnName,
     setDataSource,
   });
@@ -434,8 +432,8 @@ function InternalTable<RecordType extends AnyObject>(
   const [transformSelectionColumns, selectedKeySet] = useSelection(
     {
       prefixCls,
-      data: rawData,
-      pageData: finalData,
+      data: mergedDataSource,
+      pageData: pageData,
       getRowKey,
       getRecordByKey,
       expandableType,
@@ -462,7 +460,7 @@ function InternalTable<RecordType extends AnyObject>(
     useExpand(
       prefixCls,
       expandable,
-      finalData,
+      pageData,
       getRowKey,
       defaultExpandIconColumnIndex,
       verticalLine,
@@ -548,7 +546,7 @@ function InternalTable<RecordType extends AnyObject>(
     useSticky(sticky, prefixCls);
 
   // Footer (Fix footer must fixed header)
-  const summaryNode = React.useMemo(() => summary?.(finalData), [summary, finalData]);
+  const summaryNode = React.useMemo(() => summary?.(pageData), [summary, pageData]);
   const fixFooter =
     (fixHeader || isSticky) &&
     React.isValidElement(summaryNode) &&
@@ -814,7 +812,7 @@ function InternalTable<RecordType extends AnyObject>(
     scroll,
   };
 
-  const hasData = !!finalData.length;
+  const hasData = !!pageData.length;
   // Empty
   const emptyNode: React.ReactNode = React.useMemo(() => {
     if (hasData) {
@@ -829,7 +827,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   // Body
   const bodyTable = (
-    <Body data={finalData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
+    <Body data={pageData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
   );
 
   const bodyColGroup = (
@@ -844,7 +842,7 @@ function InternalTable<RecordType extends AnyObject>(
     let bodyContent: React.ReactNode;
 
     if (typeof customizeScrollBody === 'function') {
-      bodyContent = customizeScrollBody(finalData, {
+      bodyContent = customizeScrollBody(pageData, {
         ref: scrollBodyRef,
         onScroll: onInternalScroll,
       });
@@ -897,7 +895,7 @@ function InternalTable<RecordType extends AnyObject>(
 
     // Fixed holder share the props
     const fixedHolderProps = {
-      noData: !finalData.length,
+      noData: !pageData.length,
       maxContentScroll: horizonScroll && mergedScrollX === 'max-content',
       ...headerProps,
       ...columnContext,

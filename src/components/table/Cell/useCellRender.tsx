@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import { isNil } from '@util/isNil';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
@@ -9,8 +11,7 @@ import getValue from 'rc-util/lib/utils/get';
 import type { CellProps } from '.';
 import Form from '../../form';
 import FieldComponent from '../../form/Field';
-import { useImmutableMark } from '../context/TableContext';
-import type { ColumnRenderActionType, ColumnType, DataIndex } from '../interface';
+import TableContext, { useImmutableMark } from '../context/TableContext';
 import { validateValue } from '../utils/valueUtil';
 
 export default function useCellRender<RecordType extends AnyObject>({
@@ -19,38 +20,31 @@ export default function useCellRender<RecordType extends AnyObject>({
   renderIndex,
   valueType,
   valueEnum,
-  cacheKey,
-  rowType,
+  cellKey,
+  rowType = 'body',
   children,
   editable,
   editing,
-  title,
+  cellTitle,
+  align,
   render,
   shouldCellUpdate,
   renderAction,
   actionRender,
-}: {
-  record: RecordType;
-  dataIndex: DataIndex<RecordType> | null | undefined;
-  renderIndex: number;
-  valueType?: ColumnType<RecordType>['valueType'];
-  valueEnum?: ColumnType<RecordType>['valueEnum'];
-  cacheKey: string;
-  rowType: CellProps<any>['rowType'];
-  children?: React.ReactNode;
-  title?: ColumnType<RecordType>['title'];
-  editable?: ColumnType<RecordType>['editable'];
-  editing?: boolean;
-  render?: ColumnType<RecordType>['render'];
-  shouldCellUpdate?: ColumnType<RecordType>['shouldCellUpdate'];
-  renderAction?: ColumnRenderActionType;
-  actionRender?: (record: RecordType, index: number) => React.ReactNode[];
-}) {
+}: CellProps<RecordType>) {
   const warning = devUseWarning('Table');
+
+  const { tableKey } = useContext(TableContext, ['tableKey']);
 
   const mark = useImmutableMark();
 
   const editableForm = Form.useFormInstance();
+
+  const actionCls = clsx('flex items-center gap-2', {
+    'justify-start': align === 'left' || align === 'start',
+    'justify-end': align === 'right' || align === 'end',
+    'justify-center': align === 'center',
+  });
 
   // ======================== Render ========================
   const retData = useMemo<React.ReactNode>(
@@ -85,7 +79,7 @@ export default function useCellRender<RecordType extends AnyObject>({
           text={value}
           valueType={mergedValueType}
           valueEnum={mergedValueEnum}
-          fieldKey={cacheKey}
+          fieldKey={`${tableKey}-cell-${cellKey}`}
           editorProps={editableConfig.editorProps as any}
         />
       );
@@ -96,11 +90,7 @@ export default function useCellRender<RecordType extends AnyObject>({
 
       if (editing) {
         if (mergedValueType === 'action') {
-          return (
-            <div className="inline-flex items-center gap-2">
-              {actionRender?.(record, renderIndex)}
-            </div>
-          );
+          return <div className={actionCls}>{actionRender?.(record, renderIndex)}</div>;
         }
 
         warning(
@@ -116,7 +106,10 @@ export default function useCellRender<RecordType extends AnyObject>({
               hasFeedback={false}
               {...omit(editableConfig, ['editorProps', 'editorRender'])}
               className="-mb-2 -mt-2"
-              messageVariables={{ label: 'TTTTT' }}
+              messageVariables={{
+                label: cellTitle?.toString() ?? '',
+                ...editableConfig.messageVariables,
+              }}
             >
               {dom}
             </Form.Item>
@@ -128,7 +121,7 @@ export default function useCellRender<RecordType extends AnyObject>({
       const renderDom = render?.(dom, record, renderIndex, renderAction!) ?? dom;
 
       if (renderDom && mergedValueType === 'action' && Array.isArray(renderDom)) {
-        return <div className="inline-flex items-center gap-2">{renderDom}</div>;
+        return <div className={actionCls}>{renderDom}</div>;
       }
 
       return renderDom;
@@ -146,11 +139,12 @@ export default function useCellRender<RecordType extends AnyObject>({
       renderIndex,
       valueType,
       valueEnum,
-      cacheKey,
+      cellKey,
       renderAction,
       editing,
       editable,
-      title,
+      cellTitle,
+      // tableKey,
     ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {

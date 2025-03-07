@@ -25,6 +25,7 @@ export interface CellProps<RecordType extends AnyObject> {
   rowIndex: number;
   rowSelected?: boolean;
   index: number;
+  cellTitle?: React.ReactNode;
   /** the index of the record. For the render(value, record, renderIndex) */
   renderIndex: number;
   totalRowCount?: number;
@@ -87,7 +88,6 @@ export const getTitleFromCellRenderChildren = ({
 function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   const {
     component: Component,
-    children,
     ellipsis,
     scope,
     index,
@@ -99,12 +99,8 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
 
     // Value
     record,
-    render,
-    dataIndex,
-    renderIndex,
     totalRowCount,
     totalColCount,
-    shouldCellUpdate,
 
     // Row
     rowIndex,
@@ -126,39 +122,16 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     appendNode,
     additionalProps = {},
     isSticky,
-
-    valueType,
-    valueEnum,
-    cellKey,
-    editable,
-    editing,
-    renderAction,
-    actionRender,
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
-  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter, tableKey } = useContext(
+  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter } = useContext(
     TableContext,
-    ['allColumnsFixedLeft', 'rowHoverable', 'size', 'verticalLine', 'fixFooter', 'tableKey'],
+    ['allColumnsFixedLeft', 'rowHoverable', 'size', 'verticalLine', 'fixFooter'],
   );
 
   // ====================== Value =======================
-  const childNode = useCellRender({
-    record,
-    dataIndex,
-    renderIndex,
-    valueType,
-    valueEnum,
-    cacheKey: `${tableKey}-cell-${cellKey}`,
-    rowType,
-    children,
-    editable,
-    editing,
-    render,
-    shouldCellUpdate,
-    renderAction,
-    actionRender,
-  });
+  const childNode = useCellRender(props);
 
   // ====================== Fixed =======================
   const fixedStyle: React.CSSProperties = {};

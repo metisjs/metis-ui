@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState } from 'react';
 import { LoadingOutline } from '@metisjs/icons';
+import { isNil } from '@util/isNil';
 import type { AnyObject } from '@util/type';
 import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -30,7 +31,7 @@ function editRowByKey<RecordType extends AnyObject>(keyProps: {
   function dig(records: RecordType[], map_row_parentKey?: Key, map_row_index?: number) {
     records.forEach((record, index) => {
       const eachIndex = (map_row_index || 0) * 10 + index;
-      const recordKey = getRowKey(record, eachIndex).toString();
+      const recordKey = getRowKey(record, eachIndex);
       // children 取在前面方便拼的时候按照反顺序放回去
       if (record && typeof record === 'object' && childrenColumnName in record) {
         dig((record as any)[childrenColumnName] || [], recordKey, eachIndex);
@@ -102,6 +103,7 @@ function editRowByKey<RecordType extends AnyObject>(keyProps: {
         kvSource.push(rest as RecordType);
       }
     });
+
     return kvSource;
   };
   return fill(kvMap);
@@ -235,7 +237,7 @@ function useEditable<RecordType extends AnyObject>(
   );
 
   const startEdit = useEvent((recordKey: Key, form?: FormInstance) => {
-    if (editingRowKey && editingRowKey !== recordKey) {
+    if (!isNil(editingRowKey) && editingRowKey !== recordKey) {
       message.warning(locale.editingAlertMessage);
       return false;
     }
@@ -247,7 +249,7 @@ function useEditable<RecordType extends AnyObject>(
   });
 
   const cancelEdit = useEvent(async () => {
-    if (editingRowKey) {
+    if (!isNil(editingRowKey)) {
       setEditingRowKey(undefined);
       return true;
     }

@@ -160,6 +160,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
           valueType,
           valueEnum,
           editable,
+          title,
         } = column;
 
         const { key, fixedInfo, appendCellNode, additionalCellProps } = getCellProps(
@@ -197,6 +198,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             valueEnum={valueEnum}
             editable={editable}
             editing={isEditing}
+            cellTitle={title as React.ReactNode}
             renderAction={renderAction}
             actionRender={actionRender}
           />

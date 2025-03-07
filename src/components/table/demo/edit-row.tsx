@@ -4,9 +4,11 @@ import { Table } from 'metis-ui';
 
 interface DataType {
   key: number;
-  name: string;
-  age: number;
-  address: string;
+  title: string;
+  price: number;
+  state: string;
+  description: string;
+  createdAt: number;
 }
 
 const waitTime = (time: number = 100) => {
@@ -19,29 +21,41 @@ const waitTime = (time: number = 100) => {
 
 const data = Array.from({ length: 100 }).map<DataType>((_, i) => ({
   key: i,
-  name: `Edward ${i}`,
-  age: 32,
-  address: `London Park no. ${i}`,
+  title: `Edward ${i}`,
+  price: Math.floor(Math.random() * 2000),
+  state: ['open', 'closed'][Math.floor(Math.random() * 10) % 2],
+  description: `London Park no. ${i}`,
+  createdAt: Date.now() - Math.floor(Math.random() * 2000),
 }));
 
 const columns: TableProps<DataType>['columns'] = [
   {
-    title: 'Name',
-    dataIndex: 'name',
+    title: 'Index',
+    valueType: 'indexBorder',
+    width: 50,
+  },
+  {
+    title: 'Title',
+    dataIndex: 'title',
     editable: (_, __, index) => {
       if (index === 0) {
         return false;
       }
       return { rules: index > 1 ? [{ required: true }] : [] };
     },
-    width: '15%',
+    width: 180,
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    valueType: 'money',
+    width: 150,
   },
   {
     title: 'State',
     dataIndex: 'state',
     valueType: 'select',
     valueEnum: {
-      all: { label: 'All', status: 'default' },
       open: {
         label: 'Open',
         status: 'error',
@@ -51,15 +65,17 @@ const columns: TableProps<DataType>['columns'] = [
         status: 'success',
       },
     },
+    width: 160,
   },
   {
     title: 'Description',
-    dataIndex: 'decs',
+    dataIndex: 'description',
   },
   {
-    title: '活动时间',
+    title: 'CreatedAt',
     dataIndex: 'createdAt',
     valueType: 'date',
+    width: 180,
   },
   {
     title: 'Action',
