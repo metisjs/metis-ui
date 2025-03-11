@@ -1,10 +1,16 @@
+import { getTimeProps } from '../hooks/useTimeConfig';
 import type {
   CustomFormat,
   GenerateConfig,
   InternalMode,
   Locale,
   NullableDateType,
+  SharedPickerProps,
+  SharedTimeProps,
 } from '../interface';
+import { getFieldFormat } from '../PickerInput/hooks/useFieldFormat';
+import { fillLocale } from '../PickerInput/hooks/useFilledProps';
+import { getRowFormat } from './miscUtil';
 
 export const WEEK_DAY_COUNT = 7;
 
@@ -326,4 +332,25 @@ export function fillTimeFormat(
   }
 
   return timeFormat;
+}
+
+export function getFormatList<DateType extends object = any>(
+  locale: Locale,
+  picker: InternalMode = 'date',
+  showTime?: boolean | Partial<SharedTimeProps<DateType>>,
+  format?: SharedPickerProps['format'],
+) {
+  const mergedPicker = showTime ? 'datetime' : picker;
+  const [, localeTimeProps] = getTimeProps({
+    picker,
+    format,
+    showTime,
+    locale,
+  });
+  const mergedLocale = fillLocale(locale, localeTimeProps);
+  const [formatList] = getFieldFormat<DateType>(picker, mergedLocale, format);
+
+  return formatList.map((format) =>
+    typeof format === 'function' ? getRowFormat(mergedPicker, locale) : format,
+  ) as string[];
 }
