@@ -100,6 +100,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       blur: () => {
         getTextArea()?.blur();
       },
+      select: () => {
+        getTextArea()?.select();
+      },
       nativeElement: holderRef.current?.nativeElement || getTextArea()!,
     }));
 
