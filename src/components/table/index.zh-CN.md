@@ -56,11 +56,13 @@ const columns = [
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本用法</code>
 <code src="./demo/jsx.tsx">JSX 风格的 API</code>
+<code src="./demo/value-type.tsx">值类型</code>
 <code src="./demo/row-selection.tsx">可选择</code>
 <code src="./demo/row-selection-and-operation.tsx">选择和操作</code>
 <code src="./demo/row-selection-custom.tsx">自定义选择项</code>
 <code src="./demo/row-selection-debug.tsx" debug>选择性能</code>
 <code src="./demo/head.tsx">筛选和排序</code>
+<code src="./demo/filter-value-type.tsx">默认筛选菜单</code>
 <code src="./demo/filter-in-tree.tsx">树型筛选菜单</code>
 <code src="./demo/filter-search.tsx">自定义筛选的搜索</code>
 <code src="./demo/multiple-sorter.tsx">多列排序</code>
@@ -96,7 +98,6 @@ const columns = [
 <code src="./demo/pagination.tsx">分页设置</code>
 <code src="./demo/row-selection-custom-debug.tsx" debug>自定义选择项组</code>
 <code src="./demo/sticky.tsx">随页面滚动的固定表头和滚动条</code>
-<code src="./demo/value-type.tsx">值类型</code>
 <code src="./demo/dynamic-settings.tsx">动态控制表格属性</code>
 <code src="./demo/selections-debug.tsx" debug>带下拉箭头的表头</code>
 

@@ -4,9 +4,8 @@ import { Table } from 'metis-ui';
 
 interface DataType {
   key: number;
+  text: string;
   status: string | number;
-  avatar: string;
-  image: string;
   cascader: string[];
   progress: number;
   money: number;
@@ -59,46 +58,41 @@ const columns: TableProps<DataType>['columns'] = [
   {
     title: 'Index',
     dataIndex: 'index',
-    valueType: 'index',
-  },
-  {
-    title: 'Border Index',
-    dataIndex: 'index',
     valueType: 'indexBorder',
   },
   {
-    title: 'Avatar',
-    dataIndex: 'avatar',
-    valueType: 'avatar',
-  },
-  {
-    title: 'Image',
-    dataIndex: 'image',
-    valueType: 'image',
+    title: 'Text',
+    dataIndex: 'text',
+    filter: true,
+    width: 200,
   },
   {
     title: 'Tag',
     dataIndex: 'status',
     valueType: 'tag',
     valueEnum: statusEnum,
+    filter: true,
   },
   {
     title: 'Select',
     dataIndex: 'status',
     valueType: 'select',
     valueEnum: statusEnum,
+    filter: true,
   },
   {
     title: 'Radio',
     dataIndex: 'status',
     valueType: 'radio',
     valueEnum: statusEnum,
+    filter: true,
   },
   {
     title: 'Checkbox',
     dataIndex: 'status',
     valueType: 'checkbox',
     valueEnum: statusEnum,
+    filter: true,
   },
   {
     title: 'Cascader',
@@ -111,94 +105,91 @@ const columns: TableProps<DataType>['columns'] = [
         label: 'field',
       },
     },
+    filter: true,
   },
   {
     title: 'Progress',
     dataIndex: 'progress',
-    valueType: (record) => ({
-      type: 'progress',
-      status: record.status !== 'error' ? 'active' : 'exception',
-    }),
+    valueType: 'progress',
     width: 200,
+    filter: true,
   },
   {
+    key: 'money',
     title: 'Money',
     dataIndex: 'money',
     valueType: 'money',
+    filter: true,
   },
   {
+    key: 'digit',
     title: 'Digit',
     dataIndex: 'money',
     valueType: 'digit',
+    filter: true,
   },
   {
     title: 'Percent',
     dataIndex: 'percent',
     valueType: 'percent',
+    filter: true,
   },
   {
     title: 'Rate',
     dataIndex: 'rate',
     valueType: 'rate',
+    filter: true,
   },
   {
     title: 'Date',
     dataIndex: 'createdAt',
     valueType: 'date',
+    filter: true,
   },
   {
     title: 'FromNow',
     dataIndex: 'createdAt',
     valueType: 'fromNow',
+    filter: true,
   },
   {
     title: 'DateTime',
     dataIndex: 'createdAt',
     valueType: 'dateTime',
+    filter: true,
   },
   {
     title: 'DateRange',
     dataIndex: 'createdAtRange',
     valueType: 'dateRange',
+    filter: true,
   },
   {
     title: 'DateTimeRange',
     dataIndex: 'createdAtRange',
     valueType: 'dateTimeRange',
+    filter: true,
   },
   {
     title: 'Time',
     dataIndex: 'updatedAt',
     valueType: 'time',
+    filter: true,
   },
   {
     title: 'TimeRange',
     dataIndex: 'createdAtRange',
     valueType: 'timeRange',
-  },
-  {
-    title: '操作',
-    key: 'action',
-    valueType: 'action',
-    fixed: 'right',
-    render: (_, __, ___, action) => [
-      <a key="edit" onClick={() => action.startEdit()}>
-        Edit
-      </a>,
-      <a key="delete">Delete</a>,
-    ],
-    width: 160,
+    filter: true,
   },
 ];
 
 const data: DataType[] = [];
 
-for (let i = 0; i < 2; i += 1) {
+for (let i = 0; i < 100; i += 1) {
   data.push({
     key: i,
-    avatar:
-      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    image: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    text: `T${i}E${i}X${i}T`,
     status: ['running', 'online', 'error'][Math.floor(Math.random() * 10) % 3],
     cascader: ['fe', 'js'],
     money: Math.floor(Math.random() * 2000) * i,
@@ -221,15 +212,8 @@ const App: React.FC = () => (
   <Table<DataType>
     columns={columns}
     dataSource={data}
-    editable={{
-      onSave: (record) => {
-        console.log(record);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(0);
-          }, 2000);
-        });
-      },
+    onChange={(_, filters, __) => {
+      console.log(filters);
     }}
     scroll={{ x: 'max-content' }}
   />

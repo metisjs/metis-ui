@@ -79,7 +79,7 @@ const App: React.FC = () => {
           { label: 'Jim', value: 'Jim' },
         ],
         filteredValue: filteredInfo.name || null,
-        onFilter: (value, record) => record.name.includes(value as string),
+        onFilter: (value, record) => (value as string[]).some((v) => record.name.includes(v)),
       },
       sorter: {
         compare: (a, b) => a.name.length - b.name.length,
@@ -107,7 +107,7 @@ const App: React.FC = () => {
           { label: 'New York', value: 'New York' },
         ],
         filteredValue: filteredInfo.address || null,
-        onFilter: (value, record) => record.address.includes(value as string),
+        onFilter: (value, record) => (value as string[]).some((v) => record.address.includes(v)),
       },
       sorter: {
         compare: (a, b) => a.address.length - b.address.length,

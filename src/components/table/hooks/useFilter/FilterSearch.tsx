@@ -9,24 +9,19 @@ interface FilterSearchProps<RecordType = AnyObject> {
   value: string;
   onChange: (value: string) => void;
   filterSearch: FilterSearchType<RecordType>;
-  tablePrefixCls: string;
+  prefixCls: string;
   locale: TableLocale;
 }
 
 const FilterSearch = <RecordType extends AnyObject = AnyObject>(
   props: FilterSearchProps<RecordType>,
 ) => {
-  const { value, filterSearch, tablePrefixCls, locale, onChange } = props;
+  const { value, filterSearch, prefixCls, locale, onChange } = props;
   if (!filterSearch) {
     return null;
   }
   return (
-    <div
-      className={clsx(
-        `${tablePrefixCls}-filter-dropdown-search`,
-        'border-b border-b-border-secondary p-2',
-      )}
-    >
+    <div className={clsx(`${prefixCls}-dropdown-search`, 'border-b border-b-border-secondary p-2')}>
       <Input
         prefix={<MagnifyingGlassOutline />}
         placeholder={locale.filterSearchPlaceholder}
@@ -35,7 +30,7 @@ const FilterSearch = <RecordType extends AnyObject = AnyObject>(
         // for skip min-width of input
         htmlSize={1}
         size="small"
-        className={clsx(`${tablePrefixCls}-filter-dropdown-search-input`, 'min-w-44')}
+        className={clsx(`${prefixCls}-dropdown-search-input`, 'min-w-44')}
       />
     </div>
   );

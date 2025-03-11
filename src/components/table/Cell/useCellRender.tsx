@@ -40,7 +40,7 @@ export default function useCellRender<RecordType extends AnyObject>({
 
   const editableForm = Form.useFormInstance();
 
-  const actionCls = clsx('flex items-center gap-2', {
+  const actionCls = clsx('flex items-center gap-3', {
     'justify-start': align === 'left' || align === 'start',
     'justify-end': align === 'right' || align === 'end',
     'justify-center': align === 'center',
@@ -118,7 +118,7 @@ export default function useCellRender<RecordType extends AnyObject>({
         return dom;
       }
 
-      const renderDom = render?.(dom, record, renderIndex, renderAction!) ?? dom;
+      const renderDom = render?.(value, record, renderIndex, renderAction!) ?? dom;
 
       if (renderDom && mergedValueType === 'action' && Array.isArray(renderDom)) {
         return <div className={actionCls}>{renderDom}</div>;

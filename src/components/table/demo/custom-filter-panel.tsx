@@ -115,7 +115,7 @@ const App: React.FC = () => {
         </div>
       ),
       icon: <MagnifyingGlassOutline />,
-      onFilter: (value, record) =>
+      onFilter: ([value], record) =>
         record[dataIndex]
           .toString()
           .toLowerCase()

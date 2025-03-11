@@ -32,7 +32,7 @@ const columns: TableColumnsType<DataType> = [
           value: 'John',
         },
       ],
-      onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+      onFilter: (value, record) => (value as string[]).some((v) => record.name.indexOf(v) === 0),
     },
   },
   {

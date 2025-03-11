@@ -34,7 +34,7 @@ import useColumns from './hooks/useColumns';
 import useEditable from './hooks/useEditable';
 import useExpand from './hooks/useExpand';
 import type { FilterConfig } from './hooks/useFilter';
-import useFilter, { getFilterData, type FilterState } from './hooks/useFilter';
+import useFilter, { type FilterState } from './hooks/useFilter';
 import useFixedInfo from './hooks/useFixedInfo';
 import { useTimeoutLock } from './hooks/useFrame';
 import useHover from './hooks/useHover';
@@ -42,7 +42,7 @@ import useLazyKVMap from './hooks/useLazyKVMap';
 import usePagination, { getPaginationParam } from './hooks/usePagination';
 import useRequest from './hooks/useRequest';
 import useSelection from './hooks/useSelection';
-import useSorter, { getSortData, type SortState } from './hooks/useSorter';
+import useSorter, { type SortState } from './hooks/useSorter';
 import useSticky from './hooks/useSticky';
 import type {
   ColumnsType,
@@ -389,8 +389,6 @@ function InternalTable<RecordType extends AnyObject>(
     filterStates,
     sorter: changeEventInfo.sorter!,
     sortStates,
-    getSortData,
-    getFilterData,
     childrenColumnName,
     pagination: changeEventInfo.pagination!,
   });

@@ -41,7 +41,7 @@ const columns: ColumnsType<DataType> = [
           value: 'New York',
         },
       ],
-      onFilter: (value, record) => record.address.indexOf(value as string) === 0,
+      onFilter: (value, record) => (value as string[]).some((v) => record.address.indexOf(v) === 0),
     },
   },
   {

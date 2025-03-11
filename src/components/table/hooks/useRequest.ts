@@ -4,27 +4,19 @@ import { devUseWarning } from '@util/warning';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { ConfigContext } from '../../config-provider';
+import { useLocale } from '../../locale';
 import type { FilterValue, SorterResult, TablePaginationConfig } from '../interface';
+import { getFilterData } from '../utils/filterUtil';
 import type { FilterState } from './useFilter';
 import { DEFAULT_PAGE_SIZE } from './usePagination';
-import type { SortState } from './useSorter';
+import { getSortData, type SortState } from './useSorter';
 
 type RequestProps<RecordType extends AnyObject> = {
   dataSource: readonly RecordType[];
-  filters: Record<string, FilterValue | null>;
+  filters: Record<string, FilterValue | undefined>;
   filterStates: FilterState<RecordType>[];
   sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
   sortStates: SortState<RecordType>[];
-  getSortData: (
-    data: readonly RecordType[],
-    sortStates: SortState<RecordType>[],
-    childrenColumnName: keyof RecordType,
-  ) => RecordType[];
-  getFilterData: (
-    data: RecordType[],
-    filterStates: FilterState<RecordType>[],
-    childrenColumnName: keyof RecordType,
-  ) => RecordType[];
   childrenColumnName: keyof RecordType;
   pagination: TablePaginationConfig;
   request?: RequestConfig<RecordType, any[]>;
@@ -37,13 +29,12 @@ export default function <RecordType extends AnyObject>({
   filterStates,
   sorter,
   sortStates,
-  getSortData,
-  getFilterData,
   childrenColumnName,
   pagination,
 }: RequestProps<RecordType>) {
   const warning = devUseWarning('Table');
 
+  const [datePickerLocale] = useLocale('DatePicker');
   const { request: contextRequestOptions } = useContext(ConfigContext);
 
   const [finalData, setFinalData] = useState<RecordType[]>(dataSource as RecordType[]);
@@ -116,7 +107,12 @@ export default function <RecordType extends AnyObject>({
     }
 
     const sortedData = getSortData(finalData, sortStates, childrenColumnName);
-    const mergedData = getFilterData(sortedData, filterStates, childrenColumnName);
+    const mergedData = getFilterData(
+      sortedData,
+      filterStates,
+      childrenColumnName,
+      datePickerLocale,
+    );
     const mergedTotal = mergedData.length;
 
     if (!isPaginationActive) {

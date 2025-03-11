@@ -38,7 +38,7 @@ const columns: TableColumnsType<DataType> = [
           ],
         },
       ],
-      onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+      onFilter: (value, record) => (value as string[]).some((v) => record.name.indexOf(v) === 0),
     },
     sorter: {
       compare: (a, b) => a.name.length - b.name.length,
@@ -65,7 +65,7 @@ const columns: TableColumnsType<DataType> = [
           value: 'New York',
         },
       ],
-      onFilter: (value, record) => record.address.indexOf(value as string) === 0,
+      onFilter: (value, record) => (value as string[]).some((v) => record.address.indexOf(v) === 0),
     },
   },
 ];

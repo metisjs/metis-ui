@@ -16,6 +16,7 @@ import type {
 import type { PaginationProps } from '../pagination';
 import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
 import type { TooltipProps } from '../tooltip';
+import type { SelectedKeysType } from './hooks/useFilter/FilterDropdown';
 import type { InternalSelectionItem } from './hooks/useSelection';
 
 export type Key = SafeKey;
@@ -107,8 +108,8 @@ export interface ColumnFilterItem {
 
 export interface FilterDropdownProps {
   prefixCls: string;
-  setSelectedKeys: (selectedKeys: Key[]) => void;
-  selectedKeys: Key[];
+  setSelectedKeys: (selectedKeys: SelectedKeysType) => void;
+  selectedKeys: SelectedKeysType;
   /**
    * Confirm filter value, if you want to close dropdown before commit, you can call with
    * {closeDropdown: true}
@@ -118,7 +119,7 @@ export interface FilterDropdownProps {
   filters?: ColumnFilterItem[];
   /** Only close filterDropdown */
   close: () => void;
-  visible: boolean;
+  open: boolean;
 }
 
 export interface CellType<RecordType extends AnyObject> {
@@ -191,21 +192,23 @@ export type ColumnSorter<RecordType extends AnyObject> =
       showTooltip?: boolean | SorterTooltipProps;
     };
 
-export type ColumnFilter<RecordType extends AnyObject> = {
-  filtered?: boolean;
-  items?: ColumnFilterItem[];
-  dropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
-  triggerOnClose?: boolean;
-  multiple?: boolean;
-  filteredValue?: FilterValue | null;
-  defaultFilteredValue?: FilterValue | null;
-  icon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
-  mode?: 'menu' | 'tree';
-  search?: FilterSearchType<ColumnFilterItem>;
-  onFilter?: (value: Key | boolean, record: RecordType) => boolean;
-  dropdownProps?: CoverableDropdownProps;
-  resetToDefaultFilteredValue?: boolean;
-};
+export type ColumnFilter<RecordType extends AnyObject> =
+  | boolean
+  | {
+      filtered?: boolean;
+      items?: ColumnFilterItem[];
+      dropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
+      triggerOnClose?: boolean;
+      multiple?: boolean;
+      filteredValue?: FilterValue | null;
+      defaultFilteredValue?: FilterValue | null;
+      icon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
+      mode?: 'menu' | 'tree';
+      search?: FilterSearchType<ColumnFilterItem>;
+      onFilter?: (value: any, record: RecordType) => boolean;
+      dropdownProps?: CoverableDropdownProps;
+      resetToDefaultFilteredValue?: boolean;
+    };
 
 export type ColumnValueEnum<RecordType extends AnyObject> =
   | ((

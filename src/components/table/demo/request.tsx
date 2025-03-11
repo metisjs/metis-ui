@@ -28,11 +28,10 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Gender',
     dataIndex: 'gender',
-    filter: {
-      items: [
-        { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' },
-      ],
+    filter: true,
+    valueEnum: {
+      male: 'Male',
+      female: 'Female',
     },
     width: '20%',
   },
