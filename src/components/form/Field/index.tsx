@@ -1,16 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import type { AnyObject } from '@util/type';
-import { useRequest } from 'ahooks';
 import { useEvent } from 'rc-util';
 import omit from 'rc-util/lib/omit';
 import Avatar from '../../avatar';
+import useValueEnum from '../hooks/useValueEnum';
 import type {
   FieldValueEnumMap,
   FieldValueEnumObj,
   FieldValueEnumRequestType,
   FieldValueObject,
   FieldValueType,
-  RequestDataType,
 } from '../interface';
 import FieldCascader from './Cascader';
 import FieldCheckbox from './Checkbox';
@@ -35,7 +34,32 @@ import FieldText from './Text';
 import FieldTextArea from './TextArea';
 import FieldTimePicker from './TimePicker';
 import FieldTimeRangePicker from './TimeRangePicker';
-import { isValueEnumWithRequest } from './util';
+
+export {
+  FieldCascader,
+  FieldCheckbox,
+  FieldDatePicker,
+  FieldDateRangePicker,
+  FieldDigit,
+  FieldFromNow,
+  FieldImage,
+  FieldIndexColumn,
+  FieldMoney,
+  FieldPassword,
+  FieldPercent,
+  FieldProgress,
+  FieldRadio,
+  FieldRate,
+  FieldSegmented,
+  FieldSelect,
+  FieldSlider,
+  FieldSwitch,
+  FieldTag,
+  FieldText,
+  FieldTextArea,
+  FieldTimePicker,
+  FieldTimeRangePicker,
+};
 
 export type BaseFieldProps = {
   /** 值的类型 */
@@ -94,14 +118,6 @@ export type FieldPropsType = {
   RenderFieldProps &
   AnyObject;
 
-const defaultFieldNames = {
-  label: 'label',
-  value: 'value',
-  status: 'status',
-  color: 'color',
-  disabled: 'disabled',
-};
-
 const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
   {
     text,
@@ -117,8 +133,6 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
   },
   ref: any,
 ) => {
-  const [remoteValueEnum, setRemoteValueEnum] = useState<FieldValueEnumObj>();
-
   const onChangeCallBack = useEvent((...restParams: any[]) => {
     editorProps?.onChange?.(...restParams);
     onChange?.(...restParams);
@@ -134,56 +148,8 @@ const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
     );
   }, [value, editorProps, onChangeCallBack]);
 
-  const isValueEnumRequest = isValueEnumWithRequest(valueEnum);
-  const fieldNames = isValueEnumRequest
-    ? {
-        ...defaultFieldNames,
-        ...valueEnum?.fieldNames,
-      }
-    : defaultFieldNames;
+  const [mergedValueEnum, loading] = useValueEnum(valueEnum, fieldKey);
 
-  const { loading } = useRequest(
-    (...defaultParams: any[]) => {
-      if (isValueEnumRequest) {
-        return valueEnum.request(...defaultParams);
-      }
-      return new Promise(() => {});
-    },
-    {
-      loadingDelay: 100,
-      cacheKey: fieldKey,
-      staleTime: 1000 * 5,
-      ...(isValueEnumRequest
-        ? {
-            onSuccess: (
-              data: {
-                data: RequestDataType[];
-              },
-              params: any[],
-            ) => {
-              setRemoteValueEnum(() =>
-                data.data.reduce(
-                  (pre, cur) => ({
-                    ...pre,
-                    [cur[fieldNames.value]]: {
-                      label: cur[fieldNames.label] ?? cur[fieldNames.value],
-                      status: cur[fieldNames.status],
-                      color: cur[fieldNames.color],
-                      disabled: cur[fieldNames.disabled],
-                    },
-                  }),
-                  {} as FieldValueEnumObj,
-                ),
-              );
-              valueEnum.onSuccess?.(data, params);
-            },
-            ...omit(valueEnum, ['request', 'fieldNames', 'onSuccess']),
-          }
-        : { ready: false }),
-    },
-  );
-
-  const mergedValueEnum = isValueEnumRequest ? remoteValueEnum : valueEnum;
   const dataValue =
     mode === 'edit' ? (editorProps?.value ?? text ?? '') : (text ?? editorProps?.value ?? '');
   const mergedValueType = typeof valueType === 'object' ? valueType.type : valueType;

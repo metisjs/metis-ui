@@ -11,7 +11,7 @@ import { toNumber } from '../Percent';
 export type FieldProgressProps = {
   text: number | string;
   editorProps?: Partial<InputNumberProps>;
-} & Partial<ProgressProps>;
+} & Partial<Omit<ProgressProps, 'type'>>;
 
 export function getProgressStatus(text: number): ProgressProps['status'] {
   if (text === 100) {
@@ -64,6 +64,10 @@ const FieldProgress: FieldFC<FieldProgressProps> = (
     const dom = (
       <InputNumber
         ref={ref}
+        suffix="%"
+        min={0}
+        max={100}
+        value={realValue}
         {...editorProps}
         className={mergeSemanticCls('w-full', editorProps?.className)}
       />

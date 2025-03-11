@@ -3,7 +3,7 @@ import type { FieldFC, FieldProps } from '..';
 import type { CascaderProps, DefaultOptionType } from '../../../cascader';
 import Cascader from '../../../cascader';
 import Spin from '../../../spin';
-import { fieldParsingText } from '../util';
+import { fieldParsingOptions, fieldParsingText } from '../util';
 
 export type FieldCascaderProps = {
   text: string | string[];
@@ -67,7 +67,7 @@ const FieldCascader: FieldFC<FieldCascaderProps> = (
         loading={loading}
         ref={ref}
         allowClear={editorProps?.allowClear !== false}
-        options={options}
+        options={(fieldParsingOptions(valueEnum) as any[]) ?? options}
         fieldNames={fieldNames}
         {...editorProps}
       />

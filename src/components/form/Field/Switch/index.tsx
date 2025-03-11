@@ -17,8 +17,14 @@ const FieldSwitch: FieldFC<{ text: boolean; editorProps?: Partial<SwitchProps> }
   const dom = useMemo(() => {
     if (text === undefined || text === null || `${text}`.length < 1) return '-';
     return text
-      ? (fieldParsingText(`true`, valueEnum) ?? editorProps?.checkedChildren ?? locale.open)
-      : (fieldParsingText(`false`, valueEnum) ?? editorProps?.unCheckedChildren ?? locale.close);
+      ? (fieldParsingText(true, valueEnum) ??
+          fieldParsingText(`true`, valueEnum) ??
+          editorProps?.checkedChildren ??
+          locale.open)
+      : (fieldParsingText(false, valueEnum) ??
+          fieldParsingText(`false`, valueEnum) ??
+          editorProps?.unCheckedChildren ??
+          locale.close);
   }, [editorProps?.checkedChildren, editorProps?.unCheckedChildren, text]);
 
   if (loading) {

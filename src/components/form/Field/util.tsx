@@ -66,7 +66,7 @@ const FieldStatus: {
  * @param valueEnum
  */
 export const fieldParsingText = (
-  text: string | number | (string | number)[],
+  text: string | number | boolean | (string | number | boolean)[],
   valueEnumParams: FieldValueEnumMap | FieldValueEnumObj = {},
   key?: number | string,
 ): React.ReactNode => {

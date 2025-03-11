@@ -258,19 +258,10 @@ const FieldMoney: FieldFC<FieldMoneyProps> = (
     const dom = (
       <InputNumber
         ref={ref}
+        prefix={moneySymbol}
         precision={mergedPrecision}
-        formatter={(value) => {
-          if (value && moneySymbol) {
-            return `${moneySymbol} ${getFormateValue(value)}`;
-          }
-          return value!?.toString();
-        }}
-        parser={(value) => {
-          if (moneySymbol && value) {
-            return value.replace(new RegExp(`\\${moneySymbol}\\s?|(,*)`, 'g'), '');
-          }
-          return value!;
-        }}
+        formatter={getFormateValue}
+        parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as unknown as number}
         {...editorProps}
         className={mergeSemanticCls('w-full', editorProps?.className)}
       />
