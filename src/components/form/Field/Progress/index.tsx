@@ -65,8 +65,6 @@ const FieldProgress: FieldFC<FieldProgressProps> = (
       <InputNumber
         ref={ref}
         suffix="%"
-        min={0}
-        max={100}
         value={realValue}
         {...editorProps}
         className={mergeSemanticCls('w-full', editorProps?.className)}
