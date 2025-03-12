@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
+import toArray from '@util/toArray';
 import type { AnyObject } from '@util/type';
 import { isNil } from 'lodash';
 import isEqual from 'rc-util/es/isEqual';
@@ -13,7 +14,12 @@ import Empty from '../../../empty';
 import Field from '../../../form/Field';
 import { fieldParsingOptions } from '../../../form/Field/util';
 import useValueEnum from '../../../form/hooks/useValueEnum';
-import type { FieldValueEnumMap, FieldValueEnumObj, FieldValueType } from '../../../form/interface';
+import type {
+  FieldValueEnumMap,
+  FieldValueEnumObj,
+  FieldValueObject,
+  FieldValueType,
+} from '../../../form/interface';
 import type { MenuProps } from '../../../menu';
 import Menu from '../../../menu';
 import Radio from '../../../radio';
@@ -196,13 +202,6 @@ function getFilterByValueType<RecordType extends AnyObject = AnyObject>(
       'dateTime',
       'fromNow',
       'time',
-    ].includes(mergedValueType)
-  ) {
-  }
-
-  // 日期范围类
-  if (
-    [
       'dateRange',
       'dateWeekRange',
       'dateMonthRange',
@@ -212,6 +211,29 @@ function getFilterByValueType<RecordType extends AnyObject = AnyObject>(
       'timeRange',
     ].includes(mergedValueType)
   ) {
+    const fieldValueType: FieldValueObject =
+      typeof valueType === 'object' ? valueType : { type: valueType };
+    if (mergedValueType === 'fromNow') {
+      fieldValueType.type = 'dateTimeRange';
+    } else {
+      fieldValueType.type = mergedValueType.endsWith('Range')
+        ? mergedValueType
+        : (`${mergedValueType}Range` as FieldValueType);
+    }
+
+    return (
+      <Field
+        mode="edit"
+        valueType={fieldValueType}
+        value={selectedKeys}
+        onChange={(value?: string[]) => setSelectedKeys(value ? value : [])}
+        editorProps={{
+          allowClear: false,
+          size: 'small',
+          allowEmpty: [true, true],
+        }}
+      />
+    );
   }
 
   return (
@@ -519,7 +541,7 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
   const getResetDisabled = () => {
     if (filter.resetToDefaultFilteredValue) {
       return isEqual(
-        (filter.defaultFilteredValue || []).map((key) => String(key)),
+        (toArray(filter.defaultFilteredValue) || []).map((key) => String(key)),
         selectedKeys,
         true,
       );

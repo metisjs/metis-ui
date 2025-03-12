@@ -44,7 +44,7 @@ const FieldPercent: FieldFC<FieldPercentProps> = (
     const dom = (
       <span ref={ref}>
         {prefix && <span>{prefix}</span>}
-        {getRealTextWithPrecision(Math.abs(realValue), precision)}
+        {getRealTextWithPrecision(realValue, precision)}
         {suffix && suffix}
       </span>
     );

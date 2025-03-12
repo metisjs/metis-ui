@@ -1,6 +1,8 @@
 import * as React from 'react';
+import toArray from '@util/toArray';
 import type { AnyObject } from '../../../_util/type';
 import { devUseWarning } from '../../../_util/warning';
+import type { FieldValueType } from '../../../form/interface';
 import type {
   ColumnsType,
   ColumnTitleProps,
@@ -11,7 +13,7 @@ import type {
   Key,
   TableLocale,
 } from '../../interface';
-import { isFilterable, isFilterableWithValueType } from '../../utils/filterUtil';
+import { fillFilterProps, isFilterable, isFilterableWithValueType } from '../../utils/filterUtil';
 import { getColumnKey, getColumnPos, renderColumnTitle } from '../../utils/valueUtil';
 import FilterDropdown from './FilterDropdown';
 
@@ -31,12 +33,12 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
 
   (columns || []).forEach((column, index) => {
     const columnPos = getColumnPos(index, pos);
-    const filter = !column.filter || column.filter === true ? {} : column.filter;
+    const filter = fillFilterProps(column.filter);
 
     if (isFilterable(column)) {
       if ('filteredValue' in filter) {
         // Controlled
-        let filteredValues = filter.filteredValue;
+        let filteredValues = toArray(filter.filteredValue);
         if (!('dropdown' in filter)) {
           filteredValues = filteredValues?.map(String) ?? filteredValues;
         }
@@ -52,7 +54,7 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
           column,
           key: getColumnKey(column, columnPos),
           filteredKeys: (init && filter.defaultFilteredValue
-            ? filter.defaultFilteredValue!
+            ? toArray(filter.defaultFilteredValue!)
             : undefined) as FilterKey,
           forceFiltered: filter.filtered,
         });
@@ -80,12 +82,7 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
 ): ColumnsType<RecordType> {
   return columns.map((column, index) => {
     const columnPos = getColumnPos(index, pos);
-    const {
-      triggerOnClose = true,
-      multiple = true,
-      mode,
-      search,
-    } = !column.filter || column.filter === true ? {} : column.filter;
+    const { triggerOnClose = true, multiple = true, mode, search } = fillFilterProps(column.filter);
 
     let newColumn: ColumnsType<RecordType>[number] = column;
 
@@ -140,17 +137,21 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
 
 const generateFilterInfo = <RecordType extends AnyObject = AnyObject>(
   filterStates: FilterState<RecordType>[],
-): Record<Key, FilterValue | string | undefined> =>
+): Record<Key, FilterValue> =>
   filterStates
     .filter(({ filteredKeys }) => filteredKeys && filteredKeys.length)
-    .reduce(
-      (prev, { key, filteredKeys, column }) => {
-        if (isFilterableWithValueType(column)) {
+    .reduce((prev, { key, filteredKeys, column }) => {
+      if (isFilterableWithValueType(column)) {
+        const valueTypeStr: FieldValueType =
+          typeof column.valueType === 'object'
+            ? column.valueType.type
+            : (column.valueType as FieldValueType);
+        if (['text', 'textarea'].includes(valueTypeStr ?? 'text')) {
+          return { ...prev, [key]: filteredKeys![0] };
         }
-        return { ...prev, [key]: filteredKeys };
-      },
-      {} as Record<Key, FilterValue | string | undefined>,
-    );
+      }
+      return { ...prev, [key]: filteredKeys };
+    }, {}) as Record<Key, FilterValue>;
 
 export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
   prefixCls: string;
@@ -158,7 +159,7 @@ export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
   columns?: ColumnsType<RecordType>;
   locale: TableLocale;
   onFilterChange: (
-    filters: Record<string, FilterValue | undefined>,
+    filters: Record<string, FilterValue>,
     filterStates: FilterState<RecordType>[],
   ) => void;
   getPopupContainer?: GetPopupContainer;
@@ -180,7 +181,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
 ): [
   (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
   FilterState<RecordType>[],
-  Record<string, FilterValue | null>,
+  Record<string, FilterValue>,
 ] => {
   const {
     prefixCls,
@@ -199,7 +200,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     collectFilterStates(mergedColumns, true),
   );
 
-  const mergedFilterStates = React.useMemo(() => {
+  const mergedFilterStates = React.useMemo<FilterState<RecordType>[]>(() => {
     const collectedStates = collectFilterStates(mergedColumns, false);
     if (collectedStates.length === 0) {
       return collectedStates;
@@ -224,15 +225,16 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
         .filter(({ key }) => keyList.includes(key))
         .map((item) => {
           const col = mergedColumns[keyList.findIndex((key) => key === item.key)];
+          const { filtered } = fillFilterProps(col.filter);
           return {
             ...item,
             column: {
               ...item.column,
               ...col,
             },
-            forceFiltered: col.filter?.filtered,
+            forceFiltered: filtered,
           };
-        });
+        }) as FilterState<RecordType>[];
     }
 
     warning(

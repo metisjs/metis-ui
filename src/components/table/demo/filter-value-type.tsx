@@ -67,6 +67,7 @@ const columns: TableProps<DataType>['columns'] = [
     width: 200,
   },
   {
+    key: 'status',
     title: 'Tag',
     dataIndex: 'status',
     valueType: 'tag',
@@ -74,6 +75,7 @@ const columns: TableProps<DataType>['columns'] = [
     filter: true,
   },
   {
+    key: 'select',
     title: 'Select',
     dataIndex: 'status',
     valueType: 'select',
@@ -81,6 +83,7 @@ const columns: TableProps<DataType>['columns'] = [
     filter: true,
   },
   {
+    key: 'radio',
     title: 'Radio',
     dataIndex: 'status',
     valueType: 'radio',
@@ -88,6 +91,7 @@ const columns: TableProps<DataType>['columns'] = [
     filter: true,
   },
   {
+    key: 'checkbox',
     title: 'Checkbox',
     dataIndex: 'status',
     valueType: 'checkbox',
@@ -141,36 +145,42 @@ const columns: TableProps<DataType>['columns'] = [
     filter: true,
   },
   {
+    key: 'date',
     title: 'Date',
     dataIndex: 'createdAt',
     valueType: 'date',
     filter: true,
   },
   {
+    key: 'fromNow',
     title: 'FromNow',
     dataIndex: 'createdAt',
     valueType: 'fromNow',
     filter: true,
   },
   {
+    key: 'dateTime',
     title: 'DateTime',
     dataIndex: 'createdAt',
     valueType: 'dateTime',
     filter: true,
   },
   {
+    key: 'dateRange',
     title: 'DateRange',
     dataIndex: 'createdAtRange',
     valueType: 'dateRange',
     filter: true,
   },
   {
+    key: 'dateTimeRange',
     title: 'DateTimeRange',
     dataIndex: 'createdAtRange',
     valueType: 'dateTimeRange',
     filter: true,
   },
   {
+    key: 'time',
     title: 'Time',
     dataIndex: 'updatedAt',
     valueType: 'time',

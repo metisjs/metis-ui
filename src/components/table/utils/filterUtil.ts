@@ -7,9 +7,16 @@ import dayjsGenerateConfig from '../../date-picker/generate/config/dayjs';
 import type { InternalMode, Locale } from '../../date-picker/interface';
 import { parseDate } from '../../date-picker/PickerInput/hooks/useFilledProps';
 import { getFormatList, isSameOrAfter, isSameOrBefore } from '../../date-picker/utils/dateUtil';
+import { toNumber } from '../../form/Field/Percent';
 import type { FieldValueType } from '../../form/interface';
 import type { FilterState } from '../hooks/useFilter';
-import type { ColumnFilterItem, ColumnType, FilterValue, Key } from '../interface';
+import type { ColumnFilter, ColumnFilterItem, ColumnType, FilterValue, Key } from '../interface';
+
+export function fillFilterProps<RecordType extends AnyObject>(
+  filter: ColumnType<any>['filter'],
+): Exclude<ColumnFilter<RecordType>, boolean> {
+  return !filter || filter === true ? {} : filter;
+}
 
 export function flattenKeys(filters?: ColumnFilterItem[]) {
   let keys: FilterValue = [];
@@ -40,17 +47,22 @@ export function isFilterable(column: ColumnType<any>) {
   return mergedFilter.items?.length || mergedFilter.dropdown || isFilterableWithValueType(column);
 }
 
-const numInRange = (num: number, range: [number | undefined, number | undefined]) => {
+const numInRange = (num: number | string, range: [number | undefined, number | undefined]) => {
   const [min, max] = range;
 
+  const parsed =
+    typeof num === 'string' && (num as string).includes('%')
+      ? toNumber((num as string).replace('%', ''))
+      : toNumber(num);
+
   if (!isNil(min) && !isNil(max)) {
-    return num >= min && num <= max;
+    return parsed >= min && parsed <= max;
   }
   if (!isNil(min)) {
-    return num >= min;
+    return parsed >= min;
   }
   if (!isNil(max)) {
-    return num <= max;
+    return parsed <= max;
   }
 
   return true;
@@ -64,7 +76,7 @@ const valueTypeToDatePickerMode = (valueType: FieldValueType): InternalMode => {
     dateQuarter: 'quarter',
     dateYear: 'year',
     dateTime: 'datetime',
-    fromNow: 'date',
+    fromNow: 'datetime',
     time: 'time',
     dateRange: 'date',
     dateWeekRange: 'week',
@@ -89,16 +101,16 @@ const dateInRange = (
   const min = parseDate<Dayjs>(range[0]!, dayjsGenerateConfig, locale, formatList);
   const max = parseDate<Dayjs>(range[1]!, dayjsGenerateConfig, locale, formatList);
 
-  if (!isNil(min) && !isNil(max)) {
+  if (min && min) {
     return (
       isSameOrBefore(dayjsGenerateConfig, locale, parsed, max, picker) &&
       isSameOrAfter(dayjsGenerateConfig, locale, parsed, min, picker)
     );
   }
-  if (!isNil(min)) {
+  if (min) {
     return isSameOrAfter(dayjsGenerateConfig, locale, parsed, min, picker);
   }
-  if (!isNil(max)) {
+  if (max) {
     return isSameOrBefore(dayjsGenerateConfig, locale, parsed, max, picker);
   }
 
@@ -118,16 +130,16 @@ const dateRangeInRange = (
   const min = parseDate<Dayjs>(range[0]!, dayjsGenerateConfig, locale, formatList);
   const max = parseDate<Dayjs>(range[1]!, dayjsGenerateConfig, locale, formatList);
 
-  if (!isNil(min) && !isNil(max)) {
+  if (min && max) {
     return (
       isSameOrBefore(dayjsGenerateConfig, locale, end, max, picker) &&
       isSameOrAfter(dayjsGenerateConfig, locale, start, min, picker)
     );
   }
-  if (!isNil(min)) {
+  if (min) {
     return isSameOrAfter(dayjsGenerateConfig, locale, start, min, picker);
   }
-  if (!isNil(max)) {
+  if (max) {
     return isSameOrBefore(dayjsGenerateConfig, locale, end, max, picker);
   }
 

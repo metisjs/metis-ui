@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FunnelSolid } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import useSyncState from '@util/hooks/useSyncState';
+import toArray from '@util/toArray';
 import type { AnyObject, SafeKey } from '@util/type';
 import isEqual from 'rc-util/lib/isEqual';
 import type { FilterState } from '.';
@@ -75,16 +76,16 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
     filterState &&
     (filterState.filteredKeys?.length || filterState.forceFiltered)
   );
-  const triggerVisible = (newVisible: boolean) => {
-    setOpen(newVisible);
-    mergedFilter.dropdownProps?.onOpenChange?.(newVisible);
+  const triggerOpen = (newOpen: boolean) => {
+    setOpen(newOpen);
+    mergedFilter.dropdownProps?.onOpenChange?.(newOpen);
   };
 
   const mergedOpen = mergedFilter.dropdownProps?.open ?? open; // inner state
 
   // ===================== Select Keys =====================
   const propFilteredKeys = filterState?.filteredKeys;
-  const [filteredKeysSync, setFilteredKeysSync] = useSyncState(
+  const [getFilteredKeysSync, setFilteredKeysSync] = useSyncState(
     wrapStringListType(propFilteredKeys),
   );
 
@@ -134,8 +135,8 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
   };
 
   const onConfirm = () => {
-    triggerVisible(false);
-    internalTriggerFilter(filteredKeysSync);
+    triggerOpen(false);
+    internalTriggerFilter(getFilteredKeysSync());
   };
 
   const onReset = (
@@ -145,13 +146,15 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
       internalTriggerFilter([]);
     }
     if (closeDropdown) {
-      triggerVisible(false);
+      triggerOpen(false);
     }
 
     setSearchValue('');
 
     if (mergedFilter.resetToDefaultFilteredValue) {
-      setFilteredKeysSync((mergedFilter.defaultFilteredValue || []).map((key) => String(key)));
+      setFilteredKeysSync(
+        (toArray(mergedFilter.defaultFilteredValue) || []).map((key) => String(key)),
+      );
     } else {
       setFilteredKeysSync([]);
     }
@@ -159,23 +162,26 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
 
   const doFilter = ({ closeDropdown } = { closeDropdown: true }) => {
     if (closeDropdown) {
-      triggerVisible(false);
+      triggerOpen(false);
     }
-    internalTriggerFilter(filteredKeysSync);
+    internalTriggerFilter(getFilteredKeysSync());
   };
 
-  const onOpenChange: DropdownProps['onOpenChange'] = (newVisible, info) => {
+  const onOpenChange: DropdownProps['onOpenChange'] = (newOpen, info) => {
     if (info.source === 'trigger') {
-      if (newVisible && propFilteredKeys !== undefined) {
+      if (newOpen && propFilteredKeys !== undefined) {
         // Sync filteredKeys on appear in controlled mode (propFilteredKeys !== undefined)
         setFilteredKeysSync(wrapStringListType(propFilteredKeys));
       }
 
-      triggerVisible(newVisible);
+      triggerOpen(newOpen);
 
-      if (!newVisible && !mergedFilter.dropdown && filterOnClose) {
-        onConfirm();
-      }
+      // Delay to avoid date picker trigger onChange after onOpenChange
+      setTimeout(() => {
+        if (!newOpen && !mergedFilter.dropdown && filterOnClose) {
+          onConfirm();
+        }
+      }, 50);
     }
   };
 
@@ -192,7 +198,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
       valueEnum={
         column.valueEnum as Exclude<ColumnType<RecordType>['valueEnum'], (...args: any[]) => any>
       }
-      selectedKeys={filteredKeysSync}
+      selectedKeys={getFilteredKeysSync()}
       open={mergedOpen}
       filterMode={filterMode}
       filterSearch={filterSearch}
@@ -203,7 +209,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
       confirm={doFilter}
       clearFilters={onReset}
       close={() => {
-        triggerVisible(false);
+        triggerOpen(false);
       }}
       onSearch={onSearch}
       getPopupContainer={getPopupContainer}

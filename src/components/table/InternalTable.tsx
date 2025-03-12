@@ -87,7 +87,7 @@ interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
     pageSize?: number;
     total?: number;
   };
-  filters: Record<string, FilterValue | null>;
+  filters: Record<string, FilterValue>;
   sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
 
   filterStates: FilterState<RecordType>[];

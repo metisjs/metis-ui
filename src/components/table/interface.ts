@@ -200,8 +200,8 @@ export type ColumnFilter<RecordType extends AnyObject> =
       dropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
       triggerOnClose?: boolean;
       multiple?: boolean;
-      filteredValue?: FilterValue | null;
-      defaultFilteredValue?: FilterValue | null;
+      filteredValue?: FilterValue | null | string;
+      defaultFilteredValue?: FilterValue | null | string;
       icon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
       mode?: 'menu' | 'tree';
       search?: FilterSearchType<ColumnFilterItem>;
