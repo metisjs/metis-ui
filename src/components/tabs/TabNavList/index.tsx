@@ -139,7 +139,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       onTabScroll({ direction: next > prev ? 'left' : 'right' });
     }
   });
-  const [transformTop, setTransformTop] = useSyncState(0, (next, prev) => {
+  const [getTransformTop, setTransformTop] = useSyncState(0, (next, prev) => {
     if (!horizontal && onTabScroll) {
       onTabScroll({ direction: next > prev ? 'top' : 'bottom' });
     }
@@ -245,7 +245,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     // Container
     visibleTabContentValue,
     // Transform
-    horizontal ? getTransformLeft() : transformTop,
+    horizontal ? getTransformLeft() : getTransformTop(),
     // Tabs
     tabContentSizeValue,
     // Add
@@ -289,11 +289,11 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       setTransformLeft(alignInRange(newTransform));
     } else {
       // ============ Align with left & right ============
-      let newTransform = transformTop;
+      let newTransform = getTransformTop();
 
-      if (tabOffset.top < -transformTop) {
+      if (tabOffset.top < -getTransformTop()) {
         newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabContentValue) {
+      } else if (tabOffset.top + tabOffset.height > -getTransformTop() + visibleTabContentValue) {
         newTransform = -(tabOffset.top + tabOffset.height - visibleTabContentValue);
       }
 
@@ -451,8 +451,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     pingLeft = getTransformLeft() < 0;
     pingRight = getTransformLeft() !== transformMin;
   } else {
-    pingTop = transformTop < 0;
-    pingBottom = transformTop !== transformMin;
+    pingTop = getTransformTop() < 0;
+    pingBottom = getTransformTop() !== transformMin;
   }
 
   const wrapPrefix = `${prefixCls}-nav-wrap`;
@@ -563,7 +563,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                 ref={tabListRef}
                 className={tabListCls}
                 style={{
-                  transform: `translate(${getTransformLeft()}px, ${transformTop}px)`,
+                  transform: `translate(${getTransformLeft()}px, ${getTransformTop()}px)`,
                   transition: lockAnimation ? 'none' : undefined,
                 }}
               >
