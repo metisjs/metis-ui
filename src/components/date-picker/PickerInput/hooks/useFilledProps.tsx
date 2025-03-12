@@ -249,6 +249,7 @@ export default function useFilledProps<
     maxDate,
     showTime,
     popupZIndex,
+    allowClear = true,
 
     value,
     defaultValue,
@@ -392,7 +393,7 @@ export default function useFilledProps<
         picker,
         order,
         components,
-        clearIcon,
+        clearIcon: allowClear ? clearIcon : null,
         removeIcon,
         showTime: mergedShowTime,
         value: values,
