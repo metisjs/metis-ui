@@ -6,7 +6,7 @@ type Updater<T> = (prev: T) => T;
 export default function useSyncState<T>(
   defaultState: T,
   onChange?: (newValue: T, prevValue: T) => void,
-): [T, (updater: T | Updater<T>) => void] {
+): [() => T, (updater: T | Updater<T>) => void] {
   const stateRef = React.useRef<T>(defaultState);
   const forceUpdate = useForceUpdate();
 
@@ -19,5 +19,5 @@ export default function useSyncState<T>(
     forceUpdate();
   }
 
-  return [stateRef.current, setState];
+  return [() => stateRef.current, setState];
 }

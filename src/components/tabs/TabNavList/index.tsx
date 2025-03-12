@@ -134,7 +134,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   const horizontal = tabPosition === 'top' || tabPosition === 'bottom';
 
-  const [transformLeft, setTransformLeft] = useSyncState(0, (next, prev) => {
+  const [getTransformLeft, setTransformLeft] = useSyncState(0, (next, prev) => {
     if (horizontal && onTabScroll) {
       onTabScroll({ direction: next > prev ? 'left' : 'right' });
     }
@@ -245,7 +245,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     // Container
     visibleTabContentValue,
     // Transform
-    horizontal ? transformLeft : transformTop,
+    horizontal ? getTransformLeft() : transformTop,
     // Tabs
     tabContentSizeValue,
     // Add
@@ -267,16 +267,16 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
     if (horizontal) {
       // ============ Align with top & bottom ============
-      let newTransform = transformLeft;
+      let newTransform = getTransformLeft();
 
-      if (tabOffset.left < -transformLeft) {
+      if (tabOffset.left < -getTransformLeft()) {
         newTransform = -tabOffset.left;
 
         // Card 模式下有6个像素的外圆角
         if (type === 'card') {
           newTransform += 6;
         }
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabContentValue) {
+      } else if (tabOffset.left + tabOffset.width > -getTransformLeft() + visibleTabContentValue) {
         newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
 
         // Card 模式下有6个像素的外圆角
@@ -448,8 +448,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   let pingBottom: boolean = false;
 
   if (horizontal) {
-    pingLeft = transformLeft < 0;
-    pingRight = transformLeft !== transformMin;
+    pingLeft = getTransformLeft() < 0;
+    pingRight = getTransformLeft() !== transformMin;
   } else {
     pingTop = transformTop < 0;
     pingBottom = transformTop !== transformMin;
@@ -563,7 +563,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                 ref={tabListRef}
                 className={tabListCls}
                 style={{
-                  transform: `translate(${transformLeft}px, ${transformTop}px)`,
+                  transform: `translate(${getTransformLeft()}px, ${transformTop}px)`,
                   transition: lockAnimation ? 'none' : undefined,
                 }}
               >
