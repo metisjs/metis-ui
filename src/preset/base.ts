@@ -6,8 +6,8 @@ export default {
     display: 'none',
     appearance: 'none',
   },
-  'a:not(.metis-btn)': { color: 'hsla(var(--primary))' },
-  'a:not(.metis-btn):hover': { color: 'hsla(var(--primary-hover))' },
+  'a:not(.metis-btn)': { color: 'hsla(var(--primary))', cursor: 'pointer' },
+  'a:not(.metis-btn):hover': { color: 'hsla(var(--primary-hover))', cursor: 'pointer' },
   '.metis-btn-icon-only.metis-btn-compact-item': {
     flex: 'none',
   },
