@@ -442,7 +442,7 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
 
   const getFilterComponent = () => {
     const empty = renderEmpty?.('Table.filter') ?? (
-      <Empty description={locale.filterEmptyText} className={{ root: 'm-0 py-4', image: 'h-6' }} />
+      <Empty description={locale.filter.emptyText} className={{ root: 'm-0 py-4', image: 'h-6' }} />
     );
 
     if (!mergedItems) {
@@ -476,7 +476,7 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
                 }}
                 onChange={onCheckAll}
               >
-                {locale.filterCheckall}
+                {locale.filter.checkall}
               </Checkbox>
             ) : null}
             <Tree<FilterTreeDataNode>
@@ -567,10 +567,10 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
           disabled={getResetDisabled()}
           onClick={() => clearFilters?.()}
         >
-          {locale.filterReset}
+          {locale.filter.reset}
         </Button>
         <Button type="primary" size="mini" onClick={() => confirm()}>
-          {locale.filterConfirm}
+          {locale.filter.confirm}
         </Button>
       </div>
     </>

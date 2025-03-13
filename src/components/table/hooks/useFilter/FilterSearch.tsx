@@ -24,7 +24,7 @@ const FilterSearch = <RecordType extends AnyObject = AnyObject>(
     <div className={clsx(`${prefixCls}-dropdown-search`, 'border-b border-b-border-secondary p-2')}>
       <Input
         prefix={<MagnifyingGlassOutline />}
-        placeholder={locale.filterSearchPlaceholder}
+        placeholder={locale.filter.searchPlaceholder}
         onChange={onChange}
         value={value}
         // for skip min-width of input

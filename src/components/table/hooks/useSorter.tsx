@@ -184,12 +184,12 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
         );
       }
 
-      const { cancelSort, triggerAsc, triggerDesc } = tableLocale || {};
-      let sortTip: string | undefined = cancelSort;
+      const { sort } = tableLocale || {};
+      let sortTip: string | undefined = sort?.cancel;
       if (nextSortOrder === DESCEND) {
-        sortTip = triggerDesc;
+        sortTip = sort?.triggerDesc;
       } else if (nextSortOrder === ASCEND) {
-        sortTip = triggerAsc;
+        sortTip = sort?.triggerAsc;
       }
       const tooltipProps: TooltipProps =
         typeof showSorterTooltip === 'object'

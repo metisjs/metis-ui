@@ -238,7 +238,7 @@ function useEditable<RecordType extends AnyObject>(
 
   const startEdit = useEvent((recordKey: Key, form?: FormInstance) => {
     if (!isNil(editingRowKey) && editingRowKey !== recordKey) {
-      message.warning(locale.editingAlertMessage);
+      message.warning(locale.editable.editingAlertMessage);
       return false;
     }
 
@@ -275,8 +275,8 @@ function useEditable<RecordType extends AnyObject>(
 
   const actionRender = useEvent((record: RecordType, index: number) => {
     const renderResult = defaultActionRender<RecordType>(record, index, {
-      saveText: locale.saveText,
-      cancelText: locale.cancelText,
+      saveText: locale.editable.saveText,
+      cancelText: locale.editable.cancelText,
       onSave,
       onCancel: cancelEdit,
     });
