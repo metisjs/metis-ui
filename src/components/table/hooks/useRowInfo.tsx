@@ -7,12 +7,7 @@ import TableContext from '../context/TableContext';
 import type { Key } from '../interface';
 import { getColumnsKey } from '../utils/valueUtil';
 
-export default function useRowInfo<RecordType extends AnyObject>(
-  record: RecordType,
-  rowKey: Key,
-  recordIndex: number,
-  indent: number,
-): Pick<
+type ContextValues<RecordType extends AnyObject> = Pick<
   TableContextProps<RecordType>,
   | 'prefixCls'
   | 'fixedInfoList'
@@ -21,6 +16,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
   | 'expandRowByClick'
   | 'onTriggerExpand'
   | 'rowClassName'
+  | 'rowExpandable'
   | 'expandedRowClassName'
   | 'indentSize'
   | 'expandIcon'
@@ -29,10 +25,18 @@ export default function useRowInfo<RecordType extends AnyObject>(
   | 'expandedKeys'
   | 'childrenColumnName'
   | 'onRow'
+  | 'selectedRowKeys'
   | 'editingRowKey'
   | 'startEdit'
   | 'actionRender'
-> & {
+>;
+
+export default function useRowInfo<RecordType extends AnyObject>(
+  record: RecordType,
+  rowKey: Key,
+  recordIndex: number,
+  indent: number,
+): ContextValues<RecordType> & {
   selected: boolean;
   columnsKey: React.Key[];
   nestExpandable: boolean;
@@ -64,7 +68,7 @@ export default function useRowInfo<RecordType extends AnyObject>(
     'editingRowKey',
     'startEdit',
     'actionRender',
-  ]);
+  ]) as ContextValues<RecordType>;
 
   const {
     flattenColumns,
