@@ -731,7 +731,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
         hasPrefixSuffix,
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
-      'flex-1': addonBefore || addonAfter,
+      'w-0 flex-1': addonBefore || addonAfter || hasPrefixSuffix,
     },
     !hasPrefixSuffix && statusClassName,
     mergedDisabled && {
