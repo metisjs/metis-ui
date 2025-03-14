@@ -16,7 +16,6 @@ import type {
 import type { PaginationProps } from '../pagination';
 import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
 import type { TooltipProps } from '../tooltip';
-import type { SelectedKeysType } from './hooks/useFilter/FilterDropdown';
 import type { InternalSelectionItem } from './hooks/useSelection';
 
 export type Key = SafeKey;
@@ -108,8 +107,8 @@ export interface ColumnFilterItem {
 
 export interface FilterDropdownProps {
   prefixCls: string;
-  setSelectedKeys: (selectedKeys: SelectedKeysType) => void;
-  selectedKeys: SelectedKeysType;
+  setSelectedKeys: (selectedKeys: Key[]) => void;
+  selectedKeys: Key[];
   /**
    * Confirm filter value, if you want to close dropdown before commit, you can call with
    * {closeDropdown: true}
@@ -431,6 +430,12 @@ export interface SelectionItem {
   onSelect?: SelectionItemSelectFn;
 }
 
+export type SelectionAlertRenderType<T extends AnyObject = AnyObject> = (props: {
+  selectedRowKeys: Key[];
+  selectedRows: T[];
+  onClearSelected: () => void;
+}) => React.ReactNode;
+
 export interface TableRowSelection<T extends AnyObject = AnyObject> {
   /** Keep the selection keys in list even the key not exist in `dataSource` anymore */
   preserveSelectedRowKeys?: boolean;
@@ -446,37 +451,49 @@ export interface TableRowSelection<T extends AnyObject = AnyObject> {
   columnWidth?: string | number;
   columnTitle?: React.ReactNode | ((checkboxNode: React.ReactNode) => React.ReactNode);
   checkStrictly?: boolean;
-  renderCell?: (
+  cellRender?: (
     value: boolean,
     record: T,
     index: number,
     originNode: React.ReactNode,
   ) => React.ReactNode;
   onCell?: GetComponentProps<T>;
+  alert?: boolean | 'always';
+  alertInfoRender?: SelectionAlertRenderType<T>;
+  alertOptionRender?: SelectionAlertRenderType<T>;
 }
 
 // =================== Locale ===================
 export interface TableLocale {
-  filterTitle?: string;
-  filterConfirm?: React.ReactNode;
-  filterReset?: React.ReactNode;
-  filterEmptyText?: React.ReactNode;
-  filterCheckall?: React.ReactNode;
-  filterSearchPlaceholder?: string;
   emptyText?: React.ReactNode | (() => React.ReactNode);
-  selectAll?: React.ReactNode;
-  selectNone?: React.ReactNode;
-  selectInvert?: React.ReactNode;
-  selectionAll?: React.ReactNode;
-  sortTitle?: string;
+  filter?: {
+    confirm?: React.ReactNode;
+    reset?: React.ReactNode;
+    emptyText?: React.ReactNode;
+    checkall?: React.ReactNode;
+    searchPlaceholder?: string;
+  };
+  selection?: {
+    selectAll?: React.ReactNode;
+    selectInvert?: React.ReactNode;
+    selectNone?: React.ReactNode;
+    selectionAll?: React.ReactNode;
+    alertSelected?: React.ReactNode;
+    alertSelectedItems?: React.ReactNode;
+    alertSelectedClear?: React.ReactNode;
+  };
   expand?: string;
   collapse?: string;
-  triggerDesc?: string;
-  triggerAsc?: string;
-  cancelSort?: string;
-  saveText?: string;
-  cancelText?: string;
-  editingAlertMessage?: string;
+  sort?: {
+    triggerDesc?: string;
+    triggerAsc?: string;
+    cancel?: string;
+  };
+  editable?: {
+    saveText?: string;
+    cancelText?: string;
+    editingAlertMessage?: React.ReactNode;
+  };
 }
 
 type TablePaginationPosition =

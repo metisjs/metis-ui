@@ -10,6 +10,7 @@ import isVisible from 'rc-util/lib/Dom/isVisible';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import getValue from 'rc-util/lib/utils/get';
+import { merge } from 'rc-util/lib/utils/set';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
@@ -106,6 +107,7 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   columns?: ColumnsType<RecordType>;
   rowKey?: string | keyof RecordType | GetRowKey<RecordType>;
   tableLayout?: TableLayout;
+  headerTitle?: React.ReactNode;
 
   // Fixed Columns
   scroll?: { x?: number | true | string; y?: number | string; scrollToFirstRowOnChange?: boolean };
@@ -236,7 +238,7 @@ function InternalTable<RecordType extends AnyObject>(
   const dropdownPrefixCls = getPrefixCls('dropdown', customizeDropdownPrefixCls);
 
   const mergedSize = customizeSize ?? table?.size ?? 'default';
-  const tableLocale: TableLocale = { ...contextLocale.Table, ...locale };
+  const tableLocale: TableLocale = merge<TableLocale>(contextLocale.Table!, locale ?? {});
 
   const { childrenColumnName = 'children', expandedRowRender } = expandable ?? {};
 
@@ -427,7 +429,7 @@ function InternalTable<RecordType extends AnyObject>(
   });
 
   // ====================== Selection ======================
-  const [transformSelectionColumns, selectedKeySet] = useSelection(
+  const [transformSelectionColumns, selectedKeySet, renderSelectionAlert] = useSelection(
     {
       prefixCls,
       data: mergedDataSource,
@@ -986,6 +988,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   let fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
+      {renderSelectionAlert()}
       <Spin spinning={requestLoading} {...spinProps}>
         {topPaginationNode}
         <div ref={containerRef} className={containerCls}>

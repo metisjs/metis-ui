@@ -22,7 +22,7 @@ const dataSource = Array.from({ length: 46 }).map<DataType>((_, i) => ({
 }));
 
 const rowSelection: TableRowSelection<DataType> = {
-  renderCell: (checked, _, __, node) => (
+  cellRender: (checked, _, __, node) => (
     <>
       {String(checked)}: {node}
     </>

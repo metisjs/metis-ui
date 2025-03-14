@@ -14,6 +14,7 @@ import type { DataNode, GetCheckDisabled } from '../../tree/interface';
 import { conductCheck } from '../../tree/utils/conductUtil';
 import { arrAdd, arrDel } from '../../tree/utils/miscUtil';
 import { convertDataToEntities } from '../../tree/utils/treeUtil';
+import TableAlert from '../Alert';
 import {
   INTERNAL_COL_DEFINE,
   SELECTION_ALL,
@@ -74,9 +75,13 @@ const flattenData = <RecordType extends AnyObject = AnyObject>(
 const useSelection = <RecordType extends AnyObject = AnyObject>(
   config: UseSelectionConfig<RecordType>,
   rowSelection?: TableRowSelection<RecordType>,
-): readonly [(columns: ColumnsType<RecordType>) => ColumnsType<RecordType>, Set<Key>] => {
+): readonly [
+  (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
+  Set<Key>,
+  () => React.ReactNode,
+] => {
   const {
-    preserveSelectedRowKeys,
+    preserveSelectedRowKeys = true,
     selectedRowKeys,
     defaultSelectedRowKeys,
     getCheckboxProps,
@@ -86,9 +91,12 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     type: selectionType,
     selections,
     fixed,
-    renderCell: customizeRenderCell,
+    cellRender: customizeCellRender,
     hideSelectAll,
     checkStrictly = true,
+    alert,
+    alertInfoRender,
+    alertOptionRender,
   } = rowSelection || {};
 
   const {
@@ -284,7 +292,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (selection === SELECTION_ALL) {
           return {
             key: 'all',
-            label: tableLocale.selectionAll,
+            label: tableLocale.selection!.selectAll,
             onSelect() {
               setSelectedKeys(
                 data
@@ -301,7 +309,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (selection === SELECTION_INVERT) {
           return {
             key: 'invert',
-            label: tableLocale.selectInvert,
+            label: tableLocale.selection!.selectInvert,
             onSelect() {
               const keySet = new Set(derivedSelectedKeySet);
               pageData.forEach((record, index) => {
@@ -326,7 +334,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (selection === SELECTION_NONE) {
           return {
             key: 'none',
-            label: tableLocale.selectNone,
+            label: tableLocale.selection!.selectNone,
             onSelect() {
               setSelectedKeys(
                 Array.from(derivedSelectedKeySet).filter((key) => {
@@ -486,13 +494,13 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       }
 
       // Body Cell
-      let renderCell: (
+      let cellRender: (
         _: RecordType,
         record: RecordType,
         index: number,
       ) => { node: React.ReactNode; checked: boolean };
       if (selectionType === 'radio') {
-        renderCell = (_, record, index) => {
+        cellRender = (_, record, index) => {
           const key = getRowKey(record, index);
           const checked = keySet.has(key);
           const checkboxProps = checkboxPropsMap.get(key);
@@ -521,7 +529,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           };
         };
       } else {
-        renderCell = (_, record, index) => {
+        cellRender = (_, record, index) => {
           const key = getRowKey(record, index);
           const checked = keySet.has(key);
           const indeterminate = derivedHalfSelectedKeySet.has(key);
@@ -613,10 +621,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       }
 
       const renderSelectionCell = (_: any, record: RecordType, index: number) => {
-        const { node, checked } = renderCell(_, record, index);
+        const { node, checked } = cellRender(_, record, index);
 
-        if (customizeRenderCell) {
-          return customizeRenderCell(checked, record, index, node);
+        if (customizeCellRender) {
+          return customizeCellRender(checked, record, index, node);
         }
 
         return node;
@@ -749,7 +757,52 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     ],
   );
 
-  return [transformColumns, derivedSelectedKeySet] as const;
+  const renderAlert = useCallback(() => {
+    if (!alert) return null;
+
+    let selectedRows: RecordType[] = [];
+    if (preserveSelectedRowKeys) {
+      selectedRows = mergedSelectedKeys.map((key) => preserveRecordsRef.current.get(key)!);
+    } else {
+      selectedRows = [];
+
+      mergedSelectedKeys.forEach((key) => {
+        const record = getRecordByKey(key);
+        if (record !== undefined) {
+          selectedRows.push(record);
+        }
+      });
+    }
+    return (
+      <TableAlert
+        prefixCls={prefixCls}
+        locale={tableLocale}
+        selectedRowKeys={mergedSelectedKeys}
+        selectedRows={selectedRows}
+        alwaysShowAlert={alert === 'always'}
+        alertInfoRender={alertInfoRender}
+        alertOptionRender={alertOptionRender}
+        onClearSelected={() => {
+          setSelectedKeys(
+            Array.from(derivedSelectedKeySet).filter((key) => {
+              const checkProps = checkboxPropsMap.get(key);
+              return checkProps?.disabled;
+            }),
+            'none',
+          );
+        }}
+      />
+    );
+  }, [
+    alert,
+    alertInfoRender,
+    alertOptionRender,
+    mergedSelectedKeys,
+    derivedSelectedKeySet,
+    checkboxPropsMap,
+  ]);
+
+  return [transformColumns, derivedSelectedKeySet, renderAlert] as const;
 };
 
 export default useSelection;
