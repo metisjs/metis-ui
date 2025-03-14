@@ -39,11 +39,12 @@ const localeValues: Locale = {
       searchPlaceholder: 'Search in filters',
     },
     selection: {
-      selectAll: 'Select current page',
+      selectAll: 'Select all data',
       selectInvert: 'Invert current page',
       selectNone: 'Clear all data',
       alertSelected: 'Selected',
       alertSelectedItems: 'items',
+      alertSelectedClear: 'Clear',
     },
     expand: 'Expand row',
     collapse: 'Collapse row',

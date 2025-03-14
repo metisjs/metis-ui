@@ -40,11 +40,12 @@ const localeValues: Locale = {
       searchPlaceholder: '在筛选项中搜索',
     },
     selection: {
-      selectAll: '全选当页',
+      selectAll: '全选所有',
       selectInvert: '反选当页',
       selectNone: '清空所有',
       alertSelected: '已选择',
       alertSelectedItems: '项',
+      alertSelectedClear: '取消选择',
     },
     expand: '展开行',
     collapse: '关闭行',

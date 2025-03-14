@@ -56,17 +56,17 @@ export interface Locale {
     scanned?: string;
   };
   ColorPicker?: {
-    transparent: string;
-    singleColor: string;
-    gradientColor: string;
+    transparent?: string;
+    singleColor?: string;
+    gradientColor?: string;
   };
-  Statistic: {
-    collapse: string;
-    all: string;
+  Statistic?: {
+    collapse?: string;
+    all?: string;
   };
-  Switch: {
-    open: string;
-    close: string;
+  Switch?: {
+    open?: string;
+    close?: string;
   };
 }
 
