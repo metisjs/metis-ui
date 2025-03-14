@@ -1,6 +1,5 @@
 import { createContext, createImmutable } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
-import type { FormInstance } from '../../form';
 import type {
   ColumnsType,
   ColumnType,
@@ -12,6 +11,7 @@ import type {
   Key,
   RenderExpandIcon,
   RowClassName,
+  TableActionType,
   TableLayout,
   TriggerEventHandler,
 } from '../interface';
@@ -38,6 +38,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   size: 'default' | 'middle' | 'small';
   verticalLine?: boolean;
   tableKey: string;
+  tableAction: TableActionType;
 
   // Body
   rowClassName?: string | RowClassName<RecordType>;
@@ -67,8 +68,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   onHover: (start: number, end: number) => void;
   rowExpandable?: (record: RecordType) => boolean;
   editingRowKey?: Key;
-  startEdit: (recordKey: Key, form: FormInstance) => boolean;
-  actionRender: (record: RecordType, index: number) => React.ReactNode[];
+  editingActionRender: (record: RecordType, index: number) => React.ReactNode[];
 
   expandedKeys: Set<Key>;
   getRowKey: GetRowKey<RecordType>;

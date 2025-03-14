@@ -64,6 +64,7 @@ import type {
   SorterTooltipProps,
   SortOrder,
   TableAction,
+  TableActionType,
   TableComponents,
   TableCurrentDataSource,
   TableEditableConfig,
@@ -419,8 +420,11 @@ function InternalTable<RecordType extends AnyObject>(
   }, [mergedDataSource, childrenColumnName, !!expandedRowRender]);
 
   // ====================== Editable ======================
-  const { editingRowKey, actionRender, startEdit, cancelEdit } = useEditable({
+  const [form] = Form.useForm();
+  const mergedEditForm = editable?.form ?? form;
+  const { editingRowKey, editingActionRender, startEdit, cancelEdit } = useEditable({
     ...editable,
+    form: mergedEditForm,
     getRowKey,
     getRecordByKey,
     dataSource: mergedDataSource,
@@ -521,13 +525,6 @@ function InternalTable<RecordType extends AnyObject>(
     }),
     [mergedColumns, flattenColumns],
   );
-
-  React.useImperativeHandle(ref, () => {
-    return {
-      nativeElement: fullTableRef.current!,
-      scrollTo: (config) => {},
-    };
-  });
 
   // ====================== Scroll ======================
   const [scrollOffset, setScrollOffset] = React.useState<ScrollOffset>({ left: 0, right: 0 });
@@ -675,9 +672,26 @@ function InternalTable<RecordType extends AnyObject>(
       triggerOnScroll();
     }
   }, [horizonScroll, mergedColumns.length]);
+
   React.useEffect(() => {
     mounted.current = true;
   }, []);
+
+  const tableAction = React.useMemo<TableActionType>(
+    () => ({
+      startEdit,
+      cancelEdit,
+    }),
+    [startEdit, cancelEdit],
+  );
+
+  React.useImperativeHandle(ref, () => {
+    return {
+      nativeElement: fullTableRef.current!,
+      scrollTo: (config) => {},
+      ...tableAction,
+    };
+  });
 
   // ====================== Style ======================
   const hasPingLeft = fixedInfoList.some((item) => item.lastPingLeft);
@@ -1010,7 +1024,7 @@ function InternalTable<RecordType extends AnyObject>(
         requiredMark={false}
         errorPopover
         colon={false}
-        form={editable.form}
+        form={mergedEditForm}
         size={formSize}
         {...editable.formProps}
         preserve
@@ -1034,6 +1048,7 @@ function InternalTable<RecordType extends AnyObject>(
       size: mergedSize,
       verticalLine,
       tableKey: columnsKey.join('@#@'),
+      tableAction,
 
       componentWidth,
       fixHeader,
@@ -1067,8 +1082,7 @@ function InternalTable<RecordType extends AnyObject>(
       rowExpandable: expandableConfig.rowExpandable,
       onRow,
       editingRowKey,
-      startEdit,
-      actionRender,
+      editingActionRender,
 
       getRowKey,
       expandedKeys: expandedKeys,
@@ -1088,6 +1102,7 @@ function InternalTable<RecordType extends AnyObject>(
       selectedKeySet,
       mergedSize,
       verticalLine,
+      tableAction,
 
       componentWidth,
       fixHeader,
@@ -1121,8 +1136,7 @@ function InternalTable<RecordType extends AnyObject>(
       expandableConfig.rowExpandable,
       onRow,
       editingRowKey,
-      startEdit,
-      actionRender,
+      editingActionRender,
 
       getRowKey,
       expandedKeys,

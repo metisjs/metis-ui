@@ -8,7 +8,6 @@ import TableContext from '../context/TableContext';
 import type {
   AlignType,
   CellEllipsisType,
-  ColumnRenderActionType,
   ColumnType,
   CustomizeComponent,
   DataIndex,
@@ -63,9 +62,6 @@ export interface CellProps<RecordType extends AnyObject> {
   valueEnum?: ColumnType<RecordType>['valueEnum'];
   editable?: ColumnType<RecordType>['editable'];
   editing?: boolean;
-
-  renderAction?: ColumnRenderActionType;
-  actionRender?: (record: RecordType, index: number) => React.ReactNode[];
 }
 
 export const getTitleFromCellRenderChildren = ({

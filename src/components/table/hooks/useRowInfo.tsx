@@ -27,8 +27,6 @@ type ContextValues<RecordType extends AnyObject> = Pick<
   | 'onRow'
   | 'selectedRowKeys'
   | 'editingRowKey'
-  | 'startEdit'
-  | 'actionRender'
 >;
 
 export default function useRowInfo<RecordType extends AnyObject>(
@@ -66,8 +64,6 @@ export default function useRowInfo<RecordType extends AnyObject>(
     'onRow',
     'selectedRowKeys',
     'editingRowKey',
-    'startEdit',
-    'actionRender',
   ]) as ContextValues<RecordType>;
 
   const {

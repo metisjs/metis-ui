@@ -177,12 +177,12 @@ const columns: TableProps<DataType>['columns'] = [
     valueType: 'timeRange',
   },
   {
-    title: '操作',
+    title: 'Actions',
     key: 'action',
     valueType: 'action',
     fixed: 'right',
-    render: (_, __, ___, action) => [
-      <a key="edit" onClick={() => action.startEdit()}>
+    render: (_, record, __, action) => [
+      <a key="edit" onClick={() => action.startEdit(record.key)}>
         Edit
       </a>,
       <a key="delete">Delete</a>,

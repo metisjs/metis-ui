@@ -29,12 +29,14 @@ export default function useCellRender<RecordType extends AnyObject>({
   align,
   render,
   shouldCellUpdate,
-  renderAction,
-  actionRender,
 }: CellProps<RecordType>) {
   const warning = devUseWarning('Table');
 
-  const { tableKey } = useContext(TableContext, ['tableKey']);
+  const { tableKey, tableAction, editingActionRender } = useContext(TableContext, [
+    'tableKey',
+    'tableAction',
+    'editingActionRender',
+  ]);
 
   const mark = useImmutableMark();
 
@@ -90,7 +92,7 @@ export default function useCellRender<RecordType extends AnyObject>({
 
       if (editing) {
         if (mergedValueType === 'action') {
-          return <div className={actionCls}>{actionRender?.(record, renderIndex)}</div>;
+          return <div className={actionCls}>{editingActionRender?.(record, renderIndex)}</div>;
         }
 
         warning(
@@ -118,7 +120,7 @@ export default function useCellRender<RecordType extends AnyObject>({
         return dom;
       }
 
-      const renderDom = render?.(value, record, renderIndex, renderAction!) ?? dom;
+      const renderDom = render?.(value, record, renderIndex, tableAction) ?? dom;
 
       if (renderDom && mergedValueType === 'action' && Array.isArray(renderDom)) {
         return <div className={actionCls}>{renderDom}</div>;
@@ -140,11 +142,12 @@ export default function useCellRender<RecordType extends AnyObject>({
       valueType,
       valueEnum,
       cellKey,
-      renderAction,
+      editingActionRender,
       editing,
       editable,
       cellTitle,
-      // tableKey,
+      tableKey,
+      tableAction,
     ] as const,
     (prev, next) => {
       if (shouldCellUpdate) {

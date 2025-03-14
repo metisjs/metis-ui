@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
-import Form from '../../form';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
 import useRowInfo from '../hooks/useRowInfo';
-import type { ColumnRenderActionType, ColumnType, CustomizeComponent, Key } from '../interface';
+import type { ColumnType, CustomizeComponent, Key } from '../interface';
 import { computedExpandedClassName } from '../utils/expandUtil';
 import ExpandedRow from './ExpandedRow';
 
@@ -114,11 +113,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     selected,
     rowSupportExpand,
     editingRowKey,
-    startEdit,
-    actionRender,
   } = rowInfo;
-
-  const editableForm = Form.useFormInstance();
 
   // Force render expand row if expanded before
   const expandedRef = React.useRef(false);
@@ -129,10 +124,6 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
   const expandedClsName = computedExpandedClassName(expandedRowClassName, record, index, indent);
 
   const isEditing = editingRowKey === rowKey;
-  const renderAction = React.useMemo<ColumnRenderActionType>(
-    () => ({ startEdit: () => startEdit(rowKey, editableForm) }),
-    [rowKey, editableForm, startEdit],
-  );
 
   // ======================== Base tr row ========================
   const baseRowNode = (
@@ -199,8 +190,6 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
             editable={editable}
             editing={isEditing}
             cellTitle={title as React.ReactNode}
-            renderAction={renderAction}
-            actionRender={actionRender}
           />
         );
       })}

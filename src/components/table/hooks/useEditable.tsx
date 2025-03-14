@@ -6,7 +6,6 @@ import type { AnyObject } from '@util/type';
 import { useEvent } from 'rc-util';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { merge } from 'rc-util/lib/utils/set';
-import type { FormInstance } from '../../form';
 import Form from '../../form';
 import { useLocale } from '../../locale';
 import message from '../../message';
@@ -236,19 +235,19 @@ function useEditable<RecordType extends AnyObject>(
     customActionRender as EditableActionRenderFunction<RecordType>,
   );
 
-  const startEdit = useEvent((recordKey: Key, form?: FormInstance) => {
+  const startEdit = useEvent((recordKey: Key) => {
     if (!isNil(editingRowKey) && editingRowKey !== recordKey) {
       message.warning(locale.editable?.editingAlertMessage);
       return false;
     }
 
-    form?.setFieldsValue(props.getRecordByKey(recordKey));
+    props.form?.setFieldsValue(props.getRecordByKey(recordKey));
     setEditingRowKey(recordKey);
 
     return true;
   });
 
-  const cancelEdit = useEvent(async () => {
+  const cancelEdit = useEvent(() => {
     if (!isNil(editingRowKey)) {
       setEditingRowKey(undefined);
       return true;
@@ -273,7 +272,7 @@ function useEditable<RecordType extends AnyObject>(
     return res;
   });
 
-  const actionRender = useEvent((record: RecordType, index: number) => {
+  const editingActionRender = useEvent((record: RecordType, index: number) => {
     const renderResult = defaultActionRender<RecordType>(record, index, {
       saveText: locale.editable?.saveText,
       cancelText: locale.editable?.cancelText,
@@ -297,7 +296,7 @@ function useEditable<RecordType extends AnyObject>(
   return {
     editingRowKey,
     setEditingRowKey,
-    actionRender,
+    editingActionRender,
     startEdit,
     cancelEdit,
   };

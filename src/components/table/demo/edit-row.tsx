@@ -43,13 +43,13 @@ const columns: TableProps<DataType>['columns'] = [
       }
       return { rules: index > 1 ? [{ required: true }] : [] };
     },
-    width: 180,
+    width: 160,
   },
   {
     title: 'Price',
     dataIndex: 'price',
     valueType: 'money',
-    width: 150,
+    width: 140,
   },
   {
     title: 'State',
@@ -65,7 +65,7 @@ const columns: TableProps<DataType>['columns'] = [
         status: 'success',
       },
     },
-    width: 160,
+    width: 150,
   },
   {
     title: 'Description',
@@ -75,14 +75,14 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'CreatedAt',
     dataIndex: 'createdAt',
     valueType: 'date',
-    width: 180,
+    width: 160,
   },
   {
-    title: 'Action',
+    title: 'Actions',
     dataIndex: 'action',
     valueType: 'action',
-    render: (_, __, ___, action) => [
-      <a key="edit" onClick={() => action.startEdit()}>
+    render: (_, record, __, action) => [
+      <a key="edit" onClick={() => action.startEdit(record.key)}>
         Edit
       </a>,
       <a key="delete">Delete</a>,

@@ -33,7 +33,7 @@ export type ScrollConfig = {
 export type Reference = {
   nativeElement: HTMLDivElement;
   scrollTo: (config: ScrollConfig) => void;
-};
+} & TableActionType;
 
 export type GetPopupContainer = (triggerNode: HTMLElement) => HTMLElement;
 
@@ -238,8 +238,9 @@ export type ColumnEditable<
       index: number,
     ) => boolean | ColumnEditableConfig<RecordType, ValueType>);
 
-export type ColumnRenderActionType = {
-  startEdit: () => boolean;
+export type TableActionType = {
+  startEdit: (key: Key) => boolean;
+  cancelEdit: (key: Key) => boolean;
 };
 
 export type ColumnValueTypeWithEditable<RecordType extends AnyObject> =
@@ -274,7 +275,7 @@ export type ColumnType<RecordType extends AnyObject> = {
     value: any,
     record: RecordType,
     index: number,
-    action: ColumnRenderActionType,
+    action: TableActionType,
   ) => React.ReactNode;
   shouldCellUpdate?: (record: RecordType, prevRecord: RecordType) => boolean;
   rowSpan?: number;
