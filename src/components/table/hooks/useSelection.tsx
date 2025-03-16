@@ -423,7 +423,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             <div
               className={clsx(
                 `${prefixCls}-selection-extra`,
-                'absolute left-[1.125rem] top-1/2 z-[1] -translate-y-1/2 cursor-pointer',
+                'absolute right-1 top-1/2 z-[1] -translate-y-1/2 translate-x-full cursor-pointer',
               )}
             >
               <Dropdown
@@ -498,7 +498,8 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             <div
               className={clsx(
                 `${prefixCls}-selection-option`,
-                'absolute right-0 top-1/2 z-[1] -translate-y-1/2 translate-x-full pe-2 ps-4',
+                'absolute right-0 top-1/2 z-[1] -translate-y-1/2 translate-x-full pe-2 ps-3',
+                { 'ps-2': size === 'middle' || size === 'small' },
               )}
             >
               {optionRender({
@@ -517,9 +518,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           );
         }
 
-        title = !hideSelectAll && (
-          <div className={clsx(`${prefixCls}-selection`, 'relative inline-flex align-text-top')}>
-            {!hideSelectAll && [columnTitleCheckbox, customizeSelections]}
+        title = (
+          <div className={clsx(`${prefixCls}-selection`, 'inline-flex align-text-top')}>
+            {!hideSelectAll && columnTitleCheckbox}
+            {!hideSelectAll && customizeSelections}
             {selectedOptionNode}
           </div>
         );
