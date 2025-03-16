@@ -1,6 +1,6 @@
 import React from 'react';
 import type { TableColumnsType, TableProps } from 'metis-ui';
-import { Space, Table } from 'metis-ui';
+import { Button, Space, Table } from 'metis-ui';
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
@@ -31,11 +31,12 @@ const App: React.FC = () => {
 
   const rowSelection: TableRowSelection<DataType> = {
     onChange: onSelectChange,
-    alert: true,
-    alertOptionRender: () => (
-      <Space size={16}>
-        <a>Delete all</a>
-        <a>Export</a>
+    optionRender: ({ selectedRowKeys, clearSelected }) => (
+      <Space size={8}>
+        <Button size="mini" onClick={clearSelected}>
+          Clear all
+        </Button>
+        <Button size="mini">Delete {selectedRowKeys.length} items</Button>
       </Space>
     ),
   };

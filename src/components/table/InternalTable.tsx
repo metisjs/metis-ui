@@ -74,6 +74,7 @@ import type {
   TablePaginationConfig,
   TableRowSelection,
   TableSticky,
+  ToolbarConfig,
 } from './interface';
 import StickyScrollBar from './StickyScrollBar';
 import { validateValue } from './utils/valueUtil';
@@ -155,6 +156,9 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   sortDirections?: SortOrder[];
   showSorterTooltip?: boolean | SorterTooltipProps;
   virtual?: boolean;
+
+  // Toolbar
+  toolbar?: ToolbarConfig;
 
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
@@ -433,7 +437,7 @@ function InternalTable<RecordType extends AnyObject>(
   });
 
   // ====================== Selection ======================
-  const [transformSelectionColumns, selectedKeySet, renderSelectionAlert] = useSelection(
+  const [transformSelectionColumns, selectedKeySet] = useSelection(
     {
       prefixCls,
       data: mergedDataSource,
@@ -681,6 +685,16 @@ function InternalTable<RecordType extends AnyObject>(
     () => ({
       startEdit,
       cancelEdit,
+      fullScreen: () => {
+        if (!containerRef?.current || !document.fullscreenEnabled) {
+          return;
+        }
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          containerRef?.current.requestFullscreen();
+        }
+      },
     }),
     [startEdit, cancelEdit],
   );
@@ -1001,21 +1015,10 @@ function InternalTable<RecordType extends AnyObject>(
   }
 
   let fullTable = (
-    <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
-      {renderSelectionAlert()}
-      <Spin spinning={requestLoading} {...spinProps}>
-        {topPaginationNode}
-        <div ref={containerRef} className={containerCls}>
-          {groupTableNode}
-        </div>
-        {bottomPaginationNode}
-      </Spin>
+    <div ref={containerRef} className={containerCls}>
+      {groupTableNode}
     </div>
   );
-
-  if (horizonScroll) {
-    fullTable = <ResizeObserver onResize={onFullTableResize}>{fullTable}</ResizeObserver>;
-  }
 
   if (editable) {
     const formSize = mergedSize === 'middle' ? 'small' : mergedSize === 'small' ? 'mini' : 'middle';
@@ -1032,6 +1035,37 @@ function InternalTable<RecordType extends AnyObject>(
         {fullTable}
       </Form>
     );
+  }
+
+  fullTable = (
+    <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
+      <Spin spinning={requestLoading} {...spinProps}>
+        {topPaginationNode}
+        {fullTable}
+        {bottomPaginationNode}
+      </Spin>
+    </div>
+  );
+
+  if (editable) {
+    const formSize = mergedSize === 'middle' ? 'small' : mergedSize === 'small' ? 'mini' : 'middle';
+    fullTable = (
+      <Form
+        requiredMark={false}
+        errorPopover
+        colon={false}
+        form={mergedEditForm}
+        size={formSize}
+        {...editable.formProps}
+        preserve
+      >
+        {fullTable}
+      </Form>
+    );
+  }
+
+  if (horizonScroll) {
+    fullTable = <ResizeObserver onResize={onFullTableResize}>{fullTable}</ResizeObserver>;
   }
 
   const TableContextValue = React.useMemo<TableContextProps<RecordType>>(

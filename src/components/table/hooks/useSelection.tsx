@@ -14,7 +14,6 @@ import type { DataNode, GetCheckDisabled } from '../../tree/interface';
 import { conductCheck } from '../../tree/utils/conductUtil';
 import { arrAdd, arrDel } from '../../tree/utils/miscUtil';
 import { convertDataToEntities } from '../../tree/utils/treeUtil';
-import TableAlert from '../Alert';
 import {
   INTERNAL_COL_DEFINE,
   SELECTION_ALL,
@@ -75,11 +74,7 @@ const flattenData = <RecordType extends AnyObject = AnyObject>(
 const useSelection = <RecordType extends AnyObject = AnyObject>(
   config: UseSelectionConfig<RecordType>,
   rowSelection?: TableRowSelection<RecordType>,
-): readonly [
-  (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
-  Set<Key>,
-  () => React.ReactNode,
-] => {
+): readonly [(columns: ColumnsType<RecordType>) => ColumnsType<RecordType>, Set<Key>] => {
   const {
     preserveSelectedRowKeys = true,
     selectedRowKeys,
@@ -94,9 +89,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     cellRender: customizeCellRender,
     hideSelectAll,
     checkStrictly = true,
-    alert,
-    alertInfoRender,
-    alertOptionRender,
+    optionRender,
   } = rowSelection || {};
 
   const {
@@ -485,10 +478,49 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           />
         );
 
+        let selectedOptionNode: React.ReactNode;
+        if (optionRender && derivedSelectedKeys.length) {
+          let selectedRows: RecordType[] = [];
+          if (preserveSelectedRowKeys) {
+            selectedRows = derivedSelectedKeys.map((key) => preserveRecordsRef.current.get(key)!);
+          } else {
+            selectedRows = [];
+
+            derivedSelectedKeys.forEach((key) => {
+              const record = getRecordByKey(key);
+              if (record !== undefined) {
+                selectedRows.push(record);
+              }
+            });
+          }
+
+          selectedOptionNode = (
+            <div
+              className={clsx(
+                `${prefixCls}-selection-option`,
+                'absolute right-0 top-1/2 z-[1] -translate-y-1/2 translate-x-full pe-2 ps-4',
+              )}
+            >
+              {optionRender({
+                selectedRowKeys: derivedSelectedKeys,
+                selectedRows: selectedRows,
+                clearSelected: () =>
+                  setSelectedKeys(
+                    Array.from(derivedSelectedKeySet).filter((key) => {
+                      const checkProps = checkboxPropsMap.get(key);
+                      return checkProps?.disabled;
+                    }),
+                    'none',
+                  ),
+              })}
+            </div>
+          );
+        }
+
         title = !hideSelectAll && (
           <div className={clsx(`${prefixCls}-selection`, 'relative inline-flex align-text-top')}>
-            {columnTitleCheckbox}
-            {customizeSelections}
+            {!hideSelectAll && [columnTitleCheckbox, customizeSelections]}
+            {selectedOptionNode}
           </div>
         );
       }
@@ -754,55 +786,12 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       isCheckboxDisabled,
       verticalLine,
       size,
+      optionRender,
+      getRecordByKey,
     ],
   );
 
-  const renderAlert = useCallback(() => {
-    if (!alert) return null;
-
-    let selectedRows: RecordType[] = [];
-    if (preserveSelectedRowKeys) {
-      selectedRows = mergedSelectedKeys.map((key) => preserveRecordsRef.current.get(key)!);
-    } else {
-      selectedRows = [];
-
-      mergedSelectedKeys.forEach((key) => {
-        const record = getRecordByKey(key);
-        if (record !== undefined) {
-          selectedRows.push(record);
-        }
-      });
-    }
-    return (
-      <TableAlert
-        prefixCls={prefixCls}
-        locale={tableLocale}
-        selectedRowKeys={mergedSelectedKeys}
-        selectedRows={selectedRows}
-        alwaysShowAlert={alert === 'always'}
-        alertInfoRender={alertInfoRender}
-        alertOptionRender={alertOptionRender}
-        onClearSelected={() => {
-          setSelectedKeys(
-            Array.from(derivedSelectedKeySet).filter((key) => {
-              const checkProps = checkboxPropsMap.get(key);
-              return checkProps?.disabled;
-            }),
-            'none',
-          );
-        }}
-      />
-    );
-  }, [
-    alert,
-    alertInfoRender,
-    alertOptionRender,
-    mergedSelectedKeys,
-    derivedSelectedKeySet,
-    checkboxPropsMap,
-  ]);
-
-  return [transformColumns, derivedSelectedKeySet, renderAlert] as const;
+  return [transformColumns, derivedSelectedKeySet] as const;
 };
 
 export default useSelection;
