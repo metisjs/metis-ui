@@ -1,8 +1,9 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { AnyObject, RequestConfig } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
+import { useEvent } from 'rc-util';
 import { ConfigContext } from '../../config-provider';
 import { useLocale } from '../../locale';
 import type { FilterValue, SorterResult, TablePaginationConfig } from '../interface';
@@ -20,6 +21,7 @@ type RequestProps<RecordType extends AnyObject> = {
   childrenColumnName: keyof RecordType;
   pagination: TablePaginationConfig;
   request?: RequestConfig<RecordType, any[]>;
+  resetPagination: () => void;
 };
 
 export default function <RecordType extends AnyObject>({
@@ -31,6 +33,7 @@ export default function <RecordType extends AnyObject>({
   sortStates,
   childrenColumnName,
   pagination,
+  resetPagination,
 }: RequestProps<RecordType>) {
   const warning = devUseWarning('Table');
 
@@ -59,7 +62,7 @@ export default function <RecordType extends AnyObject>({
 
   const isPaginationActive = Object.keys(pagination).length > 0;
 
-  const { loading } = useRequest(
+  const { loading, refresh, cancel } = useRequest(
     async (...defaultParams: any[]) => {
       let firstParam: Record<string, any> | undefined = undefined;
 
@@ -158,5 +161,18 @@ export default function <RecordType extends AnyObject>({
     getFilterData,
   ]);
 
-  return [loading, mergedDataSource, pageData, mergedTotal, setFinalData] as const;
+  const reload = useEvent((resetPageIndex?: boolean) => {
+    if (!request) return;
+
+    cancel();
+
+    if (resetPageIndex) {
+      resetPagination();
+      return;
+    }
+
+    refresh();
+  });
+
+  return [loading, mergedDataSource, pageData, mergedTotal, setFinalData, reload] as const;
 }

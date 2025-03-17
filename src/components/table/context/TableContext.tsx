@@ -1,6 +1,7 @@
 import { createContext, createImmutable } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
 import type {
+  ColumnState,
   ColumnsType,
   ColumnType,
   ExpandableType,
@@ -39,6 +40,8 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   verticalLine?: boolean;
   tableKey: string;
   tableAction: TableActionType;
+  columnStateMap: Record<Key, ColumnState>;
+  setColumnStateMap: (value: Record<Key, ColumnState>) => void;
 
   // Body
   rowClassName?: string | RowClassName<RecordType>;

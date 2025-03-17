@@ -17,7 +17,6 @@ interface DataType {
 }
 
 const statusEnum = {
-  all: { label: 'All', status: 'default' },
   running: { label: 'Running', status: 'processing' },
   online: { label: 'Online', status: 'success' },
   error: { label: 'Error', status: 'error' },

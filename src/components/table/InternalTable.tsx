@@ -5,6 +5,7 @@ import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
 import type { SizeInfo } from 'rc-resize-observer';
 import ResizeObserver from 'rc-resize-observer';
+import { useMergedState } from 'rc-util';
 import { getDOM } from 'rc-util/lib/Dom/findDOMNode';
 import isVisible from 'rc-util/lib/Dom/isVisible';
 import useEvent from 'rc-util/lib/hooks/useEvent';
@@ -46,6 +47,8 @@ import useSelection from './hooks/useSelection';
 import useSorter, { type SortState } from './hooks/useSorter';
 import useSticky from './hooks/useSticky';
 import type {
+  ColumnState,
+  ColumnStateType,
   ColumnsType,
   ColumnTitleProps,
   ColumnType,
@@ -57,6 +60,7 @@ import type {
   GetComponentProps,
   GetPopupContainer,
   GetRowKey,
+  Key,
   Reference,
   RowClassName,
   ScrollOffset,
@@ -77,7 +81,8 @@ import type {
   ToolbarConfig,
 } from './interface';
 import StickyScrollBar from './StickyScrollBar';
-import { validateValue } from './utils/valueUtil';
+import ToolBar from './Toolbar';
+import { getColumnsKey, validateValue } from './utils/valueUtil';
 
 const EMPTY_LIST: any = [];
 
@@ -160,6 +165,9 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   // Toolbar
   toolbar?: ToolbarConfig;
 
+  // ColumnsState
+  columnsState?: ColumnStateType;
+
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
 } & (
@@ -199,6 +207,7 @@ function InternalTable<RecordType extends AnyObject>(
     scroll,
     tableLayout,
     columns,
+    headerTitle,
 
     expandable,
     rowSelection,
@@ -228,6 +237,10 @@ function InternalTable<RecordType extends AnyObject>(
 
     request,
     editable,
+
+    toolbar,
+
+    columnsState,
 
     children,
   } = props;
@@ -283,6 +296,58 @@ function InternalTable<RecordType extends AnyObject>(
   }, [rowKey]);
 
   const customizeScrollBody = getComponent(['body']) as CustomizeScrollBody<RecordType>;
+
+  const tableKey = React.useMemo(() => {
+    if (columnsState?.persistenceKey) {
+      return columnsState?.persistenceKey;
+    }
+
+    return getColumnsKey(columns ?? []).join('!_!');
+  }, [columns, columnsState?.persistenceKey]);
+
+  // ====================== ColumnsState =======================
+  // const defaultColumnKeyMap = React.useMemo(() => {
+  //   if (props?.columnsState?.defaultValue) return props.columnsState.defaultValue;
+  //   const columnKeyMap = {} as Record<string, any>;
+  //   props.columns?.forEach(({ key, dataIndex, fixed, disable }, index) => {
+  //     const columnKey = genColumnKey(key ?? (dataIndex as React.Key), index);
+  //     if (columnKey) {
+  //       columnKeyMap[columnKey] = {
+  //         show: true,
+  //         fixed,
+  //         disable,
+  //       };
+  //     }
+  //   });
+  //   return columnKeyMap;
+  // }, [props.columns]);
+
+  const onColumnStateChange = () => {};
+
+  const [columnStateMap, setColumnStateMap] = useMergedState<Record<Key, ColumnState>>(
+    () => {
+      const { persistenceType = 'localStorage', persistenceKey } = columnsState || {};
+
+      if (persistenceKey && persistenceType && typeof window !== 'undefined') {
+        const storage = window[persistenceType];
+        try {
+          const storageValue = storage?.getItem(persistenceKey);
+          if (storageValue) {
+            if (columnsState?.defaultValue) {
+              return merge({}, columnsState?.defaultValue, JSON.parse(storageValue));
+            }
+            return JSON.parse(storageValue);
+          }
+        } catch (error) {
+          console.warn(error);
+        }
+      }
+      return columnsState?.value || columnsState?.defaultValue;
+    },
+    {
+      onChange: onColumnStateChange,
+    },
+  );
 
   // ====================== Hover =======================
   const [startRow, endRow, onHover] = useHover();
@@ -389,7 +454,7 @@ function InternalTable<RecordType extends AnyObject>(
   changeEventInfo.resetPagination = resetPagination;
 
   // ========================== Request ==========================
-  const [requestLoading, mergedDataSource, pageData, total, setDataSource] = useRequest({
+  const [requestLoading, mergedDataSource, pageData, total, setDataSource, reload] = useRequest({
     request,
     dataSource,
     filters: changeEventInfo.filters!,
@@ -398,6 +463,9 @@ function InternalTable<RecordType extends AnyObject>(
     sortStates,
     childrenColumnName,
     pagination: changeEventInfo.pagination!,
+    resetPagination: () => {
+      triggerOnChange({}, 'paginate', true);
+    },
   });
 
   mergedPagination.total = total;
@@ -683,20 +751,21 @@ function InternalTable<RecordType extends AnyObject>(
 
   const tableAction = React.useMemo<TableActionType>(
     () => ({
-      startEdit,
-      cancelEdit,
+      reload,
       fullScreen: () => {
-        if (!containerRef?.current || !document.fullscreenEnabled) {
+        if (!fullTableRef?.current || !document.fullscreenEnabled) {
           return;
         }
         if (document.fullscreenElement) {
           document.exitFullscreen();
         } else {
-          containerRef?.current.requestFullscreen();
+          fullTableRef?.current.requestFullscreen();
         }
       },
+      startEdit,
+      cancelEdit,
     }),
-    [startEdit, cancelEdit],
+    [reload, startEdit, cancelEdit],
   );
 
   React.useImperativeHandle(ref, () => {
@@ -721,7 +790,7 @@ function InternalTable<RecordType extends AnyObject>(
       [`${prefixCls}-has-ping-left`]: hasPingLeft,
       [`${prefixCls}-has-ping-right`]: hasPingRight,
     },
-    'max-w-full bg-container text-sm text-text',
+    'max-w-full bg-container text-sm text-text [&:fullscreen]:p-6',
     className,
   );
 
@@ -1037,8 +1106,29 @@ function InternalTable<RecordType extends AnyObject>(
     );
   }
 
+  const toolbarDom = React.useMemo(() => {
+    if (!toolbar && !headerTitle) {
+      return null;
+    }
+
+    const toolbarConfig = typeof toolbar === 'function' ? toolbar(tableAction) : toolbar;
+    const toolbarProps = Array.isArray(toolbarConfig) ? { actions: toolbarConfig } : toolbarConfig;
+
+    return (
+      <ToolBar<RecordType>
+        prefixCls={prefixCls}
+        headerTitle={headerTitle}
+        columns={mergedColumns}
+        tableAction={tableAction}
+        tableLocale={tableLocale}
+        {...toolbarProps}
+      />
+    );
+  }, [headerTitle, mergedColumns, toolbar]);
+
   fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
+      {toolbarDom}
       <Spin spinning={requestLoading} {...spinProps}>
         {topPaginationNode}
         {fullTable}
@@ -1081,8 +1171,10 @@ function InternalTable<RecordType extends AnyObject>(
       selectedRowKeys: selectedKeySet,
       size: mergedSize,
       verticalLine,
-      tableKey: columnsKey.join('@#@'),
+      tableKey,
       tableAction,
+      columnStateMap,
+      setColumnStateMap,
 
       componentWidth,
       fixHeader,
@@ -1137,6 +1229,9 @@ function InternalTable<RecordType extends AnyObject>(
       mergedSize,
       verticalLine,
       tableAction,
+      tableKey,
+      columnStateMap,
+      setColumnStateMap,
 
       componentWidth,
       fixHeader,

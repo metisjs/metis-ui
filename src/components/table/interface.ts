@@ -13,10 +13,12 @@ import type {
   FieldValueType,
   FieldValueTypeWithFieldProps,
 } from '../form/interface';
+import type { InputProps } from '../input';
 import type { PaginationProps } from '../pagination';
 import type { ScrollbarProps, ScrollbarRef } from '../scrollbar';
 import type { TooltipProps } from '../tooltip';
 import type { InternalSelectionItem } from './hooks/useSelection';
+import type { ToolBarProps } from './Toolbar';
 
 export type Key = SafeKey;
 
@@ -239,6 +241,8 @@ export type ColumnEditable<
     ) => boolean | ColumnEditableConfig<RecordType, ValueType>);
 
 export type TableActionType = {
+  reload: (resetPageIndex?: boolean) => void;
+  fullScreen: () => void;
   startEdit: (key: Key) => boolean;
   cancelEdit: (key: Key) => boolean;
 };
@@ -431,12 +435,6 @@ export interface SelectionItem {
   onSelect?: SelectionItemSelectFn;
 }
 
-export type SelectionAlertRenderType<T extends AnyObject = AnyObject> = (props: {
-  selectedRowKeys: Key[];
-  selectedRows: T[];
-  onClearSelected: () => void;
-}) => React.ReactNode;
-
 export interface TableRowSelection<T extends AnyObject = AnyObject> {
   /** Keep the selection keys in list even the key not exist in `dataSource` anymore */
   preserveSelectedRowKeys?: boolean;
@@ -459,9 +457,11 @@ export interface TableRowSelection<T extends AnyObject = AnyObject> {
     originNode: React.ReactNode,
   ) => React.ReactNode;
   onCell?: GetComponentProps<T>;
-  alert?: boolean | 'always';
-  alertInfoRender?: SelectionAlertRenderType<T>;
-  alertOptionRender?: SelectionAlertRenderType<T>;
+  optionRender?: (props: {
+    selectedRowKeys: Key[];
+    selectedRows: T[];
+    clearSelected: () => void;
+  }) => React.ReactNode;
 }
 
 // =================== Locale ===================
@@ -479,9 +479,6 @@ export interface TableLocale {
     selectInvert?: React.ReactNode;
     selectNone?: React.ReactNode;
     selectionAll?: React.ReactNode;
-    alertSelected?: React.ReactNode;
-    alertSelectedItems?: React.ReactNode;
-    alertSelectedClear?: React.ReactNode;
   };
   expand?: string;
   collapse?: string;
@@ -494,6 +491,15 @@ export interface TableLocale {
     saveText?: string;
     cancelText?: string;
     editingAlertMessage?: React.ReactNode;
+  };
+  toolbar?: {
+    reload?: string;
+    setting?: string;
+    fullscreen?: string;
+    exitFullscreen?: string;
+    leftPin?: string;
+    noPin?: string;
+    rightPin?: string;
   };
 }
 
@@ -558,4 +564,74 @@ export type TableEditableConfig<RecordType extends AnyObject> = {
   onChange?: (editingRowKey?: Key, editingRecord?: RecordType) => void;
   actionRender?: EditableActionRenderFunction<RecordType>;
   onSave?: (record: RecordType, index: number) => Promise<any | void>;
+};
+
+export type OptionSearchProps = Omit<InputProps, 'onSearch'> & {
+  /** 如果 onSearch 返回一个false，直接拦截请求 */
+  onSearch?: (keyword: string) => Promise<boolean | undefined> | boolean | undefined;
+};
+
+export type SettingOptionType = {
+  draggable?: boolean;
+  checkable?: boolean;
+  showListItemOption?: boolean;
+  checkedReset?: boolean;
+  listsHeight?: number;
+  extra?: React.ReactNode;
+  children?: React.ReactNode;
+  settingIcon?: React.ReactNode;
+};
+
+export type OptionConfig = {
+  fullScreen?: OptionsType;
+  reload?: OptionsType;
+  setting?: boolean | SettingOptionType;
+  search?: (OptionSearchProps & { name?: string }) | boolean;
+  reloadIcon?: React.ReactNode;
+  fullScreenIcon?: React.ReactNode;
+  settingIcon?: React.ReactNode;
+};
+
+export type OptionsFunctionType = (
+  e: React.MouseEvent<HTMLSpanElement>,
+  action?: TableActionType,
+) => void;
+
+export type OptionsType = OptionsFunctionType | boolean;
+
+export type ToolbarConfig =
+  | React.ReactNode[] // as actions
+  | {
+      search?: OptionSearchProps | React.ReactNode | boolean;
+      actions?: React.ReactNode[];
+      options?: OptionConfig | boolean;
+      optionsRender?: ToolBarProps['optionsRender'];
+    }
+  | ((actions: TableActionType) =>
+      | React.ReactNode[]
+      | {
+          search?: OptionSearchProps | React.ReactNode | boolean;
+          actions?: React.ReactNode[];
+          options?: OptionConfig;
+          optionsRender?: ToolBarProps['optionsRender'];
+        });
+
+export type ColumnStateType = {
+  /**
+   * 持久化的类型，支持 localStorage 和 sessionStorage
+   */
+  persistenceType?: 'localStorage' | 'sessionStorage';
+  /** 持久化的key，用于存储到 storage 中 */
+  persistenceKey?: string;
+};
+
+export type ColumnState = {
+  show?: boolean;
+  fixed?: 'right' | 'left' | undefined;
+  order?: number;
+  disable?:
+    | boolean
+    | {
+        checkbox: boolean;
+      };
 };

@@ -41,7 +41,6 @@ const columns: TableProps<DataType>['columns'] = [
   },
   {
     title: 'Action',
-    key: 'action',
     valueType: 'action',
     render: (_, record) => [<a key="invite">Invite {record.name}</a>, <a key="del">Delete</a>],
   },
@@ -71,6 +70,29 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} />;
+const fetchData = () => {
+  return new Promise<{ data: DataType[]; total: number }>((resolve) => {
+    setTimeout(() => {
+      resolve({ data: data, total: 3 });
+    }, 500);
+  });
+};
+
+const App: React.FC = () => (
+  <Table<DataType>
+    headerTitle="Users"
+    columns={columns}
+    request={fetchData}
+    toolbar={{
+      actions: [
+        <Button key="add" type="primary">
+          Add user
+        </Button>,
+      ],
+      options: true,
+      search: true,
+    }}
+  />
+);
 
 export default App;
