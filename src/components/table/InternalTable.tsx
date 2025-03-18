@@ -5,7 +5,6 @@ import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
 import type { SizeInfo } from 'rc-resize-observer';
 import ResizeObserver from 'rc-resize-observer';
-import { useMergedState } from 'rc-util';
 import { getDOM } from 'rc-util/lib/Dom/findDOMNode';
 import isVisible from 'rc-util/lib/Dom/isVisible';
 import useEvent from 'rc-util/lib/hooks/useEvent';
@@ -33,6 +32,7 @@ import type { SummaryProps } from './Footer/Summary';
 import Summary from './Footer/Summary';
 import Header from './Header/Header';
 import useColumns from './hooks/useColumns';
+import useColumnsState from './hooks/useColumnsState';
 import useEditable from './hooks/useEditable';
 import useExpand from './hooks/useExpand';
 import type { FilterConfig } from './hooks/useFilter';
@@ -47,11 +47,9 @@ import useSelection from './hooks/useSelection';
 import useSorter, { type SortState } from './hooks/useSorter';
 import useSticky from './hooks/useSticky';
 import type {
-  ColumnState,
   ColumnStateType,
   ColumnsType,
   ColumnTitleProps,
-  ColumnType,
   CustomizeScrollBody,
   ExpandableConfig,
   ExpandableType,
@@ -60,7 +58,8 @@ import type {
   GetComponentProps,
   GetPopupContainer,
   GetRowKey,
-  Key,
+  InternalColumnsType,
+  InternalColumnType,
   Reference,
   RowClassName,
   ScrollOffset,
@@ -138,7 +137,7 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   showHeader?: boolean;
   components?: TableComponents<RecordType>;
   onRow?: GetComponentProps<RecordType>;
-  onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
+  onHeaderRow?: GetComponentProps<readonly InternalColumnType<RecordType>[]>;
 
   sticky?: boolean | TableSticky;
 
@@ -304,50 +303,6 @@ function InternalTable<RecordType extends AnyObject>(
 
     return getColumnsKey(columns ?? []).join('!_!');
   }, [columns, columnsState?.persistenceKey]);
-
-  // ====================== ColumnsState =======================
-  // const defaultColumnKeyMap = React.useMemo(() => {
-  //   if (props?.columnsState?.defaultValue) return props.columnsState.defaultValue;
-  //   const columnKeyMap = {} as Record<string, any>;
-  //   props.columns?.forEach(({ key, dataIndex, fixed, disable }, index) => {
-  //     const columnKey = genColumnKey(key ?? (dataIndex as React.Key), index);
-  //     if (columnKey) {
-  //       columnKeyMap[columnKey] = {
-  //         show: true,
-  //         fixed,
-  //         disable,
-  //       };
-  //     }
-  //   });
-  //   return columnKeyMap;
-  // }, [props.columns]);
-
-  const onColumnStateChange = () => {};
-
-  const [columnStateMap, setColumnStateMap] = useMergedState<Record<Key, ColumnState>>(
-    () => {
-      const { persistenceType = 'localStorage', persistenceKey } = columnsState || {};
-
-      if (persistenceKey && persistenceType && typeof window !== 'undefined') {
-        const storage = window[persistenceType];
-        try {
-          const storageValue = storage?.getItem(persistenceKey);
-          if (storageValue) {
-            if (columnsState?.defaultValue) {
-              return merge({}, columnsState?.defaultValue, JSON.parse(storageValue));
-            }
-            return JSON.parse(storageValue);
-          }
-        } catch (error) {
-          console.warn(error);
-        }
-      }
-      return columnsState?.value || columnsState?.defaultValue;
-    },
-    {
-      onChange: onColumnStateChange,
-    },
-  );
 
   // ====================== Hover =======================
   const [startRow, endRow, onHover] = useHover();
@@ -561,7 +516,7 @@ function InternalTable<RecordType extends AnyObject>(
   }, [sorterTitleProps, filters]);
 
   const transformColumns = React.useCallback(
-    (innerColumns: ColumnsType<RecordType>): ColumnsType<RecordType> =>
+    (innerColumns: InternalColumnsType<RecordType>): InternalColumnsType<RecordType> =>
       transformSelectionColumns(
         transformFilterColumns(transformSorterColumns(transformExpandableColumns(innerColumns))),
       ),
@@ -597,6 +552,12 @@ function InternalTable<RecordType extends AnyObject>(
     }),
     [mergedColumns, flattenColumns],
   );
+
+  // ====================== ColumnsState =======================
+  const [columnStateMap, setColumnStateMap, resetColumnStateMap] = useColumnsState({
+    columns: mergedColumns,
+    columnsState,
+  });
 
   // ====================== Scroll ======================
   const [scrollOffset, setScrollOffset] = React.useState<ScrollOffset>({ left: 0, right: 0 });
@@ -1137,23 +1098,6 @@ function InternalTable<RecordType extends AnyObject>(
     </div>
   );
 
-  if (editable) {
-    const formSize = mergedSize === 'middle' ? 'small' : mergedSize === 'small' ? 'mini' : 'middle';
-    fullTable = (
-      <Form
-        requiredMark={false}
-        errorPopover
-        colon={false}
-        form={mergedEditForm}
-        size={formSize}
-        {...editable.formProps}
-        preserve
-      >
-        {fullTable}
-      </Form>
-    );
-  }
-
   if (horizonScroll) {
     fullTable = <ResizeObserver onResize={onFullTableResize}>{fullTable}</ResizeObserver>;
   }
@@ -1175,6 +1119,7 @@ function InternalTable<RecordType extends AnyObject>(
       tableAction,
       columnStateMap,
       setColumnStateMap,
+      resetColumnStateMap,
 
       componentWidth,
       fixHeader,
@@ -1232,6 +1177,7 @@ function InternalTable<RecordType extends AnyObject>(
       tableKey,
       columnStateMap,
       setColumnStateMap,
+      resetColumnStateMap,
 
       componentWidth,
       fixHeader,

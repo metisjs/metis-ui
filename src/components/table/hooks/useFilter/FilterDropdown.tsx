@@ -12,11 +12,11 @@ import Dropdown from '../../../dropdown';
 import { OverrideProvider } from '../../../menu/context/OverrideContext';
 import type {
   ColumnFilterItem,
-  ColumnType,
   FilterKey,
   FilterRestProps,
   FilterSearchType,
   GetPopupContainer,
+  InternalColumnType,
   Key,
   TableLocale,
 } from '../../interface';
@@ -27,7 +27,7 @@ export interface FilterDropdownProps<RecordType extends AnyObject = AnyObject> {
   tablePrefixCls: string;
   prefixCls: string;
   dropdownPrefixCls: string;
-  column: ColumnType<RecordType>;
+  column: InternalColumnType<RecordType>;
   filterState?: FilterState<RecordType>;
   filterOnClose: boolean;
   filterMultiple: boolean;
@@ -193,10 +193,16 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
       columnKey={columnKey}
       filter={mergedFilter}
       valueType={
-        column.valueType as Exclude<ColumnType<RecordType>['valueType'], (...args: any[]) => any>
+        column.valueType as Exclude<
+          InternalColumnType<RecordType>['valueType'],
+          (...args: any[]) => any
+        >
       }
       valueEnum={
-        column.valueEnum as Exclude<ColumnType<RecordType>['valueEnum'], (...args: any[]) => any>
+        column.valueEnum as Exclude<
+          InternalColumnType<RecordType>['valueEnum'],
+          (...args: any[]) => any
+        >
       }
       selectedKeys={getFilteredKeysSync()}
       open={mergedOpen}

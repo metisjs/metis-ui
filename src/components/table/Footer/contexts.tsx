@@ -1,8 +1,8 @@
 import * as React from 'react';
 import type { AnyObject } from '@util/type';
-import type { ColumnsPos, ColumnType, ScrollOffset, StickyOffsets } from '../interface';
+import type { ColumnsPos, InternalColumnType, ScrollOffset, StickyOffsets } from '../interface';
 
-type FlattenColumns<RecordType extends AnyObject> = readonly (ColumnType<RecordType> & {
+type FlattenColumns<RecordType extends AnyObject> = readonly (InternalColumnType<RecordType> & {
   scrollbar?: boolean;
 })[];
 

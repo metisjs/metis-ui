@@ -4,23 +4,23 @@ import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
 import type {
   CellType,
-  ColumnGroupType,
   ColumnsPos,
-  ColumnsType,
-  ColumnType,
   GetComponentProps,
+  InternalColumnGroupType,
+  InternalColumnsType,
+  InternalColumnType,
   ScrollOffset,
   StickyOffsets,
 } from '../interface';
 import HeaderRow from './HeaderRow';
 
 function parseHeaderRows<RecordType extends AnyObject>(
-  rootColumns: ColumnsType<RecordType>,
+  rootColumns: InternalColumnsType<RecordType>,
 ): CellType<RecordType>[][] {
   const rows: CellType<RecordType>[][] = [];
 
   function fillRowCells(
-    columns: ColumnsType<RecordType>,
+    columns: InternalColumnsType<RecordType>,
     colIndex: number,
     rowIndex: number = 0,
   ): number[] {
@@ -39,7 +39,7 @@ function parseHeaderRows<RecordType extends AnyObject>(
 
       let colSpan: number = 1;
 
-      const subColumns = (column as ColumnGroupType<RecordType>).children;
+      const subColumns = (column as InternalColumnGroupType<RecordType>).children;
       if (subColumns && subColumns.length > 0) {
         colSpan = fillRowCells(subColumns, currentColIndex, rowIndex + 1).reduce(
           (total, count) => total + count,
@@ -86,12 +86,12 @@ function parseHeaderRows<RecordType extends AnyObject>(
 }
 
 export interface HeaderProps<RecordType extends AnyObject> {
-  columns: ColumnsType<RecordType>;
-  flattenColumns: readonly ColumnType<RecordType>[];
+  columns: InternalColumnsType<RecordType>;
+  flattenColumns: readonly InternalColumnType<RecordType>[];
   stickyOffsets: StickyOffsets;
   scrollOffset: ScrollOffset;
   columnsPos: ColumnsPos;
-  onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
+  onHeaderRow?: GetComponentProps<readonly InternalColumnType<RecordType>[]>;
 }
 
 const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) => {

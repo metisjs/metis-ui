@@ -4,7 +4,7 @@ import { ArrowPathOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import Tooltip from '../../tooltip';
-import type { ColumnsType, OptionConfig, TableActionType, TableLocale } from '../interface';
+import type { InternalColumnsType, OptionConfig, TableActionType, TableLocale } from '../interface';
 import FullscreenButton from './FullscreenButton';
 
 export type ToolBarProps<T extends AnyObject = AnyObject> = {
@@ -15,7 +15,7 @@ export type ToolBarProps<T extends AnyObject = AnyObject> = {
   options?: OptionConfig | boolean;
   optionsRender?: (defaultDom: React.ReactNode[]) => React.ReactNode[];
   onSearch?: (keyWords: string) => void;
-  columns: ColumnsType<T>;
+  columns: InternalColumnsType<T>;
   tableLocale: TableLocale;
 };
 
@@ -23,7 +23,7 @@ function renderDefaultOption<T extends AnyObject = AnyObject>(
   tableLocale: TableLocale,
   options: OptionConfig,
   tableAction: TableActionType,
-  columns: ColumnsType<T>,
+  columns: InternalColumnsType<T>,
 ) {
   return Object.keys(options)
     .filter((item) => item)

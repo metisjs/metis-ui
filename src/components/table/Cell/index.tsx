@@ -8,9 +8,9 @@ import TableContext from '../context/TableContext';
 import type {
   AlignType,
   CellEllipsisType,
-  ColumnType,
   CustomizeComponent,
   DataIndex,
+  InternalColumnType,
   ScopeType,
 } from '../interface';
 import useCellRender from './useCellRender';
@@ -18,7 +18,7 @@ import useHoverState from './useHoverState';
 
 export interface CellProps<RecordType extends AnyObject> {
   prefixCls?: string;
-  className?: ColumnType<RecordType>['className'];
+  className?: InternalColumnType<RecordType>['className'];
   cellKey?: React.Key;
   record: RecordType;
   rowIndex: number;
@@ -30,7 +30,7 @@ export interface CellProps<RecordType extends AnyObject> {
   totalRowCount?: number;
   totalColCount?: number;
   dataIndex?: DataIndex<RecordType>;
-  render?: ColumnType<RecordType>['render'];
+  render?: InternalColumnType<RecordType>['render'];
   component: CustomizeComponent;
   children?: React.ReactNode;
   colSpan?: number;
@@ -58,9 +58,9 @@ export interface CellProps<RecordType extends AnyObject> {
 
   isSticky?: boolean;
 
-  valueType?: ColumnType<RecordType>['valueType'];
-  valueEnum?: ColumnType<RecordType>['valueEnum'];
-  editable?: ColumnType<RecordType>['editable'];
+  valueType?: InternalColumnType<RecordType>['valueType'];
+  valueEnum?: InternalColumnType<RecordType>['valueEnum'];
+  editable?: InternalColumnType<RecordType>['editable'];
   editing?: boolean;
 }
 

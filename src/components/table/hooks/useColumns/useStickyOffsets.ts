@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import type { AnyObject } from '@util/type';
-import type { ColumnType, StickyOffsets } from '../../interface';
+import type { InternalColumnType, StickyOffsets } from '../../interface';
 
 /**
  * Get sticky column offset width
  */
 function useStickyOffsets<RecordType extends AnyObject>(
   colWidths: number[],
-  flattenColumns: readonly ColumnType<RecordType>[],
+  flattenColumns: readonly InternalColumnType<RecordType>[],
 ) {
   const stickyOffsets: StickyOffsets = useMemo(() => {
     const columnCount = flattenColumns.length;

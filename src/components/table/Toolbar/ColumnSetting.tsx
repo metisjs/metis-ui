@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import { closestCenter, DndContext } from '@dnd-kit/core';
+import { restrictToFirstScrollableAncestor, restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Bars3Outline, BarsArrowUpOutline } from '@metisjs/icons';
 import { useContext } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
@@ -11,16 +14,16 @@ import type { CheckInfo, DataNode } from '../../tree/interface';
 import TableContext from '../context/TableContext';
 import type {
   ColumnState,
-  ColumnsType,
-  ColumnType,
+  InternalColumnsType,
+  InternalColumnType,
   Key,
   SettingOptionType,
   TableLocale,
 } from '../interface';
-import { getColumnKey } from '../utils/valueUtil';
+import { getColumnKey, getColumnsKey } from '../utils/valueUtil';
 
 type ColumnSettingProps<T extends AnyObject = AnyObject> = SettingOptionType & {
-  columns: ColumnsType<T>;
+  columns: InternalColumnsType<T>;
 };
 
 const ToolTipIcon: React.FC<{
@@ -105,7 +108,7 @@ const CheckboxListItem: React.FC<{
 };
 
 const CheckboxList: React.FC<{
-  list: (ColumnType<any> & { index?: number })[];
+  list: InternalColumnsType<any>;
   prefixCls: string;
   title: string;
   draggable: boolean;
@@ -123,225 +126,24 @@ const CheckboxList: React.FC<{
   title: listTitle,
   listHeight = 280,
 }) => {
-  const { columnStateMap, setColumnStateMap } = useContext(TableContext, [
+  const { columnStateMap, setColumnStateMap, resetColumnStateMap } = useContext(TableContext, [
     'columnStateMap',
     'setColumnStateMap',
+    'resetColumnStateMap',
   ]);
-  const show = list && list.length > 0;
-  const treeDataConfig = useMemo(() => {
-    if (!show) return {};
-    const checkedKeys: Key[] = [];
-    const treeMap = new Map<Key, DataNode>();
 
-    const loopData = (
-      data: any[],
-      parentConfig?: ColumnState & {
-        columnKey: Key;
-      },
-    ): DataNode[] =>
-      data.map(({ children, ...rest }) => {
-        const columnKey = getColumnKey(
-          rest,
-          [parentConfig?.columnKey, rest.index].filter(Boolean).join('-'),
-        );
-        const config = columnStateMap[columnKey || 'null'] || { show: true };
-        if (config.show !== false && !children) {
-          checkedKeys.push(columnKey);
-        }
+  const handleDragEnd = () => {};
 
-        const item: DataNode = {
-          key: columnKey,
-          ...omit(rest, ['className']),
-          selectable: false,
-          disabled: config.disable === true,
-          disableCheckbox:
-            typeof config.disable === 'boolean' ? config.disable : config.disable?.checkbox,
-          isLeaf: parentConfig ? true : undefined,
-        };
+  const itemKeys = getColumnsKey(list);
 
-        if (children) {
-          item.children = loopData(children, {
-            ...config,
-            columnKey,
-          });
-          // 如果children 已经全部是show了，把自己也设置为show
-          if (
-            item.children?.every((childrenItem) =>
-              checkedKeys?.includes(childrenItem.key as string),
-            )
-          ) {
-            checkedKeys.push(columnKey);
-          }
-        }
-        treeMap.set(columnKey, item);
-        return item;
-      });
-    return { list: loopData(list), keys: checkedKeys, map: treeMap };
-  }, [columnStateMap, list, show]);
-
-  /** 移动到指定的位置 */
-  const move = useEvent((id: React.Key, targetId: React.Key, dropPosition: number) => {
-    const newMap = { ...columnStateMap };
-    const newColumns = [...sortKeyColumns];
-    const findIndex = newColumns.findIndex((columnKey) => columnKey === id);
-    const targetIndex = newColumns.findIndex((columnKey) => columnKey === targetId);
-    const isDownWard = dropPosition >= findIndex;
-    if (findIndex < 0) return;
-    const targetItem = newColumns[findIndex];
-    newColumns.splice(findIndex, 1);
-
-    if (dropPosition === 0) {
-      newColumns.unshift(targetItem);
-    } else {
-      newColumns.splice(isDownWard ? targetIndex : targetIndex + 1, 0, targetItem);
-    }
-    // 重新生成排序数组
-    newColumns.forEach((key, order) => {
-      newMap[key] = { ...(newMap[key] || {}), order };
-    });
-    // 更新数组
-    setColumnStateMap(newMap);
-    setSortKeyColumns(newColumns);
-  });
-
-  /** 选中反选功能 */
-  const onCheckTree = useEvent((info: CheckInfo<any>) => {
-    const newColumnMap = { ...columnStateMap };
-
-    const loopSetShow = (key: Key) => {
-      const newSetting = { ...newColumnMap[key] };
-      newSetting.show = info.checked;
-      // 如果含有子节点，也要选中
-      if (treeDataConfig.map?.get(key)?.children) {
-        treeDataConfig.map.get(key)?.children?.forEach((item) => loopSetShow(item.key as string));
-      }
-      newColumnMap[key] = newSetting;
-    };
-    loopSetShow(info.node.key);
-    setColumnStateMap({ ...newColumnMap });
-  });
-
-  if (!show) {
-    return null;
-  }
-
-  const listDom = (
-    <Tree
-      draggable={draggable && !!treeDataConfig.list?.length && treeDataConfig.list?.length > 1}
-      checkable={checkable}
-      onDrop={(info) => {
-        const dropKey = info.node.key;
-        const dragKey = info.dragNode.key;
-        const { dropPosition, dropToGap } = info;
-        const position = dropPosition === -1 || !dropToGap ? dropPosition + 1 : dropPosition;
-        move(dragKey, dropKey, position);
-      }}
-      onCheck={(_, info) => onCheckTree(info)}
-      checkedKeys={treeDataConfig.keys}
-      showLine={false}
-      titleRender={(_node) => {
-        const node = { ..._node, children: undefined };
-        if (!node.title) return null;
-        const normalizedTitle = runFunction(node.title, node);
-        const wrappedTitle = (
-          <Typography.Text style={{ width: 80 }} ellipsis={{ tooltip: normalizedTitle }}>
-            {normalizedTitle}
-          </Typography.Text>
-        );
-
-        return (
-          <CheckboxListItem
-            prefixCls={prefixCls}
-            {...omit(node, ['key'])}
-            showListItemOption={showListItemOption}
-            title={wrappedTitle}
-            columnKey={node.key as string}
-          />
-        );
-      }}
-      treeData={treeDataConfig.list?.map(
-        ({ disabled /* 不透传 disabled，使子节点禁用时也可以拖动调整顺序 */, ...config }) => config,
-      )}
-      style={{ height: listHeight }}
-    />
-  );
   return (
-    <>
-      {showTitle && <span className={`${className}-list-title ${hashId}`}>{listTitle}</span>}
-      {listDom}
-    </>
-  );
-};
-
-const GroupCheckboxList: React.FC<{
-  localColumns: (ProColumns<any> & { index?: number })[];
-  className?: string;
-  draggable: boolean;
-  checkable: boolean;
-  showListItemOption: boolean;
-  listsHeight?: number;
-}> = ({ localColumns, className, draggable, checkable, showListItemOption, listsHeight }) => {
-  const { hashId } = useContext(ProProvider);
-  const rightList: (ProColumns<any> & { index?: number })[] = [];
-  const leftList: (ProColumns<any> & { index?: number })[] = [];
-  const list: (ProColumns<any> & { index?: number })[] = [];
-  const intl = useIntl();
-
-  localColumns.forEach((item) => {
-    /** 不在 setting 中展示的 */
-    if (item.hideInSetting) {
-      return;
-    }
-    const { fixed } = item;
-    if (fixed === 'left') {
-      leftList.push(item);
-      return;
-    }
-    if (fixed === 'right') {
-      rightList.push(item);
-      return;
-    }
-    list.push(item);
-  });
-
-  const showRight = rightList && rightList.length > 0;
-  const showLeft = leftList && leftList.length > 0;
-  return (
-    <div
-      className={clsx(`${className}-list`, hashId, {
-        [`${className}-list-group`]: showRight || showLeft,
-      })}
+    <DndContext
+      collisionDetection={closestCenter}
+      modifiers={[restrictToVerticalAxis, restrictToFirstScrollableAncestor]}
+      onDragEnd={handleDragEnd}
     >
-      <CheckboxList
-        title={intl.getMessage('tableToolBar.leftFixedTitle', '固定在左侧')}
-        list={leftList}
-        draggable={draggable}
-        checkable={checkable}
-        showListItemOption={showListItemOption}
-        className={className}
-        listHeight={listsHeight}
-      />
-      {/* 如果没有任何固定，不需要显示title */}
-      <CheckboxList
-        list={list}
-        draggable={draggable}
-        checkable={checkable}
-        showListItemOption={showListItemOption}
-        title={intl.getMessage('tableToolBar.noFixedTitle', '不固定')}
-        showTitle={showLeft || showRight}
-        className={className}
-        listHeight={listsHeight}
-      />
-      <CheckboxList
-        title={intl.getMessage('tableToolBar.rightFixedTitle', '固定在右侧')}
-        list={rightList}
-        draggable={draggable}
-        checkable={checkable}
-        showListItemOption={showListItemOption}
-        className={className}
-        listHeight={listsHeight}
-      />
-    </div>
+      <SortableContext items={itemKeys} strategy={verticalListSortingStrategy}></SortableContext>
+    </DndContext>
   );
 };
 

@@ -4,7 +4,7 @@ import type { AnyObject } from '@util/type';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
 import useRowInfo from '../hooks/useRowInfo';
-import type { ColumnType, CustomizeComponent, Key } from '../interface';
+import type { CustomizeComponent, InternalColumnType, Key } from '../interface';
 import { computedExpandedClassName } from '../utils/expandUtil';
 import ExpandedRow from './ExpandedRow';
 
@@ -27,7 +27,7 @@ export interface BodyRowProps<RecordType extends AnyObject> {
 // ==================================================================================
 export function getCellProps<RecordType extends AnyObject>(
   rowInfo: ReturnType<typeof useRowInfo<RecordType>>,
-  column: ColumnType<RecordType>,
+  column: InternalColumnType<RecordType>,
   colIndex: number,
   indent: number,
   index: number,
@@ -143,7 +143,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
       )}
       style={{ ...style, ...rowProps?.style }}
     >
-      {flattenColumns.map((column: ColumnType<RecordType>, colIndex) => {
+      {flattenColumns.map((column: InternalColumnType<RecordType>, colIndex) => {
         const {
           render,
           dataIndex,

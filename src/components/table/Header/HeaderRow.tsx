@@ -7,9 +7,9 @@ import TableContext from '../context/TableContext';
 import type {
   CellType,
   ColumnsPos,
-  ColumnType,
   CustomizeComponent,
   GetComponentProps,
+  InternalColumnType,
   ScrollOffset,
   StickyOffsets,
 } from '../interface';
@@ -21,10 +21,10 @@ export interface RowProps<RecordType extends AnyObject> {
   stickyOffsets: StickyOffsets;
   scrollOffset: ScrollOffset;
   columnsPos: ColumnsPos;
-  flattenColumns: readonly ColumnType<RecordType>[];
+  flattenColumns: readonly InternalColumnType<RecordType>[];
   rowComponent: CustomizeComponent;
   cellComponent: CustomizeComponent;
-  onHeaderRow?: GetComponentProps<readonly ColumnType<RecordType>[]>;
+  onHeaderRow?: GetComponentProps<readonly InternalColumnType<RecordType>[]>;
   index: number;
   totalRowCount?: number;
 }
@@ -72,6 +72,8 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
           additionalProps = column.onHeaderCell(column);
         }
 
+        const cellKey = columnsKey[cellIndex];
+
         return (
           <Cell
             {...cell}
@@ -82,14 +84,14 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
             align={column?.align}
             component={CellComponent}
             prefixCls={prefixCls}
-            key={columnsKey[cellIndex]}
-            cellKey={columnsKey[cellIndex]}
+            key={cellKey}
+            cellKey={cellKey}
             {...fixedInfo}
             additionalProps={additionalProps}
             rowType="header"
             record={null!}
             rowIndex={index}
-            index={cellIndex}
+            index={cell.colStart}
             renderIndex={-1}
             totalRowCount={totalRowCount}
             totalColCount={flattenColumns.length}

@@ -1,9 +1,9 @@
 import type { AnyObject } from '@util/type';
-import type { ColumnType } from '../interface';
+import type { InternalColumnType } from '../interface';
 
 export type ColumnProps<RecordType extends AnyObject> = {
   children?: null;
-} & ColumnType<RecordType>;
+} & InternalColumnType<RecordType>;
 
 /* istanbul ignore next */
 /**

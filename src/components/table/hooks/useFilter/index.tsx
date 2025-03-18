@@ -4,12 +4,12 @@ import type { AnyObject } from '../../../_util/type';
 import { devUseWarning } from '../../../_util/warning';
 import type { FieldValueType } from '../../../form/interface';
 import type {
-  ColumnsType,
   ColumnTitleProps,
-  ColumnType,
   FilterKey,
   FilterValue,
   GetPopupContainer,
+  InternalColumnsType,
+  InternalColumnType,
   Key,
   TableLocale,
 } from '../../interface';
@@ -18,14 +18,14 @@ import { getColumnKey, getColumnPos, renderColumnTitle } from '../../utils/value
 import FilterDropdown from './FilterDropdown';
 
 export interface FilterState<RecordType extends AnyObject = AnyObject> {
-  column: ColumnType<RecordType>;
+  column: InternalColumnType<RecordType>;
   key: Key;
   filteredKeys?: FilterKey;
   forceFiltered?: boolean;
 }
 
 const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
-  columns: ColumnsType<RecordType>,
+  columns: InternalColumnsType<RecordType>,
   init: boolean,
   pos?: string,
 ): FilterState<RecordType>[] => {
@@ -72,19 +72,19 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
 function injectFilter<RecordType extends AnyObject = AnyObject>(
   prefixCls: string,
   dropdownPrefixCls: string,
-  columns: ColumnsType<RecordType>,
+  columns: InternalColumnsType<RecordType>,
   filterStates: FilterState<RecordType>[],
   locale: TableLocale,
   triggerFilter: (filterState: FilterState<RecordType>) => void,
   getPopupContainer?: GetPopupContainer,
   pos?: string,
   rootClassName?: string,
-): ColumnsType<RecordType> {
+): InternalColumnsType<RecordType> {
   return columns.map((column, index) => {
     const columnPos = getColumnPos(index, pos);
     const { triggerOnClose = true, multiple = true, mode, search } = fillFilterProps(column.filter);
 
-    let newColumn: ColumnsType<RecordType>[number] = column;
+    let newColumn: InternalColumnsType<RecordType>[number] = column;
 
     if (isFilterable(column)) {
       const columnKey = getColumnKey(newColumn, columnPos);
@@ -156,7 +156,7 @@ const generateFilterInfo = <RecordType extends AnyObject = AnyObject>(
 export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
   prefixCls: string;
   dropdownPrefixCls: string;
-  columns?: ColumnsType<RecordType>;
+  columns?: InternalColumnsType<RecordType>;
   locale: TableLocale;
   onFilterChange: (
     filters: Record<string, FilterValue>,
@@ -167,8 +167,8 @@ export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
 }
 
 const getMergedColumns = <RecordType extends AnyObject = AnyObject>(
-  rawMergedColumns: ColumnsType<RecordType>,
-): ColumnsType<RecordType> =>
+  rawMergedColumns: InternalColumnsType<RecordType>,
+): InternalColumnsType<RecordType> =>
   rawMergedColumns.flatMap((column) => {
     if ('children' in column) {
       return [column, ...getMergedColumns<RecordType>(column.children || [])];
@@ -179,7 +179,7 @@ const getMergedColumns = <RecordType extends AnyObject = AnyObject>(
 const useFilter = <RecordType extends AnyObject = AnyObject>(
   props: FilterConfig<RecordType>,
 ): [
-  (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
+  (columns: InternalColumnsType<RecordType>) => InternalColumnsType<RecordType>,
   FilterState<RecordType>[],
   Record<string, FilterValue>,
 ] => {
@@ -258,7 +258,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     onFilterChange(generateFilterInfo<RecordType>(newFilterStates), newFilterStates);
   };
 
-  const transformColumns = (innerColumns: ColumnsType<RecordType>) =>
+  const transformColumns = (innerColumns: InternalColumnsType<RecordType>) =>
     injectFilter(
       prefixCls,
       dropdownPrefixCls,

@@ -31,11 +31,11 @@ import TableContext from '../../context/TableContext';
 import type {
   ColumnFilter,
   ColumnFilterItem,
-  ColumnType,
   FilterConfirmProps,
   FilterRestProps,
   FilterSearchType,
   GetPopupContainer,
+  InternalColumnType,
   Key,
   TableLocale,
 } from '../../interface';
@@ -44,7 +44,7 @@ import FilterSearch from './FilterSearch';
 
 type FilterTreeDataNode = FieldDataNode<{ title: React.ReactNode; key: string }>;
 type RawValueType<RecordType extends AnyObject> = Exclude<
-  ColumnType<RecordType>['valueType'],
+  InternalColumnType<RecordType>['valueType'],
   (...args: any[]) => any
 >;
 
@@ -316,7 +316,7 @@ export interface FilterContentProps<RecordType extends AnyObject = AnyObject> {
   columnKey: Key;
   filter: Exclude<ColumnFilter<RecordType>, boolean>;
   valueType?: RawValueType<RecordType>;
-  valueEnum?: Exclude<ColumnType<RecordType>['valueEnum'], (...args: any[]) => any>;
+  valueEnum?: Exclude<InternalColumnType<RecordType>['valueEnum'], (...args: any[]) => any>;
   selectedKeys: Key[];
   open: boolean;
   filterMode?: 'menu' | 'tree';

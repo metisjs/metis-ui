@@ -2,13 +2,13 @@ import { createContext, createImmutable } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
 import type {
   ColumnState,
-  ColumnsType,
-  ColumnType,
   ExpandableType,
   ExpandedRowRender,
   GetComponent,
   GetComponentProps,
   GetRowKey,
+  InternalColumnsType,
+  InternalColumnType,
   Key,
   RenderExpandIcon,
   RowClassName,
@@ -42,6 +42,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   tableAction: TableActionType;
   columnStateMap: Record<Key, ColumnState>;
   setColumnStateMap: (value: Record<Key, ColumnState>) => void;
+  resetColumnStateMap: () => void;
 
   // Body
   rowClassName?: string | RowClassName<RecordType>;
@@ -61,8 +62,8 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   allColumnsFixedLeft: boolean;
 
   // Column
-  columns: ColumnsType<RecordType>;
-  flattenColumns: readonly ColumnType<RecordType>[];
+  columns: InternalColumnsType<RecordType>;
+  flattenColumns: readonly InternalColumnType<RecordType>[];
   onColumnResize: (columnKey: React.Key, width: number) => void;
 
   // Row

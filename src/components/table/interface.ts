@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import type { Breakpoint } from '@util/responsiveObserver';
-import type { AnyObject, RequestConfig, SafeKey } from '@util/type';
+import type { AnyObject, RequestConfig, RequiredWith, SafeKey } from '@util/type';
 import type { DeepNamePath } from 'rc-field-form/lib/namePathType';
 import type { CheckboxProps } from '../checkbox';
 import type { DropdownProps } from '../dropdown';
@@ -67,7 +67,7 @@ export interface ColumnFilterItem {
 }
 
 export interface ColumnTitleProps<RecordType extends AnyObject = AnyObject> {
-  sortColumns?: { column: ColumnType<RecordType>; order: SortOrder }[];
+  sortColumns?: { column: InternalColumnType<RecordType>; order: SortOrder }[];
   filters?: Record<string, FilterValue>;
 }
 
@@ -81,7 +81,7 @@ export interface TableCurrentDataSource<RecordType = AnyObject> {
 }
 
 export interface SorterResult<RecordType extends AnyObject = AnyObject> {
-  column?: ColumnType<RecordType>;
+  column?: InternalColumnType<RecordType>;
   order?: SortOrder;
   field?: Key | readonly Key[];
   columnKey?: Key;
@@ -128,7 +128,7 @@ export interface CellType<RecordType extends AnyObject> {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
-  column?: ColumnsType<RecordType>[number];
+  column?: InternalColumnsType<RecordType>[number];
   colSpan?: number;
   rowSpan?: number;
 
@@ -156,7 +156,7 @@ interface ColumnSharedType<RecordType extends AnyObject> {
   >;
   hidden?: boolean;
   fixed?: FixedType;
-  onHeaderCell?: GetComponentProps<ColumnsType<RecordType>[number]>;
+  onHeaderCell?: GetComponentProps<InternalColumnsType<RecordType>[number]>;
   ellipsis?: CellEllipsisType;
   align?: AlignType;
   rowScope?: RowScopeType;
@@ -171,8 +171,13 @@ interface ColumnSharedType<RecordType extends AnyObject> {
 export interface ColumnGroupType<RecordType extends AnyObject>
   extends ColumnSharedType<RecordType> {
   title?: React.ReactNode;
-  children: ColumnsType<RecordType>;
+  children: InternalColumnsType<RecordType>;
 }
+
+export type InternalColumnGroupType<RecordType extends AnyObject> = RequiredWith<
+  ColumnGroupType<RecordType>,
+  'key'
+>;
 
 export type AlignType = 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
 
@@ -290,9 +295,19 @@ export type ColumnType<RecordType extends AnyObject> = {
 } & ColumnValueTypeWithEditable<RecordType> &
   ColumnSharedType<RecordType>;
 
+export type InternalColumnType<RecordType extends AnyObject> = RequiredWith<
+  ColumnType<RecordType>,
+  'key'
+>;
+
 export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
   | ColumnGroupType<RecordType>
   | ColumnType<RecordType>
+)[];
+
+export type InternalColumnsType<RecordType extends AnyObject> = readonly (
+  | InternalColumnGroupType<RecordType>
+  | InternalColumnType<RecordType>
 )[];
 
 export type GetRowKey<RecordType> = (record: RecordType, index?: number) => Key;
@@ -627,11 +642,6 @@ export type ColumnStateType = {
 
 export type ColumnState = {
   show?: boolean;
-  fixed?: 'right' | 'left' | undefined;
+  fixed?: Exclude<FixedType, boolean>;
   order?: number;
-  disable?:
-    | boolean
-    | {
-        checkbox: boolean;
-      };
 };

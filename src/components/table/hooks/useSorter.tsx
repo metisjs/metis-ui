@@ -12,13 +12,14 @@ import type {
   ColumnTitleProps,
   ColumnType,
   CompareFn,
+  InternalColumnsType,
   Key,
   SorterResult,
   SorterTooltipProps,
   SortOrder,
   TableLocale,
 } from '../interface';
-import { getColumnKey, getColumnPos, renderColumnTitle } from '../utils/valueUtil';
+import { renderColumnTitle } from '../utils/valueUtil';
 
 const ASCEND = 'ascend';
 const DESCEND = 'descend';
@@ -58,43 +59,37 @@ export interface SortState<RecordType extends AnyObject = AnyObject> {
 const collectSortStates = <RecordType extends AnyObject = AnyObject>(
   columns: ColumnsType<RecordType>,
   init: boolean,
-  pos?: string,
 ): SortState<RecordType>[] => {
   let sortStates: SortState<RecordType>[] = [];
 
-  const pushState = (column: ColumnsType<RecordType>[number], columnPos: string) => {
+  const pushState = (column: ColumnsType<RecordType>[number]) => {
     sortStates.push({
       column,
-      key: getColumnKey<RecordType>(column, columnPos),
+      key: column.key,
       multiplePriority: getMultiplePriority<RecordType>(column),
       sortOrder: (column.sorter as Exclude<ColumnSorter<RecordType>, boolean>).order!,
     });
   };
 
-  (columns || []).forEach((column, index) => {
-    const columnPos = getColumnPos(index, pos);
+  (columns || []).forEach((column) => {
     if ((column as ColumnGroupType<RecordType>).children) {
       if (typeof column.sorter === 'object' && 'order' in column.sorter) {
         // Controlled
-        pushState(column, columnPos);
+        pushState(column);
       }
       sortStates = [
         ...sortStates,
-        ...collectSortStates<RecordType>(
-          (column as ColumnGroupType<RecordType>).children,
-          init,
-          columnPos,
-        ),
+        ...collectSortStates<RecordType>((column as ColumnGroupType<RecordType>).children, init),
       ];
     } else if (column.sorter && typeof column.sorter === 'object') {
       if ('order' in column.sorter) {
         // Controlled
-        pushState(column, columnPos);
+        pushState(column);
       } else if (init && column.sorter.defaultOrder) {
         // Default sorter
         sortStates.push({
           column,
-          key: getColumnKey(column, columnPos),
+          key: column.key,
           multiplePriority: getMultiplePriority<RecordType>(column),
           sortOrder: column.sorter.defaultOrder!,
         });
@@ -107,24 +102,22 @@ const collectSortStates = <RecordType extends AnyObject = AnyObject>(
 
 const injectSorter = <RecordType extends AnyObject = AnyObject>(
   prefixCls: string,
-  columns: ColumnsType<RecordType>,
+  columns: InternalColumnsType<RecordType>,
   sorterStates: SortState<RecordType>[],
   triggerSorter: (sorterSates: SortState<RecordType>) => void,
   defaultSortDirections: SortOrder[],
   tableLocale?: TableLocale,
   tableShowSorterTooltip?: boolean | SorterTooltipProps,
-  pos?: string,
-): ColumnsType<RecordType> => {
-  const finalColumns = (columns || []).map((column, index) => {
-    const columnPos = getColumnPos(index, pos);
-    let newColumn: ColumnsType<RecordType>[number] = column;
+): InternalColumnsType<RecordType> => {
+  const finalColumns = (columns || []).map((column) => {
+    let newColumn: InternalColumnsType<RecordType>[number] = column;
     if (newColumn.sorter) {
       const sorter = typeof newColumn.sorter === 'object' ? newColumn.sorter : {};
       const sortDirections: SortOrder[] = sorter.directions || defaultSortDirections;
       const showSorterTooltip =
         sorter.showTooltip === undefined ? tableShowSorterTooltip : sorter.showTooltip;
 
-      const columnKey = getColumnKey(newColumn, columnPos);
+      const columnKey = newColumn.key;
       const sorterState = sorterStates.find(({ key }) => key === columnKey);
       const sortOrder = sorterState ? sorterState.sortOrder : null;
       const nextSortOrder = nextSortDirection(sortDirections, sortOrder);
@@ -302,7 +295,6 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           defaultSortDirections,
           tableLocale,
           tableShowSorterTooltip,
-          columnPos,
         ),
       };
     }
@@ -407,7 +399,7 @@ interface SorterConfig<RecordType extends AnyObject = AnyObject> {
 const useSorter = <RecordType extends AnyObject = AnyObject>(
   props: SorterConfig<RecordType>,
 ): [
-  (columns: ColumnsType<RecordType>) => ColumnsType<RecordType>,
+  (columns: InternalColumnsType<RecordType>) => ColumnsType<RecordType>,
   SortState<RecordType>[],
   ColumnTitleProps<RecordType>,
   () => SorterResult<RecordType> | SorterResult<RecordType>[],
@@ -513,7 +505,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     onSorterChange(generateSorterInfo(newSorterStates), newSorterStates);
   };
 
-  const transformColumns = (innerColumns: ColumnsType<RecordType>) =>
+  const transformColumns = (innerColumns: InternalColumnsType<RecordType>) =>
     injectSorter(
       prefixCls,
       innerColumns,

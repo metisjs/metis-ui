@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
-import type { ColumnsPos, ColumnType, ScrollOffset, StickyOffsets } from '../interface';
+import type { ColumnsPos, InternalColumnType, ScrollOffset, StickyOffsets } from '../interface';
 import { SummaryContext } from './contexts';
 import Summary from './Summary';
 
-type FlattenColumns<RecordType extends AnyObject> = readonly (ColumnType<RecordType> & {
+type FlattenColumns<RecordType extends AnyObject> = readonly (InternalColumnType<RecordType> & {
   scrollbar?: boolean;
 })[];
 

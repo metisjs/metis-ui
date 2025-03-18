@@ -4,11 +4,11 @@ import type { AnyObject } from '@util/type';
 import omit from 'rc-util/lib/omit';
 import { INTERNAL_COL_DEFINE } from './constant';
 import TableContext from './context/TableContext';
-import type { ColumnType } from './interface';
+import type { InternalColumnType } from './interface';
 
 export interface ColGroupProps<RecordType extends AnyObject> {
   colWidths: readonly (number | string | undefined)[];
-  columns?: readonly ColumnType<RecordType>[];
+  columns?: readonly InternalColumnType<RecordType>[];
   columnCount?: number;
 }
 
@@ -31,10 +31,9 @@ function ColGroup<RecordType extends AnyObject>({
     let additionalProps: Record<string, any> | undefined;
     let minWidth: number | undefined;
     if (column) {
-      additionalProps = column[INTERNAL_COL_DEFINE as keyof ColumnType<RecordType>] as Record<
-        string,
-        any
-      >;
+      additionalProps = column[
+        INTERNAL_COL_DEFINE as keyof InternalColumnType<RecordType>
+      ] as Record<string, any>;
 
       // fixed will cause layout problems
       if (tableLayout === 'auto') {

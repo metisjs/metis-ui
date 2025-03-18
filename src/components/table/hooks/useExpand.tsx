@@ -4,9 +4,9 @@ import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { EXPAND_COLUMN, INTERNAL_COL_DEFINE } from '../constant';
 import type {
-  ColumnsType,
   ExpandableConfig,
   GetRowKey,
+  InternalColumnsType,
   Key,
   TriggerEventHandler,
 } from '../interface';
@@ -102,7 +102,7 @@ export default function useExpand<RecordType extends AnyObject>(
 
   // ======================= Columns ========================
   const transformColumns = React.useCallback(
-    (columns: ColumnsType<RecordType>): ColumnsType<RecordType> => {
+    (columns: InternalColumnsType<RecordType>): InternalColumnsType<RecordType> => {
       if (!!expandableConfig.expandedRowRender) {
         let cloneColumns = columns.slice();
 
@@ -132,7 +132,7 @@ export default function useExpand<RecordType extends AnyObject>(
         }
 
         // >>> Create expandable column
-        const expandColumn: ColumnsType<RecordType>[0] & {
+        const expandColumn: InternalColumnsType<RecordType>[0] & {
           [INTERNAL_COL_DEFINE]: Record<string, any>;
         } = {
           [INTERNAL_COL_DEFINE]: {

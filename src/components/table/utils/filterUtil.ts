@@ -10,10 +10,16 @@ import { getFormatList, isSameOrAfter, isSameOrBefore } from '../../date-picker/
 import { toNumber } from '../../form/Field/Percent';
 import type { FieldValueType } from '../../form/interface';
 import type { FilterState } from '../hooks/useFilter';
-import type { ColumnFilter, ColumnFilterItem, ColumnType, FilterValue, Key } from '../interface';
+import type {
+  ColumnFilter,
+  ColumnFilterItem,
+  FilterValue,
+  InternalColumnType,
+  Key,
+} from '../interface';
 
 export function fillFilterProps<RecordType extends AnyObject>(
-  filter: ColumnType<any>['filter'],
+  filter: InternalColumnType<any>['filter'],
 ): Exclude<ColumnFilter<RecordType>, boolean> {
   return !filter || filter === true ? {} : filter;
 }
@@ -31,7 +37,7 @@ export function flattenKeys(filters?: ColumnFilterItem[]) {
 
 const EXCLUDE_TYPES = ['index', 'indexBorder', 'avatar', 'password', 'image', 'action'];
 
-export function isFilterableWithValueType(column: ColumnType<any>) {
+export function isFilterableWithValueType(column: InternalColumnType<any>) {
   const { filter, valueType = 'text' } = column;
   return (
     typeof valueType !== 'function' &&
@@ -40,7 +46,7 @@ export function isFilterableWithValueType(column: ColumnType<any>) {
   );
 }
 
-export function isFilterable(column: ColumnType<any>) {
+export function isFilterable(column: InternalColumnType<any>) {
   const { filter } = column;
   const mergedFilter = typeof filter === 'boolean' ? {} : { ...filter };
 
@@ -147,7 +153,7 @@ const dateRangeInRange = (
 };
 
 const getFilterMethodByValueType = <RecordType extends AnyObject = AnyObject>(
-  valueType: ColumnType<RecordType>['valueType'] = 'text',
+  valueType: InternalColumnType<RecordType>['valueType'] = 'text',
   hasValueEnum: boolean,
   path: any[],
   datePickerLocale: Locale,
