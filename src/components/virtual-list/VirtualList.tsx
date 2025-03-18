@@ -192,11 +192,11 @@ const InternalVirtualList = <D, C>(
           autoHeight={autoHeight}
           onScroll={onScroll}
         >
-          {Header && <Header context={props.context} />}
+          {Header && <Header context={props.context!} />}
           {data?.map((item, i) => (
             <Fragment key={computeItemKey(i, item)}>{renderItem?.(item, i)}</Fragment>
           ))}
-          {Footer && <Footer context={props.context} />}
+          {Footer && <Footer context={props.context!} />}
         </Scrollbar>
       )}
     </VirtualListContext.Provider>

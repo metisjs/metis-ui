@@ -54,8 +54,8 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const rafId = useRef<number>();
 
-  const detectScrollingInterval = useRef<NodeJS.Timer>();
-  const hideTracksTimeout = useRef<NodeJS.Timer>();
+  const detectScrollingInterval = useRef<NodeJS.Timeout>();
+  const hideTracksTimeout = useRef<NodeJS.Timeout>();
 
   const viewScrollLeft = useRef<number>();
   const viewScrollTop = useRef<number>();

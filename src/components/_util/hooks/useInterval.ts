@@ -3,7 +3,7 @@ import { useEvent } from 'rc-util';
 
 const useInterval = (fn: () => void, delay?: number, options: { immediate?: boolean } = {}) => {
   const timerCallback = useEvent(fn);
-  const timerRef = useRef<NodeJS.Timer>();
+  const timerRef = useRef<NodeJS.Timeout>();
 
   const run = useCallback(() => {
     if (!delay) {

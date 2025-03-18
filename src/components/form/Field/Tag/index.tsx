@@ -10,7 +10,7 @@ import Space from '../../../space';
 import Spin from '../../../spin';
 import type { TagProps } from '../../../tag';
 import Tag from '../../../tag';
-import type { FieldStatusType } from '../util';
+import type { FieldStatusType } from '../../interface';
 import { fieldParsingOptions, objectToMap } from '../util';
 
 export type FieldTagProps = {

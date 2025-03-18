@@ -5,7 +5,7 @@ export default function useRemovePasswordTimeout(
   inputRef: React.RefObject<HTMLInputElement | InputRef | null>,
   triggerOnMount?: boolean,
 ) {
-  const removePasswordTimeoutRef = useRef<NodeJS.Timer[]>([]);
+  const removePasswordTimeoutRef = useRef<NodeJS.Timeout[]>([]);
   const removePasswordTimeout = () => {
     removePasswordTimeoutRef.current.push(
       setTimeout(() => {
