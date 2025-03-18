@@ -14,7 +14,7 @@ import type {
   TableLocale,
 } from '../../interface';
 import { fillFilterProps, isFilterable, isFilterableWithValueType } from '../../utils/filterUtil';
-import { getColumnKey, getColumnPos, renderColumnTitle } from '../../utils/valueUtil';
+import { renderColumnTitle } from '../../utils/valueUtil';
 import FilterDropdown from './FilterDropdown';
 
 export interface FilterState<RecordType extends AnyObject = AnyObject> {
@@ -27,12 +27,10 @@ export interface FilterState<RecordType extends AnyObject = AnyObject> {
 const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
   columns: InternalColumnsType<RecordType>,
   init: boolean,
-  pos?: string,
 ): FilterState<RecordType>[] => {
   let filterStates: FilterState<RecordType>[] = [];
 
-  (columns || []).forEach((column, index) => {
-    const columnPos = getColumnPos(index, pos);
+  (columns || []).forEach((column) => {
     const filter = fillFilterProps(column.filter);
 
     if (isFilterable(column)) {
@@ -44,7 +42,7 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
         }
         filterStates.push({
           column,
-          key: getColumnKey(column, columnPos),
+          key: column.key,
           filteredKeys: filteredValues as FilterKey,
           forceFiltered: filter.filtered,
         });
@@ -52,7 +50,7 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
         // Uncontrolled
         filterStates.push({
           column,
-          key: getColumnKey(column, columnPos),
+          key: column.key,
           filteredKeys: (init && filter.defaultFilteredValue
             ? toArray(filter.defaultFilteredValue!)
             : undefined) as FilterKey,
@@ -62,7 +60,7 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
     }
 
     if ('children' in column) {
-      filterStates = [...filterStates, ...collectFilterStates(column.children, init, columnPos)];
+      filterStates = [...filterStates, ...collectFilterStates(column.children, init)];
     }
   });
 
@@ -77,17 +75,15 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
   locale: TableLocale,
   triggerFilter: (filterState: FilterState<RecordType>) => void,
   getPopupContainer?: GetPopupContainer,
-  pos?: string,
   rootClassName?: string,
 ): InternalColumnsType<RecordType> {
-  return columns.map((column, index) => {
-    const columnPos = getColumnPos(index, pos);
+  return columns.map((column) => {
     const { triggerOnClose = true, multiple = true, mode, search } = fillFilterProps(column.filter);
 
     let newColumn: InternalColumnsType<RecordType>[number] = column;
 
     if (isFilterable(column)) {
-      const columnKey = getColumnKey(newColumn, columnPos);
+      const columnKey = newColumn.key;
       const filterState = filterStates.find(({ key }) => columnKey === key);
 
       newColumn = {
@@ -125,7 +121,6 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
           locale,
           triggerFilter,
           getPopupContainer,
-          columnPos,
           rootClassName,
         ),
       };
@@ -218,9 +213,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     // Return if not controlled
     if (filteredKeysIsAllNotControlled) {
       // Filter column may have been removed
-      const keyList = (mergedColumns || []).map((column, index) =>
-        getColumnKey(column, getColumnPos(index)),
-      );
+      const keyList = (mergedColumns || []).map((column) => column.key);
       return filterStates
         .filter(({ key }) => keyList.includes(key))
         .map((item) => {
@@ -267,7 +260,6 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
       tableLocale,
       triggerFilter,
       getPopupContainer,
-      undefined,
       rootClassName,
     );
 

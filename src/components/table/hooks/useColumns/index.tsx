@@ -2,18 +2,12 @@ import * as React from 'react';
 import useBreakpoint from '@util/hooks/useBreakpoint';
 import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject } from '@util/type';
-import toArray from 'rc-util/lib/Children/toArray';
-import { INTERNAL_COL_KEY_PREFIX } from '../../constant';
 import type {
-  ColumnGroupType,
   ColumnsPos,
-  ColumnsType,
   ColumnTitleProps,
-  ColumnType,
   InternalColumnGroupType,
   InternalColumnsType,
   InternalColumnType,
-  Key,
   StickyOffsets,
 } from '../../interface';
 import { renderColumnTitle } from '../../utils/valueUtil';
@@ -22,26 +16,6 @@ import { useLayoutState } from '../useFrame';
 import useStickyOffsets from '../useStickyOffsets';
 import useColumnsPos from './useColumnsPos';
 import useWidthColumns from './useWidthColumns';
-
-export function convertChildrenToColumns<RecordType extends AnyObject>(
-  children: React.ReactNode,
-): ColumnsType<RecordType> {
-  return toArray(children)
-    .filter((node) => React.isValidElement(node))
-    .map(({ key, props }: React.ReactElement) => {
-      const { children: nodeChildren, ...restProps } = props;
-      const column = {
-        key,
-        ...restProps,
-      };
-
-      if (nodeChildren) {
-        column.children = convertChildrenToColumns(nodeChildren);
-      }
-
-      return column;
-    });
-}
 
 function flatColumns<RecordType extends AnyObject>(
   columns: InternalColumnsType<RecordType>,
@@ -73,37 +47,6 @@ function flatColumns<RecordType extends AnyObject>(
     }, []);
 }
 
-const fillKey = <RecordType extends AnyObject = AnyObject>(
-  columns: ColumnsType<RecordType>,
-  keyPrefix: Key = INTERNAL_COL_KEY_PREFIX,
-): InternalColumnsType<RecordType> => {
-  const finalColumns = columns.map((column, index) => {
-    let mergedKey = column.key;
-    if ('dataIndex' in column && column.dataIndex) {
-      mergedKey = Array.isArray(column.dataIndex)
-        ? column.dataIndex.join('@#@')
-        : (column.dataIndex as Key);
-    }
-
-    if (!mergedKey) {
-      mergedKey = `${keyPrefix}_${index}`;
-    }
-
-    const cloneColumn: ColumnGroupType<RecordType> | ColumnType<RecordType> = {
-      ...column,
-    };
-    cloneColumn.key = mergedKey;
-    if ('children' in cloneColumn) {
-      cloneColumn.children = fillKey<RecordType>(
-        cloneColumn.children as ColumnsType<RecordType>,
-        mergedKey,
-      );
-    }
-    return cloneColumn;
-  });
-  return finalColumns as InternalColumnsType<RecordType>;
-};
-
 const fillTitle = <RecordType extends AnyObject = AnyObject>(
   columns: InternalColumnsType<RecordType>,
   columnTitleProps: ColumnTitleProps<RecordType>,
@@ -127,13 +70,11 @@ const fillTitle = <RecordType extends AnyObject = AnyObject>(
 function useColumns<RecordType extends AnyObject>(
   {
     columns,
-    children,
     scrollWidth,
     clientWidth,
     columnTitleProps,
   }: {
-    columns?: ColumnsType<RecordType>;
-    children?: React.ReactNode;
+    columns?: InternalColumnsType<RecordType>;
     clientWidth: number;
     scrollWidth?: number;
     columnTitleProps: ColumnTitleProps<RecordType>;
@@ -151,14 +92,14 @@ function useColumns<RecordType extends AnyObject>(
 ] {
   const [colsWidths, updateColsWidths] = useLayoutState(new Map<React.Key, number>());
 
-  const baseColumns = React.useMemo<ColumnsType<RecordType>>(() => {
-    const newColumns = columns || convertChildrenToColumns(children) || [];
+  const baseColumns = React.useMemo<InternalColumnsType<RecordType>>(() => {
+    const newColumns = columns || [];
 
     return newColumns.slice();
-  }, [columns, children]);
+  }, [columns]);
 
   const needResponsive = React.useMemo(
-    () => baseColumns.some((col: ColumnType<RecordType>) => col.responsive),
+    () => baseColumns.some((col: InternalColumnType<RecordType>) => col.responsive),
     [baseColumns],
   );
 
@@ -168,7 +109,7 @@ function useColumns<RecordType extends AnyObject>(
   const mergedColumns = React.useMemo(() => {
     const matched = new Set(Object.keys(screens).filter((m) => screens[m as Breakpoint]));
 
-    let finalColumns: InternalColumnsType<RecordType> = fillKey(baseColumns);
+    let finalColumns = baseColumns;
 
     if (transformColumns) {
       finalColumns = transformColumns(finalColumns);

@@ -171,13 +171,13 @@ interface ColumnSharedType<RecordType extends AnyObject> {
 export interface ColumnGroupType<RecordType extends AnyObject>
   extends ColumnSharedType<RecordType> {
   title?: React.ReactNode;
-  children: InternalColumnsType<RecordType>;
+  children: Omit<ColumnsType<RecordType>, 'hidden'>;
 }
 
 export type InternalColumnGroupType<RecordType extends AnyObject> = RequiredWith<
-  ColumnGroupType<RecordType>,
+  Omit<ColumnGroupType<RecordType>, 'children'>,
   'key'
->;
+> & { children: Omit<InternalColumnsType<RecordType>, 'hidden'> };
 
 export type AlignType = 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
 

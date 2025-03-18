@@ -6,13 +6,12 @@ import type { TooltipProps } from '../../tooltip';
 import Tooltip from '../../tooltip';
 import { getTitleFromCellRenderChildren } from '../Cell';
 import type {
-  ColumnGroupType,
   ColumnSorter,
-  ColumnsType,
   ColumnTitleProps,
-  ColumnType,
   CompareFn,
+  InternalColumnGroupType,
   InternalColumnsType,
+  InternalColumnType,
   Key,
   SorterResult,
   SorterTooltipProps,
@@ -25,7 +24,7 @@ const ASCEND = 'ascend';
 const DESCEND = 'descend';
 
 const getMultiplePriority = <RecordType extends AnyObject = AnyObject>(
-  column: ColumnType<RecordType>,
+  column: InternalColumnType<RecordType>,
 ): number | false => {
   if (typeof column.sorter === 'object' && typeof column.sorter.multiple === 'number') {
     return column.sorter.multiple;
@@ -34,7 +33,7 @@ const getMultiplePriority = <RecordType extends AnyObject = AnyObject>(
 };
 
 const getSortFunction = <RecordType extends AnyObject = AnyObject>(
-  sorter: ColumnType<RecordType>['sorter'],
+  sorter: InternalColumnType<RecordType>['sorter'],
 ): CompareFn<RecordType> | false => {
   if (sorter && typeof sorter === 'object' && sorter.compare) {
     return sorter.compare;
@@ -50,19 +49,19 @@ const nextSortDirection = (sortDirections: SortOrder[], current: SortOrder | nul
 };
 
 export interface SortState<RecordType extends AnyObject = AnyObject> {
-  column: ColumnType<RecordType>;
+  column: InternalColumnType<RecordType>;
   key: Key;
   sortOrder: SortOrder | null;
   multiplePriority: number | false;
 }
 
 const collectSortStates = <RecordType extends AnyObject = AnyObject>(
-  columns: ColumnsType<RecordType>,
+  columns: InternalColumnsType<RecordType>,
   init: boolean,
 ): SortState<RecordType>[] => {
   let sortStates: SortState<RecordType>[] = [];
 
-  const pushState = (column: ColumnsType<RecordType>[number]) => {
+  const pushState = (column: InternalColumnsType<RecordType>[number]) => {
     sortStates.push({
       column,
       key: column.key,
@@ -72,14 +71,17 @@ const collectSortStates = <RecordType extends AnyObject = AnyObject>(
   };
 
   (columns || []).forEach((column) => {
-    if ((column as ColumnGroupType<RecordType>).children) {
+    if ((column as InternalColumnGroupType<RecordType>).children) {
       if (typeof column.sorter === 'object' && 'order' in column.sorter) {
         // Controlled
         pushState(column);
       }
       sortStates = [
         ...sortStates,
-        ...collectSortStates<RecordType>((column as ColumnGroupType<RecordType>).children, init),
+        ...collectSortStates<RecordType>(
+          (column as InternalColumnGroupType<RecordType>).children,
+          init,
+        ),
       ];
     } else if (column.sorter && typeof column.sorter === 'object') {
       if ('order' in column.sorter) {
@@ -386,7 +388,7 @@ export const getSortData = <RecordType extends AnyObject = AnyObject>(
 
 interface SorterConfig<RecordType extends AnyObject = AnyObject> {
   prefixCls: string;
-  columns?: ColumnsType<RecordType>;
+  columns?: InternalColumnsType<RecordType>;
   onSorterChange: (
     sorterResult: SorterResult<RecordType> | SorterResult<RecordType>[],
     sortStates: SortState<RecordType>[],
@@ -399,7 +401,7 @@ interface SorterConfig<RecordType extends AnyObject = AnyObject> {
 const useSorter = <RecordType extends AnyObject = AnyObject>(
   props: SorterConfig<RecordType>,
 ): [
-  (columns: InternalColumnsType<RecordType>) => ColumnsType<RecordType>,
+  (columns: InternalColumnsType<RecordType>) => InternalColumnsType<RecordType>,
   SortState<RecordType>[],
   ColumnTitleProps<RecordType>,
   () => SorterResult<RecordType> | SorterResult<RecordType>[],
@@ -417,13 +419,12 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     collectSortStates<RecordType>(columns, true),
   );
 
-  const getColumnKeys = (columns: ColumnsType<RecordType>, pos?: string): Key[] => {
+  const getColumnKeys = (columns: InternalColumnsType<RecordType>): Key[] => {
     const newKeys: Key[] = [];
-    columns.forEach((item, index) => {
-      const columnPos = getColumnPos(index, pos);
-      newKeys.push(getColumnKey<RecordType>(item, columnPos));
-      if (Array.isArray((item as ColumnGroupType<RecordType>).children)) {
-        const childKeys = getColumnKeys((item as ColumnGroupType<RecordType>).children, columnPos);
+    columns.forEach((item) => {
+      newKeys.push(item.key);
+      if (Array.isArray((item as InternalColumnGroupType<RecordType>).children)) {
+        const childKeys = getColumnKeys((item as InternalColumnGroupType<RecordType>).children);
         newKeys.push(...childKeys);
       }
     });

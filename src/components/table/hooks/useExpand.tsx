@@ -7,6 +7,7 @@ import type {
   ExpandableConfig,
   GetRowKey,
   InternalColumnsType,
+  InternalColumnType,
   Key,
   TriggerEventHandler,
 } from '../interface';
@@ -132,7 +133,7 @@ export default function useExpand<RecordType extends AnyObject>(
         }
 
         // >>> Create expandable column
-        const expandColumn: InternalColumnsType<RecordType>[0] & {
+        const expandColumn: InternalColumnType<RecordType> & {
           [INTERNAL_COL_DEFINE]: Record<string, any>;
         } = {
           [INTERNAL_COL_DEFINE]: {
@@ -151,6 +152,7 @@ export default function useExpand<RecordType extends AnyObject>(
             ),
             columnType: 'EXPAND_COLUMN',
           },
+          key: EXPAND_COLUMN.key,
           title: columnTitle,
           fixed: fixedColumn,
           className: ({ rowType }) =>

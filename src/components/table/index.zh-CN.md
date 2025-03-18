@@ -14,7 +14,6 @@ description: 展示行列数据。
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本用法</code>
-<code src="./demo/jsx.tsx">JSX 风格的 API</code>
 <code src="./demo/toolbar.tsx">工具栏</code>
 <code src="./demo/value-type.tsx">值类型</code>
 <code src="./demo/row-selection.tsx">可选择</code>

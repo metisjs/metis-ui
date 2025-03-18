@@ -11,8 +11,6 @@ import Summary from './Footer/Summary';
 import type { FilterValue, Reference, SorterResult, TablePaginationConfig } from './interface';
 import type { TableProps } from './InternalTable';
 import InternalTable from './InternalTable';
-import Column from './sugar/Column';
-import ColumnGroup from './sugar/ColumnGroup';
 
 const Table = <RecordType extends AnyObject = AnyObject>(
   props: TableProps<RecordType>,
@@ -55,8 +53,6 @@ const ForwardTable = React.forwardRef(Table) as unknown as (<
   SELECTION_ALL: typeof SELECTION_ALL;
   SELECTION_INVERT: typeof SELECTION_INVERT;
   SELECTION_NONE: typeof SELECTION_NONE;
-  Column: typeof Column;
-  ColumnGroup: typeof ColumnGroup;
   Summary: typeof Summary;
 };
 
@@ -65,8 +61,6 @@ ForwardTable.EXPAND_COLUMN = EXPAND_COLUMN;
 ForwardTable.SELECTION_ALL = SELECTION_ALL;
 ForwardTable.SELECTION_INVERT = SELECTION_INVERT;
 ForwardTable.SELECTION_NONE = SELECTION_NONE;
-ForwardTable.Column = Column;
-ForwardTable.ColumnGroup = ColumnGroup;
 ForwardTable.Summary = Summary;
 
 if (process.env.NODE_ENV !== 'production') {

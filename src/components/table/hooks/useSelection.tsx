@@ -22,12 +22,12 @@ import {
   SELECTION_NONE,
 } from '../constant';
 import type {
-  ColumnsType,
-  ColumnType,
   ExpandableType,
   FixedType,
   GetPopupContainer,
   GetRowKey,
+  InternalColumnsType,
+  InternalColumnType,
   Key,
   RowSelectMethod,
   SelectionItem,
@@ -74,7 +74,10 @@ const flattenData = <RecordType extends AnyObject = AnyObject>(
 const useSelection = <RecordType extends AnyObject = AnyObject>(
   config: UseSelectionConfig<RecordType>,
   rowSelection?: TableRowSelection<RecordType>,
-): readonly [(columns: ColumnsType<RecordType>) => ColumnsType<RecordType>, Set<Key>] => {
+): readonly [
+  (columns: InternalColumnsType<RecordType>) => InternalColumnsType<RecordType>,
+  Set<Key>,
+] => {
   const {
     preserveSelectedRowKeys = true,
     selectedRowKeys,
@@ -352,7 +355,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
 
   // ======================= Columns ========================
   const transformColumns = useCallback(
-    (columns: ColumnsType<RecordType>): ColumnsType<RecordType> => {
+    (columns: InternalColumnsType<RecordType>): InternalColumnsType<RecordType> => {
       // >>>>>>>>>>> Skip if not exists `rowSelection`
       if (!rowSelection) {
         warning(
@@ -694,9 +697,9 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       );
 
       // Fixed column logic
-      const prevCol: ColumnType<RecordType> & Record<string, any> =
+      const prevCol: InternalColumnType<RecordType> & Record<string, any> =
         cloneColumns[selectionColumnIndex - 1];
-      const nextCol: ColumnType<RecordType> & Record<string, any> =
+      const nextCol: InternalColumnType<RecordType> & Record<string, any> =
         cloneColumns[selectionColumnIndex + 1];
 
       let mergedFixed: FixedType | undefined = fixed;
@@ -746,9 +749,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       };
 
       // Replace with real selection column
-      const selectionColumn: ColumnsType<RecordType>[0] & {
+      const selectionColumn: InternalColumnType<RecordType> & {
         [INTERNAL_COL_DEFINE]: Record<string, any>;
       } = {
+        key: SELECTION_COLUMN.key,
         fixed: mergedFixed,
         width: selectionColWidth,
         className: ({ rowType }) =>

@@ -81,7 +81,7 @@ import type {
 } from './interface';
 import StickyScrollBar from './StickyScrollBar';
 import ToolBar from './Toolbar';
-import { getColumnsKey, validateValue } from './utils/valueUtil';
+import { fillColumnsKey, getColumnsKey, validateValue } from './utils/valueUtil';
 
 const EMPTY_LIST: any = [];
 
@@ -108,7 +108,6 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   dropdownPrefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
-  children?: React.ReactNode;
   dataSource?: readonly RecordType[];
   columns?: ColumnsType<RecordType>;
   rowKey?: string | keyof RecordType | GetRowKey<RecordType>;
@@ -205,7 +204,6 @@ function InternalTable<RecordType extends AnyObject>(
     rowKey = 'key',
     scroll,
     tableLayout,
-    columns,
     headerTitle,
 
     expandable,
@@ -240,8 +238,6 @@ function InternalTable<RecordType extends AnyObject>(
     toolbar,
 
     columnsState,
-
-    children,
   } = props;
 
   const {
@@ -296,12 +292,14 @@ function InternalTable<RecordType extends AnyObject>(
 
   const customizeScrollBody = getComponent(['body']) as CustomizeScrollBody<RecordType>;
 
+  const columns = React.useMemo(() => fillColumnsKey(props.columns), [props.columns]);
+
   const tableKey = React.useMemo(() => {
     if (columnsState?.persistenceKey) {
       return columnsState?.persistenceKey;
     }
 
-    return getColumnsKey(columns ?? []).join('!_!');
+    return getColumnsKey(columns ?? []).join('_');
   }, [columns, columnsState?.persistenceKey]);
 
   // ====================== Hover =======================
@@ -537,7 +535,6 @@ function InternalTable<RecordType extends AnyObject>(
       columns,
       scrollWidth: typeof scrollX === 'number' ? scrollX : undefined,
       clientWidth: componentWidth,
-      children,
       columnTitleProps,
     },
     transformColumns,

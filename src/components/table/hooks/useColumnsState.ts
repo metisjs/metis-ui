@@ -2,27 +2,22 @@ import { useCallback, useMemo, useState } from 'react';
 import type { AnyObject } from '@util/type';
 import { merge } from 'rc-util/lib/utils/set';
 import type { ColumnState, ColumnStateType, InternalColumnsType, Key } from '../interface';
-import { getColumnsKey } from '../utils/valueUtil';
 
 function useColumnsState<RecordType extends AnyObject = AnyObject>({
   columns,
   columnsState,
 }: {
-  columns?: InternalColumnsType<RecordType>;
+  columns: InternalColumnsType<RecordType>;
   columnsState?: ColumnStateType;
 }) {
   const defaultColumnKeyMap = useMemo(() => {
-    const columnKeys = getColumnsKey(columns);
     const columnKeyMap = {} as Record<Key, ColumnState>;
     columns?.forEach((column, index) => {
-      const columnKey = columnKeys[index];
-      if (columnKey) {
-        columnKeyMap[columnKey] = {
-          show: !column.hidden,
-          fixed: column.fixed === true ? 'left' : column.fixed === false ? undefined : column.fixed,
-          order: index,
-        };
-      }
+      columnKeyMap[column.key] = {
+        show: !column.hidden,
+        fixed: column.fixed === true ? 'left' : column.fixed === false ? undefined : column.fixed,
+        order: index,
+      };
     });
     return columnKeyMap;
   }, [columns]);

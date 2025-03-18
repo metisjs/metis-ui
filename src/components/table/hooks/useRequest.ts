@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import type { AnyObject, RequestConfig } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { useRequest } from 'ahooks';

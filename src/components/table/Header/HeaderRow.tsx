@@ -91,7 +91,7 @@ const HeaderRow = <RecordType extends AnyObject>(props: RowProps<RecordType>) =>
             rowType="header"
             record={null!}
             rowIndex={index}
-            index={cell.colStart}
+            index={cell.colStart ?? 0}
             renderIndex={-1}
             totalRowCount={totalRowCount}
             totalColCount={flattenColumns.length}
