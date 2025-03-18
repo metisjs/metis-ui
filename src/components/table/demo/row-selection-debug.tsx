@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InputNumber, Table } from 'metis-ui';
-import type { TableColumnsType, TableProps } from 'metis-ui';
+import type { SafeKey, TableColumnsType, TableProps } from 'metis-ui';
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
@@ -54,9 +54,9 @@ function genData(length: number) {
 
 const App: React.FC = () => {
   const [data, setData] = useState<DataType[]>(genData(50));
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<SafeKey[]>([]);
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+  const onSelectChange = (newSelectedRowKeys: SafeKey[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };

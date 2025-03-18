@@ -1,6 +1,6 @@
 import React from 'react';
 import type { TableProps } from 'metis-ui';
-import { Button, Table } from 'metis-ui';
+import { Table } from 'metis-ui';
 
 interface DataType {
   key: string;

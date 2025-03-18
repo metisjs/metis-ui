@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'metis-ui';
-import type { TableColumnsType } from 'metis-ui';
+import type { TableColumnsType, TableColumnType } from 'metis-ui';
 import type { ResizeCallbackData } from 'react-resizable';
 import { Resizable } from 'react-resizable';
 
@@ -109,9 +109,9 @@ const App: React.FC = () => {
       setColumns(newColumns);
     };
 
-  const mergedColumns = columns.map<TableColumnsType<DataType>[number]>((col, index) => ({
+  const mergedColumns = columns.map<TableColumnType<DataType>>((col, index) => ({
     ...col,
-    onHeaderCell: (column: TableColumnsType<DataType>[number]) => ({
+    onHeaderCell: (column) => ({
       width: 'width' in column ? column.width : undefined,
       onResize: handleResize(index) as React.ReactEventHandler<any>,
     }),
