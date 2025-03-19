@@ -3,6 +3,18 @@ import type { AnyObject } from '@util/type';
 import { merge } from 'rc-util/lib/utils/set';
 import type { ColumnState, ColumnStateType, InternalColumnsType, Key } from '../interface';
 
+function reorderState(columnsState: Record<Key, ColumnState>) {
+  const sortedKeys = Object.keys(columnsState).sort(
+    (a, b) => columnsState[a].order ?? 0 - (columnsState[b].order ?? 0),
+  );
+
+  sortedKeys.forEach((key, index) => {
+    columnsState[key].order = index + 1;
+  });
+
+  return columnsState;
+}
+
 function useColumnsState<RecordType extends AnyObject = AnyObject>({
   columns,
   columnsState,
@@ -30,7 +42,7 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
       try {
         const storageValue = storage?.getItem(persistenceKey);
         if (storageValue) {
-          return merge({}, defaultColumnKeyMap, JSON.parse(storageValue));
+          return reorderState(merge({}, defaultColumnKeyMap, JSON.parse(storageValue)));
         }
       } catch (error) {
         console.warn(error);
@@ -74,6 +86,8 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
     },
     [clearPersistenceStorage],
   );
+
+  console.log(columnStateMap);
 
   return [columnStateMap, setInternalColumnStateMap, resetColumnStateMap] as const;
 }

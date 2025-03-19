@@ -1,50 +1,56 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React from 'react';
+import type { DragEndEvent } from '@dnd-kit/core';
 import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToFirstScrollableAncestor, restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { Bars3Outline, BarsArrowUpOutline } from '@metisjs/icons';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { Bars3Outline, BarsArrowUpOutline, Cog6ToothOutline } from '@metisjs/icons';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
-import { useEvent } from 'rc-util';
-import omit from 'rc-util/lib/omit';
+import Checkbox from '../../checkbox';
 import Popover from '../../popover';
+import Scrollbar from '../../scrollbar';
 import Tooltip from '../../tooltip';
-import Tree from '../../tree';
-import type { CheckInfo, DataNode } from '../../tree/interface';
-import TableContext from '../context/TableContext';
-import type {
-  ColumnState,
-  InternalColumnsType,
-  InternalColumnType,
-  Key,
-  SettingOptionType,
-  TableLocale,
-} from '../interface';
-import { getColumnKey, getColumnsKey } from '../utils/valueUtil';
+import TableContext, { responseImmutable } from '../context/TableContext';
+import type { ColumnState, InternalColumnsType, Key, TableLocale } from '../interface';
+import { getColumnsKey } from '../utils/valueUtil';
 
-type ColumnSettingProps<T extends AnyObject = AnyObject> = SettingOptionType & {
+type ColumnSettingProps<T extends AnyObject = AnyObject> = {
+  prefixCls: string;
+  tableLocale: TableLocale;
   columns: InternalColumnsType<T>;
+  settingIcon?: React.ReactNode;
 };
+
+const DragHandlerIcon = () => (
+  <svg viewBox="0 0 20 20" width="1em" height="1em" fill="currentColor">
+    <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
+  </svg>
+);
 
 const ToolTipIcon: React.FC<{
   title: string;
   columnKey: Key;
-  show: boolean;
+  current: 'left' | 'right' | undefined;
   fixed: 'left' | 'right' | undefined;
   children?: React.ReactNode;
-}> = ({ title, show, children, columnKey, fixed }) => {
+}> = ({ title, current, children, columnKey, fixed }) => {
   const { columnStateMap, setColumnStateMap } = useContext(TableContext, [
     'columnStateMap',
     'setColumnStateMap',
   ]);
 
-  if (!show) {
-    return null;
-  }
-
   return (
     <Tooltip title={title}>
       <span
+        className={clsx(
+          'hidden cursor-pointer items-center text-base text-text-secondary hover:text-primary group-hover/item:block',
+          {
+            'block group-hover/item:hidden': fixed === current,
+            hidden: fixed === undefined && fixed === current,
+          },
+        )}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -63,219 +69,179 @@ const ToolTipIcon: React.FC<{
 };
 
 const CheckboxListItem: React.FC<{
+  prefixCls: string;
   tableLocale: TableLocale;
   columnKey: string | number;
-  prefixCls: string;
   title?: React.ReactNode;
-  fixed?: boolean | 'left' | 'right';
-  showListItemOption?: boolean;
-  isLeaf?: boolean;
-}> = ({ tableLocale, columnKey, isLeaf, title, prefixCls, fixed, showListItemOption }) => {
-  const dom = (
-    <span className={`${prefixCls}-list-item-option`}>
-      <ToolTipIcon
-        columnKey={columnKey}
-        fixed="left"
-        title={tableLocale.toolbar!.leftPin!}
-        show={fixed !== 'left'}
-      >
-        <BarsArrowUpOutline className="-rotate-90" />
-      </ToolTipIcon>
-      <ToolTipIcon
-        columnKey={columnKey}
-        fixed={undefined}
-        title={tableLocale.toolbar!.noPin!}
-        show={!!fixed}
-      >
-        <Bars3Outline className="-rotate-90" />
-      </ToolTipIcon>
-      <ToolTipIcon
-        columnKey={columnKey}
-        fixed="right"
-        title={tableLocale.toolbar!.rightPin!}
-        show={fixed !== 'right'}
-      >
-        <BarsArrowUpOutline className="-rotate-90 scale-x-[-1]" />
-      </ToolTipIcon>
-    </span>
-  );
+}> = ({ prefixCls, tableLocale, columnKey, title }) => {
+  const { columnStateMap, setColumnStateMap } = useContext(TableContext, [
+    'columnStateMap',
+    'setColumnStateMap',
+  ]);
+
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: columnKey,
+  });
+
+  const handelShowChange = (show: boolean) => {
+    const config = columnStateMap[columnKey] || {};
+    const columnKeyMap = {
+      ...columnStateMap,
+      [columnKey]: { ...config, show } as ColumnState,
+    };
+    setColumnStateMap(columnKeyMap);
+  };
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  const fixed = columnStateMap[columnKey].fixed;
+  const checked = columnStateMap[columnKey].show;
+
   return (
-    <span className={`${prefixCls}-list-item`} key={columnKey}>
-      <div className={`${prefixCls}-list-item-title`}>{title}</div>
-      {showListItemOption && !isLeaf ? dom : null}
-    </span>
+    <div
+      key={columnKey}
+      className={clsx(`${prefixCls}-list-item`, 'group/item flex items-center py-1')}
+      ref={setNodeRef}
+      style={style}
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className={clsx(
+          `${prefixCls}-list-item-drag-handle`,
+          'mr-2 inline-flex cursor-grab items-center text-xs text-text-tertiary',
+          {
+            'cursor-grabbing': isDragging,
+          },
+        )}
+      >
+        <DragHandlerIcon />
+      </div>
+      <Checkbox
+        checked={checked}
+        onChange={handelShowChange}
+        className={clsx(`${prefixCls}-list-item-title flex-1`, 'mr-2')}
+      >
+        {title}
+      </Checkbox>
+      <div
+        className={clsx(
+          `${prefixCls}-list-item-option`,
+          'inline-flex w-8 items-center justify-end gap-1',
+        )}
+      >
+        <ToolTipIcon
+          columnKey={columnKey}
+          fixed="left"
+          title={tableLocale.toolbar!.leftPin!}
+          current={fixed}
+        >
+          <BarsArrowUpOutline className="-rotate-90" />
+        </ToolTipIcon>
+        <ToolTipIcon
+          columnKey={columnKey}
+          fixed={undefined}
+          title={tableLocale.toolbar!.noPin!}
+          current={fixed}
+        >
+          <Bars3Outline className="-rotate-90" />
+        </ToolTipIcon>
+        <ToolTipIcon
+          columnKey={columnKey}
+          fixed="right"
+          title={tableLocale.toolbar!.rightPin!}
+          current={fixed}
+        >
+          <BarsArrowUpOutline className="rotate-90 scale-x-[-1]" />
+        </ToolTipIcon>
+      </div>
+    </div>
   );
 };
 
 const CheckboxList: React.FC<{
-  list: InternalColumnsType<any>;
   prefixCls: string;
-  title: string;
-  draggable: boolean;
-  checkable: boolean;
-  showListItemOption: boolean;
-  showTitle?: boolean;
-  listHeight?: number;
-}> = ({
-  list,
-  draggable,
-  checkable,
-  showListItemOption,
-  prefixCls,
-  showTitle = true,
-  title: listTitle,
-  listHeight = 280,
-}) => {
-  const { columnStateMap, setColumnStateMap, resetColumnStateMap } = useContext(TableContext, [
+  tableLocale: TableLocale;
+  list: InternalColumnsType<any>;
+}> = ({ prefixCls, tableLocale, list }) => {
+  const { columnStateMap, setColumnStateMap } = useContext(TableContext, [
     'columnStateMap',
     'setColumnStateMap',
-    'resetColumnStateMap',
   ]);
 
-  const handleDragEnd = () => {};
+  const handleDragEnd = (info: DragEndEvent) => {
+    const { active, over } = info;
+    if (active.id !== over?.id) {
+      const newColumnStateMap = { ...columnStateMap };
+      const overOrder = columnStateMap[over?.id as string]?.order ?? 0;
+      Object.entries(newColumnStateMap).forEach(([key, item]) => {
+        if (active.id === key) {
+          item.order = overOrder;
+        } else if (item.order >= overOrder) {
+          item.order += 1;
+        }
+      });
 
-  const itemKeys = getColumnsKey(list);
+      setColumnStateMap(newColumnStateMap);
+    }
+  };
 
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis, restrictToFirstScrollableAncestor]}
-      onDragEnd={handleDragEnd}
+    <Scrollbar
+      autoHeight={[0, 288]}
+      className={{ root: clsx(`${prefixCls}-column-setting-list`), view: 'px-3' }}
     >
-      <SortableContext items={itemKeys} strategy={verticalListSortingStrategy}></SortableContext>
-    </DndContext>
+      <DndContext
+        collisionDetection={closestCenter}
+        modifiers={[restrictToVerticalAxis, restrictToFirstScrollableAncestor]}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={getColumnsKey(list)} strategy={verticalListSortingStrategy}>
+          {list.map((item) => (
+            <CheckboxListItem
+              key={item.key}
+              prefixCls={prefixCls}
+              tableLocale={tableLocale}
+              columnKey={item.key}
+              title={item.rawTitle}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
+    </Scrollbar>
   );
 };
 
-function ColumnSetting<T extends AnyObject>(props: ColumnSettingProps<T>) {
-  const columnRef = useRef(null);
-  // 获得当前上下文的 hashID
-  const counter = useContext(TableContext);
-  const localColumns: TableColumnType<T> &
-    {
-      index?: number;
-      fixed?: any;
-      key?: any;
-    }[] = props.columns;
-  const { checkedReset = true } = props;
-  const { columnStateMap, setColumnsMap, clearPersistenceStorage } = counter;
+function ColumnSetting<T extends AnyObject>({
+  prefixCls,
+  tableLocale,
+  columns,
+  settingIcon,
+}: ColumnSettingProps<T>) {
+  const { resetColumnStateMap } = useContext(TableContext, ['resetColumnStateMap']);
 
-  useEffect(() => {
-    if (counter.propsRef.current?.columnsState?.value) {
-      columnRef.current = JSON.parse(
-        JSON.stringify(counter.propsRef.current?.columnsState?.value || {}),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /**
-   * 设置全部选中，或全部未选中
-   *
-   * @param show
-   */
-  const setAllSelectAction = useRefFunction((show: boolean = true) => {
-    const columnKeyMap = {} as Record<string, any>;
-    const loopColumns = (columns: any) => {
-      columns.forEach(({ key, fixed, index, children, disable }: any) => {
-        const columnKey = genColumnKey(key, index);
-        if (columnKey) {
-          columnKeyMap[columnKey] = {
-            // 子节点 disable 时，不修改节点显示状态
-            show: disable ? columnStateMap[columnKey]?.show : show,
-            fixed,
-            disable,
-            order: columnStateMap[columnKey]?.order,
-          };
-        }
-        if (children) {
-          loopColumns(children);
-        }
-      });
-    };
-    loopColumns(localColumns);
-    setColumnsMap(columnKeyMap);
-  });
-
-  /** 全选和反选 */
-  const checkedAll = useRefFunction((e: CheckboxChangeEvent) => {
-    if (e.target.checked) {
-      setAllSelectAction();
-    } else {
-      setAllSelectAction(false);
-    }
-  });
-
-  /** 重置项目 */
-  const clearClick = useRefFunction(() => {
-    clearPersistenceStorage?.();
-    setColumnsMap(
-      counter.propsRef.current?.columnsState?.defaultValue ||
-        columnRef.current ||
-        counter.defaultColumnKeyMap!,
-    );
-  });
-
-  // 未选中的 key 列表
-  const unCheckedKeys = Object.values(columnStateMap).filter(
-    (value) => !value || value.show === false,
-  );
-
-  // 是否已经选中
-  const indeterminate = unCheckedKeys.length > 0 && unCheckedKeys.length !== localColumns.length;
-
-  const className = getPrefixCls('pro-table-column-setting');
   return (
     <Popover
       arrow={false}
       title={
-        <div className={`${className}-title ${hashId}`}>
-          {props.checkable === false ? (
-            <div />
-          ) : (
-            <Checkbox
-              indeterminate={indeterminate}
-              checked={unCheckedKeys.length === 0 && unCheckedKeys.length !== localColumns.length}
-              onChange={(e) => {
-                checkedAll(e);
-              }}
-            >
-              {intl.getMessage('tableToolBar.columnDisplay', '列展示')}
-            </Checkbox>
-          )}
-          {checkedReset ? (
-            <a onClick={clearClick} className={`${className}-action-rest-button ${hashId}`}>
-              {intl.getMessage('tableToolBar.reset', '重置')}
-            </a>
-          ) : null}
-          {props?.extra ? (
-            <Space size={12} align="center">
-              {props.extra}
-            </Space>
-          ) : null}
+        <div className={clsx(`${prefixCls}-title`, 'mb-1 flex justify-between px-3')}>
+          {tableLocale.toolbar?.setting}
+          <a onClick={resetColumnStateMap} className={`${prefixCls}-action-rest `}>
+            {tableLocale.toolbar?.reset}
+          </a>
         </div>
       }
-      overlayClassName={`${className}-overlay ${hashId}`}
       trigger="click"
       placement="bottomRight"
-      content={
-        <GroupCheckboxList
-          checkable={props.checkable ?? true}
-          draggable={props.draggable ?? true}
-          showListItemOption={props.showListItemOption ?? true}
-          className={className}
-          localColumns={localColumns}
-          listsHeight={props.listsHeight}
-        />
-      }
+      content={<CheckboxList prefixCls={prefixCls} tableLocale={tableLocale} list={columns} />}
+      className={{ inner: 'px-0' }}
     >
-      {props.children || (
-        <Tooltip title={intl.getMessage('tableToolBar.columnSetting', '列设置')}>
-          {props.settingIcon ?? <SettingOutlined />}
-        </Tooltip>
-      )}
+      <Tooltip title={tableLocale.toolbar?.setting}>{settingIcon ?? <Cog6ToothOutline />}</Tooltip>
     </Popover>
   );
 }
 
-export default ColumnSetting;
+export default responseImmutable(ColumnSetting);

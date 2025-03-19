@@ -518,7 +518,12 @@ function InternalTable<RecordType extends AnyObject>(
       transformSelectionColumns(
         transformFilterColumns(transformSorterColumns(transformExpandableColumns(innerColumns))),
       ),
-    [transformSorterColumns, transformFilterColumns, transformSelectionColumns],
+    [
+      transformSelectionColumns,
+      transformFilterColumns,
+      transformSorterColumns,
+      transformExpandableColumns,
+    ],
   );
 
   const [

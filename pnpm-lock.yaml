@@ -25,9 +25,21 @@ importers:
       '@ctrl/tinycolor':
         specifier: ^4.1.0
         version: 4.1.0
+      '@dnd-kit/core':
+        specifier: ^6.1.0
+        version: 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@dnd-kit/modifiers':
+        specifier: ^7.0.0
+        version: 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      '@dnd-kit/sortable':
+        specifier: ^7.0.2
+        version: 7.0.2(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      '@dnd-kit/utilities':
+        specifier: ^3.2.2
+        version: 3.2.2(react@18.3.1)
       '@metisjs/icons':
-        specifier: ^0.0.2-alpha.5
-        version: 0.0.2-alpha.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.1.0-alpha
+        version: 0.1.0-alpha(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@rc-component/async-validator':
         specifier: ^5.0.4
         version: 5.0.4
@@ -104,18 +116,6 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^17.6.1
         version: 17.8.1
-      '@dnd-kit/core':
-        specifier: ^6.1.0
-        version: 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@dnd-kit/modifiers':
-        specifier: ^7.0.0
-        version: 7.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      '@dnd-kit/sortable':
-        specifier: ^7.0.2
-        version: 7.0.2(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      '@dnd-kit/utilities':
-        specifier: ^3.2.2
-        version: 3.2.2(react@18.3.1)
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.3.1
         version: 4.4.1(prettier@3.5.3)
@@ -1395,8 +1395,8 @@ packages:
     peerDependencies:
       react: '>=16'
 
-  '@metisjs/icons@0.0.2-alpha.5':
-    resolution: {integrity: sha512-Egl5eWsZHBdY7KYD+MUIRvvi/0f5RfejkD7pKLmhtDQrvVFsTJcwawAUq8VU+W57Bkn3ae/PEc4R2j1/oZFe1w==}
+  '@metisjs/icons@0.1.0-alpha':
+    resolution: {integrity: sha512-rL3l/JO5aqcIC1pI5dlcAdacn9VWi9ndZlHLvmUyZ1zGHd/0UdpkNWjsJ5QX6myihOGJGt4HCFmLI2+TsOTMgQ==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -4311,8 +4311,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  heroicons@2.1.5:
-    resolution: {integrity: sha512-XLq3m45bJphmWdR6im52alaYajp0/fluJa2+7xh3x7CgItumbLsjhKYe+mCf0lErXLy7ZyiEgKIty2gFNxhoyA==}
+  heroicons@2.2.0:
+    resolution: {integrity: sha512-yOwvztmNiBWqR946t+JdgZmyzEmnRMC2nxvHFC90bF1SUttwB6yJKYeme1JeEcBfobdOs827nCyiWBS2z/brog==}
 
   heti-findandreplacedomtext@0.5.0:
     resolution: {integrity: sha512-GFZjqU8LAdu1uR72GqrReI+lzNLMlcWtvdz1TKNJiofyo1mfTecFYSZEoEbcLcRMl+KwEldnNQoS4BwO8wtg0A==}
@@ -9400,9 +9400,9 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@metisjs/icons@0.0.2-alpha.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@metisjs/icons@0.1.0-alpha(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      heroicons: 2.1.5
+      heroicons: 2.2.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
@@ -13291,7 +13291,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  heroicons@2.1.5: {}
+  heroicons@2.2.0: {}
 
   heti-findandreplacedomtext@0.5.0: {}
 

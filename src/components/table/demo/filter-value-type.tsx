@@ -225,6 +225,7 @@ const App: React.FC = () => (
       console.log(filters);
     }}
     scroll={{ x: 'max-content' }}
+    toolbar={{ options: true }}
   />
 );
 

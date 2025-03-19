@@ -57,9 +57,10 @@ const localeValues: Locale = {
     },
     toolbar: {
       reload: 'Reload',
-      setting: 'Setting',
+      setting: 'Column Setting',
       fullscreen: 'Fullscreen',
       exitFullscreen: 'Exit Fullscreen',
+      reset: 'Reset',
       leftPin: 'Pin left',
       noPin: 'No pin',
       rightPin: 'Pin right',

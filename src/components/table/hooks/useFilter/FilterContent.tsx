@@ -291,10 +291,7 @@ function renderFilterItems({
       key: filter.value !== undefined ? key : index,
       label: (
         <Space size={8} block>
-          <Component
-            checked={filteredKeys.includes(key)}
-            className={{ indicator: 'peer-focus/checkbox:outline-0 peer-focus/radio:outline-0' }}
-          />
+          <Component checked={filteredKeys.includes(key)} />
           <span>{filter.label}</span>
         </Space>
       ),
@@ -475,7 +472,6 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
                 }
                 className={{
                   root: `${prefixCls}-dropdown-checkall`,
-                  indicator: 'peer-focus/checkbox:outline-0',
                 }}
                 onChange={onCheckAll}
               >
@@ -489,7 +485,6 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
               checkStrictly={!filterMultiple}
               className={{
                 root: `${prefixCls}-menu`,
-                node: { checkbox: { indicator: 'peer-focus/checkbox:outline-0' } },
               }}
               onCheck={onCheck as any}
               checkedKeys={selectedKeys as Key[]}

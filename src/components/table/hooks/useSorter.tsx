@@ -18,7 +18,6 @@ import type {
   SortOrder,
   TableLocale,
 } from '../interface';
-import { renderColumnTitle } from '../utils/valueUtil';
 
 const ASCEND = 'ascend';
 const DESCEND = 'descend';
@@ -193,46 +192,46 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
               ...showSorterTooltip,
             }
           : { title: sortTip };
+
+      const columnSortersClass = clsx(
+        `${prefixCls}-column-sorters`,
+        'flex items-center justify-between after:absolute after:inset-0 after:h-full after:w-full',
+      );
+      const renderColumnTitleWrapper = (
+        <span className={clsx(`${prefixCls}-column-title`, 'relative flex-1')}>
+          {column.rawTitle}
+        </span>
+      );
+      const renderSortTitle = (
+        <div className={columnSortersClass}>
+          {renderColumnTitleWrapper}
+          {sorterNode}
+        </div>
+      );
+
+      let mergedTitle = renderSortTitle;
+      if (showSorterTooltip) {
+        if (typeof showSorterTooltip !== 'boolean' && showSorterTooltip?.target === 'sorter-icon') {
+          mergedTitle = (
+            <div
+              className={`${columnSortersClass} ${prefixCls}-column-sorters-tooltip-target-sorter`}
+            >
+              {renderColumnTitleWrapper}
+              <Tooltip {...tooltipProps}>{sorterNode}</Tooltip>
+            </div>
+          );
+        } else {
+          mergedTitle = <Tooltip {...tooltipProps}>{renderSortTitle}</Tooltip>;
+        }
+      }
+
       newColumn = {
         ...newColumn,
         className: mergeSemanticCls(
           clsx({ [`${prefixCls}-column-sort`]: sortOrder }, { 'bg-fill-quinary': sortOrder }),
           newColumn.className,
         ),
-        title: (renderProps: ColumnTitleProps<RecordType>) => {
-          const columnSortersClass = clsx(
-            `${prefixCls}-column-sorters`,
-            'flex items-center justify-between after:absolute after:inset-0 after:h-full after:w-full',
-          );
-          const renderColumnTitleWrapper = (
-            <span className={clsx(`${prefixCls}-column-title`, 'relative flex-1')}>
-              {renderColumnTitle(column.title, renderProps)}
-            </span>
-          );
-          const renderSortTitle = (
-            <div className={columnSortersClass}>
-              {renderColumnTitleWrapper}
-              {sorterNode}
-            </div>
-          );
-          if (showSorterTooltip) {
-            if (
-              typeof showSorterTooltip !== 'boolean' &&
-              showSorterTooltip?.target === 'sorter-icon'
-            ) {
-              return (
-                <div
-                  className={`${columnSortersClass} ${prefixCls}-column-sorters-tooltip-target-sorter`}
-                >
-                  {renderColumnTitleWrapper}
-                  <Tooltip {...tooltipProps}>{sorterNode}</Tooltip>
-                </div>
-              );
-            }
-            return <Tooltip {...tooltipProps}>{renderSortTitle}</Tooltip>;
-          }
-          return renderSortTitle;
-        },
+        title: mergedTitle,
         onHeaderCell: (col) => {
           const cell: React.HTMLAttributes<HTMLElement> = column.onHeaderCell?.(col) || {};
           const originOnClick = cell.onClick;

@@ -5,6 +5,7 @@ import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import Tooltip from '../../tooltip';
 import type { InternalColumnsType, OptionConfig, TableActionType, TableLocale } from '../interface';
+import ColumnSetting from './ColumnSetting';
 import FullscreenButton from './FullscreenButton';
 
 export type ToolBarProps<T extends AnyObject = AnyObject> = {
@@ -20,6 +21,7 @@ export type ToolBarProps<T extends AnyObject = AnyObject> = {
 };
 
 function renderDefaultOption<T extends AnyObject = AnyObject>(
+  prefixCls: string,
   tableLocale: TableLocale,
   options: OptionConfig,
   tableAction: TableActionType,
@@ -41,10 +43,14 @@ function renderDefaultOption<T extends AnyObject = AnyObject>(
           : () => {};
 
       if (key === 'setting') {
-        return null;
-        // return (
-        //   <ColumnSetting {...(options[key] as SettingOptionType)} columns={columns} key={key} />
-        // );
+        return (
+          <ColumnSetting
+            prefixCls={`${prefixCls}-column-setting`}
+            tableLocale={tableLocale}
+            columns={columns}
+            key={key}
+          />
+        );
       }
       if (key === 'fullScreen') {
         return <FullscreenButton key={key} onClick={onClick} />;
@@ -80,10 +86,10 @@ function ToolBar<T extends AnyObject = AnyObject>({
     }
 
     const options: OptionConfig = {
-      reload: () => tableAction.reload(),
-      setting: true,
       search: false,
+      reload: () => tableAction.reload(),
       fullScreen: () => tableAction.fullScreen(),
+      setting: true,
     };
 
     if (typeof propsOptions === 'object') {
@@ -94,7 +100,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
       });
     }
 
-    const settings = renderDefaultOption<T>(tableLocale, options, tableAction, columns);
+    const settings = renderDefaultOption<T>(prefixCls, tableLocale, options, tableAction, columns);
     if (optionsRender) {
       return optionsRender(settings);
     }
@@ -122,7 +128,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
       <div
         className={clsx(
           `${prefixCls}-toolbar-options`,
-          'flex items-center justify-end gap-2 *:inline-flex *:cursor-pointer *:items-center *:text-xl *:hover:text-primary',
+          'flex items-center justify-end gap-2 *:inline-flex *:cursor-pointer *:items-center *:text-xl hover:*:text-primary',
         )}
       >
         {optionDom}

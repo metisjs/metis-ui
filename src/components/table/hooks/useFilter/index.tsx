@@ -4,7 +4,6 @@ import type { AnyObject } from '../../../_util/type';
 import { devUseWarning } from '../../../_util/warning';
 import type { FieldValueType } from '../../../form/interface';
 import type {
-  ColumnTitleProps,
   FilterKey,
   FilterValue,
   GetPopupContainer,
@@ -14,7 +13,6 @@ import type {
   TableLocale,
 } from '../../interface';
 import { fillFilterProps, isFilterable, isFilterableWithValueType } from '../../utils/filterUtil';
-import { renderColumnTitle } from '../../utils/valueUtil';
 import FilterDropdown from './FilterDropdown';
 
 export interface FilterState<RecordType extends AnyObject = AnyObject> {
@@ -88,7 +86,7 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
 
       newColumn = {
         ...newColumn,
-        title: (renderProps: ColumnTitleProps<RecordType>) => (
+        title: (
           <FilterDropdown
             tablePrefixCls={prefixCls}
             prefixCls={`${prefixCls}-filter`}
@@ -104,7 +102,7 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
             locale={locale}
             getPopupContainer={getPopupContainer}
           >
-            {renderColumnTitle<RecordType>(column.title, renderProps)}
+            {column.rawTitle}
           </FilterDropdown>
         ),
       };

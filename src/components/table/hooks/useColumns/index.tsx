@@ -2,6 +2,7 @@ import * as React from 'react';
 import useBreakpoint from '@util/hooks/useBreakpoint';
 import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject } from '@util/type';
+import { EXPAND_COLUMN, SELECTION_COLUMN } from '../../constant';
 import type {
   ColumnsPos,
   ColumnTitleProps,
@@ -52,10 +53,15 @@ const fillTitle = <RecordType extends AnyObject = AnyObject>(
   columnTitleProps: ColumnTitleProps<RecordType>,
 ): InternalColumnsType<RecordType> => {
   const finalColumns = columns.map((column) => {
+    if (column === EXPAND_COLUMN || column === SELECTION_COLUMN) {
+      return column;
+    }
+
     const cloneColumn: InternalColumnGroupType<RecordType> | InternalColumnType<RecordType> = {
       ...column,
     };
     cloneColumn.title = renderColumnTitle(column.title, columnTitleProps);
+    cloneColumn.rawTitle = cloneColumn.title;
     if ('children' in cloneColumn) {
       cloneColumn.children = fillTitle<RecordType>(cloneColumn.children, columnTitleProps);
     }
@@ -111,6 +117,8 @@ function useColumns<RecordType extends AnyObject>(
 
     let finalColumns = baseColumns;
 
+    finalColumns = fillTitle(finalColumns, columnTitleProps);
+
     if (transformColumns) {
       finalColumns = transformColumns(finalColumns);
     }
@@ -118,8 +126,6 @@ function useColumns<RecordType extends AnyObject>(
     finalColumns = finalColumns.filter(
       (c) => !c.responsive || c.responsive.some((r) => matched.has(r)),
     );
-
-    finalColumns = fillTitle(finalColumns, columnTitleProps);
 
     // Always provides at least one column for table display
     if (!finalColumns.length) {

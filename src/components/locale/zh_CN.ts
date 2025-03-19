@@ -58,9 +58,10 @@ const localeValues: Locale = {
     },
     toolbar: {
       reload: '刷新',
-      setting: '设置',
+      setting: '列设置',
       fullscreen: '全屏',
       exitFullscreen: '退出全屏',
+      reset: '重置',
       leftPin: '固定在列首',
       noPin: '不固定',
       rightPin: '固定在列尾',

@@ -477,7 +477,6 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             disabled={flattedData.length === 0 || allDisabled}
             aria-label={customizeSelections ? 'Custom selection' : 'Select all'}
             skipGroup
-            className={{ indicator: 'peer-focus/checkbox:outline-0' }}
           />
         );
 
@@ -545,10 +544,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             node: (
               <Radio
                 {...checkboxProps}
-                className={mergeSemanticCls(
-                  { root: 'align-text-top', indicator: 'peer-focus/radio:outline-0' },
-                  checkboxProps?.className,
-                )}
+                className={mergeSemanticCls({ root: 'align-text-top' }, checkboxProps?.className)}
                 checked={checked}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -587,10 +583,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             node: (
               <Checkbox
                 {...checkboxProps}
-                className={mergeSemanticCls(
-                  { root: 'align-text-top', indicator: 'peer-focus/checkbox:outline-0' },
-                  checkboxProps?.className,
-                )}
+                className={mergeSemanticCls({ root: 'align-text-top' }, checkboxProps?.className)}
                 indeterminate={mergedIndeterminate}
                 checked={checked}
                 skipGroup

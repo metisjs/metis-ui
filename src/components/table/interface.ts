@@ -177,7 +177,11 @@ export interface ColumnGroupType<RecordType extends AnyObject>
 export type InternalColumnGroupType<RecordType extends AnyObject> = RequiredWith<
   Omit<ColumnGroupType<RecordType>, 'children'>,
   'key'
-> & { children: Omit<InternalColumnsType<RecordType>, 'hidden'> };
+> & {
+  // Exclude filter&sorter node
+  rawTitle?: React.ReactNode;
+  children: Omit<InternalColumnsType<RecordType>, 'hidden'>;
+};
 
 export type AlignType = 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
 
@@ -298,7 +302,10 @@ export type ColumnType<RecordType extends AnyObject> = {
 export type InternalColumnType<RecordType extends AnyObject> = RequiredWith<
   ColumnType<RecordType>,
   'key'
->;
+> & {
+  // Exclude filter&sorter node
+  rawTitle?: React.ReactNode;
+};
 
 export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
   | ColumnGroupType<RecordType>
@@ -512,6 +519,7 @@ export interface TableLocale {
     setting?: string;
     fullscreen?: string;
     exitFullscreen?: string;
+    reset?: string;
     leftPin?: string;
     noPin?: string;
     rightPin?: string;
@@ -586,25 +594,11 @@ export type OptionSearchProps = Omit<InputProps, 'onSearch'> & {
   onSearch?: (keyword: string) => Promise<boolean | undefined> | boolean | undefined;
 };
 
-export type SettingOptionType = {
-  draggable?: boolean;
-  checkable?: boolean;
-  showListItemOption?: boolean;
-  checkedReset?: boolean;
-  listsHeight?: number;
-  extra?: React.ReactNode;
-  children?: React.ReactNode;
-  settingIcon?: React.ReactNode;
-};
-
 export type OptionConfig = {
   fullScreen?: OptionsType;
   reload?: OptionsType;
-  setting?: boolean | SettingOptionType;
+  setting?: boolean;
   search?: (OptionSearchProps & { name?: string }) | boolean;
-  reloadIcon?: React.ReactNode;
-  fullScreenIcon?: React.ReactNode;
-  settingIcon?: React.ReactNode;
 };
 
 export type OptionsFunctionType = (
@@ -643,5 +637,5 @@ export type ColumnStateType = {
 export type ColumnState = {
   show?: boolean;
   fixed?: Exclude<FixedType, boolean>;
-  order?: number;
+  order: number;
 };

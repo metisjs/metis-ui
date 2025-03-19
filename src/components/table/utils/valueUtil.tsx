@@ -1,5 +1,5 @@
 import type { AnyObject } from '@util/type';
-import { INTERNAL_COL_KEY_PREFIX } from '../constant';
+import { EXPAND_COLUMN, INTERNAL_COL_KEY_PREFIX, SELECTION_COLUMN } from '../constant';
 import type {
   ColumnsType,
   ColumnTitle,
@@ -12,18 +12,29 @@ import type {
 export const fillColumnsKey = <RecordType extends AnyObject = AnyObject>(
   columns?: ColumnsType<RecordType>,
   keyPrefix: Key = INTERNAL_COL_KEY_PREFIX,
+  existKeys: Set<Key> = new Set(),
 ): InternalColumnsType<RecordType> => {
   const finalColumns = columns?.map((column, index) => {
+    if (column === EXPAND_COLUMN || column === SELECTION_COLUMN) {
+      return column;
+    }
+
     let mergedKey = column.key;
-    if ('dataIndex' in column && column.dataIndex) {
+    if (!mergedKey && 'dataIndex' in column && column.dataIndex) {
       mergedKey = Array.isArray(column.dataIndex)
-        ? column.dataIndex.join('-')
+        ? column.dataIndex.join('.')
         : (column.dataIndex as Key);
     }
 
     if (!mergedKey) {
       mergedKey = `${keyPrefix}_${index}`;
     }
+
+    while (existKeys.has(mergedKey)) {
+      mergedKey = `${mergedKey}_next`;
+    }
+
+    existKeys.add(mergedKey);
 
     const cloneColumn: InternalColumnsType<RecordType> | InternalColumnType<RecordType> = {
       ...column,
@@ -33,6 +44,7 @@ export const fillColumnsKey = <RecordType extends AnyObject = AnyObject>(
       cloneColumn.children = fillColumnsKey<RecordType>(
         cloneColumn.children as ColumnsType<RecordType>,
         mergedKey,
+        existKeys,
       );
     }
     return cloneColumn;
