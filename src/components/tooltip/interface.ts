@@ -49,6 +49,7 @@ export interface AbstractTooltipProps
 
 export interface TooltipRef {
   forceAlign: VoidFunction;
+  nativeElement?: HTMLElement;
 }
 
 export type TooltipPlacement =

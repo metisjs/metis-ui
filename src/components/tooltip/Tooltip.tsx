@@ -55,6 +55,7 @@ const Tooltip = React.forwardRef<TooltipRef, TooltipProps>((props, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     forceAlign,
+    nativeElement: tooltipRef.current?.nativeElement,
   }));
 
   // ============================== Open ==============================
