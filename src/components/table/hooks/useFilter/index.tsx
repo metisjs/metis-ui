@@ -136,10 +136,11 @@ const generateFilterInfo = <RecordType extends AnyObject = AnyObject>(
     .filter(({ filteredKeys }) => filteredKeys && filteredKeys.length)
     .reduce((prev, { key, filteredKeys, column }) => {
       if (isFilterableWithValueType(column)) {
-        const valueTypeStr: FieldValueType =
-          typeof column.valueType === 'object'
+        let valueTypeStr: FieldValueType =
+          (typeof column.valueType === 'object'
             ? column.valueType.type
-            : (column.valueType as FieldValueType);
+            : (column.valueType as FieldValueType)) ?? 'text';
+        valueTypeStr = valueTypeStr === 'text' && !!column.valueEnum ? 'select' : valueTypeStr;
         if (['text', 'textarea'].includes(valueTypeStr ?? 'text')) {
           return { ...prev, [key]: filteredKeys![0] };
         }

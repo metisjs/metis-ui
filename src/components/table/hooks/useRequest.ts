@@ -82,8 +82,8 @@ export default function <RecordType extends AnyObject>({
       refreshDeps: [
         pagination.current,
         pagination.pageSize,
-        filterStates,
-        sortStates,
+        JSON.stringify(filters),
+        JSON.stringify(sorter),
         ...refreshDeps,
       ],
       onSuccess: (d, params) => {
