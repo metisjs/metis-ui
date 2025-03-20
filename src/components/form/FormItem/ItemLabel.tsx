@@ -70,7 +70,6 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
     colon: contextColon,
     size,
     autoLabelWidth,
-    column,
     registerLabelWidth,
     deregisterLabelWidth,
   } = React.useContext<FormContextProps>(FormContext);
@@ -79,7 +78,7 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
   const labelRef = React.useRef<HTMLLabelElement>(null);
 
   const mergedLabelWidth = labelWidth ?? contextLabelWidth;
-  const isAutoWidth = mergedLabelWidth === 'auto' && layout === 'horizontal' && !column;
+  const isAutoWidth = mergedLabelWidth === 'auto' && layout === 'horizontal';
 
   React.useLayoutEffect(() => {
     if (isAutoWidth) {
