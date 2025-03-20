@@ -103,14 +103,14 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
     const selectionColumnIndex = columns.findIndex((column) => column === SELECTION_COLUMN);
     const expandColumnIndex = columns.findIndex((column) => column === EXPAND_COLUMN);
 
-    const insertList = [
+    [
       { index: selectionColumnIndex, value: SELECTION_COLUMN },
       { index: expandColumnIndex, value: EXPAND_COLUMN },
-    ].sort((a, b) => a.index - b.index);
-
-    insertList.forEach(({ index, value }) => {
-      cloned.splice(index, 0, value);
-    });
+    ]
+      .sort((a, b) => a.index - b.index)
+      .forEach(({ index, value }) => {
+        if (index > -1) cloned.splice(index, 0, value);
+      });
 
     return cloned;
   }, [columns, columnStateMap]);
