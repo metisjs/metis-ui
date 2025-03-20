@@ -12,15 +12,23 @@ import Checkbox from '../../checkbox';
 import Popover from '../../popover';
 import Scrollbar from '../../scrollbar';
 import Tooltip from '../../tooltip';
+import { EXPAND_COLUMN, SELECTION_COLUMN } from '../constant';
 import TableContext, { responseImmutable } from '../context/TableContext';
-import type { ColumnState, InternalColumnsType, Key, TableLocale } from '../interface';
-import { getColumnsKey } from '../utils/valueUtil';
+import type {
+  ColumnState,
+  ColumnTitleProps,
+  InternalColumnsType,
+  Key,
+  TableLocale,
+} from '../interface';
+import { getColumnsKey, renderColumnTitle } from '../utils/valueUtil';
 
 type ColumnSettingProps<T extends AnyObject = AnyObject> = {
   prefixCls: string;
   tableLocale: TableLocale;
   columns: InternalColumnsType<T>;
   settingIcon?: React.ReactNode;
+  columnTitleProps: ColumnTitleProps<T>;
 };
 
 const DragHandlerIcon = () => (
@@ -45,9 +53,9 @@ const ToolTipIcon: React.FC<{
     <Tooltip title={title}>
       <span
         className={clsx(
-          'hidden cursor-pointer items-center text-base text-text-secondary hover:text-primary group-hover/item:block',
+          'hidden cursor-pointer items-center text-base text-text-secondary hover:text-primary group-hover/item:inline-flex',
           {
-            'block group-hover/item:hidden': fixed === current,
+            'inline-flex group-hover/item:hidden': fixed === current,
             hidden: fixed === undefined && fixed === current,
           },
         )}
@@ -103,7 +111,13 @@ const CheckboxListItem: React.FC<{
   return (
     <div
       key={columnKey}
-      className={clsx(`${prefixCls}-list-item`, 'group/item flex items-center py-1')}
+      className={clsx(
+        `${prefixCls}-list-item`,
+        'group/item relative z-[1] flex items-center bg-container py-0.5',
+        {
+          'z-[2]': isDragging,
+        },
+      )}
       ref={setNodeRef}
       style={style}
     >
@@ -120,13 +134,20 @@ const CheckboxListItem: React.FC<{
       >
         <DragHandlerIcon />
       </div>
-      <Checkbox
-        checked={checked}
-        onChange={handelShowChange}
-        className={clsx(`${prefixCls}-list-item-title flex-1`, 'mr-2')}
+      <Checkbox checked={checked} onChange={handelShowChange}></Checkbox>
+      <div
+        {...attributes}
+        {...listeners}
+        className={clsx(
+          `${prefixCls}-list-item-title flex-1`,
+          'cursor-grab select-none px-2 leading-6',
+          {
+            'cursor-grabbing': isDragging,
+          },
+        )}
       >
         {title}
-      </Checkbox>
+      </div>
       <div
         className={clsx(
           `${prefixCls}-list-item-option`,
@@ -166,7 +187,8 @@ const CheckboxList: React.FC<{
   prefixCls: string;
   tableLocale: TableLocale;
   list: InternalColumnsType<any>;
-}> = ({ prefixCls, tableLocale, list }) => {
+  columnTitleProps: ColumnTitleProps<any>;
+}> = ({ prefixCls, tableLocale, list, columnTitleProps }) => {
   const { columnStateMap, setColumnStateMap } = useContext(TableContext, [
     'columnStateMap',
     'setColumnStateMap',
@@ -176,12 +198,22 @@ const CheckboxList: React.FC<{
     const { active, over } = info;
     if (active.id !== over?.id) {
       const newColumnStateMap = { ...columnStateMap };
-      const overOrder = columnStateMap[over?.id as string]?.order ?? 0;
+      const activeOrder = columnStateMap[active.id as string]?.order ?? 0; // 1
+      const overOrder = columnStateMap[over?.id as string]?.order ?? 0; // 3
+
       Object.entries(newColumnStateMap).forEach(([key, item]) => {
-        if (active.id === key) {
-          item.order = overOrder;
-        } else if (item.order >= overOrder) {
-          item.order += 1;
+        if (key === active.id) {
+          item.order = overOrder; // 更新拖动项的 order
+        } else if (activeOrder < overOrder) {
+          // active 项被拖动到 over 项之前
+          if (item.order > activeOrder && item.order <= overOrder) {
+            item.order -= 1; // 向前移动的项顺序减 1
+          }
+        } else if (activeOrder > overOrder) {
+          // active 项被拖动到 over 项之后
+          if (item.order >= overOrder && item.order < activeOrder) {
+            item.order += 1; // 向后移动的项顺序加 1
+          }
         }
       });
 
@@ -206,7 +238,7 @@ const CheckboxList: React.FC<{
               prefixCls={prefixCls}
               tableLocale={tableLocale}
               columnKey={item.key}
-              title={item.rawTitle}
+              title={renderColumnTitle(item.title, columnTitleProps)}
             />
           ))}
         </SortableContext>
@@ -220,6 +252,7 @@ function ColumnSetting<T extends AnyObject>({
   tableLocale,
   columns,
   settingIcon,
+  columnTitleProps,
 }: ColumnSettingProps<T>) {
   const { resetColumnStateMap } = useContext(TableContext, ['resetColumnStateMap']);
 
@@ -236,7 +269,16 @@ function ColumnSetting<T extends AnyObject>({
       }
       trigger="click"
       placement="bottomRight"
-      content={<CheckboxList prefixCls={prefixCls} tableLocale={tableLocale} list={columns} />}
+      content={
+        <CheckboxList
+          prefixCls={prefixCls}
+          tableLocale={tableLocale}
+          list={columns.filter(
+            (col) => col.key !== SELECTION_COLUMN.key && col.key !== EXPAND_COLUMN.key,
+          )}
+          columnTitleProps={columnTitleProps}
+        />
+      }
       className={{ inner: 'px-0' }}
     >
       <Tooltip title={tableLocale.toolbar?.setting}>{settingIcon ?? <Cog6ToothOutline />}</Tooltip>

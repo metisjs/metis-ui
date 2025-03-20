@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../_util/type';
 import type { GetRowKey, Key } from '../interface';
 
@@ -16,7 +17,7 @@ const useLazyKVMap = <RecordType extends AnyObject = AnyObject>(
 ) => {
   const mapCacheRef = React.useRef<MapCache<RecordType>>({});
 
-  function getRecordByKey(key: Key): RecordType {
+  const getRecordByKey = useEvent((key: Key): RecordType => {
     if (
       !mapCacheRef.current ||
       mapCacheRef.current.data !== data ||
@@ -47,7 +48,7 @@ const useLazyKVMap = <RecordType extends AnyObject = AnyObject>(
     }
 
     return mapCacheRef.current.kvMap!.get(key)!;
-  }
+  });
 
   return [getRecordByKey] as const;
 };

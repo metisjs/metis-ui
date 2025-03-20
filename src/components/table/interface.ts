@@ -312,7 +312,7 @@ export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
   | ColumnType<RecordType>
 )[];
 
-export type InternalColumnsType<RecordType extends AnyObject> = readonly (
+export type InternalColumnsType<RecordType extends AnyObject> = (
   | InternalColumnGroupType<RecordType>
   | InternalColumnType<RecordType>
 )[];

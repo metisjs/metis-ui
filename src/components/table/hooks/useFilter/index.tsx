@@ -1,5 +1,6 @@
 import * as React from 'react';
 import toArray from '@util/toArray';
+import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../../_util/type';
 import { devUseWarning } from '../../../_util/warning';
 import type { FieldValueType } from '../../../form/interface';
@@ -249,7 +250,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     onFilterChange(generateFilterInfo<RecordType>(newFilterStates), newFilterStates);
   };
 
-  const transformColumns = (innerColumns: InternalColumnsType<RecordType>) =>
+  const transformColumns = useEvent((innerColumns: InternalColumnsType<RecordType>) =>
     injectFilter(
       prefixCls,
       dropdownPrefixCls,
@@ -259,7 +260,8 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
       triggerFilter,
       getPopupContainer,
       rootClassName,
-    );
+    ),
+  );
 
   return [transformColumns, mergedFilterStates, filters] as const;
 };

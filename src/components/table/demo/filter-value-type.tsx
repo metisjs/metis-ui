@@ -58,6 +58,7 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Index',
     dataIndex: 'index',
     valueType: 'indexBorder',
+    fixed: 'left',
   },
   {
     title: 'Text',
@@ -225,7 +226,6 @@ const App: React.FC = () => (
       console.log(filters);
     }}
     scroll={{ x: 'max-content' }}
-    toolbar={{ options: true }}
   />
 );
 

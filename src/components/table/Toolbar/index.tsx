@@ -4,7 +4,13 @@ import { ArrowPathOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import Tooltip from '../../tooltip';
-import type { InternalColumnsType, OptionConfig, TableActionType, TableLocale } from '../interface';
+import type {
+  ColumnTitleProps,
+  InternalColumnsType,
+  OptionConfig,
+  TableActionType,
+  TableLocale,
+} from '../interface';
 import ColumnSetting from './ColumnSetting';
 import FullscreenButton from './FullscreenButton';
 
@@ -18,6 +24,7 @@ export type ToolBarProps<T extends AnyObject = AnyObject> = {
   onSearch?: (keyWords: string) => void;
   columns: InternalColumnsType<T>;
   tableLocale: TableLocale;
+  columnTitleProps: ColumnTitleProps<T>;
 };
 
 function renderDefaultOption<T extends AnyObject = AnyObject>(
@@ -26,6 +33,7 @@ function renderDefaultOption<T extends AnyObject = AnyObject>(
   options: OptionConfig,
   tableAction: TableActionType,
   columns: InternalColumnsType<T>,
+  columnTitleProps: ColumnTitleProps<T>,
 ) {
   return Object.keys(options)
     .filter((item) => item)
@@ -49,6 +57,7 @@ function renderDefaultOption<T extends AnyObject = AnyObject>(
             tableLocale={tableLocale}
             columns={columns}
             key={key}
+            columnTitleProps={columnTitleProps}
           />
         );
       }
@@ -79,6 +88,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
   options: propsOptions,
   columns,
   optionsRender,
+  columnTitleProps,
 }: ToolBarProps<T>) {
   const optionDom = useMemo(() => {
     if (!propsOptions) {
@@ -100,7 +110,14 @@ function ToolBar<T extends AnyObject = AnyObject>({
       });
     }
 
-    const settings = renderDefaultOption<T>(prefixCls, tableLocale, options, tableAction, columns);
+    const settings = renderDefaultOption<T>(
+      prefixCls,
+      tableLocale,
+      options,
+      tableAction,
+      columns,
+      columnTitleProps,
+    );
     if (optionsRender) {
       return optionsRender(settings);
     }

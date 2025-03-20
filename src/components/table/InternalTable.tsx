@@ -292,15 +292,23 @@ function InternalTable<RecordType extends AnyObject>(
 
   const customizeScrollBody = getComponent(['body']) as CustomizeScrollBody<RecordType>;
 
-  const columns = React.useMemo(() => fillColumnsKey(props.columns), [props.columns]);
+  const rawColumns = React.useMemo(() => fillColumnsKey(props.columns), [props.columns]);
 
   const tableKey = React.useMemo(() => {
     if (columnsState?.persistenceKey) {
       return columnsState?.persistenceKey;
     }
 
-    return getColumnsKey(columns ?? []).join('_');
-  }, [columns, columnsState?.persistenceKey]);
+    return getColumnsKey(rawColumns ?? []).join('_');
+  }, [rawColumns, columnsState?.persistenceKey]);
+
+  // ====================== ColumnsState =======================
+  const [internalColumns, columnStateMap, setColumnStateMap, resetColumnStateMap] = useColumnsState(
+    {
+      columns: rawColumns,
+      columnsState,
+    },
+  );
 
   // ====================== Hover =======================
   const [startRow, endRow, onHover] = useHover();
@@ -362,7 +370,7 @@ function InternalTable<RecordType extends AnyObject>(
   };
   const [transformSorterColumns, sortStates, sorterTitleProps, getSorters] = useSorter<RecordType>({
     prefixCls,
-    columns,
+    columns: internalColumns,
     onSorterChange,
     sortDirections: sortDirections ?? ['ascend', 'descend'],
     tableLocale,
@@ -381,7 +389,7 @@ function InternalTable<RecordType extends AnyObject>(
     prefixCls,
     locale: tableLocale,
     dropdownPrefixCls,
-    columns,
+    columns: internalColumns,
     onFilterChange,
     getPopupContainer: getPopupContainer || getContextPopupContainer,
   });
@@ -537,7 +545,7 @@ function InternalTable<RecordType extends AnyObject>(
     columnsKey,
   ] = useColumns(
     {
-      columns,
+      columns: internalColumns,
       scrollWidth: typeof scrollX === 'number' ? scrollX : undefined,
       clientWidth: componentWidth,
       columnTitleProps,
@@ -554,12 +562,6 @@ function InternalTable<RecordType extends AnyObject>(
     }),
     [mergedColumns, flattenColumns],
   );
-
-  // ====================== ColumnsState =======================
-  const [columnStateMap, setColumnStateMap, resetColumnStateMap] = useColumnsState({
-    columns: mergedColumns,
-    columnsState,
-  });
 
   // ====================== Scroll ======================
   const [scrollOffset, setScrollOffset] = React.useState<ScrollOffset>({ left: 0, right: 0 });
@@ -1081,13 +1083,14 @@ function InternalTable<RecordType extends AnyObject>(
       <ToolBar<RecordType>
         prefixCls={prefixCls}
         headerTitle={headerTitle}
-        columns={mergedColumns}
+        columns={rawColumns}
         tableAction={tableAction}
         tableLocale={tableLocale}
+        columnTitleProps={columnTitleProps}
         {...toolbarProps}
       />
     );
-  }, [headerTitle, mergedColumns, toolbar]);
+  }, [headerTitle, rawColumns, toolbar]);
 
   fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>

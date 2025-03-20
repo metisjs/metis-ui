@@ -1,15 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { AnyObject } from '@util/type';
 import { merge } from 'rc-util/lib/utils/set';
+import { EXPAND_COLUMN, SELECTION_COLUMN } from '../constant';
 import type { ColumnState, ColumnStateType, InternalColumnsType, Key } from '../interface';
 
 function reorderState(columnsState: Record<Key, ColumnState>) {
   const sortedKeys = Object.keys(columnsState).sort(
-    (a, b) => columnsState[a].order ?? 0 - (columnsState[b].order ?? 0),
+    (a, b) => (columnsState[a].order ?? 0) - (columnsState[b].order ?? 0),
   );
 
   sortedKeys.forEach((key, index) => {
-    columnsState[key].order = index + 1;
+    columnsState[key].order = index;
   });
 
   return columnsState;
@@ -25,13 +26,15 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
   const defaultColumnKeyMap = useMemo(() => {
     const columnKeyMap = {} as Record<Key, ColumnState>;
     columns?.forEach((column, index) => {
-      columnKeyMap[column.key] = {
-        show: !column.hidden,
-        fixed: column.fixed === true ? 'left' : column.fixed === false ? undefined : column.fixed,
-        order: index,
-      };
+      if (column.key !== EXPAND_COLUMN.key && column.key !== SELECTION_COLUMN.key) {
+        columnKeyMap[column.key] = {
+          show: !column.hidden,
+          fixed: column.fixed === true ? 'left' : column.fixed === false ? undefined : column.fixed,
+          order: index,
+        };
+      }
     });
-    return columnKeyMap;
+    return reorderState(columnKeyMap);
   }, [columns]);
 
   const [columnStateMap, setColumnStateMap] = useState<Record<Key, ColumnState>>(() => {
@@ -73,7 +76,7 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
     (value: Record<Key, ColumnState>) => {
       setColumnStateMap(value);
 
-      const { persistenceType, persistenceKey } = columnsState || {};
+      const { persistenceType = 'localStorage', persistenceKey } = columnsState || {};
       if (!persistenceKey || !persistenceType || typeof window === 'undefined') return;
 
       const storage = window[persistenceType];
@@ -87,9 +90,32 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
     [clearPersistenceStorage],
   );
 
-  console.log(columnStateMap);
+  const mergedColumns = useMemo<InternalColumnsType<RecordType>>(() => {
+    const cloned = columns
+      .filter((column) => columnStateMap[column.key]?.show)
+      .sort((a, b) => columnStateMap[a.key].order - columnStateMap[b.key].order)
+      .map((column) =>
+        !columnStateMap[column.key]
+          ? column
+          : { ...column, fixed: columnStateMap[column.key].fixed },
+      );
 
-  return [columnStateMap, setInternalColumnStateMap, resetColumnStateMap] as const;
+    const selectionColumnIndex = columns.findIndex((column) => column === SELECTION_COLUMN);
+    const expandColumnIndex = columns.findIndex((column) => column === EXPAND_COLUMN);
+
+    const insertList = [
+      { index: selectionColumnIndex, value: SELECTION_COLUMN },
+      { index: expandColumnIndex, value: EXPAND_COLUMN },
+    ].sort((a, b) => a.index - b.index);
+
+    insertList.forEach(({ index, value }) => {
+      cloned.splice(index, 0, value);
+    });
+
+    return cloned;
+  }, [columns, columnStateMap]);
+
+  return [mergedColumns, columnStateMap, setInternalColumnStateMap, resetColumnStateMap] as const;
 }
 
 export default useColumnsState;

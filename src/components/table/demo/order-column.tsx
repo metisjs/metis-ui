@@ -57,6 +57,7 @@ const App: React.FC = () => (
       expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.description}</p>,
     }}
     dataSource={data}
+    toolbar={{ options: true }}
   />
 );
 

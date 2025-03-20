@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { CaretDownSolid, CaretUpSolid } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../_util/type';
 import type { TooltipProps } from '../../tooltip';
 import Tooltip from '../../tooltip';
@@ -505,7 +506,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     onSorterChange(generateSorterInfo(newSorterStates), newSorterStates);
   };
 
-  const transformColumns = (innerColumns: InternalColumnsType<RecordType>) =>
+  const transformColumns = useEvent((innerColumns: InternalColumnsType<RecordType>) =>
     injectSorter(
       prefixCls,
       innerColumns,
@@ -514,7 +515,8 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
       sortDirections,
       tableLocale,
       showSorterTooltip,
-    );
+    ),
+  );
 
   const getSorters = () => generateSorterInfo(mergedSorterStates);
 
