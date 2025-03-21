@@ -35,7 +35,16 @@ export function flattenKeys(filters?: ColumnFilterItem[]) {
   return keys;
 }
 
-const EXCLUDE_TYPES = ['index', 'indexBorder', 'avatar', 'password', 'image', 'action'];
+export const EXCLUDE_TYPES = [
+  'index',
+  'indexBorder',
+  'avatar',
+  'password',
+  'image',
+  'action',
+  'slider',
+  'rate',
+];
 
 export function isFilterableWithValueType(column: InternalColumnType<any>) {
   const { filter, valueType = 'text' } = column;
@@ -187,7 +196,7 @@ const getFilterMethodByValueType = <RecordType extends AnyObject = AnyObject>(
   }
 
   // 数字类
-  if (['money', 'rate', 'slider', 'progress', 'percent', 'digit'].includes(mergedValueType)) {
+  if (['money', 'progress', 'percent', 'digit'].includes(mergedValueType)) {
     return (search: [number | undefined, number | undefined], record: RecordType) => {
       const value = getValue(record, path as any);
       return numInRange(value, search);

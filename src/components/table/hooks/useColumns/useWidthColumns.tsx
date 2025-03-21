@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { AnyObject } from '@util/type';
 import type { InternalColumnsType } from '../../interface';
 
 function parseColWidth(totalWidth: number, width: string | number = '') {
@@ -15,12 +16,12 @@ function parseColWidth(totalWidth: number, width: string | number = '') {
 /**
  * Fill all column with width
  */
-export default function useWidthColumns(
-  flattenColumns: InternalColumnsType<any>,
+export default function useWidthColumns<RecordType extends AnyObject>(
+  flattenColumns: InternalColumnsType<RecordType>,
   scrollWidth: number | undefined,
   clientWidth: number,
 ) {
-  return React.useMemo<[columns: InternalColumnsType<any>, realScrollWidth?: number]>(() => {
+  return React.useMemo<[columns: InternalColumnsType<RecordType>, realScrollWidth?: number]>(() => {
     // Fill width if needed
     if (scrollWidth && scrollWidth > 0) {
       let totalWidth = 0;

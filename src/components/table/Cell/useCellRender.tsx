@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
-import { clsx } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import { isNil } from '@util/isNil';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
@@ -82,7 +82,10 @@ export default function useCellRender<RecordType extends AnyObject>({
           valueType={mergedValueType}
           valueEnum={mergedValueEnum}
           fieldKey={`${tableKey}-cell-${cellKey}`}
-          editorProps={editableConfig.editorProps as any}
+          editorProps={{
+            ...(editableConfig.editorProps as any),
+            className: mergeSemanticCls('w-full', editableConfig.editorProps?.className),
+          }}
         />
       );
 

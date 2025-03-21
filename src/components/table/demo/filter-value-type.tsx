@@ -139,12 +139,6 @@ const columns: TableProps<DataType>['columns'] = [
     filter: true,
   },
   {
-    title: 'Rate',
-    dataIndex: 'rate',
-    valueType: 'rate',
-    filter: true,
-  },
-  {
     key: 'date',
     title: 'Date',
     dataIndex: 'createdAt',

@@ -3,13 +3,11 @@ import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
 import toArray from '@util/toArray';
 import type { AnyObject } from '@util/type';
-import { isNil } from 'lodash';
 import isEqual from 'rc-util/es/isEqual';
 import Button from '../../../button';
 import type { CascaderProps, DefaultOptionType } from '../../../cascader';
 import Checkbox from '../../../checkbox';
 import { ConfigContext } from '../../../config-provider/context';
-import SeparatorIcon from '../../../date-picker/PickerInput/Selector/SeparatorIcon';
 import Empty from '../../../empty';
 import Field from '../../../form/Field';
 import { fieldParsingOptions } from '../../../form/Field/util';
@@ -123,71 +121,31 @@ function getFilterByValueType<RecordType extends AnyObject = AnyObject>(
     typeof valueType === 'object' ? valueType.type : valueType;
 
   // 数字类
-  if (['money', 'rate', 'slider', 'progress', 'percent', 'digit'].includes(mergedValueType)) {
-    const onChange = (index: number, value?: number) => {
-      let newRange = [...selectedKeys];
-      newRange[index] = value;
-
-      setSelectedKeys(newRange.every((item) => isNil(item)) ? [] : newRange);
-    };
+  if (
+    ['money', 'progress', 'percent', 'digit', 'moneyRange', 'percentRange', 'digitRange'].includes(
+      mergedValueType,
+    )
+  ) {
+    const fieldValueType: FieldValueObject =
+      typeof valueType === 'object' ? valueType : { type: valueType };
+    if (mergedValueType === 'progress') {
+      fieldValueType.type = 'percentRange';
+    } else {
+      fieldValueType.type = mergedValueType.endsWith('Range')
+        ? mergedValueType
+        : (`${mergedValueType}Range` as FieldValueType);
+    }
 
     return (
-      <div
-        className={clsx(
-          `${prefixCls}-range`,
-          'flex items-center gap-2',
-          mergedValueType !== 'rate' &&
-            'group/range rounded-md bg-container shadow-sm ring-1 ring-inset ring-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
-        )}
-      >
-        <Field
-          ref={inputRef}
-          mode="edit"
-          valueType={valueType}
-          value={selectedKeys[0]}
-          onChange={(value) => onChange(0, value)}
-          editorProps={{
-            size: 'small',
-            className: {
-              root: clsx(
-                `${prefixCls}-range-min`,
-                'bg-transparent shadow-none ring-0 focus-within:ring-0',
-                mergedValueType !== 'rate' && 'w-24',
-              ),
-              handler: clsx(
-                'group-has-[:focus-within]/range:bottom-[2px] group-has-[:focus-within]/range:right-[2px] group-has-[:focus-within]/range:top-[2px] group-has-[:focus-within]/range:w-[calc(1.5rem-1px)]',
-              ),
-            },
-          }}
-        />
-        <div
-          className={clsx(
-            `${prefixCls}-range-separator`,
-            'flex h-6 items-center text-lg text-text-quaternary',
-          )}
-        >
-          <SeparatorIcon />
-        </div>
-        <Field
-          mode="edit"
-          valueType={valueType}
-          value={selectedKeys[1]}
-          onChange={(value) => onChange(1, value)}
-          editorProps={{
-            size: 'small',
-            className: {
-              root: clsx(
-                `${prefixCls}-range-max`,
-                'bg-transparent shadow-none ring-0 focus-within:ring-0',
-                mergedValueType !== 'rate' && 'w-24',
-              ),
-              handler: clsx(
-                'group-has-[:focus-within]/range:bottom-[2px] group-has-[:focus-within]/range:right-[2px] group-has-[:focus-within]/range:top-[2px] group-has-[:focus-within]/range:w-[calc(1.5rem-1px)]',
-              ),
-            },
-          }}
-        />
-      </div>
+      <Field
+        mode="edit"
+        valueType={fieldValueType}
+        value={selectedKeys}
+        onChange={(value?: string[]) => setSelectedKeys(value ? value : [])}
+        editorProps={{
+          size: 'small',
+        }}
+      />
     );
   }
 
