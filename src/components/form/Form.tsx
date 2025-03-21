@@ -5,6 +5,8 @@ import { clsx } from '@util/classNameUtils';
 import useBreakpoint from '@util/hooks/useBreakpoint';
 import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
 import { matchScreen, type Breakpoint } from '@util/responsiveObserver';
+import toArray from '@util/toArray';
+import type { AnyObject } from '@util/type';
 import FieldForm, { List, useWatch } from 'rc-field-form';
 import type { FormProps as RcFormProps } from 'rc-field-form/lib/Form';
 import type { FormRef, InternalNamePath, ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -18,12 +20,14 @@ import SizeContext from '../config-provider/SizeContext';
 import type { PopoverProps } from '../popover';
 import type { FormContextProps } from './context';
 import { FormContext, FormProvider, VariantContext } from './context';
+import FieldComponent from './Field';
 import type { FeedbackIcons, FormItemProps } from './FormItem';
+import FormItem from './FormItem';
 import type { FormInstance } from './hooks/useForm';
 import useForm from './hooks/useForm';
 import useFormLabelWidth from './hooks/useFormLabelWidth';
 import useFormWarning from './hooks/useFormWarning';
-import type { FormLabelAlign } from './interface';
+import type { FormItemConfig, FormLabelAlign } from './interface';
 import ValidateMessagesContext from './validateMessagesContext';
 
 export type RequiredMark =
@@ -51,6 +55,7 @@ export interface FormProps<Values = any> extends Omit<RcFormProps<Values>, 'form
   variant?: Variant;
   column?: number | Partial<Record<Breakpoint, number>>;
   errorPopover?: true | Omit<PopoverProps, 'content'>;
+  items?: FormItemConfig<Values>[];
 }
 
 const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props, ref) => {
@@ -77,6 +82,8 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     variant,
     column,
     errorPopover,
+    items,
+    children,
     ...restFormProps
   } = props;
 
@@ -218,6 +225,23 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
     }
   };
 
+  const child = useMemo(() => {
+    if (children) return children;
+
+    return items?.map(({ key, valueType, valueEnum, fieldProps, fieldRender, ...rest }, index) => (
+      <FormItem key={key ?? rest.id ?? rest.name ?? index} {...rest}>
+        <FieldComponent
+          mode="edit"
+          valueType={valueType}
+          valueEnum={valueEnum}
+          fieldKey={String(key) ?? rest.id ?? toArray(rest.name).join('.')}
+          editorProps={fieldProps as AnyObject}
+          renderEditor={fieldRender ? () => fieldRender(wrapForm) : undefined}
+        />
+      </FormItem>
+    ));
+  }, [items, children]);
+
   return (
     <VariantContext.Provider value={variant}>
       <DisabledContextProvider disabled={disabled}>
@@ -238,7 +262,9 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
                 ref={nativeElementRef}
                 style={mergedStyle}
                 className={rootCls}
-              />
+              >
+                {child}
+              </FieldForm>
             </FormContext.Provider>
           </FormProvider>
         </SizeContext.Provider>

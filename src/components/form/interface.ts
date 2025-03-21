@@ -2,6 +2,7 @@ import type {
   Options as RequestOptions,
   Service as RequestService,
 } from 'ahooks/lib/useRequest/src/types';
+import type { FormInstance } from 'rc-field-form';
 import type { AvatarProps } from '../avatar';
 import type { CascaderProps, DefaultOptionType } from '../cascader';
 import type { CheckboxProps } from '../checkbox';
@@ -20,15 +21,19 @@ import type { FieldCascaderProps } from './Field/Cascader';
 import type { FieldDatePickerProps } from './Field/DatePicker';
 import type { FieldDateRangePickerProps } from './Field/DateRangePicker';
 import type { FieldDigitProps } from './Field/Digit';
+import type { FieldDigitRangeProps } from './Field/DigitRange';
 import type { FieldFromNowProps } from './Field/FromNow';
 import type { FieldImageProps } from './Field/Image';
 import type { FieldMoneyProps } from './Field/Money';
+import type { FieldMoneyRangeProps } from './Field/MoneyRange';
 import type { FieldPasswordProps } from './Field/Password';
 import type { FieldPercentProps } from './Field/Percent';
+import type { FieldPercentRangeProps } from './Field/PercentRange';
 import type { FieldProgressProps } from './Field/Progress';
 import type { FieldTagProps } from './Field/Tag';
 import type { FieldTimePickerProps } from './Field/TimePicker';
 import type { FieldTimeRangePickerProps } from './Field/TimeRangePicker';
+import type { FormItemProps } from './FormItem';
 
 export type {
   InternalNamePath,
@@ -73,6 +78,10 @@ export type FieldValueTypeWithFieldProps = {
   password: { read: BaseFieldProps<FieldPasswordProps>; edit: PasswordProps };
   /** 金额 */
   money: { read: BaseFieldProps<FieldMoneyProps>; edit: InputNumberProps };
+  moneyRange: {
+    read: BaseFieldProps<FieldMoneyRangeProps>;
+    edit: FieldMoneyRangeProps['editorProps'];
+  };
   /** 索引 */
   index: { read: void; edit: void };
   /** 索引带边框 */
@@ -123,8 +132,16 @@ export type FieldValueTypeWithFieldProps = {
   progress: { read: BaseFieldProps<FieldProgressProps>; edit: InputNumberProps };
   /** 百分比输入框 */
   percent: { read: BaseFieldProps<FieldPercentProps>; edit: InputNumberProps };
+  percentRange: {
+    read: BaseFieldProps<FieldPercentRangeProps>;
+    edit: FieldPercentRangeProps['editorProps'];
+  };
   /** 数字输入框 */
   digit: { read: BaseFieldProps<FieldDigitProps>; edit: InputNumberProps };
+  digitRange: {
+    read: BaseFieldProps<FieldDigitRangeProps>;
+    edit: FieldDigitRangeProps['editorProps'];
+  };
   /** 头像 */
   avatar: { read: Partial<AvatarProps>; edit: InputProps };
   /** 开关 */
@@ -186,3 +203,24 @@ export type FieldValueEnumRequestType = {
       disabled?: keyof RequestDataType;
     };
   };
+
+export type FormItemPropsWithValueType<Values, ValueType extends FieldValueType = 'text'> = {
+  key?: React.Key;
+  valueEnum?: FieldValueEnumObj | FieldValueEnumMap | FieldValueEnumRequestType;
+  fieldProps?: FieldValueTypeWithFieldProps[ValueType]['edit'];
+  fieldRender?: (form: FormInstance<Values>) => React.ReactNode;
+} & Omit<FormItemProps<Values>, 'children'>;
+
+export type FormItemConfig<Values> =
+  | ({
+      valueType?: 'text';
+    } & FormItemPropsWithValueType<Values, 'text'>)
+  | {
+      [K in FieldValueType]: {
+        valueType:
+          | K
+          | ({
+              type: K;
+            } & FieldValueTypeWithFieldProps[K]['read']);
+      } & FormItemPropsWithValueType<Values, K>;
+    }[FieldValueType];

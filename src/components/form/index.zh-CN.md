@@ -48,6 +48,7 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 <code src="./demo/validate-scroll-to-field.tsx" iframe="360">滑动到错误字段</code>
 <code src="./demo/validate-other.tsx">校验其他组件</code>
 <code src="./demo/getValueProps-normalize.tsx">getValueProps + normalize</code>
+<code src="./demo/json-schema.tsx">JSON 表单</code>
 <code src="./demo/disabled-input-debug.tsx" debug>Disabled Input Debug</code>
 <code src="./demo/label-debug.tsx" debug>测试 label 省略</code>
 <code src="./demo/ref-item.tsx" debug>引用字段</code>
@@ -85,8 +86,85 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | onFinishFailed | 提交表单且数据验证失败后回调事件 | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | 字段值更新时触发回调事件 | function(changedValues, allValues) | - |  |
 | errorType｜ 字段验证失败时的提示方式 | `popover` \| `default` | `default` |  |
+| items｜ 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype) |  |  |
 
 > 支持原生 form 除 `onSubmit` 外的所有属性。
+
+### ItemType
+
+| 参数        | 说明           | 类型                | 默认值 | 版本 |
+| ----------- | -------------- | ------------------- | ------ | ---- |
+| valueType   | 字段值类型     | `text`              | -      |      |
+| valueEnum   | 字段值枚举     |                     | -      |      |
+| fieldProps  | 组件属性       |                     | -      |      |
+| fieldRender | 自定义渲染组件 | (form) => ReactNode | -      |      |
+
+> 支持原生 Form.Item 除 `children` 外的所有属性。
+
+### valueType 列表
+
+| valueType       | 说明           |
+| --------------- | -------------- |
+| `password`      | 密码输入框     |
+| `money`         | 金额输入框     |
+| `moneyRange`    | 金额区间       |
+| `textarea`      | 文本域         |
+| `date`          | 日期           |
+| `dateTime`      | 日期时间       |
+| `dateWeek`      | 周             |
+| `dateMonth`     | 月             |
+| `dateQuarter`   | 季度输入       |
+| `dateYear`      | 年份输入       |
+| `dateRange`     | 日期区间       |
+| `dateTimeRange` | 日期时间区间   |
+| `time`          | 时间           |
+| `timeRange`     | 时间区间       |
+| `text`          | 文本框         |
+| `select`        | 下拉框         |
+| `checkbox`      | 多选框         |
+| `rate`          | 星级组件       |
+| `radio`         | 单选框         |
+| `progress`      | 进度条         |
+| `percent`       | 百分比组件     |
+| `percentRange`  | 百分比区间     |
+| `digit`         | 数字输入框     |
+| `digitRange`    | 数字区间       |
+| `avatar`        | 头像           |
+| `switch`        | 开关           |
+| `fromNow`       | 相对于当前时间 |
+| `image`         | 图片           |
+| `cascader`      | 级联选择器     |
+| `segmented`     | 分段器         |
+| `tag`           | 标签           |
+
+### valueEnum
+
+```ts | pure
+const valueEnum = {
+  open: '未解决',
+  closed: '已解决',
+};
+
+const valueEnum = {
+  open: {
+    label: '未解决',
+    status: 'error',
+  },
+  closed: {
+    label: '已解决',
+    status: 'success',
+  },
+};
+
+// 也可以从远程获取
+const valueEnum = {
+  request: async () => ({data:[{id:1,name:'Open'},{id:2,name:'Closed'}]}),
+  fieldNames: {
+    value: 'id';
+    label: 'name';
+  };
+}
+```
 
 ### validateMessages
 

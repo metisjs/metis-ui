@@ -47,6 +47,7 @@ description: High-performance form component with data domain management. Includ
 <code src="./demo/getValueProps-normalize.tsx">getValueProps + normalize</code>
 <code src="./demo/validate-scroll-to-field.tsx" iframe="360">Slide to error field</code>
 <code src="./demo/validate-other.tsx">Other Form Controls</code>
+<code src="./demo/json-schema.tsx">Schema Form</code>
 <code src="./demo/disabled-input-debug.tsx" debug>Disabled Input Debug</code>
 <code src="./demo/label-debug.tsx" debug>label ellipsis</code>
 <code src="./demo/ref-item.tsx" debug>Ref item</code>
@@ -84,8 +85,85 @@ description: High-performance form component with data domain management. Includ
 | onFinishFailed | Trigger after submitting the form and verifying data failed | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | Trigger when value updated | function(changedValues, allValues) | - |  |
 | errorType｜ Field validation failure prompt style | `popover` \| `default` | `default` |  |
+| items｜ Json schema, same as FormItem | [ItemType](#itemtype) |  |  |
 
 > It accepts all props which native forms support but `onSubmit`.
+
+### ItemType
+
+| Property    | Description   | Type                | Default | Version |
+| ----------- | ------------- | ------------------- | ------- | ------- |
+| valueType   | Value type    | `text`              | -       |         |
+| valueEnum   | Value enum    |                     | -       |         |
+| fieldProps  | Field props   |                     | -       |         |
+| fieldRender | Custom render | (form) => ReactNode | -       |         |
+
+> It accepts all props which Form.Item support but `children`.
+
+### valueType Lists
+
+| valueType       | Description                |
+| --------------- | -------------------------- |
+| `password`      | Password input box         |
+| `money`         | Money input box            |
+| `moneyRange`    | Money range input box      |
+| `textarea`      | Text area                  |
+| `date`          | Date                       |
+| `dateTime`      | Date and time              |
+| `dateWeek`      | Week                       |
+| `dateMonth`     | Month                      |
+| `dateQuarter`   | Quarter input              |
+| `dateYear`      | Year input                 |
+| `dateRange`     | Date range                 |
+| `dateTimeRange` | Date and time range        |
+| `time`          | Time                       |
+| `timeRange`     | Time range                 |
+| `text`          | Text box                   |
+| `select`        | Dropdown box               |
+| `checkbox`      | Checkbox                   |
+| `rate`          | Star rating component      |
+| `radio`         | Radio button               |
+| `progress`      | Progress bar               |
+| `percent`       | Percentage component       |
+| `percentRange`  | Percentage range component |
+| `digit`         | Number input box           |
+| `digitRange`    | Number range input box     |
+| `avatar`        | Avatar                     |
+| `switch`        | Switch                     |
+| `fromNow`       | Relative to current time   |
+| `image`         | Image                      |
+| `cascader`      | Cascading select box       |
+| `segmented`     | Segmented control          |
+| `tag`           | Tags component             |
+
+### valueEnum
+
+```ts | pure
+const valueEnum = {
+  open: 'Open',
+  closed: 'Closed',
+};
+
+const valueEnum = {
+  open: {
+    label: 'Open',
+    status: 'error',
+  },
+  closed: {
+    label: 'Closed',
+    status: 'success',
+  },
+};
+
+// fetch remote data
+const valueEnum = {
+  request: async () => ({data:[{id:1,name:'Open'},{id:2,name:'Closed'}]}),
+  fieldNames: {
+    value: 'id';
+    label: 'name';
+  };
+}
+```
 
 ### validateMessages
 
