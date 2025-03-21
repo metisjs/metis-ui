@@ -712,36 +712,6 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     'inline-block w-fit rounded-md text-start align-top',
     compactItemClassnames[0],
   );
-  const inputCls = clsx(
-    'group/input inline-block w-28 rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
-    {
-      'rounded px-2 py-1': mergedSize === 'mini',
-      'px-3 py-1.5': mergedSize === 'small',
-      'px-3 py-2': mergedSize === 'middle',
-      'px-3 py-2.5': mergedSize === 'large',
-    },
-    {
-      'ring-1 focus-within:ring-2': variant === 'outlined',
-      'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus-within:bg-container focus-within:ring-2': variant === 'filled',
-    },
-    {
-      'relative text-text': !hasPrefixSuffix,
-      'flex-1 rounded-none bg-transparent p-0 ring-0 focus-within:bg-transparent focus-within:ring-0':
-        hasPrefixSuffix,
-      'rounded-s-none': addonBefore,
-      'rounded-e-none': addonAfter,
-      'w-0 flex-1': addonBefore || addonAfter || hasPrefixSuffix,
-    },
-    !hasPrefixSuffix && statusClassName,
-    mergedDisabled && {
-      'text-text-tertiary ring-border': true,
-      'bg-fill-quaternary': !hasPrefixSuffix && variant !== 'borderless',
-    },
-    compactItemClassnames[1],
-    !hasPrefixSuffix && !addonBefore && !addonAfter && compactItemClassnames[0],
-    semanticCls.input,
-  );
   const affixWrapperCls = clsx(
     'group/affix relative inline-flex items-center gap-x-2 rounded-md border-0 bg-container text-sm text-text-secondary ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
     {
@@ -768,6 +738,38 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     compactItemClassnames[1],
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
+  const inputCls = clsx(
+    'group/input inline-block w-28 rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    {
+      'rounded px-2 py-1': mergedSize === 'mini',
+      'px-3 py-1.5': mergedSize === 'small',
+      'px-3 py-2': mergedSize === 'middle',
+      'px-3 py-2.5': mergedSize === 'large',
+    },
+    {
+      'ring-1 focus-within:ring-2': variant === 'outlined',
+      'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
+      'bg-fill-quinary ring-0 focus-within:bg-container focus-within:ring-2': variant === 'filled',
+    },
+    {
+      'relative text-text': !hasPrefixSuffix,
+      'flex-1 rounded-none bg-transparent p-0 ring-0 focus-within:bg-transparent focus-within:ring-0':
+        hasPrefixSuffix,
+      'rounded-s-none': addonBefore,
+      'rounded-e-none': addonAfter,
+      'flex-1': addonBefore || addonAfter || hasPrefixSuffix,
+      'w-0': hasPrefixSuffix && /\s+w-[^\s]+/.test(rootCls),
+    },
+    !hasPrefixSuffix && statusClassName,
+    mergedDisabled && {
+      'text-text-tertiary ring-border': true,
+      'bg-fill-quaternary': !hasPrefixSuffix && variant !== 'borderless',
+    },
+    compactItemClassnames[1],
+    !hasPrefixSuffix && !addonBefore && !addonAfter && compactItemClassnames[0],
+    semanticCls.input,
+  );
+
   const addonBeforeCls = clsx(
     'input-addon -mr-[1px] inline-flex items-center rounded-s-md bg-container text-sm text-text-secondary ring-inset ring-border',
     {
