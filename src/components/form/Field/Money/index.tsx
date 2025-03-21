@@ -263,7 +263,7 @@ const FieldMoney: FieldFC<FieldMoneyProps> = (
         formatter={getFormateValue}
         parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as unknown as number}
         {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
+        className={mergeSemanticCls('w-28', editorProps?.className)}
       />
     );
 

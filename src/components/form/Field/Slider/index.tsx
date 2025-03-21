@@ -1,5 +1,4 @@
 import React from 'react';
-import { mergeSemanticCls } from '@util/classNameUtils';
 import type { FieldFC } from '..';
 import type { SliderSingleProps } from '../../../slider';
 import Slider from '../../../slider';
@@ -19,13 +18,7 @@ const FieldSlider: FieldFC<{
     return <>{dom}</>;
   }
   if (mode === 'edit') {
-    const dom = (
-      <Slider
-        ref={ref}
-        {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
-      />
-    );
+    const dom = <Slider ref={ref} {...editorProps} />;
     if (renderEditor) {
       return renderEditor(text, dom);
     }

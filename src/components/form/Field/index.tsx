@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import type { AnyObject } from '@util/type';
 import { useEvent } from 'rc-util';
 import omit from 'rc-util/lib/omit';
@@ -16,12 +16,15 @@ import FieldCheckbox from './Checkbox';
 import FieldDatePicker from './DatePicker';
 import FieldDateRangePicker from './DateRangePicker';
 import FieldDigit from './Digit';
+import FieldDigitRange from './DigitRange';
 import FieldFromNow from './FromNow';
 import FieldImage from './Image';
 import FieldIndexColumn from './IndexColumn';
 import FieldMoney from './Money';
+import FieldMoneyRange from './MoneyRange';
 import FieldPassword from './Password';
 import FieldPercent from './Percent';
+import FieldPercentRange from './PercentRange';
 import FieldProgress from './Progress';
 import FieldRadio from './Radio';
 import FieldRate from './Rate';
@@ -59,6 +62,9 @@ export {
   FieldTextArea,
   FieldTimePicker,
   FieldTimeRangePicker,
+  FieldPercentRange,
+  FieldMoneyRange,
+  FieldDigitRange,
 };
 
 export type BaseFieldProps = {
@@ -86,14 +92,14 @@ export type RenderFieldProps = {
    * @params dom 默认的 dom
    * @return 返回一个用于读的 dom
    */
-  render?: ((text: any, dom: JSX.Element) => JSX.Element) | undefined;
+  render?: ((text: any, dom: JSX.Element) => React.ReactNode) | undefined;
   /**
    * 一个自定义的编辑渲染器。
    * @params text 默认的值类型
    * @params dom 默认的 dom
    * @return 返回一个用于编辑的dom
    */
-  renderEditor?: ((text: any, dom: JSX.Element) => JSX.Element) | undefined;
+  renderEditor?: ((text: any, dom: JSX.Element) => React.ReactNode) | undefined;
 };
 
 export type FieldProps<T = AnyObject> = BaseFieldProps & RenderFieldProps & T;
@@ -115,210 +121,227 @@ export type FieldPropsType = {
   value?: any;
   onChange?: (...rest: any[]) => void;
 } & Omit<BaseFieldProps, 'text' | 'valueEnum'> &
-  RenderFieldProps &
-  AnyObject;
+  RenderFieldProps;
 
-const FieldComponent: React.ForwardRefRenderFunction<any, FieldPropsType> = (
-  {
-    text,
-    valueType = 'text',
-    mode = 'read',
-    editorProps,
-    valueEnum,
-    fieldKey,
-    emptyText = '-',
-    value,
-    onChange,
-    ...rest
-  },
-  ref: any,
-) => {
-  const onChangeCallBack = useEvent((...restParams: any[]) => {
-    editorProps?.onChange?.(...restParams);
-    onChange?.(...restParams);
-  });
-
-  const mergedEditorProps = useMemo(() => {
-    return (
-      (value !== undefined || editorProps) && {
-        value,
-        ...editorProps,
-        onChange: onChangeCallBack,
-      }
-    );
-  }, [value, editorProps, onChangeCallBack]);
-
-  const [mergedValueEnum, loading] = useValueEnum(valueEnum, fieldKey);
-
-  const dataValue =
-    mode === 'edit' ? (editorProps?.value ?? text ?? '') : (text ?? editorProps?.value ?? '');
-  const mergedValueType = typeof valueType === 'object' ? valueType.type : valueType;
-  const shareProps = {
+const FieldComponent = React.forwardRef<any, FieldPropsType>(
+  (
+    {
+      text,
+      valueType = 'text',
+      mode = 'read',
+      editorProps,
+      valueEnum,
+      fieldKey,
+      emptyText = '-',
+      value,
+      onChange,
+      ...rest
+    },
     ref,
-    mode,
-    valueEnum: mergedValueEnum,
-    loading,
-    editorProps: mergedEditorProps,
-    ...(typeof valueType === 'object' ? omit(valueType, ['type']) : {}),
-    ...rest,
-  };
+  ) => {
+    const onChangeCallBack = useEvent((...restParams: any[]) => {
+      editorProps?.onChange?.(...restParams);
+      onChange?.(...restParams);
+    });
 
-  if (
-    emptyText !== false &&
-    mode === 'read' &&
-    mergedValueType !== 'action' &&
-    mergedValueType !== 'switch'
-  ) {
-    if (typeof dataValue !== 'boolean' && typeof dataValue !== 'number' && !dataValue) {
-      const { render } = shareProps;
-      if (render) {
-        return render(dataValue, <>{emptyText}</>);
+    const mergedEditorProps = React.useMemo(() => {
+      return (
+        (value !== undefined || editorProps) && {
+          value,
+          ...editorProps,
+          onChange: onChangeCallBack,
+        }
+      );
+    }, [value, editorProps, onChangeCallBack]);
+
+    const [mergedValueEnum, loading] = useValueEnum(valueEnum, fieldKey);
+
+    const dataValue =
+      mode === 'edit' ? (editorProps?.value ?? text ?? '') : (text ?? editorProps?.value ?? '');
+    const mergedValueType = typeof valueType === 'object' ? valueType.type : valueType;
+    const shareProps = {
+      ref,
+      mode,
+      valueEnum: mergedValueEnum,
+      loading,
+      editorProps: mergedEditorProps,
+      ...(typeof valueType === 'object' ? omit(valueType, ['type']) : {}),
+      ...rest,
+    };
+
+    if (
+      emptyText !== false &&
+      mode === 'read' &&
+      mergedValueType !== 'action' &&
+      mergedValueType !== 'switch'
+    ) {
+      if (typeof dataValue !== 'boolean' && typeof dataValue !== 'number' && !dataValue) {
+        const { render } = shareProps;
+        if (render) {
+          return render(dataValue, <>{emptyText}</>);
+        }
+        return <span className="text-text-tertiary">{emptyText}</span>;
       }
-      return <span className="text-text-tertiary">{emptyText}</span>;
     }
-  }
 
-  if (mergedValueType === 'money') {
-    return <FieldMoney text={dataValue as number} {...shareProps} />;
-  }
+    if (mergedValueType === 'money') {
+      return <FieldMoney text={dataValue as number} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'date') {
-    return <FieldDatePicker text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'date') {
+      return <FieldDatePicker text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateWeek') {
-    return <FieldDatePicker text={dataValue as string} picker="week" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateWeek') {
+      return <FieldDatePicker text={dataValue as string} picker="week" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateWeekRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="week" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateWeekRange') {
+      return <FieldDateRangePicker text={dataValue as string[]} picker="week" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateMonthRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="month" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateMonthRange') {
+      return <FieldDateRangePicker text={dataValue as string[]} picker="month" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateQuarterRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="quarter" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateQuarterRange') {
+      return <FieldDateRangePicker text={dataValue as string[]} picker="quarter" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateYearRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} picker="year" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateYearRange') {
+      return <FieldDateRangePicker text={dataValue as string[]} picker="year" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateMonth') {
-    return <FieldDatePicker text={dataValue as string} picker="month" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateMonth') {
+      return <FieldDatePicker text={dataValue as string} picker="month" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateQuarter') {
-    return <FieldDatePicker text={dataValue as string} picker="quarter" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateQuarter') {
+      return <FieldDatePicker text={dataValue as string} picker="quarter" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateYear') {
-    return <FieldDatePicker text={dataValue as string} picker="year" {...shareProps} />;
-  }
+    if (mergedValueType === 'dateYear') {
+      return <FieldDatePicker text={dataValue as string} picker="year" {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} {...shareProps} />;
-  }
+    if (mergedValueType === 'dateRange') {
+      return <FieldDateRangePicker text={dataValue as string[]} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateTime') {
-    return <FieldDatePicker text={dataValue as string} showTime {...shareProps} />;
-  }
+    if (mergedValueType === 'dateTime') {
+      return <FieldDatePicker text={dataValue as string} showTime {...shareProps} />;
+    }
 
-  if (mergedValueType === 'dateTimeRange') {
-    return <FieldDateRangePicker text={dataValue as string[]} showTime {...shareProps} />;
-  }
+    if (mergedValueType === 'dateTimeRange') {
+      return <FieldDateRangePicker text={dataValue as string[]} showTime {...shareProps} />;
+    }
 
-  if (mergedValueType === 'time') {
-    return <FieldTimePicker text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'time') {
+      return <FieldTimePicker text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'timeRange') {
-    return <FieldTimeRangePicker text={dataValue as string[]} {...shareProps} />;
-  }
+    if (mergedValueType === 'timeRange') {
+      return <FieldTimeRangePicker text={dataValue as string[]} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'fromNow') {
-    return <FieldFromNow text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'fromNow') {
+      return <FieldFromNow text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'index') {
-    return <FieldIndexColumn>{(dataValue as number) + 1}</FieldIndexColumn>;
-  }
+    if (mergedValueType === 'index') {
+      return <FieldIndexColumn>{(dataValue as number) + 1}</FieldIndexColumn>;
+    }
 
-  if (mergedValueType === 'indexBorder') {
-    return <FieldIndexColumn border>{(dataValue as number) + 1}</FieldIndexColumn>;
-  }
+    if (mergedValueType === 'indexBorder') {
+      return <FieldIndexColumn border>{(dataValue as number) + 1}</FieldIndexColumn>;
+    }
 
-  if (mergedValueType === 'progress') {
-    return <FieldProgress text={dataValue as number} {...shareProps} />;
-  }
+    if (mergedValueType === 'progress') {
+      return <FieldProgress text={dataValue as number} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'percent') {
-    return <FieldPercent text={dataValue as number} {...shareProps} />;
-  }
+    if (mergedValueType === 'percent') {
+      return <FieldPercent text={dataValue as number} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'avatar' && typeof dataValue === 'string' && shareProps.mode === 'read') {
-    return (
-      <Avatar
-        src={dataValue as string}
-        size={36}
-        shape="circle"
-        {...(typeof valueType === 'object' ? omit(valueType, ['type']) : {})}
-      />
-    );
-  }
+    if (
+      mergedValueType === 'avatar' &&
+      typeof dataValue === 'string' &&
+      shareProps.mode === 'read'
+    ) {
+      return (
+        <Avatar
+          src={dataValue as string}
+          size={36}
+          shape="circle"
+          {...(typeof valueType === 'object' ? omit(valueType, ['type']) : {})}
+        />
+      );
+    }
 
-  if (mergedValueType === 'textarea') {
-    return <FieldTextArea text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'textarea') {
+      return <FieldTextArea text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'digit') {
-    return <FieldDigit text={dataValue as number} {...shareProps} />;
-  }
+    if (mergedValueType === 'digit') {
+      return <FieldDigit text={dataValue as number} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'select' || (mergedValueType === 'text' && shareProps.valueEnum)) {
-    return <FieldSelect text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'select' || (mergedValueType === 'text' && shareProps.valueEnum)) {
+      return <FieldSelect text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'checkbox') {
-    return <FieldCheckbox text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'checkbox') {
+      return <FieldCheckbox text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'radio') {
-    return <FieldRadio text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'radio') {
+      return <FieldRadio text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'rate') {
-    return <FieldRate {...shareProps} text={dataValue as number} />;
-  }
-  if (mergedValueType === 'slider') {
-    return <FieldSlider text={dataValue as string} {...shareProps} />;
-  }
-  if (mergedValueType === 'switch') {
-    return <FieldSwitch text={dataValue as boolean} {...shareProps} />;
-  }
+    if (mergedValueType === 'rate') {
+      return <FieldRate {...shareProps} text={dataValue as number} />;
+    }
+    if (mergedValueType === 'slider') {
+      return <FieldSlider text={dataValue as string} {...shareProps} />;
+    }
+    if (mergedValueType === 'switch') {
+      return <FieldSwitch text={dataValue as boolean} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'password') {
-    return <FieldPassword text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'password') {
+      return <FieldPassword text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'image') {
-    return <FieldImage text={dataValue as string} {...shareProps} />;
-  }
-  if (mergedValueType === 'cascader') {
-    return <FieldCascader text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'image') {
+      return <FieldImage text={dataValue as string} {...shareProps} />;
+    }
+    if (mergedValueType === 'cascader') {
+      return <FieldCascader text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'segmented') {
-    return <FieldSegmented text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'segmented') {
+      return <FieldSegmented text={dataValue as string} {...shareProps} />;
+    }
 
-  if (mergedValueType === 'tag') {
-    return <FieldTag text={dataValue as string} {...shareProps} />;
-  }
+    if (mergedValueType === 'tag') {
+      return <FieldTag text={dataValue as string} {...shareProps} />;
+    }
 
-  return <FieldText text={dataValue as string} {...shareProps} />;
-};
+    if (mergedValueType === 'digitRange') {
+      return <FieldDigitRange text={dataValue as number[]} {...shareProps} />;
+    }
 
-export default React.forwardRef(FieldComponent as any) as typeof FieldComponent;
+    if (mergedValueType === 'moneyRange') {
+      return <FieldMoneyRange text={dataValue as number[]} {...shareProps} />;
+    }
+
+    if (mergedValueType === 'percentRange') {
+      return <FieldPercentRange text={dataValue as number[]} {...shareProps} />;
+    }
+
+    return <FieldText text={dataValue as string} {...shareProps} />;
+  },
+);
+
+export default FieldComponent;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { mergeSemanticCls } from '@util/classNameUtils';
 import type { Dayjs } from 'dayjs';
 import type { FieldFC } from '..';
 import dayjsGenerateConfig from '../../../date-picker/generate/config/dayjs';
@@ -80,14 +79,7 @@ const FieldTimeRangePicker: FieldFC<FieldTimeRangePickerProps> = (
   }
 
   if (mode === 'edit') {
-    const dom = (
-      <TimePicker.RangePicker
-        ref={ref}
-        format={format}
-        {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
-      />
-    );
+    const dom = <TimePicker.RangePicker ref={ref} format={format} {...editorProps} />;
     if (renderEditor) {
       return renderEditor(text, dom);
     }

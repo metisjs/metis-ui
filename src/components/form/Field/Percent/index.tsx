@@ -66,7 +66,7 @@ const FieldPercent: FieldFC<FieldPercentProps> = (
         parser={(value) => (value ? value.replace(/.*\s|,/g, '') : '')}
         suffix="%"
         {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
+        className={mergeSemanticCls('w-28', editorProps?.className)}
       />
     );
     if (renderEditor) {

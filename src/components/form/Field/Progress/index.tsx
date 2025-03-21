@@ -67,7 +67,7 @@ const FieldProgress: FieldFC<FieldProgressProps> = (
         suffix="%"
         value={realValue}
         {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
+        className={mergeSemanticCls('w-28', editorProps?.className)}
       />
     );
     if (renderEditor) {

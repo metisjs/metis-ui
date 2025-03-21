@@ -1,5 +1,4 @@
 import React from 'react';
-import { mergeSemanticCls } from '@util/classNameUtils';
 import type { Dayjs } from 'dayjs';
 import type { FieldFC } from '..';
 import type { DatePickerProps } from '../../../date-picker';
@@ -63,14 +62,7 @@ const FieldDatePicker: FieldFC<FieldDatePickerProps> = (
 
   if (mode === 'edit') {
     const dom = (
-      <DatePicker
-        ref={ref}
-        format={format}
-        showTime={showTime}
-        picker={picker}
-        {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
-      />
+      <DatePicker ref={ref} format={format} showTime={showTime} picker={picker} {...editorProps} />
     );
     if (renderEditor) {
       return renderEditor(text, dom);

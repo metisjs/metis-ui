@@ -1,5 +1,4 @@
 import React from 'react';
-import { mergeSemanticCls } from '@util/classNameUtils';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { formatValue } from 'metis-ui/es/date-picker/utils/dateUtil';
@@ -65,15 +64,7 @@ const FieldFromNow: FieldFC<FieldFromNowProps> = (
     return <>{dom}</>;
   }
   if (mode === 'edit') {
-    const dom = (
-      <DatePicker
-        ref={ref}
-        showTime
-        format={format}
-        {...editorProps}
-        className={mergeSemanticCls('w-full', editorProps?.className)}
-      />
-    );
+    const dom = <DatePicker ref={ref} showTime format={format} {...editorProps} />;
     if (renderEditor) {
       return renderEditor(text, dom);
     }
