@@ -211,7 +211,7 @@ export type FormItemPropsWithValueType<Values, ValueType extends FieldValueType 
   fieldRender?: (form: FormInstance<Values>) => React.ReactNode;
 } & Omit<FormItemProps<Values>, 'children'>;
 
-export type FormItemConfig<Values> =
+export type FormItemConfig<Values = any> =
   | ({
       valueType?: 'text';
     } & FormItemPropsWithValueType<Values, 'text'>)

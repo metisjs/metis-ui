@@ -145,13 +145,11 @@ const FieldComponent = React.forwardRef<any, FieldPropsType>(
     });
 
     const mergedEditorProps = React.useMemo(() => {
-      return (
-        (value !== undefined || editorProps) && {
-          value,
-          ...editorProps,
-          onChange: onChangeCallBack,
-        }
-      );
+      return {
+        value,
+        ...editorProps,
+        onChange: onChangeCallBack,
+      };
     }, [value, editorProps, onChangeCallBack]);
 
     const [mergedValueEnum, loading] = useValueEnum(valueEnum, fieldKey);

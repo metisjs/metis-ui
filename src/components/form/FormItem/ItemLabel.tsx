@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { QuestionMarkCircleOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
+import isNumeric from '@util/isNumeric';
 import { useGetState } from 'ahooks';
 import type { ResizeObserverProps } from 'rc-resize-observer';
 import ResizeObserver from 'rc-resize-observer';
@@ -31,6 +32,24 @@ function toTooltipProps(tooltip: LabelTooltipType): WrapperTooltipProps | null {
   return {
     title: tooltip,
   };
+}
+
+function calculateHiddenWidth(element: HTMLLabelElement | null) {
+  if (!element) return 0;
+
+  const clone = element.cloneNode(true) as HTMLLabelElement;
+  clone.style.visibility = 'hidden';
+  clone.style.position = 'absolute';
+  clone.style.top = '-9999px';
+  document.body.appendChild(clone);
+
+  // 获取宽度
+  const width = clone.offsetWidth;
+
+  // 移除克隆元素
+  document.body.removeChild(clone);
+
+  return width;
 }
 
 export interface ItemLabelProps {
@@ -82,7 +101,12 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
 
   React.useLayoutEffect(() => {
     if (isAutoWidth) {
-      const width = Math.ceil(Number.parseFloat(getComputedStyle(labelRef.current!).width));
+      let width = Math.ceil(Number.parseFloat(getComputedStyle(labelRef.current!).width));
+
+      // 元素可能因为display:none，无法获取宽度，所以需要重新计算
+      if (!isNumeric(width)) {
+        width = calculateHiddenWidth(labelRef.current!);
+      }
       registerLabelWidth?.(width);
       setPlainLabelWidth(width);
     }

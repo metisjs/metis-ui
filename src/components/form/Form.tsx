@@ -93,17 +93,20 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
 
   const { autoLabelWidth, registerLabelWidth, deregisterLabelWidth } = useFormLabelWidth();
 
-  const needResponsive = Object.keys(column || {}).some((key) =>
-    ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].includes(key),
-  );
+  const needResponsive =
+    Object.keys(column || {}).some((key) => ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].includes(key)) &&
+    layout !== 'inline';
   const screens = useBreakpoint(needResponsive);
   const mergedColumn = React.useMemo(() => {
+    if (layout === 'inline') {
+      return undefined;
+    }
     if (typeof column === 'number') {
       return column;
     }
 
     return matchScreen(screens, column);
-  }, [screens, column]);
+  }, [layout, screens, column]);
 
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
