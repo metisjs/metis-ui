@@ -18,7 +18,10 @@ type OmitType =
   | 'route'
   | 'request';
 
-export const clsxDependency = (arg: any) => (typeof arg === 'function' ? arg : JSON.stringify(arg));
+export const clsxDependency = (arg: any) => {
+  const args = toArray(arg);
+  return args.some((a) => typeof a === 'function') ? arg : JSON.stringify(arg);
+};
 
 function useSemanticCls<T extends SemanticClassName<any, any>>(
   className?: T | (T | undefined)[],
