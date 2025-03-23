@@ -9,8 +9,8 @@ import React, {
 import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
 import useEffectState from '@util/hooks/useEffectState';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import toList from '@util/toList';
 import { devUseWarning } from '@util/warning';
+import { toArray } from 'lodash';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
@@ -628,7 +628,7 @@ const _Mentions = Mentions as CompoundedComponent;
 
 _Mentions.getMentions = (value = '', config: MentionsConfig = {}): MentionsEntity[] => {
   const { prefix = '@', split = ' ' } = config;
-  const prefixList: string[] = toList(prefix);
+  const prefixList: string[] = toArray(prefix, false);
 
   return value
     .split(split)
