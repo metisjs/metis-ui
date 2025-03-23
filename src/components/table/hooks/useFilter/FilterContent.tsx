@@ -111,7 +111,6 @@ function getFiltersByValueEnum<RecordType extends AnyObject = AnyObject>(
 }
 
 function getFilterByValueType<RecordType extends AnyObject = AnyObject>(
-  prefixCls: string,
   valueType: RawValueType<RecordType> = 'text',
   inputRef: React.MutableRefObject<any>,
   selectedKeys: (Key | undefined)[],
@@ -406,7 +405,7 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
     if (!mergedItems) {
       return (
         <div className={clsx(`${prefixCls}-dropdown-panel`, 'p-2')}>
-          {getFilterByValueType(prefixCls, valueType, inputRef, selectedKeys, setSelectedKeys)}
+          {getFilterByValueType(valueType, inputRef, selectedKeys, setSelectedKeys)}
         </div>
       );
     }

@@ -66,6 +66,12 @@ const localeValues: Locale = {
       noPin: '不固定',
       rightPin: '固定在列尾',
     },
+    search: {
+      search: '查询',
+      reset: '重置',
+      collapsed: '展开',
+      expand: '收起',
+    },
   },
   Modal: {
     okText: '确定',

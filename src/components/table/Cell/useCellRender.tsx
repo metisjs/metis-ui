@@ -109,6 +109,17 @@ export default function useCellRender<RecordType extends AnyObject>({
             <Form.Item
               name={dataIndex as any}
               hasFeedback={false}
+              shouldUpdate={(pre, next) => {
+                if (pre === next) return false;
+                try {
+                  return (
+                    JSON.stringify(getValue(pre, path as any)) !==
+                    JSON.stringify(getValue(next, path as any))
+                  );
+                } catch (error) {
+                  return true;
+                }
+              }}
               {...omit(editableConfig, ['editorProps', 'editorRender'])}
               className="-mb-2 -mt-2"
               messageVariables={{

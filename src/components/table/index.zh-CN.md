@@ -27,6 +27,7 @@ description: 展示行列数据。
 <code src="./demo/multiple-sorter.tsx">多列排序</code>
 <code src="./demo/reset-filter.tsx">可控的筛选和排序</code>
 <code src="./demo/custom-filter-panel.tsx">自定义筛选菜单</code>
+<code src="./demo/search-form.tsx">表单搜索</code>
 <code src="./demo/request.tsx">远程加载数据</code>
 <code src="./demo/size.tsx">紧凑型</code>
 <code src="./demo/narrow.tsx" debug>紧凑型</code>

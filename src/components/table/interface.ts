@@ -12,6 +12,7 @@ import type {
   FieldValueEnumRequestType,
   FieldValueType,
   FieldValueTypeWithFieldProps,
+  FormItemConfig,
 } from '../form/interface';
 import type { InputProps } from '../input';
 import type { PaginationProps } from '../pagination';
@@ -256,10 +257,11 @@ export type TableActionType = {
   cancelEdit: (key: Key) => boolean;
 };
 
-export type ColumnValueTypeWithEditable<RecordType extends AnyObject> =
+export type ColumnPropsWithValueType<RecordType extends AnyObject> =
   | {
       valueType?: 'text';
       editable?: ColumnEditable<RecordType, 'text'>;
+      search?: boolean | ColumnSearchType<'text'>;
     }
   | {
       [K in FieldValueType]: {
@@ -277,6 +279,7 @@ export type ColumnValueTypeWithEditable<RecordType extends AnyObject> =
                   type: K;
                 } & FieldValueTypeWithFieldProps[K]['read']));
         editable?: ColumnEditable<RecordType, K>;
+        search?: boolean | ColumnSearchType<K>;
       };
     }[FieldValueType];
 
@@ -296,7 +299,7 @@ export type ColumnType<RecordType extends AnyObject> = {
   minWidth?: number;
   onCell?: GetComponentProps<RecordType>;
   valueEnum?: ColumnValueEnum<RecordType>;
-} & ColumnValueTypeWithEditable<RecordType> &
+} & ColumnPropsWithValueType<RecordType> &
   ColumnSharedType<RecordType>;
 
 export type InternalColumnType<RecordType extends AnyObject> = RequiredWith<
@@ -524,6 +527,12 @@ export interface TableLocale {
     noPin?: string;
     rightPin?: string;
   };
+  search?: {
+    search?: string;
+    reset?: string;
+    collapsed?: string;
+    expand?: string;
+  };
 }
 
 type TablePaginationPosition =
@@ -639,3 +648,19 @@ export type ColumnState = {
   fixed?: Exclude<FixedType, boolean>;
   order: number;
 };
+
+export type ColumnSearchType<ValueType extends FieldValueType = 'text'> = {
+  key?: React.Key;
+  order?: number;
+  fieldProps?: FieldValueTypeWithFieldProps[ValueType]['edit'];
+  fieldRender?: (form: FormInstance) => React.ReactNode;
+} & Omit<FormItemProps, 'children'>;
+
+export type TableSearchConfig = {
+  items?: (FormItemConfig & { order?: number })[];
+  defaultCollapsed?: boolean;
+  collapsed?: boolean;
+  defaultItemsNumber?: number;
+  onCollapsedChange?: (collapse: boolean) => void;
+  onSearch?: (params: Record<Key, any>) => void;
+} & Omit<FormProps, 'children' | 'items'>;

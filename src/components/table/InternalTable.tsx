@@ -60,6 +60,7 @@ import type {
   GetRowKey,
   InternalColumnsType,
   InternalColumnType,
+  Key,
   Reference,
   RowClassName,
   ScrollOffset,
@@ -76,9 +77,11 @@ import type {
   TableLocale,
   TablePaginationConfig,
   TableRowSelection,
+  TableSearchConfig,
   TableSticky,
   ToolbarConfig,
 } from './interface';
+import SearchForm, { isColumnSearchable } from './SearchForm';
 import StickyScrollBar from './StickyScrollBar';
 import ToolBar from './Toolbar';
 import { fillColumnsKey, getColumnsKey, validateValue } from './utils/valueUtil';
@@ -160,6 +163,9 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   showSorterTooltip?: boolean | SorterTooltipProps;
   virtual?: boolean;
 
+  // Search Form
+  search?: TableSearchConfig;
+
   // Toolbar
   toolbar?: ToolbarConfig;
 
@@ -234,6 +240,8 @@ function InternalTable<RecordType extends AnyObject>(
 
     request,
     editable,
+
+    search,
 
     toolbar,
 
@@ -353,6 +361,13 @@ function InternalTable<RecordType extends AnyObject>(
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     cancelEdit();
   };
+  // ============================ Search =============================
+  const [searchValues, setSearchValues] = React.useState<Record<Key, any>>();
+
+  const onSearchChange = (values: Record<Key, any>) => {
+    setSearchValues(values);
+    triggerOnChange({ filters: { ...values, ...changeEventInfo.filters } }, 'filter', true);
+  };
 
   // ============================ Sorter =============================
   const onSorterChange = (
@@ -418,7 +433,7 @@ function InternalTable<RecordType extends AnyObject>(
   const [requestLoading, mergedDataSource, pageData, total, setDataSource, reload] = useRequest({
     request,
     dataSource,
-    filters: changeEventInfo.filters!,
+    filters: { ...searchValues, ...changeEventInfo.filters! },
     filterStates,
     sorter: changeEventInfo.sorter!,
     sortStates,
@@ -1092,8 +1107,22 @@ function InternalTable<RecordType extends AnyObject>(
     );
   }, [headerTitle, rawColumns, toolbar]);
 
+  const searchable = flattenColumns.some((column) => isColumnSearchable(column));
+
   fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
+      {searchable && (
+        <SearchForm<RecordType>
+          prefixCls={prefixCls}
+          tableKey={tableKey}
+          tableLocale={tableLocale}
+          columns={flattenColumns}
+          loading={requestLoading ?? spinProps?.spinning}
+          size={mergedSize === 'small' || mergedSize === 'middle' ? 'small' : undefined}
+          {...search}
+          onSearch={onSearchChange}
+        />
+      )}
       {toolbarDom}
       <Spin spinning={requestLoading} {...spinProps}>
         {topPaginationNode}

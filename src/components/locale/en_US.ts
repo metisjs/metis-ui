@@ -65,6 +65,12 @@ const localeValues: Locale = {
       noPin: 'No pin',
       rightPin: 'Pin right',
     },
+    search: {
+      search: 'Search',
+      reset: 'Reset',
+      collapsed: 'Collapsed',
+      expand: 'Expand',
+    },
   },
   Tour: {
     Next: 'Next',
