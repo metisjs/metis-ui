@@ -8,7 +8,7 @@ import {
   SELECTION_NONE,
 } from './constant';
 import Summary from './Footer/Summary';
-import type { FilterValue, Reference, SorterResult, TablePaginationConfig } from './interface';
+import type { Reference, SorterResult, TablePaginationConfig } from './interface';
 import type { TableProps } from './InternalTable';
 import InternalTable from './InternalTable';
 
@@ -32,7 +32,7 @@ type MixedTableProps<RecordType extends AnyObject = AnyObject> =
         RecordType,
         [
           {
-            filters: Record<string, FilterValue | null>;
+            filters: Record<string, any>;
             sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
             pageSize: number;
             current: number;

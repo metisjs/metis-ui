@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import useUrlState from '@util/hooks/useUrlState';
 import extendsObject from '../../_util/extendsObject';
 import type { PaginationProps } from '../../pagination';
 import type { TablePaginationConfig } from '../interface';
@@ -30,15 +30,21 @@ export function getPaginationParam(
 function usePagination(
   onChange: (current: number, pageSize: number) => void,
   pagination?: TablePaginationConfig | false,
+  syncToUrl?: { enable?: boolean; navigateMode?: 'push' | 'replace' },
 ): readonly [TablePaginationConfig, (current?: number, pageSize?: number) => void] {
   const paginationObj = pagination && typeof pagination === 'object' ? pagination : {};
 
-  const [innerPagination, setInnerPagination] = useState<{ current?: number; pageSize?: number }>(
+  const [innerPagination, setInnerPagination] = useUrlState<{
+    current?: number;
+    pageSize?: number;
+  }>(
     () => ({
       current: 'defaultCurrent' in paginationObj ? paginationObj.defaultCurrent : 1,
       pageSize:
         'defaultPageSize' in paginationObj ? paginationObj.defaultPageSize : DEFAULT_PAGE_SIZE,
     }),
+    'pagination',
+    syncToUrl,
   );
 
   // ============ Basic Pagination Config ============

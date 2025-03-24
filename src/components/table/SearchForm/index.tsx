@@ -126,9 +126,8 @@ const SearchForm = <RecordType extends AnyObject>({
     value: propsCollapsed,
     onChange: onCollapsedChange,
   });
-
   useEffect(() => {
-    if (isEqual(values, form.getFieldsValue())) {
+    if (!isEqual(values, form.getFieldsValue())) {
       form.resetFields();
       form.setFieldsValue(values);
     }
@@ -144,7 +143,7 @@ const SearchForm = <RecordType extends AnyObject>({
   };
 
   const mergedItems = useMemo(() => {
-    const innerItems: TableSearchConfig['items'] = [...(items ?? [])];
+    let innerItems: TableSearchConfig['items'] = [...(items ?? [])];
 
     columns.forEach((column, index) => {
       if (isColumnSearchable(column)) {
@@ -182,19 +181,22 @@ const SearchForm = <RecordType extends AnyObject>({
     const mergedDefaultItemsNumber = defaultItemsNumber ?? mergedColumn - 1;
 
     let totalSpan = 0;
-    innerItems.forEach((item, index) => {
+    innerItems = innerItems.map((item, index) => {
       const { span = 1 } = item;
+      const cloned = { ...item };
       const spanNum = typeof span === 'number' ? span : matchScreen(screens, span)!;
       totalSpan += spanNum;
 
       if (index !== 0 && totalSpan > mergedDefaultItemsNumber && collapsed) {
-        item.className = mergeSemanticCls(item.className, 'hidden');
+        cloned.className = mergeSemanticCls(item.className, 'hidden');
       }
 
-      item.fieldProps = {
+      cloned.fieldProps = {
         ...item.fieldProps,
         className: mergeSemanticCls('w-full', item.fieldProps?.className),
       };
+
+      return cloned;
     });
 
     const showCollapse = totalSpan > mergedDefaultItemsNumber;

@@ -29,6 +29,7 @@ description: 展示行列数据。
 <code src="./demo/custom-filter-panel.tsx">自定义筛选菜单</code>
 <code src="./demo/search-form.tsx">表单搜索</code>
 <code src="./demo/request.tsx">远程加载数据</code>
+<code src="./demo/sync-to-url.tsx">同步状态到URL</code>
 <code src="./demo/size.tsx">紧凑型</code>
 <code src="./demo/narrow.tsx" debug>紧凑型</code>
 <code src="./demo/vertical-line.tsx">带分隔线</code>

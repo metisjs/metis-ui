@@ -19,7 +19,7 @@ const initDataSource = async () => {
 };
 
 export async function fetchDataWithPagination(params: {
-  filters: { gender?: string[] };
+  filters: { gender?: string[]; keyword?: string };
   sorter: { field?: 'name'; order?: 'descend' | 'ascend' };
   current: number;
   pageSize: number;
@@ -30,8 +30,13 @@ export async function fetchDataWithPagination(params: {
 
   console.log('fetchDataWithPagination', params);
   const { current, pageSize } = params;
-  let d = dataSource.filter((record) =>
-    params.filters.gender ? params.filters.gender.includes(record.gender) : true,
+  let d = dataSource.filter(
+    (record) =>
+      (params.filters.gender ? params.filters.gender.includes(record.gender) : true) &&
+      (params.filters.keyword
+        ? `${record.name.first} ${record.name.last}`.includes(params.filters.keyword) ||
+          record.email.includes(params.filters.keyword)
+        : true),
   );
 
   d.sort((a, b) => {

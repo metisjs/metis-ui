@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useUrlState from '@util/hooks/useUrlState';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
@@ -172,6 +173,9 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   // ColumnsState
   columnsState?: ColumnStateType;
 
+  // 同步过滤、排序、分页到 URL
+  syncToUrl?: boolean | 'push' | 'replace';
+
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
 } & (
@@ -244,6 +248,7 @@ function InternalTable<RecordType extends AnyObject>(
     search,
 
     toolbar,
+    syncToUrl,
 
     columnsState,
   } = props;
@@ -267,6 +272,15 @@ function InternalTable<RecordType extends AnyObject>(
     typeof locale?.emptyText !== 'undefined'
       ? locale.emptyText
       : renderEmpty?.('Table') || <DefaultRenderEmpty componentName="Table" />;
+
+  const syncToUrlConfig =
+    typeof syncToUrl === 'string'
+      ? {
+          disabled: false,
+          navigateMode: syncToUrl,
+          stringifyOptions: { skipNull: true, skipEmptyString: true },
+        }
+      : { disabled: !syncToUrl, stringifyOptions: { skipNull: true, skipEmptyString: true } };
 
   // ======================= Refs =======================
   const fullTableRef = React.useRef<HTMLDivElement>(null);
@@ -362,11 +376,15 @@ function InternalTable<RecordType extends AnyObject>(
     cancelEdit();
   };
   // ============================ Search =============================
-  const [searchValues, setSearchValues] = React.useState<Record<Key, any>>();
+  const [searchValues, setSearchValues] = useUrlState<Record<Key, any>>(
+    {},
+    'search',
+    syncToUrlConfig,
+  );
 
   const onSearchChange = (values: Record<Key, any>) => {
-    setSearchValues(values);
     triggerOnChange({ filters: { ...values, ...changeEventInfo.filters } }, 'filter', true);
+    setSearchValues(values);
   };
 
   // ============================ Sorter =============================
@@ -422,7 +440,11 @@ function InternalTable<RecordType extends AnyObject>(
     );
   };
 
-  const [mergedPagination, resetPagination] = usePagination(onPaginationChange, pagination);
+  const [mergedPagination, resetPagination] = usePagination(
+    onPaginationChange,
+    pagination,
+    syncToUrlConfig,
+  );
 
   changeEventInfo.pagination =
     pagination === false ? {} : getPaginationParam(mergedPagination, pagination);
@@ -1107,7 +1129,8 @@ function InternalTable<RecordType extends AnyObject>(
     );
   }, [headerTitle, rawColumns, toolbar]);
 
-  const searchable = flattenColumns.some((column) => isColumnSearchable(column));
+  const searchable =
+    flattenColumns.some((column) => isColumnSearchable(column)) || !!search?.items?.length;
 
   fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
@@ -1118,6 +1141,7 @@ function InternalTable<RecordType extends AnyObject>(
           tableLocale={tableLocale}
           columns={flattenColumns}
           loading={requestLoading ?? spinProps?.spinning}
+          values={searchValues}
           size={mergedSize === 'small' || mergedSize === 'middle' ? 'small' : undefined}
           {...search}
           onSearch={onSearchChange}
