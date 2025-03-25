@@ -21,6 +21,7 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Name',
     dataIndex: 'name',
+    filter: true,
     sorter: true,
     render: (_, record) => `${record.name.first} ${record.name.last}`,
     width: '20%',

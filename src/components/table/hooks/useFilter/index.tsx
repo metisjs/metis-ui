@@ -1,4 +1,6 @@
 import * as React from 'react';
+import type { UrlStateOptions } from '@util/hooks/useUrlState';
+import useUrlState from '@util/hooks/useUrlState';
 import toArray from '@util/toArray';
 import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../../_util/type';
@@ -162,6 +164,7 @@ export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
   ) => void;
   getPopupContainer?: GetPopupContainer;
   rootClassName?: string;
+  syncToUrl?: UrlStateOptions;
 }
 
 export const getFlattenColumns = <RecordType extends AnyObject = AnyObject>(
@@ -189,20 +192,42 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     getPopupContainer,
     locale: tableLocale,
     rootClassName,
+    syncToUrl,
   } = props;
   const warning = devUseWarning('Table');
 
-  const mergedColumns = React.useMemo(
-    () => getFlattenColumns<RecordType>(columns || []),
-    [columns],
-  );
+  const [flattenColumns, columnKeyMap] = React.useMemo(() => {
+    const columnList = getFlattenColumns<RecordType>(columns || []);
+    const columnKeyMap = columnList.reduce(
+      (prev, curr) => ({ ...prev, [curr.key]: curr }),
+      {} as Record<Key, InternalColumnType<RecordType>>,
+    );
 
-  const [filterStates, setFilterStates] = React.useState<FilterState<RecordType>[]>(() =>
-    collectFilterStates(mergedColumns, true),
+    return [columnList, columnKeyMap];
+  }, [columns]);
+
+  const [filterStates, setFilterStates] = useUrlState<Record<Key, any>, FilterState<RecordType>[]>(
+    'filter',
+    () => collectFilterStates(flattenColumns, true),
+    {
+      ...syncToUrl,
+      transform: (state, type) => {
+        if (type === 'get') {
+          return Object.keys(state as Record<Key, any>).map((key: keyof Record<Key, any>) => ({
+            column: columnKeyMap[key],
+            key,
+            filteredKeys: toArray((state as Record<Key, any>)[key]),
+            forceFiltered: fillFilterProps(columnKeyMap[key].filter).filtered,
+          }));
+        }
+
+        return generateFilterInfo(state as FilterState<RecordType>[]);
+      },
+    },
   );
 
   const mergedFilterStates = React.useMemo<FilterState<RecordType>[]>(() => {
-    const collectedStates = collectFilterStates(mergedColumns, false);
+    const collectedStates = collectFilterStates(flattenColumns, false);
     if (collectedStates.length === 0) {
       return collectedStates;
     }
@@ -219,11 +244,11 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     // Return if not controlled
     if (filteredKeysIsAllNotControlled) {
       // Filter column may have been removed
-      const keyList = (mergedColumns || []).map((column) => column.key);
+      const keyList = (flattenColumns || []).map((column) => column.key);
       return filterStates
         .filter(({ key }) => keyList.includes(key))
         .map((item) => {
-          const col = mergedColumns[keyList.findIndex((key) => key === item.key)];
+          const col = columnKeyMap[item.key];
           const { filtered } = fillFilterProps(col.filter);
           return {
             ...item,
@@ -243,7 +268,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     );
 
     return collectedStates;
-  }, [mergedColumns, filterStates]);
+  }, [flattenColumns, filterStates]);
 
   const filters = React.useMemo(
     () => generateFilterInfo<RecordType>(mergedFilterStates),

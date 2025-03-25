@@ -375,8 +375,8 @@ function InternalTable<RecordType extends AnyObject>(
   };
   // ============================ Search =============================
   const [searchValues, setSearchValues] = useUrlState<Record<Key, any>>(
-    {},
     'search',
+    {},
     syncToUrlConfig,
   );
 
@@ -406,6 +406,7 @@ function InternalTable<RecordType extends AnyObject>(
     sortDirections: sortDirections ?? ['ascend', 'descend'],
     tableLocale,
     showSorterTooltip,
+    syncToUrl: syncToUrlConfig,
   });
 
   changeEventInfo.sorter = getSorters();
@@ -421,6 +422,7 @@ function InternalTable<RecordType extends AnyObject>(
     locale: tableLocale,
     dropdownPrefixCls,
     columns: internalColumns,
+    syncToUrl: syncToUrlConfig,
     onFilterChange,
     getPopupContainer: getPopupContainer || getContextPopupContainer,
   });

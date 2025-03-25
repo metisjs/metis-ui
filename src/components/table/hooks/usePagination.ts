@@ -39,12 +39,12 @@ function usePagination(
     current?: number;
     pageSize?: number;
   }>(
+    'pagination',
     () => ({
       current: 'defaultCurrent' in paginationObj ? paginationObj.defaultCurrent : 1,
       pageSize:
         'defaultPageSize' in paginationObj ? paginationObj.defaultPageSize : DEFAULT_PAGE_SIZE,
     }),
-    'pagination',
     { ...syncToUrl, parseOptions: { parseNumbers: true } },
   );
 

@@ -4,7 +4,7 @@ import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useBreakpoint from '@util/hooks/useBreakpoint';
 import { matchScreen } from '@util/responsiveObserver';
 import toArray from '@util/toArray';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, GetProp } from '@util/type';
 import { get, useMergedState } from 'rc-util';
 import isEqual from 'rc-util/lib/isEqual';
 import Button from '../../button';
@@ -143,7 +143,7 @@ const SearchForm = <RecordType extends AnyObject>({
   };
 
   const mergedItems = useMemo(() => {
-    let innerItems: TableSearchConfig['items'] = [...(items ?? [])];
+    let innerItems: GetProp<TableSearchConfig, 'items'> = [...(items ?? [])];
 
     columns.forEach((column, index) => {
       if (isColumnSearchable(column)) {

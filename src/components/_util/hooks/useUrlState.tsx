@@ -3,15 +3,16 @@ import type { RequiredWith } from '@util/type';
 import type { ParseOptions, StringifyOptions } from 'query-string';
 import qs from 'query-string';
 import { useEvent } from 'rc-util';
-import useForceUpdate from './useForceUpdate';
 
 export interface UrlStateOptions<S extends UrlState = UrlState, T = any> {
   disabled?: boolean;
   navigateMode?: 'push' | 'replace';
   parseOptions?: ParseOptions;
   stringifyOptions?: StringifyOptions;
-  setter?: (value: T) => S;
-  getter?: (value: S) => T;
+  /**
+   * @desc get is transform S to T, set is transform T to S
+   */
+  transform?: (value: T | S, type: 'set' | 'get') => S | T;
 }
 
 const baseParseConfig: ParseOptions = {
@@ -30,7 +31,7 @@ const baseStringifyConfig: StringifyOptions = {
 
 type UrlState = Record<string, any>;
 
-function filledPrefix(record: Record<string, any>, prefix?: string) {
+function filledPrefix(record: Record<string, any>, prefix: string) {
   if (prefix) {
     return Object.keys(record).reduce(
       (prev, curr) => ({
@@ -43,83 +44,68 @@ function filledPrefix(record: Record<string, any>, prefix?: string) {
 
   return record;
 }
+
+const defaultTransform = (a: any) => a;
+
 function useUrlState<S extends UrlState = UrlState, T = any>(
+  group: string,
   initialState?: T | (() => T),
-  group?: string,
-  options?: RequiredWith<UrlStateOptions<S, T>, 'getter' | 'setter'>,
+  options?: RequiredWith<UrlStateOptions<S, T>, 'transform'>,
 ): [T, (s: React.SetStateAction<T>) => void];
 function useUrlState<S extends UrlState = UrlState, T = any>(
+  group: string,
   initialState?: S | (() => S),
-  group?: string,
-  options?: RequiredWith<Omit<UrlStateOptions<S, T>, 'setter'>, 'getter'>,
-): [T, (s: React.SetStateAction<S>) => void];
-function useUrlState<S extends UrlState = UrlState, T = any>(
-  initialState?: T | (() => T),
-  group?: string,
-  options?: RequiredWith<Omit<UrlStateOptions<S, T>, 'getter'>, 'setter'>,
-): [S, (s: React.SetStateAction<T>) => void];
-function useUrlState<S extends UrlState = UrlState, T = any>(
-  initialState?: S | (() => S),
-  group?: string,
-  options?: Omit<UrlStateOptions<S, T>, 'getter' | 'setter'>,
+  options?: Omit<UrlStateOptions<S, T>, 'transform'>,
 ): [S, (s: React.SetStateAction<S>) => void];
-function useUrlState<S extends UrlState = UrlState, T = any>(
-  initialState?: S | (() => S),
-  group?: string,
-  options?: UrlStateOptions<S, T>,
-) {
+function useUrlState(group: string, initialState?: any | (() => any), options?: UrlStateOptions) {
   const {
     disabled,
     navigateMode = 'replace',
     parseOptions,
     stringifyOptions,
-    setter,
-    getter,
+    transform = defaultTransform,
   } = options || {};
 
   const mergedParseOptions = { ...baseParseConfig, ...parseOptions };
   const mergedStringifyOptions = { ...baseStringifyConfig, ...stringifyOptions };
 
-  const forceUpdate = useForceUpdate();
-
-  const initialStateRef = React.useRef<S>(
-    (typeof initialState === 'function' ? (initialState as () => S)() : initialState || {}) as S,
+  const initialStateRef = React.useRef(
+    typeof initialState === 'function' ? initialState() : initialState || {},
   );
 
-  const [innerState, setInnerState] = React.useState<S>(initialStateRef.current);
+  const getCurrentState = useEvent(() => {
+    const search = location.search
+      .replace('?', '')
+      .split('&')
+      .filter((item) => item.startsWith(`${group}.`))
+      .map((item) => item.replace(`${group}.`, ''))
+      .join('&');
 
-  const search = React.useMemo(() => {
-    if (group) {
-      return location.search
-        .replace('?', '')
-        .split('&')
-        .filter((item) => item.startsWith(`${group}.`))
-        .map((item) => item.replace(`${group}.`, ''))
-        .join('&');
+    const queryFromUrl = qs.parse(search, mergedParseOptions);
+
+    return transform(
+      {
+        ...transform(initialStateRef.current, 'set'),
+        ...queryFromUrl,
+      },
+      'get',
+    );
+  });
+
+  const [innerState, setInnerState] = React.useState(() => {
+    if (disabled) {
+      return initialStateRef.current;
     }
 
-    return location.search;
-  }, [group, location.search]);
-
-  const queryFromUrl = React.useMemo(() => {
-    return qs.parse(search, mergedParseOptions);
-  }, [search]);
-
-  const targetQuery: S = React.useMemo(() => {
-    if (disabled) return innerState;
-
-    return {
-      ...initialStateRef.current,
-      ...queryFromUrl,
-    };
-  }, [disabled, innerState, queryFromUrl]);
+    return getCurrentState();
+  });
 
   React.useEffect(() => {
     if (disabled) return () => {};
     if (typeof window === 'undefined' || !window.URL) return () => {};
 
     const onPopState = () => {
-      forceUpdate();
+      setInnerState(getCurrentState());
     };
     window.addEventListener('popstate', onPopState);
     return () => {
@@ -127,13 +113,20 @@ function useUrlState<S extends UrlState = UrlState, T = any>(
     };
   }, [disabled]);
 
-  const setState = (s: React.SetStateAction<S>) => {
-    const newQuery = typeof s === 'function' ? s(innerState) : s;
-
-    setInnerState({ ...innerState, ...newQuery });
+  const setState = (s: React.SetStateAction<any>) => {
+    setInnerState(s);
 
     if (!disabled) {
-      const queryFromUrl = qs.parse(window.location.search, mergedParseOptions);
+      let newQuery = transform(typeof s === 'function' ? s(innerState) : s, 'set');
+
+      const queryFromUrl = qs.parse(
+        window.location.search
+          .replace('?', '')
+          .split('&')
+          .filter((item) => !item.startsWith(`${group}.`))
+          .join('&'),
+        mergedParseOptions,
+      );
 
       const queryString = qs.stringify(
         { ...queryFromUrl, ...filledPrefix(newQuery, group) },
@@ -151,7 +144,7 @@ function useUrlState<S extends UrlState = UrlState, T = any>(
     }
   };
 
-  return [targetQuery, useEvent(setState)] as const;
+  return [innerState, useEvent(setState)] as const;
 }
 
 export default useUrlState;

@@ -409,28 +409,40 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     onSorterChange,
   } = props;
 
-  const flattenColumns = React.useMemo(
-    () => getFlattenColumns<RecordType>(columns || []),
-    [columns],
-  );
+  const [flattenColumns, columnKeyMap] = React.useMemo(() => {
+    const columnList = getFlattenColumns<RecordType>(columns || []);
+    const columnKeyMap = columnList.reduce(
+      (prev, curr) => ({ ...prev, [curr.key]: curr }),
+      {} as Record<Key, InternalColumnType<RecordType>>,
+    );
 
-  const defaultSortStates = React.useMemo(
+    return [columnList, columnKeyMap];
+  }, [columns]);
+
+  const [sortStates, setSortStates] = useUrlState<Record<Key, SortOrder>, SortState<RecordType>[]>(
+    'sorter',
     () => collectSortStates<RecordType>(flattenColumns, true),
-    [flattenColumns],
+    {
+      ...syncToUrl,
+      transform: (state, type) => {
+        if (type === 'get') {
+          return Object.keys(state as Record<Key, SortOrder>).map(
+            (key: keyof Record<Key, SortOrder>) => ({
+              column: columnKeyMap[key],
+              key,
+              sortOrder: (state as Record<Key, SortOrder>)[key],
+              multiplePriority: getMultiplePriority(columnKeyMap[key]),
+            }),
+          );
+        }
+
+        return (state as SortState<RecordType>[]).reduce(
+          (prev, curr) => ({ ...prev, [curr.key]: curr.sortOrder }),
+          {},
+        );
+      },
+    },
   );
-
-  const [urlSortState, setUrlSortState] = useUrlState<
-    Record<Key, SortOrder>,
-    SortState<RecordType>[]
-  >(() => collectSortStates<RecordType>(flattenColumns, true), 'sorter', {
-    ...syncToUrl,
-    setter: () => {},
-    getter: () => {},
-  });
-
-  console.log(urlSortState);
-
-  const [sortStates, setSortStates] = React.useState<SortState<RecordType>[]>(defaultSortStates);
 
   const multiple = React.useMemo(
     () => flattenColumns.some((column) => getMultiplePriority(column) !== false),
