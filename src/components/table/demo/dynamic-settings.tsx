@@ -79,6 +79,8 @@ const App: React.FC = () => {
   const [ellipsis, setEllipsis] = useState(false);
   const [yScroll, setYScroll] = useState(false);
   const [xScroll, setXScroll] = useState<string>('unset');
+  const [syncToUrl, setSyncToUrl] = useState(false);
+  const [search, setSearch] = useState(false);
 
   const handleExpandChange = (enable: boolean) => {
     setExpandable(enable ? defaultExpandable : undefined);
@@ -101,8 +103,10 @@ const App: React.FC = () => {
     tableColumns[0].fixed = true;
     tableColumns[tableColumns.length - 1].fixed = 'right';
   }
-
-  console.log(expandable);
+  if (search) {
+    // @ts-ignore
+    tableColumns[0].search = { span: 2 };
+  }
 
   const tableProps: TableProps<DataType> = {
     verticalLine,
@@ -113,6 +117,7 @@ const App: React.FC = () => {
     rowSelection,
     scroll,
     tableLayout: tableLayout === 'unset' ? undefined : (tableLayout as TableProps['tableLayout']),
+    syncToUrl,
   };
 
   return (
@@ -121,8 +126,14 @@ const App: React.FC = () => {
         <Form.Item label="VerticalLine">
           <Switch checked={verticalLine} onChange={setVerticalLine} />
         </Form.Item>
-        <Form.Item label="loading">
+        <Form.Item label="Loading">
           <Switch checked={loading} onChange={setLoading} />
+        </Form.Item>
+        <Form.Item label="SearchForm">
+          <Switch checked={search} onChange={setSearch} />
+        </Form.Item>
+        <Form.Item label="SyncToUrl">
+          <Switch checked={syncToUrl} onChange={setSyncToUrl} />
         </Form.Item>
         <Form.Item label="Column Header">
           <Switch checked={showHeader} onChange={setShowHeader} />
