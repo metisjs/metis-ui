@@ -179,6 +179,8 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
 
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
+
+  extraRender?: (currentDataSource: RecordType[], action: TableActionType) => React.ReactNode;
 } & (
   | {
       pagination: false;
@@ -252,6 +254,8 @@ function InternalTable<RecordType extends AnyObject>(
     syncToUrl = false,
 
     columnsState,
+
+    extraRender,
   } = props;
 
   const {
@@ -366,7 +370,7 @@ function InternalTable<RecordType extends AnyObject>(
 
     onChange?.(changeInfo.pagination!, changeInfo.filters!, changeInfo.sorter!, {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      currentDataSource: pageData,
+      currentDataSource: mergedDataSource,
       action,
     });
 
@@ -796,6 +800,8 @@ function InternalTable<RecordType extends AnyObject>(
     className,
   );
 
+  const extraCls = clsx(`${prefixCls}-extra`, 'mb-4 border-b border-border-tertiary pb-4');
+
   const containerCls = clsx(
     `${prefixCls}-container`,
     'relative',
@@ -1132,6 +1138,10 @@ function InternalTable<RecordType extends AnyObject>(
   const searchable =
     flattenColumns.some((column) => isColumnSearchable(column)) || !!search?.items?.length;
 
+  const extraDom = extraRender ? (
+    <div className={extraCls}>{extraRender?.(mergedDataSource, tableAction)}</div>
+  ) : undefined;
+
   fullTable = (
     <div className={rootCls} style={style} id={id} ref={fullTableRef} {...dataProps}>
       {searchable && (
@@ -1147,6 +1157,7 @@ function InternalTable<RecordType extends AnyObject>(
           onSearch={onSearchChange}
         />
       )}
+      {extraDom}
       {toolbarDom}
       <Spin spinning={requestLoading} {...spinProps}>
         {topPaginationNode}
