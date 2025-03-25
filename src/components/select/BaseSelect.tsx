@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InputStatus } from '@util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
@@ -297,12 +298,16 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
     zIndex,
 
+    placeholder: customPlaceholder,
+
     // Rest Props
     ...restProps
   } = props;
 
   // ============================== MISC ==============================
   const multiple = isMultiple(mode);
+
+  const placeholder = usePlaceholder('select', customPlaceholder);
 
   const domProps = {
     ...restProps,
@@ -651,6 +656,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   const baseSelectContext = React.useMemo(
     () => ({
       ...props,
+      placeholder,
       notFoundContent,
       open: mergedOpen,
       triggerOpen,
@@ -861,6 +867,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     >
       <Selector
         {...props}
+        placeholder={placeholder}
         domRef={selectorDomRef}
         prefixCls={prefixCls}
         className={mergeSemanticCls(

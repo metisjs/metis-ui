@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { clsx } from '@util/classNameUtils';
+import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
 import { useMergedState } from 'rc-util';
@@ -34,6 +35,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       style,
       hidden,
       readOnly,
+      placeholder: customPlaceholder,
       onChange,
       onCompositionStart,
       onCompositionEnd,
@@ -47,6 +49,8 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     const semanticCls = useSemanticCls(className, 'textArea');
     const { getPrefixCls } = React.useContext(ConfigContext);
     const prefixCls = getPrefixCls('input', customizePrefixCls);
+
+    const placeholder = usePlaceholder('input', customPlaceholder);
 
     const [value, setValue] = useMergedState(defaultValue, {
       value: customizeValue,
@@ -313,6 +317,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       >
         <ResizableTextArea
           {...rest}
+          placeholder={placeholder}
           maxLength={maxLength}
           onKeyDown={handleKeyDown}
           onChange={onInternalChange}

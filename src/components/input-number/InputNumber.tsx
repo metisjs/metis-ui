@@ -10,6 +10,7 @@ import getMiniDecimal, {
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
+import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InputStatus } from '@util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
@@ -660,12 +661,14 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     style,
     value,
     suffix,
+    placeholder: customPlaceholder,
     ...rest
   } = props;
 
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('input-number', customizePrefixCls);
   const semanticCls = useSemanticCls(className, 'inputNumber');
+  const placeholder = usePlaceholder('input', customPlaceholder);
 
   const holderRef = React.useRef<HolderRef>(null!);
   const inputNumberDomRef = React.useRef<HTMLDivElement>(null);
@@ -884,6 +887,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
         className={inputCls}
         handlerClassName={semanticCls.handler}
         variant={variant}
+        placeholder={placeholder}
         {...rest}
       />
     </BaseInput>

@@ -9,8 +9,8 @@ import React, {
 import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
 import useEffectState from '@util/hooks/useEffectState';
 import useSemanticCls from '@util/hooks/useSemanticCls';
+import toArray from '@util/toArray';
 import { devUseWarning } from '@util/warning';
-import { toArray } from 'lodash';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';

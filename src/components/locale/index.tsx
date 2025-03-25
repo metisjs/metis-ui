@@ -33,7 +33,11 @@ export interface Locale {
   Select?: Record<string, any>;
   Upload?: UploadLocale;
   Empty?: EmptyLocale;
-  global?: Record<string, any>;
+  global?: {
+    inputPlaceholder?: string;
+    selectPlaceholder?: string;
+    moneySymbol?: string;
+  };
   PageHeader?: { back: string };
   Icon?: Record<string, any>;
   Text?: {

@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
+import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
 import warning from '@util/warning';
@@ -45,6 +46,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     maxLength,
     type = 'text',
     htmlSize,
+    placeholder: customPlaceholder,
     onKeyDown,
     onPressEnter,
     onCompositionStart,
@@ -54,6 +56,8 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const semanticCls = useSemanticCls(className, 'input');
   const { getPrefixCls, input } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('input', customizePrefixCls);
+
+  const placeholder = usePlaceholder('input', customPlaceholder);
 
   const [focused, setFocused] = useState<boolean>(false);
 
@@ -440,6 +444,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       <input
         autoComplete={input?.autoComplete}
         {...inputRestProps}
+        placeholder={placeholder}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
