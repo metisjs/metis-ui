@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { CaretDownSolid, CaretUpSolid } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import type { UrlStateOptions } from '@util/hooks/useUrlState';
+import useUrlState from '@util/hooks/useUrlState';
 import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../_util/type';
 import type { TooltipProps } from '../../tooltip';
@@ -10,7 +12,6 @@ import type {
   ColumnSorter,
   ColumnTitleProps,
   CompareFn,
-  InternalColumnGroupType,
   InternalColumnsType,
   InternalColumnType,
   Key,
@@ -19,6 +20,7 @@ import type {
   SortOrder,
   TableLocale,
 } from '../interface';
+import { getFlattenColumns } from './useFilter';
 
 const ASCEND = 'ascend';
 const DESCEND = 'descend';
@@ -71,19 +73,7 @@ const collectSortStates = <RecordType extends AnyObject = AnyObject>(
   };
 
   (columns || []).forEach((column) => {
-    if ((column as InternalColumnGroupType<RecordType>).children) {
-      if (typeof column.sorter === 'object' && 'order' in column.sorter) {
-        // Controlled
-        pushState(column);
-      }
-      sortStates = [
-        ...sortStates,
-        ...collectSortStates<RecordType>(
-          (column as InternalColumnGroupType<RecordType>).children,
-          init,
-        ),
-      ];
-    } else if (column.sorter && typeof column.sorter === 'object') {
+    if (column.sorter && typeof column.sorter === 'object') {
       if ('order' in column.sorter) {
         // Controlled
         pushState(column);
@@ -233,6 +223,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           newColumn.className,
         ),
         title: mergedTitle,
+        rawTitle: mergedTitle,
         onHeaderCell: (col) => {
           const cell: React.HTMLAttributes<HTMLElement> = column.onHeaderCell?.(col) || {};
           const originOnClick = cell.onClick;
@@ -308,24 +299,25 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
 
 const stateToInfo = <RecordType extends AnyObject = AnyObject>(
   sorterState: SortState<RecordType>,
-): SorterResult<RecordType> => {
+): SorterResult => {
   const { column, sortOrder } = sorterState;
   return {
-    column,
     order: sortOrder,
-    field: column.dataIndex as SorterResult<RecordType>['field'],
+    field: column.dataIndex as SorterResult['field'],
     columnKey: column.key,
   };
 };
 
 const generateSorterInfo = <RecordType extends AnyObject = AnyObject>(
   sorterStates: SortState<RecordType>[],
-): SorterResult<RecordType> | SorterResult<RecordType>[] => {
+  multiple?: boolean,
+): SorterResult | SorterResult[] => {
   const activeSorters = sorterStates
     .filter(({ sortOrder }) => sortOrder)
-    .map<SorterResult<RecordType>>(stateToInfo);
+    .sort((a, b) => (b.multiplePriority as number) - (a.multiplePriority as number))
+    .map<SorterResult>(stateToInfo);
 
-  if (activeSorters.length <= 1) {
+  if (!multiple) {
     return activeSorters[0] || {};
   }
 
@@ -390,12 +382,13 @@ interface SorterConfig<RecordType extends AnyObject = AnyObject> {
   prefixCls: string;
   columns?: InternalColumnsType<RecordType>;
   onSorterChange: (
-    sorterResult: SorterResult<RecordType> | SorterResult<RecordType>[],
+    sorterResult: SorterResult | SorterResult[],
     sortStates: SortState<RecordType>[],
   ) => void;
   sortDirections: SortOrder[];
   tableLocale?: TableLocale;
   showSorterTooltip?: boolean | SorterTooltipProps;
+  syncToUrl?: UrlStateOptions;
 }
 
 const useSorter = <RecordType extends AnyObject = AnyObject>(
@@ -404,7 +397,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
   (columns: InternalColumnsType<RecordType>) => InternalColumnsType<RecordType>,
   SortState<RecordType>[],
   ColumnTitleProps<RecordType>,
-  () => SorterResult<RecordType> | SorterResult<RecordType>[],
+  () => SorterResult | SorterResult[],
 ] => {
   const {
     prefixCls,
@@ -412,32 +405,46 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     sortDirections,
     tableLocale,
     showSorterTooltip,
+    syncToUrl,
     onSorterChange,
   } = props;
 
-  const [sortStates, setSortStates] = React.useState<SortState<RecordType>[]>(
-    collectSortStates<RecordType>(columns, true),
+  const flattenColumns = React.useMemo(
+    () => getFlattenColumns<RecordType>(columns || []),
+    [columns],
   );
 
-  const getColumnKeys = (columns: InternalColumnsType<RecordType>): Key[] => {
-    const newKeys: Key[] = [];
-    columns.forEach((item) => {
-      newKeys.push(item.key);
-      if (Array.isArray((item as InternalColumnGroupType<RecordType>).children)) {
-        const childKeys = getColumnKeys((item as InternalColumnGroupType<RecordType>).children);
-        newKeys.push(...childKeys);
-      }
-    });
-    return newKeys;
-  };
+  const defaultSortStates = React.useMemo(
+    () => collectSortStates<RecordType>(flattenColumns, true),
+    [flattenColumns],
+  );
+
+  const [urlSortState, setUrlSortState] = useUrlState<
+    Record<Key, SortOrder>,
+    SortState<RecordType>[]
+  >(() => collectSortStates<RecordType>(flattenColumns, true), 'sorter', {
+    ...syncToUrl,
+    setter: () => {},
+    getter: () => {},
+  });
+
+  console.log(urlSortState);
+
+  const [sortStates, setSortStates] = React.useState<SortState<RecordType>[]>(defaultSortStates);
+
+  const multiple = React.useMemo(
+    () => flattenColumns.some((column) => getMultiplePriority(column) !== false),
+    [flattenColumns],
+  );
+
   const mergedSorterStates = React.useMemo<SortState<RecordType>[]>(() => {
     let validate = true;
-    const collectedStates = collectSortStates<RecordType>(columns, false);
+    const collectedStates = collectSortStates<RecordType>(flattenColumns, false);
 
     // Return if not controlled
     if (!collectedStates.length) {
-      const mergedColumnsKeys = getColumnKeys(columns);
-      return sortStates.filter(({ key }) => mergedColumnsKeys.includes(key));
+      const columnsKeys = flattenColumns.map(({ key }) => key);
+      return sortStates.filter(({ key }) => columnsKeys.includes(key));
     }
 
     const validateStates: SortState<RecordType>[] = [];
@@ -474,7 +481,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     });
 
     return validateStates;
-  }, [columns, sortStates]);
+  }, [flattenColumns, sortStates]);
 
   // Get render columns title required props
   const columnTitleSorterProps = React.useMemo<ColumnTitleProps<RecordType>>(() => {
@@ -503,7 +510,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
       ];
     }
     setSortStates(newSorterStates);
-    onSorterChange(generateSorterInfo(newSorterStates), newSorterStates);
+    onSorterChange(generateSorterInfo(newSorterStates, multiple), newSorterStates);
   };
 
   const transformColumns = useEvent((innerColumns: InternalColumnsType<RecordType>) =>
@@ -518,7 +525,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
     ),
   );
 
-  const getSorters = () => generateSorterInfo(mergedSorterStates);
+  const getSorters = () => generateSorterInfo(mergedSorterStates, multiple);
 
   return [transformColumns, mergedSorterStates, columnTitleSorterProps, getSorters] as const;
 };

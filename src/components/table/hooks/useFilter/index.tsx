@@ -85,27 +85,30 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
       const columnKey = newColumn.key;
       const filterState = filterStates.find(({ key }) => columnKey === key);
 
+      const title = (
+        <FilterDropdown
+          tablePrefixCls={prefixCls}
+          prefixCls={`${prefixCls}-filter`}
+          dropdownPrefixCls={dropdownPrefixCls}
+          column={newColumn}
+          columnKey={columnKey}
+          filterState={filterState}
+          filterOnClose={triggerOnClose}
+          filterMultiple={multiple}
+          filterMode={mode}
+          filterSearch={search}
+          triggerFilter={triggerFilter}
+          locale={locale}
+          getPopupContainer={getPopupContainer}
+        >
+          {column.rawTitle}
+        </FilterDropdown>
+      );
+
       newColumn = {
         ...newColumn,
-        title: (
-          <FilterDropdown
-            tablePrefixCls={prefixCls}
-            prefixCls={`${prefixCls}-filter`}
-            dropdownPrefixCls={dropdownPrefixCls}
-            column={newColumn}
-            columnKey={columnKey}
-            filterState={filterState}
-            filterOnClose={triggerOnClose}
-            filterMultiple={multiple}
-            filterMode={mode}
-            filterSearch={search}
-            triggerFilter={triggerFilter}
-            locale={locale}
-            getPopupContainer={getPopupContainer}
-          >
-            {column.rawTitle}
-          </FilterDropdown>
-        ),
+        title,
+        rawTitle: title,
       };
     }
 
@@ -161,12 +164,12 @@ export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
   rootClassName?: string;
 }
 
-const getMergedColumns = <RecordType extends AnyObject = AnyObject>(
-  rawMergedColumns: InternalColumnsType<RecordType>,
+export const getFlattenColumns = <RecordType extends AnyObject = AnyObject>(
+  columns: InternalColumnsType<RecordType>,
 ): InternalColumnsType<RecordType> =>
-  rawMergedColumns.flatMap((column) => {
+  columns.flatMap((column) => {
     if ('children' in column) {
-      return [column, ...getMergedColumns<RecordType>(column.children || [])];
+      return [column, ...getFlattenColumns<RecordType>(column.children || [])];
     }
     return [column];
   });
@@ -189,7 +192,10 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
   } = props;
   const warning = devUseWarning('Table');
 
-  const mergedColumns = React.useMemo(() => getMergedColumns<RecordType>(columns || []), [columns]);
+  const mergedColumns = React.useMemo(
+    () => getFlattenColumns<RecordType>(columns || []),
+    [columns],
+  );
 
   const [filterStates, setFilterStates] = React.useState<FilterState<RecordType>[]>(() =>
     collectFilterStates(mergedColumns, true),

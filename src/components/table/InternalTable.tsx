@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import type { UrlStateOptions } from '@util/hooks/useUrlState';
 import useUrlState from '@util/hooks/useUrlState';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
@@ -99,7 +100,7 @@ interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
     total?: number;
   };
   filters: Record<string, FilterValue>;
-  sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+  sorter: SorterResult | SorterResult[];
 
   filterStates: FilterState<RecordType>[];
   sorterStates: SortState<RecordType>[];
@@ -153,8 +154,8 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
 
   onChange?: (
     pagination: TablePaginationConfig,
-    filters: Record<string, FilterValue | null>,
-    sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
+    filters: Record<Key, any>,
+    sorter: SorterResult | SorterResult[],
     extra: TableCurrentDataSource<RecordType>,
   ) => void;
 
@@ -174,7 +175,7 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   columnsState?: ColumnStateType;
 
   // 同步过滤、排序、分页到 URL
-  syncToUrl?: boolean | 'push' | 'replace';
+  syncToUrl?: boolean | Omit<UrlStateOptions, 'setter' | 'getter'>;
 
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
@@ -248,7 +249,7 @@ function InternalTable<RecordType extends AnyObject>(
     search,
 
     toolbar,
-    syncToUrl,
+    syncToUrl = false,
 
     columnsState,
   } = props;
@@ -273,14 +274,11 @@ function InternalTable<RecordType extends AnyObject>(
       ? locale.emptyText
       : renderEmpty?.('Table') || <DefaultRenderEmpty componentName="Table" />;
 
-  const syncToUrlConfig =
-    typeof syncToUrl === 'string'
-      ? {
-          disabled: false,
-          navigateMode: syncToUrl,
-          stringifyOptions: { skipNull: true, skipEmptyString: true },
-        }
-      : { disabled: !syncToUrl, stringifyOptions: { skipNull: true, skipEmptyString: true } };
+  const syncToUrlConfig: UrlStateOptions = syncToUrl
+    ? {
+        ...(syncToUrl === true ? {} : syncToUrl),
+      }
+    : { disabled: true };
 
   // ======================= Refs =======================
   const fullTableRef = React.useRef<HTMLDivElement>(null);
@@ -389,7 +387,7 @@ function InternalTable<RecordType extends AnyObject>(
 
   // ============================ Sorter =============================
   const onSorterChange = (
-    sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
+    sorter: SorterResult | SorterResult[],
     sorterStates: SortState<RecordType>[],
   ) => {
     triggerOnChange(

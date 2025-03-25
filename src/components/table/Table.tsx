@@ -33,7 +33,7 @@ type MixedTableProps<RecordType extends AnyObject = AnyObject> =
         [
           {
             filters: Record<string, any>;
-            sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+            sorter: SorterResult | SorterResult[];
             pageSize: number;
             current: number;
           },

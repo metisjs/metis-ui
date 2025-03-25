@@ -81,8 +81,7 @@ export interface TableCurrentDataSource<RecordType = AnyObject> {
   action: TableAction;
 }
 
-export interface SorterResult<RecordType extends AnyObject = AnyObject> {
-  column?: InternalColumnType<RecordType>;
+export interface SorterResult {
   order?: SortOrder;
   field?: Key | readonly Key[];
   columnKey?: Key;
@@ -558,7 +557,7 @@ export type TableGetRequestType<
       [
         {
           filters: Record<string, FilterValue | null>;
-          sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+          sorter: SorterResult | SorterResult[];
           pageSize: number;
           current: number;
         },

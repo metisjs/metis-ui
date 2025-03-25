@@ -1,26 +1,29 @@
 import * as React from 'react';
+import type { RequiredWith } from '@util/type';
 import type { ParseOptions, StringifyOptions } from 'query-string';
 import qs from 'query-string';
 import { useEvent } from 'rc-util';
 import useForceUpdate from './useForceUpdate';
 
-export interface Options {
+export interface UrlStateOptions<S extends UrlState = UrlState, T = any> {
   disabled?: boolean;
   navigateMode?: 'push' | 'replace';
   parseOptions?: ParseOptions;
   stringifyOptions?: StringifyOptions;
+  setter?: (value: T) => S;
+  getter?: (value: S) => T;
 }
 
 const baseParseConfig: ParseOptions = {
-  parseNumbers: true,
-  parseBooleans: true,
+  parseNumbers: false,
+  parseBooleans: false,
   arrayFormat: 'bracket-separator',
   arrayFormatSeparator: '|',
 };
 
 const baseStringifyConfig: StringifyOptions = {
-  skipNull: false,
-  skipEmptyString: false,
+  skipNull: true,
+  skipEmptyString: true,
   arrayFormat: 'bracket-separator',
   arrayFormatSeparator: '|',
 };
@@ -40,15 +43,39 @@ function filledPrefix(record: Record<string, any>, prefix?: string) {
 
   return record;
 }
-
-const useUrlState = <S extends UrlState = UrlState>(
+function useUrlState<S extends UrlState = UrlState, T = any>(
+  initialState?: T | (() => T),
+  group?: string,
+  options?: RequiredWith<UrlStateOptions<S, T>, 'getter' | 'setter'>,
+): [T, (s: React.SetStateAction<T>) => void];
+function useUrlState<S extends UrlState = UrlState, T = any>(
   initialState?: S | (() => S),
   group?: string,
-  options?: Options,
-) => {
-  type State = Partial<{ [key in keyof S]: any }>;
-
-  const { disabled, navigateMode = 'replace', parseOptions, stringifyOptions } = options || {};
+  options?: RequiredWith<Omit<UrlStateOptions<S, T>, 'setter'>, 'getter'>,
+): [T, (s: React.SetStateAction<S>) => void];
+function useUrlState<S extends UrlState = UrlState, T = any>(
+  initialState?: T | (() => T),
+  group?: string,
+  options?: RequiredWith<Omit<UrlStateOptions<S, T>, 'getter'>, 'setter'>,
+): [S, (s: React.SetStateAction<T>) => void];
+function useUrlState<S extends UrlState = UrlState, T = any>(
+  initialState?: S | (() => S),
+  group?: string,
+  options?: Omit<UrlStateOptions<S, T>, 'getter' | 'setter'>,
+): [S, (s: React.SetStateAction<S>) => void];
+function useUrlState<S extends UrlState = UrlState, T = any>(
+  initialState?: S | (() => S),
+  group?: string,
+  options?: UrlStateOptions<S, T>,
+) {
+  const {
+    disabled,
+    navigateMode = 'replace',
+    parseOptions,
+    stringifyOptions,
+    setter,
+    getter,
+  } = options || {};
 
   const mergedParseOptions = { ...baseParseConfig, ...parseOptions };
   const mergedStringifyOptions = { ...baseStringifyConfig, ...stringifyOptions };
@@ -78,7 +105,7 @@ const useUrlState = <S extends UrlState = UrlState>(
     return qs.parse(search, mergedParseOptions);
   }, [search]);
 
-  const targetQuery: State = React.useMemo(() => {
+  const targetQuery: S = React.useMemo(() => {
     if (disabled) return innerState;
 
     return {
@@ -100,7 +127,7 @@ const useUrlState = <S extends UrlState = UrlState>(
     };
   }, [disabled]);
 
-  const setState = (s: React.SetStateAction<State>) => {
+  const setState = (s: React.SetStateAction<S>) => {
     const newQuery = typeof s === 'function' ? s(innerState) : s;
 
     setInnerState({ ...innerState, ...newQuery });
@@ -125,6 +152,6 @@ const useUrlState = <S extends UrlState = UrlState>(
   };
 
   return [targetQuery, useEvent(setState)] as const;
-};
+}
 
 export default useUrlState;

@@ -16,7 +16,7 @@ type RequestProps<RecordType extends AnyObject> = {
   dataSource: readonly RecordType[];
   filters: Record<string, FilterValue | undefined>;
   filterStates: FilterState<RecordType>[];
-  sorter: SorterResult<RecordType> | SorterResult<RecordType>[];
+  sorter: SorterResult | SorterResult[];
   sortStates: SortState<RecordType>[];
   childrenColumnName: keyof RecordType;
   pagination: TablePaginationConfig;

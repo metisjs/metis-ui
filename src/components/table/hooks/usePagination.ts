@@ -1,3 +1,4 @@
+import type { UrlStateOptions } from '@util/hooks/useUrlState';
 import useUrlState from '@util/hooks/useUrlState';
 import extendsObject from '../../_util/extendsObject';
 import type { PaginationProps } from '../../pagination';
@@ -30,7 +31,7 @@ export function getPaginationParam(
 function usePagination(
   onChange: (current: number, pageSize: number) => void,
   pagination?: TablePaginationConfig | false,
-  syncToUrl?: { enable?: boolean; navigateMode?: 'push' | 'replace' },
+  syncToUrl?: UrlStateOptions,
 ): readonly [TablePaginationConfig, (current?: number, pageSize?: number) => void] {
   const paginationObj = pagination && typeof pagination === 'object' ? pagination : {};
 
@@ -44,7 +45,7 @@ function usePagination(
         'defaultPageSize' in paginationObj ? paginationObj.defaultPageSize : DEFAULT_PAGE_SIZE,
     }),
     'pagination',
-    syncToUrl,
+    { ...syncToUrl, parseOptions: { parseNumbers: true } },
   );
 
   // ============ Basic Pagination Config ============
