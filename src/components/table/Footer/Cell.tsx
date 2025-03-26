@@ -59,11 +59,12 @@ export default function SummaryCell({
       align={align}
       colSpan={mergedColSpan}
       rowSpan={rowSpan}
-      render={() => children}
       {...fixedInfo}
       renderIndex={-1}
       totalColCount={flattenColumns.length}
       totalRowCount={totalRowCount}
-    />
+    >
+      {children}
+    </Cell>
   );
 }

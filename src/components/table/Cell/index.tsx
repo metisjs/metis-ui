@@ -207,11 +207,9 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       'px-2 py-2': size === 'small',
     },
     {
-      'backdrop-blur': isSticky || isFixLeft || isFixRight,
+      'sticky backdrop-blur': isSticky || isFixLeft || isFixRight,
       'border-b-0': atBottom,
       ['truncate']: ellipsis,
-      'sticky z-[3]': isFixLeft,
-      'sticky z-[2]': isFixRight,
       'after:pointer-events-none after:absolute after:-bottom-px after:right-0 after:top-0 after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
         lastPingLeft,
       'after:pointer-events-none after:absolute after:-bottom-px after:left-0 after:top-0 after:w-7 after:-translate-x-full after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
@@ -219,6 +217,13 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       'after:border-r after:border-r-border-secondary': firstPingRight && verticalLine,
       'after:bottom-0': atBottom && (firstPingRight || lastPingLeft),
       'after:hidden': lastPingLeft && allColumnsFixedLeft,
+    },
+    // Z-Index
+    {
+      'z-[1]': isFixRight,
+      'z-[2]': isFixLeft,
+      'z-[3]': isSticky,
+      'z-[4]': isSticky && isFixLeft,
     },
     rowType === 'header' && [
       'border-b border-b-border py-3.5 text-start font-semibold',
