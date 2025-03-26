@@ -70,7 +70,8 @@ const data: DataType[] = [
   },
 ];
 
-const fetchData = () => {
+const fetchData = (params: { filters: Record<string, any> }) => {
+  console.log('Toolbar:', params);
   return new Promise<{ data: DataType[]; total: number }>((resolve) => {
     setTimeout(() => {
       resolve({ data: data, total: 3 });

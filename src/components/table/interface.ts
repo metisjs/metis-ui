@@ -597,16 +597,14 @@ export type TableEditableConfig<RecordType extends AnyObject> = {
   onSave?: (record: RecordType, index: number) => Promise<any | void>;
 };
 
-export type OptionSearchProps = Omit<InputProps, 'onSearch'> & {
-  /** 如果 onSearch 返回一个false，直接拦截请求 */
-  onSearch?: (keyword: string) => Promise<boolean | undefined> | boolean | undefined;
+export type ToolbarSearchProps = Omit<InputProps, 'defaultValue' | 'value' | 'name'> & {
+  name?: string;
 };
 
 export type OptionConfig = {
   fullScreen?: OptionsType;
   reload?: OptionsType;
   setting?: boolean;
-  search?: (OptionSearchProps & { name?: string }) | boolean;
 };
 
 export type OptionsFunctionType = (
@@ -619,7 +617,7 @@ export type OptionsType = OptionsFunctionType | boolean;
 export type ToolbarConfig =
   | React.ReactNode[] // as actions
   | {
-      search?: OptionSearchProps | React.ReactNode | boolean;
+      search?: ToolbarSearchProps | boolean;
       actions?: React.ReactNode[];
       options?: OptionConfig | boolean;
       optionsRender?: ToolBarProps['optionsRender'];
@@ -627,7 +625,7 @@ export type ToolbarConfig =
   | ((actions: TableActionType) =>
       | React.ReactNode[]
       | {
-          search?: OptionSearchProps | React.ReactNode | boolean;
+          search?: ToolbarSearchProps | boolean;
           actions?: React.ReactNode[];
           options?: OptionConfig;
           optionsRender?: ToolBarProps['optionsRender'];

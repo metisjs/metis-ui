@@ -1,15 +1,18 @@
 import type { ReactNode } from 'react';
 import React, { useMemo } from 'react';
-import { ArrowPathOutline } from '@metisjs/icons';
+import { ArrowPathOutline, MagnifyingGlassOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
-import type { AnyObject } from '@util/type';
+import type { AnyObject, RequiredWith } from '@util/type';
+import Input from '../../input';
 import Tooltip from '../../tooltip';
 import type {
   ColumnTitleProps,
   InternalColumnsType,
+  Key,
   OptionConfig,
   TableActionType,
   TableLocale,
+  ToolbarSearchProps,
 } from '../interface';
 import ColumnSetting from './ColumnSetting';
 import FullscreenButton from './FullscreenButton';
@@ -21,7 +24,9 @@ export type ToolBarProps<T extends AnyObject = AnyObject> = {
   tableAction: TableActionType;
   options?: OptionConfig | boolean;
   optionsRender?: (defaultDom: React.ReactNode[]) => React.ReactNode[];
-  onSearch?: (keyWords: string) => void;
+  search?: ToolbarSearchProps | boolean;
+  searchValues?: Record<Key, any>;
+  onSearch?: (params: Record<Key, any>) => void;
   columns: InternalColumnsType<T>;
   tableLocale: TableLocale;
   columnTitleProps: ColumnTitleProps<T>;
@@ -89,14 +94,16 @@ function ToolBar<T extends AnyObject = AnyObject>({
   columns,
   optionsRender,
   columnTitleProps,
+  search,
+  searchValues: searchValue,
+  onSearch,
 }: ToolBarProps<T>) {
-  const optionDom = useMemo(() => {
+  const options = useMemo(() => {
     if (!propsOptions) {
-      return [];
+      return false;
     }
 
     const options: OptionConfig = {
-      search: false,
       reload: () => tableAction.reload(),
       fullScreen: () => tableAction.fullScreen(),
       setting: true,
@@ -108,6 +115,26 @@ function ToolBar<T extends AnyObject = AnyObject>({
           options[key] = value;
         }
       });
+    }
+    return options;
+  }, [propsOptions]);
+
+  const searchConfig = useMemo(() => {
+    const defaultSearchConfig: RequiredWith<ToolbarSearchProps, 'name'> = {
+      name: 'keyword',
+    };
+
+    if (typeof search === 'boolean') return defaultSearchConfig;
+
+    return {
+      ...defaultSearchConfig,
+      ...search,
+    };
+  }, [search]);
+
+  const optionDom = useMemo(() => {
+    if (!options) {
+      return [];
     }
 
     const settings = renderDefaultOption<T>(
@@ -122,7 +149,12 @@ function ToolBar<T extends AnyObject = AnyObject>({
       return optionsRender(settings);
     }
     return settings;
-  }, [tableAction, columns, headerTitle, optionsRender, propsOptions]);
+  }, [tableAction, columns, headerTitle, optionsRender, options]);
+
+  const onSearchChange = (value: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch?.({ ...searchValue, [searchConfig.name]: value });
+    searchConfig.onChange?.(value, e);
+  };
 
   return (
     <div
@@ -131,15 +163,20 @@ function ToolBar<T extends AnyObject = AnyObject>({
         'mb-4 flex items-center justify-end gap-3 xs:flex-col xs:items-start',
       )}
     >
-      <div className={clsx(`${prefixCls}-toolbar-title`, 'text-base font-semibold')}>
+      <div className={clsx(`${prefixCls}-toolbar-title`, 'mr-auto text-base font-semibold')}>
         {headerTitle}
       </div>
-      <div
-        className={clsx(
-          `${prefixCls}-toolbar-actions`,
-          'flex flex-1 items-center justify-end gap-3',
-        )}
-      >
+      {search && (
+        <div className={clsx(`${prefixCls}-toolbar-search`, '')}>
+          <Input
+            suffix={<MagnifyingGlassOutline />}
+            {...searchConfig}
+            value={searchValue?.[searchConfig.name]}
+            onChange={onSearchChange}
+          />
+        </div>
+      )}
+      <div className={clsx(`${prefixCls}-toolbar-actions`, 'flex items-center justify-end gap-3')}>
         {actions}
       </div>
       <div

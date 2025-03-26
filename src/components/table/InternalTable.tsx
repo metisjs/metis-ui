@@ -380,7 +380,7 @@ function InternalTable<RecordType extends AnyObject>(
   // ============================ Search =============================
   const [searchValues, setSearchValues] = useUrlState<Record<Key, any>>(
     'search',
-    {},
+    search ? search.initialValues : {},
     syncToUrlConfig,
   );
 
@@ -1130,6 +1130,8 @@ function InternalTable<RecordType extends AnyObject>(
         tableAction={tableAction}
         tableLocale={tableLocale}
         columnTitleProps={columnTitleProps}
+        searchValues={searchValues}
+        onSearch={onSearchChange}
         {...toolbarProps}
       />
     );
