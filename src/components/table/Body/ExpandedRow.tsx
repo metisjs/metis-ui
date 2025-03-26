@@ -68,6 +68,7 @@ function ExpandedRow(props: ExpandedRowProps) {
         renderIndex={-1}
         rowIndex={-1}
         index={0}
+        totalColCount={colSpan}
       >
         {contentNode}
       </Cell>
