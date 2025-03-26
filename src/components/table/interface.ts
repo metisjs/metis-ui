@@ -31,6 +31,8 @@ export type ScrollConfig = {
   index?: number;
   key?: Key;
   top?: number;
+  align?: 'start' | 'end' | 'center';
+  behavior?: ScrollBehavior;
 };
 
 export type Reference = {
@@ -178,8 +180,6 @@ export type InternalColumnGroupType<RecordType extends AnyObject> = RequiredWith
   Omit<ColumnGroupType<RecordType>, 'children'>,
   'key'
 > & {
-  // Exclude filter&sorter node
-  rawTitle?: React.ReactNode;
   children: Omit<InternalColumnsType<RecordType>, 'hidden'>;
 };
 
@@ -304,10 +304,7 @@ export type ColumnType<RecordType extends AnyObject> = {
 export type InternalColumnType<RecordType extends AnyObject> = RequiredWith<
   ColumnType<RecordType>,
   'key'
-> & {
-  // Exclude filter&sorter node
-  rawTitle?: React.ReactNode;
-};
+>;
 
 export type ColumnsType<RecordType extends AnyObject = AnyObject> = readonly (
   | ColumnGroupType<RecordType>

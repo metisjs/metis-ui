@@ -22,6 +22,7 @@ export type {
   ColumnsType as TableColumnsType,
   TablePaginationConfig,
   TableProps,
+  TableRef,
 } from './table';
 export type { CalendarProps } from './calendar';
 export { default as Card } from './card';

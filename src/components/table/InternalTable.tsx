@@ -2,6 +2,7 @@ import * as React from 'react';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import type { UrlStateOptions } from '@util/hooks/useUrlState';
 import useUrlState from '@util/hooks/useUrlState';
+import isNumeric from '@util/isNumeric';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
@@ -777,7 +778,41 @@ function InternalTable<RecordType extends AnyObject>(
   React.useImperativeHandle(ref, () => {
     return {
       nativeElement: fullTableRef.current!,
-      scrollTo: (config) => {},
+      scrollTo: (config) => {
+        const viewEl = scrollBodyRef.current?.view;
+        if (viewEl) {
+          const { index = 0, key, top, align = 'start', behavior = 'auto' } = config;
+
+          if (isNumeric(top)) {
+            scrollBodyRef.current?.scrollTo({ top, behavior });
+            return;
+          }
+
+          const mergedKey = key ?? getRowKey(pageData[index]);
+          const item = viewEl.querySelector(`[data-row-key="${mergedKey}"]`) as HTMLElement;
+
+          // 计算目标元素相对于 ul 的偏移
+          const itemTop = item.offsetTop;
+          const itemHeight = item.offsetHeight;
+          const listHeight = viewEl.offsetHeight;
+
+          // 根据 align 计算滚动位置
+          let scrollPosition = 0;
+          if (align === 'start') {
+            scrollPosition = itemTop;
+          } else if (align === 'center') {
+            scrollPosition = itemTop - listHeight / 2 + itemHeight / 2;
+          } else if (align === 'end') {
+            scrollPosition = itemTop - listHeight + itemHeight;
+          }
+
+          // 执行滚动
+          viewEl.scrollTo({
+            top: scrollPosition,
+            behavior: behavior,
+          });
+        }
+      },
       ...tableAction,
     };
   });
@@ -1151,7 +1186,8 @@ function InternalTable<RecordType extends AnyObject>(
           prefixCls={prefixCls}
           tableKey={tableKey}
           tableLocale={tableLocale}
-          columns={flattenColumns}
+          columns={rawColumns}
+          columnTitleProps={columnTitleProps}
           loading={requestLoading ?? spinProps?.spinning}
           values={searchValues}
           size={mergedSize === 'small' || mergedSize === 'middle' ? 'small' : undefined}
