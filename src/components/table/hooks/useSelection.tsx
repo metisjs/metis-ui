@@ -427,6 +427,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
               className={clsx(
                 `${prefixCls}-selection-extra`,
                 'absolute right-1 top-1/2 z-[1] -translate-y-1/2 translate-x-full cursor-pointer',
+                verticalLine && 'left-5 right-auto',
               )}
             >
               <Dropdown

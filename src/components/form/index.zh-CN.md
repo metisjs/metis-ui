@@ -86,7 +86,7 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | onFinishFailed | 提交表单且数据验证失败后回调事件 | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | 字段值更新时触发回调事件 | function(changedValues, allValues) | - |  |
 | errorType｜ 字段验证失败时的提示方式 | `popover` \| `default` | `default` |  |
-| items｜ 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype) |  |  |
+| items｜ 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype)[] |  |  |
 
 > 支持原生 form 除 `onSubmit` 外的所有属性。
 

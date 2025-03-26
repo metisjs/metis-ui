@@ -494,9 +494,9 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
   };
 
   const getResetDisabled = () => {
-    if (filter.resetToDefaultFilteredValue) {
+    if (filter.resetToDefaultValue) {
       return isEqual(
-        (toArray(filter.defaultFilteredValue) || []).map((key) => String(key)),
+        (toArray(filter.defaultValue) || []).map((key) => String(key)),
         selectedKeys,
         true,
       );

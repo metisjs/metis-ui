@@ -210,14 +210,14 @@ export type ColumnFilter<RecordType extends AnyObject> =
       dropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
       triggerOnClose?: boolean;
       multiple?: boolean;
-      filteredValue?: FilterValue | null | string;
-      defaultFilteredValue?: FilterValue | null | string;
+      value?: FilterValue | null | string;
+      defaultValue?: FilterValue | null | string;
       icon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
       mode?: 'menu' | 'tree';
       search?: FilterSearchType<ColumnFilterItem>;
       onFilter?: (value: any, record: RecordType) => boolean;
       dropdownProps?: CoverableDropdownProps;
-      resetToDefaultFilteredValue?: boolean;
+      resetToDefaultValue?: boolean;
     };
 
 export type ColumnValueEnum<RecordType extends AnyObject> =
@@ -253,7 +253,7 @@ export type TableActionType = {
   reload: (resetPageIndex?: boolean) => void;
   fullScreen: () => void;
   startEdit: (key: Key) => boolean;
-  cancelEdit: (key: Key) => boolean;
+  cancelEdit: () => boolean;
 };
 
 export type ColumnPropsWithValueType<RecordType extends AnyObject> =
@@ -415,7 +415,6 @@ export interface ExpandableConfig<RecordType> {
   indentSize?: number;
   expandIconColumnIndex?: number;
   showExpandColumn?: boolean;
-  expandedRowClassName?: string | RowClassName<RecordType>;
   childrenColumnName?: keyof RecordType;
   rowExpandable?: (record: RecordType) => boolean;
   columnWidth?: number | string;
@@ -571,28 +570,23 @@ export type EditableActionRenderFunction<T> = (
 ) => React.ReactNode[];
 
 export type TableEditableConfig<RecordType extends AnyObject> = {
-  formProps?: Omit<
-    FormProps<RecordType> & {
-      formRef?: React.Ref<FormInstance | undefined>;
-      onInit?: (values: RecordType, form: FormInstance) => void;
-    },
-    | 'onFinish'
-    | 'colon'
-    | 'layout'
-    | 'labelAlign'
-    | 'labelWrap'
-    | 'labelWidth'
-    | 'size'
-    | 'requiredMark'
-    | 'column'
-    | 'errorPopover'
-  >;
-  form?: FormInstance;
   editingRowKey?: Key;
   onChange?: (editingRowKey?: Key, editingRecord?: RecordType) => void;
   actionRender?: EditableActionRenderFunction<RecordType>;
   onSave?: (record: RecordType, index: number) => Promise<any | void>;
-};
+} & Omit<
+  FormProps<RecordType>,
+  | 'onFinish'
+  | 'colon'
+  | 'layout'
+  | 'labelAlign'
+  | 'labelWrap'
+  | 'labelWidth'
+  | 'size'
+  | 'requiredMark'
+  | 'column'
+  | 'errorPopover'
+>;
 
 export type ToolbarSearchProps = Omit<InputProps, 'defaultValue' | 'value' | 'name'> & {
   name?: string;

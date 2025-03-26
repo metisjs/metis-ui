@@ -35,9 +35,9 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
     const filter = fillFilterProps(column.filter);
 
     if (isFilterable(column)) {
-      if ('filteredValue' in filter) {
+      if ('value' in filter) {
         // Controlled
-        let filteredValues = toArray(filter.filteredValue);
+        let filteredValues = toArray(filter.value);
         if (!('dropdown' in filter)) {
           filteredValues = filteredValues?.map(String) ?? filteredValues;
         }
@@ -52,8 +52,8 @@ const collectFilterStates = <RecordType extends AnyObject = AnyObject>(
         filterStates.push({
           column,
           key: column.key,
-          filteredKeys: (init && filter.defaultFilteredValue
-            ? toArray(filter.defaultFilteredValue!)
+          filteredKeys: (init && filter.defaultValue
+            ? toArray(filter.defaultValue!)
             : undefined) as FilterKey,
           forceFiltered: filter.filtered,
         });
@@ -263,7 +263,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     warning(
       filteredKeysIsAllControlled,
       'usage',
-      'Columns should all contain `filteredValue` or not contain `filteredValue`.',
+      'Columns should all contain `filter.value` or not contain `filter.value`.',
     );
 
     return collectedStates;

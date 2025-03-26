@@ -11,6 +11,7 @@ import ResizeObserver from 'rc-resize-observer';
 import { getDOM } from 'rc-util/lib/Dom/findDOMNode';
 import isVisible from 'rc-util/lib/Dom/isVisible';
 import useEvent from 'rc-util/lib/hooks/useEvent';
+import omit from 'rc-util/lib/omit';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import getValue from 'rc-util/lib/utils/get';
 import { merge } from 'rc-util/lib/utils/set';
@@ -164,7 +165,6 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
 
   sortDirections?: SortOrder[];
   showSorterTooltip?: boolean | SorterTooltipProps;
-  virtual?: boolean;
 
   // Search Form
   search?: TableSearchConfig;
@@ -176,7 +176,7 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   columnsState?: ColumnStateType;
 
   // 同步过滤、排序、分页到 URL
-  syncToUrl?: boolean | Omit<UrlStateOptions, 'setter' | 'getter'>;
+  syncToUrl?: boolean | Omit<UrlStateOptions, 'transform'>;
 
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
@@ -1141,7 +1141,7 @@ function InternalTable<RecordType extends AnyObject>(
         colon={false}
         form={mergedEditForm}
         size={formSize}
-        {...editable.formProps}
+        {...omit(editable, ['editingRowKey', 'onChange', 'actionRender', 'onSave'])}
         preserve
       >
         {fullTable}

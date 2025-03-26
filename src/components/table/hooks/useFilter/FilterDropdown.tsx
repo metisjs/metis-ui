@@ -151,10 +151,8 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
 
     setSearchValue('');
 
-    if (mergedFilter.resetToDefaultFilteredValue) {
-      setFilteredKeysSync(
-        (toArray(mergedFilter.defaultFilteredValue) || []).map((key) => String(key)),
-      );
+    if (mergedFilter.resetToDefaultValue) {
+      setFilteredKeysSync((toArray(mergedFilter.defaultValue) || []).map((key) => String(key)));
     } else {
       setFilteredKeysSync([]);
     }
