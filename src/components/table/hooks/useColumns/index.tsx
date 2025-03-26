@@ -61,7 +61,6 @@ const fillTitle = <RecordType extends AnyObject = AnyObject>(
       ...column,
     };
     cloneColumn.title = renderColumnTitle(column.title, columnTitleProps);
-    cloneColumn.rawTitle = cloneColumn.title;
     if ('children' in cloneColumn) {
       cloneColumn.children = fillTitle<RecordType>(cloneColumn.children, columnTitleProps);
     }

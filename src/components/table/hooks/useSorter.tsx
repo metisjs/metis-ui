@@ -190,7 +190,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
       );
       const renderColumnTitleWrapper = (
         <span className={clsx(`${prefixCls}-column-title`, 'relative flex-1')}>
-          {column.rawTitle}
+          {column.title as React.ReactNode}
         </span>
       );
       const renderSortTitle = (
@@ -223,7 +223,6 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           newColumn.className,
         ),
         title: mergedTitle,
-        rawTitle: mergedTitle,
         onHeaderCell: (col) => {
           const cell: React.HTMLAttributes<HTMLElement> = column.onHeaderCell?.(col) || {};
           const originOnClick = cell.onClick;

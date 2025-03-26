@@ -12,20 +12,24 @@ import type { SizeType } from '../../config-provider/SizeContext';
 import Form from '../../form';
 import type { FieldValueObject, FieldValueType } from '../../form/interface';
 import Space from '../../space';
+import { getFlattenColumns } from '../hooks/useFilter';
 import type {
   ColumnSearchType,
+  ColumnTitleProps,
   InternalColumnType,
   Key,
   TableLocale,
   TableSearchConfig,
 } from '../interface';
 import { EXCLUDE_TYPES } from '../utils/filterUtil';
+import { renderColumnTitle } from '../utils/valueUtil';
 
 export interface SearchFormProps<RecordType extends AnyObject> extends TableSearchConfig {
   prefixCls: string;
   tableKey: string;
   tableLocale: TableLocale;
-  columns: readonly InternalColumnType<RecordType>[];
+  columns: InternalColumnType<RecordType>[];
+  columnTitleProps: ColumnTitleProps<RecordType>;
   loading?: boolean;
   values?: Record<Key, any>;
   size?: SizeType;
@@ -101,6 +105,7 @@ const SearchForm = <RecordType extends AnyObject>({
   form: propsForm,
   values,
   columns,
+  columnTitleProps,
   size,
   onCollapsedChange,
   onSearch,
@@ -109,6 +114,11 @@ const SearchForm = <RecordType extends AnyObject>({
   ...restProps
 }: SearchFormProps<RecordType>) => {
   const [form] = Form.useForm(propsForm);
+
+  const flattenColumns = React.useMemo(
+    () => getFlattenColumns<RecordType>(columns || []),
+    [columns],
+  );
 
   const needResponsive = Object.keys(column || {}).some((key) =>
     ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].includes(key),
@@ -145,15 +155,15 @@ const SearchForm = <RecordType extends AnyObject>({
   const mergedItems = useMemo(() => {
     let innerItems: GetProp<TableSearchConfig, 'items'> = [...(items ?? [])];
 
-    columns.forEach((column, index) => {
-      if (isColumnSearchable(column)) {
+    flattenColumns.forEach((column, index) => {
+      if (isColumnSearchable(column) && !('children' in column)) {
         const search = column.search === true ? {} : (column.search as ColumnSearchType);
         const valueType = resetValueType(column.valueType as any);
         const path = toArray(column.dataIndex);
         innerItems.push({
           key: `${tableKey}-cell-${column.key}`,
           name: column.dataIndex,
-          label: column.rawTitle,
+          label: renderColumnTitle(column.title, columnTitleProps),
           valueType: valueType as any,
           valueEnum: typeof column.valueEnum === 'function' ? undefined : column.valueEnum,
           order: index,
@@ -243,7 +253,16 @@ const SearchForm = <RecordType extends AnyObject>({
     });
 
     return innerItems;
-  }, [items, columns, collapsed, mergedColumn, screens, defaultItemsNumber, loading]);
+  }, [
+    items,
+    flattenColumns,
+    collapsed,
+    mergedColumn,
+    screens,
+    defaultItemsNumber,
+    loading,
+    columnTitleProps,
+  ]);
 
   const layout = restProps.layout === 'inline' ? 'horizontal' : restProps.layout;
 

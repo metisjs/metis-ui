@@ -103,14 +103,13 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
           locale={locale}
           getPopupContainer={getPopupContainer}
         >
-          {column.rawTitle}
+          {column.title as React.ReactNode}
         </FilterDropdown>
       );
 
       newColumn = {
         ...newColumn,
         title,
-        rawTitle: title,
       };
     }
 

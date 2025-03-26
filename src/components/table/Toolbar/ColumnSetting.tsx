@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToFirstScrollableAncestor, restrictToVerticalAxis } from '@dnd-kit/modifiers';
@@ -197,29 +197,37 @@ const CheckboxList: React.FC<{
   const handleDragEnd = (info: DragEndEvent) => {
     const { active, over } = info;
     if (active.id !== over?.id) {
-      const newColumnStateMap = { ...columnStateMap };
-      const activeOrder = columnStateMap[active.id as string]?.order ?? 0; // 1
-      const overOrder = columnStateMap[over?.id as string]?.order ?? 0; // 3
+      const activeOrder = columnStateMap[active.id as string]?.order ?? 0;
+      const overOrder = columnStateMap[over?.id as string]?.order ?? 0;
 
-      Object.entries(newColumnStateMap).forEach(([key, item]) => {
-        if (key === active.id) {
-          item.order = overOrder; // 更新拖动项的 order
-        } else if (activeOrder < overOrder) {
-          // active 项被拖动到 over 项之前
-          if (item.order > activeOrder && item.order <= overOrder) {
-            item.order -= 1; // 向前移动的项顺序减 1
+      const newColumnStateMap = Object.fromEntries(
+        Object.entries(columnStateMap).map(([key, item]) => {
+          let newOrder = item.order;
+          if (key === active.id) {
+            newOrder = overOrder; // 更新拖动项的 order
+          } else if (activeOrder < overOrder) {
+            // active 项被拖动到 over 项之前
+            if (item.order > activeOrder && item.order <= overOrder) {
+              newOrder = item.order - 1; // 向前移动的项顺序减 1
+            }
+          } else if (activeOrder > overOrder) {
+            // active 项被拖动到 over 项之后
+            if (item.order >= overOrder && item.order < activeOrder) {
+              newOrder = item.order + 1; // 向后移动的项顺序加 1
+            }
           }
-        } else if (activeOrder > overOrder) {
-          // active 项被拖动到 over 项之后
-          if (item.order >= overOrder && item.order < activeOrder) {
-            item.order += 1; // 向后移动的项顺序加 1
-          }
-        }
-      });
+          return [key, { ...item, order: newOrder }];
+        }),
+      );
 
       setColumnStateMap(newColumnStateMap);
     }
   };
+
+  const mergedList = useMemo(
+    () => [...list].sort((a, b) => columnStateMap[a.key].order - columnStateMap[b.key].order),
+    [list, columnStateMap],
+  );
 
   return (
     <Scrollbar
@@ -231,8 +239,8 @@ const CheckboxList: React.FC<{
         modifiers={[restrictToVerticalAxis, restrictToFirstScrollableAncestor]}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={getColumnsKey(list)} strategy={verticalListSortingStrategy}>
-          {list.map((item) => (
+        <SortableContext items={getColumnsKey(mergedList)} strategy={verticalListSortingStrategy}>
+          {mergedList.map((item) => (
             <CheckboxListItem
               key={item.key}
               prefixCls={prefixCls}

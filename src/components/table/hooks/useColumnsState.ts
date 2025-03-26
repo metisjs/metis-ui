@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AnyObject } from '@util/type';
 import { merge } from 'rc-util/lib/utils/set';
 import { EXPAND_COLUMN, SELECTION_COLUMN } from '../constant';
@@ -14,6 +14,26 @@ function reorderState(columnsState: Record<Key, ColumnState>) {
   });
 
   return columnsState;
+}
+
+function collectSortStates(
+  defaultColumnKeyMap: Record<Key, ColumnState>,
+  columnsState?: ColumnStateType,
+) {
+  const { persistenceType = 'localStorage', persistenceKey } = columnsState || {};
+
+  if (persistenceKey && persistenceType && typeof window !== 'undefined') {
+    const storage = window[persistenceType];
+    try {
+      const storageValue = storage?.getItem(persistenceKey);
+      if (storageValue) {
+        return reorderState(merge({}, defaultColumnKeyMap, JSON.parse(storageValue)));
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+  return defaultColumnKeyMap;
 }
 
 function useColumnsState<RecordType extends AnyObject = AnyObject>({
@@ -35,24 +55,15 @@ function useColumnsState<RecordType extends AnyObject = AnyObject>({
       }
     });
     return reorderState(columnKeyMap);
-  }, [columns]);
+  }, [columns.map((c, i) => `${c.key}-${c.fixed}-${c.hidden}-${i}`).join('-')]);
 
-  const [columnStateMap, setColumnStateMap] = useState<Record<Key, ColumnState>>(() => {
-    const { persistenceType = 'localStorage', persistenceKey } = columnsState || {};
+  const [columnStateMap, setColumnStateMap] = useState<Record<Key, ColumnState>>(() =>
+    collectSortStates(defaultColumnKeyMap, columnsState),
+  );
 
-    if (persistenceKey && persistenceType && typeof window !== 'undefined') {
-      const storage = window[persistenceType];
-      try {
-        const storageValue = storage?.getItem(persistenceKey);
-        if (storageValue) {
-          return reorderState(merge({}, defaultColumnKeyMap, JSON.parse(storageValue)));
-        }
-      } catch (error) {
-        console.warn(error);
-      }
-    }
-    return defaultColumnKeyMap;
-  });
+  useEffect(() => {
+    setColumnStateMap(collectSortStates(defaultColumnKeyMap, columnsState));
+  }, [defaultColumnKeyMap]);
 
   const clearPersistenceStorage = useCallback(() => {
     const { persistenceType, persistenceKey } = columnsState || {};
