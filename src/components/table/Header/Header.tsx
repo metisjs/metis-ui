@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
 import type {
@@ -86,6 +87,7 @@ function parseHeaderRows<RecordType extends AnyObject>(
 }
 
 export interface HeaderProps<RecordType extends AnyObject> {
+  className?: string;
   columns: InternalColumnsType<RecordType>;
   flattenColumns: readonly InternalColumnType<RecordType>[];
   stickyOffsets: StickyOffsets;
@@ -95,7 +97,15 @@ export interface HeaderProps<RecordType extends AnyObject> {
 }
 
 const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) => {
-  const { stickyOffsets, columnsPos, scrollOffset, columns, flattenColumns, onHeaderRow } = props;
+  const {
+    className,
+    stickyOffsets,
+    columnsPos,
+    scrollOffset,
+    columns,
+    flattenColumns,
+    onHeaderRow,
+  } = props;
 
   const { prefixCls, getComponent } = useContext(TableContext, ['prefixCls', 'getComponent']);
   const rows = React.useMemo<CellType<RecordType>[][]>(() => parseHeaderRows(columns), [columns]);
@@ -105,7 +115,7 @@ const Header = <RecordType extends AnyObject>(props: HeaderProps<RecordType>) =>
   const thComponent = getComponent(['header', 'cell'], 'th');
 
   return (
-    <WrapperComponent className={`${prefixCls}-thead`}>
+    <WrapperComponent className={clsx(`${prefixCls}-thead`, className)}>
       {rows.map((row, rowIndex) => {
         const rowNode = (
           <HeaderRow

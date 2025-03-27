@@ -87,7 +87,7 @@ function useColumns<RecordType extends AnyObject>(
   transformColumns?: (columns: InternalColumnsType<RecordType>) => InternalColumnsType<RecordType>,
 ): [
   columns: InternalColumnsType<RecordType>,
-  flattenColumns: readonly InternalColumnType<RecordType>[],
+  flattenColumns: InternalColumnType<RecordType>[],
   realScrollWidth: undefined | number,
   colWidths: number[],
   updateColsWidths: (updater: Updater<Map<React.Key, number>>) => void,

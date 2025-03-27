@@ -219,7 +219,12 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
       newColumn = {
         ...newColumn,
         className: mergeSemanticCls(
-          clsx({ [`${prefixCls}-column-sort`]: sortOrder }, { 'bg-fill-quinary': sortOrder }),
+          clsx(
+            { [`${prefixCls}-column-sort`]: sortOrder },
+            {
+              'bg-fill-quinary': sortOrder,
+            },
+          ),
           newColumn.className,
         ),
         title: mergedTitle,

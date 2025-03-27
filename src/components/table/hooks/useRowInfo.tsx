@@ -1,6 +1,5 @@
 import { useContext } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
-import classNames from 'classnames';
 import { useEvent } from 'rc-util';
 import type { TableContextProps } from '../context/TableContext';
 import TableContext from '../context/TableContext';
@@ -15,9 +14,7 @@ type ContextValues<RecordType extends AnyObject> = Pick<
   | 'expandableType'
   | 'expandRowByClick'
   | 'onTriggerExpand'
-  | 'rowClassName'
   | 'rowExpandable'
-  | 'expandedRowClassName'
   | 'indentSize'
   | 'expandIcon'
   | 'expandedRowRender'
@@ -33,7 +30,6 @@ export default function useRowInfo<RecordType extends AnyObject>(
   record: RecordType,
   rowKey: Key,
   recordIndex: number,
-  indent: number,
 ): ContextValues<RecordType> & {
   selected: boolean;
   columnsKey: React.Key[];
@@ -52,8 +48,6 @@ export default function useRowInfo<RecordType extends AnyObject>(
     'expandableType',
     'expandRowByClick',
     'onTriggerExpand',
-    'rowClassName',
-    'expandedRowClassName',
     'indentSize',
     'expandIcon',
     'expandedRowRender',
@@ -75,7 +69,6 @@ export default function useRowInfo<RecordType extends AnyObject>(
     rowExpandable,
     onRow,
     expandRowByClick,
-    rowClassName,
     selectedRowKeys,
   } = context;
 
@@ -104,14 +97,6 @@ export default function useRowInfo<RecordType extends AnyObject>(
     onRowClick?.(event, ...args);
   };
 
-  // ====================== RowClassName ======================
-  let computeRowClassName: string | undefined;
-  if (typeof rowClassName === 'string') {
-    computeRowClassName = rowClassName;
-  } else if (typeof rowClassName === 'function') {
-    computeRowClassName = rowClassName(record, recordIndex, indent);
-  }
-
   // ========================= Column =========================
   const columnsKey = getColumnsKey(flattenColumns);
 
@@ -128,7 +113,6 @@ export default function useRowInfo<RecordType extends AnyObject>(
     expandable: mergedExpandable,
     rowProps: {
       ...rowProps,
-      className: classNames(computeRowClassName, rowProps?.className),
       onClick,
     },
   };

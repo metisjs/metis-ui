@@ -42,12 +42,64 @@ export type Reference = {
 
 export type GetPopupContainer = (triggerNode: HTMLElement) => HTMLElement;
 
-// ==================== Row =====================
-export type RowClassName<RecordType> = (
-  record: RecordType,
-  index: number,
-  indent: number,
-) => string;
+// ==================== Semantic Class =====================
+export type CellSemanticClsType = SemanticClassName<
+  { root: string },
+  {
+    rowType?: 'header' | 'body' | 'footer';
+    hovering?: boolean;
+    selected?: boolean;
+    fixed?: Exclude<FixedType, boolean>;
+    pinned?: boolean;
+    lastRow?: boolean;
+    lastCell?: boolean;
+  }
+>;
+
+export type RowSemanticClsType<RecordType extends AnyObject> = SemanticClassName<
+  { root: string },
+  { record: RecordType; index?: number }
+>;
+
+export type ExpandedRowSemanticClsType<RecordType extends AnyObject> = SemanticClassName<
+  { root: string },
+  { record: RecordType; index?: number; indent?: number }
+>;
+
+export type ToolbarSemanticClsType = SemanticClassName<{
+  title?: string;
+  search?: string;
+  actions?: string;
+  options?: string;
+}>;
+
+export type SearchSemanticClsType = SemanticClassName<{
+  root?: string;
+  item?: FormItemProps['className'];
+  actions?: string;
+  collapse?: string;
+}>;
+
+export type TableSemanticClsType<RecordType extends AnyObject> = SemanticClassName<
+  {
+    container?: string;
+    table?: string;
+    tbody?: string;
+    thead?: string;
+    tfoot?: string;
+    extra?: string;
+    pagination?: PaginationProps['className'];
+    row?: RowSemanticClsType<RecordType>;
+    expandedRow?: ExpandedRowSemanticClsType<RecordType>;
+    cell?: CellSemanticClsType;
+    toolbar?: ToolbarSemanticClsType;
+    search?: SearchSemanticClsType;
+  },
+  {
+    scrollLeftShadow?: boolean;
+    scrollRightShadow?: boolean;
+  }
+>;
 
 // =================== Column ===================
 export type SortOrder = 'descend' | 'ascend' | null;
@@ -127,7 +179,7 @@ export interface FilterDropdownProps {
 
 export interface CellType<RecordType extends AnyObject> {
   key?: Key;
-  className?: string;
+  className?: CellSemanticClsType;
   style?: React.CSSProperties;
   children?: React.ReactNode;
   column?: InternalColumnsType<RecordType>[number];
@@ -152,10 +204,7 @@ export type ScopeType = ColScopeType | RowScopeType;
 
 interface ColumnSharedType<RecordType extends AnyObject> {
   key?: Key;
-  className?: SemanticClassName<
-    { root: string },
-    { rowType?: 'header' | 'body' | 'footer'; hovering?: boolean }
-  >;
+  className?: CellSemanticClsType;
   hidden?: boolean;
   fixed?: FixedType;
   onHeaderCell?: GetComponentProps<InternalColumnsType<RecordType>[number]>;
@@ -651,4 +700,5 @@ export type TableSearchConfig = {
   defaultItemsNumber?: number;
   onCollapsedChange?: (collapse: boolean) => void;
   onSearch?: (params: Record<Key, any>) => void;
-} & Omit<FormProps, 'children' | 'items'>;
+  className?: SearchSemanticClsType;
+} & Omit<FormProps, 'children' | 'items' | 'className'>;

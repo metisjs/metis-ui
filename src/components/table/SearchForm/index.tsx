@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useBreakpoint from '@util/hooks/useBreakpoint';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import { matchScreen } from '@util/responsiveObserver';
 import toArray from '@util/toArray';
 import type { AnyObject, GetProp } from '@util/type';
@@ -111,9 +112,12 @@ const SearchForm = <RecordType extends AnyObject>({
   onSearch,
   onFinish,
   onReset,
+  className,
   ...restProps
 }: SearchFormProps<RecordType>) => {
   const [form] = Form.useForm(propsForm);
+
+  const semanticCls = useSemanticCls(className);
 
   const flattenColumns = React.useMemo(
     () => getFlattenColumns<RecordType>(columns || []),
@@ -221,7 +225,7 @@ const SearchForm = <RecordType extends AnyObject>({
           size={16}
           justify="end"
           align="center"
-          className={clsx(`${prefixCls}-search-actions`, 'mb-4')}
+          className={clsx(`${prefixCls}-search-actions`, 'mb-4', semanticCls.actions)}
           style={{ gridColumn: mergedColumn }}
         >
           <Space size={8}>
@@ -237,6 +241,7 @@ const SearchForm = <RecordType extends AnyObject>({
               className={clsx(
                 `${prefixCls}-search-collapse-button`,
                 'inline-flex items-center gap-2',
+                semanticCls.collapse,
               )}
               onClick={() => setCollapsed(!collapsed)}
             >
@@ -267,18 +272,20 @@ const SearchForm = <RecordType extends AnyObject>({
   const layout = restProps.layout === 'inline' ? 'horizontal' : restProps.layout;
 
   return (
-    <div className={clsx(`${prefixCls}-search-form`, 'mb-4 border-b border-border-tertiary')}>
-      <Form
-        layout={layout}
-        form={form}
-        column={mergedColumn}
-        items={mergedItems}
-        size={size}
-        onFinish={handleFinish}
-        onReset={handleReset}
-        {...restProps}
-      />
-    </div>
+    <Form
+      layout={layout}
+      form={form}
+      column={mergedColumn}
+      items={mergedItems}
+      size={size}
+      onFinish={handleFinish}
+      onReset={handleReset}
+      className={mergeSemanticCls(
+        clsx(`${prefixCls}-search-form`, 'mb-4 border-b border-border-tertiary'),
+        className,
+      )}
+      {...restProps}
+    />
   );
 };
 

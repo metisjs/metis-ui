@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
-import type { ExpandableConfig, GetRowKey, Key, RenderExpandIconProps } from '../interface';
+import type { GetRowKey, Key, RenderExpandIconProps } from '../interface';
 
 export function renderExpandIcon<RecordType>({
   prefixCls,
@@ -58,19 +58,4 @@ export function findAllChildrenKeys<RecordType>(
   dig(data);
 
   return keys;
-}
-
-export function computedExpandedClassName<RecordType>(
-  cls: ExpandableConfig<RecordType>['expandedRowClassName'],
-  record: RecordType,
-  index: number,
-  indent: number,
-) {
-  if (typeof cls === 'string') {
-    return cls;
-  }
-  if (typeof cls === 'function') {
-    return cls(record, index, indent);
-  }
-  return '';
 }

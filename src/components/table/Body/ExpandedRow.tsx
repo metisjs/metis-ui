@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import Cell from '../Cell';
 import TableContext from '../context/TableContext';
 import type { CustomizeComponent } from '../interface';
@@ -42,11 +43,8 @@ function ExpandedRow(props: ExpandedRowProps) {
       <div
         style={{
           width: componentWidth,
-          position: 'sticky',
-          left: 0,
-          overflow: 'hidden',
         }}
-        className={`${prefixCls}-expanded-row-fixed`}
+        className={clsx(`${prefixCls}-expanded-row-fixed`, 'sticky left-0 overflow-hidden')}
       >
         {contentNode}
       </div>

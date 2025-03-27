@@ -379,3 +379,7 @@ const columns = {
   }}
 />
 ```
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>

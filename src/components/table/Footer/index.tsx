@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import { clsx } from '@util/classNameUtils';
 import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
 import type { ColumnsPos, InternalColumnType, ScrollOffset, StickyOffsets } from '../interface';
@@ -11,6 +12,7 @@ type FlattenColumns<RecordType extends AnyObject> = readonly (InternalColumnType
 })[];
 
 export interface FooterProps<RecordType extends AnyObject> {
+  className?: string;
   children: React.ReactNode;
   stickyOffsets: StickyOffsets;
   scrollOffset: ScrollOffset;
@@ -19,7 +21,7 @@ export interface FooterProps<RecordType extends AnyObject> {
 }
 
 function Footer<RecordType extends AnyObject>(props: FooterProps<RecordType>) {
-  const { children, stickyOffsets, columnsPos, scrollOffset, flattenColumns } = props;
+  const { className, children, stickyOffsets, columnsPos, scrollOffset, flattenColumns } = props;
 
   const prefixCls = useContext(TableContext, 'prefixCls');
 
@@ -55,7 +57,7 @@ function Footer<RecordType extends AnyObject>(props: FooterProps<RecordType>) {
 
   return (
     <SummaryContext.Provider value={summaryContext}>
-      <tfoot className={`${prefixCls}-summary`}>{children}</tfoot>
+      <tfoot className={clsx(`${prefixCls}-summary`, className)}>{children}</tfoot>
     </SummaryContext.Provider>
   );
 }

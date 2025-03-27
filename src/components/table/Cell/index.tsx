@@ -44,9 +44,9 @@ export interface CellProps<RecordType extends AnyObject> {
   // Fixed
   fixLeft?: number | false;
   fixRight?: number | false;
-  pinged?: boolean;
-  lastPingLeft?: boolean;
-  firstPingRight?: boolean;
+  pinned?: boolean;
+  lastPinLeft?: boolean;
+  firstPinRight?: boolean;
   allColsFixedLeft?: boolean;
 
   // ====================== Private Props ======================
@@ -110,9 +110,9 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     // Fixed
     fixLeft,
     fixRight,
-    lastPingLeft,
-    firstPingRight,
-    pinged,
+    lastPinLeft,
+    firstPinRight,
+    pinned,
 
     // Private
     appendNode,
@@ -121,10 +121,15 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   } = props;
 
   const cellPrefixCls = `${prefixCls}-cell`;
-  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter } = useContext(
-    TableContext,
-    ['allColumnsFixedLeft', 'rowHoverable', 'size', 'verticalLine', 'fixFooter'],
-  );
+  const { allColumnsFixedLeft, rowHoverable, size, verticalLine, fixFooter, cellClassName } =
+    useContext(TableContext, [
+      'allColumnsFixedLeft',
+      'rowHoverable',
+      'size',
+      'verticalLine',
+      'fixFooter',
+      'cellClassName',
+    ]);
 
   // ====================== Value =======================
   const childNode = useCellRender(props);
@@ -147,11 +152,22 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
   const mergedColSpan = additionalProps.colSpan ?? colSpan ?? 1;
   const mergedRowSpan = additionalProps.rowSpan ?? rowSpan ?? 1;
 
+  const atBottom = !!totalRowCount && rowIndex + mergedRowSpan === totalRowCount;
+  const atRight = !!totalColCount && index + mergedColSpan === totalColCount;
+
   // ====================== Hover =======================
   const [hovering, onHover] = useHoverState(rowIndex, mergedRowSpan);
 
   // ====================== SemanticClassName =======================
-  const semanticCls = useSemanticCls(className, { rowType, hovering });
+  const semanticCls = useSemanticCls([cellClassName, className], {
+    rowType,
+    hovering,
+    selected: rowSelected,
+    fixed: isFixLeft ? 'left' : isFixRight ? 'right' : undefined,
+    pinned,
+    lastRow: atBottom,
+    lastCell: atRight,
+  });
 
   const onMouseEnter: React.MouseEventHandler<HTMLTableCellElement> = useEvent((event) => {
     if (record) {
@@ -183,19 +199,16 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       children: childNode,
     });
 
-  const atBottom = totalRowCount && rowIndex + mergedRowSpan === totalRowCount;
-  const atRight = totalColCount && index + mergedColSpan === totalColCount;
-
   // >>>>> ClassName
   const mergedClassName = clsx(
     cellPrefixCls,
     {
       [`${cellPrefixCls}-fix-left`]: isFixLeft,
-      [`${cellPrefixCls}-ping-left-last`]: lastPingLeft,
-      [`${cellPrefixCls}-ping-left`]: isFixLeft && pinged,
+      [`${cellPrefixCls}-pin-left-last`]: lastPinLeft,
+      [`${cellPrefixCls}-pin-left`]: isFixLeft && pinned,
       [`${cellPrefixCls}-fix-right`]: isFixRight,
-      [`${cellPrefixCls}-ping-right-first`]: firstPingRight,
-      [`${cellPrefixCls}-ping-right`]: isFixRight && pinged,
+      [`${cellPrefixCls}-pin-right-first`]: firstPinRight,
+      [`${cellPrefixCls}-pin-right`]: isFixRight && pinned,
       [`${cellPrefixCls}-ellipsis`]: ellipsis,
       [`${cellPrefixCls}-with-append`]: appendNode,
       [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky,
@@ -207,18 +220,19 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       'px-2 py-2': size === 'small',
     },
     {
-      'sticky backdrop-blur': isSticky || isFixLeft || isFixRight,
+      'sticky bg-[color-mix(in_oklab,hsla(var(--container))_75%,_transparent)] backdrop-blur':
+        isSticky || isFixLeft || isFixRight,
       'border-b-0': atBottom,
       ['truncate']: ellipsis,
       'after:pointer-events-none after:absolute after:-bottom-px after:right-0 after:top-0 after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
-        lastPingLeft,
+        lastPinLeft,
       'after:pointer-events-none after:absolute after:-bottom-px after:left-0 after:top-0 after:w-7 after:-translate-x-full after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
-        firstPingRight,
-      'after:border-r after:border-r-border-secondary': firstPingRight && verticalLine,
-      'after:bottom-0': atBottom && (firstPingRight || lastPingLeft),
-      'after:hidden': lastPingLeft && allColumnsFixedLeft,
+        firstPinRight,
+      'after:border-r after:border-r-border-secondary': firstPinRight && verticalLine,
+      'after:bottom-0': atBottom && (firstPinRight || lastPinLeft),
+      'after:hidden': lastPinLeft && allColumnsFixedLeft,
     },
-    // Z-Index
+    /** >>> Z-Index */
     {
       'z-[1]': isFixRight,
       'z-[2]': isFixLeft,
@@ -234,7 +248,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       {
         'border-b-0 text-center': mergedColSpan > 1,
         'before:absolute before:end-0 before:top-1/2 before:h-5 before:w-px before:-translate-y-1/2 before:bg-border-tertiary last:before:hidden':
-          mergedColSpan === 1 && !verticalLine && !lastPingLeft,
+          mergedColSpan === 1 && !verticalLine && !lastPinLeft,
       },
     ],
     rowType === 'body' && [{ 'bg-fill-quinary': hovering }],
@@ -281,9 +295,6 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     ...fixedStyle,
     ...alignStyle,
     ...additionalProps.style,
-    ...((isSticky || isFixLeft || isFixRight) && {
-      backgroundColor: 'color-mix(in oklab, hsla(var(--container)) 75%, transparent)',
-    }),
   };
 
   // >>>>> Children Node
@@ -298,7 +309,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     mergedChildNode = null;
   }
 
-  if (ellipsis && (lastPingLeft || firstPingRight)) {
+  if (ellipsis && (lastPinLeft || firstPinRight)) {
     mergedChildNode = <span className={`${cellPrefixCls}-content`}>{mergedChildNode}</span>;
   }
 

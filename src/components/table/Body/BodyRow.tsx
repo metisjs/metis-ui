@@ -1,18 +1,25 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import Cell from '../Cell';
 import { responseImmutable } from '../context/TableContext';
 import useRowInfo from '../hooks/useRowInfo';
-import type { CustomizeComponent, InternalColumnType, Key } from '../interface';
-import { computedExpandedClassName } from '../utils/expandUtil';
+import type {
+  CustomizeComponent,
+  ExpandedRowSemanticClsType,
+  InternalColumnType,
+  Key,
+  RowSemanticClsType,
+} from '../interface';
 import ExpandedRow from './ExpandedRow';
 
 export interface BodyRowProps<RecordType extends AnyObject> {
   record: RecordType;
   index: number;
   renderIndex: number;
-  className?: string;
+  className?: RowSemanticClsType<RecordType>;
+  expandedRowClassName?: ExpandedRowSemanticClsType<RecordType>;
   style?: React.CSSProperties;
   rowComponent: CustomizeComponent;
   cellComponent: CustomizeComponent;
@@ -89,6 +96,7 @@ export function getCellProps<RecordType extends AnyObject>(
 function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) {
   const {
     className,
+    expandedRowClassName,
     style,
     record,
     index,
@@ -100,11 +108,10 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     cellComponent,
     scopeCellComponent,
   } = props;
-  const rowInfo = useRowInfo(record, rowKey, index, indent);
+  const rowInfo = useRowInfo(record, rowKey, index);
   const {
     prefixCls,
     flattenColumns,
-    expandedRowClassName,
     expandedRowRender,
     rowProps,
 
@@ -115,13 +122,12 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
     editingRowKey,
   } = rowInfo;
 
+  const semanticCls = useSemanticCls(className, { record, index });
+  const expandedSemanticCls = useSemanticCls(expandedRowClassName, { record, index, indent });
+
   // Force render expand row if expanded before
   const expandedRef = React.useRef(false);
   expandedRef.current ||= expanded;
-
-  // 若没有 expandedRowRender 参数, 将使用 baseRowNode 渲染 Children
-  // 此时如果 level > 1 则说明是 expandedRow, 一样需要附加 computedExpandedRowClassName
-  const expandedClsName = computedExpandedClassName(expandedRowClassName, record, index, indent);
 
   const isEditing = editingRowKey === rowKey;
 
@@ -135,10 +141,10 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
         `${prefixCls}-row-level-${indent}`,
         {
           [`${prefixCls}-row-selected`]: selected,
-          [expandedClsName]: indent >= 1,
         },
         'group/body-row',
-        className,
+        semanticCls.root,
+        indent >= 1 && expandedSemanticCls.root,
         rowProps?.className,
       )}
       style={{ ...style, ...rowProps?.style }}
@@ -208,7 +214,7 @@ function BodyRow<RecordType extends AnyObject>(props: BodyRowProps<RecordType>) 
           `${prefixCls}-expanded-row`,
           `${prefixCls}-expanded-row-level-${indent + 1}`,
           '*:bg-fill-quinary',
-          expandedClsName,
+          expandedSemanticCls.root,
         )}
         prefixCls={prefixCls}
         component={RowComponent}

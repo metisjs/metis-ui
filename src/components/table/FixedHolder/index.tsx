@@ -25,6 +25,7 @@ function useColumnWidth(colWidths: readonly number[], columnCount: number) {
 
 export interface FixedHolderProps<RecordType extends AnyObject> extends HeaderProps<RecordType> {
   className: string;
+  tableClassName?: string;
   noData: boolean;
   maxContentScroll: boolean;
   colWidths: readonly number[];
@@ -39,6 +40,7 @@ export interface FixedHolderProps<RecordType extends AnyObject> extends HeaderPr
 const FixedHolder = React.forwardRef<HTMLDivElement, FixedHolderProps<AnyObject>>((props, ref) => {
   const {
     className,
+    tableClassName,
     noData,
     columns,
     flattenColumns,
@@ -116,7 +118,10 @@ const FixedHolder = React.forwardRef<HTMLDivElement, FixedHolderProps<AnyObject>
       )}
     >
       <TableComponent
-        className="w-full table-fixed border-separate border-spacing-0 text-start"
+        className={clsx(
+          'w-full table-fixed border-separate border-spacing-0 text-start',
+          tableClassName,
+        )}
         style={{
           visibility: noData || mergedColumnWidth ? null : 'hidden',
         }}

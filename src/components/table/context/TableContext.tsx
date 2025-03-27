@@ -1,6 +1,7 @@
 import { createContext, createImmutable } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
 import type {
+  CellSemanticClsType,
   ColumnState,
   ExpandableType,
   ExpandedRowRender,
@@ -11,7 +12,6 @@ import type {
   InternalColumnType,
   Key,
   RenderExpandIcon,
-  RowClassName,
   TableActionType,
   TableLayout,
   TriggerEventHandler,
@@ -45,8 +45,6 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   resetColumnStateMap: () => void;
 
   // Body
-  rowClassName?: string | RowClassName<RecordType>;
-  expandedRowClassName?: string | RowClassName<RecordType>;
   onRow?: GetComponentProps<RecordType>;
   emptyNode?: React.ReactNode;
 
@@ -63,8 +61,9 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
 
   // Column
   columns: InternalColumnsType<RecordType>;
-  flattenColumns: readonly InternalColumnType<RecordType>[];
+  flattenColumns: InternalColumnType<RecordType>[];
   onColumnResize: (columnKey: React.Key, width: number) => void;
+  cellClassName?: CellSemanticClsType;
 
   // Row
   hoverStartRow: number;

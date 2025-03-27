@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { UrlStateOptions } from '@util/hooks/useUrlState';
 import useUrlState from '@util/hooks/useUrlState';
 import isNumeric from '@util/isNumeric';
@@ -66,7 +67,6 @@ import type {
   InternalColumnType,
   Key,
   Reference,
-  RowClassName,
   ScrollOffset,
   SorterResult,
   SorterTooltipProps,
@@ -82,6 +82,7 @@ import type {
   TablePaginationConfig,
   TableRowSelection,
   TableSearchConfig,
+  TableSemanticClsType,
   TableSticky,
   ToolbarConfig,
 } from './interface';
@@ -113,7 +114,7 @@ interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
 export type TableProps<RecordType extends AnyObject = AnyObject> = {
   prefixCls?: string;
   dropdownPrefixCls?: string;
-  className?: string;
+  className?: TableSemanticClsType<RecordType>;
   style?: React.CSSProperties;
   dataSource?: readonly RecordType[];
   columns?: ColumnsType<RecordType>;
@@ -127,7 +128,6 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
   // Expandable
   /** Config expand rows */
   expandable?: ExpandableConfig<RecordType>;
-  rowClassName?: string | RowClassName<RecordType>;
 
   // Selection
   rowSelection?: TableRowSelection<RecordType>;
@@ -210,7 +210,6 @@ function InternalTable<RecordType extends AnyObject>(
     prefixCls: customizePrefixCls,
     dropdownPrefixCls: customizeDropdownPrefixCls,
     className,
-    rowClassName,
     style,
     size: customizeSize,
     verticalLine,
@@ -818,8 +817,13 @@ function InternalTable<RecordType extends AnyObject>(
   });
 
   // ====================== Style ======================
-  const hasPingLeft = fixedInfoList.some((item) => item.lastPingLeft);
-  const hasPingRight = fixedInfoList.some((item) => item.firstPingRight);
+  const hasPinLeft = fixedInfoList.some((item) => item.lastPinLeft);
+  const hasPinRight = fixedInfoList.some((item) => item.firstPinRight);
+
+  const semanticCls = useSemanticCls(className, {
+    scrollLeftShadow: !hasPinLeft && scrollOffset.left > 0,
+    scrollRightShadow: !hasPinRight && scrollOffset.right > 0,
+  });
 
   const rootCls = clsx(
     prefixCls,
@@ -828,14 +832,18 @@ function InternalTable<RecordType extends AnyObject>(
       [`${prefixCls}-fixed-header`]: fixHeader,
       [`${prefixCls}-fixed-column`]: fixColumn,
       [`${prefixCls}-scroll-horizontal`]: horizonScroll,
-      [`${prefixCls}-has-ping-left`]: hasPingLeft,
-      [`${prefixCls}-has-ping-right`]: hasPingRight,
+      [`${prefixCls}-has-pin-left`]: hasPinLeft,
+      [`${prefixCls}-has-pin-right`]: hasPinRight,
     },
     'max-w-full bg-container text-sm text-text [&:fullscreen]:p-6',
-    className,
+    semanticCls.root,
   );
 
-  const extraCls = clsx(`${prefixCls}-extra`, 'mb-4 border-b border-border-tertiary pb-4');
+  const extraCls = clsx(
+    `${prefixCls}-extra`,
+    'mb-4 border-b border-border-tertiary pb-4',
+    semanticCls.extra,
+  );
 
   const containerCls = clsx(
     `${prefixCls}-container`,
@@ -844,13 +852,14 @@ function InternalTable<RecordType extends AnyObject>(
     'after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-[3] after:w-7 after:transition-shadow',
     {
       'before:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
-        !hasPingLeft && scrollOffset.left > 0,
+        !hasPinLeft && scrollOffset.left > 0,
       'after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
-        !hasPingRight && scrollOffset.right > 0,
+        !hasPinRight && scrollOffset.right > 0,
     },
+    semanticCls.container,
   );
 
-  const tableCls = clsx('w-full border-separate border-spacing-0 text-start');
+  const tableCls = clsx('w-full border-separate border-spacing-0 text-start', semanticCls.table);
 
   // ========================================================================
   // ==                               Render                               ==
@@ -879,6 +888,7 @@ function InternalTable<RecordType extends AnyObject>(
               'justify-end': position === 'right',
             },
           ),
+          semanticCls.pagination,
           mergedPagination.className,
         )}
         size={paginationSize}
@@ -908,14 +918,22 @@ function InternalTable<RecordType extends AnyObject>(
     (fixedHeaderPassProps) => (
       <>
         <Header {...fixedHeaderPassProps} />
-        {fixFooter === 'top' && <Footer {...fixedHeaderPassProps}>{summaryNode}</Footer>}
+        {fixFooter === 'top' && (
+          <Footer {...fixedHeaderPassProps} className={semanticCls.tfoot}>
+            {summaryNode}
+          </Footer>
+        )}
       </>
     ),
     [fixFooter, summaryNode],
   );
 
   const renderFixedFooterTable = React.useCallback<FixedHolderProps<RecordType>['children']>(
-    (fixedHeaderPassProps) => <Footer {...fixedHeaderPassProps}>{summaryNode}</Footer>,
+    (fixedHeaderPassProps) => (
+      <Footer {...fixedHeaderPassProps} className={semanticCls.tfoot}>
+        {summaryNode}
+      </Footer>
+    ),
     [summaryNode],
   );
 
@@ -950,6 +968,7 @@ function InternalTable<RecordType extends AnyObject>(
     onHeaderRow,
     fixHeader,
     scroll,
+    className: semanticCls.thead,
   };
 
   const hasData = !!pageData.length;
@@ -967,7 +986,13 @@ function InternalTable<RecordType extends AnyObject>(
 
   // Body
   const bodyTable = (
-    <Body data={pageData} measureColumnWidth={fixHeader || horizonScroll || isSticky} />
+    <Body
+      data={pageData}
+      measureColumnWidth={fixHeader || horizonScroll || isSticky}
+      className={semanticCls.tbody}
+      rowClassName={semanticCls.row}
+      expandedRowClassName={semanticCls.expandedRow}
+    />
   );
 
   const bodyColGroup = (
@@ -1024,6 +1049,7 @@ function InternalTable<RecordType extends AnyObject>(
                 columnsPos={columnsPos}
                 scrollOffset={scrollOffset}
                 flattenColumns={flattenColumns}
+                className={semanticCls.tfoot}
               >
                 {summaryNode}
               </Footer>
@@ -1039,6 +1065,7 @@ function InternalTable<RecordType extends AnyObject>(
       maxContentScroll: horizonScroll && mergedScrollX === 'max-content',
       ...headerProps,
       ...columnContext,
+      tableClassName: semanticCls.table,
       stickyClassName,
       onScroll: onInternalScroll,
     };
@@ -1050,7 +1077,7 @@ function InternalTable<RecordType extends AnyObject>(
           <FixedHolder<RecordType>
             {...fixedHolderProps}
             stickyTopOffset={offsetHeader}
-            className={`${prefixCls}-header`}
+            className={clsx(`${prefixCls}-header`, fixedHolderProps.className)}
             ref={scrollHeaderRef}
           >
             {renderFixedHeaderTable}
@@ -1065,7 +1092,7 @@ function InternalTable<RecordType extends AnyObject>(
           <FixedHolder<RecordType>
             {...fixedHolderProps}
             stickyBottomOffset={offsetSummary}
-            className={`${prefixCls}-summary`}
+            className={clsx(`${prefixCls}-summary`, fixedHolderProps.className)}
             ref={scrollSummaryRef}
           >
             {renderFixedFooterTable}
@@ -1105,6 +1132,7 @@ function InternalTable<RecordType extends AnyObject>(
               scrollOffset={scrollOffset}
               columnsPos={columnsPos}
               flattenColumns={flattenColumns}
+              className={semanticCls.tfoot}
             >
               {summaryNode}
             </Footer>
@@ -1167,6 +1195,7 @@ function InternalTable<RecordType extends AnyObject>(
         columnTitleProps={columnTitleProps}
         searchValues={searchValues}
         onSearch={onSearchChange}
+        className={semanticCls.toolbar}
         {...toolbarProps}
       />
     );
@@ -1192,6 +1221,7 @@ function InternalTable<RecordType extends AnyObject>(
           values={searchValues}
           size={mergedSize === 'small' || mergedSize === 'middle' ? 'small' : undefined}
           {...search}
+          className={mergeSemanticCls(semanticCls.search, search?.className)}
           onSearch={onSearchChange}
         />
       )}
@@ -1236,8 +1266,6 @@ function InternalTable<RecordType extends AnyObject>(
 
       // Body
       tableLayout: mergedTableLayout,
-      rowClassName,
-      expandedRowClassName: expandableConfig.expandedRowClassName,
       expandIcon: expandIcon,
       expandableType,
       expandRowByClick: !!expandableConfig.expandRowByClick,
@@ -1252,6 +1280,7 @@ function InternalTable<RecordType extends AnyObject>(
       columns: mergedColumns,
       flattenColumns,
       onColumnResize,
+      cellClassName: semanticCls.cell,
 
       // Row
       hoverStartRow: startRow,
@@ -1294,8 +1323,6 @@ function InternalTable<RecordType extends AnyObject>(
 
       // Body
       mergedTableLayout,
-      rowClassName,
-      expandableConfig.expandedRowClassName,
       expandIcon,
       expandableType,
       expandableConfig.expandRowByClick,
