@@ -65,7 +65,9 @@ export default function useCellRender<RecordType extends AnyObject>({
       const value: React.ReactNode =
         valueType === 'index' || valueType === 'indexBorder'
           ? renderIndex
-          : getValue(record, path as any);
+          : path.length
+            ? getValue(record, path as any)
+            : undefined;
 
       const mergedValueEnum =
         typeof valueEnum === 'function' ? valueEnum(record, renderIndex) : valueEnum;
@@ -89,13 +91,13 @@ export default function useCellRender<RecordType extends AnyObject>({
         />
       );
 
-      if (editableConfig?.editorRender) {
-        dom = editableConfig?.editorRender(editableForm);
-      }
-
       if (editing) {
         if (mergedValueType === 'action') {
           return <div className={actionCls}>{editingActionRender?.(record, renderIndex)}</div>;
+        }
+
+        if (editableConfig?.editorRender) {
+          dom = editableConfig?.editorRender(editableForm);
         }
 
         warning(
