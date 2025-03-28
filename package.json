@@ -1,6 +1,6 @@
 {
   "name": "metis-ui",
-  "version": "0.0.1-alpha.3",
+  "version": "0.1.0-alpha.1",
   "description": "A react library developed with dumi",
   "license": "MIT",
   "main": "lib/components/index.js",
