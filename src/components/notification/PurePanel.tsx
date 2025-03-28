@@ -87,7 +87,7 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
           semanticCls.root,
         ),
         close: clsx(
-          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-text-secondary hover:bg-fill-tertiary',
+          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl text-text-secondary hover:bg-fill-tertiary hover:text-text-secondary',
           semanticCls.close,
         ),
         progress: clsx(

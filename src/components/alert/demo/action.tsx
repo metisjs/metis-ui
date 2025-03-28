@@ -8,7 +8,7 @@ const App: React.FC = () => (
       type="success"
       showIcon
       action={
-        <a href="#" className="!text-success-active hover:!text-success-hover">
+        <a href="#" className="text-success-active hover:text-success-hover">
           Details →
         </a>
       }
@@ -19,7 +19,7 @@ const App: React.FC = () => (
       description="Error Description Error Description Error Description Error Description"
       type="error"
       action={
-        <a href="#" className="!text-error-active hover:!text-error-hover">
+        <a href="#" className="text-error-active hover:text-error-hover">
           Details →
         </a>
       }

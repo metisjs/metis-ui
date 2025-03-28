@@ -21,7 +21,7 @@ const App: React.FC = () => (
       showIcon
       closable
       action={
-        <a href="#" className="!text-primary-active hover:!text-primary-hover">
+        <a href="#" className="text-primary-active hover:text-primary-hover">
           Details
         </a>
       }

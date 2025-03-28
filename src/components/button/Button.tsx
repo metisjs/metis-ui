@@ -159,7 +159,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     [props.onClick, innerLoading, mergedDisabled],
   );
 
-  const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls);
+  const { compactSize, vertical, isCompactItem, compactItemClassnames } =
+    useCompactItemContext(prefixCls);
 
   const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined, mini: 'mini' };
 
@@ -215,7 +216,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
-    'relative inline-flex w-fit items-center justify-center whitespace-nowrap rounded-md text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
+    'button relative inline-flex w-fit items-center justify-center whitespace-nowrap rounded-md text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
     {
       'bg-container text-text ring-1 ring-inset ring-border focus-visible:ring-primary enabled:hover:bg-fill-quinary':
         type === 'default',
@@ -257,6 +258,12 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       'bg-error text-white focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white':
         type === 'primary',
     },
+    isCompactItem &&
+      type === 'primary' && [
+        'before:[&_+_.button]:absolute before:[&_+_.button]:-start-px before:[&_+_.button]:inline-block before:[&_+_.button]:h-full before:[&_+_.button]:w-px before:[&_+_.button]:bg-primary-hover',
+        vertical &&
+          'before:[&_+_.button]:-top-px before:[&_+_.button]:start-auto before:[&_+_.button]:h-px before:[&_+_.button]:w-full',
+      ],
     compactItemClassnames,
     semanticCls.root,
   );

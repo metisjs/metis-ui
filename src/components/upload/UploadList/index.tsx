@@ -165,13 +165,13 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
         `${prefixCls}-list-item-action`,
         'h-5 w-fit p-0 font-normal focus-visible:ring-0',
         {
-          'text-text-tertiary hover:!text-text-secondary': listType === 'text',
+          'text-text-tertiary hover:text-text-secondary': listType === 'text',
           'px-0.5 text-text-secondary': listType === 'picture',
-          'text-white hover:!text-white':
+          'text-white hover:text-white':
             listType === 'picture-card' || listType === 'picture-circle',
         },
         error && {
-          'flex text-error-hover hover:enabled:!text-error': listType === 'text',
+          'flex text-error-hover hover:enabled:text-error': listType === 'text',
           'text-text-error hover:enabled:bg-error-bg': listType === 'picture',
         },
       ),

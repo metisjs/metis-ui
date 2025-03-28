@@ -59,7 +59,7 @@ export const Meta: FC<ListItemMetaProps> = ({
 
   const titleCls = clsx(
     `${prefixCls}-item-meta-title`,
-    'truncate font-semibold leading-6 [&_a]:!text-text [&_a]:transition-colors [&_a]:hover:!text-primary',
+    'truncate font-semibold leading-6 [&_a]:text-text [&_a]:transition-colors [&_a]:hover:text-primary',
     semanticCls.title,
   );
 

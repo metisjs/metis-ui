@@ -145,7 +145,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       `${prefixCls}-list-item-name`,
       'hidden flex-auto truncate px-2 leading-6',
       {
-        '!text-error': mergedStatus === 'error',
+        'text-error hover:text-error': mergedStatus === 'error',
         'mb-3': mergedStatus === 'uploading' && listType === 'picture',
         'mt-1 flex-none': listType === 'picture-card' || listType === 'picture-circle',
       },

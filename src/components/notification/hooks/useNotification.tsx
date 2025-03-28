@@ -106,7 +106,7 @@ export function useInternalNotification(
           '[.collapsed-wrapper:nth-last-child(2)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(2)_&]:transition-opacity [.collapsed-wrapper:nth-last-child(3)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(3)_&]:transition-opacity',
         ),
         close: clsx(
-          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl !text-text-secondary hover:bg-fill-tertiary',
+          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl text-text-secondary hover:bg-fill-tertiary hover:text-text-secondary',
         ),
         progress: clsx(
           'absolute bottom-0 left-2 right-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-primary',
