@@ -64,13 +64,13 @@ When you need to mention someone or something.
 ### Option
 
 <!-- prettier-ignore -->
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| className | className | string | - |
-| disabled | Optional | boolean | - |
-| key | The key value of the option | string | - |
-| label | Title of the option | React.ReactNode | - |
-| style | The style of the option | React.CSSProperties | - |
+|Property|Description|Type|Default|
+|---|---|---|---|
+|className|className|string|-|
+|disabled|Optional|boolean|-|
+|key|The key value of the option|string|-|
+|label|Title of the option|React.ReactNode|-|
+|style|The style of the option|React.CSSProperties|-|
 
 ### Mention.getMentions
 

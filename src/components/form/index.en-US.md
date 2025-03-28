@@ -65,10 +65,12 @@ description: High-performance form component with data domain management. Includ
 | column | "Grid display, can be written as pixel values or as a responsive object { xs: 2, sm: 3, md: 4} | number \| Record&lt;Breakpoint, number> | 'auto' |  |
 | component | Set the Form rendering element. Do not create a DOM node for `false` | ComponentType \| false | form |  |
 | disabled | Set form component disable, only available for metis components | boolean | false |  |
+| errorType｜ Field validation failure prompt style | `popover` \| `default` | `default` |  |  |
 | feedbackIcons | Can be passed custom icons while `Form.Item` element has `hasFeedback` | [FeedbackIcons](#feedbackicons) | - |  |
 | fields | Control of form fields through state management (such as redux). Not recommended for non-strong demand. View [example](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | Form control instance created by `Form.useForm()`. Automatically created when not provided | [FormInstance](#forminstance) | - |  |
 | initialValues | Set value by Form initialization or reset | object | - |  |
+| items｜ Json schema, same as FormItem | [ItemType](#itemtype) |  |  |  |
 | labelAlign | The text align of label of all items | `left` \| `right` | `right` |  |
 | labelWidth | Label width, pixel value, percentage or 'auto'。 | string \| number | 'auto' |  |
 | layout | Form layout | `horizontal` \| `vertical` \| `inline` | `horizontal` |  |
@@ -84,8 +86,6 @@ description: High-performance form component with data domain management. Includ
 | onFinish | Trigger after submitting the form and verifying data successfully | function(values) | - |  |
 | onFinishFailed | Trigger after submitting the form and verifying data failed | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | Trigger when value updated | function(changedValues, allValues) | - |  |
-| errorType｜ Field validation failure prompt style | `popover` \| `default` | `default` |  |
-| items｜ Json schema, same as FormItem | [ItemType](#itemtype) |  |  |
 
 > It accepts all props which native forms support but `onSubmit`.
 
@@ -93,10 +93,10 @@ description: High-performance form component with data domain management. Includ
 
 | Property    | Description   | Type                | Default | Version |
 | ----------- | ------------- | ------------------- | ------- | ------- |
-| valueType   | Value type    | `text`              | -       |         |
-| valueEnum   | Value enum    |                     | -       |         |
 | fieldProps  | Field props   |                     | -       |         |
 | fieldRender | Custom render | (form) => ReactNode | -       |         |
+| valueEnum   | Value enum    |                     | -       |         |
+| valueType   | Value type    | `text`              | -       |         |
 
 > It accepts all props which Form.Item support but `children`.
 
@@ -104,37 +104,37 @@ description: High-performance form component with data domain management. Includ
 
 | valueType       | Description                |
 | --------------- | -------------------------- |
-| `password`      | Password input box         |
-| `money`         | Money input box            |
-| `moneyRange`    | Money range input box      |
-| `textarea`      | Text area                  |
+| `avatar`        | Avatar                     |
+| `cascader`      | Cascading select box       |
+| `checkbox`      | Checkbox                   |
 | `date`          | Date                       |
-| `dateTime`      | Date and time              |
-| `dateWeek`      | Week                       |
 | `dateMonth`     | Month                      |
 | `dateQuarter`   | Quarter input              |
-| `dateYear`      | Year input                 |
 | `dateRange`     | Date range                 |
+| `dateTime`      | Date and time              |
 | `dateTimeRange` | Date and time range        |
-| `time`          | Time                       |
-| `timeRange`     | Time range                 |
-| `text`          | Text box                   |
-| `select`        | Dropdown box               |
-| `checkbox`      | Checkbox                   |
-| `rate`          | Star rating component      |
-| `radio`         | Radio button               |
-| `progress`      | Progress bar               |
-| `percent`       | Percentage component       |
-| `percentRange`  | Percentage range component |
+| `dateWeek`      | Week                       |
+| `dateYear`      | Year input                 |
 | `digit`         | Number input box           |
 | `digitRange`    | Number range input box     |
-| `avatar`        | Avatar                     |
-| `switch`        | Switch                     |
 | `fromNow`       | Relative to current time   |
 | `image`         | Image                      |
-| `cascader`      | Cascading select box       |
+| `money`         | Money input box            |
+| `moneyRange`    | Money range input box      |
+| `password`      | Password input box         |
+| `percent`       | Percentage component       |
+| `percentRange`  | Percentage range component |
+| `progress`      | Progress bar               |
+| `radio`         | Radio button               |
+| `rate`          | Star rating component      |
 | `segmented`     | Segmented control          |
+| `select`        | Dropdown box               |
+| `switch`        | Switch                     |
 | `tag`           | Tags component             |
+| `text`          | Text box                   |
+| `textarea`      | Text area                  |
+| `time`          | Time                       |
+| `timeRange`     | Time range                 |
 
 ### valueEnum
 

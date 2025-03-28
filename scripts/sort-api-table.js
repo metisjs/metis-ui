@@ -1,6 +1,4 @@
 const { majo } = require('majo');
-const fs = require('fs');
-const path = require('path');
 const { logger } = require('@umijs/utils');
 const unified = require('unified');
 const parse = require('remark-parse');
@@ -13,8 +11,8 @@ let fileAPIs = {};
 const remarkWithYaml = unified()
   .use(parse)
   .use(stringify, {
-    paddedTable: false,
-    listItemIndent: 1,
+    tableCellPadding: false,
+    listItemIndent: '1',
     stringLength: () => 3,
   })
   .use(frontmatter)

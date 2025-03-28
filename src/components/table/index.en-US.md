@@ -66,50 +66,50 @@ description: A table displays rows of data.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| verticalLine | Whether to show all table borders | boolean | false |  |
+| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | columns | Columns of table | [ColumnsType](#column)\[] | - |  |
+| columnsState | Set props of column setting | [columnsState](#columnsstate) | - |  |
 | components | Override default table elements | [TableComponents](https://github.com/metisjs/metis-ui/blob/main/src/components/table/interface.ts#L129) | - |  |
 | dataSource | Data record array to be displayed | object\[] | - |  |
+| editable | Config editable content | [editable](#editable) | - |  |
 | expandable | Config expandable content | [expandable](#expandable) | - |  |
+| extraRender | Render extra content | (currentDataSource: RecordType\[], action: TableActionType) => ReactNode | - |  |
 | footer | Table footer renderer | function(currentPageData) | - |  |
 | getPopupContainer | The render container of dropdowns in table | (triggerNode) => HTMLElement | () => TableHtmlElement |  |
 | loading | Loading status of table | boolean \| [Spin Props](/components/spin/#api) | false |  |
 | locale | The i18n text including filter, sort, empty text, etc | object |  |  |
 | pagination | Config of pagination. You can ref table pagination [config](#pagination) or full [`pagination`](/components/pagination/) document, hide it by setting it to `false` | object \| `false` | - |  |
+| rowHoverable | Row hover | boolean | true |  |
 | rowKey | Row's unique key, could be a string or function that returns a string | string \| function(record): string | `key` |  |
 | rowSelection | Row selection [config](#rowselection) | object | - |  |
-| rowHoverable | Row hover | boolean | true |  |
 | scroll | Whether the table can be scrollable, [config](#scroll) | object | - |  |
+| search | Config search content | [search](#search) | - |  |
 | showHeader | Whether to show table header | boolean | true |  |
 | showSorterTooltip | The header show next sorter direction tooltip. It will be set as the property of Tooltip if its type is object | boolean \| [Tooltip props](/components/tooltip/#api) & `{target?: 'full-header' \| 'sorter-icon' }` | { target: 'full-header' } |  |
 | size | Size of table | `default` \| `middle` \| `small` | `default` |  |
 | sortDirections | Supported sort way, could be `ascend`, `descend` | Array | \[`ascend`, `descend`] |  |
 | sticky | Set sticky header and scroll bar | boolean \| `{offsetHeader?: number, offsetScroll?: number, getContainer?: () => HTMLElement}` | - |  |
 | summary | Summary content | (currentData) => ReactNode | - |  |
+| syncToUrl | Sync pagination、filter、sorter data to url | boolean \| [syncToUrl](#synctourl) | - |  |
 | tableLayout | The [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) attribute of table element | - \| `auto` \| `fixed` | -<hr />`fixed` when header/columns are fixed, or using `column.ellipsis` |  |
 | title | Table title renderer | function(currentPageData) | - |  |
+| toolbar | Config toolbar content | [toolbar](#toolbar) | - |  |
+| verticalLine | Whether to show all table borders | boolean | false |  |
 | onChange | Callback executed when pagination, filters or sorter is changed | function(pagination, filters, sorter, extra: { currentDataSource: \[], action: `paginate` \| `sort` \| `filter` }) | - |  |
 | onHeaderRow | Set props on per header row | function(columns, index) | - |  |
 | onRow | Set props on per row | function(record, index) | - |  |
 | onScroll | Triggered when the table body is scrolled. Note that only vertical scrolling will trigger the event when `virtual` | function(event) | - |  |
-| editable | Config editable content | [editable](#editable) | - |  |
-| search | Config search content | [search](#search) | - |  |
-| toolbar | Config toolbar content | [toolbar](#toolbar) | - |  |
-| columnsState | Set props of column setting | [columnsState](#columnsstate) | - |  |
-| syncToUrl | Sync pagination、filter、sorter data to url | boolean \| [syncToUrl](#synctourl) | - |  |
-| extraRender | Render extra content | (currentDataSource: RecordType[], action: TableActionType) => ReactNode | - |  |
-| className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### Table ref
 
 | Property | Description | Type | Version |
 | --- | --- | --- | --- |
-| nativeElement | The wrap element | HTMLDivElement |  |
-| scrollTo | Trigger to scroll to target position. `key` match with record `rowKey` | (config: { index?: number, key?: React.Key, top?: number }) => void |  |
-| reload | Reload remote data | (resetPageIndex?: boolean) => void |  |
-| fullScreen | Set table fullscreen | () => void |  |
-| startEdit | When table is editable, to start edit | (key: Key) => boolean |  |
 | cancelEdit | When table is editable, to cancel edit | () => boolean |  |
+| fullScreen | Set table fullscreen | () => void |  |
+| nativeElement | The wrap element | HTMLDivElement |  |
+| reload | Reload remote data | (resetPageIndex?: boolean) => void |  |
+| scrollTo | Trigger to scroll to target position. `key` match with record `rowKey` | (config: { index?: number, key?: React.Key, top?: number }) => void |  |
+| startEdit | When table is editable, to start edit | (key: Key) => boolean |  |
 
 ### Column
 
@@ -121,26 +121,26 @@ One of the Table `columns` prop for describing the table's columns.
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | colSpan | Merge header columns. Set to `0` to not render. | number | - |  |
 | dataIndex | The path in the data item corresponding to the column data. Supports nested paths via arrays. | string \| string\[] | - |  |
-| filter | Filter configuration | boolean \| [filter](#column-filter) | - |  |
-| sorter | Sorting configuration | boolean \| [sorter](#column-sorter) | - |  |
+| editable | Editable column. Requires `Table.editable` to be enabled. | boolean \| [editable](#column-editable) | - |  |
 | ellipsis | Automatically truncate text that exceeds the width. Not compatible with sorting and filtering. <br />When set to `true` or `{ showTitle?: boolean }`, the table layout will become `tableLayout="fixed"`. | boolean \| { showTitle?: boolean } | false |  |
-| fixed | Whether the column is fixed. Options: `true` (equivalent to `left`), `left`, `right`. | boolean \| string | false |  |
+| filter | Filter configuration | boolean \| [filter](#column-filter) | - |  |
+| fixed | Whether the column is fixed. `true` equivalent to `left`. | boolean \| string | false |  |
+| hidden | Hide the column | boolean | false |  |
 | key | React key. If a unique `dataIndex` is already set, this property can be omitted. | Key | - |  |
+| minWidth | Minimum column width, only effective when `tableLayout="auto"`. | number | - |  |
 | render | Render function for complex data. Parameters are the current cell value, current row data, and row index. | function(value, record, index, action) {} | - |  |
+| request | Remote data fetching method | [RequestConfig](#requestconfig) | - |  |
 | responsive | Responsive breakpoint configuration list. If not set, the column will always be visible. | [Breakpoint](https://github.com/metisjs/metis-ui/blob/main/src/components/_util/responsiveObserver.ts#L1)\[] | - |  |
 | rowScope | Set the column scope | `row` \| `rowgroup` | - |  |
+| search | Column search configuration | boolean \| [search](#column-search) | - |  |
 | shouldCellUpdate | Customize cell rendering timing | (record, prevRecord) => boolean | - |  |
+| sorter | Sorting configuration | boolean \| [sorter](#column-sorter) | - |  |
 | title | Column header display text | ReactNode \| ({ sortOrder, sortColumn, filters }) => ReactNode | - |  |
+| valueEnum | Column value enumeration, automatically converts the value to a key to display the corresponding content. | [ValueEnum](/components/form/#valueenum) | - |  |
+| valueType | Column value type, which generates different renderers. | [ValueValue](/components/form/#valuetype-list) | `text` |  |
 | width | Column width | string \| number | - |  |
-| minWidth | Minimum column width, only effective when `tableLayout="auto"`. | number | - |  |
-| hidden | Hide the column | boolean | false |  |
 | onCell | Set cell properties | function(record, rowIndex) | - |  |
 | onHeaderCell | Set header cell properties | function(column) | - |  |
-| valueType | Column value type, which generates different renderers. | [ValueValue](/components/form/#valuetype-list) | `text` |  |
-| valueEnum | Column value enumeration, automatically converts the value to a key to display the corresponding content. | [ValueEnum](/components/form/#valueenum) | - |  |
-| editable | Editable column. Requires `Table.editable` to be enabled. | boolean \| [editable](#column-editable) | - |  |
-| search | Column search configuration | boolean \| [search](#column-search) | - |  |
-| request | Remote data fetching method | [RequestConfig](#requestconfig) | - |
 
 `valueType` supports multiple types. Refer to [here](https://github.com/metisjs/metis-ui/blob/main/src/components/table/interface.ts#L259) for details. You can use it like this:
 
@@ -199,7 +199,7 @@ Properties for expandable.
 | expandedRowRender | Expanded container render for each row | function(record, index, indent, expanded): ReactNode | - |  |
 | expandIcon | Customize row expand Icon | function(props): ReactNode | - |  |
 | expandRowByClick | Whether to expand row by clicking anywhere in the whole row | boolean | false |  |
-| fixed | Whether the expansion icon is fixed. Optional true `left` `right` | boolean \| string | false |  |
+| fixed | Whether the expansion icon is fixed. | boolean \| `left` \| `right` | false |  |
 | indentSize | Indent size in pixels of tree data | number | 15 |  |
 | rowExpandable | Enable row can be expandable | (record) => boolean | - |  |
 | showExpandColumn | Show expand column | boolean | true |  |
@@ -212,9 +212,9 @@ Configuration for row editing, supporting properties related to [Form](/componen
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| actionRender | Method to render actions in the editing state | string | (record: RecordType, defaultDoms: { save: ReactNode; cancel: ReactNode}) => ReactNode\[] |  |
 | editingRowKey | The `rowKey` currently being edited | Key |  |  |
 | onChange | Method triggered when the editing state changes | (editingRowKey?: Key, editingRecord?: RecordType) => void |  |  |
-| actionRender | Method to render actions in the editing state | string | (record: RecordType, defaultDoms: { save: ReactNode; cancel: ReactNode}) => ReactNode[] |  |
 | onSave | Method to save the edited row data | (record: RecordType, index: number) => Promise |  |  |
 
 ### search
@@ -223,12 +223,12 @@ Configuration for the search functionality, supporting properties related to [Fo
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| items | Search items | [FormItemConfig](/components/form/#itemtype) & { order?: number } | - |  |
-| defaultCollapsed | Whether the search bar is collapsed by default | boolean | true |
-| collapsed | Whether the search bar is collapsed | boolean | true |
+| collapsed | Whether the search bar is collapsed | boolean | true |  |
+| defaultCollapsed | Whether the search bar is collapsed by default | boolean | true |  |
 | defaultItemsNumber | Number of search items displayed by default when collapsed | number | - |  |
+| items | Search items | [FormItemConfig](/components/form/#itemtype) & { order?: number } | - |  |
 | onCollapsedChange | Event triggered when the collapse button is clicked | (collapsed: boolean) => void | - |  |
-| onSearch | Event triggered when the search button is clicked | (params: Record<Key, any>) => void | - |  |
+| onSearch | Event triggered when the search button is clicked | (params: Record&lt;Key, any>) => void | - |  |
 
 ### toolbar
 
@@ -236,10 +236,10 @@ Configuration for the toolbar, supporting direct `ReactNode[]` type, which will 
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| search | Query area | boolean \| [InputProps](/components/input/#input) | - |  |
-| actions | Action area | ReactNode[] |  |  |
+| actions | Action area | ReactNode\[] |  |  |
 | options | Settings area | boolean \| { fullScreen?: boolean, reload?: boolean, setting?: boolean } | - |  |
-| optionsRender | Custom settings area | (defaultDom: ReactNode[]) => ReactNode[] | - |  |
+| optionsRender | Custom settings area | (defaultDom: ReactNode\[]) => ReactNode\[] | - |  |
+| search | Query area | boolean \| [InputProps](/components/input/#input) | - |  |
 
 ### rowSelection
 
@@ -247,21 +247,21 @@ Properties for row selection.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| cellRender | Renderer of the table cell. Same as `render` in column | function(checked, record, index, originNode) {} | - |  |
 | checkStrictly | Check table row precisely; parent row and children rows are not associated | boolean | true |  |
 | columnTitle | Set the title of the selection column | ReactNode \| (originalNode: ReactNode) => ReactNode | - |  |
 | columnWidth | Set the width of the selection column | string \| number | `32px` |  |
 | fixed | Fixed selection column on the left | boolean | - |  |
 | getCheckboxProps | Get Checkbox or Radio props | function(record) | - |  |
 | hideSelectAll | Hide the selectAll checkbox and custom selection | boolean | false |  |
+| optionRender | Batch operation area rendering | ({ selectedRowKeys: Key\[], selectedRows: RecordType\[], clearSelected: () => void}) => ReactNode | - |  |
 | preserveSelectedRowKeys | Keep selection `key` even when it removed from `dataSource` | boolean | - |  |
-| cellRender | Renderer of the table cell. Same as `render` in column | function(checked, record, index, originNode) {} | - |  |
 | selectedRowKeys | Controlled selected row keys | string\[] \| number\[] | \[] |  |
 | selections | Custom selection [config](#selection), only displays default selections when set to `true` | object\[] \| boolean | - |  |
 | type | `checkbox` or `radio` | `checkbox` \| `radio` | `checkbox` |  |
 | onCell | Set props on per cell. Same as `onCell` in column | function(record, rowIndex) | - |  |
 | onChange | Callback executed when selected rows change | function(selectedRowKeys, selectedRows, info: { type }) | - |  |
 | onSelect | Callback executed when select/deselect one row | function(record, selected, selectedRows, nativeEvent) | - |  |
-| optionRender | Batch operation area rendering | ({ selectedRowKeys: Key[], selectedRows: RecordType[], clearSelected: () => void}) => ReactNode | - |  |
 
 ### columnsState
 
@@ -296,19 +296,19 @@ Configuration for column filtering.
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| dropdown | Custom filter menu. This function only renders the layer; interactions must be implemented manually. | ReactNode \| (props: [FilterDropdownProps](https://github.com/metisjs/metis-ui/blob/main/src/components/table/interface.ts#L112)) => ReactNode | - | - |
-| filtered | Indicates whether the data has been filtered; highlights the filter icon. | boolean | false | - |
-| value | Controlled property for filtering, allowing external control over the column’s filter state. The value is an array of selected filter values. | Key \| Key\[] | - | - |
-| icon | Custom filter icon. | ReactNode \| (filtered: boolean) => ReactNode | false | - |
-| triggerOnClose | Whether to trigger filtering when the filter menu closes. | boolean | true | - |
-| multiple | Whether multiple selections are allowed. | boolean | true | - |
-| mode | Specifies the UI mode of the filter menu. | 'menu' \| 'tree' | 'menu' | - |
-| search | Whether the filter menu items are searchable. | boolean \| function(input, record): boolean | false | - |
-| items | Filter menu items for the column header. | object\[] | - | - |
-| dropdownProps | Custom dropdown properties. | [DropdownProps](/components/dropdown-cn#api) | - | - |
-| onFilter | Filtering function for local mode. | function | - | - |
 | defaultValue | Default filter value. | string\[] | - | - |
+| dropdown | Custom filter menu. This function only renders the layer; interactions must be implemented manually. | ReactNode \| (props: [FilterDropdownProps](https://github.com/metisjs/metis-ui/blob/main/src/components/table/interface.ts#L112)) => ReactNode | - | - |
+| dropdownProps | Custom dropdown properties. | [DropdownProps](/components/dropdown#api) | - | - |
+| filtered | Indicates whether the data has been filtered; highlights the filter icon. | boolean | false | - |
+| icon | Custom filter icon. | ReactNode \| (filtered: boolean) => ReactNode | false | - |
+| items | Filter menu items for the column header. | object\[] | - | - |
+| mode | Specifies the UI mode of the filter menu. | 'menu' \| 'tree' | 'menu' | - |
+| multiple | Whether multiple selections are allowed. | boolean | true | - |
 | resetToDefaultValue | Whether to reset to the default filter value when clicking the reset button. | boolean | false | - |
+| search | Whether the filter menu items are searchable. | boolean \| function(input, record): boolean | false | - |
+| triggerOnClose | Whether to trigger filtering when the filter menu closes. | boolean | true | - |
+| value | Controlled property for filtering, allowing external control over the column’s filter state. The value is an array of selected filter values. | Key \| Key\[] | - | - |
+| onFilter | Filtering function for local mode. | function | - | - |
 
 ---
 
@@ -319,8 +319,8 @@ Configuration for column sorting.
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | defaultOrder | Default sorting order. | `ascend` \| `descend` | - | - |
-| showTooltip | Displays a tooltip in the header indicating the next sorting order. Overrides `showSorterTooltip` in `table`. | boolean \| [Tooltip props](/components/tooltip-cn/#api) & `{target?: 'full-header' \| 'sorter-icon' }` | { target: 'full-header' } | - |
-| directions | Supported sorting directions, overriding `sortDirections` in `Table`. Options: `ascend`, `descend`. | Array | \[`ascend`, `descend`] | - |
+| showTooltip | Displays a tooltip in the header indicating the next sorting order. Overrides `showSorterTooltip` in `table`. | boolean \| [Tooltip props](/components/tooltip/#api) & `{target?: 'full-header' \| 'sorter-icon' }` | { target: 'full-header' } | - |
+| directions | Supported sorting directions, overriding `sortDirections` in `Table`. | Array | \[`ascend`, `descend`] | - |
 | compare | Sorting function for local sorting. It follows the [Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) compareFunction. | function | - | - |
 | order | Controlled property for sorting, allowing external control over column sorting. Accepts `ascend`, `descend`, or `null`. | `ascend` \| `descend` \| null | - | - |
 | icon | Custom sort icon. | (props: { sortOrder }) => ReactNode | - | - |
@@ -329,7 +329,7 @@ Configuration for column sorting.
 
 ### Column Editable
 
-Configuration for column editing, supporting [FormItem](/components/form-cn/#formitem) settings. It also allows passing a function:  
+Configuration for column editing, supporting [FormItem](/components/form/#formitem) settings. It also allows passing a function:  
 `function(form: FormInstance, record: RecordType, index: number) : boolean | EditConfig`.
 
 | Parameter | Description | Type | Default | Version |
@@ -345,9 +345,9 @@ Configuration for column searching, supporting [FormItem](/components/form-cn/#f
 
 | Parameter | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| order | Sorting order of the search form item. | number | - | - |
 | fieldProps | Form component properties, with types depending on `valueType`. | - | - | - |
 | fieldRender | Custom renderer for the search field. | (form) => ReactNode | - | - |
+| order | Sorting order of the search form item. | number | - | - |
 
 ### selection
 

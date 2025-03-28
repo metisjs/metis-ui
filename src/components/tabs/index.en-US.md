@@ -37,32 +37,32 @@ Metis UI has 3 types of Tabs for different situations.
 ### Tabs
 
 <!-- prettier-ignore -->
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| activeKey | Current TabPane's key | Key | - |  |
-| addable | Show add | boolean | `false` |  |
-| animated | Whether to change tabs with animation. | boolean \| { indicator: boolean, tabPane: boolean } | { indicator: true, tabPane: false } |  |
-| centered | Centers tabs | boolean | false |  |
-| className | Semantic DOM class | [SemanticClassName](/docs/semantic-classname) | - |  |
-| closable | Show close button(x) | boolean | `false` |  |
-| defaultActiveKey | Initial active TabPane's key, if `activeKey` is not set | Key | `The key of first tab` |  |
-| destroyInactiveTabPane | Whether destroy inactive TabPane when change tab | boolean | `false` |  |
-| icons | Custom icons | { add?: ReactNode; close?: ReactNode; more?: ReactNode; } | - |  |
-| indicator | Customize `size` and `align` of indicator | { size?: number \| (origin: number) => number; align: `start` \| `center` \| `end`; } | - |  |
-| items | Configure tab content | [TabItemType](#tabitemtype) | \[] |  |
-| more | 自定义折叠菜单属性 | [MoreProps](/components/dropdown#api) | - |  |
-| renameAfterAdd | Trigger rename after add event, Only works while `addable={true}` and `onAdd` event returns returns the key of the added tab.. | boolean | `true` |  |
-| renderTabBar | Replace the TabBar | (props: DefaultTabBarProps, DefaultTabBar: React.ComponentClass) => React.ReactElement | - |  |
-| renderTabContextMenu | Render tab bar context menu | (tab: TabItemType) => [MenuProps](/components/menu#api) | - |  |
-| size | Preset tab bar size | `default` \| `middle` \| `small` | `default` |  |
-| tabBarExtraContent | Extra content in tab bar | ReactNode \| {left?: ReactNode, right?: ReactNode} | - |  |
-| tabPosition | Position of tabs | `top` \| `right` \| `bottom` \| `left` | `top` |  |
-| type | Basic style of tabs | `line` \| `card` \| `pills` | `line` |  |
-| onAdd | Callback executed when tab is added. Only works while `addable={true}` | (event: MouseEvent) => void \| string \| Promise&lt;string> | - |  |
-| onChange | Callback executed when active tab is changed | (activeKey: string) => void | - |  |
-| onClose | Callback executed when tab is close. Only works while  `closable={true}` | (key: Key, event: MouseEvent) => void | - |  |
-| onRename | Callback executed when tab is renamed | (key: Key, name: string) => void | - |  |
-| onTabScroll | Trigger when tab scroll | ({ direction: `left` \| `right` \| `top` \| `bottom` }) => void | - |  |
+|Property|Description|Type|Default|Version|
+|---|---|---|---|---|
+|activeKey|Current TabPane's key|Key|-||
+|addable|Show add|boolean|`false`||
+|animated|Whether to change tabs with animation.|boolean \| { indicator: boolean, tabPane: boolean }|{ indicator: true, tabPane: false }||
+|centered|Centers tabs|boolean|false||
+|className|Semantic DOM class|[SemanticClassName](/docs/semantic-classname)|-||
+|closable|Show close button(x)|boolean|`false`||
+|defaultActiveKey|Initial active TabPane's key, if `activeKey` is not set|Key|`The key of first tab`||
+|destroyInactiveTabPane|Whether destroy inactive TabPane when change tab|boolean|`false`||
+|icons|Custom icons|{ add?: ReactNode; close?: ReactNode; more?: ReactNode; }|-||
+|indicator|Customize `size` and `align` of indicator|{ size?: number \| (origin: number) => number; align: `start` \| `center` \| `end`; }|-||
+|items|Configure tab content|[TabItemType](#tabitemtype)|\[]||
+|more|自定义折叠菜单属性|[MoreProps](/components/dropdown#api)|-||
+|renameAfterAdd|Trigger rename after add event, Only works while `addable={true}` and `onAdd` event returns returns the key of the added tab..|boolean|`true`||
+|renderTabBar|Replace the TabBar|(props: DefaultTabBarProps, DefaultTabBar: React.ComponentClass) => React.ReactElement|-||
+|renderTabContextMenu|Render tab bar context menu|(tab: TabItemType) => [MenuProps](/components/menu#api)|-||
+|size|Preset tab bar size|`default` \| `middle` \| `small`|`default`||
+|tabBarExtraContent|Extra content in tab bar|ReactNode \| {left?: ReactNode, right?: ReactNode}|-||
+|tabPosition|Position of tabs|`top` \| `right` \| `bottom` \| `left`|`top`||
+|type|Basic style of tabs|`line` \| `card` \| `pills`|`line`||
+|onAdd|Callback executed when tab is added. Only works while `addable={true}`|(event: MouseEvent) => void \| string \| Promise&lt;string>|-||
+|onChange|Callback executed when active tab is changed|(activeKey: string) => void|-||
+|onClose|Callback executed when tab is close. Only works while  `closable={true}`|(key: Key, event: MouseEvent) => void|-||
+|onRename|Callback executed when tab is renamed|(key: Key, name: string) => void|-||
+|onTabScroll|Trigger when tab scroll|({ direction: `left` \| `right` \| `top` \| `bottom` }) => void|-||
 
 ### TabItemType
 

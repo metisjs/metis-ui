@@ -34,30 +34,30 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| icon | 自定义图标 | ReactNode | - |  |
-| description | 文字及其它内容 | ReactNode | - |  |
-| tooltip | 气泡卡片的内容 | ReactNode \| () => ReactNode | - |  |
-| type | 设置按钮类型 | `default` \| `primary` | `default` |  |
-| shape | 设置按钮形状 | `circle` \| `square` | `circle` |  |
-| onClick | 点击按钮时的回调 | (event) => void | - |  |
-| href | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 | string | - |  |
-| target | 相当于 a 标签的 target 属性，href 存在时生效 | string | - |  |
-| htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/button#type) | `submit` \| `reset` \| `button` | `button` |  |
 | badge | 带徽标数字的悬浮按钮（不支持 `status` 以及相关属性） | [BadgeProps](/components/badge-cn#api) | - |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+| description | 文字及其它内容 | ReactNode | - |  |
+| href | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 | string | - |  |
+| htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/button#type) | `submit` \| `reset` \| `button` | `button` |  |
+| icon | 自定义图标 | ReactNode | - |  |
+| shape | 设置按钮形状 | `circle` \| `square` | `circle` |  |
+| target | 相当于 a 标签的 target 属性，href 存在时生效 | string | - |  |
+| tooltip | 气泡卡片的内容 | ReactNode \| () => ReactNode | - |  |
+| type | 设置按钮类型 | `default` \| `primary` | `default` |  |
+| onClick | 点击按钮时的回调 | (event) => void | - |  |
 
 ### FloatButton.Group
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+| closeIcon | 自定义关闭按钮 | React.ReactNode | `<CloseOutlined />` |  |
+| open | 受控展开，需配合 trigger 一起使用 | boolean | - |  |
+| placement | 自定义菜单弹出位置 | `top` \| `left` \| `right` \| `bottom` | `top` |  |
 | shape | 设置包含的 FloatButton 按钮形状 | `circle` \| `square` | `circle` |  |
 | trigger | 触发方式（有触发方式为菜单模式） | `click` \| `hover` | - |  |
-| open | 受控展开，需配合 trigger 一起使用 | boolean | - |  |
-| closeIcon | 自定义关闭按钮 | React.ReactNode | `<CloseOutlined />` |  |
-| placement | 自定义菜单弹出位置 | `top` \| `left` \| `right` \| `bottom` | `top` |  |
-| onOpenChange | 展开收起时的回调，需配合 trigger 一起使用 | (open: boolean) => void | - |  |
 | onClick | 点击按钮时的回调（仅在菜单模式中有效） | (event) => void | - |  |
-| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
+| onOpenChange | 展开收起时的回调，需配合 trigger 一起使用 | (open: boolean) => void | - |  |
 
 ### FloatButton.BackTop
 

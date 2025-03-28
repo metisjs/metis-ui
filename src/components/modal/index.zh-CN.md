@@ -171,10 +171,10 @@ const confirmed = await modal.confirm({ ... });
 #### footerRenderParams
 
 <!-- prettier-ignore -->
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| extra | 扩展选项 | { OkBtn: FC; CancelBtn: FC } | - |
-| originNode | 默认节点 | React.ReactNode | - |
+|参数|说明|类型|默认值|
+|---|---|---|---|
+|extra|扩展选项|{ OkBtn: FC; CancelBtn: FC }|-|
+|originNode|默认节点|React.ReactNode|-|
 
 ## Semantic DOM
 

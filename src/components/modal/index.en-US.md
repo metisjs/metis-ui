@@ -170,10 +170,10 @@ const confirmed = await modal.confirm({ ... });
 #### footerRenderParams
 
 <!-- prettier-ignore -->
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| extra | extended options | { OkBtn: FC; CancelBtn: FC } | - |
-| originNode | default node | React.ReactNode | - |
+|Property|Description|Type|Default|
+|---|---|---|---|
+|extra|extended options|{ OkBtn: FC; CancelBtn: FC }|-|
+|originNode|default node|React.ReactNode|-|
 
 ## Semantic DOM
 

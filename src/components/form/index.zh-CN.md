@@ -66,10 +66,12 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | column | 栅格显示, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number \| Record&lt;Breakpoint, number> | 'auto' |  |
 | component | 设置 Form 渲染元素，为 `false` 则不创建 DOM 节点 | ComponentType \| false | form |  |
 | disabled | 设置表单组件禁用，仅对内部组件有效 | boolean | false |  |
+| errorType｜ 字段验证失败时的提示方式 | `popover` \| `default` | `default` |  |  |
 | feedbackIcons | 当 `Form.Item` 有 `hasFeedback` 属性时可以自定义图标 | [FeedbackIcons](#feedbackicons) | - |  |
 | fields | 通过状态管理（如 redux）控制表单字段，如非强需求不推荐使用。查看[示例](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | 经 `Form.useForm()` 创建的 form 控制实例，不提供时会自动创建 | [FormInstance](#forminstance) | - |  |
 | initialValues | 表单默认值，只有初始化以及重置时生效 | object | - |  |
+| items｜ 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype)\[] |  |  |  |
 | labelAlign | label 标签的文本对齐方式 | `left` \| `right` | `right` |  |
 | labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string \| number | 'auto' |  |
 | layout | 表单布局 | `horizontal` \| `vertical` \| `inline` | `horizontal` |  |
@@ -85,8 +87,6 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | onFinish | 提交表单且数据验证成功后回调事件 | function(values) | - |  |
 | onFinishFailed | 提交表单且数据验证失败后回调事件 | function({ values, errorFields, outOfDate }) | - |  |
 | onValuesChange | 字段值更新时触发回调事件 | function(changedValues, allValues) | - |  |
-| errorType｜ 字段验证失败时的提示方式 | `popover` \| `default` | `default` |  |
-| items｜ 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype)[] |  |  |
 
 > 支持原生 form 除 `onSubmit` 外的所有属性。
 
@@ -94,10 +94,10 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 
 | 参数        | 说明           | 类型                | 默认值 | 版本 |
 | ----------- | -------------- | ------------------- | ------ | ---- |
-| valueType   | 字段值类型     | `text`              | -      |      |
-| valueEnum   | 字段值枚举     |                     | -      |      |
 | fieldProps  | 组件属性       |                     | -      |      |
 | fieldRender | 自定义渲染组件 | (form) => ReactNode | -      |      |
+| valueEnum   | 字段值枚举     |                     | -      |      |
+| valueType   | 字段值类型     | `text`              | -      |      |
 
 > 支持原生 Form.Item 除 `children` 外的所有属性。
 
@@ -105,37 +105,37 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 
 | valueType       | 说明           |
 | --------------- | -------------- |
-| `password`      | 密码输入框     |
-| `money`         | 金额输入框     |
-| `moneyRange`    | 金额区间       |
-| `textarea`      | 文本域         |
+| `avatar`        | 头像           |
+| `cascader`      | 级联选择器     |
+| `checkbox`      | 多选框         |
 | `date`          | 日期           |
-| `dateTime`      | 日期时间       |
-| `dateWeek`      | 周             |
 | `dateMonth`     | 月             |
 | `dateQuarter`   | 季度输入       |
-| `dateYear`      | 年份输入       |
 | `dateRange`     | 日期区间       |
+| `dateTime`      | 日期时间       |
 | `dateTimeRange` | 日期时间区间   |
-| `time`          | 时间           |
-| `timeRange`     | 时间区间       |
-| `text`          | 文本框         |
-| `select`        | 下拉框         |
-| `checkbox`      | 多选框         |
-| `rate`          | 星级组件       |
-| `radio`         | 单选框         |
-| `progress`      | 进度条         |
-| `percent`       | 百分比组件     |
-| `percentRange`  | 百分比区间     |
+| `dateWeek`      | 周             |
+| `dateYear`      | 年份输入       |
 | `digit`         | 数字输入框     |
 | `digitRange`    | 数字区间       |
-| `avatar`        | 头像           |
-| `switch`        | 开关           |
 | `fromNow`       | 相对于当前时间 |
 | `image`         | 图片           |
-| `cascader`      | 级联选择器     |
+| `money`         | 金额输入框     |
+| `moneyRange`    | 金额区间       |
+| `password`      | 密码输入框     |
+| `percent`       | 百分比组件     |
+| `percentRange`  | 百分比区间     |
+| `progress`      | 进度条         |
+| `radio`         | 单选框         |
+| `rate`          | 星级组件       |
 | `segmented`     | 分段器         |
+| `select`        | 下拉框         |
+| `switch`        | 开关           |
 | `tag`           | 标签           |
+| `text`          | 文本框         |
+| `textarea`      | 文本域         |
+| `time`          | 时间           |
+| `timeRange`     | 时间区间       |
 
 ### valueEnum
 
