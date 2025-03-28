@@ -820,7 +820,7 @@ function InternalTable<RecordType extends AnyObject>(
   const hasPinLeft = fixedInfoList.some((item) => item.lastPinLeft);
   const hasPinRight = fixedInfoList.some((item) => item.firstPinRight);
 
-  const semanticCls = useSemanticCls(className, {
+  const semanticCls = useSemanticCls(className, 'table', {
     scrollLeftShadow: !hasPinLeft && scrollOffset.left > 0,
     scrollRightShadow: !hasPinRight && scrollOffset.right > 0,
   });

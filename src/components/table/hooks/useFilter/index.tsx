@@ -76,7 +76,6 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
   locale: TableLocale,
   triggerFilter: (filterState: FilterState<RecordType>) => void,
   getPopupContainer?: GetPopupContainer,
-  rootClassName?: string,
 ): InternalColumnsType<RecordType> {
   return columns.map((column) => {
     const { triggerOnClose = true, multiple = true, mode, search } = fillFilterProps(column.filter);
@@ -124,7 +123,6 @@ function injectFilter<RecordType extends AnyObject = AnyObject>(
           locale,
           triggerFilter,
           getPopupContainer,
-          rootClassName,
         ),
       };
     }
@@ -162,7 +160,6 @@ export interface FilterConfig<RecordType extends AnyObject = AnyObject> {
     filterStates: FilterState<RecordType>[],
   ) => void;
   getPopupContainer?: GetPopupContainer;
-  rootClassName?: string;
   syncToUrl?: UrlStateOptions;
 }
 
@@ -190,7 +187,6 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     onFilterChange,
     getPopupContainer,
     locale: tableLocale,
-    rootClassName,
     syncToUrl,
   } = props;
   const warning = devUseWarning('Table');
@@ -290,7 +286,6 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
       tableLocale,
       triggerFilter,
       getPopupContainer,
-      rootClassName,
     ),
   );
 
