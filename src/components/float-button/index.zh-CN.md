@@ -24,16 +24,11 @@ demo:
 <code src="./demo/group.tsx" iframe="360">浮动按钮组</code>
 <code src="./demo/group-menu.tsx" iframe="360">菜单模式</code>
 <code src="./demo/controlled.tsx" iframe="360">受控模式</code>
-<code src="./demo/placement.tsx" iframe="380" version="5.21.0">弹出方向</code>
+<code src="./demo/placement.tsx" iframe="380" version="">弹出方向</code>
 <code src="./demo/back-top.tsx" iframe="360">回到顶部</code>
 <code src="./demo/badge.tsx" iframe="360">徽标数</code>
-<code src="./demo/badge-debug.tsx" iframe="360" debug>调试小圆点使用</code>
 
 ## API
-
-通用属性参考：[通用属性](/docs/react/common-props)
-
-> 自 `antd@5.0.0` 版本开始提供该组件。
 
 ### 共同的 API
 
@@ -47,8 +42,9 @@ demo:
 | onClick | 点击按钮时的回调 | (event) => void | - |  |
 | href | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 | string | - |  |
 | target | 相当于 a 标签的 target 属性，href 存在时生效 | string | - |  |
-| htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/button#type) | `submit` \| `reset` \| `button` | `button` | 5.21.0 |
-| badge | 带徽标数字的悬浮按钮（不支持 `status` 以及相关属性） | [BadgeProps](/components/badge-cn#api) | - | 5.4.0 |
+| htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/button#type) | `submit` \| `reset` \| `button` | `button` |  |
+| badge | 带徽标数字的悬浮按钮（不支持 `status` 以及相关属性） | [BadgeProps](/components/badge-cn#api) | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### FloatButton.Group
 
@@ -58,9 +54,10 @@ demo:
 | trigger | 触发方式（有触发方式为菜单模式） | `click` \| `hover` | - |  |
 | open | 受控展开，需配合 trigger 一起使用 | boolean | - |  |
 | closeIcon | 自定义关闭按钮 | React.ReactNode | `<CloseOutlined />` |  |
-| placement | 自定义菜单弹出位置 | `top` \| `left` \| `right` \| `bottom` | `top` | 5.21.0 |
+| placement | 自定义菜单弹出位置 | `top` \| `left` \| `right` \| `bottom` | `top` |  |
 | onOpenChange | 展开收起时的回调，需配合 trigger 一起使用 | (open: boolean) => void | - |  |
-| onClick | 点击按钮时的回调（仅在菜单模式中有效） | (event) => void | - | 5.3.0 |
+| onClick | 点击按钮时的回调（仅在菜单模式中有效） | (event) => void | - |  |
+| className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 
 ### FloatButton.BackTop
 
@@ -71,6 +68,6 @@ demo:
 | visibilityHeight | 滚动高度达到此参数值才出现 BackTop | number            | 400          |      |
 | onClick          | 点击按钮的回调函数                 | () => void        | -            |      |
 
-## 主题变量（Design Token）
+## Semantic DOM
 
-<ComponentTokenTable component="FloatButton"></ComponentTokenTable>
+<code src="./demo/_semantic.tsx" simplify></code>

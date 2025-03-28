@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  CommentOutlined,
-  DownOutlined,
-  LeftOutlined,
-  RightOutlined,
-  UpOutlined,
-} from '@ant-design/icons';
-import { Flex, FloatButton } from 'antd';
+  ChatBubbleLeftOutline,
+  ChevronDownOutline,
+  ChevronLeftOutline,
+  ChevronRightOutline,
+  ChevronUpOutline,
+} from '@metisjs/icons';
+import { FloatButton, Space } from 'metis-ui';
 
 const BOX_SIZE = 100;
 const BUTTON_SIZE = 40;
@@ -39,14 +39,14 @@ const bottom: React.CSSProperties['bottom'][] = [
 ];
 
 const icons = [
-  <UpOutlined key="up" />,
-  <RightOutlined key="right" />,
-  <DownOutlined key="down" />,
-  <LeftOutlined key="left" />,
+  <ChevronUpOutline key="up" />,
+  <ChevronRightOutline key="right" />,
+  <ChevronDownOutline key="down" />,
+  <ChevronLeftOutline key="left" />,
 ];
 
 const App: React.FC = () => (
-  <Flex justify="space-evenly" align="center" style={wrapperStyle}>
+  <Space block justify="space-around" align="center" style={wrapperStyle}>
     <div style={boxStyle}>
       {(['top', 'right', 'bottom', 'left'] as const).map((placement, i) => {
         const style: React.CSSProperties = {
@@ -63,12 +63,12 @@ const App: React.FC = () => (
             icon={icons[i]}
           >
             <FloatButton />
-            <FloatButton icon={<CommentOutlined />} />
+            <FloatButton icon={<ChatBubbleLeftOutline />} />
           </FloatButton.Group>
         );
       })}
     </div>
-  </Flex>
+  </Space>
 );
 
 export default App;

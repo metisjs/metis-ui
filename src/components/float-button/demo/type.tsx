@@ -1,11 +1,11 @@
 import React from 'react';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { FloatButton } from 'antd';
+import { QuestionMarkCircleOutline } from '@metisjs/icons';
+import { FloatButton } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
-    <FloatButton icon={<QuestionCircleOutlined />} type="primary" style={{ insetInlineEnd: 24 }} />
-    <FloatButton icon={<QuestionCircleOutlined />} type="default" style={{ insetInlineEnd: 94 }} />
+    <FloatButton icon={<QuestionMarkCircleOutline />} type="primary" className="end-6" />
+    <FloatButton icon={<QuestionMarkCircleOutline />} type="default" className="end-24" />
   </>
 );
 

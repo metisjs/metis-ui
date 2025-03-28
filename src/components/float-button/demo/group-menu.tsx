@@ -1,26 +1,26 @@
 import React from 'react';
-import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
-import { FloatButton } from 'antd';
+import { ChatBubbleLeftOutline } from '@metisjs/icons';
+import { FloatButton } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
     <FloatButton.Group
       trigger="click"
       type="primary"
-      style={{ insetInlineEnd: 24 }}
-      icon={<CustomerServiceOutlined />}
+      className="end-6"
+      icon={<ChatBubbleLeftOutline />}
     >
       <FloatButton />
-      <FloatButton icon={<CommentOutlined />} />
+      <FloatButton icon={<ChatBubbleLeftOutline />} />
     </FloatButton.Group>
     <FloatButton.Group
       trigger="hover"
       type="primary"
-      style={{ insetInlineEnd: 94 }}
-      icon={<CustomerServiceOutlined />}
+      className="end-24"
+      icon={<ChatBubbleLeftOutline />}
     >
       <FloatButton />
-      <FloatButton icon={<CommentOutlined />} />
+      <FloatButton icon={<ChatBubbleLeftOutline />} />
     </FloatButton.Group>
   </>
 );

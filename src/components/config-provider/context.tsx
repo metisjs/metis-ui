@@ -21,6 +21,7 @@ import type { DividerProps } from '../divider';
 import type { DrawerProps } from '../drawer';
 import type { DropdownProps } from '../dropdown';
 import type { EmptyProps } from '../empty';
+import type { FloatButtonProps } from '../float-button/interface';
 import type { FormProps } from '../form';
 import type { ImageProps } from '../image';
 import type { InputProps, TextAreaProps } from '../input';
@@ -105,6 +106,8 @@ export type DrawerConfig = Pick<DrawerProps, 'className'>;
 export type DropdownConfig = Pick<DropdownProps, 'className'>;
 
 export type EmptyConfig = Pick<EmptyProps, 'className'>;
+
+export type FloatButtonConfig = Pick<FloatButtonProps, 'className'>;
 
 export type FormConfig = Pick<
   FormProps,
@@ -268,6 +271,7 @@ export interface ConfigConsumerProps {
   popover?: PopoverConfig;
   popConfirm?: PopconfirmConfig;
   tooltip?: TooltipConfig;
+  floatButton?: FloatButtonConfig;
   route: RouteConfig;
   request: RequestConfig;
 }

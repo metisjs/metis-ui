@@ -1,18 +1,18 @@
 import React from 'react';
-import { QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
-import { FloatButton } from 'antd';
+import { ArrowPathOutline, QuestionMarkCircleOutline } from '@metisjs/icons';
+import { FloatButton } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
-    <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
-      <FloatButton icon={<QuestionCircleOutlined />} />
+    <FloatButton.Group shape="circle" className="end-6">
+      <FloatButton icon={<QuestionMarkCircleOutline />} />
       <FloatButton />
       <FloatButton.BackTop visibilityHeight={0} />
     </FloatButton.Group>
-    <FloatButton.Group shape="square" style={{ insetInlineEnd: 94 }}>
-      <FloatButton icon={<QuestionCircleOutlined />} />
+    <FloatButton.Group shape="square" className="end-24">
+      <FloatButton icon={<QuestionMarkCircleOutline />} />
       <FloatButton />
-      <FloatButton icon={<SyncOutlined />} />
+      <FloatButton icon={<ArrowPathOutline />} />
       <FloatButton.BackTop visibilityHeight={0} />
     </FloatButton.Group>
   </>

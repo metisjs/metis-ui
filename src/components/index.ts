@@ -15,15 +15,6 @@ export type { BreadcrumbItemProps, BreadcrumbProps } from './breadcrumb';
 export { default as Button } from './button';
 export type { ButtonProps } from './button';
 export { default as Calendar } from './calendar';
-export { default as Table } from './table';
-export type {
-  ColumnGroupType as TableColumnGroupType,
-  ColumnType as TableColumnType,
-  ColumnsType as TableColumnsType,
-  TablePaginationConfig,
-  TableProps,
-  TableRef,
-} from './table';
 export type { CalendarProps } from './calendar';
 export { default as Card } from './card';
 export type { CardProps } from './card';
@@ -51,6 +42,12 @@ export { default as Dropdown } from './dropdown';
 export type { DropdownProps as DropDownProps, DropdownProps } from './dropdown';
 export { default as Empty } from './empty';
 export type { EmptyProps } from './empty';
+export { default as FloatButton } from './float-button';
+export type {
+  FloatButtonGroupProps,
+  FloatButtonProps,
+  FloatButtonRef,
+} from './float-button/interface';
 export { default as Form } from './form';
 export type {
   FormInstance,
@@ -97,7 +94,7 @@ export type { RateProps } from './rate';
 export { default as Result } from './result';
 export type { ResultProps } from './result';
 export { default as Scrollbar } from './scrollbar';
-export type { ScrollValues, ScrollbarProps, ScrollbarRef } from './scrollbar';
+export type { ScrollbarProps, ScrollbarRef, ScrollValues } from './scrollbar';
 export { default as Segmented } from './segmented';
 export type { SegmentedProps } from './segmented';
 export { default as Select } from './select';
@@ -118,6 +115,15 @@ export { default as Steps } from './steps';
 export type { StepsProps } from './steps';
 export { default as Switch } from './switch';
 export type { SwitchProps } from './switch';
+export { default as Table } from './table';
+export type {
+  ColumnGroupType as TableColumnGroupType,
+  ColumnsType as TableColumnsType,
+  ColumnType as TableColumnType,
+  TablePaginationConfig,
+  TableProps,
+  TableRef,
+} from './table';
 export { default as Tabs } from './tabs';
 export type { TabsProps, TabsRef } from './tabs';
 export { default as Tag } from './tag';
@@ -144,5 +150,5 @@ export { default as Watermark } from './watermark';
 export type { WatermarkProps } from './watermark';
 
 export * from '@util/classNameUtils';
-export { default as useTheme } from './theme/useTheme';
 export type * from '@util/type';
+export { default as useTheme } from './theme/useTheme';

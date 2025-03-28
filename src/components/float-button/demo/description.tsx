@@ -1,21 +1,21 @@
 import React from 'react';
-import { FileTextOutlined } from '@ant-design/icons';
-import { FloatButton } from 'antd';
+import { QuestionMarkCircleOutline } from '@metisjs/icons';
+import { FloatButton } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
     <FloatButton
-      icon={<FileTextOutlined />}
+      icon={<QuestionMarkCircleOutline />}
       description="HELP INFO"
       shape="square"
-      style={{ insetInlineEnd: 24 }}
+      className="end-6"
     />
-    <FloatButton description="HELP INFO" shape="square" style={{ insetInlineEnd: 94 }} />
+    <FloatButton description="HELP INFO" shape="square" className="end-24" />
     <FloatButton
-      icon={<FileTextOutlined />}
+      icon={<QuestionMarkCircleOutline />}
       description="HELP"
       shape="square"
-      style={{ insetInlineEnd: 164 }}
+      className="end-44"
     />
   </>
 );

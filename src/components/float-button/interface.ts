@@ -1,7 +1,7 @@
 import type React from 'react';
-
+import type { SemanticClassName } from '@util/classNameUtils';
 import type { BadgeProps } from '../badge';
-import type { ButtonHTMLType } from '../button';
+import type { ButtonHTMLType } from '../button/Button';
 import type { TooltipProps } from '../tooltip';
 
 export type FloatButtonElement = HTMLAnchorElement & HTMLButtonElement;
@@ -20,8 +20,7 @@ export type FloatButtonBadgeProps = Omit<BadgeProps, 'status' | 'text' | 'title'
 
 export interface FloatButtonProps extends React.DOMAttributes<FloatButtonElement> {
   prefixCls?: string;
-  className?: string;
-  rootClassName?: string;
+  className?: SemanticClassName<{ content?: string; icon?: string; description?: string }>;
   style?: React.CSSProperties;
   icon?: React.ReactNode;
   description?: React.ReactNode;
@@ -31,22 +30,12 @@ export interface FloatButtonProps extends React.DOMAttributes<FloatButtonElement
   href?: string;
   target?: React.HTMLAttributeAnchorTarget;
   badge?: FloatButtonBadgeProps;
-  /**
-   * @since 5.21.0
-   * @default button
-   */
   htmlType?: ButtonHTMLType;
   'aria-label'?: React.HtmlHTMLAttributes<HTMLElement>['aria-label'];
 }
 
-export interface FloatButtonContentProps extends React.DOMAttributes<HTMLDivElement> {
-  className?: string;
-  icon?: FloatButtonProps['icon'];
-  description?: FloatButtonProps['description'];
-  prefixCls: FloatButtonProps['prefixCls'];
-}
-
-export interface FloatButtonGroupProps extends FloatButtonProps {
+export interface FloatButtonGroupProps extends Omit<FloatButtonProps, 'className'> {
+  className?: SemanticClassName<{ wrapper?: string; trigger?: FloatButtonProps['className'] }>;
   // 包含的 Float Button
   children: React.ReactNode;
   // 触发方式 (有触发方式为菜单模式）
@@ -68,7 +57,6 @@ export interface BackTopProps extends Omit<FloatButtonProps, 'target'> {
   prefixCls?: string;
   children?: React.ReactNode;
   className?: string;
-  rootClassName?: string;
   style?: React.CSSProperties;
   duration?: number;
 }

@@ -1,21 +1,18 @@
 import React, { useContext } from 'react';
-import classNames from 'classnames';
+import { DocumentTextOutline } from '@metisjs/icons';
+import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import omit from 'rc-util/lib/omit';
-
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';
 import Badge from '../badge';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
-import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
 import Tooltip from '../tooltip';
 import type BackTop from './BackTop';
 import FloatButtonGroupContext from './context';
-import Content from './FloatButtonContent';
 import type FloatButtonGroup from './FloatButtonGroup';
 import type { FloatButtonElement, FloatButtonProps, FloatButtonShape } from './interface';
-import type PurePanel from './PurePanel';
-import useStyle from './style';
 
 export const floatButtonPrefixCls = 'float-btn';
 
@@ -23,7 +20,6 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
   const {
     prefixCls: customizePrefixCls,
     className,
-    rootClassName,
     style,
     type = 'default',
     shape = 'circle',
@@ -32,29 +28,68 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     tooltip,
     htmlType = 'button',
     badge = {},
+    // @ts-ignore
+    _GROUP_TRIGGER,
     ...restProps
   } = props;
-  const { getPrefixCls, direction } = useContext<ConfigConsumerProps>(ConfigContext);
+  const { getPrefixCls } = useContext<ConfigConsumerProps>(ConfigContext);
   const groupShape = useContext<FloatButtonShape | undefined>(FloatButtonGroupContext);
   const prefixCls = getPrefixCls(floatButtonPrefixCls, customizePrefixCls);
-  const rootCls = useCSSVarCls(prefixCls);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls);
 
   const mergedShape = groupShape || shape;
 
-  const classString = classNames(
-    hashId,
-    cssVarCls,
-    rootCls,
+  const grouped = !!groupShape;
+
+  const semanticCls = useSemanticCls(className, 'floatButton');
+
+  const rootCls = clsx(
     prefixCls,
-    className,
-    rootClassName,
     `${prefixCls}-${type}`,
     `${prefixCls}-${mergedShape}`,
+    'fixed bottom-12 end-6 z-[1000] h-10 w-10 cursor-pointer bg-elevated text-sm text-text shadow-xl outline outline-1 outline-border-tertiary duration-200 empty:hidden hover:bg-fill-quinary hover:text-text',
     {
-      [`${prefixCls}-rtl`]: direction === 'rtl',
+      'bg-primary text-white outline-0 hover:bg-primary-hover hover:text-white': type === 'primary',
     },
+    {
+      'rounded-full': mergedShape === 'circle',
+      'h-auto min-h-10 rounded-md': mergedShape === 'square',
+    },
+    grouped && [
+      'static',
+      {
+        'rounded-none p-1 shadow-none outline-0 hover:bg-elevated':
+          mergedShape === 'square' && !_GROUP_TRIGGER,
+      },
+    ],
+    semanticCls.root,
   );
+
+  const contentCls = clsx(
+    `${prefixCls}-content`,
+    'flex h-full min-h-10 w-full min-w-10 flex-col items-center justify-center p-0.5',
+    grouped && {
+      'min-h-8 min-w-8 rounded hover:bg-fill-quinary': mergedShape === 'square' && !_GROUP_TRIGGER,
+    },
+    semanticCls.content,
+  );
+
+  const iconCls = clsx(`${prefixCls}-icon`, '[&_.metis-icon]:text-xl', semanticCls.icon);
+
+  const descriptionCls = clsx(`${prefixCls}-description`, 'text-xs', semanticCls.description);
+
+  const badgeCls = {
+    root: clsx(
+      !badge.dot && {
+        '-end-1.5 -top-1.5 origin-center translate-x-0 translate-y-0': mergedShape === 'circle',
+        '-end-2.5 -top-2.5 origin-center translate-x-0 translate-y-0': mergedShape === 'square',
+      },
+      badge.dot && {
+        'end-1.5 top-1.5': mergedShape === 'circle',
+        'end-0.5 top-0.5': mergedShape === 'square',
+      },
+    ),
+    wrapper: 'w-full h-full',
+  };
 
   // ============================ zIndex ============================
   const [zIndex] = useZIndex('FloatButton', style?.zIndex as number);
@@ -65,18 +100,31 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
   const badgeProps = omit(badge, ['title', 'children', 'status', 'text'] as any[]);
 
   let buttonNode = (
-    <div className={`${prefixCls}-body`}>
-      <Content prefixCls={prefixCls} description={description} icon={icon} />
+    <div className={contentCls}>
+      {icon || description ? (
+        <>
+          {icon && <div className={iconCls}>{icon}</div>}
+          {description && <div className={descriptionCls}>{description}</div>}
+        </>
+      ) : (
+        <div className={iconCls}>
+          <DocumentTextOutline />
+        </div>
+      )}
     </div>
   );
 
   if ('badge' in props) {
-    buttonNode = <Badge {...badgeProps}>{buttonNode}</Badge>;
+    buttonNode = (
+      <Badge {...badgeProps} className={badgeCls}>
+        {buttonNode}
+      </Badge>
+    );
   }
 
   if ('tooltip' in props) {
     buttonNode = (
-      <Tooltip title={tooltip} placement={direction === 'rtl' ? 'right' : 'left'}>
+      <Tooltip title={tooltip} placement="left">
         {buttonNode}
       </Tooltip>
     );
@@ -92,23 +140,21 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     );
   }
 
-  return wrapCSSVar(
-    props.href ? (
-      <a ref={ref} {...restProps} className={classString} style={mergedStyle}>
-        {buttonNode}
-      </a>
-    ) : (
-      <button ref={ref} {...restProps} className={classString} style={mergedStyle} type={htmlType}>
-        {buttonNode}
-      </button>
-    ),
+  return props.href ? (
+    <a ref={ref} {...restProps} className={rootCls} style={mergedStyle}>
+      {buttonNode}
+    </a>
+  ) : (
+    // eslint-disable-next-line react/button-has-type
+    <button ref={ref} {...restProps} className={rootCls} style={mergedStyle} type={htmlType}>
+      {buttonNode}
+    </button>
   );
 });
 
 type CompoundedComponent = typeof InternalFloatButton & {
   Group: typeof FloatButtonGroup;
   BackTop: typeof BackTop;
-  _InternalPanelDoNotUseOrYouWillBeFired: typeof PurePanel;
 };
 
 const FloatButton = InternalFloatButton as CompoundedComponent;

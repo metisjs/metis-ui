@@ -68,7 +68,6 @@ const BackTop = React.forwardRef<FloatButtonRef, BackTopProps>((props, ref) => {
   const { getPrefixCls } = useContext<ConfigConsumerProps>(ConfigContext);
 
   const prefixCls = getPrefixCls(floatButtonPrefixCls, customizePrefixCls);
-  const rootPrefixCls = getPrefixCls();
 
   const groupShape = useContext<FloatButtonShape | undefined>(FloatButtonGroupContext);
 

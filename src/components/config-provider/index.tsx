@@ -141,7 +141,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     avatar,
     message,
     tag,
-    // table,
+    table,
     card,
     tabs,
     timeline,
@@ -161,6 +161,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     popover,
     route,
     request,
+    floatButton,
   } = props;
 
   // =================================== Context ===================================
@@ -225,7 +226,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     avatar,
     message,
     tag,
-    // table,
+    table,
     card,
     tabs,
     timeline,
@@ -245,6 +246,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     popover,
     route,
     request,
+    floatButton,
   };
 
   const config: ConfigConsumerProps = {

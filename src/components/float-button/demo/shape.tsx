@@ -1,20 +1,20 @@
 import React from 'react';
-import { CustomerServiceOutlined } from '@ant-design/icons';
-import { FloatButton } from 'antd';
+import { ChatBubbleBottomCenterTextOutline } from '@metisjs/icons';
+import { FloatButton } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
     <FloatButton
       shape="circle"
       type="primary"
-      style={{ insetInlineEnd: 94 }}
-      icon={<CustomerServiceOutlined />}
+      className="end-24"
+      icon={<ChatBubbleBottomCenterTextOutline />}
     />
     <FloatButton
       shape="square"
       type="primary"
-      style={{ insetInlineEnd: 24 }}
-      icon={<CustomerServiceOutlined />}
+      className="end-6"
+      icon={<ChatBubbleBottomCenterTextOutline />}
     />
   </>
 );
