@@ -8,7 +8,7 @@ const App: React.FC = () => (
       { name: 'root' },
       {
         name: 'item',
-        children: [{ name: 'label' }, { name: 'content' }, { name: 'dot' }, { name: 'tail' }],
+        children: [{ name: 'time' }, { name: 'content' }, { name: 'dot' }, { name: 'tail' }],
         args: [
           { name: 'last', type: 'boolean' },
           { name: 'pending', type: 'boolean' },
@@ -20,22 +20,22 @@ const App: React.FC = () => (
       pending="Recording..."
       items={[
         {
-          label: '2015-09-01',
+          time: '2015-09-01',
           content: 'Create a services',
         },
         {
-          label: '2015-09-01 09:12:11',
+          time: '2015-09-01',
           content: 'Solve initial network problems',
         },
         {
           content: 'Technical testing',
         },
         {
-          label: '2015-09-01 09:12:11',
+          time: '2015-09-01',
           content: 'Network problems being solved',
         },
       ]}
-      className="w-full"
+      className="w-[420px]"
     />
   </SemanticPreview>
 );

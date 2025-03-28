@@ -9,7 +9,7 @@ export interface TimelineItemProps {
   prefixCls?: string;
   className?: SemanticClassName<
     {
-      label?: string;
+      time?: string;
       dot?: string;
       tail?: string;
       content?: string;
@@ -20,10 +20,8 @@ export interface TimelineItemProps {
   dot?: React.ReactNode;
   pending?: boolean;
   last?: boolean;
-  position?: 'left' | 'right';
-  alternate?: boolean;
   style?: React.CSSProperties;
-  label?: React.ReactNode;
+  time?: React.ReactNode;
   content?: React.ReactNode;
 }
 
@@ -33,11 +31,9 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
   color,
   dot,
   pending = false,
-  position,
   last,
-  label,
+  time,
   content,
-  alternate,
   ...restProps
 }) => {
   const semanticCls = getSemanticCls(className, { last, pending });
@@ -50,61 +46,39 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
       [`${prefixCls}-item-last`]: last,
       [`${prefixCls}-item-pending`]: pending,
     },
-    'relative pb-5',
+    'relative flex gap-6 pb-6 leading-6',
     semanticCls.root,
   );
 
-  const labelCls = clsx(
-    `${prefixCls}-item-label`,
-    'absolute w-[calc(50%-1.5rem+0.5rem)]',
-    {
-      'text-end': position === 'left',
-      'left-1/2 ms-4 text-start': position === 'right',
-    },
-    semanticCls.label,
+  const timeCls = clsx(
+    `${prefixCls}-item-time`,
+    'ml-auto items-baseline text-end text-xs/6 text-text-tertiary',
+    semanticCls.time,
   );
 
   const tailCls = clsx(
     `${prefixCls}-item-tail`,
-    'absolute start-[5px] top-3 h-[calc(100%-5px)] border-r-2 border-border-secondary',
-    {
-      'start-1/2 -translate-x-1/2': alternate,
-      'end-[5px] start-[unset]': !alternate && position === 'right',
-    },
+    'absolute start-[6.5px] top-6 h-[calc(100%-24px)] border-r border-border-secondary',
     semanticCls.tail,
   );
 
   const dotClassName = clsx(
     `${prefixCls}-item-dot`,
-    'absolute left-1 top-2 h-1 w-1 rounded-full bg-transparent text-primary outline outline-[3px] outline-offset-0 outline-primary',
+    'absolute left-1 top-[9px] h-1.5 w-1.5 rounded-full bg-border-tertiary text-primary outline outline-1 outline-border',
     !!dot &&
-      'left-1.5 top-2.5 inline-flex h-auto w-auto -translate-x-1/2 -translate-y-1/2 bg-container leading-[1] outline-0 [&_.metis-icon]:text-base',
-    {
-      'left-1/2 -translate-x-1/2': alternate,
-      'left-[unset] right-1': !alternate && position === 'right',
-      'left-[unset] right-1.5 translate-x-1/2': !alternate && position === 'right' && dot,
-    },
-    presetColor && getPresetColorCls(color, { text: true, rawOutline: true }),
+      'left-[7px] top-3 inline-flex h-auto w-auto -translate-x-1/2 -translate-y-1/2 bg-container leading-[1] outline-0 [&_.metis-icon]:text-2xl',
+    presetColor && getPresetColorCls(color, { text: true, rawOutline: true, background: !dot }),
     semanticCls.dot,
   );
 
   const contentCls = clsx(
     `${prefixCls}-item-content`,
-    'relative',
-    {
-      'ms-6 text-start': position === 'left',
-      'me-6 text-end': position === 'right',
-    },
-    alternate && {
-      'start-[calc(50%-0.255rem)] w-[calc(50%-1.5rem+0.218rem)]': position === 'left',
-      'me-0 ms-0 w-[calc(50%-1.5rem+0.218rem)]': position === 'right',
-    },
+    'relative ms-8 flex-1 text-start',
     semanticCls.content,
   );
 
   return (
     <li {...restProps} className={rootCls}>
-      {label && <div className={labelCls}>{label}</div>}
       <div className={tailCls} />
       <div
         className={dotClassName}
@@ -113,6 +87,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
         {dot}
       </div>
       <div className={contentCls}>{content}</div>
+      {time && <div className={timeCls}>{time}</div>}
     </li>
   );
 };

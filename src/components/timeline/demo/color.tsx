@@ -7,11 +7,13 @@ const App: React.FC = () => (
     items={[
       {
         color: 'green',
-        content: 'Create a services site 2015-09-01',
+        content: 'Create a services site',
+        time: '7d ago',
       },
       {
         color: 'green',
-        content: 'Create a services site 2015-09-01',
+        content: 'Create a services site',
+        time: '5d ago',
       },
       {
         color: 'red',
@@ -19,9 +21,10 @@ const App: React.FC = () => (
           <>
             <p>Solve initial network problems 1</p>
             <p>Solve initial network problems 2</p>
-            <p>Solve initial network problems 3 2015-09-01</p>
+            <p>Solve initial network problems 3</p>
           </>
         ),
+        time: '3d ago',
       },
       {
         color: 'blue',
@@ -29,29 +32,30 @@ const App: React.FC = () => (
           <>
             <p>Technical testing 1</p>
             <p>Technical testing 2</p>
-            <p>Technical testing 3 2015-09-01</p>
+            <p>Technical testing 3</p>
           </>
         ),
+        time: '8d ago',
       },
       {
-        color: 'gray',
         content: (
           <>
             <p>Technical testing 1</p>
             <p>Technical testing 2</p>
-            <p>Technical testing 3 2015-09-01</p>
+            <p>Technical testing 3</p>
           </>
         ),
+        time: '1d ago',
       },
       {
-        color: 'gray',
         content: (
           <>
             <p>Technical testing 1</p>
             <p>Technical testing 2</p>
-            <p>Technical testing 3 2015-09-01</p>
+            <p>Technical testing 3</p>
           </>
         ),
+        time: '2d ago',
       },
       {
         color: '#00CCFF',
