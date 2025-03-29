@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
-import useMobile from 'rc-util/lib/hooks/useMobile';
-import raf from 'rc-util/lib/raf';
+import useMobile from 'rc-util/es/hooks/useMobile';
+import raf from 'rc-util/es/raf';
 import type { Variant } from '../config-provider';
 
 /**

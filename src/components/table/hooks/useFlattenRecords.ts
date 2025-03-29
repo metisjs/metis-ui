@@ -24,10 +24,10 @@ function fillRecords<T>(
 
   if (record && Array.isArray(record[childrenColumnName]) && expanded) {
     // expanded state, flat record
-    for (let i = 0; i < record[childrenColumnName].length; i += 1) {
+    for (let i = 0; i < (record[childrenColumnName] as T[]).length; i += 1) {
       fillRecords(
         list,
-        record[childrenColumnName][i],
+        (record[childrenColumnName] as T[])[i],
         indent + 1,
         childrenColumnName,
         expandedKeys,

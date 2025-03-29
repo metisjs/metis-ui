@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { KeyWiseTransferItem } from '.';
 import Pagination from '../pagination';
 import Scrollbar from '../scrollbar';

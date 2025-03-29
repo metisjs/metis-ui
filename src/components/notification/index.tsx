@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'rc-util/lib/React/render';
+import { render } from 'rc-util/es/React/render';
 import ConfigProvider, { globalConfig } from '../config-provider';
 import useNotification, { useInternalNotification } from './hooks/useNotification';
 import type { ArgsProps, NotificationConfig, NotificationInstance } from './interface';

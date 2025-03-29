@@ -1,4 +1,4 @@
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import { collectScroller, getWin } from '../util';
 
 export default function useWatch(

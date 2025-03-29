@@ -4,7 +4,7 @@ import { useZIndex } from '@util/hooks/useZIndex';
 import type { RequestConfig } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { useEvent } from 'rc-util';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import useSize from '../config-provider/hooks/useSize';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { EyeOutline, EyeSlashOutline } from '@metisjs/icons';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { FieldFC } from '..';
 import type { PasswordProps } from '../../../input';
 import Input from '../../../input';

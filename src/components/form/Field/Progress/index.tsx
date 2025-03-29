@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { mergeSemanticCls } from '@util/classNameUtils';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import type { FieldFC } from '..';
 import type { InputNumberProps } from '../../../input-number';
 import InputNumber from '../../../input-number';

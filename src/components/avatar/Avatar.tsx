@@ -3,7 +3,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import { composeRef } from 'rc-util/lib/ref';
+import { composeRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import type { AvatarSize } from './SizeContext';
 import SizeContext from './SizeContext';

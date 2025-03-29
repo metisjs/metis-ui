@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { composeRef } from 'rc-util/lib/ref';
+import { composeRef } from 'rc-util/es/ref';
 import { FormContext } from '../context';
 import type { InternalNamePath } from '../interface';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import useMemo from 'rc-util/lib/hooks/useMemo';
-import { merge } from 'rc-util/lib/utils/set';
+import useMemo from 'rc-util/es/hooks/useMemo';
+import { merge } from 'rc-util/es/utils/set';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/en_US';

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import useState from 'rc-util/lib/hooks/useState';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import useState from 'rc-util/es/hooks/useState';
 import type { TransitionStatus } from '../interface';
 import { TransitionStep } from '../interface';
 import useNextFrame from './useNextFrame';

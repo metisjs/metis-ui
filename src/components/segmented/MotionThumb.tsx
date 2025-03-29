@@ -1,6 +1,6 @@
 import React from 'react';
 import { clsx } from '@util/classNameUtils';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import type { SegmentedValue } from '.';
 import Transition from '../transition';
 

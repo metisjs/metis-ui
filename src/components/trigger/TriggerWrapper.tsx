@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fillRef, supportRef, useComposeRef } from 'rc-util/lib/ref';
+import { fillRef, supportRef, useComposeRef } from 'rc-util/es/ref';
 import type { TriggerProps } from '.';
 
 export interface TriggerWrapperProps {

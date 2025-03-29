@@ -1,8 +1,8 @@
 import { isNil } from '@util/isNil';
 import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import omit from 'rc-util/lib/omit';
-import getValue from 'rc-util/lib/utils/get';
+import omit from 'rc-util/es/omit';
+import getValue from 'rc-util/es/utils/get';
 import dayjsGenerateConfig from '../../date-picker/generate/config/dayjs';
 import type { InternalMode, Locale } from '../../date-picker/interface';
 import { parseDate } from '../../date-picker/PickerInput/hooks/useFilledProps';

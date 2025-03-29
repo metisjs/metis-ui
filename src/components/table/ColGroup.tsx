@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import type { AnyObject } from '@util/type';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import { INTERNAL_COL_DEFINE } from './constant';
 import TableContext from './context/TableContext';
 import type { InternalColumnType } from './interface';

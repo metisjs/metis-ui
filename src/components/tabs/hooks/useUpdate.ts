@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useLayoutUpdateEffect } from 'rc-util/lib/hooks/useLayoutEffect';
+import { useLayoutUpdateEffect } from 'rc-util/es/hooks/useLayoutEffect';
 
 /**
  * Help to merge callback with `useLayoutEffect`.

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { getClientSize } from 'rc-util/lib/Dom/css';
-import isEqual from 'rc-util/lib/isEqual';
-import raf from 'rc-util/lib/raf';
+import { getClientSize } from 'rc-util/es/Dom/css';
+import isEqual from 'rc-util/es/isEqual';
+import raf from 'rc-util/es/raf';
 
 export type TransformType = {
   x: number;

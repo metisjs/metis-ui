@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import warning from '@util/warning';
-import { composeRef } from 'rc-util/lib/ref';
+import { composeRef } from 'rc-util/es/ref';
 
 type InputRef = HTMLInputElement | HTMLTextAreaElement;
 

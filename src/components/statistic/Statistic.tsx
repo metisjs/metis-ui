@@ -3,7 +3,7 @@ import { InformationCircleOutline } from '@metisjs/icons';
 import type { HTMLAriaDataAttributes } from '@util/aria-data-attrs';
 import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import pickAttrs from 'rc-util/es/pickAttrs';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import Skeleton from '../skeleton';

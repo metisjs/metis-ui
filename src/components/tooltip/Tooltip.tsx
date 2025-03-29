@@ -7,7 +7,7 @@ import getArrowClassName from '@util/placementArrow';
 import getPlacements from '@util/placements';
 import { isFragment } from '@util/reactNode';
 import ZIndexContext from '@util/ZIndexContext';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import type { BuildInPlacements, TriggerRef } from '../trigger';
 import Trigger from '../trigger';

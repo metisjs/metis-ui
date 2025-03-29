@@ -7,7 +7,7 @@ import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import ResizeObserver from 'rc-resize-observer';
 import { useEvent } from 'rc-util';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import { SolarDay } from 'tyme4ts';
 import type { CellRenderInfo } from '../../date-picker/interface';
 import type { PickerPanelRef } from '../../date-picker/PickerPanel';

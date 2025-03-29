@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import raf from 'rc-util/lib/raf';
+import raf from 'rc-util/es/raf';
 import type { TabOffset } from '../interface';
 
 export type GetIndicatorSize = number | ((origin: number) => number);

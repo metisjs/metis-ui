@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRef } from 'react';
 import useLatestValue from '@util/hooks/useLatestValue';
-import { fillRef, supportRef } from 'rc-util/lib/ref';
+import { fillRef, supportRef } from 'rc-util/es/ref';
 import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
 import type {

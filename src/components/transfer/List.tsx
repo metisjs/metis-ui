@@ -4,7 +4,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import Checkbox from '../checkbox';
 import Dropdown from '../dropdown';
 import type { InputProps } from '../input';

@@ -12,8 +12,8 @@ import type { ClosableType } from '@util/hooks/useClosable';
 import useClosable from '@util/hooks/useClosable';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { replaceElement } from '@util/reactNode';
-import pickAttrs from 'rc-util/lib/pickAttrs';
-import { composeRef } from 'rc-util/lib/ref';
+import pickAttrs from 'rc-util/es/pickAttrs';
+import { composeRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import Transition from '../transition';
 

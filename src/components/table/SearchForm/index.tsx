@@ -7,7 +7,7 @@ import { matchScreen } from '@util/responsiveObserver';
 import toArray from '@util/toArray';
 import type { AnyObject, GetProp } from '@util/type';
 import { get, useMergedState } from 'rc-util';
-import isEqual from 'rc-util/lib/isEqual';
+import isEqual from 'rc-util/es/isEqual';
 import Button from '../../button';
 import type { SizeType } from '../../config-provider/SizeContext';
 import Form from '../../form';

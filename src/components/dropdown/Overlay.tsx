@@ -2,7 +2,7 @@ import type { ReactElement } from 'react';
 import React, { forwardRef } from 'react';
 import { cloneElement } from '@util/reactNode';
 import warning from '@util/warning';
-import { composeRef, supportRef } from 'rc-util/lib/ref';
+import { composeRef, supportRef } from 'rc-util/es/ref';
 import { OverrideProvider } from '../menu/context/OverrideContext';
 import type { DropdownProps } from './Dropdown';
 

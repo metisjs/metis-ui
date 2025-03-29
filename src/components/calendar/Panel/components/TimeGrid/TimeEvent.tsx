@@ -8,7 +8,7 @@ import { getPresetColorCls, isPresetColor } from '@util/colors';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import useTheme from '../../../../theme/useTheme';
 import {
   CELL_ONE_HOUR_HEIGHT,

@@ -4,7 +4,7 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { RequestConfig, SafeKey } from '@util/type';
 import { useSetState } from 'ahooks';
 import { useEvent } from 'rc-util';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import pickAttrs from 'rc-util/es/pickAttrs';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import Spin from '../spin';
 import type { ScrollTo } from '../virtual-list';

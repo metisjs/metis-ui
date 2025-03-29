@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import ResizeObserver from 'rc-resize-observer';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import omit from 'rc-util/lib/omit';
-import raf from 'rc-util/lib/raf';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
+import omit from 'rc-util/es/omit';
+import raf from 'rc-util/es/raf';
 import type { ResizableTextAreaRef, TextAreaProps } from './interface';
 import { calculateAutoSizeStyle } from './utils';
 

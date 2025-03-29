@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback, useMemo } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import useMultipleSelect from '../../_util/hooks/useMultipleSelect';
 import type { AnyObject } from '../../_util/type';
 import { devUseWarning } from '../../_util/warning';

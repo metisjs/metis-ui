@@ -8,7 +8,7 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InputStatus } from '@util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
 import { devUseWarning } from '@util/warning';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';

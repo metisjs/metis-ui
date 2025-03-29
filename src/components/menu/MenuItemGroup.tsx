@@ -2,7 +2,7 @@ import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import { MenuContext } from './context/MenuContext';
 import { useFullPath, useMeasure } from './context/PathContext';
 import type { MenuItemGroupType } from './interface';

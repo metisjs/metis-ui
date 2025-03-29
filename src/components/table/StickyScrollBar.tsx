@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
-import addEventListener from 'rc-util/lib/Dom/addEventListener';
-import { getOffset } from 'rc-util/lib/Dom/css';
-import raf from 'rc-util/lib/raf';
+import addEventListener from 'rc-util/es/Dom/addEventListener';
+import { getOffset } from 'rc-util/es/Dom/css';
+import raf from 'rc-util/es/raf';
 import type { ScrollbarRef, ScrollValues } from '../scrollbar';
 import Scrollbar from '../scrollbar';
 import TableContext from './context/TableContext';

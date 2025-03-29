@@ -4,7 +4,7 @@ import { clsx } from '@util/classNameUtils';
 import useSyncState from '@util/hooks/useSyncState';
 import toArray from '@util/toArray';
 import type { AnyObject, SafeKey } from '@util/type';
-import isEqual from 'rc-util/lib/isEqual';
+import isEqual from 'rc-util/es/isEqual';
 import type { FilterState } from '.';
 import extendsObject from '../../../_util/extendsObject';
 import type { DropdownProps } from '../../../dropdown';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import raf from 'rc-util/lib/raf';
+import raf from 'rc-util/es/raf';
 
 export default function useRafLock(): [state: boolean, setState: (nextState: boolean) => void] {
   const [state, setState] = React.useState(false);

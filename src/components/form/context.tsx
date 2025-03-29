@@ -5,7 +5,7 @@ import type { Breakpoint } from '@util/responsiveObserver';
 import { FormProvider as RcFormProvider } from 'rc-field-form';
 import type { FormProviderProps as RcFormProviderProps } from 'rc-field-form/lib/FormContext';
 import type { Meta } from 'rc-field-form/lib/interface';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import type { Variant } from '../config-provider';
 import type { SizeType } from '../config-provider/SizeContext';
 import type { PopoverProps } from '../popover';

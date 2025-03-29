@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { clsx, type SemanticClassName } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import { PreviewGroupContext } from './context';
 import usePreviewItems from './hooks/usePreviewItems';

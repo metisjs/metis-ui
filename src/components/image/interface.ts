@@ -1,6 +1,6 @@
 import type * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
-import type { GetContainer } from 'rc-util/lib/PortalWrapper';
+import type { GetContainer } from 'rc-util/es/PortalWrapper';
 import type { TransformAction, TransformType } from './hooks/useImageTransform';
 
 /**

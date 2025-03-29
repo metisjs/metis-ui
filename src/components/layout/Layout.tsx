@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 
 export interface GeneratorProps {

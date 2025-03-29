@@ -4,9 +4,9 @@ import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameU
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import { devUseWarning } from '@util/warning';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import isMobile from 'rc-util/lib/isMobile';
-import omit from 'rc-util/lib/omit';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
+import isMobile from 'rc-util/es/isMobile';
+import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import type { MenuProps } from '../menu';
 import type { TabContextProps } from './context';

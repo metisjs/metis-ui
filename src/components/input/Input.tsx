@@ -13,7 +13,7 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
 import warning from '@util/warning';
 import { useMergedState } from 'rc-util';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';

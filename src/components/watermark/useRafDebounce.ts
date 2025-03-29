@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEvent } from 'rc-util';
-import raf from 'rc-util/lib/raf';
+import raf from 'rc-util/es/raf';
 
 /**
  * Callback will only execute last one for each raf

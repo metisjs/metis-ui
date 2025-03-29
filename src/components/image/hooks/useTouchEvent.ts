@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import addEventListener from 'rc-util/es/Dom/addEventListener';
 import { getFixScaleEleTransPosition } from '../util';
 import type {
   DispatchZoomChangeFunc,

@@ -5,7 +5,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { devUseWarning } from '@util/warning';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import Circle from './Circle';

@@ -3,7 +3,7 @@ import Portal from '@rc-component/portal';
 import ContextIsolator from '@util/ContextIsolator';
 import { useZIndex } from '@util/hooks/useZIndex';
 import ZIndexContext from '@util/ZIndexContext';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import { ConfigContext } from '../config-provider';
 import type { DrawerProps } from './interface';
 import Panel from './Panel';

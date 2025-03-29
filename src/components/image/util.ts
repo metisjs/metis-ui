@@ -1,4 +1,4 @@
-import { getClientSize } from 'rc-util/lib/Dom/css';
+import { getClientSize } from 'rc-util/es/Dom/css';
 
 export function isImageValid(src?: string) {
   return new Promise((resolve) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
-import raf from 'rc-util/lib/raf';
+import raf from 'rc-util/es/raf';
 import type { TransitionProps } from '../../transition';
 import Trigger from '../../trigger';
 import { MenuContext } from '../context/MenuContext';

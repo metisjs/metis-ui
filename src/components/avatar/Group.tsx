@@ -3,7 +3,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import toArray from 'rc-util/lib/Children/toArray';
+import toArray from 'rc-util/es/Children/toArray';
 import { ConfigContext } from '../config-provider';
 import Popover from '../popover';
 import type { AvatarProps } from './Avatar';

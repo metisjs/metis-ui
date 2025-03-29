@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import isNumeric from '@util/isNumeric';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import { LayoutContext } from './Layout';
 
