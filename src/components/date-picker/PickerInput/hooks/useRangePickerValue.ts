@@ -254,7 +254,7 @@ export default function useRangePickerValue<
   useLayoutEffect(() => {
     if (open && defaultPickerValue) {
       if (defaultPickerValue[mergedActiveIndex]) {
-        setCurrentPickerValue(defaultPickerValue[mergedActiveIndex], 'reset');
+        setCurrentPickerValue(defaultPickerValue[mergedActiveIndex] as DateType, 'reset');
       }
     }
   }, [open, mergedActiveIndex]);
