@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEvent } from 'rc-util';
-import isVisible from 'rc-util/lib/Dom/isVisible';
-import raf from 'rc-util/lib/raf';
+import isVisible from 'rc-util/es/Dom/isVisible';
+import raf from 'rc-util/es/raf';
 import type { ScrollbarRef } from '../../../../scrollbar';
 
 const SPEED_PTG = 1 / 3;

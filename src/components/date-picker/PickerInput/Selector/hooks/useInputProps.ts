@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { warning } from 'rc-util';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import pickAttrs from 'rc-util/es/pickAttrs';
 import type { SelectorProps } from '../../../interface';
 import { formatValue } from '../../../utils/dateUtil';
 import type { InputProps } from '../Input';

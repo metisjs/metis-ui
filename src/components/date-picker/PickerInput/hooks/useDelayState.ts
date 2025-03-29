@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEvent, useMergedState } from 'rc-util';
-import raf from 'rc-util/lib/raf';
+import raf from 'rc-util/es/raf';
 
 /**
  * Will be `true` immediately for next effect.

@@ -5,7 +5,7 @@ import ContextIsolator from '@util/ContextIsolator';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
 import ZIndexContext from '@util/ZIndexContext';
-import contains from 'rc-util/lib/Dom/contains';
+import contains from 'rc-util/es/Dom/contains';
 import { ConfigContext } from '../config-provider';
 import Skeleton from '../skeleton';
 import Footer from './Footer';

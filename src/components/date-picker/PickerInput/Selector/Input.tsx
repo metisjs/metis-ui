@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { clsx } from '@util/classNameUtils';
 import { useEvent } from 'rc-util';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import raf from 'rc-util/lib/raf';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import raf from 'rc-util/es/raf';
 import type { PickerRef } from '../../interface';
 import { leftPad } from '../../utils/miscUtil';
 import PickerContext from '../context';

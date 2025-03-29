@@ -7,9 +7,9 @@ import { getStatusClassNames } from '@util/statusUtils';
 import type { PartialWith } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { useEvent, useMergedState } from 'rc-util';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import omit from 'rc-util/lib/omit';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import omit from 'rc-util/es/omit';
+import pickAttrs from 'rc-util/es/pickAttrs';
 import type {
   BaseInfo,
   DateValue,

@@ -10,8 +10,8 @@ import React, {
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import getScrollBarSize from 'rc-util/lib/getScrollBarSize';
-import raf from 'rc-util/lib/raf';
+import getScrollBarSize from 'rc-util/es/getScrollBarSize';
+import raf from 'rc-util/es/raf';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
 import getInnerHeight from './utils/getInnerHeight';

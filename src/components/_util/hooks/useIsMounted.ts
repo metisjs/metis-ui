@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 
 export default function useIsMounted() {
   let mounted = useRef(false);

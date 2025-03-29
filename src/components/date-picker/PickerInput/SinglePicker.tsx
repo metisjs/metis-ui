@@ -5,9 +5,9 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getStatusClassNames } from '@util/statusUtils';
 import type { PartialWith } from '@util/type';
 import { useEvent, useMergedState } from 'rc-util';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import omit from 'rc-util/lib/omit';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import omit from 'rc-util/es/omit';
+import pickAttrs from 'rc-util/es/pickAttrs';
 import useToggleDates from '../hooks/useToggleDates';
 import type {
   BaseInfo,

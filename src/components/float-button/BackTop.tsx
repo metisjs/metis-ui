@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ChevronUpOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import { getScroll, scrollTo } from '@util/scroll';
-import { composeRef } from 'rc-util/lib/ref';
+import { composeRef } from 'rc-util/es/ref';
 import throttleByAnimationFrame from '../_util/throttleByAnimationFrame';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';

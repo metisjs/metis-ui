@@ -1,5 +1,5 @@
-import isVisible from 'rc-util/lib/Dom/isVisible';
-import raf from 'rc-util/lib/raf';
+import isVisible from 'rc-util/es/Dom/isVisible';
+import raf from 'rc-util/es/raf';
 import type { CustomFormat, PickerMode } from '../interface';
 
 const scrollIds = new Map<HTMLElement, number>();

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { DocumentTextOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';
 import Badge from '../badge';

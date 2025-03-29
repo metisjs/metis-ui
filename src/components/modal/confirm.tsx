@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import warning from '@util/warning';
-import { render as reactRender, unmount as reactUnmount } from 'rc-util/lib/React/render';
+import { render as reactRender, unmount as reactUnmount } from 'rc-util/es/React/render';
 import ConfigProvider, { ConfigContext, globalConfig } from '../config-provider';
 import type { ConfirmModalProps } from './ConfirmModal';
 import ConfirmModal from './ConfirmModal';

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import useEvent from 'rc-util/lib/hooks/useEvent';
+import useEvent from 'rc-util/es/hooks/useEvent';
 
 let Optional = Symbol();
 

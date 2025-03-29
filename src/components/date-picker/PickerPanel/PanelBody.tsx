@@ -3,7 +3,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, getSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import toArray from 'rc-util/lib/Children/toArray';
+import toArray from 'rc-util/es/Children/toArray';
 import type { DisabledDate } from '../interface';
 import { formatValue, isInRange, isSame, isSameWeek } from '../utils/dateUtil';
 import { PickerHackContext, usePanelContext } from './context';

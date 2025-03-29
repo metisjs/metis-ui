@@ -4,7 +4,7 @@ import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import throttleByAnimationFrame from '@util/throttleByAnimationFrame';
 import ResizeObserver from 'rc-resize-observer';
-import omit from 'rc-util/lib/omit';
+import omit from 'rc-util/es/omit';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import { getFixedBottom, getFixedTop, getTargetRect } from './utils';

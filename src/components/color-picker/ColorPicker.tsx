@@ -4,7 +4,7 @@ import ContextIsolator from '@util/ContextIsolator';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getStatusClassNames } from '@util/statusUtils';
 import { devUseWarning } from '@util/warning';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { ConfigConsumerProps } from '../config-provider/context';
 import { ConfigContext } from '../config-provider/context';
 import DisabledContext from '../config-provider/DisabledContext';

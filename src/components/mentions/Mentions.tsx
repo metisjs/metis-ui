@@ -11,7 +11,7 @@ import useEffectState from '@util/hooks/useEffectState';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import toArray from '@util/toArray';
 import { devUseWarning } from '@util/warning';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import DisabledContext from '../config-provider/DisabledContext';

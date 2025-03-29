@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useState from 'rc-util/lib/hooks/useState';
+import useState from 'rc-util/es/hooks/useState';
 import type { ButtonProps, ButtonType } from '../button';
 import Button from '../button';
 
