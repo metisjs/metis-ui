@@ -1,15 +1,12 @@
 {
   "name": "metis-ui",
-  "version": "0.1.0-alpha.1",
-  "description": "A react library developed with dumi",
+  "version": "0.1.0-alpha.2",
+  "description": "MetisUI - A React Tailwind UI Components",
   "license": "MIT",
-  "main": "lib/components/index.js",
-  "module": "es/components/index.js",
-  "typings": "lib/components/index.d.ts",
+  "main": "dist/components/index.js",
+  "typings": "dist/components/index.d.ts",
   "files": [
-    "dist",
-    "lib",
-    "es"
+    "dist"
   ],
   "scripts": {
     "build": "father build",
@@ -71,7 +68,7 @@
     "babel-plugin-import": "^1.13.8",
     "dumi": "~2.4.13",
     "eslint": "^8.39.0",
-    "father": "^4.5.1",
+    "father": "~4.5.2",
     "fetch-jsonp": "^1.3.0",
     "git-repo-info": "^2.1.1",
     "husky": "^8.0.3",
