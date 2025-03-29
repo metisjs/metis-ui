@@ -1,7 +1,7 @@
 {
   "name": "metis-ui",
   "version": "0.1.0-alpha.2",
-  "description": "MetisUI - A React Tailwind UI Components",
+  "description": "MetisUI - The React Tailwind UI Component Library",
   "license": "MIT",
   "main": "dist/components/index.js",
   "typings": "dist/components/index.d.ts",
