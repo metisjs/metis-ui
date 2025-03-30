@@ -30,5 +30,5 @@ export default defineConfig({
     '@util': path.join(__dirname, 'src/components/_util'),
   },
   tailwindcss: {},
-  plugins: ['@umijs/plugins/dist/tailwindcss'],
+  plugins: ['./plugins/compiled/tailwindcss'],
 });
