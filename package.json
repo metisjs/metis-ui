@@ -6,7 +6,7 @@
   "authors": [
     "wangjianming.x@gmail.com"
   ],
-  "homepage": "",
+  "homepage": "https://metisui.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/metisjs/metis-ui.git"
@@ -41,9 +41,13 @@
     "dist"
   ],
   "exports": {
-    "preset": {
-      "require": "./dist/preset/index.js",
-      "import": "./dist/preset/index.js"
+    "plugin": {
+      "require": "./dist/plugin/index.js",
+      "import": "./dist/plugin/index.js"
+    },
+    "theme": {
+      "require": "./dist/plugin/theme.js",
+      "import": "./dist/plugin/theme.js"
     }
   },
   "sideEffects": false,

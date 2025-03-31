@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { kebabCase } from 'lodash';
-import { PREFERS_COLOR_KEY } from '../../plugin/colors/constants';
+import { PREFERS_COLOR_KEY } from '../../plugin/constants';
 
 const THEME_KEYS = [
   'primary',

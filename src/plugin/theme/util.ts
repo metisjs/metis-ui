@@ -1,9 +1,10 @@
+import omit from 'rc-util/es/omit';
 import get from 'rc-util/es/utils/get';
 import twColors from 'tailwindcss/colors';
 import type { PluginAPI } from 'tailwindcss/plugin';
-import colorPalette from './colorPalette';
-import { PREFERS_COLOR_KEY } from './constants';
-import themes from './themes';
+import type { ThemeOptions } from '.';
+import colorPalette from '../colors/colorPalette';
+import { PREFERS_COLOR_KEY } from '../constants';
 
 type ColorParam = { [key: string]: any };
 type ColorScheme = 'light' | 'dark';
@@ -49,10 +50,10 @@ function generateColorPaletteFrom(
   }, resultObj);
 }
 
-export function convertToHsl(input: ColorParam) {
+export function genThemeVariables(input: ColorParam) {
   let resultObj: Record<string, any> = {};
   Object.entries(input).forEach(([rule, value]) => {
-    if (rule !== 'color-scheme') {
+    if (!['color-scheme', 'name', 'default', 'dark'].includes(rule)) {
       const [color, alpha = 100] = value.split('/');
       const colorPalette = generateColorPaletteFrom(
         input['color-scheme'] as ColorScheme,
@@ -81,55 +82,24 @@ export function convertToHsl(input: ColorParam) {
   return resultObj;
 }
 
-export default function injectThemes(addBase: PluginAPI['addBase'], config: PluginAPI['config']) {
-  let includedThemesObj: Record<string, any> = {};
-  let themeOrder: string[] = [];
-
-  Object.entries(themes).forEach(([theme, value]) => {
-    includedThemesObj[theme] = convertToHsl(value);
-  });
-
-  // add custom themes
-  if (Array.isArray(config('metisui.themes'))) {
-    config('metisui.themes').forEach((item: { [key: string]: any }) => {
-      if (typeof item === 'object' && item !== null) {
-        Object.entries(item).forEach(([name, value]) => {
-          includedThemesObj[name] = convertToHsl(value);
-          themeOrder.push(name);
-        });
-      } else if (typeof item === 'string' && includedThemesObj.hasOwnProperty(item)) {
-        themeOrder.push(item);
-      }
-    });
-  } else if (config<boolean>('metisui.themes') !== false) {
-    themeOrder = ['light', 'dark'];
-  } else if (config<boolean>('metisui.themes') === false) {
-    themeOrder.push('light');
-  }
-
-  // inject themes in order
-  themeOrder.forEach((themeName, index) => {
-    if (index === 0) {
-      // first theme as root
-      addBase({
-        [':root']: includedThemesObj[themeName],
-      });
-    }
-
+export function applyThemes(themes: ThemeOptions[], addBase: PluginAPI['addBase']) {
+  const darkTheme = themes.find((theme) => theme.dark);
+  if (darkTheme) {
     addBase({
-      [`[${PREFERS_COLOR_KEY}=${themeName}]`]: includedThemesObj[themeName],
+      '@media (prefers-color-scheme: dark)': {
+        [':root']: omit(darkTheme, ['dark', 'name', 'default']),
+      },
     });
-  });
-  if (config('metisui.darkTheme')) {
-    const darkTheme = config<boolean | string>('metisui.darkTheme');
-    const theme = typeof darkTheme === 'string' ? darkTheme : 'dark';
-
-    if (themeOrder.includes(theme)) {
-      addBase({
-        ['@media (prefers-color-scheme: dark)']: {
-          [':root']: includedThemesObj[theme],
-        },
-      });
-    }
   }
+
+  themes.forEach((theme) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { name = 'custom-theme', default: isDefault = false, dark, ...variables } = theme;
+
+    let selector = `[${PREFERS_COLOR_KEY}=${name}]`;
+    if (isDefault) {
+      selector = `:where(:root),${selector}`;
+    }
+    addBase({ [selector]: variables });
+  });
 }
