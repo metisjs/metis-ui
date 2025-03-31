@@ -69,7 +69,7 @@ const ColorInput: FC<ColorInputProps> = (props) => {
           {
             root: `${prefixCls}-format-select`,
             selector: { root: 'p-0 after:leading-3', item: 'pr-6 text-xs' },
-            arrow: 'pr-1',
+            arrow: 'right-1',
             option: 'pr-9 text-xs',
           },
           semanticCls?.formatSelect,
