@@ -27,7 +27,7 @@ const Demo: React.FC = () => {
   return (
     <Space>
       <Switch
-        className={clsx('relative', isModalOpen && 'z-[4000]')}
+        className={clsx('relative', isModalOpen && 'z-4000')}
         checkedChildren="Open"
         unCheckedChildren="Close"
         onChange={setIsModalOpen}

@@ -10,7 +10,7 @@ export interface SkeletonTitleProps {
 
 const Title: React.FC<SkeletonTitleProps> = ({ prefixCls, className, width, style }) => (
   <h3
-    className={clsx(prefixCls, 'h-4 w-full rounded bg-fill-tertiary', className)}
+    className={clsx(prefixCls, 'bg-fill-tertiary h-4 w-full rounded-sm', className)}
     style={{ width, ...style }}
   />
 );

@@ -194,7 +194,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   const onInternalSearch: BaseSelectProps['onSearch'] = (searchText, info) => {
     setSearchValue(searchText);
 
-    if (info.source !== 'blur' && onSearch) {
+    if (info.source !== 'blur-sm' && onSearch) {
       onSearch(searchText);
     }
   };
@@ -360,7 +360,7 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   // ========================== Style ===========================
   const popupCls = clsx(
     'p-0',
-    !(mergedSearchValue && mergedSearchOptions !== null) && !emptyOptions && '!min-w-[auto]',
+    !(mergedSearchValue && mergedSearchOptions !== null) && !emptyOptions && 'min-w-[auto]!',
   );
 
   const mergedClassName = mergeSemanticCls({ popup: popupCls }, cascader?.className, className);

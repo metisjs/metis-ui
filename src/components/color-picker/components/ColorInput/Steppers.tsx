@@ -38,8 +38,8 @@ const Steppers: FC<SteppersProps> = ({
     <InputNumber
       className={mergeSemanticCls(
         {
-          root: clsx(steppersPrefixCls, 'flex-none rounded px-1 py-1 text-xs'),
-          handler: 'w-4 text-xs group-has-[:focus-within]/input:w-[calc(1rem-1px)]',
+          root: clsx(steppersPrefixCls, 'flex-none rounded-sm px-1 py-1 text-xs'),
+          handler: 'w-4 text-xs group-has-focus-within/input:w-[calc(1rem-1px)]',
         },
         className,
       )}

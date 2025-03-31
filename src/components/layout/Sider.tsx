@@ -167,7 +167,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
         <div
           className={clsx(
             `${prefixCls}-trigger`,
-            'fixed bottom-0 z-[1] flex h-12 cursor-pointer items-center justify-center bg-gray-700 text-center leading-[3rem] text-white transition-[width]',
+            'fixed bottom-0 z-1 flex h-12 cursor-pointer items-center justify-center bg-gray-700 text-center leading-[3rem] text-white transition-[width]',
             theme === 'light' && 'bg-fill-quaternary',
           )}
           onClick={toggle}

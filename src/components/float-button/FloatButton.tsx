@@ -46,9 +46,9 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     prefixCls,
     `${prefixCls}-${type}`,
     `${prefixCls}-${mergedShape}`,
-    'fixed bottom-12 end-6 z-[1000] h-10 w-10 cursor-pointer bg-elevated text-sm text-text shadow-xl outline outline-1 outline-border-tertiary duration-200 empty:hidden hover:bg-fill-quinary hover:text-text',
+    'bg-elevated text-text outline-border-tertiary hover:bg-fill-quinary hover:text-text fixed end-6 bottom-12 z-1000 h-10 w-10 cursor-pointer text-sm shadow-xl outline outline-1 duration-200 empty:hidden',
     {
-      'bg-primary text-white outline-0 hover:bg-primary-hover hover:text-white': type === 'primary',
+      'bg-primary hover:bg-primary-hover text-white outline-0 hover:text-white': type === 'primary',
     },
     {
       'rounded-full': mergedShape === 'circle',
@@ -57,7 +57,7 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     grouped && [
       'static',
       {
-        'rounded-none p-1 shadow-none outline-0 hover:bg-elevated':
+        'hover:bg-elevated rounded-none p-1 shadow-none outline-0':
           mergedShape === 'square' && !_GROUP_TRIGGER,
       },
     ],
@@ -68,7 +68,8 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     `${prefixCls}-content`,
     'flex h-full min-h-10 w-full min-w-10 flex-col items-center justify-center p-0.5',
     grouped && {
-      'min-h-8 min-w-8 rounded hover:bg-fill-quinary': mergedShape === 'square' && !_GROUP_TRIGGER,
+      'hover:bg-fill-quinary min-h-8 min-w-8 rounded-sm':
+        mergedShape === 'square' && !_GROUP_TRIGGER,
     },
     semanticCls.content,
   );

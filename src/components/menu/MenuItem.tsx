@@ -198,9 +198,9 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       [`${itemCls}-only-child`]: (icon ? childrenLength + 1 : childrenLength) === 1,
     },
     'relative block flex-none cursor-pointer',
-    mode === 'horizontal' && theme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
+    mode === 'horizontal' && theme === 'dark' && 'ps-2 pe-2 first:ps-4 last:pe-4',
     mode !== 'horizontal' && 'px-4',
-    '[.submenu-popup_&]:px-1',
+    'in-[.submenu-popup]:px-1',
     mergedDisabled && 'cursor-not-allowed',
     semanticCls.root,
   );
@@ -214,7 +214,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       light: {
         // >>> Light Horizontal
         horizontal: {
-          '-mt-[1px] mb-0 pe-4 ps-4 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+          '-mt-[1px] mb-0 ps-4 pe-4 align-bottom first-line:top-[1px] after:absolute after:start-3 after:end-3 after:bottom-0 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
             true,
           'text-text-secondary hover:text-text hover:after:border-border': !mergedDisabled,
           'text-text after:border-primary hover:after:border-primary': selected,
@@ -223,7 +223,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         // >>> Light Vertical
         vertical: {
           'h-10 truncate rounded-md p-2 leading-10': true,
-          'pe-4 ps-4': !firstLevel,
+          'ps-4 pe-4': !firstLevel,
           'ps-7': !firstLevel && grouped,
           'pe-8': firstLevel && !isInlineCollapsed,
           'bg-fill-quaternary text-primary': selected,
@@ -250,8 +250,8 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         },
         // >>> Dark Vertical
         vertical: {
-          'h-10 truncate rounded-md p-2 leading-10 text-text-tertiary': true,
-          'pe-4 ps-4 text-gray-300': !firstLevel,
+          'text-text-tertiary h-10 truncate rounded-md p-2 leading-10': true,
+          'ps-4 pe-4 text-gray-300': !firstLevel,
           'ps-7': !firstLevel && grouped,
           'pe-8': firstLevel && !isInlineCollapsed,
           'bg-gray-700 text-white': selected,
@@ -260,7 +260,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         },
         // >>> Dark Inline
         inline: {
-          'h-10 rounded-md p-2 pe-8 text-text-tertiary': true,
+          'text-text-tertiary h-10 rounded-md p-2 pe-8': true,
           'pe-7': !firstLevel,
           'bg-gray-700 text-white': selected,
           'hover:bg-gray-700 hover:text-white': !selected && !mergedDisabled,
@@ -273,7 +273,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
-    'h-5 w-5 flex-shrink-0 flex-grow-0',
+    'h-5 w-5 shrink-0 grow-0',
     firstLevel && 'h-6 w-6',
     mode !== 'horizontal' &&
       !mergedDisabled && {

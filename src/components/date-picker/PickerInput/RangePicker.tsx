@@ -709,10 +709,10 @@ function RangePicker<DateType extends object = any>(
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     'group/selector',
-    'relative inline-flex rounded-md bg-container px-3 py-1.5 text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
-    '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+    'bg-container text-text ring-border relative inline-flex rounded-md px-3 py-1.5 text-sm leading-6 shadow-xs ring-1 ring-inset',
+    'in-[.input-addon]:-mx-3 in-[.input-addon]:bg-transparent in-[.input-addon]:shadow-none in-[.input-addon]:ring-0',
     {
-      'rounded px-2 py-0.5': size === 'mini',
+      'rounded-sm px-2 py-0.5': size === 'mini',
       'px-3 py-1': size === 'small',
       'px-3 py-2': size === 'large',
     },
@@ -723,10 +723,10 @@ function RangePicker<DateType extends object = any>(
     },
     compactItemClassnames,
     (focused || mergedOpen) && {
-      'ring-2 ring-primary': variant === 'outlined',
+      'ring-primary ring-2': variant === 'outlined',
       'ring-0': variant === 'borderless',
-      'bg-container ring-2 ring-primary': variant === 'filled',
-      'z-[2]': isCompactItem,
+      'bg-container ring-primary ring-2': variant === 'filled',
+      'z-2': isCompactItem,
     },
     getStatusClassNames(status, variant, focused || mergedOpen),
     disabled.every((i) => i) && {

@@ -52,21 +52,21 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
 
   const timeCls = clsx(
     `${prefixCls}-item-time`,
-    'ml-auto items-baseline text-end text-xs/6 text-text-tertiary',
+    'text-text-tertiary ml-auto items-baseline text-end text-xs/6',
     semanticCls.time,
   );
 
   const tailCls = clsx(
     `${prefixCls}-item-tail`,
-    'absolute start-[6.5px] top-6 h-[calc(100%-24px)] border-r border-border-secondary',
+    'border-border-secondary absolute start-[6.5px] top-6 h-[calc(100%-24px)] border-r',
     semanticCls.tail,
   );
 
   const dotClassName = clsx(
     `${prefixCls}-item-dot`,
-    'absolute left-1 top-[9px] h-1.5 w-1.5 rounded-full bg-border-tertiary text-primary outline outline-1 outline-border',
+    'bg-border-tertiary text-primary outline-border absolute top-[9px] left-1 h-1.5 w-1.5 rounded-full outline outline-1',
     !!dot &&
-      'left-[7px] top-3 inline-flex h-auto w-auto -translate-x-1/2 -translate-y-1/2 bg-container leading-[1] outline-0 [&_.metis-icon]:text-2xl',
+      'bg-container top-3 left-[7px] inline-flex h-auto w-auto -translate-x-1/2 -translate-y-1/2 leading-none outline-0 [&_.metis-icon]:text-2xl',
     presetColor && getPresetColorCls(color, { text: true, rawOutline: true, background: !dot }),
     semanticCls.dot,
   );

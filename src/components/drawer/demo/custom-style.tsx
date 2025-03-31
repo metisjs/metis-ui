@@ -18,11 +18,11 @@ const App: React.FC = () => {
         onClose={() => setOpen(false)}
         open={open}
         className={{
-          mask: 'backdrop-blur-sm',
+          mask: 'backdrop-blur-xs',
           content: 'shadow-2xl',
-          header: 'border-b border-primary',
+          header: 'border-primary border-b',
           body: 'text-base',
-          footer: 'border-t border-primary',
+          footer: 'border-primary border-t',
         }}
       >
         <p>Some contents...</p>

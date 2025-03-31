@@ -634,7 +634,7 @@ const InternalInputNumber = React.forwardRef(
           ref={composeRef(inputRef, ref)}
           className={clsx(
             `${prefixCls}-input`,
-            'w-full appearance-none bg-transparent outline-none placeholder:text-text-quaternary',
+            'placeholder:text-text-quaternary w-full appearance-none bg-transparent outline-hidden',
             outOfRange && 'text-error',
           )}
           value={inputValue!}
@@ -708,7 +708,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
 
   // ===================== Style =====================
   const statusClassName = getStatusClassNames(mergedStatus, variant);
-  const rootCls = clsx('shadow-sm', variant === 'borderless' && 'shadow-none', semanticCls.root);
+  const rootCls = clsx('shadow-xs', variant === 'borderless' && 'shadow-none', semanticCls.root);
   const wrapperCls = clsx('flex items-center');
   const groupWrapperCls = clsx(
     { [`${prefixCls}-wrapper-${variant}`]: enableVariantCls },
@@ -716,9 +716,9 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     compactItemClassnames[0],
   );
   const affixWrapperCls = clsx(
-    'group/affix relative inline-flex items-center gap-x-2 rounded-md border-0 bg-container text-sm text-text-secondary ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'group/affix bg-container text-text-secondary ring-border focus-within:ring-primary relative inline-flex items-center gap-x-2 rounded-md border-0 text-sm ring-inset focus-within:ring-inset',
     {
-      'gap-x-1 rounded px-2 py-1': mergedSize === 'mini',
+      'gap-x-1 rounded-sm px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
       'px-3 py-2': mergedSize === 'middle',
       'px-3 py-2.5': mergedSize === 'large',
@@ -726,7 +726,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
       'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus-within:bg-container focus-within:ring-2': variant === 'filled',
+      'bg-fill-quinary focus-within:bg-container ring-0 focus-within:ring-2': variant === 'filled',
     },
     {
       'rounded-s-none': addonBefore,
@@ -742,9 +742,9 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const inputCls = clsx(
-    'group/input inline-block w-28 rounded-md bg-container text-sm ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'group/input bg-container ring-border focus-within:ring-primary inline-block w-28 rounded-md text-sm ring-inset focus-within:ring-inset',
     {
-      'rounded px-2 py-1': mergedSize === 'mini',
+      'rounded-sm px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
       'px-3 py-2': mergedSize === 'middle',
       'px-3 py-2.5': mergedSize === 'large',
@@ -752,10 +752,10 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
       'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus-within:bg-container focus-within:ring-2': variant === 'filled',
+      'bg-fill-quinary focus-within:bg-container ring-0 focus-within:ring-2': variant === 'filled',
     },
     {
-      'relative text-text': !hasPrefixSuffix,
+      'text-text relative': !hasPrefixSuffix,
       'flex-1 rounded-none bg-transparent p-0 ring-0 focus-within:bg-transparent focus-within:ring-0':
         hasPrefixSuffix,
       'rounded-s-none': addonBefore,
@@ -774,7 +774,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   );
 
   const addonBeforeCls = clsx(
-    'input-addon -mr-[1px] inline-flex items-center rounded-s-md bg-container text-sm text-text-secondary ring-inset ring-border',
+    'input-addon bg-container text-text-secondary ring-border -mr-[1px] inline-flex items-center rounded-s-md text-sm ring-inset',
     {
       'h-7 rounded-s px-2': mergedSize === 'small',
       'h-8 px-3': mergedSize === 'small',
@@ -795,7 +795,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
     semanticCls.addonBefore,
   );
   const addonAfterCls = clsx(
-    'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-container text-sm text-text-secondary ring-inset ring-border',
+    'input-addon bg-container text-text-secondary ring-border -ml-[1px] inline-flex items-center rounded-e-md text-sm ring-inset',
     {
       'h-7 rounded-e px-2': mergedSize === 'small',
       'h-8 px-3': mergedSize === 'small',
@@ -829,7 +829,7 @@ const InputNumber = React.forwardRef<InputNumberRef, InputNumberProps>((props, r
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-2 text-text-secondary [&_.metis-icon]:text-base',
+    'text-text-secondary flex flex-none items-center gap-x-2 [&_.metis-icon]:text-base',
     {
       '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },

@@ -166,7 +166,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
     <div
       className={clsx(
         `${prefixCls}-toolbar`,
-        'mb-4 flex items-center justify-end gap-3 xs:flex-col xs:items-start',
+        'xs:flex-col xs:items-start mb-4 flex items-center justify-end gap-3',
         semanticCls.root,
       )}
     >
@@ -201,7 +201,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
       <div
         className={clsx(
           `${prefixCls}-toolbar-options`,
-          'flex items-center justify-end gap-2 *:inline-flex *:cursor-pointer *:items-center *:text-xl hover:*:text-primary',
+          '*:hover:text-primary flex items-center justify-end gap-2 *:inline-flex *:cursor-pointer *:items-center *:text-xl',
           semanticCls.options,
         )}
       >

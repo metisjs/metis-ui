@@ -44,7 +44,7 @@ const Overlay: React.FC<OverlayProps> = ({
       <div
         className={clsx(
           `${prefixCls}-title`,
-          'mb-2 box-border min-w-[177px] font-semibold text-text',
+          'text-text mb-2 box-border min-w-[177px] font-semibold',
           titleClassName,
         )}
       >
@@ -89,16 +89,16 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
   const prefixCls = getPrefixCls('popover');
 
   const overlayCls = clsx(
-    'visible absolute z-[1070] box-border block w-max max-w-[100vw] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] text-text [--metis-arrow-background-color:hsla(var(--elevated))]',
+    'text-text visible absolute z-1070 box-border block w-max max-w-[100vw] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:var(--elevated)]',
     semanticCls.overlay,
   );
 
   const contentCls = clsx(
-    'z-[1030] cursor-auto select-text rounded-lg p-3 text-text shadow-lg ring-1 ring-border-secondary focus:outline-none',
+    'text-text ring-border-secondary z-1030 cursor-auto rounded-lg p-3 shadow-lg ring-1 select-text focus:outline-hidden',
     semanticCls.inner,
   );
 
-  const arrowCls = clsx('after:ring-1 after:ring-border-secondary', semanticCls.arrow);
+  const arrowCls = clsx('after:ring-border-secondary after:ring-1', semanticCls.arrow);
 
   return (
     <Tooltip

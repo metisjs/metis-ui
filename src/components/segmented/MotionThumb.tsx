@@ -100,7 +100,7 @@ export default function MotionThumb(props: MotionThumbInterface) {
         <div
           ref={ref}
           className={clsx(
-            'absolute bottom-0.5 left-0 top-0.5 rounded-md bg-container shadow',
+            'bg-container absolute top-0.5 bottom-0.5 left-0 rounded-md shadow-sm',
             className,
             transitionCls,
           )}

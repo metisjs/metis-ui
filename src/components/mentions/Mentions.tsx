@@ -421,7 +421,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
   const textareaCls = clsx('resize-none', semanticCls.textarea);
   const measureCls = clsx(
     `${prefixCls}-measure`,
-    'pointer-events-none absolute inset-0 -z-[1] whitespace-pre-line',
+    'pointer-events-none absolute inset-0 -z-1 whitespace-pre-line',
     {
       'px-2 py-1': size === 'small',
       'px-3 py-1.5 leading-6': size === 'middle',
@@ -541,7 +541,7 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     // ============================== Style ===============================
     const semanticCls = useSemanticCls(className, 'mentions', { disabled: mergedDisabled });
     const affixWrapperCls = clsx(
-      'relative inline-flex w-full min-w-0 border-0 text-sm text-text',
+      'text-text relative inline-flex w-full min-w-0 border-0 text-sm',
       {
         'leading-6': mergedSize === 'middle',
         'text-base': mergedSize === 'large',
@@ -550,14 +550,14 @@ const Mentions = forwardRef<MentionsRef, MentionsProps>(
     );
     const suffixCls = clsx(
       mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-      'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
+      'text-text-secondary flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
       {
         '[&_.metis-icon]:text-lg': mergedSize === 'large',
       },
       mergedDisabled && 'text-text-tertiary',
     );
     const clearCls = clsx(
-      'absolute right-2 inline-flex h-5 items-center text-text-tertiary hover:text-text-secondary',
+      'text-text-tertiary hover:text-text-secondary absolute right-2 inline-flex h-5 items-center',
       {
         'top-2.5': mergedSize === 'large',
         'top-2': mergedSize === 'middle',

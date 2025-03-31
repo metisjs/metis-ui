@@ -96,7 +96,7 @@ function PickerTrigger({
           {
             [`${popupPrefixCls}-range`]: range,
           },
-          'absolute rounded-md bg-elevated shadow-lg ring-1 ring-border-secondary focus:outline-none',
+          'bg-elevated ring-border-secondary absolute rounded-md shadow-lg ring-1 focus:outline-hidden',
           popupClassName,
         ),
       }}

@@ -53,7 +53,7 @@ const ToolTipIcon: React.FC<{
     <Tooltip title={title}>
       <span
         className={clsx(
-          'hidden cursor-pointer items-center text-base text-text-secondary hover:text-primary group-hover/item:inline-flex',
+          'text-text-secondary hover:text-primary hidden cursor-pointer items-center text-base group-hover/item:inline-flex',
           {
             'inline-flex group-hover/item:hidden': fixed === current,
             hidden: fixed === undefined && fixed === current,
@@ -113,9 +113,9 @@ const CheckboxListItem: React.FC<{
       key={columnKey}
       className={clsx(
         `${prefixCls}-list-item`,
-        'group/item relative z-[1] flex items-center bg-container py-0.5',
+        'group/item bg-container relative z-1 flex items-center py-0.5',
         {
-          'z-[2]': isDragging,
+          'z-2': isDragging,
         },
       )}
       ref={setNodeRef}
@@ -126,7 +126,7 @@ const CheckboxListItem: React.FC<{
         {...listeners}
         className={clsx(
           `${prefixCls}-list-item-drag-handle`,
-          'mr-2 inline-flex cursor-grab items-center text-xs text-text-tertiary',
+          'text-text-tertiary mr-2 inline-flex cursor-grab items-center text-xs',
           {
             'cursor-grabbing': isDragging,
           },
@@ -140,7 +140,7 @@ const CheckboxListItem: React.FC<{
         {...listeners}
         className={clsx(
           `${prefixCls}-list-item-title flex-1`,
-          'cursor-grab select-none px-2 leading-6',
+          'cursor-grab px-2 leading-6 select-none',
           {
             'cursor-grabbing': isDragging,
           },
@@ -176,7 +176,7 @@ const CheckboxListItem: React.FC<{
           title={tableLocale.toolbar!.rightPin!}
           current={fixed}
         >
-          <BarsArrowUpOutline className="rotate-90 scale-x-[-1]" />
+          <BarsArrowUpOutline className="scale-x-[-1] rotate-90" />
         </ToolTipIcon>
       </div>
     </div>

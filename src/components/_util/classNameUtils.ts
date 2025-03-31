@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import classNames from 'classnames';
 import { cloneDeep, mergeWith } from 'lodash';
-import { extendTailwindMerge, fromTheme } from 'tailwind-merge';
+import { extendTailwindMerge } from 'tailwind-merge';
 
-const twMerge = extendTailwindMerge<'translate-z'>({
+const twMerge = extendTailwindMerge({
   extend: {
     theme: {
       opacity: ['disabled'],
-    },
-    classGroups: {
-      'translate-z': [{ 'translate-z': [fromTheme('translate')] }],
     },
   },
 });

@@ -426,8 +426,8 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             <div
               className={clsx(
                 `${prefixCls}-selection-extra`,
-                'absolute right-1 top-1/2 z-[1] -translate-y-1/2 translate-x-full cursor-pointer',
-                verticalLine && 'left-5 right-auto',
+                'absolute top-1/2 right-1 z-1 translate-x-full -translate-y-1/2 cursor-pointer',
+                verticalLine && 'right-auto left-5',
               )}
             >
               <Dropdown
@@ -435,7 +435,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
                 getPopupContainer={getPopupContainer}
                 className={({ open }) =>
                   clsx(
-                    'text-text-tertiary transition-colors hover:text-text-secondary',
+                    'text-text-tertiary hover:text-text-secondary transition-colors',
                     open && 'text-text-secondary',
                   )
                 }
@@ -501,7 +501,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             <div
               className={clsx(
                 `${prefixCls}-selection-option`,
-                'absolute right-0 top-1/2 z-[1] -translate-y-1/2 translate-x-full pe-2 ps-3',
+                'absolute top-1/2 right-0 z-1 translate-x-full -translate-y-1/2 ps-3 pe-2',
                 { 'ps-2': size === 'middle' || size === 'small' },
               )}
             >
@@ -753,9 +753,9 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           clsx(
             `${prefixCls}-selection-column`,
             !verticalLine && [
-              'px-1 text-center first:pl-4 first:pr-1 last:pl-1 last:pr-4',
+              'px-1 text-center first:pr-1 first:pl-4 last:pr-4 last:pl-1',
               {
-                'first:pl-3 first:pr-1 last:pl-1 last:pr-3': size === 'middle' || size === 'small',
+                'first:pr-1 first:pl-3 last:pr-3 last:pl-1': size === 'middle' || size === 'small',
               },
             ],
             {

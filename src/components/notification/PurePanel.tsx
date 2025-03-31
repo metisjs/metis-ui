@@ -53,7 +53,7 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
   const messageCls = clsx(`${prefixCls}-message`, 'truncate font-medium', semanticCls.message);
   const descriptionCls = clsx(
     `${prefixCls}-description`,
-    'mt-1 text-text-secondary',
+    'text-text-secondary mt-1',
     semanticCls.description,
   );
   const iconCls = clsx(
@@ -83,15 +83,15 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
       prefixCls={prefixCls}
       className={{
         root: clsx(
-          'relative flex w-[24rem] gap-3 overflow-hidden break-words rounded-lg bg-elevated p-4 shadow-lg ring-1 ring-inset ring-border-secondary',
+          'bg-elevated ring-border-secondary relative flex w-[24rem] gap-3 overflow-hidden rounded-lg p-4 break-words shadow-lg ring-1 ring-inset',
           semanticCls.root,
         ),
         close: clsx(
-          'ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-xl text-text-secondary hover:bg-fill-tertiary hover:text-text-secondary',
+          'text-text-secondary hover:bg-fill-tertiary hover:text-text-secondary ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-sm text-xl',
           semanticCls.close,
         ),
         progress: clsx(
-          'absolute bottom-0 left-2 right-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-primary',
+          '[&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:bg-primary absolute right-2 bottom-0 left-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg',
           semanticCls.progress,
         ),
       }}

@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { TinyColor } from '@ctrl/tinycolor';
 import Portal from '@rc-component/portal';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
-import { useSetState } from 'ahooks';
-import useTheme from '../theme/useTheme';
 import Transition from '../transition';
 import { PreviewGroupContext } from './context';
 import type { OperationsProps, OperationType } from './interface';
@@ -51,12 +48,6 @@ const Operations: React.FC<OperationsProps> = (props) => {
   const groupContext = useContext(PreviewGroupContext);
   const { rotateLeft, rotateRight, zoomIn, zoomOut, left, right, flipX, flipY } = icons;
 
-  const [hover, setHover] = useSetState({
-    close: false,
-    prev: false,
-    next: false,
-  });
-
   React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -81,15 +72,12 @@ const Operations: React.FC<OperationsProps> = (props) => {
   };
 
   // =========================== Style ===============================
-  const { mask } = useTheme();
-  const operationBg = new TinyColor(mask).setAlpha(0.1);
-  const operationBgHover = operationBg.clone().setAlpha(0.2);
-
   const wrapperCls = clsx(`${prefixCls}-operations-wrapper`, 'fixed text-sm *:select-none');
 
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'fixed right-8 top-8 flex rounded-full p-2 text-2xl text-white transition-colors',
+    'fixed top-8 right-8 flex rounded-full p-2 text-2xl text-white transition-colors',
+    'bg-[color-mix(in_oklab,_var(--mask)_30%,_transparent)] hover:bg-[color-mix(in_oklab,_var(--mask)_60%,_transparent)]',
     semanticCls.close,
   );
 
@@ -101,6 +89,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
   const operationsCls = clsx(
     `${prefixCls}-operations`,
     'flex items-center gap-3 rounded-full px-6',
+    'bg-[color-mix(in_oklab,_var(--mask)_30%,_transparent)]',
     semanticCls.root,
   );
 
@@ -112,6 +101,8 @@ const Operations: React.FC<OperationsProps> = (props) => {
     'fixed start-3 top-1/2 flex -translate-y-1/2 cursor-pointer rounded-full p-2 text-2xl text-white transition-colors',
     {
       'cursor-not-allowed text-white/25': current === 0,
+      'bg-[color-mix(in_oklab,_var(--mask)_30%,_transparent)] hover:bg-[color-mix(in_oklab,_var(--mask)_60%,_transparent)]':
+        current !== 0,
     },
     semanticCls.prev,
   );
@@ -124,6 +115,8 @@ const Operations: React.FC<OperationsProps> = (props) => {
     'fixed end-3 top-1/2 flex -translate-y-1/2 cursor-pointer rounded-full p-2 text-2xl text-white transition-colors',
     {
       'cursor-not-allowed text-white/25': current === count - 1,
+      'bg-[color-mix(in_oklab,_var(--mask)_30%,_transparent)] hover:bg-[color-mix(in_oklab,_var(--mask)_60%,_transparent)]':
+        current !== count - 1,
     },
     semanticCls.next,
   );
@@ -212,7 +205,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
   });
 
   const toolbarNode = (
-    <div className={operationsCls} style={{ backgroundColor: operationBg.toRgbString() }}>
+    <div className={operationsCls}>
       {flipYNode}
       {flipXNode}
       {rotateLeftNode}
@@ -242,56 +235,17 @@ const Operations: React.FC<OperationsProps> = (props) => {
             }}
           >
             {closeIcon === null ? null : (
-              <button
-                type="button"
-                className={closeCls}
-                onClick={onClose}
-                style={{
-                  backgroundColor: hover.close
-                    ? operationBgHover.toRgbString()
-                    : operationBg.toRgbString(),
-                }}
-                onMouseOver={() => setHover({ close: true })}
-                onMouseOut={() => setHover({ close: false })}
-              >
+              <button type="button" className={closeCls} onClick={onClose}>
                 {closeIcon}
               </button>
             )}
 
             {showSwitch && (
               <>
-                <div
-                  className={prevCls}
-                  onClick={(e) => handleActive(e, -1)}
-                  style={
-                    current !== 0
-                      ? {
-                          backgroundColor: hover.prev
-                            ? operationBgHover.toRgbString()
-                            : operationBg.toRgbString(),
-                        }
-                      : undefined
-                  }
-                  onMouseOver={() => setHover({ prev: true })}
-                  onMouseOut={() => setHover({ prev: false })}
-                >
+                <div className={prevCls} onClick={(e) => handleActive(e, -1)}>
                   {left}
                 </div>
-                <div
-                  className={nextCls}
-                  onClick={(e) => handleActive(e, 1)}
-                  style={
-                    current !== count - 1
-                      ? {
-                          backgroundColor: hover.next
-                            ? operationBgHover.toRgbString()
-                            : operationBg.toRgbString(),
-                        }
-                      : undefined
-                  }
-                  onMouseOver={() => setHover({ next: true })}
-                  onMouseOut={() => setHover({ next: false })}
-                >
+                <div className={nextCls} onClick={(e) => handleActive(e, 1)}>
                   {right}
                 </div>
               </>

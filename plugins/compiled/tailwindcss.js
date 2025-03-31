@@ -91,7 +91,7 @@ var tailwindcss_default = (api) => {
           if (!(0, import_fs.existsSync)(generatedPath)) {
             clearInterval(timer);
             api.logger.error(
-              `tailwindcss generate failed after ${CHECK_TIMEOUT} seconds, please check your tailwind.css and tailwind.config.js`
+              `tailwindcss generate failed after ${CHECK_TIMEOUT} seconds, please check your tailwind.css`
             );
             process.exit(1);
           }

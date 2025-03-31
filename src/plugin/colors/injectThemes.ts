@@ -1,8 +1,6 @@
-import { TinyColor } from '@ctrl/tinycolor';
-import get from 'lodash/get';
+import get from 'rc-util/es/utils/get';
 import twColors from 'tailwindcss/colors';
-import type { PluginAPI } from 'tailwindcss/types/config';
-import type { DefaultColors } from 'tailwindcss/types/generated/colors';
+import type { PluginAPI } from 'tailwindcss/plugin';
 import colorPalette from './colorPalette';
 import { PREFERS_COLOR_KEY } from './constants';
 import themes from './themes';
@@ -24,17 +22,17 @@ function generateColorPaletteFrom(
   base: string,
   color: string,
   skip: string[],
-): Record<string, { color: string; alpha?: number }> {
-  const [colorType, colorWeight] = color.split('-') as [keyof DefaultColors, string | undefined];
+): Record<string, { color: string; alpha?: number; tw: boolean }> {
+  const [colorType, colorWeight] = color.split('-') as [string, string | undefined];
 
-  const baseColor: string = get(twColors, [colorType, colorWeight].filter(Boolean) as string[]);
-  if (!baseColor) {
-    return { [base]: { color } };
+  const isTWColor = !!get(twColors, [colorType, colorWeight].filter(Boolean) as string[]);
+  if (!isTWColor) {
+    return { [base]: { color, tw: false } };
   }
 
   const palette = colorPalette[scheme];
 
-  const resultObj = { [base]: { color: baseColor } };
+  const resultObj = { [base]: { color, tw: true } };
 
   if (!(base in palette)) return resultObj;
 
@@ -45,8 +43,8 @@ function generateColorPaletteFrom(
       ...perv,
       // 小数表示透明度，整数表示 tailwind 色阶差
       [key]: Number.isInteger(v)
-        ? { color: get(twColors, [colorType, getWeightByOffset(Number(colorWeight), v)]) }
-        : { color: baseColor, alpha: v * 100 },
+        ? { color: `${colorType}-${getWeightByOffset(Number(colorWeight), v)}`, tw: true }
+        : { color: color, alpha: v * 100, tw: true },
     };
   }, resultObj);
 }
@@ -62,19 +60,19 @@ export function convertToHsl(input: ColorParam) {
         color,
         Object.keys(input),
       );
-      Object.entries(colorPalette).forEach(([k, v]) => {
-        const hsl = new TinyColor(v.color).toHsl();
 
-        resultObj[`--${k}`] =
-          hsl.h.toPrecision(5).replace(/\.?0+$/, '') +
-          ' ' +
-          (hsl.s * 100).toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' ' +
-          (hsl.l * 100).toPrecision(5).replace(/\.?0+$/, '') +
-          '%' +
-          ' / ' +
-          (v.alpha ?? alpha) / 100;
+      Object.entries(colorPalette).forEach(([k, v]) => {
+        // 是否为tailwind预设色
+        if (v.tw) {
+          resultObj[`--${k}`] = `var(--color-${v.color})`;
+
+          if ((v.alpha ?? alpha) !== 100) {
+            resultObj[`--${k}`] =
+              `color-mix(in oklab, ${resultObj[`--${k}`]} ${v.alpha ?? alpha}%, transparent)`;
+          }
+        } else {
+          resultObj[`--${k}`] = v.color;
+        }
       });
     } else {
       resultObj[rule] = value;

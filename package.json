@@ -3,11 +3,49 @@
   "version": "0.1.0-alpha.2",
   "description": "MetisUI - The React Tailwind UI Component Library",
   "license": "MIT",
+  "authors": [
+    "wangjianming.x@gmail.com"
+  ],
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metisjs/metis-ui.git"
+  },
+  "keywords": [
+    "metisui",
+    "metis-ui",
+    "metis ui",
+    "tailwind",
+    "tailwindcss",
+    "tailwind css",
+    "tailwind react",
+    "tailwind plugin",
+    "tailwind component",
+    "tailwind css plugin",
+    "antd",
+    "ant design",
+    "Ant Design",
+    "react",
+    "css",
+    "ui",
+    "component",
+    "framework",
+    "front-end",
+    "theme",
+    "component library",
+    "css library"
+  ],
   "main": "dist/components/index.js",
   "typings": "dist/components/index.d.ts",
   "files": [
     "dist"
   ],
+  "exports": {
+    "preset": {
+      "require": "./dist/preset/index.js",
+      "import": "./dist/preset/index.js"
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "build": "father build",
@@ -16,7 +54,6 @@
     "docs:build": "dumi build",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
-    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install && dumi setup",
@@ -32,10 +69,6 @@
   "lint-staged": {
     "*.{md,json}": [
       "prettier --write --no-error-on-unmatched-pattern"
-    ],
-    "*.{css,less}": [
-      "stylelint --fix",
-      "prettier --write"
     ],
     "*.{js,jsx}": [
       "eslint --fix",
@@ -77,7 +110,7 @@
     "majo": "^0.9.1",
     "prettier": "^3.3.3",
     "prettier-plugin-packagejson": "^2.4.3",
-    "prettier-plugin-tailwindcss": "^0.6.6",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "qs": "^6.11.2",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
@@ -92,8 +125,7 @@
     "remark-stringify": "^8.0.0",
     "remark-yaml-config": "^4.1.0",
     "rimraf": "^5.0.7",
-    "stylelint": "^15.6.0",
-    "tailwindcss": "^3.4.4",
+    "tailwindcss": "^4.0.17",
     "typescript": "~5.0.4",
     "umi": "^4.4.6",
     "unified": "^8.0.0",
@@ -102,17 +134,13 @@
   "peerDependencies": {
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0",
-    "tailwindcss": "=3"
+    "tailwindcss": ">=4"
   },
   "publishConfig": {
     "access": "public"
   },
-  "authors": [
-    "wangjianming.x@gmail.com"
-  ],
   "dependencies": {
     "@ant-design/fast-color": "^2.0.6",
-    "@ctrl/tinycolor": "^4.1.0",
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/sortable": "^7.0.2",
@@ -123,9 +151,6 @@
     "@rc-component/mini-decimal": "^1.1.0",
     "@rc-component/mutate-observer": "^1.1.0",
     "@rc-component/portal": "^1.1.2",
-    "@tailwindcss/container-queries": "^0.1.1",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/typography": "^0.5.9",
     "@types/lodash": "^4.14.194",
     "ahooks": "^3.8.0",
     "classnames": "^2.3.2",
@@ -139,7 +164,7 @@
     "rc-util": "^5.43.0",
     "react-virtuoso": "^4.12.0",
     "scroll-into-view-if-needed": "^3.0.10",
-    "tailwind-merge": "^2.3.0",
+    "tailwind-merge": "^3.0.2",
     "throttle-debounce": "^5.0.0",
     "tyme4ts": "^1.1.6"
   },

@@ -118,7 +118,7 @@ export interface BaseSelectPrivateProps {
         | 'typing' //User typing
         | 'effect' // Code logic trigger
         | 'submit' // tag mode only
-        | 'blur'; // Not trigger event
+        | 'blur-sm'; // Not trigger event
     },
   ) => void;
   /** Trigger when search text match the `tokenSeparators`. Will provide split content */
@@ -592,7 +592,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       } else if (mode === 'multiple') {
         // `multiple` mode only clean the search value but not trigger event
         onSearch('', {
-          source: 'blur',
+          source: 'blur-sm',
         });
       }
     }
@@ -703,7 +703,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-clear`,
-          'absolute inset-y-0 right-3 z-[1] flex cursor-pointer items-center text-text-tertiary opacity-0 transition-all hover:text-text-secondary',
+          'text-text-tertiary hover:text-text-secondary absolute inset-y-0 right-3 z-1 flex cursor-pointer items-center opacity-0 transition-all',
           'group-hover/select:opacity-100',
           mode === 'combobox' && 'opacity-100',
           semanticCls.clear,
@@ -723,7 +723,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       <TransBtn
         className={clsx(
           `${prefixCls}-arrow`,
-          'pointer-events-none absolute inset-y-0 right-3 inline-flex items-center gap-2 text-text-tertiary',
+          'text-text-tertiary pointer-events-none absolute inset-y-0 right-3 inline-flex items-center gap-2',
           {
             [`${prefixCls}-arrow-loading`]: loading,
             'group-hover/select:opacity-0': !!clearNode,
@@ -768,21 +768,21 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     !customizeInputElement && [
-      'group/select relative inline-block rounded-md bg-container text-sm text-text shadow-sm ring-1 ring-inset ring-border',
-      { ['rounded']: mergedSize === 'mini' },
+      'group/select bg-container text-text ring-border relative inline-block rounded-md text-sm shadow-xs ring-1 ring-inset',
+      { ['rounded-sm']: mergedSize === 'mini' },
       {
         'bg-container ring-1': variant === 'outlined',
         'bg-transparent shadow-none ring-0': variant === 'borderless',
         'bg-fill-quinary ring-0': variant === 'filled',
       },
-      '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+      'in-[.input-addon]:-mx-3 in-[.input-addon]:bg-transparent in-[.input-addon]:shadow-none in-[.input-addon]:ring-0',
       { 'w-full': isFormItemInput },
       compactItemClassnames,
       (mockFocused || mergedOpen) && {
-        'ring-2 ring-primary': true,
+        'ring-primary ring-2': true,
         'ring-0': variant === 'borderless',
         'bg-container': variant === 'filled',
-        'z-[2]': isCompactItem,
+        'z-2': isCompactItem,
       },
       getStatusClassNames(mergedStatus, variant, mockFocused || mergedOpen),
       mergedDisabled && {
@@ -799,7 +799,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       'px-3 py-1 after:leading-6': mergedSize === 'small',
       'px-3 py-1 after:leading-7': mergedSize === 'middle',
       'px-3 py-1 after:leading-8': mergedSize === 'large',
-      'py-0.5 pe-9 ps-1 after:my-0.5': multiple,
+      'py-0.5 ps-1 pe-9 after:my-0.5': multiple,
     },
   );
 
@@ -807,7 +807,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
     !customizeInputElement && [
       {
         'pe-7': showSuffixIcon && !multiple,
-        'end-2 start-2': mergedSize === 'mini' && !multiple,
+        'start-2 end-2': mergedSize === 'mini' && !multiple,
       },
       multiple && {
         'ms-1': mergedSize === 'mini' && displayValues.length === 0,
@@ -819,19 +819,19 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
 
   const selectorPlaceholderCls = clsx({
     'pe-7': showSuffixIcon,
-    'end-2 start-2': mergedSize === 'mini' && multiple,
+    'start-2 end-2': mergedSize === 'mini' && multiple,
   });
 
   const selectorItemCls = clsx(
     { 'pe-7': showSuffixIcon && !multiple },
     {
-      'rounded-sm leading-4': mergedSize === 'mini',
+      'rounded-xs leading-4': mergedSize === 'mini',
       'leading-5': mergedSize === 'small',
       'leading-6': mergedSize === 'middle',
       'leading-7': mergedSize === 'large',
     },
     multiple && {
-      'pe-1 ps-2 leading-5': mergedSize === 'mini',
+      'ps-2 pe-1 leading-5': mergedSize === 'mini',
       'leading-6': mergedSize === 'small',
       'leading-7': mergedSize === 'middle',
       'leading-8': mergedSize === 'large',
@@ -839,7 +839,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   );
 
   const popupCls = clsx(
-    'absolute rounded-md bg-elevated text-sm shadow-lg ring-1 ring-border-secondary focus:outline-none',
+    'bg-elevated ring-border-secondary absolute rounded-md text-sm shadow-lg ring-1 focus:outline-hidden',
     semanticCls.popup,
   );
 

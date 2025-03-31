@@ -96,7 +96,7 @@ export default function PopupTrigger({
       className={{
         popup: clsx(
           `${prefixCls}-popup`,
-          'submenu-popup absolute z-[1050]',
+          'submenu-popup absolute z-1050',
           '[.placement-rightBottom&]:ps-1 [.placement-rightTop&]:ps-1',
           '[.placement-leftBottom&]:pe-1 [.placement-leftTop&]:pe-1',
           '[.placement-topLeft&]:pb-1 [.placement-topRight&]:pb-1',

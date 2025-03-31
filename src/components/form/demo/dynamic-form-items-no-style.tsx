@@ -29,7 +29,7 @@ const App: React.FC = () => (
                   onClick={() => {
                     remove(field.name);
                   }}
-                  className="h-6 w-6 flex-shrink-0 cursor-pointer text-text-secondary hover:text-primary"
+                  className="text-text-secondary hover:text-primary h-6 w-6 shrink-0 cursor-pointer"
                 />
               </Space>
             ))}

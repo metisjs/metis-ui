@@ -8,7 +8,7 @@ const App: React.FC = () => {
   const [modal2, setModal2] = useState(false);
 
   return (
-    <div className="relative z-[9999999]">
+    <div className="relative z-9999999">
       <Space>
         <Switch
           checkedChildren="Drawer"

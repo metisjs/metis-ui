@@ -44,7 +44,7 @@ export default function useWinClick(
 
         warning(
           targetRoot === popupRoot,
-          `trigger element and popup element should in same shadow root.`,
+          `trigger element and popup element should in same shadow-sm root.`,
         );
       }
 

@@ -21,7 +21,7 @@ const Element: React.FC<SkeletonElementProps> = (props) => {
       [`${prefixCls}-square`]: shape === 'square',
       [`${prefixCls}-round`]: shape === 'round',
     },
-    'inline-block rounded bg-fill-tertiary',
+    'bg-fill-tertiary inline-block rounded-sm',
     {
       'rounded-full': shape === 'circle' || shape === 'round',
       'rounded-md': shape === 'square' || shape === 'default',

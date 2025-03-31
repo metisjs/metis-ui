@@ -216,19 +216,19 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
-    'button relative inline-flex w-fit items-center justify-center whitespace-nowrap rounded-md text-sm font-medium shadow-sm transition ease-in-out focus:outline-none focus-visible:ring-2',
+    'button relative inline-flex w-fit cursor-pointer items-center justify-center rounded-md text-sm font-medium whitespace-nowrap shadow-xs transition ease-in-out focus:outline-hidden focus-visible:ring-2',
     {
-      'bg-container text-text ring-1 ring-inset ring-border focus-visible:ring-primary enabled:hover:bg-fill-quinary':
+      'bg-container text-text ring-border focus-visible:ring-primary enabled:hover:bg-fill-quinary ring-1 ring-inset':
         type === 'default',
-      'bg-primary text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary focus-visible:ring-0 enabled:hover:bg-primary-hover':
+      'bg-primary focus-visible:outline-primary enabled:hover:bg-primary-hover text-white focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2':
         type === 'primary',
-      'text-text shadow-none ring-inset focus-visible:ring-primary enabled:hover:bg-fill-tertiary':
+      'text-text focus-visible:ring-primary enabled:hover:bg-fill-tertiary shadow-none ring-inset':
         type === 'text',
-      'focus-visible:ring-none text-primary shadow-none ring-inset focus-visible:ring-primary enabled:hover:text-primary-hover':
+      'focus-visible:ring-none text-primary focus-visible:ring-primary enabled:hover:text-primary-hover shadow-none ring-inset':
         type === 'link',
     },
     {
-      'gap-x-1.5 rounded px-3 py-1': mergedSize === 'mini',
+      'gap-x-1.5 rounded-sm px-3 py-1': mergedSize === 'mini',
       'gap-x-1.5 px-3 py-1.5': mergedSize === 'small',
       'gap-x-1.5 px-4 py-2': mergedSize === 'middle',
       'gap-x-2 px-4 py-2.5': mergedSize === 'large',
@@ -241,8 +241,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     },
     {
       'rounded-full': shape === 'round',
-      'justify-center pe-0 ps-0 text-base': iconOnly,
-      'cursor-not-allowed opacity-disabled focus-visible:ring-0': mergedDisabled,
+      'justify-center ps-0 pe-0 text-base': iconOnly,
+      'opacity-disabled cursor-not-allowed focus-visible:ring-0': mergedDisabled,
       'text-error ring-error focus-visible:ring-error enabled:hover:bg-error-bg': danger,
       'cursor-not-allowed': innerLoading,
     },
@@ -254,15 +254,15 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
         'hover:text-primary-hover': type === 'link',
       },
     danger && {
-      'enabled:hover:bg-transparent enabled:hover:text-error-hover': type === 'link',
-      'bg-error text-white focus-visible:outline-error enabled:hover:bg-error-hover enabled:hover:text-white':
+      'enabled:hover:text-error-hover enabled:hover:bg-transparent': type === 'link',
+      'bg-error focus-visible:outline-error enabled:hover:bg-error-hover text-white enabled:hover:text-white':
         type === 'primary',
     },
     isCompactItem &&
       type === 'primary' && [
-        'before:[&_+_.button]:absolute before:[&_+_.button]:-start-px before:[&_+_.button]:inline-block before:[&_+_.button]:h-full before:[&_+_.button]:w-px before:[&_+_.button]:bg-primary-hover',
+        '[&+.button]:before:bg-primary-hover [&+.button]:before:absolute [&+.button]:before:-start-px [&+.button]:before:inline-block [&+.button]:before:h-full [&+.button]:before:w-px',
         vertical &&
-          'before:[&_+_.button]:-top-px before:[&_+_.button]:start-auto before:[&_+_.button]:h-px before:[&_+_.button]:w-full',
+          '[&+.button]:before:start-auto [&+.button]:before:-top-px [&+.button]:before:h-px [&+.button]:before:w-full',
       ],
     compactItemClassnames,
     semanticCls.root,

@@ -151,7 +151,7 @@ function SingleSelector<DateType extends object = any>(
         className={className}
       />
       <input
-        className={clsx(`${prefixCls}-multiple-input`, 'invisible absolute -z-[1] h-0 w-0')}
+        className={clsx(`${prefixCls}-multiple-input`, 'invisible absolute -z-1 h-0 w-0')}
         value={value?.map(getText).join(',')}
         ref={inputRef as any}
         readOnly
@@ -160,7 +160,7 @@ function SingleSelector<DateType extends object = any>(
       <Icon
         type="suffix"
         icon={suffixIcon}
-        className="transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100"
+        className="transition-opacity group-hover/selector:opacity-0 last:group-hover/selector:opacity-100"
       />
       {showClear && (
         <ClearIcon

@@ -115,22 +115,17 @@ const Splitter: React.FC<React.PropsWithChildren<SplitterProps>> = (props) => {
     prefixCls,
     `${prefixCls}-${layout}`,
     'splitter',
-    'flex h-full w-full items-stretch text-sm text-text',
+    'text-text flex h-full w-full items-stretch text-sm',
     {
       'flex-col': layout === 'vertical',
     },
     semanticCls.root,
   );
 
-  const maskCls = clsx(
-    `${prefixCls}-mask`,
-    `${prefixCls}-mask-${layout}`,
-    'fixed inset-0 z-[1000]',
-    {
-      'cursor-col-resize': layout === 'horizontal',
-      'cursor-row-resize': layout === 'vertical',
-    },
-  );
+  const maskCls = clsx(`${prefixCls}-mask`, `${prefixCls}-mask-${layout}`, 'fixed inset-0 z-1000', {
+    'cursor-col-resize': layout === 'horizontal',
+    'cursor-row-resize': layout === 'vertical',
+  });
 
   // ======================== Render ========================
   const stackSizes = React.useMemo(() => {

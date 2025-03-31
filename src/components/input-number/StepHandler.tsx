@@ -81,11 +81,11 @@ export default function StepHandler({
 
   const handlerClassName = clsx(
     `${prefixCls}-handler`,
-    'group-handler absolute bottom-0 right-0 top-0 flex w-6 select-none flex-col items-stretch rounded-ee-md rounded-se-md text-sm text-text-tertiary opacity-0 transition-opacity duration-200 ease-linear',
+    'group-handler text-text-tertiary absolute top-0 right-0 bottom-0 flex w-6 flex-col items-stretch rounded-se-md rounded-ee-md text-sm opacity-0 transition-opacity duration-200 ease-linear select-none',
     {
-      'bottom-px right-px top-px bg-container group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-1px)]':
+      'bg-container top-px right-px bottom-px group-has-focus-within/input:top-[2px] group-has-focus-within/input:right-[2px] group-has-focus-within/input:bottom-[2px] group-has-focus-within/input:w-[calc(1.5rem-1px)]':
         variant === 'outlined',
-      'bg-fill-quinary group-has-[:focus-within]/input:bottom-[2px] group-has-[:focus-within]/input:right-[2px] group-has-[:focus-within]/input:top-[2px] group-has-[:focus-within]/input:w-[calc(1.5rem-2px)] group-has-[:focus-within]/input:bg-container':
+      'bg-fill-quinary group-has-focus-within/input:bg-container group-has-focus-within/input:top-[2px] group-has-focus-within/input:right-[2px] group-has-focus-within/input:bottom-[2px] group-has-focus-within/input:w-[calc(1.5rem-2px)]':
         variant === 'filled',
       'bg-container': variant === 'borderless',
     },
@@ -98,15 +98,15 @@ export default function StepHandler({
     {
       [`${prefixCls}-handler-up-disabled`]: upDisabled,
     },
-    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l border-border-secondary transition-all duration-200 ease-linear',
+    'border-border-secondary flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l transition-all duration-200 ease-linear',
     {
-      '*:-translate-x-[0.5px] *:translate-y-[0.5px] group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+      '*:-translate-x-[0.5px] *:translate-y-[0.5px] *:group-has-focus-within/input:translate-x-0 *:group-has-focus-within/input:translate-y-0':
         variant === 'outlined',
-      '*:-translate-x-px *:translate-y-px group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+      '*:-translate-x-px *:translate-y-px *:group-has-focus-within/input:translate-x-0 *:group-has-focus-within/input:translate-y-0':
         variant === 'filled',
     },
-    !upDisabled && 'hover:h-3/5 hover:text-primary',
-    upDisabled && 'cursor-not-allowed text-text-quaternary',
+    !upDisabled && 'hover:text-primary hover:h-3/5',
+    upDisabled && 'text-text-quaternary cursor-not-allowed',
   );
   const downClassName = clsx(
     `${prefixCls}-handler-down`,
@@ -115,13 +115,13 @@ export default function StepHandler({
     },
     'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l transition-all duration-200 ease-linear',
     {
-      '*:-translate-x-[0.5px] *:-translate-y-[0.5px] group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+      '*:-translate-x-[0.5px] *:-translate-y-[0.5px] *:group-has-focus-within/input:translate-x-0 *:group-has-focus-within/input:translate-y-0':
         variant === 'outlined',
-      '*:-translate-x-px *:-translate-y-px group-has-[:focus-within]/input:*:translate-x-0 group-has-[:focus-within]/input:*:translate-y-0':
+      '*:-translate-x-px *:-translate-y-px *:group-has-focus-within/input:translate-x-0 *:group-has-focus-within/input:translate-y-0':
         variant === 'filled',
     },
-    !downDisabled && 'hover:h-3/5 hover:text-primary',
-    downDisabled && 'cursor-not-allowed text-text-quaternary',
+    !downDisabled && 'hover:text-primary hover:h-3/5',
+    downDisabled && 'text-text-quaternary cursor-not-allowed',
   );
 
   // In Safari, When we fire onmousedown and onmouseup events in quick succession,
@@ -150,7 +150,7 @@ export default function StepHandler({
       >
         {upNode}
       </span>
-      <span className="h-px bg-border-secondary"></span>
+      <span className="bg-border-secondary h-px"></span>
       <span
         {...sharedHandlerProps}
         onMouseDown={(e) => {

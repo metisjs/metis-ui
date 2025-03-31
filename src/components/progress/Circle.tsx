@@ -20,7 +20,7 @@ export interface CircleProps extends ProgressProps {
 const Circle: React.FC<CircleProps> = (props) => {
   const {
     prefixCls,
-    trailColor = 'hsla(var(--fill-quaternary))',
+    trailColor = 'var(--fill-quaternary)',
     strokeLinecap = 'round',
     gapPosition,
     gapDegree,

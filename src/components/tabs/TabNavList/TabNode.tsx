@@ -144,7 +144,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
       'text-text-secondary',
       horizontal ? 'ml-8 px-1 py-4 first:ml-0' : 'mt-4 px-6 py-2 first:mt-0',
       {
-        'hover:text-text hover:before:absolute hover:before:border-border': !disabled,
+        'hover:text-text hover:before:border-border hover:before:absolute': !disabled,
         'text-primary hover:text-primary': active,
       },
       {
@@ -185,9 +185,9 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'mt-1.5': position === 'bottom',
       },
       {
-        'mb-0 mt-0 bg-container transition-none [&_+_button::before]:opacity-0 [&_+_div_.divider]:opacity-0':
+        'bg-container mt-0 mb-0 transition-none [&_+_button::before]:opacity-0 [&_+_div_.divider]:opacity-0':
           active,
-        'hover:bg-fill-tertiary [&_+_button::before]:hover:opacity-0 [&_+_div_.divider]:hover:opacity-0':
+        'hover:bg-fill-tertiary hover:[&+button::before]:opacity-0 hover:[&+div_.divider]:opacity-0':
           !disabled && !active,
       },
       {
@@ -197,20 +197,20 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
       active && [
         {
           'rounded-ee-none rounded-es-none pb-3.5': position === 'top',
-          'rounded-se-none rounded-ss-none pt-3.5': position === 'bottom',
+          'rounded-ss-none rounded-se-none pt-3.5': position === 'bottom',
         },
         'before:pointer-events-none before:absolute before:-left-2.5 before:h-2.5 before:w-2.5',
         {
-          'before:bottom-0 before:bg-[radial-gradient(circle_at_0_0,_transparent_10px,_hsla(var(--container))_10px)]':
+          'before:bottom-0 before:bg-[radial-gradient(circle_at_0_0,_transparent_10px,_var(--container)_10px)]':
             position === 'top',
-          'before:top-0 before:bg-[radial-gradient(circle_at_0_10px,_transparent_10px,_hsla(var(--container))_10px)]':
+          'before:top-0 before:bg-[radial-gradient(circle_at_0_10px,_transparent_10px,_var(--container)_10px)]':
             position === 'bottom',
         },
         'after:pointer-events-none after:absolute after:-right-2.5 after:h-2.5 after:w-2.5',
         {
-          'after:bottom-0 after:bg-[radial-gradient(circle_at_10px_0,_transparent_10px,_hsla(var(--container))_10px)]':
+          'after:bottom-0 after:bg-[radial-gradient(circle_at_10px_0,_transparent_10px,_var(--container)_10px)]':
             position === 'top',
-          'after:top-0 after:bg-[radial-gradient(circle_at_10px_10px,_transparent_10px,_hsla(var(--container))_10px)]':
+          'after:top-0 after:bg-[radial-gradient(circle_at_10px_10px,_transparent_10px,_var(--container)_10px)]':
             position === 'bottom',
         },
         {
@@ -224,16 +224,16 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     ],
     // Pills
     type === 'pills' && [
-      'ml-4 rounded-md px-3 py-2 text-text-secondary first:ml-0',
+      'text-text-secondary ml-4 rounded-md px-3 py-2 first:ml-0',
       {
         'hover:bg-fill-quinary': !disabled && !active,
         'bg-fill-quaternary text-text': active,
       },
       {
         'ml-3.5 px-2.5 py-1.5': size === 'middle',
-        'ml-3 rounded px-2 py-1': size === 'small',
+        'ml-3 rounded-sm px-2 py-1': size === 'small',
       },
-      renaming && 'outline outline-2 -outline-offset-2 outline-primary',
+      renaming && 'outline-primary outline outline-2 -outline-offset-2',
       disabled && 'text-text-quaternary',
     ],
     disabled && 'cursor-not-allowed',
@@ -242,7 +242,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
 
   const iconCls = clsx(
     `${tabPrefix}-icon`,
-    'inline-flex items-center text-text-tertiary',
+    'text-text-tertiary inline-flex items-center',
     // Line
     type === 'line' && [
       'mr-2 text-xl',
@@ -285,10 +285,10 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
     `${tabPrefix}-label`,
     'flex-1 truncate',
     renaming && [
-      'rounded-sm text-text',
+      'text-text rounded-xs',
       {
         'outline-0': type === 'pills',
-        'outline outline-2 outline-offset-1 outline-primary': type === 'line' || type === 'card',
+        'outline-primary outline outline-2 outline-offset-1': type === 'line' || type === 'card',
       },
     ],
     semanticCls.label,
@@ -296,14 +296,14 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
 
   const closeCls = clsx(
     `${tabPrefix}-close`,
-    'ml-2 inline-flex items-center text-base text-text-tertiary transition-colors hover:text-text-secondary',
+    'text-text-tertiary hover:text-text-secondary ml-2 inline-flex items-center text-base transition-colors',
     type === 'line' && !horizontal && 'absolute end-2',
     semanticCls.close,
   );
 
   const cardDividerCls = clsx(
     `${tabPrefix}-divider`,
-    'divider absolute -start-1 h-3/5 w-0.5 rounded-full bg-fill-secondary opacity-75 transition-opacity',
+    'divider bg-fill-secondary absolute -start-1 h-3/5 w-0.5 rounded-full opacity-75 transition-opacity',
     'group-first/tab:opacity-0 group-hover/tab:opacity-0',
     {
       'opacity-0': active,

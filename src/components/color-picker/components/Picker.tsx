@@ -78,7 +78,7 @@ const Operation: FC<{
           value={mode}
           onChange={onModeChange}
           className={mergeSemanticCls(
-            { root: 'rounded', option: 'rounded px-2 py-0.5' },
+            { root: 'rounded-sm', option: 'rounded-sm px-2 py-0.5' },
             modeClassName,
           )}
         />
@@ -109,7 +109,11 @@ const Palette = forwardRef<
   return (
     <div
       ref={ref}
-      className={clsx(`${prefixCls}-palette`, 'mb-3 min-h-40 overflow-hidden rounded', className)}
+      className={clsx(
+        `${prefixCls}-palette`,
+        'mb-3 min-h-40 overflow-hidden rounded-sm',
+        className,
+      )}
       style={{
         position: 'relative',
         ...style,
@@ -131,7 +135,7 @@ const Handler: FC<{
     <div
       className={clsx(
         `${prefixCls}-handler`,
-        'relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset ring-elevated',
+        'ring-elevated relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset',
         className,
       )}
       style={{
@@ -338,7 +342,7 @@ const Picker: FC = () => {
   const panelCls = clsx(`${prefixCls}-panel`, 'select-none', semanticCls?.root);
   const saturationCls = clsx(
     `${prefixCls}-saturation`,
-    'absolute inset-0 rounded ring-1 ring-inset ring-fill-tertiary',
+    'ring-fill-tertiary absolute inset-0 rounded-sm ring-1 ring-inset',
   );
   const sliderContainerCls = clsx(`${prefixCls}-slider-container`, 'mb-3 flex gap-3');
   const sliderGroupCls = clsx(

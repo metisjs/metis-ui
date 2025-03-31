@@ -90,13 +90,13 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
       [`${prefixCls}-full`]: full,
       [`${prefixCls}-zero`]: !full,
     },
-    'relative inline-flex cursor-pointer outline-none outline-offset-0 transition-all duration-200 hover:scale-110 focus-visible:scale-110 focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-yellow-400',
+    'relative inline-flex cursor-pointer outline-hidden outline-offset-0 transition-all duration-200 hover:scale-110 focus-visible:scale-110 focus-visible:outline-1 focus-visible:outline-yellow-400 focus-visible:outline-dashed',
     disabled && 'cursor-default',
     semanticCls.root,
   );
   const firstCls = clsx(
     `${prefixCls}-first`,
-    'absolute left-0 top-0 inline-flex w-1/2 select-none overflow-hidden opacity-0 transition-all duration-200',
+    'absolute top-0 left-0 inline-flex w-1/2 overflow-hidden opacity-0 transition-all duration-200 select-none',
     {
       'opacity-100': half,
     },
@@ -104,7 +104,7 @@ function Star(props: StarProps, ref: React.Ref<HTMLLIElement>) {
   );
   const secondCls = clsx(
     `${prefixCls}-second`,
-    'inline-flex select-none text-fill-tertiary transition-all duration-200',
+    'text-fill-tertiary inline-flex transition-all duration-200 select-none',
     {
       'text-inherit': full,
     },

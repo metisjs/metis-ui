@@ -223,7 +223,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
 
   // ====================== Style ======================
   const statusClassName = getStatusClassNames(mergedStatus, variant);
-  const rootCls = clsx('shadow-sm', variant === 'borderless' && 'shadow-none', semanticCls.root);
+  const rootCls = clsx('shadow-xs', variant === 'borderless' && 'shadow-none', semanticCls.root);
   const wrapperCls = clsx('flex items-center');
   const groupWrapperCls = clsx(
     { [`${prefixCls}-wrapper-${variant}`]: enableVariantCls },
@@ -236,9 +236,9 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       [`${prefixCls}-disabled`]: mergedDisabled,
       [`${prefixCls}-${variant}`]: enableVariantCls && !inputHasPrefixSuffix,
     },
-    'relative inline-block w-full appearance-none rounded-md bg-container text-sm outline-none ring-inset ring-border placeholder:text-text-quaternary focus:ring-inset focus:ring-primary',
+    'bg-container ring-border placeholder:text-text-quaternary focus:ring-primary relative inline-block w-full appearance-none rounded-md text-sm outline-hidden ring-inset focus:ring-inset',
     {
-      'rounded px-2 py-1': mergedSize === 'mini',
+      'rounded-sm px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
       'px-3 py-2': mergedSize === 'middle',
       'px-3 py-2.5': mergedSize === 'large',
@@ -246,7 +246,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'ring-1 focus:ring-2': variant === 'outlined',
       'bg-transparent ring-0 focus:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus:bg-container focus:ring-2': variant === 'filled',
+      'bg-fill-quinary focus:bg-container ring-0 focus:ring-2': variant === 'filled',
     },
     {
       'text-text': !inputHasPrefixSuffix,
@@ -265,9 +265,9 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.input,
   );
   const affixWrapperCls = clsx(
-    'relative inline-flex w-full items-center gap-x-2 rounded-md bg-container text-sm text-text ring-inset ring-border focus-within:ring-inset focus-within:ring-primary',
+    'bg-container text-text ring-border focus-within:ring-primary relative inline-flex w-full items-center gap-x-2 rounded-md text-sm ring-inset focus-within:ring-inset',
     {
-      'gap-x-1 rounded px-2 py-1': mergedSize === 'mini',
+      'gap-x-1 rounded-sm px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
       'px-3 py-2': mergedSize === 'middle',
       'px-3 py-2.5': mergedSize === 'large',
@@ -275,7 +275,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     {
       'ring-1 focus-within:ring-2': variant === 'outlined',
       'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0 focus-within:bg-container focus-within:ring-2': variant === 'filled',
+      'bg-fill-quinary focus-within:bg-container ring-0 focus-within:ring-2': variant === 'filled',
     },
     {
       'rounded-s-none': addonBefore,
@@ -290,7 +290,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const addonBeforeCls = clsx(
-    'input-addon -mr-[1px] inline-flex items-center rounded-s-md bg-container text-sm text-text-secondary ring-inset ring-border',
+    'input-addon bg-container text-text-secondary ring-border -mr-[1px] inline-flex items-center rounded-s-md text-sm ring-inset',
     {
       'h-7 rounded-s px-2': mergedSize === 'mini',
       'h-8 px-2': mergedSize === 'small',
@@ -311,7 +311,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.addonBefore,
   );
   const addonAfterCls = clsx(
-    'input-addon -ml-[1px] inline-flex items-center rounded-e-md bg-container text-sm text-text-secondary ring-inset ring-border',
+    'input-addon bg-container text-text-secondary ring-border -ml-[1px] inline-flex items-center rounded-e-md text-sm ring-inset',
     {
       'h-7 rounded-e-md px-2': mergedSize === 'mini',
       'h-8 px-2': mergedSize === 'small',
@@ -333,7 +333,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const _prefixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-prefix-${mergedSize}`,
-    'flex flex-none items-center gap-x-1 text-text-secondary [&_.metis-icon]:text-base',
+    'text-text-secondary flex flex-none items-center gap-x-1 [&_.metis-icon]:text-base',
     {
       '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },
@@ -342,7 +342,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   );
   const suffixCls = clsx(
     mergedSize !== 'middle' && `${prefixCls}-suffix-${mergedSize}`,
-    'flex flex-none items-center gap-x-2 text-text-secondary [&_.metis-icon]:text-base',
+    'text-text-secondary flex flex-none items-center gap-x-2 [&_.metis-icon]:text-base',
     {
       '[&_.metis-icon]:text-lg': mergedSize === 'large',
     },
@@ -359,7 +359,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.count,
   );
   const clearCls = clsx(
-    'flex items-center text-text-tertiary transition-colors hover:text-text-secondary',
+    'text-text-tertiary hover:text-text-secondary flex items-center transition-colors',
     semanticCls.clear,
   );
 

@@ -202,7 +202,10 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
 
   const rootCls = clsx(prefixCls, 'relative', semanticCls.root);
 
-  const wrapperCls = clsx(`${prefixCls}-${animation}`, 'relative h-full w-full overflow-hidden');
+  const wrapperCls = clsx(
+    `${prefixCls}-${animation}`,
+    'relative h-full w-full overflow-hidden transform-3d',
+  );
 
   // ============================ Render ===========================
   const eventHandlers = Object.assign(
@@ -253,26 +256,26 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
                   [`${prefixCls}-item-next`]: isNext,
                   [`${prefixCls}-item-active`]: isActive,
                 },
-                'absolute left-0 top-0 h-full w-full overflow-hidden',
+                'absolute top-0 left-0 h-full w-full overflow-hidden',
                 {
-                  'relative z-[1]': isActive,
+                  'relative z-1': isActive,
                   ['invisible']: animation === 'slide' && !isActive,
                 },
                 animation === 'card' && [
                   !vertical && [
-                    'left-1/2 w-3/5 -translate-x-1/2 opacity-0 -translate-z-[25rem]',
+                    'left-1/2 w-3/5 -translate-x-1/2 -translate-z-[25rem] opacity-0',
                     {
-                      '-translate-x-1/2 opacity-100 translate-z-0': isActive,
-                      '-translate-x-full cursor-pointer opacity-40 -translate-z-[12.5rem]': isPrev,
-                      'translate-x-0 cursor-pointer opacity-40 -translate-z-[12.5rem]': isNext,
+                      '-translate-x-1/2 translate-z-0 opacity-100': isActive,
+                      '-translate-x-full -translate-z-[12.5rem] cursor-pointer opacity-40': isPrev,
+                      'translate-x-0 -translate-z-[12.5rem] cursor-pointer opacity-40': isNext,
                     },
                   ],
                   vertical && [
-                    'top-1/2 !h-3/5 -translate-y-1/2 opacity-0 -translate-z-[25rem]',
+                    'top-1/2 h-3/5! -translate-y-1/2 -translate-z-[25rem] opacity-0',
                     {
-                      '-translate-y-1/2 opacity-100 translate-z-0': isActive,
-                      '-translate-y-full cursor-pointer opacity-40 -translate-z-[12.5rem]': isPrev,
-                      'translate-y-0 cursor-pointer opacity-40 -translate-z-[12.5rem]': isNext,
+                      '-translate-y-1/2 translate-z-0 opacity-100': isActive,
+                      '-translate-y-full -translate-z-[12.5rem] cursor-pointer opacity-40': isPrev,
+                      'translate-y-0 -translate-z-[12.5rem] cursor-pointer opacity-40': isNext,
                     },
                   ],
                 ],

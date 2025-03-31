@@ -32,7 +32,6 @@ export default (api: IApi) => {
     const inputPath = join(api.cwd, 'tailwind.css');
     const generatedPath = join(api.paths.absTmpPath, outputPath);
     const binPath = getTailwindBinPath({ cwd: api.cwd });
-    const configPath = join(api.cwd, 'tailwind.config.js');
 
     if (process.env.IS_UMI_BUILD_WORKER) {
       return;
@@ -42,15 +41,7 @@ export default (api: IApi) => {
       /** 透过子进程建立 tailwindcss 服务，将生成的 css 写入 generatedPath */
       tailwind = crossSpawn(
         `${binPath}`,
-        [
-          '-c',
-          configPath,
-          '-i',
-          inputPath,
-          '-o',
-          generatedPath,
-          api.env === 'development' ? '--watch' : '',
-        ],
+        ['-i', inputPath, '-o', generatedPath, api.env === 'development' ? '--watch' : ''],
         {
           stdio: 'inherit',
           cwd: process.env.APP_ROOT || api.cwd,
@@ -78,7 +69,7 @@ export default (api: IApi) => {
           if (!existsSync(generatedPath)) {
             clearInterval(timer);
             api.logger.error(
-              `tailwindcss generate failed after ${CHECK_TIMEOUT} seconds, please check your tailwind.css and tailwind.config.js`,
+              `tailwindcss generate failed after ${CHECK_TIMEOUT} seconds, please check your tailwind.css`,
             );
             process.exit(1);
           }

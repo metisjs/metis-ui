@@ -19,7 +19,7 @@ const SkeletonImage: React.FC<SkeletonImageProps> = (props) => {
     {
       [`${prefixCls}-active`]: active,
     },
-    'inline-block rounded-md bg-fill-tertiary',
+    'bg-fill-tertiary inline-block rounded-md',
     active && 'animate-pulse',
   );
 
@@ -35,7 +35,7 @@ const SkeletonImage: React.FC<SkeletonImageProps> = (props) => {
         <svg
           viewBox="0 0 1098 1024"
           xmlns="http://www.w3.org/2000/svg"
-          className={clsx(`${prefixCls}-image-svg`, 'h-12 w-12 text-text-tertiary')}
+          className={clsx(`${prefixCls}-image-svg`, 'text-fill-secondary h-12 w-12')}
           fill="currentColor"
         >
           <title>Image placeholder</title>

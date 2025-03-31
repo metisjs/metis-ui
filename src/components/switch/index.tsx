@@ -118,9 +118,9 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     });
 
     const rootCls = clsx(
-      'relative inline-block h-6 w-fit min-w-[2.75rem] cursor-pointer select-none rounded-full bg-fill-secondary align-middle text-xs transition-colors duration-200 ease-in-out',
-      'focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary',
-      'disabled:cursor-not-allowed disabled:opacity-disabled',
+      'bg-fill-secondary relative inline-block h-6 w-fit min-w-[2.75rem] cursor-pointer rounded-full align-middle text-xs transition-colors duration-200 ease-in-out select-none',
+      'focus:outline-primary focus:outline focus:outline-2 focus:outline-offset-2',
+      'disabled:opacity-disabled disabled:cursor-not-allowed',
       {
         'bg-primary': innerChecked,
         'h-5 min-w-[2rem]': isSmall,
@@ -131,7 +131,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     );
 
     const handleCls = clsx(
-      'pointer-events-none absolute start-0.5 top-0.5 inline-flex h-5 w-5 transform items-center justify-center rounded-full bg-white shadow transition-all duration-200 ease-in-out',
+      'pointer-events-none absolute start-0.5 top-0.5 inline-flex h-5 w-5 transform items-center justify-center rounded-full bg-white shadow-sm transition-all duration-200 ease-in-out',
       {
         'start-[calc(100%-22px)]': innerChecked,
         'h-4 w-4': isSmall,
@@ -155,24 +155,24 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         <div className={handleCls}>
           {loading && (
             <LoadingOutline
-              className={clsx('h-4 w-4 animate-spin text-primary', isSmall && 'h-3 w-3')}
+              className={clsx('text-primary h-4 w-4 animate-spin', isSmall && 'h-3 w-3')}
             />
           )}
         </div>
         <span
           className={clsx(
-            'block h-full w-full overflow-hidden pe-[9px] ps-[26px] leading-6 transition-all duration-200 ease-in-out',
-            isSmall && 'pe-[6px] ps-5 leading-5',
-            innerChecked && 'pe-[26px] ps-[9px]',
-            innerChecked && isSmall && 'pe-5 ps-[6px]',
+            'block h-full w-full overflow-hidden ps-[26px] pe-[9px] leading-6 transition-all duration-200 ease-in-out',
+            isSmall && 'ps-5 pe-[6px] leading-5',
+            innerChecked && 'ps-[9px] pe-[26px]',
+            innerChecked && isSmall && 'ps-[6px] pe-5',
             `${prefixCls}-inner`,
           )}
         >
           <span
             className={clsx(
-              'pointer-events-none me-[calc(100%-24px+52px)] ms-[calc(-100%+24px-52px)] block text-white transition-all duration-200 ease-in-out',
-              isSmall && 'me-[calc(100%-20px+40px)] ms-[calc(-100%+20px-40px)]',
-              innerChecked && 'me-0 ms-0',
+              'pointer-events-none ms-[calc(-100%+24px-52px)] me-[calc(100%-24px+52px)] block text-white transition-all duration-200 ease-in-out',
+              isSmall && 'ms-[calc(-100%+20px-40px)] me-[calc(100%-20px+40px)]',
+              innerChecked && 'ms-0 me-0',
               `${prefixCls}-inner-checked`,
             )}
           >
@@ -180,10 +180,10 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           </span>
           <span
             className={clsx(
-              'pointer-events-none -mt-6 me-0 ms-0 block text-text-tertiary transition-all duration-200 ease-in-out',
+              'text-text-tertiary pointer-events-none ms-0 me-0 -mt-6 block transition-all duration-200 ease-in-out',
               isSmall && '-mt-5',
-              innerChecked && 'me-[calc(-100%+24px-52px)] ms-[calc(100%-24px+52px)]',
-              isSmall && innerChecked && 'me-[calc(-100%+20px-40px)] ms-[calc(100%-20px+40px)]',
+              innerChecked && 'ms-[calc(100%-24px+52px)] me-[calc(-100%+24px-52px)]',
+              isSmall && innerChecked && 'ms-[calc(100%-20px+40px)] me-[calc(-100%+20px-40px)]',
               `${prefixCls}-inner-unchecked`,
             )}
           >

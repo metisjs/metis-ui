@@ -377,7 +377,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   );
 
   const inputCls = clsx(
-    'inline-block h-auto w-full flex-auto appearance-none bg-transparent p-0 outline-0 placeholder:text-text-quaternary focus:outline-0 focus:ring-0 disabled:cursor-not-allowed disabled:bg-transparent disabled:text-text-tertiary',
+    'placeholder:text-text-quaternary disabled:text-text-tertiary inline-block h-auto w-full flex-auto appearance-none bg-transparent p-0 outline-0 focus:ring-0 focus:outline-0 disabled:cursor-not-allowed disabled:bg-transparent',
     className,
   );
 
@@ -414,7 +414,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
         type="suffix"
         icon={suffixIcon}
         className={clsx(
-          'transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100',
+          'transition-opacity group-hover/selector:opacity-0 last:group-hover/selector:opacity-100',
           suffixClassName,
         )}
       />

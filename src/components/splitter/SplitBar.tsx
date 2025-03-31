@@ -132,15 +132,15 @@ const SplitBar: React.FC<SplitBarProps> = (props) => {
       [`${prefixCls}-bar-dragger-disabled`]: !resizable,
       [`${prefixCls}-bar-dragger-active`]: active,
     },
-    'absolute left-1/2 top-1/2 z-[1] w-0 -translate-x-1/2 -translate-y-1/2',
-    'before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-border-tertiary before:transition-colors',
-    'after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-fill after:transition-colors',
+    'absolute top-1/2 left-1/2 z-1 w-0 -translate-x-1/2 -translate-y-1/2',
+    'before:bg-border-tertiary before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:transition-colors',
+    'after:bg-fill after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:transition-colors',
     {
       'h-1.5 w-full cursor-row-resize before:h-0.5 before:w-full after:h-0.5 after:w-6': vertical,
       'h-full w-1.5 cursor-col-resize before:h-full before:w-0.5 after:h-6 after:w-0.5': !vertical,
     },
     {
-      'z-[2] before:bg-border-secondary': active,
+      'before:bg-border-secondary z-2': active,
       'hover:before:bg-border-secondary': resizable,
       'z-0 after:hidden hover:cursor-default': !resizable,
     },
@@ -149,7 +149,7 @@ const SplitBar: React.FC<SplitBarProps> = (props) => {
 
   const collapseBarCls = clsx(
     `${prefixCls}-bar-collapse-bar`,
-    'absolute z-[1] inline-flex cursor-pointer items-center justify-center rounded-sm bg-fill-quaternary text-base text-text-secondary opacity-0 transition-all hover:bg-fill-tertiary group-hover/bar:opacity-100',
+    'bg-fill-quaternary text-text-secondary hover:bg-fill-tertiary absolute z-1 inline-flex cursor-pointer items-center justify-center rounded-xs text-base opacity-0 transition-all group-hover/bar:opacity-100',
     {
       'h-4 w-7': vertical,
       'h-7 w-4': !vertical,
@@ -159,13 +159,13 @@ const SplitBar: React.FC<SplitBarProps> = (props) => {
   );
 
   const startCollapseBarCls = clsx(`${prefixCls}-bar-collapse-bar-start`, collapseBarCls, {
-    'left-auto right-1 top-1/2 -translate-y-1/2': !vertical,
-    'bottom-1 left-1/2 top-auto -translate-x-1/2': vertical,
+    'top-1/2 right-1 left-auto -translate-y-1/2': !vertical,
+    'top-auto bottom-1 left-1/2 -translate-x-1/2': vertical,
   });
 
   const endCollapseBarCls = clsx(`${prefixCls}-bar-collapse-bar-end`, collapseBarCls, {
-    'left-1 right-auto top-1/2 -translate-y-1/2': !vertical,
-    'bottom-auto left-1/2 top-1 -translate-x-1/2': vertical,
+    'top-1/2 right-auto left-1 -translate-y-1/2': !vertical,
+    'top-1 bottom-auto left-1/2 -translate-x-1/2': vertical,
   });
 
   // ======================== Render ========================

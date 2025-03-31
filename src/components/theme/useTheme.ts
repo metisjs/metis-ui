@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { kebabCase } from 'lodash';
-import { PREFERS_COLOR_KEY } from '../../preset/colors/constants';
+import { PREFERS_COLOR_KEY } from '../../plugin/colors/constants';
 
 const THEME_KEYS = [
   'primary',
@@ -68,7 +68,7 @@ const genTheme = () => {
       const value = rootStyles.getPropertyValue(`--${kebabCase(curr)}`).trim();
       return {
         ...prev,
-        [curr]: `hsla(${value.replace(/ \/ | /g, ',')})`,
+        [curr]: value,
       };
     },
     { isDark: colorScheme === 'dark' } as Theme,

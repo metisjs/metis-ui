@@ -835,21 +835,21 @@ function InternalTable<RecordType extends AnyObject>(
       [`${prefixCls}-has-pin-left`]: hasPinLeft,
       [`${prefixCls}-has-pin-right`]: hasPinRight,
     },
-    'max-w-full bg-container text-sm text-text [&:fullscreen]:p-6',
+    'bg-container text-text max-w-full text-sm [&:fullscreen]:p-6',
     semanticCls.root,
   );
 
   const extraCls = clsx(
     `${prefixCls}-extra`,
-    'mb-4 border-b border-border-tertiary pb-4',
+    'border-border-tertiary mb-4 border-b pb-4',
     semanticCls.extra,
   );
 
   const containerCls = clsx(
     `${prefixCls}-container`,
     'relative',
-    'before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-[3] before:w-7 before:transition-shadow',
-    'after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-[3] after:w-7 after:transition-shadow',
+    'before:pointer-events-none before:absolute before:top-0 before:bottom-0 before:left-0 before:z-3 before:w-7 before:transition-shadow',
+    'after:pointer-events-none after:absolute after:top-0 after:right-0 after:bottom-0 after:z-3 after:w-7 after:transition-shadow',
     {
       'before:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
         !hasPinLeft && scrollOffset.left > 0,

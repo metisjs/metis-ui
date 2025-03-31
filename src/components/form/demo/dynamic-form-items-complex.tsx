@@ -23,7 +23,7 @@ const App: React.FC = () => {
                 key={field.key}
                 extra={
                   <XMarkOutline
-                    className="h-5 w-5 cursor-pointer text-text-secondary hover:text-primary"
+                    className="text-text-secondary hover:text-primary h-5 w-5 cursor-pointer"
                     onClick={() => {
                       remove(field.name);
                     }}
@@ -48,7 +48,7 @@ const App: React.FC = () => {
                               <Input placeholder="second" />
                             </Form.Item>
                             <XMarkOutline
-                              className="h-5 w-5 flex-shrink-0 cursor-pointer text-text-secondary hover:text-primary"
+                              className="text-text-secondary hover:text-primary h-5 w-5 shrink-0 cursor-pointer"
                               onClick={() => {
                                 subOpt.remove(subField.name);
                               }}

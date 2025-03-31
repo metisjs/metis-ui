@@ -143,10 +143,10 @@ function ConfirmContent(
   const hasTitle = title !== undefined && title !== null;
   const hasContent = content !== undefined && title !== null;
 
-  const bodyCls = clsx(`${confirmPrefixCls}-body`, 'flex items-start xs:block');
+  const bodyCls = clsx(`${confirmPrefixCls}-body`, 'xs:block flex items-start');
   const iconCls = clsx(
     `${confirmPrefixCls}-icon`,
-    'mx-0 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full xs:mx-auto xs:h-12 xs:w-12',
+    'xs:mx-auto xs:h-12 xs:w-12 mx-0 flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
     {
       'bg-error-bg text-error': type === 'confirm' || type === 'error',
       'bg-info-bg text-info': type === 'info',
@@ -156,17 +156,17 @@ function ConfirmContent(
   );
   const paragraphCls = clsx(
     `${confirmPrefixCls}-paragraph`,
-    'ml-4 mt-0 text-left xs:ml-0 xs:mt-3 xs:text-center',
+    'xs:ml-0 xs:mt-3 xs:text-center mt-0 ml-4 text-left',
   );
   const titleCls = clsx(
     `${confirmPrefixCls}-title`,
-    'text-base font-semibold leading-6 text-text',
-    !hasContent && 'leading-10 xs:leading-6',
+    'text-text text-base leading-6 font-semibold',
+    !hasContent && 'xs:leading-6 leading-10',
   );
   const contentCls = clsx(
     `${confirmPrefixCls}-content`,
-    'mt-2 text-sm text-text-secondary',
-    !hasTitle && 'mt-[0.625rem] xs:mt-0',
+    'text-text-secondary mt-2 text-sm',
+    !hasTitle && 'xs:mt-0 mt-[0.625rem]',
   );
 
   return (
@@ -209,7 +209,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = (props) => {
   const classString = mergeSemanticCls(
     {
       root: clsx(confirmPrefixCls, `${confirmPrefixCls}-${props.type}`),
-      footer: clsx('flex-row px-6 py-3 xs:flex-col-reverse xs:px-4'),
+      footer: clsx('xs:flex-col-reverse xs:px-4 flex-row px-6 py-3'),
     },
     props.className,
   );

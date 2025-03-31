@@ -39,7 +39,7 @@ const HexInput: FC<HexInputProps> = ({ prefixCls, className, value, onChange }) 
   return (
     <Input
       className={mergeSemanticCls(
-        { root: clsx(`${prefixCls}-hex-input`, 'rounded py-0.5'), input: 'text-xs' },
+        { root: clsx(`${prefixCls}-hex-input`, 'rounded-sm py-0.5'), input: 'text-xs' },
         className,
       )}
       value={hexValue}

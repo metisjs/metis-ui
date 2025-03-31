@@ -116,17 +116,17 @@ const InternalSegmentedOption: React.FC<SegmentedOptionProps> = ({
 
   const clsString = clsx(
     optionPrefixCls,
-    'relative flex cursor-pointer justify-center rounded-md text-sm text-text-secondary',
-    disabled ? 'cursor-not-allowed text-text-quaternary' : 'hover:text-text',
+    'text-text-secondary relative flex cursor-pointer justify-center rounded-md text-sm',
+    disabled ? 'text-text-quaternary cursor-not-allowed' : 'hover:text-text',
     {
-      'rounded px-2 py-0.5': size === 'mini',
+      'rounded-sm px-2 py-0.5': size === 'mini',
       'px-2.5 py-1': size === 'small',
       'px-3 py-1.5': size === 'middle',
       'px-3 py-2': size === 'large',
     },
     {
       'min-w-0 flex-1': block,
-      'bg-container text-primary shadow hover:text-primary': checked && motionEnd,
+      'bg-container text-primary hover:text-primary shadow-sm': checked && motionEnd,
     },
     semanticCls.root,
   );
@@ -210,7 +210,7 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
       {...divProps}
       className={clsx(
         prefixCls,
-        'relative inline-flex w-fit items-stretch justify-start gap-x-0.5 rounded-md bg-layout p-0.5 text-text transition-all duration-300',
+        'bg-layout text-text relative inline-flex w-fit items-stretch justify-start gap-x-0.5 rounded-md p-0.5 transition-all duration-300',
         { 'flex w-full': block },
         {
           rounded: mergedSize === 'mini',

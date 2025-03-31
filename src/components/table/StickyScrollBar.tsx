@@ -93,7 +93,7 @@ const StickyScrollBar: React.ForwardRefRenderFunction<unknown, StickyScrollBarPr
   return (
     <Scrollbar
       ref={scrollBarRef}
-      className={clsx(`${prefixCls}-sticky-scroll-bar`, 'sticky bottom-0 z-[3] h-[14px]')}
+      className={clsx(`${prefixCls}-sticky-scroll-bar`, 'sticky bottom-0 z-3 h-[14px]')}
       style={{ width: bodyWidth, bottom: offsetScroll }}
       onScroll={onScroll}
     >

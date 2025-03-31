@@ -32,7 +32,7 @@ const App: React.FC = () => {
   return (
     <>
       <Steps current={current} items={items} />
-      <div className="mt-4 rounded border border-dashed border-border bg-fill-quaternary text-center leading-[260px] text-text-tertiary">
+      <div className="border-border bg-fill-quaternary text-text-tertiary mt-4 rounded-sm border border-dashed text-center leading-[260px]">
         {steps[current].content}
       </div>
       <div style={{ marginTop: 24 }}>

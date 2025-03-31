@@ -34,8 +34,8 @@ const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) 
 
   const rootCls = clsx(
     `${prefixCls}-time-event`,
-    'absolute z-10 flex select-none items-center gap-1 rounded pl-2 pr-1 text-xs text-text',
-    'before:absolute before:bottom-1 before:left-0.5 before:top-1 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
+    'text-text absolute z-10 flex items-center gap-1 rounded-sm pr-1 pl-2 text-xs select-none',
+    'before:absolute before:top-1 before:bottom-1 before:left-0.5 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
     {
       'text-white': selected,
     },

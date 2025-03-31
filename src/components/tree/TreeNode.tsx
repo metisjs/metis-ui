@@ -255,7 +255,7 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       'bg-fill-quaternary': selected,
     },
     {
-      'relative after:pointer-events-none after:absolute after:inset-0 after:rounded after:border after:border-dashed after:border-primary':
+      'after:border-primary relative after:pointer-events-none after:absolute after:inset-0 after:rounded-sm after:border after:border-dashed':
         dragging,
     },
     mergedDisabled && 'cursor-not-allowed',
@@ -268,10 +268,10 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
       [`${prefixCls}-switcher-noop`]: mergedLeaf,
       [`${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`]: !mergedLeaf,
     },
-    'relative inline-flex w-4 flex-none cursor-pointer select-none items-center justify-center self-stretch transition-colors',
+    'relative inline-flex w-4 flex-none cursor-pointer items-center justify-center self-stretch transition-colors select-none',
     {
-      'cursor-pointer hover:bg-fill-tertiary': !mergedLeaf,
-      'rounded-es-md rounded-ss-md': !level,
+      'hover:bg-fill-tertiary cursor-pointer': !mergedLeaf,
+      'rounded-ss-md rounded-es-md': !level,
     },
     semanticCls.switcher,
   );
@@ -296,13 +296,13 @@ const TreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>((props, ref) =>
 
   const draggableIconCls = clsx(
     `${prefixCls}-draggable-icon`,
-    'inline-flex cursor-grab items-center text-base text-text-quaternary',
+    'text-text-quaternary inline-flex cursor-grab items-center text-base',
     mergedDisabled && 'hidden',
   );
 
   const dropIndicatorCls = clsx(
     `${prefixCls}-drop-indicator`,
-    'pointer-events-none absolute z-[1] h-0.5 rounded-full bg-primary',
+    'bg-primary pointer-events-none absolute z-1 h-0.5 rounded-full',
   );
 
   // ==================== Render: Drag Handler ====================

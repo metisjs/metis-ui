@@ -70,7 +70,7 @@ const App: React.FC = () => {
 
   return (
     <Menu
-      className="shadow"
+      className="shadow-sm"
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"

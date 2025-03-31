@@ -33,7 +33,7 @@ const FieldDigitRange: FieldFC<FieldDigitRangeProps> = (
     {
       root: clsx('bg-transparent shadow-none ring-0 focus-within:ring-0'),
       handler: clsx(
-        'group-has-[:focus-within]/range:bottom-[2px] group-has-[:focus-within]/range:right-[2px] group-has-[:focus-within]/range:top-[2px] group-has-[:focus-within]/range:w-[calc(1.5rem-1px)]',
+        'group-has-focus-within/range:top-[2px] group-has-focus-within/range:right-[2px] group-has-focus-within/range:bottom-[2px] group-has-focus-within/range:w-[calc(1.5rem-1px)]',
       ),
     },
     editorProps?.className,
@@ -90,11 +90,11 @@ const FieldDigitRange: FieldFC<FieldDigitRangeProps> = (
       <div
         className={clsx(
           'flex items-center gap-2',
-          'group/range rounded-md bg-container shadow-sm ring-1 ring-inset ring-border focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary',
+          'group/range bg-container ring-border focus-within:ring-primary rounded-md shadow-xs ring-1 ring-inset focus-within:ring-2 focus-within:ring-inset',
         )}
       >
         {startDom}
-        <div className={clsx('flex h-6 items-center text-lg text-text-quaternary')}>
+        <div className={clsx('text-text-quaternary flex h-6 items-center text-lg')}>
           <SeparatorIcon />
         </div>
         {endDom}

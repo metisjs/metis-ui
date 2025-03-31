@@ -102,7 +102,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
 
   const allDayRowCls = clsx(
     `${prefixCls}-time-event-row-all-day`,
-    'flex h-auto divide-x divide-border-secondary border-b-2 border-b-border-secondary leading-6 *:top-0',
+    'divide-border-secondary border-b-border-secondary flex h-auto divide-x border-b-2 leading-6 *:top-0',
     semanticCls.allDayRow,
   );
 
@@ -115,18 +115,18 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
 
   const columnCls = clsx(
     `${prefixCls}-time-grid-column`,
-    'relative h-fit w-0 flex-1 divide-y divide-border-tertiary',
+    'divide-border-tertiary relative h-fit w-0 flex-1 divide-y',
     semanticCls.eventColumn,
   );
 
   const placeholderCellCls = clsx(
     `${prefixCls}-time-event-placeholder`,
-    'relative -top-2 h-[10px] w-full pr-1 text-right text-text-tertiary empty:top-0',
+    'text-text-tertiary relative -top-2 h-[10px] w-full pr-1 text-right empty:top-0',
   );
 
   const timeCellCls = clsx(
     `${prefixCls}-time-event-time`,
-    'relative -top-2 w-12 pr-1 text-right text-text-tertiary',
+    'text-text-tertiary relative -top-2 w-12 pr-1 text-right',
     semanticCls.timeCell,
   );
 
@@ -138,13 +138,13 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
 
   const nowTagCls = clsx(
     `${prefixCls}-time-event-now-tag`,
-    'absolute right-[calc(100%-3rem+0.25rem)] z-[101] bg-primary px-1 py-0.5 text-white',
+    'bg-primary absolute right-[calc(100%-3rem+0.25rem)] z-101 px-1 py-0.5 text-white',
     semanticCls.nowTag,
   );
 
   const nowLineCls = clsx(
     `${prefixCls}-time-event-now-line`,
-    'absolute right-0 z-[100] h-0.5 w-[calc(100%-3rem+0.5rem)] bg-primary',
+    'bg-primary absolute right-0 z-100 h-0.5 w-[calc(100%-3rem+0.5rem)]',
     semanticCls.nowLine,
   );
 
@@ -179,7 +179,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
         <div className={timeCellCls}>{locale.allDay}</div>
         <Scrollbar
           autoHeight={[24, 108]}
-          className={{ root: 'w-0 flex-1', view: 'flex divide-x divide-border-secondary' }}
+          className={{ root: 'w-0 flex-1', view: 'divide-border-secondary flex divide-x' }}
         >
           {dates.map((date) => {
             const dateKey = getDateKey(date, generateConfig);
@@ -230,7 +230,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
       return (
         <div key={dateKey} className={columnCls}>
           <div className={placeholderCellCls}></div>
-          <div className="relative divide-y divide-border-tertiary">
+          <div className="divide-border-tertiary relative divide-y">
             {Array.from({ length: 24 }).map((_, index) => (
               <div key={index} className={eventCellCls} style={{ height: CELL_ONE_HOUR_HEIGHT }} />
             ))}
@@ -269,7 +269,7 @@ const TimeGrid = <DateType extends AnyObject = Dayjs>(props: TimeGridProps<DateT
   return (
     <div className={rootCls}>
       {renderAllDayRow()}
-      <Scrollbar ref={scrollbarRef} className={{ view: 'flex divide-x divide-border-secondary' }}>
+      <Scrollbar ref={scrollbarRef} className={{ view: 'divide-border-secondary flex divide-x' }}>
         {renderTimeColumn()}
         {renderEventColumns()}
         {renderBaseline()}

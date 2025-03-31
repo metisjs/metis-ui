@@ -540,13 +540,13 @@ const Upload: React.FC<UploadProps> = (props) => {
     },
     'inline-block',
     {
-      'h-28 w-28 cursor-pointer rounded-lg border border-dashed border-border-secondary bg-fill-quinary text-center align-top transition-colors':
+      'border-border-secondary bg-fill-quinary h-28 w-28 cursor-pointer rounded-lg border border-dashed text-center align-top transition-colors':
         listType === 'picture-card' || listType === 'picture-circle',
       'rounded-full': listType === 'picture-circle',
       'hover:border-primary':
         (listType === 'picture-card' || listType === 'picture-circle') && !mergedDisabled,
     },
-    mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+    mergedDisabled && 'text-text-tertiary cursor-not-allowed',
     semanticCls.selector,
   );
 
@@ -558,8 +558,8 @@ const Upload: React.FC<UploadProps> = (props) => {
         listType === 'picture-card' || listType === 'picture-circle',
     },
     type === 'drag' &&
-      'table h-full w-full rounded-lg p-4 outline-none focus-visible:outline-2 focus-visible:outline-primary',
-    mergedDisabled && 'cursor-not-allowed text-text-tertiary',
+      'focus-visible:outline-primary table h-full w-full rounded-lg p-4 outline-hidden focus-visible:outline-2',
+    mergedDisabled && 'text-text-tertiary cursor-not-allowed',
   );
 
   const dragCls = clsx(
@@ -570,7 +570,7 @@ const Upload: React.FC<UploadProps> = (props) => {
       [`${prefixCls}-drag-hover`]: dragState === 'dragover',
       [`${prefixCls}-disabled`]: mergedDisabled,
     },
-    'relative h-full w-full rounded-lg border border-dashed border-border-secondary bg-fill-quinary text-center outline-none transition-colors',
+    'border-border-secondary bg-fill-quinary relative h-full w-full rounded-lg border border-dashed text-center outline-hidden transition-colors',
     { 'border-primary': dragState === 'dragover' },
     { 'text-text-tertiary': mergedDisabled, 'hover:border-primary': !mergedDisabled },
     semanticCls.drag,

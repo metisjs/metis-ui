@@ -108,7 +108,7 @@ const Step: React.FC<StepProps> = (props) => {
     },
     !vertical &&
       !isNav && {
-        'whitespace-nowrap ps-4 first-of-type:ps-0': true,
+        'ps-4 whitespace-nowrap first-of-type:ps-0': true,
         'ps-3': size === 'small',
       },
     isNav && 'flex',
@@ -127,28 +127,28 @@ const Step: React.FC<StepProps> = (props) => {
       'py-2': description && size === 'small',
     },
     isInline &&
-      'mx-[0.125rem] cursor-pointer flex-col gap-1 rounded px-1 pb-1 pt-2 transition-colors group-hover:bg-fill-quaternary',
+      'group-hover:bg-fill-quaternary mx-[0.125rem] cursor-pointer flex-col gap-1 rounded-sm px-1 pt-2 pb-1 transition-colors',
   );
 
   const tailCls = clsx(
     `${prefixCls}-item-tail`,
     'absolute hidden',
     vertical &&
-      'left-[1.125rem] top-0 block h-full w-[1px] pb-2 pt-11 after:inline-block after:h-full after:w-[1px] after:bg-fill-secondary after:transition-colors group-last-of-type:hidden',
+      'after:bg-fill-secondary top-0 left-[1.125rem] block h-full w-[1px] pt-11 pb-2 group-last-of-type:hidden after:inline-block after:h-full after:w-[1px] after:transition-colors',
     vertical && status === 'finish' && 'after:bg-primary',
-    size === 'small' && 'left-[1rem] pb-[0.375rem] pt-[2.375rem]',
+    size === 'small' && 'left-[1rem] pt-[2.375rem] pb-[0.375rem]',
     isInline &&
-      'left-0 top-[0.40625rem] ms-0 inline-block w-full -translate-y-1/2 after:inline-block after:h-[1px] after:w-full after:bg-border-secondary group-first:ms-[50%] group-first:w-1/2 group-last:w-1/2',
+      'after:bg-border-secondary top-[0.40625rem] left-0 ms-0 inline-block w-full -translate-y-1/2 group-first:ms-[50%] group-first:w-1/2 group-last:w-1/2 after:inline-block after:h-[1px] after:w-full',
   );
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
     'relative flex h-9 w-9 items-center justify-center rounded-full text-sm transition-colors',
     {
-      'border-2 border-primary': status === 'process',
+      'border-primary border-2': status === 'process',
       'bg-primary text-white': status === 'finish',
-      'border-2 border-border-secondary': status === 'wait',
-      'border-2 border-error': status === 'error',
+      'border-border-secondary border-2': status === 'wait',
+      'border-error border-2': status === 'error',
     },
     clickable && {
       'group-hover:bg-primary-hover': status === 'finish',
@@ -157,7 +157,7 @@ const Step: React.FC<StepProps> = (props) => {
     size === 'small' && 'h-8 w-8',
     isSimple && {
       'h-[0.625rem] w-[0.625rem] border-0': true,
-      'bg-primary ring-4 ring-primary-bg-hover': status === 'process',
+      'bg-primary ring-primary-bg-hover ring-4': status === 'process',
       'bg-border-secondary': status === 'wait',
       'bg-error': status === 'error',
       'group-hover:bg-text-tertiary': clickable && status === 'wait',
@@ -186,7 +186,7 @@ const Step: React.FC<StepProps> = (props) => {
     !vertical &&
       !isNav &&
       !isInline &&
-      'after:absolute after:start-full after:top-3 after:h-[1px] after:w-screen after:bg-fill-secondary group-last-of-type:after:h-0',
+      'after:bg-fill-secondary after:absolute after:start-full after:top-3 after:h-[1px] after:w-screen group-last-of-type:after:h-0',
     {
       'text-text after:bg-primary': status === 'finish',
     },
@@ -194,12 +194,12 @@ const Step: React.FC<StepProps> = (props) => {
       'group-hover:text-text': status === 'wait',
     },
     size === 'small' && 'pe-3 text-sm leading-5',
-    isInline && 'pe-0 text-xs text-text-tertiary',
+    isInline && 'text-text-tertiary pe-0 text-xs',
     semanticCls.title,
   );
   const descriptionCls = clsx(
     `${prefixCls}-item-description`,
-    'truncate text-sm text-text-tertiary',
+    'text-text-tertiary truncate text-sm',
     {
       'text-error': status === 'error',
       ['hidden']: isInline,
@@ -265,7 +265,7 @@ const Step: React.FC<StepProps> = (props) => {
       {isNav && (
         <NavSplit
           className={clsx(
-            'h-[4.25rem] text-border-secondary group-last-of-type:hidden',
+            'text-border-secondary h-[4.25rem] group-last-of-type:hidden',
             size === 'small' && 'h-14',
           )}
         />

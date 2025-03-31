@@ -94,7 +94,7 @@ const App: React.FC = () => (
         <Form.Item validateStatus="error" help="Please select right date" className="flex-auto">
           <DatePicker className="w-full" />
         </Form.Item>
-        <span className="inline-flex h-9 w-6 flex-shrink-0 items-center justify-center">-</span>
+        <span className="inline-flex h-9 w-6 shrink-0 items-center justify-center">-</span>
         <Form.Item className="flex-auto">
           <DatePicker className="w-full" />
         </Form.Item>

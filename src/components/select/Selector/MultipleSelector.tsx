@@ -107,9 +107,9 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${selectionPrefixCls}-item`,
-          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-fill-tertiary pe-2 ps-2 leading-7',
+          'bg-fill-tertiary relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default rounded-sm ps-2 pe-2 leading-7 select-none',
           {
-            'cursor-not-allowed bg-fill-tertiary': disabled,
+            'bg-fill-tertiary cursor-not-allowed': disabled,
             [`${selectionPrefixCls}-item-disabled cursor-not-allowed`]: itemDisabled,
           },
           semanticCls.item,
@@ -128,7 +128,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
           <TransBtn
             className={clsx(
               `${selectionPrefixCls}-item-remove`,
-              'inline-flex cursor-pointer items-center font-bold text-text-secondary hover:text-text',
+              'text-text-secondary hover:text-text inline-flex cursor-pointer items-center font-bold',
             )}
             onMouseDown={onPreventMouseDown}
             onClick={onClose}
@@ -253,7 +253,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
         ref={measureRef}
         className={clsx(
           `${selectionPrefixCls}-search-mirror`,
-          'invisible absolute end-auto start-0 top-0 z-[999] h-8 whitespace-pre',
+          'invisible absolute start-0 end-auto top-0 z-999 h-8 whitespace-pre',
         )}
         aria-hidden
       >
@@ -284,7 +284,7 @@ const SelectSelector: React.FC<SelectorProps> = (props) => {
       {!values.length && !inputValue && (
         <span
           className={clsx(
-            `${selectionPrefixCls}-placeholder pointer-events-none absolute end-3 start-3 top-1/2 -translate-y-1/2 truncate text-text-quaternary`,
+            `${selectionPrefixCls}-placeholder text-text-quaternary pointer-events-none absolute start-3 end-3 top-1/2 -translate-y-1/2 truncate`,
             semanticCls.placeholder,
           )}
         >

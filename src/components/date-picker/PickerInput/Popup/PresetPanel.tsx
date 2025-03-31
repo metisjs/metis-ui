@@ -32,7 +32,7 @@ export default function PresetPanel<DateType extends object = any>(
     <ul
       className={clsx(
         `${prefixCls}-presets`,
-        'flex max-w-48 flex-1 flex-col gap-1 border-e border-border-secondary p-2',
+        'border-border-secondary flex max-w-48 flex-1 flex-col gap-1 border-e p-2',
         semanticCls.root,
       )}
     >
@@ -40,7 +40,7 @@ export default function PresetPanel<DateType extends object = any>(
         <li
           key={index}
           className={clsx(
-            'cursor-pointer truncate rounded px-2 py-1 transition-all hover:bg-fill-quaternary',
+            'hover:bg-fill-quaternary cursor-pointer truncate rounded-sm px-2 py-1 transition-all',
             semanticCls.item,
           )}
           onClick={() => {

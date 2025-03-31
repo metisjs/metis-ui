@@ -38,10 +38,10 @@ export const useCompactItemContext = (prefixCls: string) => {
         },
       ),
       clsx(
-        'focus-within:z-[2] focus:z-[2]',
+        'focus-within:z-2 focus:z-2',
         !vertical && {
           'rounded-e-none rounded-r-none': isFirstItem && !isLastItem,
-          'rounded-l-none rounded-s-none': isLastItem && !isFirstItem,
+          'rounded-s-none rounded-l-none': isLastItem && !isFirstItem,
           'rounded-none': !isFirstItem && !isLastItem,
         },
         vertical && [

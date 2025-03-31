@@ -44,7 +44,7 @@ const InternalMenuItemGroup = ({
         role="presentation"
         className={clsx(
           `${groupPrefixCls}-label`,
-          'py-1.5 pe-4 ps-9 [.submenu-popup_&]:pe-3 [.submenu-popup_&]:ps-3',
+          'py-1.5 ps-9 pe-4 in-[.submenu-popup]:ps-3 in-[.submenu-popup]:pe-3',
           {
             'text-text-tertiary': theme === 'light',
             'text-white/[0.65]': theme === 'dark',

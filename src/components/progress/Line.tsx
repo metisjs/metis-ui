@@ -59,8 +59,8 @@ export const sortGradient = (gradients: StringGradients) => {
  */
 export const handleGradient = (strokeColor: ProgressGradient): React.CSSProperties => {
   const {
-    from = 'hsla(var(--primary))',
-    to = 'hsla(var(--primary))',
+    from = 'var(--primary)',
+    to = 'var(--primary)',
     direction = 'to right',
     ...rest
   } = strokeColor;
@@ -138,15 +138,15 @@ const Line: React.FC<LineProps> = (props) => {
   const outerCls = clsx(`${prefixCls}-outer`, 'inline-flex w-full items-center');
   const innerCls = clsx(
     `${prefixCls}-inner`,
-    'relative inline-block w-full flex-1 overflow-hidden rounded-full bg-fill-quaternary align-middle',
+    'bg-fill-quaternary relative inline-block w-full flex-1 overflow-hidden rounded-full align-middle',
     semanticCls.trail,
   );
   const innerBgCls = clsx(
     `${prefixCls}-bg`,
     `${prefixCls}-bg-${infoPosition}`,
-    'relative overflow-hidden rounded-full bg-primary transition-all duration-300',
+    'bg-primary relative overflow-hidden rounded-full transition-all duration-300',
     {
-      'before:absolute before:inset-0 before:animate-[2.4s_ease-in-out_infinite_progress-active] before:rounded-full before:bg-container before:opacity-0':
+      'before:bg-container before:absolute before:inset-0 before:animate-[2.4s_ease-in-out_infinite_progress-active] before:rounded-full before:opacity-0':
         status === 'active',
       'bg-success': status === 'success',
       'bg-error': status === 'exception',
@@ -165,7 +165,7 @@ const Line: React.FC<LineProps> = (props) => {
         <div
           className={clsx(
             `${prefixCls}-success-bg`,
-            'absolute left-0 top-0 overflow-hidden rounded-full bg-success transition-all duration-300',
+            'bg-success absolute top-0 left-0 overflow-hidden rounded-full transition-all duration-300',
           )}
           style={successPercentStyle}
         />

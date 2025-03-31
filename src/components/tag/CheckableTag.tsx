@@ -40,9 +40,9 @@ const CheckableTag: React.FC<CheckableTagProps> = (props) => {
   const cls = clsx(
     prefixCls,
     `${prefixCls}-checkable`,
-    'relative me-2 inline-block h-auto cursor-pointer whitespace-nowrap rounded bg-transparent px-2 py-1 text-xs transition-colors',
+    'relative me-2 inline-block h-auto cursor-pointer rounded-sm bg-transparent px-2 py-1 text-xs whitespace-nowrap transition-colors',
     {
-      [`${prefixCls}-checkable-checked bg-primary text-white hover:bg-primary-hover`]: checked,
+      [`${prefixCls}-checkable-checked bg-primary hover:bg-primary-hover text-white`]: checked,
       'hover:bg-fill-secondary hover:text-primary': !checked,
     },
     semanticCls.root,

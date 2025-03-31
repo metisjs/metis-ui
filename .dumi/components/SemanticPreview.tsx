@@ -43,11 +43,11 @@ const ArgsPopover = ({ args, children }: { args?: SemanticArg[]; children: React
   args && args.length ? (
     <Popover
       content={
-        <ul className="divide-y divide-border-secondary">
+        <ul className="divide-border-secondary divide-y">
           {args.map(({ name, type, version }) => (
             <li key={name} className="flex items-center py-2">
               <span>{name}</span>
-              <span className="ml-1 text-text-tertiary">: {type}</span>
+              <span className="text-text-tertiary ml-1">: {type}</span>
               {version && (
                 <Tag color="processing" className="ml-4">
                   {version}
@@ -77,7 +77,7 @@ const ClassNameItem = ({
 }: ClassNameItemProps) => (
   <>
     <li
-      className="flex h-14 items-center px-3 hover:bg-fill-quaternary"
+      className="hover:bg-fill-quaternary flex h-14 items-center px-3"
       style={{ paddingLeft: indent * 16 + 12 }}
       onMouseEnter={() => onHover(path)}
       onMouseLeave={() => onHover(null)}
@@ -86,17 +86,17 @@ const ClassNameItem = ({
         <div>
           {link && (
             <Link to={link}>
-              <span className="text-base text-text hover:text-primary">{name}</span>
+              <span className="text-text hover:text-primary text-base">{name}</span>
             </Link>
           )}
-          {!link && <span className="text-base text-text">{name}</span>}
+          {!link && <span className="text-text text-base">{name}</span>}
           {version && (
             <Tag color="processing" className="ml-2">
               {version}
             </Tag>
           )}
         </div>
-        {desc && <div className="text-xs text-text-tertiary">{desc}</div>}
+        {desc && <div className="text-text-tertiary text-xs">{desc}</div>}
       </div>
 
       <Space className="ml-auto">
@@ -247,9 +247,9 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
 
   // ======================== Render ========================
   return (
-    <div className="relative rounded" ref={containerRef}>
-      <div className="flex divide-x divide-border-secondary" style={{ minHeight: height }}>
-        <div className="flex w-0 flex-1 flex-col divide-y divide-border-secondary">
+    <div className="relative rounded-sm" ref={containerRef}>
+      <div className="divide-border-secondary flex divide-x" style={{ minHeight: height }}>
+        <div className="divide-border-secondary flex w-0 flex-1 flex-col divide-y">
           {extra && <div className="flex h-[62px] items-center px-5">{extra}</div>}
           <div
             ref={ref}
@@ -262,8 +262,8 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
             {mergedChildren}
           </div>
         </div>
-        <div className="flex-shrink-0 basis-72">
-          <ul className="divide-y divide-border-secondary">
+        <div className="shrink-0 basis-72">
+          <ul className="divide-border-secondary divide-y">
             {
               <li className="bg-fill-quinary px-3 py-2">
                 <div className="flex items-center">
@@ -274,7 +274,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
                     </Tag>
                   </ArgsPopover>
                 </div>
-                <div className="mt-0.5 text-text-tertiary">
+                <div className="text-text-tertiary mt-0.5">
                   usage: (&#123; arg1 &#125;) =&gt; clsx(arg1 && '...')
                 </div>
               </li>
@@ -294,7 +294,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
         <div
           key={i}
           className={clsx(
-            'pointer-events-none absolute z-[99999999] border-warning ring-1 ring-transparent',
+            'border-warning pointer-events-none absolute z-99999999 ring-1 ring-transparent',
             hoverSemantic ? 'opacity-100' : 'opacity-0',
             positionTransition ? 'transition-all duration-300' : 'transition-opacity duration-300',
           )}

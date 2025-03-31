@@ -93,7 +93,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
   );
 
   const indicatorCls = clsx(
-    'block h-4 w-4 cursor-pointer rounded-full border border-border text-white',
+    'border-border block h-4 w-4 cursor-pointer rounded-full border text-white',
     {
       'border-primary bg-primary': mergedChecked,
       'border-border bg-fill-quaternary text-text-tertiary': mergedDisabled,
@@ -113,7 +113,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
       <span className={`${prefixCls} relative`}>
         <input
           name={radioGroup ? radioGroup.name : name}
-          className={'peer/radio absolute inset-0 z-[1] cursor-pointer opacity-0'}
+          className={'peer/radio absolute inset-0 z-1 cursor-pointer opacity-0'}
           ref={inputRef}
           onChange={handleChange}
           disabled={mergedDisabled}
@@ -126,7 +126,7 @@ const InternalRadio: React.ForwardRefRenderFunction<RadioRef, RadioProps> = (pro
         </span>
       </span>
       {children !== undefined && (
-        <span className={clsx('pe-2 ps-2', semanticCls.label)}>{children}</span>
+        <span className={clsx('ps-2 pe-2', semanticCls.label)}>{children}</span>
       )}
     </label>
   );

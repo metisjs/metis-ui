@@ -52,10 +52,10 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
       [`${groupPrefixCls}-${shape}-shadow`]: !isMenuMode,
       [`${groupPrefixCls}-${placement}`]: isMenuMode && isValidPlacement, // 只有菜单模式才支持弹出方向
     },
-    'fixed bottom-12 end-6 z-[1000] flex h-auto min-h-10 min-w-10 flex-col items-center justify-center',
+    'fixed end-6 bottom-12 z-1000 flex h-auto min-h-10 min-w-10 flex-col items-center justify-center',
     !isMenuMode && {
       'gap-4 rounded-full': shape === 'circle',
-      'divide-y divide-border-tertiary rounded-md shadow-xl outline outline-1 outline-border-tertiary first:*:rounded-t-md last:*:rounded-b-md':
+      'divide-border-tertiary outline-border-tertiary divide-y rounded-md shadow-xl outline outline-1 *:first:rounded-t-md *:last:rounded-b-md':
         shape === 'square',
     },
     semanticCls.root,
@@ -72,7 +72,7 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
     },
     {
       'gap-4 rounded-full': shape === 'circle',
-      'divide-border-tertiary rounded-md shadow-xl outline outline-1 outline-border-tertiary first:*:rounded-t-md last:*:rounded-b-md':
+      'divide-border-tertiary outline-border-tertiary rounded-md shadow-xl outline outline-1 *:first:rounded-t-md *:last:rounded-b-md':
         shape === 'square',
     },
     shape === 'square' && {

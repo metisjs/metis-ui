@@ -40,7 +40,7 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
     {
       [`${prefixCls}-color-${color}`]: colorInPreset,
     },
-    'absolute top-2 whitespace-nowrap rounded bg-primary px-2 text-sm leading-[1.375rem] text-white',
+    'bg-primary absolute top-2 rounded-sm px-2 text-sm leading-[1.375rem] whitespace-nowrap text-white',
     {
       '-start-2 rounded-bl-none': placement === 'start',
       '-end-2 rounded-br-none': placement === 'end',
@@ -50,10 +50,10 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
   );
   const cornerCls = clsx(
     `${prefixCls}-corner`,
-    'absolute top-full h-2 w-2 origin-top scale-y-75 border-4 border-solid border-current text-primary brightness-75',
+    'text-primary absolute top-full h-2 w-2 origin-top scale-y-75 border-4 border-solid border-current brightness-75',
     {
       'start-0 border-b-transparent border-l-transparent': placement === 'start',
-      'end-0 border-b-transparent border-r-transparent': placement === 'end',
+      'end-0 border-r-transparent border-b-transparent': placement === 'end',
     },
     colorInPreset && getPresetColorCls(color, { text: true }),
   );

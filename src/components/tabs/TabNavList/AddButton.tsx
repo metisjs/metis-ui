@@ -24,22 +24,22 @@ const AddButton = React.forwardRef<HTMLButtonElement, AddButtonProps>((props, re
 
   const rootCls = clsx(
     `${prefixCls}-nav-add`,
-    'relative inline-flex items-center justify-center text-xl text-text-tertiary transition-colors hover:text-text-secondary',
+    'text-text-tertiary hover:text-text-secondary relative inline-flex items-center justify-center text-xl transition-colors',
     {
       'text-lg': size === 'middle' || size === 'small',
     },
     type === 'card' && [
-      'h-9 w-9 rounded-full text-xl hover:bg-fill-tertiary',
+      'hover:bg-fill-tertiary h-9 w-9 rounded-full text-xl',
       {
         'h-8 w-8': size === 'middle',
         'h-7 w-7': size === 'small',
       },
     ],
     type === 'pills' && [
-      'w-9 rounded-md hover:bg-fill-quinary',
+      'hover:bg-fill-quinary w-9 rounded-md',
       {
         'w-8': size === 'middle',
-        'w-7 rounded': size === 'small',
+        'w-7 rounded-sm': size === 'small',
       },
     ],
     className,

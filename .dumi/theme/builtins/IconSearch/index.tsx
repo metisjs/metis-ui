@@ -37,7 +37,7 @@ export default function IconSearch() {
                   onChange={(e) => setQuery(e.target.value)}
                   aria-label="在此搜索图标，点击图标可复制代码"
                   placeholder="在此搜索图标，点击图标可复制代码"
-                  className="block w-full appearance-none rounded-lg border-0 bg-transparent py-4 pl-9 pr-4 text-base text-slate-900 transition placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-[#c6c9cd] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none"
+                  className="block w-full appearance-none rounded-lg border-0 bg-transparent py-4 pr-4 pl-9 text-base text-slate-900 transition placeholder:text-slate-400 focus:ring-0 focus:outline-hidden dark:text-[#c6c9cd] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none"
                 />
                 <svg
                   viewBox="0 0 20 20"

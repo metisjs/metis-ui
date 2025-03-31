@@ -250,7 +250,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
           {
             active: filtered,
           },
-          'relative -me-1 ms-1 flex items-center rounded-sm px-1 text-text-tertiary hover:bg-fill-quaternary hover:text-text-secondary',
+          'text-text-tertiary hover:bg-fill-quaternary hover:text-text-secondary relative ms-1 -me-1 flex items-center rounded-xs px-1',
           {
             'text-text-secondary': mergedOpen,
             'text-primary hover:text-primary': filtered,

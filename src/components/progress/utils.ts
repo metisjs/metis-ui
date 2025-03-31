@@ -26,17 +26,17 @@ export const getStrokeColor = ({
   let statusStrokeColor;
   switch (status) {
     case 'success':
-      statusStrokeColor = 'hsla(var(--success))';
+      statusStrokeColor = 'var(--success)';
       break;
     case 'exception':
-      statusStrokeColor = 'hsla(var(--error))';
+      statusStrokeColor = 'var(--error)';
       break;
 
     default:
-      statusStrokeColor = 'hsla(var(--primary))';
+      statusStrokeColor = 'var(--primary)';
       break;
   }
-  return [successColor || 'hsla(var(--success))', strokeColor || statusStrokeColor];
+  return [successColor || 'var(--success)', strokeColor || statusStrokeColor];
 };
 
 export const getSize = (

@@ -59,13 +59,13 @@ export const Meta: FC<ListItemMetaProps> = ({
 
   const titleCls = clsx(
     `${prefixCls}-item-meta-title`,
-    'truncate font-semibold leading-6 [&_a]:text-text [&_a]:transition-colors [&_a]:hover:text-primary',
+    '[&_a]:text-text hover:[&_a]:text-primary truncate leading-6 font-semibold [&_a]:transition-colors',
     semanticCls.title,
   );
 
   const descriptionCls = clsx(
     `${prefixCls}-item-meta-description truncate`,
-    'mt-1 text-text-tertiary',
+    'text-text-tertiary mt-1',
     semanticCls.description,
   );
 
@@ -131,7 +131,7 @@ const InternalItem = React.memo(
 
     const actionSplitCls = clsx(
       `${prefixCls}-item-action-split`,
-      'absolute -end-2 top-1/2 h-3 w-px -translate-y-1/2 bg-border-secondary',
+      'bg-border-secondary absolute -end-2 top-1/2 h-3 w-px -translate-y-1/2',
     );
 
     const actionsContent = actions && actions.length > 0 && (

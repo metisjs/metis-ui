@@ -423,17 +423,17 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       'order-2 ml-4': tabPosition === 'right',
     },
     type === 'line' && [
-      'before:absolute before:border-border-secondary',
+      'before:border-border-secondary before:absolute',
       {
-        'before:bottom-0 before:left-0 before:right-0 before:border-b': tabPosition === 'top',
-        'before:left-0 before:right-0 before:top-0 before:border-t': tabPosition === 'bottom',
-        'before:bottom-0 before:right-0 before:top-0 before:border-r': tabPosition === 'left',
-        'before:bottom-0 before:left-0 before:top-0 before:border-l': tabPosition === 'right',
+        'before:right-0 before:bottom-0 before:left-0 before:border-b': tabPosition === 'top',
+        'before:top-0 before:right-0 before:left-0 before:border-t': tabPosition === 'bottom',
+        'before:top-0 before:right-0 before:bottom-0 before:border-r': tabPosition === 'left',
+        'before:top-0 before:bottom-0 before:left-0 before:border-l': tabPosition === 'right',
       },
     ],
     type === 'card' && [
-      'm-0 bg-fill-quaternary py-1.5',
-      'before:pointer-events-none before:absolute before:left-0 before:right-0 before:z-[1] before:h-1.5 before:bg-container',
+      'bg-fill-quaternary m-0 py-1.5',
+      'before:bg-container before:pointer-events-none before:absolute before:right-0 before:left-0 before:z-1 before:h-1.5',
       {
         'before:bottom-0': tabPosition === 'top',
         'before:top-0': tabPosition === 'bottom',
@@ -470,19 +470,19 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       'justify-center': centered,
     },
     /* *********** Scroll shadow start *********** */
-    'before:pointer-events-none before:absolute before:z-[1] before:opacity-0 before:transition-opacity before:duration-300',
+    'before:pointer-events-none before:absolute before:z-1 before:opacity-0 before:transition-opacity before:duration-300',
     {
-      'before:bottom-0 before:left-0 before:top-0 before:w-8 before:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
+      'before:top-0 before:bottom-0 before:left-0 before:w-8 before:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
         horizontal,
-      'before:left-0 before:right-0 before:top-0 before:h-8 before:shadow-[inset_0_10px_8px_-8px_rgba(0,_0,_0,_0.08)]':
+      'before:top-0 before:right-0 before:left-0 before:h-8 before:shadow-[inset_0_10px_8px_-8px_rgba(0,_0,_0,_0.08)]':
         !horizontal,
       'before:opacity-100': pingLeft || pingTop,
     },
-    'after:pointer-events-none after:absolute after:z-[1] after:opacity-0 after:transition-opacity after:duration-300',
+    'after:pointer-events-none after:absolute after:z-1 after:opacity-0 after:transition-opacity after:duration-300',
     {
-      'after:bottom-0 after:right-0 after:top-0 after:w-8 after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
+      'after:top-0 after:right-0 after:bottom-0 after:w-8 after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)]':
         horizontal,
-      'after:bottom-0 after:left-0 after:right-0 after:h-8 after:shadow-[inset_0px_-10px_8px_-8px_rgba(0,_0,_0,_0.08)]':
+      'after:right-0 after:bottom-0 after:left-0 after:h-8 after:shadow-[inset_0px_-10px_8px_-8px_rgba(0,_0,_0,_0.08)]':
         !horizontal,
       'after:opacity-100': pingRight || pingBottom,
     },
@@ -492,7 +492,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const tabListCls = clsx(
     `${prefixCls}-nav-list`,
     'relative flex transition-opacity duration-300',
-    !horizontal && 'flex-shrink-0 flex-grow basis-auto flex-col',
+    !horizontal && 'shrink-0 grow basis-auto flex-col',
   );
 
   const indicatorCls = clsx(
@@ -500,7 +500,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     {
       [`${prefixCls}-indicator-animated`]: animated.indicator,
     },
-    'pointer-events-none absolute z-[1] bg-primary duration-300',
+    'bg-primary pointer-events-none absolute z-1 duration-300',
     {
       'bottom-0 h-0.5 transition-[width,left,right]': tabPosition === 'top',
       'top-0 h-0.5 transition-[width,left,right]': tabPosition === 'bottom',
@@ -523,7 +523,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       },
     ],
     type === 'card' &&
-      'before:absolute before:-start-1 before:h-3/5 before:w-0.5 before:bg-fill-secondary before:opacity-75 before:transition-opacity',
+      'before:bg-fill-secondary before:absolute before:-start-1 before:h-3/5 before:w-0.5 before:opacity-75 before:transition-opacity',
     type === 'pills' && [
       'ml-4 first:ml-0',
       {
@@ -531,7 +531,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         'ml-3': size === 'small',
       },
     ],
-    hasDropdown && 'invisible ml-0 mt-0',
+    hasDropdown && 'invisible mt-0 ml-0',
     semanticCls.addBtn,
   );
 

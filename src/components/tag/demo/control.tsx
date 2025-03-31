@@ -64,7 +64,7 @@ const App: React.FC = () => {
                 ref={editInputRef}
                 key={tag}
                 size="small"
-                className={{ input: 'rounded text-xs shadow-sm' }}
+                className={{ input: 'rounded-sm text-xs shadow-xs' }}
                 style={tagInputStyle}
                 value={editInputValue}
                 onChange={setEditInputValue}
@@ -107,7 +107,7 @@ const App: React.FC = () => {
             ref={inputRef}
             type="text"
             size="small"
-            className={{ input: 'rounded text-xs shadow-sm' }}
+            className={{ input: 'rounded-sm text-xs shadow-xs' }}
             style={tagInputStyle}
             value={inputValue}
             onChange={setInputValue}
@@ -115,7 +115,7 @@ const App: React.FC = () => {
             onPressEnter={handleInputConfirm}
           />
         ) : (
-          <Tag className="cursor-pointer bg-container outline-dashed" onClick={showInput}>
+          <Tag className="bg-container cursor-pointer outline-dashed" onClick={showInput}>
             <PlusOutline /> New Tag
           </Tag>
         )}

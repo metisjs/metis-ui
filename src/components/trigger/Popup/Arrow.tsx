@@ -57,10 +57,7 @@ export default function Arrow(props: ArrowProps) {
   return (
     <div
       ref={arrowRef}
-      className={clsx(
-        `${prefixCls}-arrow before:[clipPath:path('M_0_8_A_4_4_0_0_0_2.82842712474619_6.82842712474619_L_6.585786437626905_3.0710678118654755_A_2_2_0_0_1_9.414213562373096_3.0710678118654755_L_13.17157287525381_6.82842712474619_A_4_4_0_0_0_16_8_Z')]`,
-        className,
-      )}
+      className={clsx(`${prefixCls}-arrow popup-arrow`, className)}
       style={alignStyle}
     >
       {content}

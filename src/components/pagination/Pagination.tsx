@@ -117,7 +117,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     <span
       className={clsx(
         `${prefixCls}-item-ellipsis`,
-        'absolute text-text-quaternary transition-opacity',
+        'text-text-quaternary absolute transition-opacity',
         !disabled && 'group-hover/jump:opacity-0',
       )}
     >
@@ -130,7 +130,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     <>
       <ChevronDoubleLeftOutline
         className={clsx(
-          'h-4 w-4 text-primary opacity-0 transition-opacity',
+          'text-primary h-4 w-4 opacity-0 transition-opacity',
           !disabled && 'group-hover/jump:opacity-100',
         )}
       />
@@ -141,7 +141,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     <>
       <ChevronDoubleRightOutline
         className={clsx(
-          'h-4 w-4 text-primary opacity-0 transition-opacity',
+          'text-primary h-4 w-4 opacity-0 transition-opacity',
           !disabled && 'group-hover/jump:opacity-100',
         )}
       />
@@ -401,7 +401,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         className={clsx(
           `${prefixCls}-jump-prev`,
           'group/jump flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
-          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded-sm': size === 'mini' },
           {
             'cursor-not-allowed': disabled,
           },
@@ -421,7 +421,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         className={clsx(
           `${prefixCls}-jump-next`,
           'group/jump flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
-          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded-sm': size === 'mini' },
           {
             'cursor-not-allowed': disabled,
           },
@@ -481,10 +481,10 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           },
           'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
           {
-            'cursor-not-allowed text-text-quaternary': prevDisabled || disabled,
+            'text-text-quaternary cursor-not-allowed': prevDisabled || disabled,
             'hover:bg-fill-tertiary': !prevDisabled && !disabled,
           },
-          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded-sm': size === 'mini' },
           semanticCls.prev,
         )}
         aria-disabled={prevDisabled}
@@ -519,10 +519,10 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           },
           'flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-md',
           {
-            'cursor-not-allowed text-text-quaternary': nextDisabled || disabled,
+            'text-text-quaternary cursor-not-allowed': nextDisabled || disabled,
             'hover:bg-fill-tertiary': !nextDisabled && !disabled,
           },
-          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded': size === 'mini' },
+          { 'h-8 min-w-8': size === 'small', 'h-7 min-w-7 rounded-sm': size === 'mini' },
           semanticCls.next,
         )}
         aria-disabled={nextDisabled}
@@ -539,7 +539,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       [`${prefixCls}-simple`]: simple,
       [`${prefixCls}-disabled`]: disabled,
     },
-    'inline-flex items-center gap-1 text-sm text-text',
+    'text-text inline-flex items-center gap-1 text-sm',
     semanticCls.root,
   );
 

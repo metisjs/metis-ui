@@ -110,7 +110,7 @@ const FixedHolder = React.forwardRef<HTMLDivElement, FixedHolderProps<AnyObject>
       }}
       ref={composeRef}
       className={clsx(
-        'sticky z-[3] overflow-hidden',
+        'sticky z-3 overflow-hidden',
         {
           [stickyClassName!]: !!stickyClassName,
         },

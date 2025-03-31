@@ -531,7 +531,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
       return;
     }
 
-    if (info.source !== 'blur') {
+    if (info.source !== 'blur-sm') {
       if (mergedMode === 'combobox') {
         triggerChange(searchText);
       }

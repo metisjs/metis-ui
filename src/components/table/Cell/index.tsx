@@ -214,66 +214,65 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
       [`${cellPrefixCls}-fix-sticky`]: (isFixLeft || isFixRight) && isSticky,
       [`${cellPrefixCls}-row-hover`]: hovering,
     },
-    'relative border-b border-b-border-secondary bg-container px-3 py-4 transition-colors',
+    'border-b-border-secondary bg-container relative border-b px-3 py-4 transition-colors',
     {
       'px-2 py-3': size === 'middle',
       'px-2 py-2': size === 'small',
     },
     {
-      'sticky bg-[color-mix(in_oklab,hsla(var(--container))_75%,_transparent)] backdrop-blur':
-        isSticky || isFixLeft || isFixRight,
+      'bg-container/75 sticky backdrop-blur-sm': isSticky || isFixLeft || isFixRight,
       'border-b-0': atBottom,
       ['truncate']: ellipsis,
-      'after:pointer-events-none after:absolute after:-bottom-px after:right-0 after:top-0 after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
+      'after:pointer-events-none after:absolute after:top-0 after:right-0 after:-bottom-px after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
         lastPinLeft,
-      'after:pointer-events-none after:absolute after:-bottom-px after:left-0 after:top-0 after:w-7 after:-translate-x-full after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
+      'after:pointer-events-none after:absolute after:top-0 after:-bottom-px after:left-0 after:w-7 after:-translate-x-full after:shadow-[inset_-10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
         firstPinRight,
-      'after:border-r after:border-r-border-secondary': firstPinRight && verticalLine,
+      'after:border-r-border-secondary after:border-r': firstPinRight && verticalLine,
       'after:bottom-0': atBottom && (firstPinRight || lastPinLeft),
       'after:hidden': lastPinLeft && allColumnsFixedLeft,
     },
     /** >>> Z-Index */
     {
-      'z-[1]': isFixRight,
-      'z-[2]': isFixLeft,
-      'z-[3]': isSticky,
-      'z-[4]': isSticky && isFixLeft,
+      'z-1': isFixRight,
+      'z-2': isFixLeft,
+      'z-3': isSticky,
+      'z-4': isSticky && isFixLeft,
     },
     rowType === 'header' && [
-      'border-b border-b-border py-3.5 text-start font-semibold',
+      'border-b-border border-b py-3.5 text-start font-semibold',
       {
         'py-2.5': size === 'middle',
         'py-1.5': size === 'small',
       },
       {
         'border-b-0 text-center': mergedColSpan > 1,
-        'before:absolute before:end-0 before:top-1/2 before:h-5 before:w-px before:-translate-y-1/2 before:bg-border-tertiary last:before:hidden':
+        'before:bg-border-tertiary before:absolute before:end-0 before:top-1/2 before:h-5 before:w-px before:-translate-y-1/2 last:before:hidden':
           mergedColSpan === 1 && !verticalLine && !lastPinLeft,
       },
     ],
     rowType === 'body' && [{ 'bg-fill-quinary': hovering }],
     rowType === 'footer' && [
-      'group-first/footer-row:border-t group-first/footer-row:border-t-border-secondary',
+      'group-first/footer-row:border-t-border-secondary group-first/footer-row:border-t',
       {
-        'border-b border-b-border-secondary group-first/footer-row:border-t-0': fixFooter === 'top',
+        'border-b-border-secondary border-b group-first/footer-row:border-t-0': fixFooter === 'top',
       },
     ],
     /** >>> Selected */
     rowSelected && [
       'bg-fill-quinary',
       {
-        'first:before:absolute first:before:bottom-0 first:before:left-0 first:before:top-0 first:before:w-0.5 first:before:bg-primary':
+        'first:before:bg-primary first:before:absolute first:before:top-0 first:before:bottom-0 first:before:left-0 first:before:w-0.5':
           index === 0,
       },
     ],
     /** >>> Bordered */
     verticalLine && [
-      'border-r border-border-secondary',
+      'border-border-secondary border-r',
       {
         'border-r-0': atRight,
       },
       rowType === 'header' && [
-        'border-b border-b-border-secondary',
+        'border-b-border-secondary border-b',
         {
           'border-b-border': atBottom,
         },

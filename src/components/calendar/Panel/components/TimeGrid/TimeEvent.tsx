@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
-import { TinyColor } from '@ctrl/tinycolor';
 import { ClockOutline } from '@metisjs/icons';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
@@ -54,31 +53,27 @@ const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) 
     : (color ?? primary);
 
   const bgColor = useMemo(() => {
-    const tinyColor = new TinyColor(mergedColor);
-    tinyColor.setAlpha(0.65);
     if (isDark) {
-      return tinyColor.darken(45).toRgbString();
+      return `color-mix(in srgb, color-mix(in oklab, ${mergedColor} 65%, transparent) 45%, black)`;
     }
 
-    return tinyColor.brighten(50).toRgbString();
+    return `color-mix(in srgb, color-mix(in oklab, ${mergedColor} 65%, transparent) 50%, white)`;
   }, [color, isDark]);
 
   const textColor = useMemo(() => {
-    const tinyColor = new TinyColor(mergedColor);
     if (isDark) {
-      return tinyColor.brighten(40).toRgbString();
+      return `color-mix(in srgb, ${mergedColor} 40%, white)`;
     }
 
-    return tinyColor.darken(20).toRgbString();
+    return `color-mix(in srgb, ${mergedColor} 20%, black)`;
   }, [color, isDark]);
 
   const secondTextColor = useMemo(() => {
-    const tinyColor = new TinyColor(mergedColor);
     if (isDark) {
-      return tinyColor.brighten(10).toRgbString();
+      return `color-mix(in srgb, ${mergedColor} 10%, white)`;
     }
 
-    return tinyColor.toRgbString();
+    return mergedColor;
   }, [color, isDark]);
 
   const height =
@@ -134,10 +129,10 @@ const TimeEvent = React.forwardRef<HTMLDivElement, TimeEventProps>((props, ref) 
   // ============================== Style ==============================
   const rootCls = clsx(
     `${prefixCls}-time-event`,
-    'absolute z-10 select-none overflow-hidden !border-0 py-1 pl-2.5 pr-1 text-xs',
-    'before:absolute before:bottom-1.5 before:left-1 before:top-1.5 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
+    'absolute z-10 overflow-hidden border-0! py-1 pr-1 pl-2.5 text-xs select-none',
+    'before:absolute before:top-1.5 before:bottom-1.5 before:left-1 before:w-[3px] before:rounded-full before:bg-[var(--metis-calendar-event-color)]',
     {
-      'rounded-se-md rounded-ss-md': rangeStart,
+      'rounded-ss-md rounded-se-md': rangeStart,
       'rounded-ee-md rounded-es-md': rangeEnd,
       'py-0.5': height <= EVENT_HEIGHT,
     },

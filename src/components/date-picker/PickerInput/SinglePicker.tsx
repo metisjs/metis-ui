@@ -569,10 +569,10 @@ function Picker<DateType extends object = any>(
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     'group/selector',
-    'relative inline-flex rounded-md bg-container text-sm leading-6 text-text shadow-sm ring-1 ring-inset ring-border',
-    '[.input-addon_&]:-mx-3 [.input-addon_&]:bg-transparent [.input-addon_&]:shadow-none [.input-addon_&]:ring-0',
+    'bg-container text-text ring-border relative inline-flex rounded-md text-sm leading-6 shadow-xs ring-1 ring-inset',
+    'in-[.input-addon]:-mx-3 in-[.input-addon]:bg-transparent in-[.input-addon]:shadow-none in-[.input-addon]:ring-0',
     {
-      'rounded px-2 py-0.5': size === 'mini',
+      'rounded-sm px-2 py-0.5': size === 'mini',
       'px-3 py-1': size === 'small',
       'px-3 py-1.5': size === 'middle',
       'px-3 py-2': size === 'large',
@@ -580,10 +580,10 @@ function Picker<DateType extends object = any>(
     multiple && [
       'w-full cursor-text',
       {
-        'min-h-7 py-0.5 pe-2 ps-1': size === 'mini',
-        'min-h-8 py-0.5 pe-3 ps-1': size === 'small',
-        'min-h-9 py-0.5 pe-3 ps-1': size === 'middle',
-        'min-h-10 py-0.5 pe-3 ps-1': size === 'large',
+        'min-h-7 py-0.5 ps-1 pe-2': size === 'mini',
+        'min-h-8 py-0.5 ps-1 pe-3': size === 'small',
+        'min-h-9 py-0.5 ps-1 pe-3': size === 'middle',
+        'min-h-10 py-0.5 ps-1 pe-3': size === 'large',
       },
     ],
     {
@@ -593,10 +593,10 @@ function Picker<DateType extends object = any>(
     },
     compactItemClassnames,
     (focused || mergedOpen) && {
-      'ring-2 ring-primary': variant === 'outlined',
+      'ring-primary ring-2': variant === 'outlined',
       'ring-0': variant === 'borderless',
-      'bg-container ring-2 ring-primary': variant === 'filled',
-      'z-[2]': isCompactItem,
+      'bg-container ring-primary ring-2': variant === 'filled',
+      'z-2': isCompactItem,
     },
     getStatusClassNames(status, variant, focused || mergedOpen),
     disabled && {
@@ -607,12 +607,12 @@ function Picker<DateType extends object = any>(
   );
 
   const selectorPlaceholderCls = clsx({
-    'end-1 start-1': size === 'mini',
+    'start-1 end-1': size === 'mini',
   });
 
   const selectorItemCls = clsx(
     {
-      'pe-1 ps-2 leading-5': size === 'mini',
+      'ps-2 pe-1 leading-5': size === 'mini',
       'leading-6': size === 'small',
       'leading-8': size === 'large',
     },

@@ -105,7 +105,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     'hidden transition-transform',
     spinning && 'inline-flex items-center justify-center',
     isNestedPattern &&
-      'absolute z-[4] flex h-full max-h-[25rem] w-full flex-col items-center justify-center',
+      'absolute z-4 flex h-full max-h-[25rem] w-full flex-col items-center justify-center',
     fullscreen && 'flex flex-col items-center justify-center',
     semanticCls.root,
   );
@@ -113,13 +113,13 @@ const Spin: React.FC<SpinProps> = (props) => {
   const containerCls = clsx(
     `${prefixCls}-container`,
     {
-      [`${prefixCls}-blur pointer-events-none select-none opacity-50`]: spinning,
+      [`${prefixCls}-blur pointer-events-none opacity-50 select-none`]: spinning,
     },
     'relative h-full transition-opacity',
   );
   const tipCls = clsx(
     `${prefixCls}-text`,
-    'mt-2 text-text-tertiary',
+    'text-text-tertiary mt-2',
     {
       'mt-1': size === 'small',
       'mt-3': size === 'large',
@@ -132,7 +132,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     {
       [`${prefixCls}-fullscreen-show`]: spinning,
     },
-    'invisible fixed inset-0 z-[1000] flex h-screen w-screen flex-col items-center justify-center bg-mask opacity-0 transition-all',
+    'bg-mask invisible fixed inset-0 z-1000 flex h-screen w-screen flex-col items-center justify-center opacity-0 transition-all',
     spinning && 'visible opacity-100',
     semanticCls.fullscreen,
   );

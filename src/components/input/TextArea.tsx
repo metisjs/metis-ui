@@ -200,9 +200,9 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
 
     const textareaCls = clsx(
       { [`${prefixCls}-${variant}`]: enableVariantCls },
-      'relative block h-full w-full appearance-none rounded-md border-0 bg-container text-sm text-text shadow-sm outline-none ring-inset ring-border placeholder:text-text-quaternary focus:ring-inset focus:ring-primary',
+      'bg-container text-text ring-border placeholder:text-text-quaternary focus:ring-primary relative block h-full w-full appearance-none rounded-md border-0 text-sm shadow-xs outline-hidden ring-inset focus:ring-inset',
       {
-        'rounded px-2 py-1': mergedSize === 'mini',
+        'rounded-sm px-2 py-1': mergedSize === 'mini',
         'px-3 py-1.5': mergedSize === 'small',
         'px-3 py-2': mergedSize === 'middle',
         'px-3 py-2.5': mergedSize === 'large',
@@ -210,7 +210,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
       {
         'ring-1 focus:ring-2': variant === 'outlined',
         'bg-transparent shadow-none ring-0 focus:ring-0': variant === 'borderless',
-        'bg-fill-quinary ring-0 focus:bg-container focus:ring-2': variant === 'filled',
+        'bg-fill-quinary focus:bg-container ring-0 focus:ring-2': variant === 'filled',
       },
       {
         'pr-8': allowClear,
@@ -229,11 +229,11 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         [`${prefixCls}-textarea-allow-clear`]: allowClear,
       },
       'group',
-      'relative inline-flex w-full min-w-0 border-0 text-sm text-text',
+      'text-text relative inline-flex w-full min-w-0 border-0 text-sm',
     );
     const suffixCls = clsx(
       `${prefixCls}-textarea-suffix`,
-      'pointer-events-none absolute bottom-0 right-3 top-0 z-[1] inline-flex flex-none items-center gap-x-2 text-text-secondary [&_.metis-icon]:text-base',
+      'text-text-secondary pointer-events-none absolute top-0 right-3 bottom-0 z-1 inline-flex flex-none items-center gap-x-2 [&_.metis-icon]:text-base',
       {
         '[&_.metis-icon]:text-lg': mergedSize === 'large',
         'right-2': mergedSize === 'mini',
@@ -242,24 +242,24 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     );
     const countCls = clsx(
       `${prefixCls}-data-count`,
-      'absolute bottom-1.5 right-3 bg-container pl-1 text-text-tertiary',
+      'bg-container text-text-tertiary absolute right-3 bottom-1.5 pl-1',
       {
         'bg-fill-quinary group-focus-within:bg-container': variant === 'filled',
         'bg-transparent': variant === 'borderless',
         'text-text-quaternary': mergedDisabled,
       },
-      mergedSize === 'mini' && 'bottom-1 right-2',
+      mergedSize === 'mini' && 'right-2 bottom-1',
       mergedSize === 'large' && 'bottom-2',
       semanticCls.count,
     );
     const clearCls = clsx(
-      'absolute right-2 top-2 inline-flex text-base text-text-tertiary hover:text-text-secondary',
+      'text-text-tertiary hover:text-text-secondary absolute top-2 right-2 inline-flex text-base',
       {
         'text-lg': mergedSize === 'large',
-        'right-2 top-1': mergedSize === 'mini',
-        'right-3 top-1.5': mergedSize === 'small',
-        'right-3 top-2': mergedSize === 'middle',
-        'right-3 top-2.5': mergedSize === 'large',
+        'top-1 right-2': mergedSize === 'mini',
+        'top-1.5 right-3': mergedSize === 'small',
+        'top-2 right-3': mergedSize === 'middle',
+        'top-2.5 right-3': mergedSize === 'large',
       },
       semanticCls.clear,
     );

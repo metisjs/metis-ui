@@ -159,7 +159,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
       [`${prefixCls}-open`]: open,
       [`${prefixCls}-inline`]: inline,
     },
-    'pointer-events-none fixed inset-0 text-sm text-text',
+    'text-text pointer-events-none fixed inset-0 text-sm',
     { absolute: inline },
     semanticCls.root,
   );
@@ -167,15 +167,15 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
     `${prefixCls}-content-wrapper`,
     'absolute max-w-full transition-transform duration-300',
     {
-      'bottom-0 left-0 top-0': placement === 'left',
-      'bottom-0 right-0 top-0': placement === 'right',
-      'left-0 right-0 top-0': placement === 'top',
-      'bottom-0 left-0 right-0': placement === 'bottom',
+      'top-0 bottom-0 left-0': placement === 'left',
+      'top-0 right-0 bottom-0': placement === 'right',
+      'top-0 right-0 left-0': placement === 'top',
+      'right-0 bottom-0 left-0': placement === 'bottom',
     },
   );
   const contentCls = clsx(
     `${prefixCls}-content`,
-    'pointer-events-auto relative flex h-full w-full flex-col bg-elevated',
+    'bg-elevated pointer-events-auto relative flex h-full w-full flex-col',
     {
       'shadow-[20px_0_25px_-5px_rgba(0,0,0,0.1),8px_0_10px_-6px_rgba(0,0,0,0.1)]':
         placement === 'left',
@@ -189,12 +189,12 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   );
   const headerCls = clsx(
     `${prefixCls}-header`,
-    'relative truncate p-6 pr-10 text-base font-semibold leading-6',
+    'relative truncate p-6 pr-10 text-base leading-6 font-semibold',
     semanticCls.header,
   );
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'absolute right-3 top-3 z-[1000] rounded p-1 text-text-tertiary transition-colors hover:bg-fill-tertiary hover:text-text-secondary',
+    'text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary absolute top-3 right-3 z-1000 rounded-sm p-1 transition-colors',
     semanticCls.close,
   );
   const bodyCls = clsx(
@@ -207,12 +207,12 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   );
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'flex items-center justify-end gap-4 border-t border-border-secondary p-4',
+    'border-border-secondary flex items-center justify-end gap-4 border-t p-4',
     semanticCls.footer,
   );
   const maskCls = clsx(
     `${prefixCls}-mask`,
-    'pointer-events-auto absolute inset-0 bg-mask',
+    'bg-mask pointer-events-auto absolute inset-0',
     semanticCls.mask,
   );
 

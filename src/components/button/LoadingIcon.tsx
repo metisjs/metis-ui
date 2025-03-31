@@ -47,7 +47,7 @@ const LoadingIcon: React.FC<LoadingIconProps> = (props) => {
       {({ className: transitionCls, style: transitionStyle }, ref) => (
         <span
           ref={ref}
-          className={clsx('m-0 inline-block p-0 leading-[1]', transitionCls)}
+          className={clsx('m-0 inline-block p-0 leading-none', transitionCls)}
           style={transitionStyle}
         >
           <LoadingOutline

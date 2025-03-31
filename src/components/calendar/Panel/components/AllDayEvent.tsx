@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
-import { TinyColor } from '@ctrl/tinycolor';
 import { CalendarOutline } from '@metisjs/icons';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
@@ -51,26 +50,24 @@ const AllDayEvent = React.forwardRef<HTMLDivElement, AllDayEventProps>((props, r
     : (color ?? primary);
 
   const bgColor = useMemo(() => {
-    const tinyColor = new TinyColor(mergedColor);
     if (isDark) {
-      return tinyColor.darken(color ? 35 : 45).toRgbString();
+      return `color-mix(in srgb, ${mergedColor} ${color ? 35 : 45}%, black)`;
     }
 
-    return tinyColor.brighten(50).toRgbString();
+    return `color-mix(in srgb, ${mergedColor} 50%, white)`;
   }, [color, isDark]);
 
   const textColor = useMemo(() => {
-    const tinyColor = new TinyColor(mergedColor);
     if (isDark) {
-      return tinyColor.brighten(40).toRgbString();
+      return `color-mix(in srgb, ${mergedColor} 40%, white)`;
     }
 
-    return tinyColor.darken(20).toRgbString();
+    return `color-mix(in srgb, ${mergedColor} 20%, black)`;
   }, [color, isDark]);
 
   const rootCls = clsx(
     `${prefixCls}-allday-event`,
-    'absolute z-10 flex select-none items-center gap-1 px-0.5 text-xs',
+    'absolute z-10 flex items-center gap-1 px-0.5 text-xs select-none',
     {
       'rounded-s-full': rangeStart,
       'rounded-e-full': rangeEnd,

@@ -44,7 +44,7 @@ const ActionNode: React.FC<{
         const key = `action-${index}`;
         return (
           <li
-            className="flex items-center justify-center py-4 text-text-tertiary"
+            className="text-text-tertiary flex items-center justify-center py-4"
             style={{ width: `${100 / actions.length}%` }}
             key={key}
           >
@@ -89,7 +89,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   if (title || extra) {
     const headClasses = clsx(
       `${prefixCls}-head`,
-      'flex items-center justify-between border-b border-border-secondary px-6 py-4',
+      'border-border-secondary flex items-center justify-between border-b px-6 py-4',
       isSmall && 'px-4 py-2',
       semanticCLs.header,
     );
@@ -120,7 +120,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 
   const actionClasses = clsx(
     `${prefixCls}-actions`,
-    'flex divide-x divide-border-secondary border-t border-border-secondary',
+    'divide-border-secondary border-border-secondary flex divide-x border-t',
     semanticCLs.actions,
   );
   const actionDom = actions?.length ? (
@@ -134,9 +134,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
       [`${prefixCls}-bordered`]: bordered,
       [`${prefixCls}-hoverable`]: hoverable,
     },
-    'overflow-hidden rounded-lg border border-border-secondary bg-container text-sm text-text',
+    'border-border-secondary bg-container text-text overflow-hidden rounded-lg border text-sm',
     {
-      'border-0 shadow': !bordered,
+      'border-0 shadow-sm': !bordered,
       'hover:shadow-lg': hoverable,
     },
     semanticCLs.root,

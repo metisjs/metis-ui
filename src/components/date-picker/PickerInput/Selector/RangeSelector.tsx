@@ -189,11 +189,11 @@ function RangeSelector<DateType extends object = any>(
   );
   const separatorCls = clsx(
     `${prefixCls}-range-separator`,
-    'flex h-6 items-center px-2 text-lg leading-6 text-text-quaternary',
+    'text-text-quaternary flex h-6 items-center px-2 text-lg leading-6',
   );
   const activeBarCls = clsx(
     `${prefixCls}-active-bar`,
-    'pointer-events-none bottom-px h-0.5 rounded-full bg-primary opacity-0 transition-all duration-300 ease-out',
+    'bg-primary pointer-events-none bottom-px h-0.5 rounded-full opacity-0 transition-all duration-300 ease-out',
     {
       'opacity-100': activeIndex > -1,
     },
@@ -234,7 +234,7 @@ function RangeSelector<DateType extends object = any>(
         <Icon
           type="suffix"
           icon={suffixIcon}
-          className="transition-opacity group-hover/selector:opacity-0 group-hover/selector:last:opacity-100"
+          className="transition-opacity group-hover/selector:opacity-0 last:group-hover/selector:opacity-100"
         />
         {showClear && <ClearIcon icon={clearIcon} onClear={onClear} className="end-3" />}
       </div>

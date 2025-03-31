@@ -28,8 +28,8 @@ const DEFAULT_DURATION = 3;
 const DEFAULT_TRANSITION: ConfigOptions['transition'] = {
   appear: true,
   enter: 'transition-[transform,opacity] duration-300',
-  enterFrom: '!-translate-y-full opacity-0',
-  enterTo: 'opacity-100 !translate-y-0',
+  enterFrom: '-translate-y-full! opacity-0',
+  enterTo: 'opacity-100 translate-y-0!',
   leave: 'transition-[opacity,margin,max-height] duration-200',
   leaveFrom: 'opacity-100 mb-4 max-h-11',
   leaveTo: 'opacity-0 mb-0 max-h-0',
@@ -74,11 +74,11 @@ const Holder = React.forwardRef<HolderRef, HolderProps>((props, ref) => {
   });
 
   const getClassName = () => ({
-    root: clsx('fixed top-2 z-[2010] text-center text-sm text-text'),
+    root: clsx('text-text fixed top-2 z-2010 text-center text-sm'),
     wrapper: clsx(
-      'relative mx-auto mb-3 w-fit rounded-lg bg-elevated shadow-lg ring-1 ring-inset ring-border-secondary',
+      'bg-elevated ring-border-secondary relative mx-auto mb-3 w-fit rounded-lg shadow-lg ring-1 ring-inset',
     ),
-    notice: clsx('relative flex items-center gap-2 overflow-hidden break-words p-3'),
+    notice: clsx('relative flex items-center gap-2 overflow-hidden p-3 break-words'),
   });
 
   // ================================ Ref ================================

@@ -31,7 +31,7 @@ const ResizableTitle: React.FC<Readonly<React.HTMLAttributes<any> & TitlePropsTy
       height={0}
       handle={
         <span
-          className="absolute -end-[5px] bottom-0 z-[1] h-full w-[10px] cursor-col-resize"
+          className="absolute -end-[5px] bottom-0 z-1 h-full w-[10px] cursor-col-resize"
           onClick={(e) => e.stopPropagation()}
         />
       }

@@ -97,20 +97,20 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   // ================================ Style =================================
   const panelCls = clsx(
     prefixCls,
-    'pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm text-text',
+    'text-text pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm',
     !!centered && 'top-0 pb-0',
     semanticCls.root,
   );
 
   const contentCls = clsx(
     `${prefixCls}-content`,
-    'pointer-events-auto relative flex flex-col overflow-hidden rounded-lg bg-elevated shadow-xl',
+    'bg-elevated pointer-events-auto relative flex flex-col overflow-hidden rounded-lg shadow-xl',
     semanticCls.content,
   );
 
   const headerCls = clsx(
     `${prefixCls}-header`,
-    'truncate p-6 pb-2 pr-14 text-base font-semibold leading-6',
+    'truncate p-6 pr-14 pb-2 text-base leading-6 font-semibold',
     semanticCls.header,
   );
 
@@ -122,13 +122,13 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
 
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'flex items-center justify-end gap-3 bg-fill-quinary px-6 py-3',
+    'bg-fill-quinary flex items-center justify-end gap-3 px-6 py-3',
     semanticCls.footer,
   );
 
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'absolute right-3 top-3 rounded p-1 text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary',
+    'text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary absolute top-3 right-3 rounded-sm p-1',
     semanticCls.close,
   );
 

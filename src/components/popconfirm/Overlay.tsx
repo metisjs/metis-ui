@@ -63,10 +63,10 @@ const Overlay: React.FC<OverlayProps> = (props) => {
 
   const semanticCls = useSemanticCls(className, 'popConfirm', { open: true });
 
-  const contentCls = clsx(`${prefixCls}-inner-content`, 'text-sm text-text', semanticCls.root);
+  const contentCls = clsx(`${prefixCls}-inner-content`, 'text-text text-sm', semanticCls.root);
   const iconCls = clsx(
     `${prefixCls}-message-icon`,
-    'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-error-bg text-error',
+    'bg-error-bg text-error flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
     semanticCls.icon,
   );
   const messageCls = clsx(`${prefixCls}-message`, 'flex gap-2');
@@ -74,7 +74,7 @@ const Overlay: React.FC<OverlayProps> = (props) => {
     `${prefixCls}-message-text`,
     'flex min-h-8 flex-col justify-center gap-0.5',
   );
-  const titleCls = clsx(`${prefixCls}-title`, 'font-medium text-text', semanticCls.title);
+  const titleCls = clsx(`${prefixCls}-title`, 'text-text font-medium', semanticCls.title);
   const descriptionCls = clsx(
     `${prefixCls}-description`,
     'text-text-secondary',

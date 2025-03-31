@@ -1,5 +1,5 @@
 // @ts-nocheck
-import colors from 'tailwindcss/lib/public/colors';
+import colors from 'tailwindcss/colors';
 import { clsx } from './classNameUtils';
 
 export const PresetColors = [

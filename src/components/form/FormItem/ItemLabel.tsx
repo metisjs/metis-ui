@@ -145,7 +145,7 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
     {
       [`${prefixCls}-item-label-wrap`]: !!labelWrap,
     },
-    'overflow-hidden whitespace-nowrap text-right',
+    'overflow-hidden text-right whitespace-nowrap',
     {
       'text-left': mergedLabelAlign === 'left',
       'pb-2 text-left': layout === 'vertical',
@@ -159,12 +159,12 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
       [`${prefixCls}-item-required-mark-optional`]: isOptionalMark || isRenderMark,
       [`${prefixCls}-item-no-colon`]: !computedColon,
     },
-    'relative flex h-9 max-w-full items-center text-sm font-medium text-text',
+    'text-text relative flex h-9 max-w-full items-center text-sm font-medium',
     label && [
-      'after:relative after:me-2.5 after:ms-0.5 after:content-[":"]',
+      'after:relative after:ms-0.5 after:me-2.5 after:content-[":"]',
       {
         'after:content-["\\a0"]': !computedColon,
-        'before:me-1 before:inline-block before:leading-[1] before:text-error before:content-["*"]':
+        'before:text-error before:me-1 before:inline-block before:leading-none before:content-["*"]':
           required && !isOptionalMark && !isRenderMark && requiredMark !== false,
         'after:hidden': layout === 'vertical',
       },
@@ -179,11 +179,11 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
     },
   );
 
-  const optionalCls = clsx(`${prefixCls}-item-optional`, 'font-normal text-text-tertiary');
+  const optionalCls = clsx(`${prefixCls}-item-optional`, 'text-text-tertiary font-normal');
 
   const tooltipCls = clsx(
     `${prefixCls}-item-tooltip`,
-    'ml-1 h-4 w-4 cursor-help text-text-tertiary',
+    'text-text-tertiary ml-1 h-4 w-4 cursor-help',
   );
 
   // ============================== Tooltip ==============================

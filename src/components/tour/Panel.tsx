@@ -63,13 +63,13 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
 
   const innerCls = clsx(
     `${prefixCls}-inner`,
-    'rounded-md bg-[--metis-arrow-background-color] text-start text-sm shadow-lg ring-1 ring-border-secondary',
+    'ring-border-secondary rounded-md bg-(--metis-arrow-background-color) text-start text-sm shadow-lg ring-1',
     semanticCls.content,
   );
 
   const closeCls = clsx(
     `${prefixCls}-close`,
-    'absolute right-2.5 top-2.5 inline-flex h-6 w-6 items-center justify-center rounded text-lg text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary',
+    'text-text-tertiary hover:bg-fill-tertiary hover:text-text-secondary absolute top-2.5 right-2.5 inline-flex h-6 w-6 items-center justify-center rounded-sm text-lg',
     semanticCls.close,
   );
 
@@ -137,7 +137,7 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
           className={clsx(
             index === current && `${prefixCls}-indicator-active`,
             `${prefixCls}-indicator`,
-            'h-1.5 w-1.5 rounded-full bg-fill',
+            'bg-fill h-1.5 w-1.5 rounded-full',
             index === current && 'bg-primary',
           )}
         />

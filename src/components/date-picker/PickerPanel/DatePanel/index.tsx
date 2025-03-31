@@ -96,11 +96,11 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
               {
                 [`${cellPrefixCls}-disabled`]: disabled,
               },
-              'relative min-w-7 cursor-pointer py-1 font-normal text-text-tertiary transition-colors',
-              'before:absolute before:end-0 before:start-0 before:top-1/2 before:z-[1] before:h-7 before:-translate-y-1/2 before:transition-colors first:before:rounded-es first:before:rounded-ss last:before:rounded-ee last:before:rounded-se',
+              'text-text-tertiary relative min-w-7 cursor-pointer py-1 font-normal transition-colors',
+              'before:absolute before:start-0 before:end-0 before:top-1/2 before:z-1 before:h-7 before:-translate-y-1/2 before:transition-colors first:before:rounded-ss first:before:rounded-es last:before:rounded-se last:before:rounded-ee',
               !isWeek && {
                 'before:bg-fill-quaternary': hover && !selected,
-                'text-white before:bg-primary': selected,
+                'before:bg-primary text-white': selected,
               },
               isWeek && {
                 'before:bg-fill-quaternary': hover && !selected,
@@ -136,7 +136,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
             <div
               className={clsx(
                 `${cellPrefixCls}-inner`,
-                'relative z-[2] inline-block h-7 min-w-7 rounded leading-7 transition-colors',
+                'relative z-2 inline-block h-7 min-w-7 rounded-sm leading-7 transition-colors',
                 isWeek && {
                   'bg-primary': selected,
                   'text-white': selected || rangeStart || rangeEnd,
@@ -248,7 +248,7 @@ export default function DatePanel<DateType extends object = any>(props: DatePane
     'px-3': showWeek || isWeek,
   });
   const cellInnerCls = clsx('rounded-full', {
-    '!bg-transparent': isWeek,
+    'bg-transparent!': isWeek,
   });
 
   // ========================= Render =========================

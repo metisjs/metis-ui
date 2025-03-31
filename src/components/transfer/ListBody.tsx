@@ -112,7 +112,7 @@ const TransferListBody: React.ForwardRefRenderFunction<
       showLessItems={mergedPagination.showLessItems}
       showSizeChanger={mergedPagination.showSizeChanger}
       className={mergeSemanticCls(
-        clsx(`${prefixCls}-pagination`, 'border-t border-border-secondary p-2 text-end'),
+        clsx(`${prefixCls}-pagination`, 'border-border-secondary border-t p-2 text-end'),
         mergedPagination.className,
       )}
       total={filteredRenderItems.length}
@@ -129,7 +129,7 @@ const TransferListBody: React.ForwardRefRenderFunction<
     },
     'h-0 flex-1',
   );
-  const viewCls = clsx('!w-auto');
+  const viewCls = clsx('w-auto!');
 
   return (
     <>

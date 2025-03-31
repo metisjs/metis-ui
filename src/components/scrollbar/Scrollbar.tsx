@@ -484,7 +484,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const trackHorizontalCls = clsx(
     `${prefixCls}-track ${prefixCls}-track-horizontal`,
-    'peer/track absolute bottom-0 left-0 right-0 z-[100] h-3 px-1 py-0.5 opacity-0 hover:h-[14px] hover:bg-scrollbar-track',
+    'peer/track hover:bg-scrollbar-track absolute right-0 bottom-0 left-0 z-100 h-3 px-1 py-0.5 opacity-0 hover:h-[14px]',
     {
       'opacity-100': trackVisible,
       hidden: !horizontalScroll,
@@ -495,7 +495,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const trackVerticalCls = clsx(
     `${prefixCls}-track ${prefixCls}-track-vertical`,
-    'peer/track absolute bottom-0 right-0 top-0 z-[100] w-3 px-0.5 py-1 opacity-0 hover:w-[14px] hover:bg-scrollbar-track',
+    'peer/track hover:bg-scrollbar-track absolute top-0 right-0 bottom-0 z-100 w-3 px-0.5 py-1 opacity-0 hover:w-[14px]',
     {
       'opacity-100': trackVisible,
       hidden: !verticalScroll,
@@ -505,7 +505,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   );
 
   const trackCornerCls = clsx(
-    'absolute bottom-0 right-0 z-[100] h-[14px] w-[14px] peer-hover/track:bg-scrollbar-track',
+    'peer-hover/track:bg-scrollbar-track absolute right-0 bottom-0 z-100 h-[14px] w-[14px]',
     {
       'bg-scrollbar-track': trackMouseOver,
     },
@@ -518,7 +518,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const thumbCls = clsx(
     `${prefixCls}-track-thumb`,
-    'relative block h-full cursor-pointer rounded-full bg-scrollbar-thumb transition-colors',
+    'bg-scrollbar-thumb relative block h-full cursor-pointer rounded-full transition-colors',
   );
 
   // ======================== Render ========================

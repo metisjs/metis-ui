@@ -101,10 +101,10 @@ export default function Column({
 
   // ============================ Style ============================
   const rootCls = clsx(
-    'h-44 w-auto min-w-28 shrink-0 grow border-s border-border-secondary first-of-type:border-s-0',
+    'border-border-secondary h-44 w-auto min-w-28 shrink-0 grow border-s first-of-type:border-s-0',
     columnClassName,
   );
-  const viewCls = clsx(menuPrefixCls, '!w-auto p-1 text-sm text-text');
+  const viewCls = clsx(menuPrefixCls, 'text-text w-auto! p-1 text-sm');
 
   // ============================ Render ============================
   return (
@@ -166,10 +166,10 @@ export default function Column({
               [`${menuItemPrefixCls}-disabled`]: disabled,
               [`${menuItemPrefixCls}-loading`]: loading,
             },
-            'flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded px-3 py-2 transition-all duration-200 hover:bg-fill-quaternary',
+            'hover:bg-fill-quaternary flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded-sm px-3 py-2 transition-all duration-200',
             {
               'bg-primary-bg': isActive && !disabled,
-              'cursor-not-allowed text-text-tertiary hover:bg-transparent': disabled,
+              'text-text-tertiary cursor-not-allowed hover:bg-transparent': disabled,
             },
             itemSemanticCls.root,
           );
@@ -180,7 +180,7 @@ export default function Column({
             itemSemanticCls.label,
           );
           const menuItemIconCls = clsx(
-            'flex translate-x-1 items-center text-text-secondary',
+            'text-text-secondary flex translate-x-1 items-center',
             {
               'text-text-tertiary': disabled,
             },

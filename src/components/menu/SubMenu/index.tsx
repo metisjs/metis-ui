@@ -242,13 +242,13 @@ const InternalSubMenu = (props: SubMenuProps) => {
       [`${subMenuPrefixCls}-disabled`]: mergedDisabled,
     },
     'relative block flex-none cursor-pointer',
-    mode === 'horizontal' && mergedTheme === 'light' && 'pe-4 ps-4',
-    mode === 'horizontal' && mergedTheme === 'dark' && 'pe-2 ps-2 first:ps-4 last:pe-4',
+    mode === 'horizontal' && mergedTheme === 'light' && 'ps-4 pe-4',
+    mode === 'horizontal' && mergedTheme === 'dark' && 'ps-2 pe-2 first:ps-4 last:pe-4',
     mergedDisabled && 'cursor-not-allowed',
     semanticCls.root,
   );
 
-  const wrapperCls = clsx('[.submenu-popup_&]:px-1', {
+  const wrapperCls = clsx('in-[.submenu-popup]:px-1', {
     'flex h-[4rem] items-center': mode === 'horizontal',
     'px-4': mode !== 'horizontal',
   });
@@ -262,7 +262,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
       light: {
         // >>> Light Horizontal
         horizontal: {
-          '-mt-[1px] mb-0 align-bottom first-line:top-[1px] after:absolute after:bottom-0 after:end-3 after:start-3 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
+          '-mt-[1px] mb-0 align-bottom first-line:top-[1px] after:absolute after:start-3 after:end-3 after:bottom-0 after:border-b-2 after:border-transparent after:transition-colors after:content-[""]':
             true,
           'text-text-secondary hover:text-text hover:after:border-border': !mergedDisabled,
           'text-text after:border-border': open,
@@ -272,7 +272,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
         // >>> Light Vertical
         vertical: {
           'h-10 truncate rounded-md p-2': true,
-          'px-4 leading-10 [.item-group_&]:ps-7': !firstLevel,
+          'px-4 leading-10 in-[.item-group]:ps-7': !firstLevel,
           'text-primary': childrenSelected,
           'hover:bg-fill-quaternary': !mergedDisabled,
           'text-text-tertiary': mergedDisabled,
@@ -297,15 +297,15 @@ const InternalSubMenu = (props: SubMenuProps) => {
         },
         // >>> Dark Vertical
         vertical: {
-          'h-10 truncate rounded-md p-2 text-text-tertiary': true,
-          'px-4 leading-10 text-gray-300 [.item-group_&]:ps-7': !firstLevel,
+          'text-text-tertiary h-10 truncate rounded-md p-2': true,
+          'px-4 leading-10 text-gray-300 in-[.item-group]:ps-7': !firstLevel,
           'text-white': childrenSelected,
           'hover:bg-gray-700': !mergedDisabled,
           'text-gray-500': mergedDisabled,
         },
         // >>> Dark Inline
         inline: {
-          'h-10 rounded-md p-2 text-text-tertiary': true,
+          'text-text-tertiary h-10 rounded-md p-2': true,
           'text-white': childrenSelected,
           'hover:bg-gray-700 hover:text-white': !mergedDisabled,
           'text-gray-500': mergedDisabled,
@@ -317,7 +317,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
-    'h-5 w-5 flex-shrink-0 flex-grow-0',
+    'h-5 w-5 shrink-0 grow-0',
     firstLevel && 'h-6 w-6',
     mode !== 'horizontal' && {
       'text-text-tertiary': firstLevel && contextTheme !== 'dark',
@@ -342,8 +342,8 @@ const InternalSubMenu = (props: SubMenuProps) => {
     'h-5 w-5 transition-transform',
     // >>> In Popup
     {
-      '[.submenu-popup_&]:text-primary': childrenSelected,
-      '[.submenu-popup_&]:text-white': contextTheme === 'dark' && childrenSelected,
+      'in-[.submenu-popup]:text-primary': childrenSelected,
+      'in-[.submenu-popup]:text-white': contextTheme === 'dark' && childrenSelected,
     },
     contextTheme !== 'dark' && 'text-text-tertiary',
     contextTheme !== 'dark' && childrenSelected && 'text-primary',

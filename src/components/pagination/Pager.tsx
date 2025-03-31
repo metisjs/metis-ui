@@ -44,16 +44,16 @@ const Pager: React.FC<PagerProps> = (props) => {
     },
     'min-w-9 cursor-pointer rounded-md text-center leading-9',
     {
-      'bg-primary-bg font-medium text-primary shadow-sm': active,
+      'bg-primary-bg text-primary font-medium shadow-xs': active,
       'hover:bg-fill-tertiary': !active,
     },
     {
       'min-w-8 leading-8': size === 'small',
-      'min-w-7 rounded leading-7': size === 'mini',
+      'min-w-7 rounded-sm leading-7': size === 'mini',
     },
     disabled && {
       'cursor-not-allowed opacity-50': active,
-      'cursor-not-allowed text-text-quaternary hover:bg-transparent': !active,
+      'text-text-quaternary cursor-not-allowed hover:bg-transparent': !active,
     },
     semanticCls.root,
   );

@@ -26,8 +26,8 @@ const ColorClear: FC<ColorClearProps> = ({ prefixCls, value, className, onChange
     <div
       className={clsx(
         `${prefixCls}-clear`,
-        'relative h-6 w-6 cursor-pointer overflow-hidden rounded border border-border-secondary transition-all hover:border-border',
-        'after:absolute after:-end-px after:-top-px after:block after:h-0.5 after:w-10 after:origin-[calc(100%-1px)_1px] after:-rotate-45 after:bg-error',
+        'border-border-secondary hover:border-border relative h-6 w-6 cursor-pointer overflow-hidden rounded-sm border transition-all',
+        'after:bg-error after:absolute after:-end-px after:-top-px after:block after:h-0.5 after:w-10 after:origin-[calc(100%-1px)_1px] after:-rotate-45',
         className,
       )}
       onClick={handleClick}

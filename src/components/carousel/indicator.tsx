@@ -33,7 +33,7 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
           {
             [`${prefixCls}-item-active`]: active,
           },
-          'relative inline-block h-1 w-4 flex-auto flex-grow-0 rounded-full bg-container opacity-20 transition-all duration-300',
+          'bg-container relative inline-block h-1 w-4 flex-auto grow-0 rounded-full opacity-20 transition-all duration-300',
           {
             'w-6 opacity-100': active,
             'hover:opacity-65': !active,
@@ -57,10 +57,10 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
       `${prefixCls}-${position}`,
       'absolute z-10 flex justify-center gap-2',
       {
-        'left-0 right-0 top-3': position === 'top',
-        'bottom-3 left-0 right-0': position === 'bottom',
-        'bottom-0 left-3 top-0 flex-col': position === 'left',
-        'bottom-0 right-3 top-0 flex-col': position === 'right',
+        'top-3 right-0 left-0': position === 'top',
+        'right-0 bottom-3 left-0': position === 'bottom',
+        'top-0 bottom-0 left-3 flex-col': position === 'left',
+        'top-0 right-3 bottom-0 flex-col': position === 'right',
         'relative h-9 items-center': position === 'outer',
       },
       semanticCls.root,

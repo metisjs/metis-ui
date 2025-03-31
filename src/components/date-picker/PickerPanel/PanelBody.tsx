@@ -156,7 +156,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
         <div
           className={clsx(
             `${cellPrefixCls}-inner`,
-            'relative z-[2] inline-block h-7 min-w-7 rounded leading-7 transition-colors',
+            'relative z-2 inline-block h-7 min-w-7 rounded-sm leading-7 transition-colors',
             type !== 'week' && {
               'bg-primary text-white': inView && (selected || rangeStart || rangeEnd),
               'group-hover/cell:bg-fill-quaternary':
@@ -196,8 +196,8 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               [`${prefixCls}-cell-today`]: today,
               [`${prefixCls}-cell-in-view`]: inView,
             },
-            'group/cell relative min-w-7 cursor-pointer py-1 font-normal text-text-tertiary transition-colors',
-            'before:absolute before:end-0 before:start-0 before:top-1/2 before:z-[1] before:h-7 before:-translate-y-1/2 before:transition-colors first:before:rounded-es first:before:rounded-ss last:before:rounded-ee last:before:rounded-se',
+            'group/cell text-text-tertiary relative min-w-7 cursor-pointer py-1 font-normal transition-colors',
+            'before:absolute before:start-0 before:end-0 before:top-1/2 before:z-1 before:h-7 before:-translate-y-1/2 before:transition-colors first:before:rounded-ss first:before:rounded-es last:before:rounded-se last:before:rounded-ee',
             {
               'text-text': inView,
               'text-primary': today,
@@ -214,7 +214,7 @@ export default function PanelBody<DateType extends object = any>(props: PanelBod
               'before:bg-primary-bg': inRange,
             },
             disabled && [
-              'cursor-not-allowed text-text-tertiary before:bg-fill-quaternary first:before:rounded-none last:before:rounded-none',
+              'text-text-tertiary before:bg-fill-quaternary cursor-not-allowed first:before:rounded-none last:before:rounded-none',
               {
                 'text-primary': today,
               },

@@ -35,10 +35,10 @@ const CarouselArrow = (props: CarouselArrowProps) => {
         className={clsx(
           `${prefixCls}-arrow`,
           `${prefixCls}-arrow-${vertical ? 'top' : 'left'}`,
-          'absolute z-[2] inline-flex items-center justify-center text-xl text-container opacity-40 transition-opacity hover:opacity-100',
+          'text-container absolute z-2 inline-flex items-center justify-center text-xl opacity-40 transition-opacity hover:opacity-100',
           {
-            'left-2 top-1/2 -translate-y-1/2': !vertical,
-            'left-1/2 top-2 -translate-x-1/2': vertical,
+            'top-1/2 left-2 -translate-y-1/2': !vertical,
+            'top-2 left-1/2 -translate-x-1/2': vertical,
           },
           className,
         )}
@@ -52,10 +52,10 @@ const CarouselArrow = (props: CarouselArrowProps) => {
         className={clsx(
           `${prefixCls}-arrow`,
           `${prefixCls}-arrow-${vertical ? 'bottom' : 'right'}`,
-          'absolute z-[2] inline-flex items-center justify-center text-xl text-container opacity-40 transition-opacity hover:opacity-100',
+          'text-container absolute z-2 inline-flex items-center justify-center text-xl opacity-40 transition-opacity hover:opacity-100',
           {
-            'bottom-1/2 right-2 translate-y-1/2': !vertical,
-            'bottom-2 right-1/2 translate-x-1/2': vertical,
+            'right-2 bottom-1/2 translate-y-1/2': !vertical,
+            'right-1/2 bottom-2 translate-x-1/2': vertical,
           },
           className,
         )}

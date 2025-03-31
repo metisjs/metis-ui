@@ -17,7 +17,6 @@ export default {
       opacity: {
         disabled: '0.3',
       },
-      // transitionProperty: {},
       keyframes: {
         'bounce-spin': {
           '0%, 100%': {

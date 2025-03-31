@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TinyColor } from '@ctrl/tinycolor';
+import { FastColor } from '@ant-design/fast-color';
 import { CheckCircleSolid, CheckOutline, XCircleSolid, XMarkOutline } from '@metisjs/icons';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
@@ -82,7 +82,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
         typeof strokeColorNotArray === 'string'
           ? strokeColorNotArray
           : Object.values(strokeColorNotArray)[0];
-      return new TinyColor(color).isLight();
+      return new FastColor(color).isLight();
     }
     return false;
   }, [strokeColor]);
@@ -154,7 +154,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
             'text-success': progressStatus === 'success',
           },
           (type === 'circle' || type === 'dashboard') &&
-            'absolute left-0 top-1/2 w-full -translate-y-1/2 text-center',
+            'absolute top-1/2 left-0 w-full -translate-y-1/2 text-center',
           type === 'line' &&
             infoPosition === 'outer' && {
               'flex items-center': true,
@@ -255,7 +255,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
       [`${prefixCls}-show-info`]: showInfo,
       [`${prefixCls}-${size}`]: typeof size === 'string',
     },
-    'inline-block text-sm leading-[1] text-text',
+    'text-text inline-block text-sm leading-none',
     isPureLineType && 'relative w-full',
     { 'text-xs': size === 'small' },
     semanticCls.root,

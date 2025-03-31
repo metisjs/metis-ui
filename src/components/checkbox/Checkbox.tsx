@@ -162,9 +162,9 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
 
   const indicatorClass = clsx(
     `${prefixCls}-indicator`,
-    'block h-4 w-4 cursor-pointer rounded border border-border bg-container text-white',
+    'border-border bg-container block h-4 w-4 cursor-pointer rounded-sm border text-white',
     {
-      'after:absolute after:start-1/2 after:top-1/2 after:block after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-sm after:bg-primary after:content-[""]':
+      'after:bg-primary after:absolute after:start-1/2 after:top-1/2 after:block after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-xs after:content-[""]':
         indeterminate,
       'border-primary bg-primary': mergedChecked,
       'border-border bg-fill-quaternary text-text-tertiary': mergedDisabled,
@@ -186,7 +186,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
         <input
           aria-checked={ariaChecked}
           name={checkboxGroup && !skipGroup ? checkboxGroup.name : name}
-          className={'peer/checkbox absolute inset-0 z-[1] cursor-pointer opacity-0'}
+          className={'peer/checkbox absolute inset-0 z-1 cursor-pointer opacity-0'}
           ref={inputRef}
           onChange={handleChange}
           disabled={mergedDisabled}
@@ -199,7 +199,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
         </span>
       </span>
       {children !== undefined && (
-        <span className={clsx(`${prefixCls}-label`, 'pe-2 ps-2', semanticCls.label)}>
+        <span className={clsx(`${prefixCls}-label`, 'ps-2 pe-2', semanticCls.label)}>
           {children}
         </span>
       )}

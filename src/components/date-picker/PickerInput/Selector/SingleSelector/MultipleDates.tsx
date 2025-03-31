@@ -45,9 +45,9 @@ export default function MultipleDates<DateType extends object = any>(
       <span
         className={clsx(
           `${selectionCls}-item`,
-          'relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default select-none rounded bg-fill-tertiary pe-2 ps-2 leading-7',
+          'bg-fill-tertiary relative my-0.5 me-1 box-border flex h-full max-w-full flex-none cursor-default rounded-sm ps-2 pe-2 leading-7 select-none',
           {
-            'cursor-not-allowed bg-fill-tertiary': disabled,
+            'bg-fill-tertiary cursor-not-allowed': disabled,
           },
           semanticCls.item,
         )}
@@ -69,7 +69,7 @@ export default function MultipleDates<DateType extends object = any>(
             onClick={onClose}
             className={clsx(
               `${selectionCls}-item-remove`,
-              'inline-flex cursor-pointer items-center font-bold text-text-secondary hover:text-text',
+              'text-text-secondary hover:text-text inline-flex cursor-pointer items-center font-bold',
             )}
           >
             {removeIcon}
@@ -116,7 +116,7 @@ export default function MultipleDates<DateType extends object = any>(
         <span
           className={clsx(
             `${prefixCls}-selection-placeholder`,
-            'pointer-events-none absolute end-2 start-2 top-1/2 -translate-y-1/2 truncate text-text-quaternary',
+            'text-text-quaternary pointer-events-none absolute start-2 end-2 top-1/2 -translate-y-1/2 truncate',
             semanticCls.placeholder,
           )}
         >

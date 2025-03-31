@@ -114,11 +114,11 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       `${prefixCls}-list-item`,
       `${prefixCls}-list-item-${mergedStatus}`,
       'group/item',
-      'relative mt-2 flex h-6 items-center rounded-sm hover:bg-fill-quaternary',
+      'hover:bg-fill-quaternary relative mt-2 flex h-6 items-center rounded-xs',
       {
-        'relative h-16 rounded-lg border border-border-secondary p-[0.4375rem] hover:bg-transparent':
+        'border-border-secondary relative h-16 rounded-lg border p-[0.4375rem] hover:bg-transparent':
           listType === 'picture',
-        'mt-0 h-28 w-28 flex-col justify-center rounded-lg border border-border-secondary bg-transparent p-[0.4375rem] before:absolute before:inset-[0.4375rem] before:z-[1] before:rounded before:bg-mask before:opacity-0 before:transition-opacity hover:bg-transparent':
+        'border-border-secondary before:bg-mask mt-0 h-28 w-28 flex-col justify-center rounded-lg border bg-transparent p-[0.4375rem] before:absolute before:inset-[0.4375rem] before:z-1 before:rounded-sm before:opacity-0 before:transition-opacity hover:bg-transparent':
           listType === 'picture-card' || listType === 'picture-circle',
         'bg-fill-quinary hover:bg-fill-quinary':
           (listType === 'picture-card' || listType === 'picture-circle') &&
@@ -158,7 +158,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       'pointer-events-none absolute -bottom-2 w-full ps-6',
       {
         'bottom-3 w-[calc(100%-16px)] ps-14': listType === 'picture',
-        'static w-full pe-0.5 ps-0.5': listType === 'picture-card' || listType === 'picture-circle',
+        'static w-full ps-0.5 pe-0.5': listType === 'picture-card' || listType === 'picture-circle',
       },
       semanticCls.progress,
     );
@@ -181,9 +181,9 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       {
         [`${prefixCls}-list-item-file`]: mergedStatus !== 'uploading' && !isImgUrl?.(file),
       },
-      'flex h-full w-12 items-center justify-center overflow-hidden rounded text-primary',
+      'text-primary flex h-full w-12 items-center justify-center overflow-hidden rounded-sm',
       {
-        'block w-full text-center text-text':
+        'text-text block w-full text-center':
           listType === 'picture-card' || listType === 'picture-circle',
         'h-fit w-fit truncate':
           (listType === 'picture-card' || listType === 'picture-circle') &&
