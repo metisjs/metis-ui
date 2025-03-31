@@ -1,4 +1,5 @@
 import * as React from 'react';
+import dayjs from 'dayjs';
 import useMemo from 'rc-util/es/hooks/useMemo';
 import { merge } from 'rc-util/es/utils/set';
 import ValidateMessagesContext from '../form/validateMessagesContext';
@@ -280,6 +281,14 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
       );
     },
   );
+
+  React.useEffect(() => {
+    if (locale?.locale) {
+      dayjs.locale(locale.locale);
+    } else {
+      dayjs.locale(defaultLocale.locale);
+    }
+  }, [locale?.locale]);
 
   let childNode = <>{children}</>;
 

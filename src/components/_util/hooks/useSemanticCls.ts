@@ -50,7 +50,9 @@ function useSemanticCls(className: any, arg1?: any, arg2?: any): SemanticRecord<
     if (componentName) {
       const contextCls =
         config[componentName as keyof Omit<ConfigConsumerProps, OmitType>]?.className;
-      return getSemanticCls([contextCls, ...classNames], args);
+      if (contextCls) {
+        return getSemanticCls([contextCls, ...classNames], args);
+      }
     }
     return getSemanticCls(classNames, args);
   }, [clsxDependency(className), JSON.stringify(args)]);
