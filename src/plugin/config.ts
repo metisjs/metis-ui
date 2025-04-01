@@ -1,4 +1,4 @@
-import colors from './colors';
+import colors from './theme/colors';
 
 export default {
   theme: {

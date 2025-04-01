@@ -2,10 +2,11 @@ import * as React from 'react';
 import dayjs from 'dayjs';
 import useMemo from 'rc-util/es/hooks/useMemo';
 import { merge } from 'rc-util/es/utils/set';
+import { PREFERS_COLOR_KEY } from '../../plugin/constants';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/en_US';
-import type { ConfigConsumerProps, RequestConfig, RouteConfig, Variant } from './context';
+import type { ConfigConsumerProps, Variant } from './context';
 import { ConfigConsumer, ConfigContext, Variants } from './context';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
@@ -20,7 +21,7 @@ export { Variants };
 export { ConfigConsumer, ConfigContext, type ConfigConsumerProps, type RenderEmptyHandler };
 
 // These props is used by `useContext` directly in sub component
-const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPrefixCls'>[] = [
+const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'getPrefixCls'>[] = [
   'getTargetContainer',
   'getPopupContainer',
   'renderEmpty',
@@ -32,14 +33,11 @@ const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'rootPrefixCls' | 'getPre
   'form',
 ];
 
-export interface ConfigProviderProps
-  extends Omit<ConfigConsumerProps, 'getPrefixCls' | 'route' | 'request'> {
+export interface ConfigProviderProps extends Omit<ConfigConsumerProps, 'getPrefixCls'> {
   prefixCls?: string;
   children?: React.ReactNode;
   componentSize?: SizeType;
   componentDisabled?: boolean;
-  route?: RouteConfig;
-  request?: RequestConfig;
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
@@ -97,6 +95,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     affix,
     alert,
     anchor,
+    button,
     form,
     locale,
     componentSize,
@@ -163,6 +162,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     route,
     request,
     floatButton,
+    theme = 'auto',
   } = props;
 
   // =================================== Context ===================================
@@ -182,9 +182,14 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   );
 
   const baseConfig = {
+    getTargetContainer,
+    getPopupContainer,
+    renderEmpty,
+    form,
     affix,
     alert,
     anchor,
+    button,
     locale,
     space,
     splitter,
@@ -248,6 +253,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     route,
     request,
     floatButton,
+    theme,
   };
 
   const config: ConfigConsumerProps = {
@@ -291,6 +297,19 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   }, [locale?.locale]);
 
   let childNode = <>{children}</>;
+
+  const themeTarget = React.useRef<HTMLDivElement>(null);
+  if (theme !== 'auto') {
+    childNode = (
+      <div
+        ref={themeTarget}
+        className={`${getPrefixCls('theme')}`}
+        {...{ [PREFERS_COLOR_KEY]: theme }}
+      >
+        {childNode}
+      </div>
+    );
+  }
 
   const validateMessages = React.useMemo(
     () =>

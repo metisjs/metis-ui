@@ -206,6 +206,7 @@ export interface ConfigConsumerProps {
   getPopupContainer?: (triggerNode?: HTMLElement) => HTMLElement;
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
   renderEmpty?: RenderEmptyHandler;
+  theme?: string | 'auto';
   variant?: Variant;
   input?: InputConfig;
   textArea?: TextAreaConfig;

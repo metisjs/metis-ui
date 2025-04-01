@@ -3,8 +3,8 @@ import get from 'rc-util/es/utils/get';
 import twColors from 'tailwindcss/colors';
 import type { PluginAPI } from 'tailwindcss/plugin';
 import type { ThemeOptions } from '.';
-import colorPalette from '../colors/colorPalette';
 import { PREFERS_COLOR_KEY } from '../constants';
+import colorPalette from './colorPalette';
 
 type ColorParam = { [key: string]: any };
 type ColorScheme = 'light' | 'dark';
