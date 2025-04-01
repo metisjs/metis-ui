@@ -74,7 +74,7 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     semanticCls.content,
   );
 
-  const iconCls = clsx(`${prefixCls}-icon`, '[&_.metis-icon]:text-xl', semanticCls.icon);
+  const iconCls = clsx(`${prefixCls}-icon`, 'text-xl', semanticCls.icon);
 
   const descriptionCls = clsx(`${prefixCls}-description`, 'text-xs', semanticCls.description);
 

@@ -64,9 +64,9 @@ const TimelineItem: React.FC<TimelineItemProps> = ({
 
   const dotClassName = clsx(
     `${prefixCls}-item-dot`,
-    'bg-border-tertiary text-primary outline-border absolute top-[9px] left-1 h-1.5 w-1.5 rounded-full outline outline-1',
+    'bg-border-tertiary text-primary outline-border absolute top-[9px] left-1 h-1.5 w-1.5 rounded-full outline',
     !!dot &&
-      'bg-container top-3 left-[7px] inline-flex h-auto w-auto -translate-x-1/2 -translate-y-1/2 leading-none outline-0 [&_.metis-icon]:text-2xl',
+      'bg-container top-3 left-[7px] inline-flex h-auto w-auto -translate-x-1/2 -translate-y-1/2 text-2xl leading-none outline-0 [&_.metis-icon]:size-6',
     presetColor && getPresetColorCls(color, { text: true, rawOutline: true, background: !dot }),
     semanticCls.dot,
   );

@@ -124,19 +124,19 @@ function ConfirmContent(
   if (!icon && icon !== null) {
     switch (type) {
       case 'info':
-        mergedIcon = <InformationCircleOutline className="h-6 w-6" />;
+        mergedIcon = <InformationCircleOutline />;
         break;
 
       case 'success':
-        mergedIcon = <CheckOutline className="h-6 w-6" />;
+        mergedIcon = <CheckOutline />;
         break;
 
       case 'error':
-        mergedIcon = <XMarkOutline className="h-6 w-6" />;
+        mergedIcon = <XMarkOutline />;
         break;
 
       default:
-        mergedIcon = <ExclamationTriangleOutline className="h-6 w-6" />;
+        mergedIcon = <ExclamationTriangleOutline />;
     }
   }
 
@@ -146,7 +146,7 @@ function ConfirmContent(
   const bodyCls = clsx(`${confirmPrefixCls}-body`, 'xs:block flex items-start');
   const iconCls = clsx(
     `${confirmPrefixCls}-icon`,
-    'xs:mx-auto xs:h-12 xs:w-12 mx-0 flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+    'xs:mx-auto xs:h-12 xs:w-12 mx-0 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-2xl',
     {
       'bg-error-bg text-error': type === 'confirm' || type === 'error',
       'bg-info-bg text-info': type === 'info',
