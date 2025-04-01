@@ -13,6 +13,7 @@ import MotionThumb from './MotionThumb';
 interface SegmentedLabeledOptionWithoutIcon<T = SegmentedValue> {
   className?: string;
   disabled?: boolean;
+  key?: React.Key;
   label: React.ReactNode;
   value: T;
   /**
@@ -235,12 +236,12 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
       {segmentedOptions.map((segmentedOption) => (
         <InternalSegmentedOption
           prefixCls={prefixCls}
-          key={segmentedOption.value}
           className={mergeSemanticCls(semanticCls.option, segmentedOption.className)}
           checked={segmentedOption.value === rawValue}
           motionEnd={!thumbShow}
           onChange={handleChange}
           {...segmentedOption}
+          key={segmentedOption.key ?? segmentedOption.value}
           disabled={!!disabled || !!segmentedOption.disabled}
           size={mergedSize}
           block={block}
