@@ -150,6 +150,7 @@ export default function ItemHolder(props: ItemHolderProps) {
         'isListField',
         'label',
         'labelAlign',
+        'labelWidth',
         'messageVariables',
         'name',
         'normalize',
