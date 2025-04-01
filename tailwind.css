@@ -2,4 +2,4 @@
 
 @custom-variant dark (&:where([data-prefers-color=dark], [data-prefers-color=dark] *));
 
-@plugin './src/plugin'
+@plugin './src/plugin';

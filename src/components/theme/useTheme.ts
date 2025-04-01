@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { kebabCase } from 'lodash';
 import { PREFERS_COLOR_KEY } from '../../plugin/constants';
+import { ConfigContext } from '../config-provider';
 
 const THEME_KEYS = [
   'primary',
@@ -76,22 +77,25 @@ const genTheme = () => {
 };
 
 export default function useTheme(): Theme {
-  const [theme, setTheme] = React.useState(genTheme);
+  const [themeVariables, setThemeVariables] = React.useState();
+  const { theme } = React.useContext(ConfigContext);
 
   React.useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setTheme(genTheme);
-    });
+    setThemeVariables(genTheme);
 
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: [PREFERS_COLOR_KEY],
-    });
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      setThemeVariables(genTheme);
+    };
+
+    if (theme === 'auto') {
+      mediaQuery.addEventListener('change', handleChange);
+    }
 
     return () => {
-      observer.disconnect();
+      mediaQuery.removeEventListener('change', handleChange);
     };
-  }, []);
+  }, [theme]);
 
-  return theme;
+  return themeVariables;
 }

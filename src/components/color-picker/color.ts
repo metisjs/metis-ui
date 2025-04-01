@@ -1,5 +1,5 @@
-import type { ColorInput, HSV } from '@ant-design/fast-color';
-import { FastColor } from '@ant-design/fast-color';
+import type { ColorInput, HSV } from '@util/FastColor';
+import { FastColor } from '@util/FastColor';
 import type { ColorGenInput, Colors, HSB } from './interface';
 import { getRoundNumber } from './util';
 

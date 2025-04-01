@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FastColor } from '@ant-design/fast-color';
 import { CheckCircleSolid, CheckOutline, XCircleSolid, XMarkOutline } from '@metisjs/icons';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
@@ -12,6 +11,7 @@ import Circle from './Circle';
 import Line from './Line';
 import Steps from './Steps';
 import { getSize, validProgress } from './utils';
+import { FastColor } from '@util/FastColor';
 
 export const ProgressTypes = ['line', 'circle', 'dashboard'] as const;
 export type ProgressType = (typeof ProgressTypes)[number];
