@@ -16,7 +16,9 @@ type OmitType =
   | 'virtual'
   | 'locale'
   | 'route'
-  | 'request';
+  | 'request'
+  | 'theme'
+  | 'themeTarget';
 
 export const clsxDependency = (arg: any) => {
   const args = toArray(arg);

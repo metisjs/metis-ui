@@ -1,6 +1,7 @@
+import { merge } from 'rc-util/es/utils/set';
 import tailwindPlugin from 'tailwindcss/plugin';
-
-// import defaultThemes from './themes';
+import defaultThemes from './themes';
+import { applyThemes, genThemeVariables } from './util';
 
 export type ThemeOptions = {
   name?: string;
@@ -11,12 +12,16 @@ export type ThemeOptions = {
 };
 
 export default tailwindPlugin.withOptions<ThemeOptions>((options = {}) => ({ addBase }) => {
-  // const {
-  //   name = 'custom-theme',
-  //   default: isDefault = false,
-  //   dark = false,
-  //   'color-scheme': colorScheme = 'normal',
-  //   ...colors
-  // } = options;
-  // const exist = !!defaultThemes[name];
+  const { name = 'custom-theme' } = options;
+
+  const existTheme = defaultThemes.find((theme) => theme.name === name);
+
+  let theme: ThemeOptions | undefined = undefined;
+  if (!!existTheme) {
+    theme = merge(existTheme, genThemeVariables(options));
+  } else {
+    theme = genThemeVariables(options);
+  }
+
+  applyThemes([theme], addBase);
 });

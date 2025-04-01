@@ -151,7 +151,7 @@ const Page: React.FC = () => {
         >
           <InputNumber width={200} />
         </Form.Item>
-        <Form.Item labelWidth="auto">
+        <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
@@ -222,8 +222,8 @@ const App: React.FC = () => {
         <span style={{ marginInlineEnd: 16 }}>Change locale of components:</span>
         <Segmented
           options={[
-            { label: 'English', value: enUS },
-            { label: '中文', value: zhCN },
+            { key: 'en', label: 'English', value: enUS },
+            { key: 'zh', label: '中文', value: zhCN },
           ]}
           value={locale}
           onChange={changeLocale}

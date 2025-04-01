@@ -10,6 +10,7 @@ description: Provide a uniform configuration support for components.
 <!-- prettier-ignore -->
 <code src="./demo/locale.tsx">Locale</code>
 <code src="./demo/size.tsx">Component size</code>
+<code src="./demo/theme.tsx">Theme</code>
 <code src="./demo/style-override.tsx">Override</code>
 <code src="./demo/holder-render.tsx">Static function</code>
 <code src="./demo/prefix-cls.tsx" debug>prefixCls</code>
@@ -28,6 +29,7 @@ description: Provide a uniform configuration support for components.
 | popupOverflow | Select like component popup logic. Can set to show in viewport or follow window scroll | 'viewport' \| 'scroll' | 'viewport' |  |
 | prefixCls | Set prefix className | string | `metis` |  |
 | renderEmpty | Set empty content of components. Ref [Empty](/components/empty/) | function(componentName: string): ReactNode | - |  |
+| theme | Set theme，when use `auto` will automatically switch the theme between `default-theme` and `dark-theme` based on the system | string | `auto` |  |
 | variant | Set variant of data entry components | `outlined` \| `filled` \| `borderless` | - |  |
 | virtual | Disable virtual scroll when set to `false` | boolean | - |  |
 

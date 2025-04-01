@@ -207,6 +207,7 @@ export interface ConfigConsumerProps {
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
   renderEmpty?: RenderEmptyHandler;
   theme?: string | 'auto';
+  themeTarget?: React.RefObject<HTMLDivElement>;
   variant?: Variant;
   input?: InputConfig;
   textArea?: TextAreaConfig;
@@ -273,8 +274,8 @@ export interface ConfigConsumerProps {
   popConfirm?: PopconfirmConfig;
   tooltip?: TooltipConfig;
   floatButton?: FloatButtonConfig;
-  route: RouteConfig;
-  request: RequestConfig;
+  route?: RouteConfig;
+  request?: RequestConfig;
 }
 
 const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {

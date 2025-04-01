@@ -20,20 +20,8 @@ export { Variants };
 
 export { ConfigConsumer, ConfigContext, type ConfigConsumerProps, type RenderEmptyHandler };
 
-// These props is used by `useContext` directly in sub component
-const PASSED_PROPS: Exclude<keyof ConfigConsumerProps, 'getPrefixCls'>[] = [
-  'getTargetContainer',
-  'getPopupContainer',
-  'renderEmpty',
-  'button',
-  'input',
-  'pagination',
-  'route',
-  'request',
-  'form',
-];
-
-export interface ConfigProviderProps extends Omit<ConfigConsumerProps, 'getPrefixCls'> {
+export interface ConfigProviderProps
+  extends Omit<ConfigConsumerProps, 'getPrefixCls' | 'themeTarget'> {
   prefixCls?: string;
   children?: React.ReactNode;
   componentSize?: SizeType;
@@ -92,77 +80,13 @@ export const globalConfig = () => ({
 const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   const {
     children,
-    affix,
-    alert,
-    anchor,
-    button,
-    form,
-    locale,
     componentSize,
-    space,
-    splitter,
-    virtual,
-    popupMatchSelectWidth,
-    popupOverflow,
     parentContext,
     componentDisabled,
-    segmented,
-    statistic,
-    spin,
-    calendar,
-    carousel,
-    cascader,
-    collapse,
-    checkbox,
-    descriptions,
-    divider,
-    drawer,
-    skeleton,
-    steps,
-    image,
-    list,
-    mentions,
-    modal,
-    progress,
-    result,
-    slider,
-    breadcrumb,
-    menu,
-    pagination,
-    input,
-    textArea,
-    empty,
-    badge,
-    radio,
-    rate,
-    switch: SWITCH,
-    scrollbar,
-    transfer,
-    avatar,
-    message,
-    tag,
-    table,
-    card,
-    tabs,
-    timeline,
-    upload,
-    notification,
-    tree,
-    colorPicker,
-    datePicker,
-    rangePicker,
-    dropdown,
-    tour,
-    qrCode,
-    variant,
-    inputNumber,
-    tooltip,
-    popConfirm,
-    popover,
-    route,
-    request,
-    floatButton,
+    locale,
+    form,
     theme = 'auto',
+    ...restProps
   } = props;
 
   // =================================== Context ===================================
@@ -181,79 +105,15 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     [parentContext.getPrefixCls, props.prefixCls],
   );
 
+  const themeTarget = React.useRef<HTMLDivElement>(null);
+
   const baseConfig = {
-    getTargetContainer,
-    getPopupContainer,
-    renderEmpty,
-    form,
-    affix,
-    alert,
-    anchor,
-    button,
+    ...restProps,
     locale,
-    space,
-    splitter,
-    virtual,
-    popupMatchSelectWidth,
-    popupOverflow,
-    getPrefixCls,
-    segmented,
-    statistic,
-    spin,
-    calendar,
-    carousel,
-    cascader,
-    collapse,
-    checkbox,
-    descriptions,
-    divider,
-    drawer,
-    skeleton,
-    steps,
-    image,
-    input,
-    textArea,
-    list,
-    mentions,
-    modal,
-    progress,
-    result,
-    scrollbar,
-    slider,
-    breadcrumb,
-    menu,
-    pagination,
-    empty,
-    badge,
-    radio,
-    rate,
-    switch: SWITCH,
-    transfer,
-    avatar,
-    message,
-    tag,
-    table,
-    card,
-    tabs,
-    timeline,
-    upload,
-    notification,
-    tree,
-    colorPicker,
-    datePicker,
-    rangePicker,
-    dropdown,
-    tour,
-    qrCode,
-    variant,
-    inputNumber,
-    tooltip,
-    popConfirm,
-    popover,
-    route,
-    request,
-    floatButton,
+    form,
     theme,
+    getPrefixCls,
+    themeTarget: theme === 'auto' ? undefined : themeTarget,
   };
 
   const config: ConfigConsumerProps = {
@@ -263,15 +123,6 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   (Object.keys(baseConfig) as (keyof typeof baseConfig)[]).forEach((key) => {
     if (baseConfig[key] !== undefined) {
       (config as any)[key] = baseConfig[key];
-    }
-  });
-
-  // Pass the props used by `useContext` directly with child component.
-  // These props should merged into `config`.
-  PASSED_PROPS.forEach((propName) => {
-    const propValue = props[propName];
-    if (propValue) {
-      (config as any)[propName] = propValue;
     }
   });
 
@@ -298,7 +149,6 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   let childNode = <>{children}</>;
 
-  const themeTarget = React.useRef<HTMLDivElement>(null);
   if (theme !== 'auto') {
     childNode = (
       <div
