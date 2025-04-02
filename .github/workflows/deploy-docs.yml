@@ -1,0 +1,34 @@
+name: "Deploy docs"
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches:
+      - main
+    paths:
+      - ".dumi/**"
+      - "docs/**"
+      - "public/**"
+      - "src/**"
+
+jobs:
+  deploy-docs:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    env:
+      LEMONSQUEEZY_API_KEY: ${{ secrets.LEMONSQUEEZY_API_KEY }}
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Install and Build 🔧
+        run: |
+          npm ci
+          npm run docs:build
+
+      - name: Deploy 🚀
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
