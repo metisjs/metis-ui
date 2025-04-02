@@ -5,8 +5,8 @@ const App: React.FC = () => {
   const theme = useTheme();
   return (
     <Space>
-      <QRCode value="https://metis.github.io/" color={theme.success} />
-      <QRCode value="https://metis.github.io/" color={theme.text} bgColor={theme.layout} />
+      <QRCode value="https://metisui.com/" color={theme.success} />
+      <QRCode value="https://metisui.com/" color={theme.text} bgColor={theme.layout} />
     </Space>
   );
 };

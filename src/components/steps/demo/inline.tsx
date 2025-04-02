@@ -45,7 +45,7 @@ const App: React.FC = () => (
         <List.Item>
           <List.Item.Meta
             avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-            title={<a href="https://metis.github.io">{item.title}</a>}
+            title={<a href="https://metisui.com">{item.title}</a>}
             description="Metis, a design language for background applications, is refined by Ant UED Team"
           />
           <Steps

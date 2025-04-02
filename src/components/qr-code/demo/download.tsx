@@ -36,7 +36,7 @@ const App: React.FC = () => {
       <div>
         <QRCode
           type={renderType}
-          value="https://metis.github.io/"
+          value="https://metisui.com/"
           bgColor="#fff"
           style={{ marginBottom: 16 }}
           icon="/logo.svg"

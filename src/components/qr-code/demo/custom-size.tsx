@@ -42,7 +42,7 @@ const App: React.FC = () => {
         errorLevel="H"
         size={size}
         iconSize={size / 4}
-        value="https://metis.github.io/"
+        value="https://metisui.com/"
         icon="/logo.svg"
       />
     </>

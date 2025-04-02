@@ -6,7 +6,7 @@ const App: React.FC = () => (
   <Space vertical size={24}>
     <Avatar.Group>
       <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-      <a href="https://metis.github.io">
+      <a href="https://metisui.com">
         <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
       </a>
       <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />

@@ -6,7 +6,7 @@ const App: React.FC = () => (
   <SemanticPreview semantics={[{ name: 'root' }, { name: 'mask' }]}>
     {(hover) => (
       <QRCode
-        value="https://metis.github.io"
+        value="https://metisui.com"
         icon="/logo.svg"
         status={hover?.name === 'mask' ? 'scanned' : 'active'}
       />

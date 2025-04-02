@@ -3,7 +3,7 @@ import { ArrowPathOutline, CheckCircleSolid, XCircleSolid } from '@metisjs/icons
 import type { QRCodeProps } from 'metis-ui';
 import { Button, QRCode, Space, Spin } from 'metis-ui';
 
-const value = 'https://metis.github.io';
+const value = 'https://metisui.com';
 
 const customStatusRender: QRCodeProps['statusRender'] = (info) => {
   switch (info.status) {
@@ -11,7 +11,7 @@ const customStatusRender: QRCodeProps['statusRender'] = (info) => {
       return (
         <div>
           <Space>
-            <XCircleSolid className="h-4 w-4 text-error" />
+            <XCircleSolid className="text-error h-4 w-4" />
             {info.locale?.expired}
           </Space>
           <p>

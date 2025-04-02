@@ -1,7 +1,7 @@
 import React from 'react';
 import { QRCode, Space } from 'metis-ui';
 
-const value = 'https://metis.github.io';
+const value = 'https://metisui.com';
 
 const App: React.FC = () => (
   <Space size="middle" wrap block>
