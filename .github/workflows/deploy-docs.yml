@@ -16,8 +16,6 @@ jobs:
   deploy-docs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    env:
-      LEMONSQUEEZY_API_KEY: ${{ secrets.LEMONSQUEEZY_API_KEY }}
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
