@@ -113,7 +113,7 @@ export default function StepHandler({
     {
       [`${prefixCls}-handler-down-disabled`]: downDisabled,
     },
-    'flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l transition-all duration-200 ease-linear',
+    'border-border-secondary flex h-1/2 flex-auto cursor-pointer items-center justify-center overflow-hidden border-l transition-all duration-200 ease-linear',
     {
       '*:-translate-x-[0.5px] *:-translate-y-[0.5px] *:group-has-focus-within/input:translate-x-0 *:group-has-focus-within/input:translate-y-0':
         variant === 'outlined',
