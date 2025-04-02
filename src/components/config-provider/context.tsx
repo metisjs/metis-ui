@@ -274,8 +274,8 @@ export interface ConfigConsumerProps {
   popConfirm?: PopconfirmConfig;
   tooltip?: TooltipConfig;
   floatButton?: FloatButtonConfig;
-  route?: RouteConfig;
-  request?: RequestConfig;
+  route: RouteConfig;
+  request: RequestConfig;
 }
 
 const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {

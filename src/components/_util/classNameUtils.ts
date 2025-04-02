@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import classNames from 'classnames';
 import { cloneDeep, mergeWith } from 'lodash';
+import type { DefaultClassGroupIds } from 'tailwind-merge';
 import { extendTailwindMerge } from 'tailwind-merge';
 
-const twMerge = extendTailwindMerge({
+const twMerge = extendTailwindMerge<DefaultClassGroupIds, 'opacity'>({
   extend: {
     theme: {
       opacity: ['disabled'],
