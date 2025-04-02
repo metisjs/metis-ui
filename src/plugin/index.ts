@@ -36,4 +36,4 @@ export default tailwindPlugin.withOptions<Options>(
       }
     },
   () => config,
-);
+) as any;

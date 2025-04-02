@@ -24,4 +24,4 @@ export default tailwindPlugin.withOptions<ThemeOptions>((options = {}) => ({ add
   }
 
   applyThemes([theme], addBase);
-});
+}) as any;

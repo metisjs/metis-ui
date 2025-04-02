@@ -1,5 +1,4 @@
 import * as React from 'react';
-import type { RequestConfig } from '@util/type';
 import dayjs from 'dayjs';
 import useMemo from 'rc-util/es/hooks/useMemo';
 import { merge } from 'rc-util/es/utils/set';
@@ -7,7 +6,7 @@ import { PREFERS_COLOR_KEY } from '../../plugin/constants';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/en_US';
-import type { ConfigConsumerProps, RouteConfig, Variant } from './context';
+import type { ConfigConsumerProps, RequestConfig, RouteConfig, Variant } from './context';
 import { ConfigConsumer, ConfigContext, Variants } from './context';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
