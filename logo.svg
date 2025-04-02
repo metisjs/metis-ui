@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="420px" height="360px" viewBox="0 0 28 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo</title>
+    <defs>
+        <linearGradient x1="20.435%" y1="45.479%" x2="78.694%" y2="53.36%" id="linearGradient-1">
+            <stop stop-color="#93C5FD" offset="0%"></stop>
+            <stop stop-color="#6366F1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="9.224%" x2="50%" y2="87.44%" id="linearGradient-2">
+            <stop stop-color="#4F46E5" offset="0%"></stop>
+            <stop stop-color="#6366F1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="15.51%" y1="0%" x2="92.185%" y2="85.993%" id="linearGradient-3">
+            <stop stop-color="#1E40AF" offset="0%"></stop>
+            <stop stop-color="#4338CA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="16.3420352%" y1="0.933149018%" x2="92.185%" y2="85.993%" id="linearGradient-4">
+            <stop stop-color="#1E40AF" offset="0%"></stop>
+            <stop stop-color="#4338CA" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo" fill-rule="nonzero">
+            <polygon id="路径" fill="url(#linearGradient-1)"
+                points="13.998 11.975 7.007 7.988 0.011 3.988 7.002 0 14.002 3.987 20.995 0 27.995 3.987 21 7.987">
+            </polygon>
+            <polygon id="路径" fill="url(#linearGradient-2)" points="0 4 6.996 8.009 6.996 24 0 20"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-2)"
+                transform="translate(24.502000, 14.000000) scale(-1, 1) translate(-24.502000, -14.000000) "
+                points="21.004 4 28 8.009 28 24 21.004 20"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-3)" points="0.01 4 7.007 11.616 7.007 7.988"></polygon>
+            <polygon id="路径" fill="url(#linearGradient-4)"
+                transform="translate(24.501000, 7.808000) scale(-1, 1) translate(-24.501000, -7.808000) "
+                points="21.003 4 27.999 11.616 27.999 7.988"></polygon>
+        </g>
+    </g>
+</svg>
