@@ -12,6 +12,9 @@ on:
       - "public/**"
       - "src/**"
 
+permissions:
+  contents: write
+
 jobs:
   deploy-docs:
     timeout-minutes: 10
