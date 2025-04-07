@@ -63,7 +63,7 @@ const TourPanel: React.FC<TourPanelProps> = (props) => {
 
   const innerCls = clsx(
     `${prefixCls}-inner`,
-    'ring-border-secondary rounded-md bg-(--metis-arrow-background-color) text-start text-sm shadow-lg ring-1 backdrop-blur-2xl',
+    'outline-border-secondary rounded-md bg-(--metis-arrow-background-color) text-start text-sm shadow-lg outline-1 backdrop-blur-2xl',
     semanticCls.content,
   );
 

@@ -76,16 +76,16 @@ const QRCode: React.FC<QRCodeProps> = (props) => {
     {
       [`${prefixCls}-borderless`]: !bordered,
     },
-    'relative flex items-center justify-center overflow-hidden rounded-lg bg-container p-2 text-sm text-text ring-1 ring-border-tertiary',
+    'bg-container text-text outline-border-secondary relative flex items-center justify-center overflow-hidden rounded-lg p-2 text-sm outline-1',
     {
-      'rind-0 rounded-none p-0': !bordered,
+      'rounded-none p-0 outline-0': !bordered,
     },
     semanticCls.root,
   );
 
   const maskCls = clsx(
     `${prefixCls}-mask`,
-    'absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center bg-container font-medium opacity-95',
+    'bg-container absolute top-0 left-0 z-10 flex h-full w-full flex-col items-center justify-center font-medium opacity-95',
     semanticCls.mask,
   );
 

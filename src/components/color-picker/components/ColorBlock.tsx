@@ -21,7 +21,7 @@ const ColorBlock: FC<ColorBlockProps> = ({ color, prefixCls, className, style, o
       )}
       style={{
         backgroundImage:
-          'conic-gradient(var(--fill-quaternary)) 0 25%, transparent 0 50%, hsla(var(--fill-quaternary) 0 75%, transparent 0)',
+          'conic-gradient(var(--fill-quaternary) 0 25%, transparent 0 50%, var(--fill-quaternary) 0 75%, transparent 0)',
         ...style,
       }}
       onClick={onClick}
@@ -29,7 +29,7 @@ const ColorBlock: FC<ColorBlockProps> = ({ color, prefixCls, className, style, o
       <div
         className={clsx(
           `${colorBlockCls}-inner`,
-          'ring-fill-tertiary h-full w-full rounded-sm ring-1 ring-inset',
+          'outline-fill-tertiary h-full w-full rounded-sm outline -outline-offset-1',
         )}
         style={{
           background: color,

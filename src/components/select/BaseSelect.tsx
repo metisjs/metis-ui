@@ -768,26 +768,27 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
       [`${prefixCls}-${variant}`]: enableVariantCls,
     },
     !customizeInputElement && [
-      'group/select bg-container text-text ring-border relative inline-block rounded-md text-sm shadow-xs ring-1 ring-inset',
+      'group/select bg-container text-text outline-border relative inline-block rounded-md text-sm shadow-xs outline-1 -outline-offset-1',
       { ['rounded-sm']: mergedSize === 'mini' },
       {
-        'bg-container ring-1': variant === 'outlined',
-        'bg-transparent shadow-none ring-0': variant === 'borderless',
-        'bg-fill-quinary ring-0': variant === 'filled',
+        'bg-container outline-1': variant === 'outlined',
+        'bg-transparent shadow-none outline-0': variant === 'borderless',
+        'bg-fill-quinary outline-0': variant === 'filled',
       },
-      'in-[.input-addon]:-mx-3 in-[.input-addon]:bg-transparent in-[.input-addon]:shadow-none in-[.input-addon]:ring-0',
+      'in-[.input-addon]:-mx-3 in-[.input-addon]:bg-transparent in-[.input-addon]:shadow-none in-[.input-addon]:outline-0',
       { 'w-full': isFormItemInput },
       compactItemClassnames,
       (mockFocused || mergedOpen) && {
-        'ring-primary ring-2': true,
-        'ring-0': variant === 'borderless',
+        'outline-primary outline-2 -outline-offset-2': true,
+        'outline-0': variant === 'borderless',
         'bg-container': variant === 'filled',
         'z-2': isCompactItem,
       },
       getStatusClassNames(mergedStatus, variant, mockFocused || mergedOpen),
       mergedDisabled && {
         'bg-fill-quaternary text-text-tertiary': true,
-        'not-allowed bg-fill-quaternary text-text-tertiary ring-border': variant !== 'borderless',
+        'not-allowed bg-fill-quaternary text-text-tertiary outline-border':
+          variant !== 'borderless',
       },
     ],
     semanticCls.root,
@@ -839,7 +840,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   );
 
   const popupCls = clsx(
-    'bg-container ring-border-secondary absolute rounded-md text-sm shadow-lg ring-1 backdrop-blur-2xl focus:outline-hidden',
+    'bg-container outline-border-secondary absolute rounded-md text-sm shadow-lg outline-1 backdrop-blur-2xl',
     semanticCls.popup,
   );
 

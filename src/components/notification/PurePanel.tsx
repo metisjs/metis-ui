@@ -83,7 +83,7 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
       prefixCls={prefixCls}
       className={{
         root: clsx(
-          'bg-container ring-border-secondary relative flex w-[24rem] gap-3 overflow-hidden rounded-lg p-4 break-words shadow-lg ring-1 backdrop-blur-2xl ring-inset',
+          'bg-container outline-border-secondary relative flex w-[24rem] gap-3 overflow-hidden rounded-lg p-4 break-words shadow-lg outline-1 -outline-offset-1 backdrop-blur-2xl',
           semanticCls.root,
         ),
         close: clsx(

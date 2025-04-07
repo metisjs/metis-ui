@@ -216,16 +216,14 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-dangerous`]: !!danger,
     },
-    'button relative inline-flex w-fit cursor-pointer items-center justify-center rounded-md text-sm font-medium whitespace-nowrap shadow-xs transition ease-in-out focus:outline-hidden focus-visible:ring-2',
+    'button focus-visible:outline-primary relative inline-flex w-fit cursor-pointer items-center justify-center rounded-md text-sm font-medium whitespace-nowrap shadow-xs transition-[background-color] ease-in-out focus-visible:outline-2 focus-visible:-outline-offset-2',
     {
-      'bg-container text-text ring-border focus-visible:ring-primary enabled:hover:bg-fill-quinary ring-1 ring-inset':
+      'bg-container text-text outline-border enabled:hover:bg-fill-quinary outline -outline-offset-1':
         type === 'default',
-      'bg-primary focus-visible:outline-primary enabled:hover:bg-primary-hover text-white focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2':
+      'bg-primary enabled:hover:bg-primary-hover text-white focus-visible:outline-offset-2':
         type === 'primary',
-      'text-text focus-visible:ring-primary enabled:hover:bg-fill-tertiary shadow-none ring-inset':
-        type === 'text',
-      'focus-visible:ring-none text-primary focus-visible:ring-primary enabled:hover:text-primary-hover shadow-none ring-inset':
-        type === 'link',
+      'text-text enabled:hover:bg-fill-tertiary shadow-none': type === 'text',
+      'text-primary enabled:hover:text-primary-hover shadow-none': type === 'link',
     },
     {
       'gap-x-1.5 rounded-sm px-3 py-1': mergedSize === 'mini',
@@ -242,8 +240,8 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
     {
       'rounded-full': shape === 'round',
       'justify-center ps-0 pe-0 text-base': iconOnly,
-      'opacity-disabled cursor-not-allowed focus-visible:ring-0': mergedDisabled,
-      'text-error ring-error focus-visible:ring-error enabled:hover:bg-error-bg': danger,
+      'opacity-disabled cursor-not-allowed focus-visible:outline-0': mergedDisabled,
+      'text-error outline-error focus-visible:outline-error enabled:hover:bg-error-bg': danger,
       'cursor-not-allowed': innerLoading,
     },
     isHref &&

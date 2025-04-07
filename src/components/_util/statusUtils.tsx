@@ -10,9 +10,9 @@ export function getStatusClassNames(status?: ValidateStatus, variant?: Variant, 
 
   return clsx(
     {
-      'border-warning ring-warning focus-within:border-warning focus-within:ring-warning focus:border-warning focus:ring-warning':
+      'border-warning outline-warning focus-within:border-warning focus-within:outline-warning focus:border-warning focus:outline-warning':
         status === 'warning',
-      'border-error ring-error focus-within:border-error focus-within:ring-error focus:border-error focus:ring-error':
+      'border-error outline-error focus-within:border-error focus-within:outline-error focus:border-error focus:outline-error':
         status === 'error',
     },
     variant === 'filled' && [

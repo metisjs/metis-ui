@@ -140,11 +140,11 @@ const Handle = React.forwardRef<HTMLDivElement, HandleProps>((props, ref) => {
       [`${handlePrefixCls}-dragging`]: dragging,
     },
     'absolute h-2 w-2 rounded-full outline-hidden',
-    'after:bg-container after:ring-primary backdrop-blur-2xl after:absolute after:top-0 after:left-0 after:h-2 after:w-2 after:cursor-pointer after:rounded-full after:ring-2 after:transition-all',
+    'after:bg-container after:outline-primary after:absolute after:top-0 after:left-0 after:h-2 after:w-2 after:cursor-pointer after:rounded-full after:outline-2 after:backdrop-blur-2xl after:transition-[width,height,left,top]',
     !disabled &&
-      'hover:after:ring-primary-hover hover:after:-top-[0.0626rem] hover:after:-left-[0.0626rem] hover:after:h-[0.625rem] hover:after:w-[0.625rem]',
+      'hover:after:outline-primary-hover hover:after:-top-[0.0626rem] hover:after:-left-[0.0626rem] hover:after:h-[0.625rem] hover:after:w-2.5',
     !disabled &&
-      'focus:after:ring-primary-hover focus:after:-top-[0.0626rem] focus:after:-left-[0.0626rem] focus:after:h-[0.625rem] focus:after:w-[0.625rem]',
+      'focus:after:outline-primary-hover focus:after:-top-[0.0626rem] focus:after:-left-[0.0626rem] focus:after:h-[0.625rem] focus:after:w-2.5',
     disabled && 'after:cursor-not-allowed',
     {
       'left-[0.125rem]': direction === 'ttb' || direction === 'btt',

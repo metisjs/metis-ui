@@ -133,7 +133,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     );
     if (listType === 'picture') {
       icon = isLoading ? (
-        <LoadingOutline className="h-7 w-7 animate-spin text-primary" />
+        <LoadingOutline className="text-primary h-7 w-7 animate-spin" />
       ) : (
         fileIcon
       );
@@ -163,15 +163,15 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       },
       className: clsx(
         `${prefixCls}-list-item-action`,
-        'h-5 w-fit p-0 font-normal focus-visible:ring-0',
+        'h-5 w-fit p-0 font-normal focus-visible:outline-0',
         {
           'text-text-tertiary hover:text-text-secondary': listType === 'text',
-          'px-0.5 text-text-secondary': listType === 'picture',
+          'text-text-secondary px-0.5': listType === 'picture',
           'text-white hover:text-white':
             listType === 'picture-card' || listType === 'picture-circle',
         },
         error && {
-          'flex text-error-hover hover:enabled:text-error': listType === 'text',
+          'text-error-hover hover:enabled:text-error flex': listType === 'text',
           'text-text-error hover:enabled:bg-error-bg': listType === 'picture',
         },
       ),
@@ -209,7 +209,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   const listCls = clsx(
     `${prefixCls}-list`,
     `${prefixCls}-list-${listType}`,
-    'text-sm text-text',
+    'text-text text-sm',
     {
       'flex flex-wrap gap-2': listType === 'picture-card' || listType === 'picture-circle',
       'mt-2': type === 'drag' && (listType === 'picture-card' || listType === 'picture-circle'),

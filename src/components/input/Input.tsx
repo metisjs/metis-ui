@@ -236,7 +236,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       [`${prefixCls}-disabled`]: mergedDisabled,
       [`${prefixCls}-${variant}`]: enableVariantCls && !inputHasPrefixSuffix,
     },
-    'bg-container ring-border placeholder:text-text-quaternary focus:ring-primary relative inline-block w-full appearance-none rounded-md text-sm outline-hidden ring-inset focus:ring-inset',
+    'bg-container outline-border placeholder:text-text-quaternary focus:outline-primary relative inline-block w-full appearance-none rounded-md text-sm -outline-offset-1 focus:-outline-offset-2',
     {
       'rounded-sm px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
@@ -244,20 +244,20 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'px-3 py-2.5': mergedSize === 'large',
     },
     {
-      'ring-1 focus:ring-2': variant === 'outlined',
-      'bg-transparent ring-0 focus:ring-0': variant === 'borderless',
-      'bg-fill-quinary focus:bg-container ring-0 focus:ring-2': variant === 'filled',
+      'outline focus:outline-2': variant === 'outlined',
+      'bg-transparent outline-0 focus:outline-0': variant === 'borderless',
+      'bg-fill-quinary focus:bg-container outline-0 focus:outline-2': variant === 'filled',
     },
     {
       'text-text': !inputHasPrefixSuffix,
-      'rounded-none bg-transparent p-0 ring-0 focus:bg-transparent focus:ring-0':
+      'rounded-none bg-transparent p-0 outline-0 focus:bg-transparent focus:outline-0':
         inputHasPrefixSuffix,
       'rounded-s-none': addonBefore,
       'rounded-e-none': addonAfter,
     },
     !inputHasPrefixSuffix && statusClassName,
     mergedDisabled && {
-      'text-text-tertiary ring-border': true,
+      'text-text-tertiary outline-border': true,
       'bg-fill-quaternary': !inputHasPrefixSuffix && variant !== 'borderless',
     },
     compactItemClassnames[1],
@@ -265,7 +265,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     semanticCls.input,
   );
   const affixWrapperCls = clsx(
-    'bg-container text-text ring-border focus-within:ring-primary relative inline-flex w-full items-center gap-x-2 rounded-md text-sm ring-inset focus-within:ring-inset',
+    'bg-container text-text outline-border focus-within:outline-primary relative inline-flex w-full items-center gap-x-2 rounded-md text-sm -outline-offset-1 focus-within:-outline-offset-2',
     {
       'gap-x-1 rounded-sm px-2 py-1': mergedSize === 'mini',
       'px-3 py-1.5': mergedSize === 'small',
@@ -273,9 +273,10 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'px-3 py-2.5': mergedSize === 'large',
     },
     {
-      'ring-1 focus-within:ring-2': variant === 'outlined',
-      'bg-transparent ring-0 focus-within:ring-0': variant === 'borderless',
-      'bg-fill-quinary focus-within:bg-container ring-0 focus-within:ring-2': variant === 'filled',
+      'outline focus-within:outline-2': variant === 'outlined',
+      'bg-transparent outline-0 focus-within:outline-0': variant === 'borderless',
+      'bg-fill-quinary focus-within:bg-container outline-0 focus-within:outline-2':
+        variant === 'filled',
     },
     {
       'rounded-s-none': addonBefore,
@@ -283,14 +284,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     },
     statusClassName,
     mergedDisabled && {
-      'text-text-tertiary ring-border': true,
+      'text-text-tertiary outline-border': true,
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
     !addonBefore && !addonAfter && compactItemClassnames[0],
   );
   const addonBeforeCls = clsx(
-    'input-addon bg-container text-text-secondary ring-border -mr-[1px] inline-flex items-center rounded-s-md text-sm ring-inset',
+    'input-addon bg-container text-text-secondary outline-border -mr-[1px] inline-flex items-center rounded-s-md text-sm -outline-offset-1',
     {
       'h-7 rounded-s px-2': mergedSize === 'mini',
       'h-8 px-2': mergedSize === 'small',
@@ -298,20 +299,20 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'h-10 px-3': mergedSize === 'large',
     },
     {
-      'ring-1': variant === 'outlined',
-      'bg-transparent ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0': variant === 'filled',
+      outline: variant === 'outlined',
+      'bg-transparent outline-0': variant === 'borderless',
+      'bg-fill-quinary outline-0': variant === 'filled',
     },
     statusClassName,
     mergedDisabled && {
-      'text-text-tertiary ring-border': true,
+      'text-text-tertiary outline-border': true,
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],
     semanticCls.addonBefore,
   );
   const addonAfterCls = clsx(
-    'input-addon bg-container text-text-secondary ring-border -ml-[1px] inline-flex items-center rounded-e-md text-sm ring-inset',
+    'input-addon bg-container text-text-secondary outline-border -ml-[1px] inline-flex items-center rounded-e-md text-sm -outline-offset-1',
     {
       'h-7 rounded-e-md px-2': mergedSize === 'mini',
       'h-8 px-2': mergedSize === 'small',
@@ -319,13 +320,13 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       'h-10 px-3': mergedSize === 'large',
     },
     {
-      'ring-1': variant === 'outlined',
-      'bg-transparent ring-0': variant === 'borderless',
-      'bg-fill-quinary ring-0': variant === 'filled',
+      outline: variant === 'outlined',
+      'bg-transparent outline-0': variant === 'borderless',
+      'bg-fill-quinary outline-0': variant === 'filled',
     },
     statusClassName,
     mergedDisabled && {
-      'text-text-tertiary ring-border': true,
+      'text-text-tertiary outline-border': true,
       'bg-fill-quaternary': variant !== 'borderless',
     },
     compactItemClassnames[1],

@@ -1,5 +1,5 @@
 @import 'tailwindcss';
 
-@custom-variant dark (&:where([data-prefers-color=dark], [data-prefers-color=dark] *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @plugin './src/plugin';

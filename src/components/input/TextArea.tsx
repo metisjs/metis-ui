@@ -200,7 +200,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
 
     const textareaCls = clsx(
       { [`${prefixCls}-${variant}`]: enableVariantCls },
-      'bg-container text-text ring-border placeholder:text-text-quaternary focus:ring-primary relative block h-full w-full appearance-none rounded-md border-0 text-sm shadow-xs outline-hidden ring-inset focus:ring-inset',
+      'bg-container text-text outline-border placeholder:text-text-quaternary focus:outline-primary relative block h-full w-full appearance-none rounded-md border-0 text-sm shadow-xs -outline-offset-1 focus:-outline-offset-2',
       {
         'rounded-sm px-2 py-1': mergedSize === 'mini',
         'px-3 py-1.5': mergedSize === 'small',
@@ -208,16 +208,16 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
         'px-3 py-2.5': mergedSize === 'large',
       },
       {
-        'ring-1 focus:ring-2': variant === 'outlined',
-        'bg-transparent shadow-none ring-0 focus:ring-0': variant === 'borderless',
-        'bg-fill-quinary focus:bg-container ring-0 focus:ring-2': variant === 'filled',
+        'outline focus:outline-2': variant === 'outlined',
+        'bg-transparent shadow-none outline-0 focus:outline-0': variant === 'borderless',
+        'bg-fill-quinary focus:bg-container outline-0 focus:outline-2': variant === 'filled',
       },
       {
         'pr-8': allowClear,
       },
       getStatusClassNames(mergedStatus, variant),
       mergedDisabled && {
-        'text-text-tertiary ring-border': true,
+        'text-text-tertiary outline-border': true,
         'bg-fill-quaternary': variant !== 'borderless',
       },
       semanticCls.textarea,

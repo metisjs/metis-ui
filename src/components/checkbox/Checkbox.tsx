@@ -163,6 +163,7 @@ const InternalCheckbox: React.ForwardRefRenderFunction<CheckboxRef, CheckboxProp
   const indicatorClass = clsx(
     `${prefixCls}-indicator`,
     'border-border bg-container block h-4 w-4 cursor-pointer rounded-sm border text-white',
+    'peer-focus-visible/checkbox:outline-primary peer-focus-visible/checkbox:outline-2 peer-focus-visible/checkbox:outline-offset-2',
     {
       'after:bg-primary after:absolute after:start-1/2 after:top-1/2 after:block after:h-2 after:w-2 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-xs after:content-[""]':
         indeterminate,

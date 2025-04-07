@@ -151,13 +151,13 @@ export const BaseSlider = (props: BaseSliderProps) => {
           className={mergeSemanticCls(
             {
               root: clsx(`${prefixCls}-slider`, 'm-0 h-2 bg-[length:0.5rem_0.5rem] p-0'),
-              rail: 'ring-fill-quaternary h-2 ring-1 ring-inset',
+              rail: 'outline-fill-quaternary h-2 outline -outline-offset-1',
               handle: clsx(
-                'ring-fill-quaternary top-0 ring-1 ring-offset-2',
-                'after:ring-container after:bg-transparent',
-                'focus:ring-primary',
-                'hover:after:ring-container hover:after:top-0 hover:after:left-0 hover:after:h-2 hover:after:w-2',
-                'focus:after:ring-container focus:after:top-0 focus:after:left-0 focus:after:h-2 focus:after:w-2',
+                'outline-fill-tertiary ring-fill-quaternary top-0 ring ring-offset-2 outline -outline-offset-1 outline-solid',
+                'focus-visible:ring-primary',
+                'after:bg-transparent after:outline-white/85 after:backdrop-blur-none',
+                'hover:after:top-0 hover:after:left-0 hover:after:h-2 hover:after:w-2 hover:after:outline-white/85',
+                'focus:after:top-0 focus:after:left-0 focus:after:h-2 focus:after:w-2 focus:after:outline-white/85',
               ),
             },
             className,
@@ -167,7 +167,7 @@ export const BaseSlider = (props: BaseSliderProps) => {
           range={range}
           style={{
             backgroundImage:
-              'conic-gradient(var(--fill-quaternary)) 0 25%, transparent 0 50%, hsla(var(--fill-quaternary) 0 75%, transparent 0)',
+              'conic-gradient(var(--fill-quaternary) 0 25%, transparent 0 50%, var(--fill-quaternary) 0 75%, transparent 0)',
           }}
           railStyle={{
             background: linearCss,

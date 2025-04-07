@@ -135,7 +135,7 @@ const Handler: FC<{
     <div
       className={clsx(
         `${prefixCls}-handler`,
-        'ring-container relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset',
+        'relative h-4 w-4 cursor-pointer rounded-full outline-2 -outline-offset-2 outline-white/85',
         className,
       )}
       style={{
@@ -342,7 +342,7 @@ const Picker: FC = () => {
   const panelCls = clsx(`${prefixCls}-panel`, 'select-none', semanticCls?.root);
   const saturationCls = clsx(
     `${prefixCls}-saturation`,
-    'ring-fill-tertiary absolute inset-0 rounded-sm ring-1 ring-inset',
+    'outline-fill-tertiary absolute inset-0 rounded-sm outline -outline-offset-1',
   );
   const sliderContainerCls = clsx(`${prefixCls}-slider-container`, 'mb-3 flex gap-3');
   const sliderGroupCls = clsx(

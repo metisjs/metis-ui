@@ -136,7 +136,7 @@ const Tour: React.FC<TourProps> = (props) => {
     ? {
         className: getArrowClassName({
           limitVerticalRadius: true,
-          custom: 'after:ring-1 after:ring-border-secondary',
+          custom: 'after:outline-1 after:outline-border-secondary',
         }),
       }
     : false;

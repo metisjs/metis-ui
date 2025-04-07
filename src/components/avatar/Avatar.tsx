@@ -184,7 +184,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
 
   const avatarCls = clsx(
     prefixCls,
-    'bg-fill in-[.group]:ring-container relative inline-block overflow-hidden text-center align-middle text-sm whitespace-nowrap text-white in-[.group]:ring-2',
+    'bg-fill in-[.group]:outline-container relative inline-block overflow-hidden text-center align-middle text-sm whitespace-nowrap text-white in-[.group]:outline-2',
     typeof size === 'string' && {
       'h-12 w-12 leading-[3rem]': size === 'large',
       'h-10 w-10 leading-10': size === 'default',

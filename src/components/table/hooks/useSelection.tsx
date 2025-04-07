@@ -522,7 +522,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         }
 
         title = (
-          <div className={clsx(`${prefixCls}-selection`, 'inline-flex align-text-top')}>
+          <div className={clsx(`${prefixCls}-selection`, 'flex')}>
             {!hideSelectAll && columnTitleCheckbox}
             {!hideSelectAll && customizeSelections}
             {selectedOptionNode}
@@ -545,7 +545,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             node: (
               <Radio
                 {...checkboxProps}
-                className={mergeSemanticCls({ root: 'align-text-top' }, checkboxProps?.className)}
+                className={mergeSemanticCls({ root: 'flex' }, checkboxProps?.className)}
                 checked={checked}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -584,7 +584,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
             node: (
               <Checkbox
                 {...checkboxProps}
-                className={mergeSemanticCls({ root: 'align-text-top' }, checkboxProps?.className)}
+                className={mergeSemanticCls({ root: 'flex' }, checkboxProps?.className)}
                 indeterminate={mergedIndeterminate}
                 checked={checked}
                 skipGroup

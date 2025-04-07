@@ -127,7 +127,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     {
       [`${prefixCls}-show-arrow`]: arrow,
     },
-    'bg-container ring-border-secondary absolute origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] rounded-md text-sm shadow-lg ring-1 backdrop-blur-2xl [--metis-arrow-background-color:var(--container)] focus:outline-hidden',
+    'bg-container outline-border-secondary absolute origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] rounded-md text-sm shadow-lg outline backdrop-blur-2xl [--metis-arrow-background-color:var(--container)]',
     semanticCls.overlay,
   );
 
@@ -143,7 +143,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     ? {
         className: getArrowClassName({
           limitVerticalRadius: true,
-          custom: 'after:ring-1 after:ring-border-secondary',
+          custom: 'after:outline after:outline-border-secondary',
         }),
       }
     : false;

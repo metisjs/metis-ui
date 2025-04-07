@@ -157,7 +157,7 @@ const Step: React.FC<StepProps> = (props) => {
     size === 'small' && 'h-8 w-8',
     isSimple && {
       'h-[0.625rem] w-[0.625rem] border-0': true,
-      'bg-primary ring-primary-bg-hover ring-4': status === 'process',
+      'bg-primary outline-primary-bg-hover outline-4': status === 'process',
       'bg-border-secondary': status === 'wait',
       'bg-error': status === 'error',
       'group-hover:bg-text-tertiary': clickable && status === 'wait',

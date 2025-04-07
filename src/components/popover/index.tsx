@@ -94,11 +94,11 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
   );
 
   const contentCls = clsx(
-    'text-text ring-border-secondary z-1030 cursor-auto rounded-lg p-3 shadow-lg ring-1 select-text focus:outline-hidden',
+    'text-text outline-border-secondary z-1030 cursor-auto rounded-lg p-3 shadow-lg outline-1 select-text',
     semanticCls.inner,
   );
 
-  const arrowCls = clsx('after:ring-border-secondary after:ring-1', semanticCls.arrow);
+  const arrowCls = clsx('after:outline-border-secondary after:outline-1', semanticCls.arrow);
 
   return (
     <Tooltip

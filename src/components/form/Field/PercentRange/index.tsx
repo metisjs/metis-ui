@@ -31,7 +31,7 @@ const FieldPercentRange: FieldFC<FieldPercentRangeProps> = (
 
   const mergedCls = mergeSemanticCls(
     {
-      root: clsx('bg-transparent shadow-none ring-0 focus-within:ring-0'),
+      root: clsx('bg-transparent shadow-none outline-0 focus-within:outline-0'),
       handler: clsx(
         'group-has-focus-within/range:top-[2px] group-has-focus-within/range:right-[2px] group-has-focus-within/range:bottom-[2px] group-has-focus-within/range:w-[calc(1.5rem-1px)]',
       ),
@@ -90,7 +90,7 @@ const FieldPercentRange: FieldFC<FieldPercentRangeProps> = (
       <div
         className={clsx(
           'flex items-center gap-2',
-          'group/range bg-container ring-border focus-within:ring-primary rounded-md shadow-xs ring-1 ring-inset focus-within:ring-2 focus-within:ring-inset',
+          'group/range bg-container outline-border focus-within:outline-primary rounded-md shadow-xs outline -outline-offset-1 focus-within:outline-2 focus-within:-outline-offset-2',
         )}
       >
         {startDom}

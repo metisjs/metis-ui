@@ -91,8 +91,8 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
       [`${colorTriggerPrefixCls}-active`]: open,
       [`${colorTriggerPrefixCls}-disabled`]: disabled,
     },
-    'bg-container text-text ring-border inline-flex w-fit cursor-pointer items-start justify-center gap-2 rounded-md p-1 text-sm ring-1 backdrop-blur-2xl transition-all duration-200 ring-inset',
-    { 'ring-primary ring-2': open },
+    'bg-container text-text outline-border inline-flex w-fit cursor-pointer items-start justify-center gap-2 rounded-md p-1 text-sm outline -outline-offset-1',
+    { 'outline-primary outline-2 -outline-offset-2': open },
     disabled && 'bg-fill-quaternary text-text-tertiary cursor-not-allowed',
     semanticCls.root,
   );

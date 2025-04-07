@@ -30,11 +30,11 @@ const Dot: React.FC<DotProps> = (props) => {
   const dotClassName = clsx(
     `${prefixCls}-dot`,
     { [`${prefixCls}-dot-active`]: active },
-    'bg-container ring-fill-quaternary absolute h-1 w-1 rounded-full ring-2 backdrop-blur-2xl',
+    'bg-container outline-fill-quaternary absolute h-1 w-1 rounded-full outline-2 backdrop-blur-2xl',
     {
-      'group-hover:ring-fill-tertiary': !disabled,
-      'ring-primary': active,
-      'group-hover:ring-primary-hover': active && !disabled,
+      'group-hover:outline-fill-tertiary': !disabled,
+      'outline-primary': active,
+      'group-hover:outline-primary-hover': active && !disabled,
     },
     semanticCls.dot,
   );
