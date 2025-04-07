@@ -38,7 +38,7 @@ const App: React.FC = () => {
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
       </Header>
       <Content className="px-12 py-6">
-        <Layout className="bg-container py-6">
+        <Layout className="bg-white py-6 dark:bg-gray-950">
           <Sider width={200} theme="light">
             <Menu
               mode="inline"
@@ -46,7 +46,7 @@ const App: React.FC = () => {
               defaultOpenKeys={['sub1']}
               style={{ height: '100%' }}
               items={items2}
-              className="border-e border-e-border"
+              className="border-e-border border-e"
             />
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>

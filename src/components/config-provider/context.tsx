@@ -207,7 +207,7 @@ export interface ConfigConsumerProps {
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
   renderEmpty?: RenderEmptyHandler;
   theme?: string | 'auto';
-  themeTarget?: React.RefObject<HTMLDivElement>;
+  themeTarget?: React.RefObject<HTMLElement>;
   variant?: Variant;
   input?: InputConfig;
   textArea?: TextAreaConfig;

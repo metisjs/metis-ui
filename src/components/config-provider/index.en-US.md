@@ -10,7 +10,7 @@ description: Provide a uniform configuration support for components.
 <!-- prettier-ignore -->
 <code src="./demo/locale.tsx">Locale</code>
 <code src="./demo/size.tsx">Component size</code>
-<code src="./demo/theme.tsx">Theme</code>
+<code src="./demo/theme.tsx" compact>Theme</code>
 <code src="./demo/style-override.tsx">Override</code>
 <code src="./demo/holder-render.tsx">Static function</code>
 <code src="./demo/prefix-cls.tsx" debug>prefixCls</code>
@@ -29,9 +29,11 @@ description: Provide a uniform configuration support for components.
 | popupOverflow | Select like component popup logic. Can set to show in viewport or follow window scroll | 'viewport' \| 'scroll' | 'viewport' |  |
 | prefixCls | Set prefix className | string | `metis` |  |
 | renderEmpty | Set empty content of components. Ref [Empty](/components/empty/) | function(componentName: string): ReactNode | - |  |
-| theme | Set theme，when use `auto` will automatically switch the theme between `default-theme` and `dark-theme` based on the system | string | `auto` |  |
+| theme | Set theme，when use `auto` will automatically switch the theme between `default-theme` and `dark-theme` based on the system | string\| { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `auto` |  |
 | variant | Set variant of data entry components | `outlined` \| `filled` \| `borderless` | - |  |
 | virtual | Disable virtual scroll when set to `false` | boolean | - |  |
+
+> When theme nesting is needed, you can set `theme.target` to manually specify the `date-theme`
 
 ### ConfigProvider.config()
 
@@ -39,7 +41,6 @@ Setting `Modal`、`Message`、`Notification` static config. Not work on hooks.
 
 ```tsx
 ConfigProvider.config({
-  //  +
   holderRender: (children) => <ConfigProvider prefixCls="metis">{children}</ConfigProvider>,
 });
 ```
@@ -49,10 +50,7 @@ ConfigProvider.config({
 Get the value of the parent `Provider`. Such as `DisabledContextProvider`, `SizeContextProvider`.
 
 ```jsx
-const {
-  componentDisabled, //  +
-  componentSize, //  +
-} = ConfigProvider.useConfig();
+const { componentDisabled, componentSize } = ConfigProvider.useConfig();
 ```
 
 | Property | Description | Type | Default | Version |

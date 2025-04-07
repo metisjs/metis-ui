@@ -15,7 +15,7 @@ ConfigProvider 使用 React 的 [context](https://facebook.github.io/react/docs/
 <!-- prettier-ignore -->
 <code src="./demo/locale.tsx">国际化</code>
 <code src="./demo/size.tsx">组件尺寸</code>
-<code src="./demo/theme.tsx">主题</code>
+<code src="./demo/theme.tsx" compact>主题</code>
 <code src="./demo/style-override.tsx">组件样式覆盖</code>
 <code src="./demo/holder-render.tsx">静态方法</code>
 <code src="./demo/prefix-cls.tsx" debug>前缀</code>
@@ -34,9 +34,11 @@ ConfigProvider 使用 React 的 [context](https://facebook.github.io/react/docs/
 | popupOverflow | Select 类组件弹层展示逻辑，默认为可视区域滚动，可配置成滚动区域滚动 | 'viewport' \| 'scroll' | 'viewport' |  |
 | prefixCls | 设置统一样式前缀 | string | `metis` |  |
 | renderEmpty | 自定义组件空状态。参考 [空状态](/components/empty-cn) | function(componentName: string): ReactNode | - |  |
-| theme | 设置主题，设置 `auto` 则主题会随系统在 `default-theme` 与 `dark-theme` 之前自动切换 | string | `auto` |  |
+| theme | 设置主题，设置 `auto` 则主题会随系统在 `default-theme` 与 `dark-theme` 之前自动切换 | string \| { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `auto` |  |
 | variant | 设置全局输入组件形态变体 | `outlined` \| `filled` \| `borderless` | - |  |
 | virtual | 设置 `false` 时关闭虚拟滚动 | boolean | - |  |
+
+> 当需要主题嵌套时，可设置 `theme.target` 手动指定 `date-theme` 节点
 
 ### ConfigProvider.config()
 
@@ -53,10 +55,7 @@ ConfigProvider.config({
 获取父级 `Provider` 的值。如 `DisabledContextProvider`、`SizeContextProvider`。
 
 ```jsx
-const {
-  componentDisabled, //  +
-  componentSize, //  +
-} = ConfigProvider.useConfig();
+const { componentDisabled, componentSize } = ConfigProvider.useConfig();
 ```
 
 <!-- prettier-ignore -->

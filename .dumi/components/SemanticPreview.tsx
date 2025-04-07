@@ -294,7 +294,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
         <div
           key={i}
           className={clsx(
-            'border-warning pointer-events-none absolute z-99999999 ring-1 ring-transparent',
+            'border-warning pointer-events-none absolute z-99999999',
             hoverSemantic ? 'opacity-100' : 'opacity-0',
             positionTransition ? 'transition-all duration-300' : 'transition-opacity duration-300',
           )}

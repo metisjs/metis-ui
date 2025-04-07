@@ -21,13 +21,17 @@ export { Variants };
 export { ConfigConsumer, ConfigContext, type ConfigConsumerProps, type RenderEmptyHandler };
 
 export interface ConfigProviderProps
-  extends Omit<ConfigConsumerProps, 'getPrefixCls' | 'themeTarget' | 'route' | 'request'> {
+  extends Omit<
+    ConfigConsumerProps,
+    'getPrefixCls' | 'themeTarget' | 'route' | 'request' | 'theme'
+  > {
   prefixCls?: string;
   children?: React.ReactNode;
   componentSize?: SizeType;
   componentDisabled?: boolean;
   route?: RouteConfig;
   request?: RequestConfig;
+  theme?: string | { value: string; target: React.RefObject<HTMLElement> };
 }
 
 interface ProviderChildrenProps extends ConfigProviderProps {
@@ -107,15 +111,36 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     [parentContext.getPrefixCls, props.prefixCls],
   );
 
+  const rawTheme = typeof theme === 'string' ? theme : theme.value;
+  const rawThemeTarget = typeof theme === 'string' ? null : theme.target;
+  const parentTheme = parentContext.theme;
+
   const themeTarget = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (rawTheme !== 'auto') {
+      // Root config，set to html node
+      const themeNode = !parentTheme ? document.documentElement : rawThemeTarget?.current;
+      themeNode?.setAttribute(PREFERS_COLOR_KEY, rawTheme);
+    }
+  }, [rawTheme, !!parentTheme]);
+
+  React.useEffect(() => {
+    // Root config，set to root node
+    if (rawTheme !== 'auto' && !parentTheme) {
+      document.documentElement.setAttribute(PREFERS_COLOR_KEY, rawTheme);
+    }
+  }, [rawTheme, !!parentTheme]);
+
+  const mergedThemeTarget = rawThemeTarget ?? themeTarget;
 
   const baseConfig = {
     ...restProps,
     locale,
     form,
-    theme,
+    theme: rawTheme,
     getPrefixCls,
-    themeTarget: theme === 'auto' ? undefined : themeTarget,
+    themeTarget: mergedThemeTarget,
   };
 
   const config: ConfigConsumerProps = {
@@ -151,7 +176,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   let childNode = <>{children}</>;
 
-  if (theme !== 'auto') {
+  if (rawTheme !== 'auto' && !rawThemeTarget && !!parentTheme) {
     childNode = (
       <div
         ref={themeTarget}

@@ -58,7 +58,7 @@ type Theme = {
   [key in (typeof THEME_KEYS)[number]]: string;
 } & { isDark: boolean };
 
-const genTheme = (target?: HTMLDivElement | null) => {
+const genTheme = (target?: HTMLElement | null) => {
   const rootStyles = getComputedStyle(target ?? document.documentElement);
   const colorScheme = rootStyles.getPropertyValue('color-scheme').trim();
 
