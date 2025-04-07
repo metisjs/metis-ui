@@ -175,7 +175,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   );
   const contentCls = clsx(
     `${prefixCls}-content`,
-    'bg-elevated pointer-events-auto relative flex h-full w-full flex-col',
+    'bg-container pointer-events-auto relative flex h-full w-full flex-col backdrop-blur-2xl',
     {
       'shadow-[20px_0_25px_-5px_rgba(0,0,0,0.1),8px_0_10px_-6px_rgba(0,0,0,0.1)]':
         placement === 'left',

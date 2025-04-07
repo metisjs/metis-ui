@@ -154,10 +154,10 @@ export const BaseSlider = (props: BaseSliderProps) => {
               rail: 'ring-fill-quaternary h-2 ring-1 ring-inset',
               handle: clsx(
                 'ring-fill-quaternary top-0 ring-1 ring-offset-2',
-                'after:ring-elevated after:bg-transparent',
+                'after:ring-container after:bg-transparent',
                 'focus:ring-primary',
-                'hover:after:ring-elevated hover:after:top-0 hover:after:left-0 hover:after:h-2 hover:after:w-2',
-                'focus:after:ring-elevated focus:after:top-0 focus:after:left-0 focus:after:h-2 focus:after:w-2',
+                'hover:after:ring-container hover:after:top-0 hover:after:left-0 hover:after:h-2 hover:after:w-2',
+                'focus:after:ring-container focus:after:top-0 focus:after:left-0 focus:after:h-2 focus:after:w-2',
               ),
             },
             className,

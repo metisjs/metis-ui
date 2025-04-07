@@ -174,7 +174,7 @@ const Tour: React.FC<TourProps> = (props) => {
   const popupCls = clsx(
     'visible absolute block max-w-fit origin-[var(--arrow-x,50%)_var(--arrow-y,50%)]',
     {
-      '[--metis-arrow-background-color:var(--elevated)]': type !== 'primary',
+      '[--metis-arrow-background-color:var(--container)]': type !== 'primary',
       '[--metis-arrow-background-color:var(--primary-bg)]': type === 'primary',
     },
     semanticCls.popup,

@@ -135,7 +135,7 @@ const Handler: FC<{
     <div
       className={clsx(
         `${prefixCls}-handler`,
-        'ring-elevated relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset',
+        'ring-container relative h-4 w-4 cursor-pointer rounded-full ring-2 ring-inset',
         className,
       )}
       style={{

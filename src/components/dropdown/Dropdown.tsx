@@ -127,7 +127,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     {
       [`${prefixCls}-show-arrow`]: arrow,
     },
-    'bg-elevated ring-border-secondary absolute origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] rounded-md text-sm shadow-lg ring-1 [--metis-arrow-background-color:var(--elevated)] focus:outline-hidden',
+    'bg-container ring-border-secondary absolute origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] rounded-md text-sm shadow-lg ring-1 backdrop-blur-2xl [--metis-arrow-background-color:var(--container)] focus:outline-hidden',
     semanticCls.overlay,
   );
 

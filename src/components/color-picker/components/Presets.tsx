@@ -6,8 +6,7 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useMergedState } from 'rc-util';
 import type { CollapseProps } from '../../collapse';
 import Collapse from '../../collapse';
-import useTheme from '../../theme/useTheme';
-import { Color, type AggregationColor } from '../color';
+import { type AggregationColor } from '../color';
 import { PanelPickerContext, PanelPresetsContext } from '../context';
 import type { PresetsItem } from '../interface';
 import { generateColor } from '../util';
@@ -27,9 +26,6 @@ const genPresetColor = (list: PresetsItem[]) =>
     return value;
   });
 
-const isLight = (value: AggregationColor, bgColor: string) =>
-  new Color(value.toRgbString()).onBackground(bgColor).isLight();
-
 const genCollapsePanelKey = ({ label }: PresetsItem) => `panel-${label}`;
 
 const InternalPresets: FC<InternalPresetsProps> = ({
@@ -43,7 +39,6 @@ const InternalPresets: FC<InternalPresetsProps> = ({
     value: genPresetColor(presets),
     postState: genPresetColor,
   });
-  const { elevated: bgColor } = useTheme();
   const colorPresetsPrefixCls = `${prefixCls}-presets`;
 
   const semanticCls = useSemanticCls(className);
@@ -79,7 +74,6 @@ const InternalPresets: FC<InternalPresetsProps> = ({
                 {
                   [`${colorPresetsPrefixCls}-color-checked`]:
                     presetColor.toHexString() === color?.toHexString(),
-                  [`${colorPresetsPrefixCls}-color-light`]: isLight(presetColor, bgColor),
                 },
                 'h-6 w-6',
                 semanticCls.block,
@@ -101,7 +95,7 @@ const InternalPresets: FC<InternalPresetsProps> = ({
         root: semanticCls.root,
         panel: {
           icon: 'text-text-tertiary',
-          header: clsx('gap-0.5 p-0 text-xs text-text', semanticCls.header),
+          header: clsx('text-text gap-0.5 p-0 text-xs', semanticCls.header),
           content: clsx('flex flex-wrap gap-1.5 px-0 py-2', semanticCls.content),
         },
       }}

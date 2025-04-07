@@ -155,8 +155,8 @@ const Modal: React.FC<ModalProps> = (props) => {
   const wrapperCls = clsx(
     `${prefixCls}-wrap`,
     { [`${prefixCls}-centered`]: !!centered },
-    'fixed inset-0 overflow-auto outline-hidden',
-    !!centered && 'flex items-center justify-center',
+    'fixed inset-0 flex items-start justify-center overflow-auto outline-hidden',
+    !!centered && 'items-center justify-center',
   );
 
   // ========================= Render ==========================

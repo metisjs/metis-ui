@@ -157,12 +157,12 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   // ======================== Style ========================
   const containerCls = clsx(
     `${panelPrefixCls}-container`,
-    'overflow-hidden rounded-lg bg-elevated',
+    'bg-container overflow-hidden rounded-lg backdrop-blur-2xl',
   );
 
   const panelLayoutCls = clsx(
     `${prefixCls}-panel-layout`,
-    'flex flex-nowrap items-stretch text-sm text-text',
+    'text-text flex flex-nowrap items-stretch text-sm',
   );
 
   const rangeWrapperCls = clsx(

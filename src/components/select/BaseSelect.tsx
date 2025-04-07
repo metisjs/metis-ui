@@ -839,7 +839,7 @@ const BaseSelect = React.forwardRef((props: BaseSelectProps, ref: React.Ref<Base
   );
 
   const popupCls = clsx(
-    'bg-elevated ring-border-secondary absolute rounded-md text-sm shadow-lg ring-1 focus:outline-hidden',
+    'bg-container ring-border-secondary absolute rounded-md text-sm shadow-lg ring-1 backdrop-blur-2xl focus:outline-hidden',
     semanticCls.popup,
   );
 

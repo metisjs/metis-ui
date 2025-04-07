@@ -5,6 +5,7 @@ import confirm, {
   withError,
   withInfo,
   withSuccess,
+  withWarn,
 } from './confirm';
 import destroyFns from './destroyFns';
 import type { ModalFuncProps } from './interface';
@@ -37,7 +38,7 @@ Modal.error = function errorFn(props: ModalFuncProps) {
 };
 
 Modal.warning = function warningFn(props: ModalFuncProps) {
-  return confirm(withError(props));
+  return confirm(withWarn(props));
 };
 
 Modal.confirm = function confirmFn(props: ModalFuncProps) {

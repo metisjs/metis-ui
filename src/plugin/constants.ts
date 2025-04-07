@@ -1,1 +1,1 @@
-export const PREFERS_COLOR_KEY = 'data-prefers-color';
+export const PREFERS_COLOR_KEY = 'data-theme';

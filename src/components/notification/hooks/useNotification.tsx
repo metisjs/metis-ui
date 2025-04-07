@@ -86,7 +86,7 @@ export function useInternalNotification(
           'mr-6': placement === 'topRight' || placement === 'bottomRight',
         }),
         wrapper: clsx(
-          'bg-elevated ring-border-secondary relative ms-auto mb-4 rounded-lg shadow-lg ring-1 ring-inset',
+          'bg-container ring-border-secondary relative ms-auto mb-4 rounded-lg shadow-lg ring-1 backdrop-blur-2xl ring-inset',
           {
             'absolute transition-transform duration-200 after:pointer-events-auto after:absolute after:-bottom-4 after:h-4 after:w-full after:bg-transparent':
               !!stack,

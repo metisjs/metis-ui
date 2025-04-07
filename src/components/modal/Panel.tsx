@@ -3,13 +3,13 @@ import { clsx } from '@util/classNameUtils';
 import useClosable from '@util/hooks/useClosable';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import pickAttrs from 'rc-util/es/pickAttrs';
+import { composeRef } from 'rc-util/es/ref';
 import Scrollbar from '../scrollbar';
 import Transition from '../transition';
 import { usePanelRef } from '../watermark/context';
 import type { ModalProps } from './interface';
 
 const sentinelStyle = { width: 0, height: 0, overflow: 'hidden', outline: 'none' };
-const entityStyle = { outline: 'none' };
 
 export interface PanelProps
   extends Pick<
@@ -43,7 +43,7 @@ export type PanelRef = {
 };
 
 const MemoChildren = React.memo(
-  ({ children }: { shouldUpdate: boolean; children: React.ReactNode }) =>
+  ({ children }: { shouldUpdate: boolean; children: React.ReactElement }) =>
     children as React.ReactElement,
   (_, { shouldUpdate }) => !shouldUpdate,
 );
@@ -76,11 +76,10 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
 
   const sentinelStartRef = React.useRef<HTMLDivElement>(null);
   const sentinelEndRef = React.useRef<HTMLDivElement>(null);
-  const entityRef = React.useRef<HTMLDivElement>(null);
 
   React.useImperativeHandle(ref, () => ({
     focus: () => {
-      entityRef.current?.focus({ preventScroll: true });
+      sentinelStartRef.current?.focus({ preventScroll: true });
     },
     changeActive: (next) => {
       const { activeElement } = document;
@@ -97,15 +96,9 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   // ================================ Style =================================
   const panelCls = clsx(
     prefixCls,
-    'text-text pointer-events-none relative top-28 mx-auto w-auto max-w-[calc(100vw-48px)] transform pb-6 text-left text-sm',
-    !!centered && 'top-0 pb-0',
+    'text-text bg-container pointer-events-auto relative top-28 mb-8 flex w-auto max-w-[calc(100vw-48px)] transform flex-col overflow-hidden rounded-lg text-left text-sm shadow-xl backdrop-blur-2xl transition-all',
+    !!centered && 'top-0',
     semanticCls.root,
-  );
-
-  const contentCls = clsx(
-    `${prefixCls}-content`,
-    'bg-elevated pointer-events-auto relative flex flex-col overflow-hidden rounded-lg shadow-xl',
-    semanticCls.content,
   );
 
   const headerCls = clsx(
@@ -160,7 +153,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   ) : null;
 
   const content = (
-    <div ref={watermarkRef} className={contentCls} style={height ? { height: height } : undefined}>
+    <>
       {closerNode}
       {headerNode}
       {!!height ? (
@@ -171,44 +164,43 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
         </div>
       )}
       {footerNode}
-    </div>
+    </>
   );
 
   return (
     <Transition
       appear
       visible={open}
-      enter="transition-[opacity,transform] ease-out duration-300"
+      enter="ease-out duration-300"
       enterFrom="opacity-0 translate-y-0 scale-95 xs:translate-y-4 xs:scale-100"
       enterTo="opacity-100 translate-y-0 scale-100"
-      leave="transition-[opacity,transform] ease-in duration-200"
+      leave="ease-in duration-200"
       leaveFrom="opacity-100 translate-y-0 scale-100"
       leaveTo="opacity-0 translate-y-0 scale-95 xs:translate-y-4 xs:scale-100"
       onVisibleChanged={onOpenChanged}
       forceRender={forceRender}
       removeOnLeave={destroyOnClose}
     >
-      {({ className: transitionCls, style: transitionStyle }, transitionRef) => (
-        <div
-          key="dialog-element"
-          role="dialog"
-          aria-labelledby={title ? ariaId : undefined}
-          aria-modal="true"
-          ref={transitionRef}
-          style={{ ...panelStyle, ...style, ...transitionStyle }}
-          className={clsx(panelCls, transitionCls)}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-        >
-          <div tabIndex={0} ref={sentinelStartRef} style={sentinelStyle} aria-hidden="true" />
-          <div ref={entityRef} tabIndex={-1} style={entityStyle}>
-            <MemoChildren shouldUpdate={!!open || !!forceRender}>
-              {modalRender ? modalRender(content) : content}
-            </MemoChildren>
+      {({ className: transitionCls, style: transitionStyle }, transitionRef) => {
+        const dom = (
+          <div
+            key="dialog-element"
+            role="dialog"
+            aria-labelledby={title ? ariaId : undefined}
+            aria-modal="true"
+            ref={composeRef(transitionRef, watermarkRef)}
+            style={{ ...panelStyle, ...style, ...transitionStyle }}
+            className={clsx(panelCls, transitionCls)}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+          >
+            <div ref={sentinelStartRef} tabIndex={0} style={sentinelStyle} />
+            <MemoChildren shouldUpdate={!!open || !!forceRender}>{content}</MemoChildren>
+            <div tabIndex={0} ref={sentinelEndRef} style={sentinelStyle} />
           </div>
-          <div tabIndex={0} ref={sentinelEndRef} style={sentinelStyle} aria-hidden="true" />
-        </div>
-      )}
+        );
+        return modalRender ? modalRender(dom) : dom;
+      }}
     </Transition>
   );
 });

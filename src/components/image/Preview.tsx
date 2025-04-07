@@ -253,9 +253,8 @@ const Preview: React.FC<PreviewProps> = (props) => {
     () =>
       mergeSemanticCls(
         {
-          root: clsx('static top-[unset] h-full max-w-[unset] pb-[unset] text-center'),
-          content: clsx(
-            'pointer-events-none static block overflow-auto rounded-none bg-transparent shadow-none',
+          root: clsx(
+            'pointer-events-none absolute inset-0 block h-full max-w-[unset] overflow-auto rounded-none bg-transparent pb-[unset] text-center shadow-none backdrop-blur-none',
           ),
           body: clsx('absolute inset-0 overflow-hidden p-0'),
         },
@@ -272,7 +271,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
   );
   const imgCls = clsx(
     `${prefixCls}-img`,
-    'max-h-[70%] cursor-grab select-none transition-transform duration-300',
+    'max-h-[70%] cursor-grab transition-transform duration-300 select-none',
     {
       'cursor-grabbing': isMoving,
     },

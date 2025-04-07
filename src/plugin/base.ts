@@ -1,4 +1,5 @@
 export default {
+  '*': { outlineColor: 'var(--primary)' },
   html: { WebkitTapHighlightColor: 'transparent' },
   body: { color: 'var(--text)' },
   'svg.metis-icon': { display: 'inline-block' },

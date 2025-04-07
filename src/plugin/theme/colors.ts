@@ -86,11 +86,6 @@ const colorObject = {
     DEFAULT: 'var(--container)',
   },
 
-  /** 浮层容器背景色 */
-  elevated: {
-    DEFAULT: 'var(--elevated)',
-  },
-
   /** 布局背景色 */
   layout: {
     DEFAULT: 'var(--layout)',

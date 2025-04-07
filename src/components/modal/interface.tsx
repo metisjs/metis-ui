@@ -6,7 +6,6 @@ import type { ButtonProps, ButtonType } from '../button';
 
 export type ModalProps = {
   className?: SemanticClassName<{
-    content?: string;
     header?: string;
     body?: string;
     footer?: string;
@@ -37,7 +36,7 @@ export type ModalProps = {
   bodyProps?: React.HTMLProps<HTMLDivElement>;
   maskProps?: React.HTMLProps<HTMLDivElement>;
   getContainer?: GetContainer | false;
-  modalRender?: (node: ReactNode) => ReactNode;
+  modalRender?: (node: ReactNode) => React.ReactElement;
   forceRender?: boolean;
   focusTriggerAfterClose?: boolean;
   loading?: boolean;
