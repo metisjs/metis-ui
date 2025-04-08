@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { useOutlet, useSiteData } from 'dumi';
+import { useLocale, useOutlet, useSiteData } from 'dumi';
 import { ConfigProvider } from 'metis-ui';
+import zhCN from 'metis-ui/es/locale/zh_CN';
 import useLayoutState from '../../hooks/useLayoutState';
 import SiteContext, { SiteContextProps } from '../SiteContext';
 import { ThemeName } from '../slots/ThemeSwitch';
@@ -14,6 +15,8 @@ const GlobalLayout: React.FC = () => {
     },
   } = useSiteData();
   const outlet = useOutlet();
+  const { id } = useLocale();
+  const isCN = id === 'zh-CN';
 
   const [{ theme }, setSiteState] = useLayoutState<SiteState>({
     theme: defaultColor as ThemeName,
@@ -33,7 +36,9 @@ const GlobalLayout: React.FC = () => {
 
   return (
     <SiteContext.Provider value={siteContextValue}>
-      <ConfigProvider theme="light">{outlet}</ConfigProvider>
+      <ConfigProvider theme={theme} locale={isCN ? zhCN : undefined}>
+        {outlet}
+      </ConfigProvider>
     </SiteContext.Provider>
   );
 };
