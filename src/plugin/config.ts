@@ -1,6 +1,7 @@
+import type { Config } from 'tailwindcss';
 import colors from './theme/colors';
 
-export default {
+const config: Partial<Config> = {
   theme: {
     screens: {
       '2xl': { max: '1599px' },
@@ -78,3 +79,5 @@ export default {
     },
   },
 };
+
+export default config;

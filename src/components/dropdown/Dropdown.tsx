@@ -3,6 +3,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
+import isPrimitive from '@util/isPrimitive';
 import getArrowClassName from '@util/placementArrow';
 import type { AdjustOverflow } from '@util/placements';
 import getPlacements from '@util/placements';
@@ -107,7 +108,13 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const semanticCls = useSemanticCls(className, 'dropdown', { open: mergedOpen });
 
   // =========================== ChildrenNode ============================
-  const child = React.Children.only(children) as React.ReactElement<any>;
+  const child = React.Children.only(
+    isPrimitive(children) ? <span>{children}</span> : children,
+  ) as React.ReactElement<{
+    className?: string;
+    disabled?: boolean;
+  }>;
+
   const dropdownTrigger = cloneElement(child, {
     className: clsx(
       `${prefixCls}-trigger`,

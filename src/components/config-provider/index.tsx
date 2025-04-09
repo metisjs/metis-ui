@@ -91,7 +91,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     componentDisabled,
     locale,
     form,
-    theme = 'auto',
+    theme,
     ...restProps
   } = props;
 
@@ -111,24 +111,19 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     [parentContext.getPrefixCls, props.prefixCls],
   );
 
-  const rawTheme = typeof theme === 'string' ? theme : theme.value;
-  const rawThemeTarget = typeof theme === 'string' ? null : theme.target;
+  const rawTheme = !theme || typeof theme === 'string' ? theme : theme.value;
+  const rawThemeTarget = !theme || typeof theme === 'string' ? null : theme.target;
   const parentTheme = parentContext.theme;
 
   const themeTarget = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (rawTheme !== 'auto') {
-      // Root config，set to html node
+    if (rawTheme) {
       const themeNode = !parentTheme ? document.documentElement : rawThemeTarget?.current;
       themeNode?.setAttribute(PREFERS_COLOR_KEY, rawTheme);
-    }
-  }, [rawTheme, !!parentTheme]);
-
-  React.useEffect(() => {
-    // Root config，set to root node
-    if (rawTheme !== 'auto' && !parentTheme) {
-      document.documentElement.setAttribute(PREFERS_COLOR_KEY, rawTheme);
+    } else if (!parentTheme) {
+      // Root config，set to html node
+      document.documentElement.setAttribute(PREFERS_COLOR_KEY, 'auto');
     }
   }, [rawTheme, !!parentTheme]);
 
@@ -144,6 +139,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   };
 
   const config: ConfigConsumerProps = {
+    theme: 'auto',
     ...parentContext,
   };
 

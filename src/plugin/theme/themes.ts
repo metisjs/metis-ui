@@ -41,7 +41,7 @@ export default [
     'border-tertiary': 'gray-50/2',
     fill: 'white/20',
     container: 'white/5',
-    layout: 'black/95',
+    layout: 'white/10',
     spotlight: 'gray-700/85',
     mask: 'gray-900/45',
     'scrollbar-track': 'white/5',

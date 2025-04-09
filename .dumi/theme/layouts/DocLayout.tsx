@@ -1,24 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { Helmet, useLocation, useOutlet, useSiteData } from 'dumi';
+import { Helmet, useIntl, useLocation, useOutlet, useSiteData } from 'dumi';
+import Header from '../slots/Header';
 import IndexLayout from './IndexLayout';
-
-const locales = {
-  cn: {
-    title: 'Ant Design - 一套企业级 UI 设计语言和 React 组件库',
-    description: '基于 Ant Design 设计体系的 React UI 组件库，用于研发企业级中后台产品。',
-  },
-  en: {
-    title: "Ant Design - The world's second most popular React UI framework",
-    description:
-      'An enterprise-class UI design language and React UI library with a set of high-quality React components, one of best React UI library for enterprises',
-  },
-};
+import SidebarLayout from './SidebarLayout';
 
 const DocLayout: React.FC = () => {
   const outlet = useOutlet();
+  const { formatMessage } = useIntl();
   const location = useLocation();
-  const { pathname, search, hash } = location;
-  const [locale, lang] = useLocale(locales);
+  const { pathname, hash } = location;
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null!);
   const { loading } = useSiteData();
 
@@ -44,7 +34,10 @@ const DocLayout: React.FC = () => {
       ['/index'].some((path) => pathname.startsWith(path))
     ) {
       return (
-        <IndexLayout title={locale.title} desc={locale.description}>
+        <IndexLayout
+          title={formatMessage({ id: 'app.title' })}
+          desc={formatMessage({ id: 'app.description' })}
+        >
           {outlet}
         </IndexLayout>
       );
@@ -55,17 +48,9 @@ const DocLayout: React.FC = () => {
   return (
     <>
       <Helmet encodeSpecialCharacters={false}>
-        <html lang={lang === 'cn' ? 'zh-CN' : lang} />
-        <link
-          sizes="144x144"
-          href="https://gw.alipayobjects.com/zos/antfincdn/UmVnt3t4T0/antd.png"
-        />
-        <meta property="og:description" content={locale.description} />
+        <meta property="og:description" content={formatMessage({ id: 'app.title' })} />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png"
-        />
+        <meta property="og:image" content="/logo.png" />
       </Helmet>
       <Header />
       {content}

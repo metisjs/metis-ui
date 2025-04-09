@@ -45,7 +45,7 @@ Properties that shared by all types.
 | size | Progress size | number \| \[number \| string, number] \| { width: number, height: number } \| "small" \| "default" | "default" |  |
 | status | To set the status of the Progress, options: `success` `exception` `normal` `active`(line only) | string | - |  |
 | strokeColor | The color of progress bar | string | - | - |
-| strokeLinecap | To set the style of the progress linecap | `round` \| `butt` \| `square`, see [stroke-linecap](https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-linecap) | `round` | - |
+| strokeLinecap | To set the style of the progress linecap | `round` \| `butt` \| `square`, see [strokeLinecap](https://developer.mozilla.org/docs/Web/SVG/Attribute/strokeLinecap) | `round` | - |
 | success | Configs of successfully progress bar | { percent: number, strokeColor: string } | - | - |
 | trailColor | The color of unfilled part | string | - | - |
 | type | To set the type, options: `line` `circle` `dashboard` | string | `line` |  |

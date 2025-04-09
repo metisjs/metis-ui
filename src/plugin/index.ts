@@ -11,10 +11,15 @@ export type Options = {
 
 export default tailwindPlugin.withOptions<Options>(
   (options = {}) =>
-    ({ addBase }) => {
+    ({ addBase, addVariant }) => {
       const { themes = ['light --default', 'dark --dark'] } = options;
 
       addBase(base);
+
+      addVariant('dark', [
+        '&:where([data-theme="dark"], [data-theme="dark"] *)',
+        '@media (prefers-color-scheme: dark) {&:where([data-theme="auto"], [data-theme="auto"] *)}',
+      ]);
 
       if (themes !== false) {
         const themeObjs = (Array.isArray(themes) ? themes : [themes])

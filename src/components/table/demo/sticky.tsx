@@ -111,7 +111,7 @@ const App: React.FC = () => {
         </Table.Summary>
       )}
       // site header height
-      sticky={{ offsetHeader: 64 }}
+      sticky={{ offsetHeader: 56 }}
     />
   );
 };

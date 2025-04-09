@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeName } from './slots/ThemeSwitch';
+import { ThemeName } from './slots/Header/ThemeSwitch';
 
 export interface SiteContextProps {
   theme: ThemeName;
