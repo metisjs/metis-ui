@@ -46,7 +46,7 @@ const InternalFloatButton = React.forwardRef<FloatButtonElement, FloatButtonProp
     prefixCls,
     `${prefixCls}-${type}`,
     `${prefixCls}-${mergedShape}`,
-    'bg-container text-text outline-border-tertiary hover:bg-fill-quinary hover:text-text fixed end-6 bottom-12 z-1000 h-10 w-10 cursor-pointer text-sm shadow-xl outline outline-1 backdrop-blur-2xl duration-200 empty:hidden',
+    'bg-container text-text outline-border-tertiary hover:bg-fill-quinary hover:text-text fixed end-6 bottom-12 z-1000 h-10 w-10 cursor-pointer text-sm shadow-xl outline backdrop-blur-2xl duration-200 empty:hidden',
     {
       'bg-primary hover:bg-primary-hover text-white outline-0 hover:text-white': type === 'primary',
     },
