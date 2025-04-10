@@ -1,10 +1,10 @@
 import * as React from 'react';
+import omit from '@rc-component/util/es/omit';
+import { composeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import omit from 'rc-util/es/omit';
-import { composeRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';

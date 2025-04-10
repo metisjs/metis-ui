@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
-import useEvent from 'rc-util/es/hooks/useEvent';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
 
 let Optional = Symbol();
 
 export default function useSyncRefs<TType>(
-  ...refs: (React.MutableRefObject<TType | null> | ((instance: TType) => void) | null)[]
+  ...refs: (React.RefObject<TType | null> | ((instance: TType) => void) | null)[]
 ) {
   let cache = useRef(refs);
 

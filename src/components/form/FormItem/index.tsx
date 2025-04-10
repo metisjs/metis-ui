@@ -1,13 +1,14 @@
 import * as React from 'react';
+import type { JSX } from 'react';
+import useState from '@rc-component/util/es/hooks/useState';
+import { supportRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
-import { cloneElement } from '@util/reactNode';
+import { cloneElement, isValidElement } from '@util/reactNode';
 import type { Breakpoint } from '@util/responsiveObserver';
 import { devUseWarning } from '@util/warning';
 import { Field, FieldContext, ListContext } from 'rc-field-form';
 import type { FieldProps } from 'rc-field-form/lib/Field';
 import type { InternalNamePath, Meta } from 'rc-field-form/lib/interface';
-import useState from 'rc-util/es/hooks/useState';
-import { supportRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../../config-provider';
 import { FormContext, NoStyleItemContext } from '../context';
 import type { FormInstance, FormItemLayout } from '../Form';
@@ -156,7 +157,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
   // ========================= MISC =========================
   // Get `noStyle` required info
   const listContext = React.useContext(ListContext);
-  const fieldKeyPathRef = React.useRef<InternalNamePath>();
+  const fieldKeyPathRef = React.useRef<InternalNamePath>(null);
 
   // ======================== Errors ========================
   // >>>>> Collect sub field errors
@@ -350,7 +351,7 @@ function InternalFormItem<Values = any>(props: FormItemProps<Values>): React.Rea
             'usage',
             'Must set `name` or use a render function when `dependencies` is set.',
           );
-        } else if (React.isValidElement(mergedChildren)) {
+        } else if (isValidElement<{ [key: string]: any }>(mergedChildren)) {
           warning(
             mergedChildren.props.defaultValue === undefined,
             'usage',

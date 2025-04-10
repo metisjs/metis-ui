@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
+import omit from '@rc-component/util/es/omit';
 import { clsx } from '@util/classNameUtils';
 import isNumeric from '@util/isNumeric';
-import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import { LayoutContext } from './Layout';
 
@@ -93,7 +93,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
   };
 
   // ========================= Responsive =========================
-  const responsiveHandlerRef = useRef<(mql: MediaQueryListEvent | MediaQueryList) => void>();
+  const responsiveHandlerRef = useRef<(mql: MediaQueryListEvent | MediaQueryList) => void>(null);
   responsiveHandlerRef.current = (mql: MediaQueryListEvent | MediaQueryList) => {
     setBelow(mql.matches);
     onBreakpoint?.(mql.matches);

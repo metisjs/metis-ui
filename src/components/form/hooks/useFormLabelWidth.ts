@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useEvent } from '@rc-component/util';
 import { devUseWarning } from '@util/warning';
-import { useEvent } from 'rc-util';
 
 export default function useFormLabelWidth() {
   const [potentialLabelWidthArr, setPotentialLabelWidthArr] = useState<number[]>([]);

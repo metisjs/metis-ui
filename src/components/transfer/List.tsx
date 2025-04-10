@@ -1,10 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
+import omit from '@rc-component/util/es/omit';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import omit from 'rc-util/es/omit';
 import Checkbox from '../checkbox';
 import Dropdown from '../dropdown';
 import type { InputProps } from '../input';
@@ -313,7 +313,7 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
       [`${prefixCls}-with-pagination`]: !!pagination,
       [`${prefixCls}-with-footer`]: !!footerDom,
     },
-    'flex h-60 w-52 flex-col overflow-hidden rounded-lg border border-border',
+    'border-border flex h-60 w-52 flex-col overflow-hidden rounded-lg border',
     {
       'h-auto': !!pagination,
       // customize render
@@ -323,12 +323,12 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
   );
   const headerCls = clsx(
     `${prefixCls}-header`,
-    'flex h-10 flex-none items-center gap-1 rounded-se-lg rounded-ss-lg border-b border-border-secondary bg-container px-3 py-2',
+    'border-border-secondary bg-container flex h-10 flex-none items-center gap-1 rounded-ss-lg rounded-se-lg border-b px-3 py-2',
     semanticCls.header,
   );
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'border-t border-border-secondary p-2',
+    'border-border-secondary border-t p-2',
     semanticCls.footer,
   );
 

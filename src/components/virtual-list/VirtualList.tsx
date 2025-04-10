@@ -6,8 +6,8 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import { useEvent } from '@rc-component/util';
 import { clsxDependency } from '@util/hooks/useSemanticCls';
-import { useEvent } from 'rc-util';
 import type { FlatIndexLocationWithAlign, VirtuosoHandle } from 'react-virtuoso';
 import { Virtuoso } from 'react-virtuoso';
 import { ConfigContext } from '../config-provider';

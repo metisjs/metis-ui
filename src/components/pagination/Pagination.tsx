@@ -5,13 +5,13 @@ import {
   ChevronLeftOutline,
   ChevronRightOutline,
 } from '@metisjs/icons';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useBreakpoint from '@util/hooks/useBreakpoint';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { devUseWarning } from '@util/warning';
 import { isInteger } from 'lodash';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import Input from '../input';
@@ -297,7 +297,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       : nextButton;
   };
 
-  let jumpPrev: React.ReactElement | null = null;
+  let jumpPrev: React.ReactElement<PagerProps> | null = null;
 
   const dataOrAriaAttributeProps = pickAttrs(props, {
     aria: true,
@@ -313,7 +313,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     </li>
   );
 
-  let jumpNext: React.ReactElement | null = null;
+  let jumpNext: React.ReactElement<PagerProps> | null = null;
 
   const allPages = calculatePage(undefined, pageSize, total);
 

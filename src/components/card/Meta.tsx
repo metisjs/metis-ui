@@ -36,7 +36,7 @@ const Meta: React.FC<CardMetaProps> = (props) => {
       className={clsx(
         `${prefixCls}-meta-description`,
         'text-text-secondary',
-        title && 'mt-1',
+        !!title && 'mt-1',
         semanticCLs.description,
       )}
     >

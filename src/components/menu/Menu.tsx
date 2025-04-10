@@ -2,6 +2,9 @@ import * as React from 'react';
 import { useImperativeHandle } from 'react';
 import { flushSync } from 'react-dom';
 import { EllipsisHorizontalOutline } from '@metisjs/icons';
+import { useEvent } from '@rc-component/util';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import isEqual from '@rc-component/util/es/isEqual';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
@@ -10,9 +13,6 @@ import { collapseTransition } from '@util/transition';
 import type { SafeKey } from '@util/type';
 import warning from '@util/warning';
 import Overflow from 'rc-overflow';
-import { useEvent } from 'rc-util';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import isEqual from 'rc-util/es/isEqual';
 import { ConfigContext } from '../config-provider';
 import { SiderContext } from '../layout/Sider';
 import type { TransitionProps } from '../transition';
@@ -353,7 +353,10 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   useImperativeHandle(ref, () => ({
     list: containerRef.current!,
     focus: (options) => {
-      const shouldFocusKey = mergedActiveKey ?? childList.find((node) => !node.props.disabled)?.key;
+      const shouldFocusKey =
+        mergedActiveKey ??
+        childList.find((node: React.ReactElement<{ disabled?: boolean }>) => !node.props.disabled)
+          ?.key;
       if (shouldFocusKey) {
         containerRef.current
           ?.querySelector<HTMLLIElement>(
@@ -395,7 +398,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
     mergedExpandIcon = cloneElement(beClone, {
       className: clsx(
         `${prefixCls}-submenu-expand-icon`,
-        isValidElement(beClone) ? beClone.props?.className : '',
+        isValidElement<{ className: string }>(beClone) ? beClone.props?.className : '',
       ),
     });
   }
@@ -498,7 +501,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
   const rootCls = clsx(
     prefixCls,
     `${prefixCls}-${internalMode}`,
-    'flex w-full text-sm text-text transition-[width]',
+    'text-text flex w-full text-sm transition-[width]',
     {
       [`${prefixCls}-inline-collapsed`]: internalInlineCollapsed,
       'h-[4rem] leading-[4rem]': mergedMode === 'horizontal',

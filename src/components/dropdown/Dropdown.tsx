@@ -1,4 +1,7 @@
 import * as React from 'react';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import { composeRef, getNodeRef, supportRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
@@ -9,9 +12,6 @@ import type { AdjustOverflow } from '@util/placements';
 import getPlacements from '@util/placements';
 import { cloneElement } from '@util/reactNode';
 import ZIndexContext from '@util/ZIndexContext';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import { composeRef, supportRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import type { MenuProps } from '../menu';
 import Menu from '../menu';
@@ -122,9 +122,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       child.props.className,
       semanticCls.root,
     ),
-    ref: supportRef(child)
-      ? composeRef(childRef, (child as React.ReactElement & { ref: React.Ref<HTMLElement> }).ref)
-      : undefined,
+    ref: supportRef(child) ? composeRef(childRef, getNodeRef(child)) : undefined,
     disabled,
   });
 

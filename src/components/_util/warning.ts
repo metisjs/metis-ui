@@ -1,5 +1,5 @@
 import React from 'react';
-import rcWarning, { noteOnce, resetWarned as rcResetWarned } from 'rc-util/es/warning';
+import rcWarning, { noteOnce, resetWarned as rcResetWarned } from '@rc-component/util/es/warning';
 
 export function noop() {}
 

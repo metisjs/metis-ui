@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import useMemo from '@rc-component/util/es/hooks/useMemo';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx, getSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { isPlatformMac } from '@util/platform';
-import useMemo from 'rc-util/es/hooks/useMemo';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import Spin from '../spin';
 import type { ScrollConfig, VirtualListRef } from '../virtual-list';
 import VirtualList from '../virtual-list';
@@ -319,7 +319,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
                 className={clsx(
                   itemPrefixCls,
                   `${itemPrefixCls}-loading`,
-                  'relative flex cursor-default select-none items-center justify-center px-3 py-1',
+                  'relative flex cursor-default items-center justify-center px-3 py-1 select-none',
                 )}
               >
                 <Spin size="small" />
@@ -335,7 +335,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
               <div
                 className={clsx(
                   itemPrefixCls,
-                  `${itemPrefixCls}-group cursor-auto px-3 py-2 text-xs text-text-tertiary`,
+                  `${itemPrefixCls}-group text-text-tertiary cursor-auto px-3 py-2 text-xs`,
                   optionSemanticCls.label,
                 )}
                 title={groupTitle}
@@ -352,7 +352,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
           const optionClassName = clsx(
             itemPrefixCls,
             optionPrefixCls,
-            'relative flex cursor-pointer select-none items-center py-2 pl-3 pr-10 text-sm',
+            'relative flex cursor-pointer items-center py-2 pr-10 pl-3 text-sm select-none',
             {
               [`${optionPrefixCls}-grouped`]: groupOption,
               [`${optionPrefixCls}-active`]: activeIndex === itemIndex && !disabled,
@@ -362,7 +362,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             {
               'pl-6': groupOption,
               'bg-primary text-white': activeIndex === itemIndex && !disabled,
-              'cursor-not-allowed text-text-tertiary': disabled,
+              'text-text-tertiary cursor-not-allowed': disabled,
               'font-semibold': selected,
             },
             optionSemanticCls.root,

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { getFocusNodeList } from '@rc-component/util/es/Dom/focus';
+import raf from '@rc-component/util/es/raf';
 import type { SafeKey } from '@util/type';
-import { getFocusNodeList } from 'rc-util/es/Dom/focus';
-import raf from 'rc-util/es/raf';
 import { getMenuId } from '../context/IdContext';
 import type { MenuMode } from '../interface';
 
@@ -173,7 +173,7 @@ export default function useAccessibility<T extends HTMLElement>(
   activeKey: SafeKey | undefined,
   id: string,
 
-  containerRef: React.RefObject<HTMLUListElement>,
+  containerRef: React.RefObject<HTMLUListElement | null>,
   getKeys: () => SafeKey[],
   getKeyPath: (key: SafeKey, includeOverflow?: boolean) => SafeKey[],
 
@@ -182,10 +182,10 @@ export default function useAccessibility<T extends HTMLElement>(
 
   originOnKeyDown?: React.KeyboardEventHandler<T>,
 ): React.KeyboardEventHandler<T> {
-  const rafRef = React.useRef<number>();
+  const rafRef = React.useRef<number>(null);
 
-  const activeRef = React.useRef<SafeKey>();
-  activeRef.current = activeKey;
+  const activeRef = React.useRef<SafeKey>(null);
+  activeRef.current = activeKey ?? null;
 
   const cleanRaf = () => {
     raf.cancel(rafRef.current!);

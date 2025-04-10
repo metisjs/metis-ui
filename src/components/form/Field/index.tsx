@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import React from 'react';
+import { useEvent } from '@rc-component/util';
+import omit from '@rc-component/util/es/omit';
 import type { AnyObject } from '@util/type';
-import { useEvent } from 'rc-util';
-import omit from 'rc-util/es/omit';
 import Avatar from '../../avatar';
 import useValueEnum from '../hooks/useValueEnum';
 import type {
@@ -93,14 +93,14 @@ export type RenderFieldProps = {
    * @params dom 默认的 dom
    * @return 返回一个用于读的 dom
    */
-  render?: ((text: any, dom: ReactNode) => React.ReactNode) | undefined;
+  render?: ((text: any, dom: ReactNode) => React.ReactElement<any>) | undefined;
   /**
    * 一个自定义的编辑渲染器。
    * @params text 默认的值类型
    * @params dom 默认的 dom
    * @return 返回一个用于编辑的dom
    */
-  renderEditor?: ((text: any, dom: ReactNode) => React.ReactNode) | undefined;
+  renderEditor?: ((text: any, dom: ReactNode) => React.ReactElement<any>) | undefined;
 };
 
 export type FieldProps<T = AnyObject> = BaseFieldProps & RenderFieldProps & T;

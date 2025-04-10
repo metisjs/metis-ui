@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { supportNodeRef, useComposeRef } from '@rc-component/util';
+import { getNodeRef } from '@rc-component/util/es/ref';
 import ContextIsolator from '@util/ContextIsolator';
-import { supportNodeRef, useComposeRef } from 'rc-util';
 import type { MenuProps } from '../Menu';
 
 // Used for Dropdown only
@@ -30,12 +31,12 @@ export const OverrideProvider = React.forwardRef<
   );
 
   const canRef = supportNodeRef(children);
-  const mergedRef = useComposeRef(ref, canRef ? children.ref : null);
+  const mergedRef = useComposeRef(ref, canRef ? getNodeRef(children) : null);
 
   return (
     <OverrideContext.Provider value={context}>
       <ContextIsolator space>
-        {canRef ? React.cloneElement(children as React.ReactElement, { ref: mergedRef }) : children}
+        {canRef ? React.cloneElement(children as any, { ref: mergedRef }) : children}
       </ContextIsolator>
     </OverrideContext.Provider>
   );

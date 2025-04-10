@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { getClientSize } from 'rc-util/es/Dom/css';
-import isEqual from 'rc-util/es/isEqual';
-import raf from 'rc-util/es/raf';
+import isEqual from '@rc-component/util/es/isEqual';
+import raf from '@rc-component/util/es/raf';
+import { getClientSize } from '../util';
 
 export type TransformType = {
   x: number;
@@ -52,7 +52,7 @@ const initialTransform = {
 };
 
 export default function useImageTransform(
-  imgRef: React.MutableRefObject<HTMLImageElement | null>,
+  imgRef: React.RefObject<HTMLImageElement | null>,
   minScale: number,
   maxScale: number,
   onTransform?: (info: { transform: TransformType; action: TransformAction }) => void,

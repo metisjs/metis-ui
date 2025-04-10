@@ -208,7 +208,7 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
     semanticCls.root,
   );
   const customComponentCls = clsx(
-    children &&
+    !!children &&
       'absolute end-0 top-0 origin-center translate-x-1/2 -translate-y-1/2 overflow-hidden',
   );
 

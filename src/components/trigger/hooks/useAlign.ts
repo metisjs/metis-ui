@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { isDOM } from 'rc-util/es/Dom/findDOMNode';
-import isVisible from 'rc-util/es/Dom/isVisible';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import { isDOM } from '@rc-component/util/es/Dom/findDOMNode';
+import isVisible from '@rc-component/util/es/Dom/isVisible';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import type { TriggerProps } from '..';
 import type { AlignPointLeftRight, AlignPointTopBottom, AlignType, OffsetType } from '../interface';
 import { collectScroller, getVisibleArea, getWin, toNum } from '../util';

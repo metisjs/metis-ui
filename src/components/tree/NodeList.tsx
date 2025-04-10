@@ -3,8 +3,8 @@
  */
 
 import * as React from 'react';
+import omit from '@rc-component/util/es/omit';
 import { mergeSemanticCls } from '@util/classNameUtils';
-import omit from 'rc-util/es/omit';
 import type { ScrollTo, VirtualListProps, VirtualListRef, VirtualType } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import type { BasicDataNode, FlattenNode, Key, KeyEntities, TreeNodeProps } from './interface';

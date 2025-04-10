@@ -1,7 +1,7 @@
 import * as React from 'react';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import Checkbox from '../checkbox';
 import { TreeContext } from './context';
 import useEventData from './hooks/useEventData';

@@ -1,13 +1,13 @@
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
 import { ClockOutline } from '@metisjs/icons';
+import omit from '@rc-component/util/es/omit';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import { getPresetColorCls, isPresetColor } from '@util/colors';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import type { Dayjs } from 'dayjs';
-import omit from 'rc-util/es/omit';
 import useTheme from '../../../../theme/useTheme';
 import {
   CELL_ONE_HOUR_HEIGHT,

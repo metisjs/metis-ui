@@ -1,4 +1,5 @@
 import * as React from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
 import useSemanticCls from '@util/hooks/useSemanticCls';
@@ -7,7 +8,6 @@ import getArrowClassName from '@util/placementArrow';
 import getPlacements from '@util/placements';
 import { isFragment } from '@util/reactNode';
 import ZIndexContext from '@util/ZIndexContext';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import type { BuildInPlacements, TriggerRef } from '../trigger';
 import Trigger from '../trigger';

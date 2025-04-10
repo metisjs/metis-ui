@@ -1,4 +1,4 @@
-import { warning } from 'rc-util/es/warning';
+import { warning } from '@rc-component/util/es/warning';
 import type {
   BasicDataNode,
   DataEntity,

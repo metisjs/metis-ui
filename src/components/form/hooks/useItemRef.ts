@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { composeRef } from 'rc-util/es/ref';
+import { composeRef, getNodeRef } from '@rc-component/util/es/ref';
 import { FormContext } from '../context';
 import type { InternalNamePath } from '../interface';
 
@@ -13,7 +13,7 @@ export default function useItemRef() {
 
   function getRef(name: InternalNamePath, children: any) {
     const childrenRef: React.Ref<React.ReactElement> =
-      children && typeof children === 'object' && children.ref;
+      children && typeof children === 'object' && getNodeRef(children);
     const nameStr = name.join('_');
     if (cacheRef.current.name !== nameStr || cacheRef.current.originRef !== childrenRef) {
       cacheRef.current.name = nameStr;

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useEvent } from 'rc-util';
+import { useEvent } from '@rc-component/util';
 
 const useInterval = (fn: () => void, delay?: number, options: { immediate?: boolean } = {}) => {
   const timerCallback = useEvent(fn);
-  const timerRef = useRef<NodeJS.Timeout>();
+  const timerRef = useRef<NodeJS.Timeout>(undefined);
 
   const run = useCallback(() => {
     if (!delay) {
@@ -16,9 +16,7 @@ const useInterval = (fn: () => void, delay?: number, options: { immediate?: bool
   }, [delay, options.immediate]);
 
   const clear = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+    clearInterval(timerRef.current);
   }, []);
 
   const reset = useCallback(() => {

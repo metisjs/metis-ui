@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useLayoutUpdateEffect } from 'rc-util/es/hooks/useLayoutEffect';
-import raf from 'rc-util/es/raf';
+import { useLayoutUpdateEffect } from '@rc-component/util/es/hooks/useLayoutEffect';
+import raf from '@rc-component/util/es/raf';
 
 /**
  * Trigger `callback` immediately when `condition` is `true`.

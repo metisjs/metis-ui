@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { useMergedState } from '@rc-component/util';
+import omit from '@rc-component/util/es/omit';
+import { composeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import { useMergedState } from 'rc-util';
-import omit from 'rc-util/es/omit';
-import { composeRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';

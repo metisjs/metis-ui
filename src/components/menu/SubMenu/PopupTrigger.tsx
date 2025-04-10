@@ -1,6 +1,6 @@
 import * as React from 'react';
+import raf from '@rc-component/util/es/raf';
 import { clsx } from '@util/classNameUtils';
-import raf from 'rc-util/es/raf';
 import type { TransitionProps } from '../../transition';
 import Trigger from '../../trigger';
 import { MenuContext } from '../context/MenuContext';
@@ -79,7 +79,7 @@ export default function PopupTrigger({
   };
 
   // Delay to change visible
-  const openRef = React.useRef<number>();
+  const openRef = React.useRef<number>(null);
   React.useEffect(() => {
     openRef.current = raf(() => {
       setInnerOpen(open);

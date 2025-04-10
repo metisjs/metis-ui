@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useMergedState } from '@rc-component/util';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import warning from '@util/warning';
-import { useMergedState } from 'rc-util';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import CheckedIcon from './CheckedIcon';

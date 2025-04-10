@@ -1,9 +1,9 @@
 import * as React from 'react';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
+import { composeRef } from '@rc-component/util/es/ref';
 import { clsx } from '@util/classNameUtils';
 import useClosable from '@util/hooks/useClosable';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import pickAttrs from 'rc-util/es/pickAttrs';
-import { composeRef } from 'rc-util/es/ref';
 import Scrollbar from '../scrollbar';
 import Transition from '../transition';
 import { usePanelRef } from '../watermark/context';

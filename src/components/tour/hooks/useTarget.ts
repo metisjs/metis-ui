@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import type { TourStepInfo } from '..';
 import { isInViewPort } from '../util';
 

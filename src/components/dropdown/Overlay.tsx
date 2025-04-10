@@ -1,8 +1,7 @@
-import type { ReactElement } from 'react';
 import React, { forwardRef } from 'react';
+import { composeRef, getNodeRef, supportRef } from '@rc-component/util/es/ref';
 import { cloneElement } from '@util/reactNode';
 import warning from '@util/warning';
-import { composeRef, supportRef } from 'rc-util/es/ref';
 import { OverrideProvider } from '../menu/context/OverrideContext';
 import type { DropdownProps } from './Dropdown';
 
@@ -14,10 +13,7 @@ export type OverlayProps = Pick<DropdownProps, 'prefixCls'> & {
 const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
   const { prefixCls, children, onClick } = props;
 
-  const composedRef = composeRef(
-    ref,
-    (children as ReactElement & { ref: React.Ref<HTMLElement> })?.ref,
-  );
+  const composedRef = composeRef(ref, getNodeRef(children));
 
   return (
     <OverrideProvider
@@ -29,17 +25,17 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
         root: 'gap-0 py-1',
         item: {
           root: 'px-1',
-          inner: 'h-8 gap-1.5 px-3 py-1 pe-3 ps-3 font-normal leading-6',
+          inner: 'h-8 gap-1.5 px-3 py-1 ps-3 pe-3 leading-6 font-normal',
           icon: 'h-4 w-4',
         },
         sub: {
           root: 'gap-0 px-1 *:px-0',
-          inner: 'h-8 gap-1.5 px-1 py-1 pe-3 ps-3 font-normal leading-6',
+          inner: 'h-8 gap-1.5 px-1 py-1 ps-3 pe-3 leading-6 font-normal',
           icon: 'h-4 w-4',
           list: 'gap-0',
         },
         group: {
-          label: 'pe-3 ps-3',
+          label: 'ps-3 pe-3',
           list: 'gap-0 px-2',
         },
       }}

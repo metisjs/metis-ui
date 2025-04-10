@@ -1,9 +1,9 @@
 import * as React from 'react';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
+import { composeRef } from '@rc-component/util/es/ref';
 import { clsx } from '@util/classNameUtils';
 import useClosable from '@util/hooks/useClosable';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import pickAttrs from 'rc-util/es/pickAttrs';
-import { composeRef } from 'rc-util/es/ref';
 import { getSkeletonButtons } from '../modal/Footer';
 import Scrollbar from '../scrollbar';
 import Skeleton from '../skeleton';
@@ -71,7 +71,7 @@ function Panel(props: PanelProps, ref: React.Ref<HTMLDivElement | null>) {
   const sentinelEndRef = React.useRef<HTMLDivElement>(null);
   const watermarkRef = usePanelRef();
 
-  React.useImperativeHandle(ref, () => panelRef.current);
+  React.useImperativeHandle(ref, () => panelRef.current!);
 
   const onPanelKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
     const { key, shiftKey } = event;

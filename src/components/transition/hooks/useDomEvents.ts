@@ -4,7 +4,7 @@ import { useRef } from 'react';
 export default (
   callback: (event?: TransitionEvent) => void,
 ): [(element: HTMLElement) => void, (element: HTMLElement) => void] => {
-  const cacheElementRef = useRef<HTMLElement>();
+  const cacheElementRef = useRef<HTMLElement>(null);
 
   // Cache callback
   const callbackRef = useRef(callback);
@@ -16,14 +16,14 @@ export default (
   }, []);
 
   // Remove events
-  function removeTransitionEvents(element?: HTMLElement) {
+  function removeTransitionEvents(element?: HTMLElement | null) {
     if (element) {
       element.removeEventListener('transitionend', onInternalTransitionEnd);
     }
   }
 
   // Patch events
-  function patchTransitionEvents(element: HTMLElement) {
+  function patchTransitionEvents(element: HTMLElement | null) {
     if (cacheElementRef.current && cacheElementRef.current !== element) {
       removeTransitionEvents(cacheElementRef.current);
     }

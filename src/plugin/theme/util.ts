@@ -1,5 +1,5 @@
-import omit from 'rc-util/es/omit';
-import get from 'rc-util/es/utils/get';
+import omit from '@rc-component/util/es/omit';
+import get from '@rc-component/util/es/utils/get';
 import twColors from 'tailwindcss/colors';
 import type { PluginAPI } from 'tailwindcss/plugin';
 import type { ThemeOptions } from '.';

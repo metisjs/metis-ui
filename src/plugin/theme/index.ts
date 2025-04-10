@@ -1,4 +1,4 @@
-import { merge } from 'rc-util/es/utils/set';
+import { merge } from '@rc-component/util/es/utils/set';
 import tailwindPlugin from 'tailwindcss/plugin';
 import defaultThemes from './themes';
 import { applyThemes, genThemeVariables } from './util';

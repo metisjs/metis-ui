@@ -1,6 +1,5 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import addEventListener from 'rc-util/es/Dom/addEventListener';
 import { getFixScaleEleTransPosition } from '../util';
 import type {
   DispatchZoomChangeFunc,
@@ -46,9 +45,9 @@ function getCenter(oldPoint1: Point, oldPoint2: Point, newPoint1: Point, newPoin
 }
 
 export default function useTouchEvent(
-  imgRef: React.MutableRefObject<HTMLImageElement | null>,
+  imgRef: React.RefObject<HTMLImageElement | null>,
   movable: boolean,
-  visible: boolean,
+  open: boolean,
   minScale: number,
   transform: TransformType,
   updateTransform: UpdateTransformFunc,
@@ -132,7 +131,7 @@ export default function useTouchEvent(
   };
 
   const onTouchEnd = () => {
-    if (!visible) return;
+    if (!open) return;
 
     if (isTouching) {
       setIsTouching(false);
@@ -145,10 +144,9 @@ export default function useTouchEvent(
       return updateTransform({ x: 0, y: 0, scale: minScale }, 'touchZoom');
     }
 
-    const width = imgRef.current!.offsetWidth * scale;
-    const height = imgRef.current!.offsetHeight * scale;
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    const { left, top } = imgRef.current!.getBoundingClientRect();
+    const width = (imgRef.current?.offsetWidth ?? 0) * scale;
+    const height = (imgRef.current?.offsetHeight ?? 0) * scale;
+    const { left, top } = imgRef.current?.getBoundingClientRect() ?? { left: 0, top: 0 };
     const isRotate = rotate % 180 !== 0;
 
     const fixState = getFixScaleEleTransPosition(
@@ -164,16 +162,19 @@ export default function useTouchEvent(
   };
 
   useEffect(() => {
-    let onTouchMoveListener: any;
-    if (visible && movable) {
-      onTouchMoveListener = addEventListener(window, 'touchmove', (e: any) => e.preventDefault(), {
+    const preventDefault = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
+    if (open && movable) {
+      window.addEventListener('touchmove', preventDefault, {
         passive: false,
       });
     }
     return () => {
-      onTouchMoveListener?.remove();
+      window.removeEventListener('touchmove', preventDefault);
     };
-  }, [visible, movable]);
+  }, [open, movable]);
 
   return {
     isTouching,

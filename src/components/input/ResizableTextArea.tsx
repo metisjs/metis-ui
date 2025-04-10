@@ -1,10 +1,10 @@
 import * as React from 'react';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import omit from '@rc-component/util/es/omit';
+import raf from '@rc-component/util/es/raf';
 import { clsx } from '@util/classNameUtils';
 import ResizeObserver from 'rc-resize-observer';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import omit from 'rc-util/es/omit';
-import raf from 'rc-util/es/raf';
 import type { ResizableTextAreaRef, TextAreaProps } from './interface';
 import { calculateAutoSizeStyle } from './utils';
 
@@ -108,7 +108,7 @@ const ResizableTextArea = React.forwardRef<
   }, [resizeState]);
 
   // We lock resize trigger by raf to avoid Safari warning
-  const resizeRafRef = React.useRef<number>();
+  const resizeRafRef = React.useRef<number>(null);
   const cleanRaf = () => {
     raf.cancel(resizeRafRef.current!);
   };

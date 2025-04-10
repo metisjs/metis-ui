@@ -1,13 +1,13 @@
 import React from 'react';
-import { useEvent } from 'rc-util';
-import raf from 'rc-util/es/raf';
+import { useEvent } from '@rc-component/util';
+import raf from '@rc-component/util/es/raf';
 
 /**
  * Callback will only execute last one for each raf
  */
 export default function useRafDebounce(callback: VoidFunction) {
   const executeRef = React.useRef(false);
-  const rafRef = React.useRef<number>();
+  const rafRef = React.useRef<number>(null);
 
   const wrapperCallback = useEvent(callback);
 

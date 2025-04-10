@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import React, { Children, isValidElement } from 'react';
+import { isFragment } from '@util/reactNode';
 import { flattenDeep } from 'lodash';
 import { DisabledContextProvider } from '../config-provider/DisabledContext';
 import { useLocale } from '../locale';
@@ -19,8 +20,8 @@ interface FooterProps {
 export function getSkeletonButtons(children: ReactNode): ReactNode[] | null {
   const buttons = Children.map(children, (child) => {
     if (isValidElement(child)) {
-      if (child.type === React.Fragment) {
-        return getSkeletonButtons(child.props.children);
+      if (isFragment(child)) {
+        return getSkeletonButtons((child as ReactElement<any>).props.children);
       }
       if (
         (child.type as any).__METIS_BUTTON ||

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import isEqual from '@rc-component/util/es/isEqual';
 import { clsx } from '@util/classNameUtils';
 import toArray from '@util/toArray';
 import type { AnyObject } from '@util/type';
-import isEqual from 'rc-util/es/isEqual';
 import Button from '../../../button';
 import type { CascaderProps, DefaultOptionType } from '../../../cascader';
 import Checkbox from '../../../checkbox';
@@ -112,7 +112,7 @@ function getFiltersByValueEnum<RecordType extends AnyObject = AnyObject>(
 
 function getFilterByValueType<RecordType extends AnyObject = AnyObject>(
   valueType: RawValueType<RecordType> = 'text',
-  inputRef: React.MutableRefObject<any>,
+  inputRef: React.RefObject<any>,
   selectedKeys: (Key | undefined)[],
   setSelectedKeys: (selectedKeys: (Key | undefined)[]) => void,
 ) {
@@ -266,7 +266,7 @@ function renderFilterItems({
 export interface FilterContentProps<RecordType extends AnyObject = AnyObject> {
   prefixCls: string;
   dropdownPrefixCls: string;
-  inputRef: React.MutableRefObject<any>;
+  inputRef: React.RefObject<any>;
   columnKey: Key;
   filter: Exclude<ColumnFilter<RecordType>, boolean>;
   valueType?: RawValueType<RecordType>;
@@ -323,20 +323,24 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
   const mergedFilterMode = filterMode ?? (mergedValueType === 'cascader' ? 'tree' : 'menu');
 
   if (typeof filter.dropdown === 'function') {
-    return filter.dropdown({
-      prefixCls: `${prefixCls}-custom`,
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-      filters: filter.items,
-      open,
-      close,
-    });
+    return (
+      <>
+        {filter.dropdown({
+          prefixCls: `${prefixCls}-custom`,
+          setSelectedKeys,
+          selectedKeys,
+          confirm,
+          clearFilters,
+          filters: filter.items,
+          open,
+          close,
+        })}
+      </>
+    );
   }
 
   if (filter.dropdown) {
-    return filter.dropdown;
+    return <>{filter.dropdown}</>;
   }
 
   const mergedItems: ColumnFilterItem[] | undefined = filter.items?.length
@@ -513,7 +517,7 @@ const FilterContent = <RecordType extends AnyObject = AnyObject>({
       <div
         className={clsx(
           `${prefixCls}-dropdown-btns`,
-          'flex justify-between gap-2 border-t border-t-border-secondary p-2',
+          'border-t-border-secondary flex justify-between gap-2 border-t p-2',
         )}
       >
         <Button

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useMergedState } from 'rc-util';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import { useMergedState } from '@rc-component/util';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import type {
   BaseInfo,
   GenerateConfig,

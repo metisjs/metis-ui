@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { RequestConfig, SafeKey } from '@util/type';
 import { useSetState } from 'ahooks';
-import { useEvent } from 'rc-util';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import Spin from '../spin';
 import type { ScrollTo } from '../virtual-list';
@@ -97,7 +97,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   const dragNode = React.useRef<EventDataNode<DataNode> | null>(null);
   const dragStartMousePosition = React.useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const currentMouseOverDroppableNodeKey = React.useRef<Key | null>(null);
-  const delayedDragEnterLogic = React.useRef<Record<SafeKey, number>>();
+  const delayedDragEnterLogic = React.useRef<Record<SafeKey, number>>(null);
 
   // ==================================States==================================
   const [dragState, setDragState] = useSetState<{
@@ -685,7 +685,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
       [`${prefixCls}-show-line`]: showLine,
     },
     'group/tree',
-    'text-sm text-text',
+    'text-text text-sm',
     semanticCls.root,
   );
 

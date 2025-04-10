@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { useEvent } from 'rc-util';
-import isVisible from 'rc-util/es/Dom/isVisible';
-import raf from 'rc-util/es/raf';
+import { useEvent } from '@rc-component/util';
+import isVisible from '@rc-component/util/es/Dom/isVisible';
+import raf from '@rc-component/util/es/raf';
 import type { ScrollbarRef } from '../../../../scrollbar';
 
 const SPEED_PTG = 1 / 3;
 
 export default function useScrollTo(
-  scrollbarRef: React.RefObject<ScrollbarRef>,
+  scrollbarRef: React.RefObject<ScrollbarRef | null>,
   value: number | string | undefined,
 ): [syncScroll: VoidFunction, clearScroll: VoidFunction, isScrolling: () => boolean] {
   // ========================= Scroll =========================

@@ -160,7 +160,7 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
       [`${prefixCls}-item-no-colon`]: !computedColon,
     },
     'text-text relative flex h-9 max-w-full items-center text-sm font-medium',
-    label && [
+    !!label && [
       'after:relative after:ms-0.5 after:me-2.5 after:content-[":"]',
       {
         'after:content-["\\a0"]': !computedColon,

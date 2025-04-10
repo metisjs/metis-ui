@@ -1,11 +1,11 @@
 import * as React from 'react';
-import raf from 'rc-util/es/raf';
+import raf from '@rc-component/util/es/raf';
 
 export default (): [
   (callback: (info: { isCanceled: () => boolean }) => void) => void,
   () => void,
 ] => {
-  const nextFrameRef = React.useRef<number>();
+  const nextFrameRef = React.useRef<number>(null);
 
   function cancelNextFrame() {
     raf.cancel(nextFrameRef.current!);

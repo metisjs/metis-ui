@@ -1,5 +1,4 @@
-﻿import type { ReactNode } from 'react';
-import React, { useMemo } from 'react';
+﻿import React, { useMemo } from 'react';
 import type { FieldFC, FieldProps } from '..';
 import type { CascaderProps, DefaultOptionType } from '../../../cascader';
 import Cascader from '../../../cascader';
@@ -54,16 +53,16 @@ const FieldCascader: FieldFC<FieldCascaderProps> = (
       return <Spin size="small" />;
     }
 
-    const dom: ReactNode = fieldParsingText(text, valueEnum || optionsValueEnum);
+    const dom = fieldParsingText(text, valueEnum || optionsValueEnum);
 
     if (render) {
-      return render(text, dom) ?? null;
+      return render(text, dom);
     }
-    return dom;
+    return <>{dom}</>;
   }
 
   if (mode === 'edit') {
-    let dom: ReactNode = (
+    let dom = (
       <Cascader
         loading={loading}
         ref={ref}
@@ -75,7 +74,7 @@ const FieldCascader: FieldFC<FieldCascaderProps> = (
     );
 
     if (renderEditor) {
-      dom = renderEditor(text, dom) ?? null;
+      dom = renderEditor(text, dom);
     }
 
     return dom;

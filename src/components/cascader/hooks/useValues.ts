@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMergedState } from 'rc-util';
+import { useMergedState } from '@rc-component/util';
 import type { DataEntity } from '../../tree/interface';
 import { conductCheck } from '../../tree/utils/conductUtil';
 import type { InternalFieldNames, InternalValueType } from '../Cascader';

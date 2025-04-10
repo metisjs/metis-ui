@@ -28,8 +28,8 @@ export const genAlphaColor = (color: AggregationColor, alpha?: number) => {
 
 export const calculateColor = (props: {
   offset: TransformOffset;
-  containerRef: React.RefObject<HTMLDivElement>;
-  targetRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  targetRef: React.RefObject<HTMLDivElement | null>;
   color: AggregationColor;
   type?: HSBAColorType;
 }): AggregationColor => {

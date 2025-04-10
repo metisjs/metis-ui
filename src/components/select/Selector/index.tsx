@@ -10,6 +10,7 @@
 
 import * as React from 'react';
 import { useRef } from 'react';
+import type { JSX } from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';

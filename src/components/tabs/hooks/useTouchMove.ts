@@ -11,21 +11,21 @@ const SPEED_OFF_MULTIPLE = 0.995 ** REFRESH_INTERVAL;
 
 // ================================= Hook =================================
 export default function useTouchMove(
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement | null>,
   onOffset: (offsetX: number, offsetY: number) => boolean,
 ) {
   const [touchPosition, setTouchPosition] = useState<{ x: number; y: number }>();
   const [lastTimestamp, setLastTimestamp] = useState<number>(0);
   const [lastTimeDiff, setLastTimeDiff] = useState<number>(0);
   const [lastOffset, setLastOffset] = useState<{ x: number; y: number }>();
-  const motionRef = useRef<number>();
+  const motionRef = useRef<number>(null);
 
   // ========================= Events =========================
   // >>> Touch events
   function onTouchStart(e: TouchEvent) {
     const { screenX, screenY } = e.touches[0];
     setTouchPosition({ x: screenX, y: screenY });
-    window.clearInterval(motionRef.current);
+    window.clearInterval(motionRef.current!);
   }
 
   function onTouchMove(e: TouchEvent) {
@@ -64,7 +64,7 @@ export default function useTouchMove(
 
       motionRef.current = window.setInterval(() => {
         if (Math.abs(currentX) < STOP_SWIPE_DISTANCE && Math.abs(currentY) < STOP_SWIPE_DISTANCE) {
-          window.clearInterval(motionRef.current);
+          window.clearInterval(motionRef.current!);
           return;
         }
 
@@ -76,7 +76,7 @@ export default function useTouchMove(
   }
 
   // >>> Wheel event
-  const lastWheelDirectionRef = useRef<'x' | 'y'>();
+  const lastWheelDirectionRef = useRef<'x' | 'y'>(null);
 
   function onWheel(e: WheelEvent) {
     const { deltaX, deltaY } = e;
@@ -106,7 +106,7 @@ export default function useTouchMove(
     onTouchMove: TouchEventHandler;
     onTouchEnd: TouchEventHandler;
     onWheel: WheelEventHandler;
-  }>();
+  }>(null);
   touchEventsRef.current = { onTouchStart, onTouchMove, onTouchEnd, onWheel };
 
   React.useEffect(() => {

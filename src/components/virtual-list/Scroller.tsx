@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { forwardRef, useContext } from 'react';
-import omit from 'rc-util/es/omit';
-import { composeRef } from 'rc-util/es/ref';
+import omit from '@rc-component/util/es/omit';
+import { composeRef } from '@rc-component/util/es/ref';
 import Scrollbar from '../scrollbar';
 import { VirtualListContext } from './context';
 

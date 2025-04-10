@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import React, { useContext, useMemo } from 'react';
+import { useMergedState } from '@rc-component/util';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import { useMergedState } from 'rc-util';
 import type { CollapseProps } from '../../collapse';
 import Collapse from '../../collapse';
 import { type AggregationColor } from '../color';

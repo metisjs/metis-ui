@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useRef } from 'react';
+import { fillRef, getNodeRef, supportRef } from '@rc-component/util/es/ref';
 import useLatestValue from '@util/hooks/useLatestValue';
-import { fillRef, supportRef } from 'rc-util/es/ref';
 import DomWrapper from './DomWrapper';
 import useStatus from './hooks/useStatus';
 import type {
@@ -75,9 +75,9 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
   } = props;
 
   // Ref to the react node, it may be a HTMLElement
-  const nodeRef = useRef<any>();
+  const nodeRef = useRef<any>(null);
   // Ref to the dom wrapper in case ref can not pass to HTMLElement
-  const wrapperNodeRef = useRef<any>();
+  const wrapperNodeRef = useRef<any>(null);
 
   function getDomElement() {
     try {
@@ -155,7 +155,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
 
   // Auto inject ref if child node not have `ref` props
   if (React.isValidElement(transitionChildren) && supportRef(transitionChildren)) {
-    const { ref: originNodeRef } = transitionChildren as any;
+    const originNodeRef = getNodeRef(transitionChildren);
 
     if (!originNodeRef) {
       transitionChildren = React.cloneElement<any>(transitionChildren, {

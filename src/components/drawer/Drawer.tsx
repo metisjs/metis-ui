@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Portal from '@rc-component/portal';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import ContextIsolator from '@util/ContextIsolator';
 import { useZIndex } from '@util/hooks/useZIndex';
 import ZIndexContext from '@util/ZIndexContext';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import { ConfigContext } from '../config-provider';
 import type { DrawerProps } from './interface';
 import Panel from './Panel';
@@ -48,7 +48,7 @@ const Drawer: React.FC<DrawerProps> = (props) => {
   // ============================ Focus =============================
   const popupRef = React.useRef<HTMLDivElement>(null);
 
-  const lastActiveRef = React.useRef<HTMLElement>();
+  const lastActiveRef = React.useRef<HTMLElement>(null);
   useLayoutEffect(() => {
     if (mergedOpen) {
       lastActiveRef.current = document.activeElement as HTMLElement;

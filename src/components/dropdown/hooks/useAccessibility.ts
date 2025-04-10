@@ -1,5 +1,5 @@
 import * as React from 'react';
-import raf from 'rc-util/es/raf';
+import raf from '@rc-component/util/es/raf';
 
 interface UseAccessibilityProps {
   open: boolean;

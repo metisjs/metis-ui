@@ -1,4 +1,11 @@
 import * as React from 'react';
+import { getDOM } from '@rc-component/util/es/Dom/findDOMNode';
+import isVisible from '@rc-component/util/es/Dom/isVisible';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import omit from '@rc-component/util/es/omit';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
+import getValue from '@rc-component/util/es/utils/get';
+import { merge } from '@rc-component/util/es/utils/set';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { UrlStateOptions } from '@util/hooks/useUrlState';
@@ -9,13 +16,6 @@ import { devUseWarning } from '@util/warning';
 import classNames from 'classnames';
 import type { SizeInfo } from 'rc-resize-observer';
 import ResizeObserver from 'rc-resize-observer';
-import { getDOM } from 'rc-util/es/Dom/findDOMNode';
-import isVisible from 'rc-util/es/Dom/isVisible';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import omit from 'rc-util/es/omit';
-import pickAttrs from 'rc-util/es/pickAttrs';
-import getValue from 'rc-util/es/utils/get';
-import { merge } from 'rc-util/es/utils/set';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
@@ -616,7 +616,7 @@ function InternalTable<RecordType extends AnyObject>(
   const stickyRef = React.useRef<{
     setScrollLeft: (left: number) => void;
     checkScrollBarVisible: () => void;
-  }>();
+  }>(null);
   const { isSticky, offsetHeader, offsetSummary, offsetScroll, stickyClassName, container } =
     useSticky(sticky, prefixCls);
 

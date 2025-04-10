@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { JSX } from 'react';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { DescriptionsContext, type ItemClassNameType } from '.';
@@ -47,7 +48,7 @@ const Cell: React.FC<CellProps> = (props) => {
             [`${itemPrefixCls}-item-label`]: type === 'label',
             [`${itemPrefixCls}-item-content`]: type === 'content',
           },
-          'border-e border-border-tertiary px-6 py-4 text-start font-normal text-text last:border-e-0',
+          'border-border-tertiary text-text border-e px-6 py-4 text-start font-normal last:border-e-0',
           {
             'bg-fill-quinary text-text-secondary': type === 'label',
             'table-cell break-words [word-break:break-word]': type === 'content',
@@ -74,10 +75,10 @@ const Cell: React.FC<CellProps> = (props) => {
       colSpan={span}
       className={clsx(
         `${itemPrefixCls}-item`,
-        'pb-4 pe-4 align-top font-normal text-text group-last/row:pb-0',
+        'text-text pe-4 pb-4 align-top font-normal group-last/row:pb-0',
         {
-          'pb-3 pe-3': size === 'middle',
-          'pb-2 pe-2': size === 'small',
+          'pe-3 pb-3': size === 'middle',
+          'pe-2 pb-2': size === 'small',
         },
         semanticCls.root,
       )}
@@ -91,8 +92,8 @@ const Cell: React.FC<CellProps> = (props) => {
               {
                 [`${itemPrefixCls}-item-no-colon`]: !colon,
               },
-              'inline-flex items-baseline text-text-secondary',
-              'after:relative after:me-2.5 after:ms-0.5 after:content-[":"]',
+              'text-text-secondary inline-flex items-baseline',
+              'after:relative after:ms-0.5 after:me-2.5 after:content-[":"]',
               { 'after:content-["\\a0"]': !colon },
               semanticCls.label,
             )}

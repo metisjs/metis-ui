@@ -6,14 +6,14 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useMergedState } from '@rc-component/util';
+import omit from '@rc-component/util/es/omit';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
 import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
 import warning from '@util/warning';
-import { useMergedState } from 'rc-util';
-import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';

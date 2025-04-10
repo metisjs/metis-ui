@@ -1,6 +1,6 @@
 import React from 'react';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import { clsx } from '@util/classNameUtils';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import type { SegmentedValue } from '.';
 import Transition from '../transition';
 
@@ -13,7 +13,7 @@ type ThumbReact = {
 export interface MotionThumbInterface {
   prefixCls: string;
   className?: string;
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   value: SegmentedValue;
   getValueIndex: (value: SegmentedValue) => number;
   onMotionStart: VoidFunction;

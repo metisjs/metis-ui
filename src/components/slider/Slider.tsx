@@ -1,9 +1,9 @@
 import React from 'react';
+import { useEvent, useMergedState } from '@rc-component/util';
+import isEqual from '@rc-component/util/es/isEqual';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { devUseWarning } from '@util/warning';
-import { useEvent, useMergedState } from 'rc-util';
-import isEqual from 'rc-util/es/isEqual';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { SliderContextProps } from './context';
@@ -338,16 +338,16 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       [`${prefixCls}-horizontal`]: !vertical,
       [`${prefixCls}-with-marks`]: markList.length,
     },
-    'group relative cursor-pointer text-sm text-text',
+    'group text-text relative cursor-pointer text-sm',
     { 'mx-3 my-1 h-full px-1': vertical, 'mx-1 my-3 h-3 py-1': !vertical },
     markList.length && { 'mr-8': vertical, 'mb-8': !vertical },
-    mergedDisabled && 'cursor-not-allowed opacity-disabled',
+    mergedDisabled && 'opacity-disabled cursor-not-allowed',
     semanticCls.root,
   );
 
   const railCls = clsx(
     `${prefixCls}-rail`,
-    'absolute rounded-full bg-fill-quaternary transition-colors',
+    'bg-fill-quaternary absolute rounded-full transition-colors',
     { 'h-full w-1': vertical, 'h-1 w-full': !vertical },
     !mergedDisabled && 'group-hover:bg-fill-tertiary',
     semanticCls.rail,

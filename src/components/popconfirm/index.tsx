@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { ExclamationTriangleOutline } from '@metisjs/icons';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import omit from '@rc-component/util/es/omit';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { mergeSemanticCls } from '@util/classNameUtils';
 import type { RenderFunction } from '@util/getRenderPropValue';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import omit from 'rc-util/es/omit';
 import type { ButtonProps, ButtonType } from '../button';
 import { ConfigContext } from '../config-provider';
 import type { PopoverProps } from '../popover';

@@ -7,11 +7,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import getScrollBarSize from '@rc-component/util/es/getScrollBarSize';
+import raf from '@rc-component/util/es/raf';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import getScrollBarSize from 'rc-util/es/getScrollBarSize';
-import raf from 'rc-util/es/raf';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarProps, ScrollbarRef, ScrollValues } from './interface';
 import getInnerHeight from './utils/getInnerHeight';
@@ -52,17 +52,17 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
   const thumbHorizontalRef = useRef<HTMLDivElement>(null);
   const thumbVerticalRef = useRef<HTMLDivElement>(null);
 
-  const rafId = useRef<number>();
+  const rafId = useRef<number>(undefined);
 
-  const detectScrollingInterval = useRef<NodeJS.Timeout>();
-  const hideTracksTimeout = useRef<NodeJS.Timeout>();
+  const detectScrollingInterval = useRef<NodeJS.Timeout>(undefined);
+  const hideTracksTimeout = useRef<NodeJS.Timeout>(undefined);
 
-  const viewScrollLeft = useRef<number>();
-  const viewScrollTop = useRef<number>();
-  const lastViewScrollLeft = useRef<number>();
-  const lastViewScrollTop = useRef<number>();
-  const prevPageX = useRef<number>();
-  const prevPageY = useRef<number>();
+  const viewScrollLeft = useRef<number>(null);
+  const viewScrollTop = useRef<number>(null);
+  const lastViewScrollLeft = useRef<number>(null);
+  const lastViewScrollTop = useRef<number>(null);
+  const prevPageX = useRef<number>(null);
+  const prevPageY = useRef<number>(null);
 
   // ======================== State ========================
   const [didMountUniversal, setDidMountUniversal] = useState(false);
@@ -528,7 +528,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const view = renderView ? (
     renderView({
-      ref: viewRef,
+      ref: viewRef as any,
       style: viewStyle,
       className: viewCls,
       onScroll: handleScroll,

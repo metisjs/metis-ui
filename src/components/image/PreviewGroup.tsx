@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx, type SemanticClassName } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import { PreviewGroupContext } from './context';
 import usePreviewItems from './hooks/usePreviewItems';

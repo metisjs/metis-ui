@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { composeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import { composeRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import type { AvatarSize } from './SizeContext';
 import SizeContext from './SizeContext';
@@ -191,7 +191,7 @@ const InternalAvatar: React.ForwardRefRenderFunction<HTMLSpanElement, AvatarProp
       'h-8 w-8 leading-8': size === 'small',
     },
     typeof size === 'string' &&
-      icon && {
+      !!icon && {
         'text-2xl': size === 'large',
         'text-xl': size === 'default',
       },

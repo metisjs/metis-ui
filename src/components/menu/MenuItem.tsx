@@ -1,12 +1,12 @@
 import * as React from 'react';
+import toArray from '@rc-component/util/es/Children/toArray';
+import { useComposeRef } from '@rc-component/util/es/ref';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement, isValidElement } from '@util/reactNode';
 import type { SafeKey } from '@util/type';
 import warning from '@util/warning';
 import Overflow from 'rc-overflow';
-import toArray from 'rc-util/es/Children/toArray';
-import { useComposeRef } from 'rc-util/es/ref';
 import type { SiderContextProps } from '../layout/Sider';
 import { SiderContext } from '../layout/Sider';
 import type { TooltipProps } from '../tooltip';
@@ -93,7 +93,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const itemCls = `${prefixCls}-item`;
 
-  const elementRef = React.useRef<HTMLLIElement>();
+  const elementRef = React.useRef<HTMLLIElement>(null);
   const mergedDisabled = contextDisabled || disabled;
 
   const mergedEleRef = useComposeRef(ref, elementRef);
@@ -322,7 +322,10 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
       >
         <span style={{ ...inlineStyle, ...style }} className={innerCls}>
           {cloneElement(icon, {
-            className: clsx(iconCls, isValidElement(icon) ? icon.props?.className : ''),
+            className: clsx(
+              iconCls,
+              isValidElement<{ className?: string }>(icon) ? icon.props?.className : '',
+            ),
           })}
           <span
             className={clsx(

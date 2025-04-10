@@ -1,11 +1,11 @@
 import * as React from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx } from '@util/classNameUtils';
 import usePrevious from '@util/hooks/usePrevious';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import type { Dayjs } from 'dayjs';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import type { GenerateConfig } from '../date-picker/interface';
 import { isSameDate } from '../date-picker/utils/dateUtil';

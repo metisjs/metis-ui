@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { DocumentTextOutline, XMarkOutline } from '@metisjs/icons';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { useZIndex } from '../_util/hooks/useZIndex';
 import { devUseWarning } from '../_util/warning';
 import type { ConfigConsumerProps } from '../config-provider/context';

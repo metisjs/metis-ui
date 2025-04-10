@@ -7,11 +7,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useEvent } from '@rc-component/util';
 import { clsx } from '@util/classNameUtils';
 import useInterval from '@util/hooks/useInterval';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import { useEvent } from 'rc-util';
 import { ConfigContext } from '../config-provider';
 import CarouselArrow from './arrow';
 import CarouselIndicator from './indicator';
@@ -49,7 +49,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
   const childrenLength = childrenList.length;
 
   const sliderWrapperRef = useRef<HTMLDivElement>(null);
-  const animationTimerRef = useRef<NodeJS.Timeout>();
+  const animationTimerRef = useRef<NodeJS.Timeout>(null);
 
   const getValidIndex = (i: number) => {
     const indexNumber = +i;
@@ -114,7 +114,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
 
         animationTimerRef.current = setTimeout(() => {
           setIsAnimating(false);
-          animationTimerRef.current = undefined;
+          animationTimerRef.current = null;
         }, speed);
       }
     },
@@ -236,9 +236,9 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>((props, ref) => {
               style: childStyle,
               className: childClassName,
               onClick: childOnClick,
-            } = child.props;
+            } = (child as React.ReactElement<any>).props;
 
-            return React.cloneElement(child, {
+            return React.cloneElement<any>(child, {
               'aria-hidden': !isActive,
               style: Object.assign(
                 {

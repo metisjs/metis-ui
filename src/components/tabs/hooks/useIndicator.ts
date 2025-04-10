@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import raf from 'rc-util/es/raf';
+import raf from '@rc-component/util/es/raf';
 import type { TabOffset } from '../interface';
 
 export type GetIndicatorSize = number | ((origin: number) => number);
@@ -19,7 +19,7 @@ const useIndicator = (options: UseIndicatorOptions) => {
   const { size, align = 'center' } = indicator;
 
   const [style, setStyle] = useState<React.CSSProperties>();
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(null);
 
   const getLength = React.useCallback(
     (origin: number) => {

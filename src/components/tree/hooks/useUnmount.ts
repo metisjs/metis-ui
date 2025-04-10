@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 
 /**
  * Trigger only when component unmount

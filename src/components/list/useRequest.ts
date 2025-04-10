@@ -1,8 +1,8 @@
 import { useContext, useMemo, useRef, useState } from 'react';
+import { useEvent } from '@rc-component/util';
 import type { RequestConfig } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
-import { useEvent } from 'rc-util';
 import type { LazyLoadType } from '.';
 import { ConfigContext } from '../config-provider';
 import type { ScrollValues } from '../scrollbar';
@@ -20,7 +20,7 @@ export default function <TData>(
   const pageSize = typeof lazyLoad !== 'boolean' ? (lazyLoad?.pageSize ?? PAGE_SIZE) : PAGE_SIZE;
 
   const current = useRef(1);
-  const target = useRef<HTMLDivElement>();
+  const target = useRef<HTMLDivElement>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [finalData, setFinalData] = useState<{ data: TData[]; total?: number }>();
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DocumentOutline, LoadingOutline, PaperClipOutline, PhotoOutline } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
-import { cloneElement } from '@util/reactNode';
+import { cloneElement, isValidElement } from '@util/reactNode';
 import { collapseTransition } from '@util/transition';
 import { useUpdate } from 'ahooks';
 import type { ButtonProps } from '../../button';
@@ -157,7 +157,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       title,
       onClick: (e: React.MouseEvent<HTMLElement>) => {
         callback(e);
-        if (React.isValidElement(customIcon)) {
+        if (isValidElement<{ onClick?: (e: any) => void }>(customIcon)) {
           customIcon.props.onClick?.(e);
         }
       },
@@ -179,9 +179,9 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     if (acceptUploadDisabled) {
       btnProps.disabled = disabled;
     }
-    if (React.isValidElement(customIcon)) {
-      const btnIcon = cloneElement(customIcon, {
-        ...customIcon.props,
+    if (isValidElement<any>(customIcon)) {
+      const btnIcon = cloneElement<any>(customIcon, {
+        ...(customIcon as React.ReactElement<any>).props,
         onClick: () => {},
       });
 

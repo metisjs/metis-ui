@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 import { EyeOutline, EyeSlashOutline } from '@metisjs/icons';
-import omit from 'rc-util/es/omit';
-import { composeRef } from 'rc-util/es/ref';
+import omit from '@rc-component/util/es/omit';
+import { composeRef } from '@rc-component/util/es/ref';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
 import Input from './Input';
 import type { InputProps, InputRef } from './interface';

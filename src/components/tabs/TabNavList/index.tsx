@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import { useComposeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import useSyncState from '@util/hooks/useSyncState';
 import type { SafeKey } from '@util/type';
 import ResizeObserver from 'rc-resize-observer';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import { useComposeRef } from 'rc-util/es/ref';
 import { TabContext } from '../context';
 import type { GetIndicatorSize } from '../hooks/useIndicator';
 import useIndicator from '../hooks/useIndicator';
@@ -58,7 +58,7 @@ export interface TabNavListProps {
   locale?: TabsLocale;
   onTabClick: (activeKey: SafeKey, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
-  children?: (node: React.ReactElement) => React.ReactElement;
+  children?: (node: React.ReactElement<any>) => React.ReactElement<any>;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   indicator?: {
     size?: GetIndicatorSize;
@@ -80,7 +80,7 @@ const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
 };
 
-const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
+const getSize = (refObj: React.RefObject<HTMLElement | null>): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
 
   // Use getBoundingClientRect to avoid decimal inaccuracy

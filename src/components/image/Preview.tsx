@@ -8,7 +8,6 @@ import {
 } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
-import addEventListener from 'rc-util/es/Dom/addEventListener';
 import Modal from '../modal';
 import { BASE_SCALE_RATIO } from './constant';
 import { PreviewGroupContext } from './context';
@@ -21,7 +20,7 @@ import Operations from './Operations';
 
 interface PreviewImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallback?: string;
-  imgRef: React.MutableRefObject<HTMLImageElement | null>;
+  imgRef: React.RefObject<HTMLImageElement | null>;
 }
 
 // TODO: 添加 @metis/icons 图标
@@ -241,10 +240,10 @@ const Preview: React.FC<PreviewProps> = (props) => {
   };
 
   useEffect(() => {
-    const onKeyDownListener = addEventListener(window, 'keydown', onKeyDown, false);
+    addEventListener('keydown', onKeyDown, false);
 
     return () => {
-      onKeyDownListener.remove();
+      removeEventListener('keydown', onKeyDown);
     };
   }, [open, showLeftOrRightSwitches, current]);
 

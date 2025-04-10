@@ -51,9 +51,9 @@ const FieldTimePicker: FieldFC<FieldTimePickerProps> = (
       generateConfig: dayjsGenerateConfig,
     });
     if (render) {
-      return render(text, <>{dom}</>);
+      return render(text, dom);
     }
-    return dom;
+    return <>dom</>;
   }
   if (mode === 'edit') {
     const dom = <TimePicker ref={ref} format={format} {...editorProps} />;

@@ -1,8 +1,8 @@
 import * as React from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import getDataOrAriaProps from '@util/getDataOrAriaProps';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import { RadioGroupContextProvider } from './Context';
 import type { RadioChangeEvent, RadioGroupProps } from './interface';

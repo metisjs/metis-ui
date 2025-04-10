@@ -1,5 +1,6 @@
 import type { ChangeEvent, CSSProperties } from 'react';
 import React, { useCallback, useContext, useMemo } from 'react';
+import omit from '@rc-component/util/es/omit';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import type { PrevSelectedIndex } from '@util/hooks/useMultipleSelect';
@@ -8,7 +9,6 @@ import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InputStatus } from '@util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
 import { devUseWarning } from '@util/warning';
-import omit from 'rc-util/es/omit';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
@@ -422,7 +422,7 @@ const Transfer = <RecordType extends TransferItem = TransferItem>(
       [`${prefixCls}-disabled`]: disabled,
       [`${prefixCls}-customize-list`]: !!children,
     },
-    'relative flex items-stretch text-sm text-text',
+    'text-text relative flex items-stretch text-sm',
     semanticCls.root,
   );
 

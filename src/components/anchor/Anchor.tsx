@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getScroll, scrollTo } from '@util/scroll';
 import { devUseWarning } from '@util/warning';
-import { useEvent } from 'rc-util';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import Affix from '../affix';
 import type { ConfigConsumerProps } from '../config-provider';
@@ -265,10 +265,10 @@ const Anchor: React.FC<AnchorProps> = (props) => {
       [`${prefixCls}-fixed`]: !affix && !showInkInFixed,
       [`${prefixCls}-horizontal`]: anchorDirection === 'horizontal',
     },
-    'relative ps-[2px] text-sm text-text',
-    'before:absolute before:border-solid before:border-fill-secondary',
+    'text-text relative ps-[2px] text-sm',
+    'before:border-fill-secondary before:absolute before:border-solid',
     {
-      'flex before:bottom-0 before:left-0 before:right-0 before:border-b':
+      'flex before:right-0 before:bottom-0 before:left-0 before:border-b':
         anchorDirection === 'horizontal',
       'before:start-0 before:top-0 before:h-full before:border-s-2': anchorDirection === 'vertical',
     },
@@ -280,7 +280,7 @@ const Anchor: React.FC<AnchorProps> = (props) => {
     {
       [`${prefixCls}-ink-visible`]: activeLink,
     },
-    'absolute hidden bg-primary duration-300',
+    'bg-primary absolute hidden duration-300',
     {
       'inline-block': activeLink,
       'start-0 w-[2px] -translate-y-1/2 transition-[top]': anchorDirection === 'vertical',

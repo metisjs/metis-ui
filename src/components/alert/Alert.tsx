@@ -6,14 +6,14 @@ import {
   InformationCircleSolid,
   XCircleSolid,
 } from '@metisjs/icons';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
+import { composeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import type { ClosableType } from '@util/hooks/useClosable';
 import useClosable from '@util/hooks/useClosable';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { replaceElement } from '@util/reactNode';
-import pickAttrs from 'rc-util/es/pickAttrs';
-import { composeRef } from 'rc-util/es/ref';
 import { ConfigContext } from '../config-provider';
 import Transition from '../transition';
 
@@ -78,7 +78,15 @@ const IconNode: React.FC<IconNodeProps> = (props) => {
   if (icon) {
     return replaceElement(icon, <span className={className}>{icon}</span>, () => ({
       className: clsx(className, {
-        [(icon as ReactElement).props.className]: (icon as ReactElement).props.className,
+        [(
+          icon as ReactElement<{
+            className?: string;
+          }>
+        ).props.className!]: (
+          icon as ReactElement<{
+            className?: string;
+          }>
+        ).props.className,
       }),
     })) as ReactElement;
   }
@@ -170,7 +178,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
   const alertContentCls = clsx(`${prefixCls}-content`, 'min-w-0 flex-1', semanticCls.content);
   const alertMessageCls = clsx(
     `${prefixCls}-message`,
-    description && 'text-base font-medium',
+    !!description && 'text-base font-medium',
     semanticCls.message,
   );
   const alertDescriptionCls = clsx(
@@ -199,7 +207,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
   const alertIconCls = clsx(
     `${prefixCls}-icon`,
     'text-xl',
-    description && 'text-2xl',
+    !!description && 'text-2xl',
     {
       'text-success-hover': type === 'success',
       'text-info-hover': type === 'info',

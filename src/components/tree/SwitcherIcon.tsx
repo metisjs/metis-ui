@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LoadingOutline } from '@metisjs/icons';
 import { clsx } from '@util/classNameUtils';
 import ExpandIcon from '@util/ExpandIcon';
-import { cloneElement } from '@util/reactNode';
+import { cloneElement, isValidElement } from '@util/reactNode';
 import type { IconType, TreeNodeProps } from './interface';
 
 interface SwitcherIconProps {
@@ -31,7 +31,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
 
   const switcher = typeof switcherIcon === 'function' ? switcherIcon(treeNodeProps) : switcherIcon;
 
-  if (React.isValidElement(switcher)) {
+  if (isValidElement<{ className?: string }>(switcher)) {
     return cloneElement(switcher, {
       className: clsx(switcherCls, !expanded && '-rotate-90', switcher.props.className || ''),
     });

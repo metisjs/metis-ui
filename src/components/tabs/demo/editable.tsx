@@ -70,7 +70,7 @@ const App: React.FC = () => {
     }
   };
 
-  const renderTabContextMenu = (tab: Tab, ref: React.RefObject<TabsRef>) => ({
+  const renderTabContextMenu = (tab: Tab, ref: React.RefObject<TabsRef | null>) => ({
     items: [
       {
         key: 'rename',

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import useMemo from '@rc-component/util/es/hooks/useMemo';
+import { merge } from '@rc-component/util/es/utils/set';
 import dayjs from 'dayjs';
-import useMemo from 'rc-util/es/hooks/useMemo';
-import { merge } from 'rc-util/es/utils/set';
 import { PREFERS_COLOR_KEY } from '../../plugin/constants';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';

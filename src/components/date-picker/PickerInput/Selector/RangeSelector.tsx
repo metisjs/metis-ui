@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import { useEvent } from 'rc-util';
 import type { RangePickerRef, SelectorProps } from '../../interface';
 import { pickProps } from '../../utils/miscUtil';
 import { getOffsetUnit } from '../../utils/uiUtil';

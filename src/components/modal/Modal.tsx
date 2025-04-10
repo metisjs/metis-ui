@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Portal from '@rc-component/portal';
+import contains from '@rc-component/util/es/Dom/contains';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
 import ZIndexContext from '@util/ZIndexContext';
-import contains from 'rc-util/es/Dom/contains';
 import { ConfigContext } from '../config-provider';
 import Skeleton from '../skeleton';
 import Footer from './Footer';
@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const panelRef = React.useRef<PanelRef>(null);
   const panelClickRef = React.useRef(false);
-  const panelTimeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const panelTimeoutRef = React.useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const [animatedVisible, setAnimatedVisible] = React.useState(open);
 
@@ -143,7 +143,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   // Remove direct should also check the scroll bar update
   React.useEffect(
     () => () => {
-      clearTimeout(panelTimeoutRef.current);
+      clearTimeout(panelTimeoutRef.current!);
     },
     [],
   );

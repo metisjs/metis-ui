@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Portal from '@rc-component/portal';
+import { isDOM } from '@rc-component/util/es/Dom/findDOMNode';
+import { getShadowRoot } from '@rc-component/util/es/Dom/shadow';
+import useEvent from '@rc-component/util/es/hooks/useEvent';
+import useId from '@rc-component/util/es/hooks/useId';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import isMobile from '@rc-component/util/es/isMobile';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import { isDOM } from 'rc-util/es/Dom/findDOMNode';
-import { getShadowRoot } from 'rc-util/es/Dom/shadow';
-import useEvent from 'rc-util/es/hooks/useEvent';
-import useId from 'rc-util/es/hooks/useId';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import isMobile from 'rc-util/es/isMobile';
 import { ConfigContext } from '../config-provider';
 import type { TransitionProps } from '../transition';
 import type { TriggerContextProps } from './Context';
@@ -232,7 +232,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     });
 
     // ========================== Children ==========================
-    const child = React.Children.only(children) as React.ReactElement;
+    const child = React.Children.only(children) as React.ReactElement<any>;
     const originChildProps = child?.props || {};
     const cloneProps: typeof originChildProps = {};
 
@@ -288,7 +288,7 @@ export function generateTrigger(PortalComponent: React.ComponentType<any> = Port
     });
 
     // Trigger for delay
-    const delayRef = React.useRef<any>();
+    const delayRef = React.useRef<any>(null);
 
     const clearDelay = () => {
       clearTimeout(delayRef.current);

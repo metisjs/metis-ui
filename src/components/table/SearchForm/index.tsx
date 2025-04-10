@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import { ChevronDownOutline } from '@metisjs/icons';
+import { get, useMergedState } from '@rc-component/util';
+import isEqual from '@rc-component/util/es/isEqual';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useBreakpoint from '@util/hooks/useBreakpoint';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { matchScreen } from '@util/responsiveObserver';
 import toArray from '@util/toArray';
 import type { AnyObject, GetProp } from '@util/type';
-import { get, useMergedState } from 'rc-util';
-import isEqual from 'rc-util/es/isEqual';
 import Button from '../../button';
 import type { SizeType } from '../../config-provider/SizeContext';
 import Form from '../../form';
@@ -281,7 +281,7 @@ const SearchForm = <RecordType extends AnyObject>({
       onFinish={handleFinish}
       onReset={handleReset}
       className={mergeSemanticCls(
-        clsx(`${prefixCls}-search-form`, 'mb-4 border-b border-border-tertiary'),
+        clsx(`${prefixCls}-search-form`, 'border-border-tertiary mb-4 border-b'),
         className,
       )}
       {...restProps}

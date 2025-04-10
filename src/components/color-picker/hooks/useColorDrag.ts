@@ -12,8 +12,8 @@ type EventHandle = (e: EventType) => void;
 
 interface useColorDragProps {
   color: AggregationColor;
-  containerRef: React.RefObject<HTMLDivElement>;
-  targetRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  targetRef: React.RefObject<HTMLDivElement | null>;
   direction?: 'x' | 'y';
   onDragChange?: (offset: TransformOffset) => void;
   onDragChangeComplete?: () => void;
@@ -43,8 +43,8 @@ function useColorDrag(props: useColorDragProps): [TransformOffset, EventHandle] 
     disabledDrag,
   } = props;
   const [offsetValue, setOffsetValue] = useState({ x: 0, y: 0 });
-  const mouseMoveRef = useRef<((event: MouseEvent) => void) | null>();
-  const mouseUpRef = useRef<((event: MouseEvent) => void) | null>();
+  const mouseMoveRef = useRef<((event: MouseEvent) => void) | null>(null);
+  const mouseUpRef = useRef<((event: MouseEvent) => void) | null>(null);
 
   const removeEventListeners = useCallback(() => {
     if (mouseMoveRef.current) {

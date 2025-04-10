@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import omit from '@rc-component/util/es/omit';
 import { useRequest } from 'ahooks';
-import omit from 'rc-util/es/omit';
 import { isValueEnumWithRequest } from '../Field/util';
 import type {
   FieldValueEnumMap,

@@ -1,10 +1,10 @@
 import * as React from 'react';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import { composeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import ResizeObserver from 'rc-resize-observer';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import { composeRef } from 'rc-util/es/ref';
 import type { TriggerProps } from '../';
 import type { TransitionProps } from '../../transition';
 import Transition from '../../transition';

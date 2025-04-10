@@ -1,9 +1,9 @@
 import React from 'react';
 import { StarSolid } from '@metisjs/icons';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx, type SemanticClassName } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import type { StarProps, StarSemanticClassName } from './Star';

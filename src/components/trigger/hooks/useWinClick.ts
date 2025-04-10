@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { getShadowRoot } from 'rc-util/es/Dom/shadow';
-import { warning } from 'rc-util/es/warning';
+import { getShadowRoot } from '@rc-component/util/es/Dom/shadow';
+import { warning } from '@rc-component/util/es/warning';
 import { getWin } from '../util';
 
 export default function useWinClick(

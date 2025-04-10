@@ -33,9 +33,9 @@ const FieldSwitch: FieldFC<{ text: boolean; editorProps?: Partial<SwitchProps> }
 
   if (mode === 'read') {
     if (render) {
-      return render(text, <>{dom}</>);
+      return render(text, dom);
     }
-    return dom ?? '-';
+    return <>{dom ?? '-'}</>;
   }
   if (mode === 'edit') {
     const dom = <Switch ref={ref} {...editorProps} />;

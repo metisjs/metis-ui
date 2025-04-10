@@ -1,7 +1,7 @@
 import * as React from 'react';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import type { InnerSelectorProps } from '.';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
@@ -78,7 +78,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       <span
         className={clsx(
           `${prefixCls}-selection-placeholder`,
-          'pointer-events-none flex-1 truncate text-text-quaternary',
+          'text-text-quaternary pointer-events-none flex-1 truncate',
           semanticCls.placeholder,
         )}
         style={hiddenStyle}
@@ -92,7 +92,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
     <>
       <span
         className={clsx(
-          `${prefixCls}-selection-search absolute bottom-0 end-3 start-3 top-0`,
+          `${prefixCls}-selection-search absolute start-3 end-3 top-0 bottom-0`,
           customizeInputElement && 'static w-full',
           semanticCls.search,
         )}
@@ -129,7 +129,7 @@ const SingleSelector: React.FC<SelectorProps> = (props) => {
       {!combobox && item ? (
         <span
           className={clsx(
-            `${prefixCls}-selection-item relative flex-1 select-none items-center truncate text-sm/6`,
+            `${prefixCls}-selection-item relative flex-1 items-center truncate text-sm/6 select-none`,
             open && showSearch && 'text-text-quaternary',
             semanticCls.item,
           )}

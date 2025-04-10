@@ -50,7 +50,7 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
 
   const hasAffix = hasPrefixSuffix(props);
 
-  let element: ReactElement = cloneElement(children, {
+  let element: ReactElement<any> = cloneElement<any>(children, {
     value,
   });
 
@@ -173,7 +173,7 @@ const BaseInput = React.forwardRef<HolderRef, BaseInputProps>((props, ref) => {
   }
 
   // `className` and `style` are always on the root element
-  return React.cloneElement(element, {
+  return React.cloneElement<any>(element, {
     className: semanticCls.root
       ? element.props?.className
         ? typeof element.props?.className === 'string'

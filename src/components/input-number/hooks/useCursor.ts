@@ -15,7 +15,7 @@ export default function useCursor(
     value?: string;
     beforeTxt?: string;
     afterTxt?: string;
-  }>();
+  }>(null);
 
   function recordCursor() {
     // Record position

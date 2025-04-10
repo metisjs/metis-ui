@@ -6,12 +6,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
 import useEffectState from '@util/hooks/useEffectState';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import toArray from '@util/toArray';
 import { devUseWarning } from '@util/warning';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import DisabledContext from '../config-provider/DisabledContext';
@@ -390,7 +390,7 @@ const InternalMentions = forwardRef<MentionsRef, MentionsProps>((props, ref) => 
   };
 
   // ============================ Focus Blur ============================
-  const focusRef = useRef<number>();
+  const focusRef = useRef<number>(undefined);
 
   const onInternalFocus = (event?: React.FocusEvent<HTMLTextAreaElement>) => {
     window.clearTimeout(focusRef.current);

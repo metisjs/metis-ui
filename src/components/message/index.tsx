@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'rc-util/es/React/render';
+import { render } from '@rc-component/util/es/React/render';
 import ConfigProvider, { globalConfig } from '../config-provider';
 import type {
   ArgsProps,
@@ -127,7 +127,6 @@ function flushNotice() {
           ref={(node) => {
             const { instance, sync } = node || {};
 
-            // React 18 test env will throw if call immediately in ref
             Promise.resolve().then(() => {
               if (!newMessage.instance && instance) {
                 newMessage.instance = instance;

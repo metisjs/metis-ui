@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
 import type { RequiredWith } from '@util/type';
 import type { ParseOptions, StringifyOptions } from 'query-string';
 import qs from 'query-string';
-import { useEvent } from 'rc-util';
 
 export interface UrlStateOptions<S extends UrlState = UrlState, T = any> {
   disabled?: boolean;

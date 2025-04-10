@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEvent } from 'rc-util';
+import { useEvent } from '@rc-component/util';
 import { UnstableContext } from '../context';
 import type { Direction, OnStartMove } from '../interface';
 import type { OffsetValues } from './useOffset';
@@ -11,7 +11,7 @@ function getPosition(e: React.MouseEvent | React.TouchEvent | MouseEvent | Touch
 }
 
 function useDrag(
-  containerRef: React.RefObject<HTMLDivElement>,
+  containerRef: React.RefObject<HTMLDivElement | null>,
   direction: Direction,
   rawValues: number[],
   min: number,
@@ -31,8 +31,8 @@ function useDrag(
   const [cacheValues, setCacheValues] = React.useState(rawValues);
   const [originValues, setOriginValues] = React.useState(rawValues);
 
-  const mouseMoveEventRef = React.useRef<(event: MouseEvent) => void>();
-  const mouseUpEventRef = React.useRef<(event: MouseEvent) => void>();
+  const mouseMoveEventRef = React.useRef<(event: MouseEvent) => void>(null);
+  const mouseUpEventRef = React.useRef<(event: MouseEvent) => void>(null);
 
   const { onDragStart, onDragChange } = React.useContext(UnstableContext);
 
@@ -170,8 +170,8 @@ function useDrag(
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('touchend', onMouseUp);
       document.removeEventListener('touchmove', onMouseMove);
-      mouseMoveEventRef.current = undefined;
-      mouseUpEventRef.current = undefined;
+      mouseMoveEventRef.current = null;
+      mouseUpEventRef.current = null;
 
       finishChange();
 

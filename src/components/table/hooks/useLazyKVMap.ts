@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEvent } from 'rc-util';
+import { useEvent } from '@rc-component/util';
 import type { AnyObject } from '../../_util/type';
 import type { GetRowKey, Key } from '../interface';
 

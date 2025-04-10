@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import Overflow from 'rc-overflow';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import type { InnerSelectorProps } from '.';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
 import TransBtn from '../TransBtn';

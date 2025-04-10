@@ -648,5 +648,5 @@ export function groupEventsByDate<DateType extends AnyObject = Dayjs>(
 
   calcEventsIndex(groupedAllDayEvents, groupedTimeEvents, generateConfig, locale);
 
-  return [groupedAllDayEvents, groupedTimeEvents] as const;
+  return [groupedAllDayEvents, groupedTimeEvents];
 }

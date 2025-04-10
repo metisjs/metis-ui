@@ -1,8 +1,8 @@
 import * as React from 'react';
+import omit from '@rc-component/util/es/omit';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import type { CheckboxChangeEvent, CheckboxProps } from './Checkbox';
 import Checkbox from './Checkbox';

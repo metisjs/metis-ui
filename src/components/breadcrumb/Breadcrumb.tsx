@@ -1,9 +1,9 @@
 import * as React from 'react';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import { ConfigContext } from '../config-provider';
 import type { DropdownProps } from '../dropdown';
 import type { BreadcrumbItemProps } from './BreadcrumbItem';

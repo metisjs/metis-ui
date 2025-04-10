@@ -1,5 +1,3 @@
-import { getClientSize } from 'rc-util/es/Dom/css';
-
 export function isImageValid(src?: string) {
   return new Promise((resolve) => {
     if (src) {
@@ -34,6 +32,15 @@ function fixPoint(key: 'x' | 'y', start: number, width: number, clientWidth: num
     };
   }
   return {};
+}
+
+export function getClientSize() {
+  const width = document.documentElement.clientWidth;
+  const height = window.innerHeight || document.documentElement.clientHeight;
+  return {
+    width,
+    height,
+  };
 }
 
 /**

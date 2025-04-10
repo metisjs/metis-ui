@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import * as React from 'react';
+import useMobile from '@rc-component/util/es/hooks/useMobile';
+import raf from '@rc-component/util/es/raf';
 import { clsx } from '@util/classNameUtils';
-import useMobile from 'rc-util/es/hooks/useMobile';
-import raf from 'rc-util/es/raf';
 import type { Variant } from '../config-provider';
 
 /**
@@ -37,10 +37,10 @@ export default function StepHandler({
   className,
 }: StepHandlerProps) {
   // ======================== Step ========================
-  const stepTimeoutRef = React.useRef<any>();
+  const stepTimeoutRef = React.useRef<any>(null);
   const frameIds = React.useRef<number[]>([]);
 
-  const onStepRef = React.useRef<StepHandlerProps['onStep']>();
+  const onStepRef = React.useRef<StepHandlerProps['onStep']>(null);
   onStepRef.current = onStep;
 
   const onStopStep = () => {

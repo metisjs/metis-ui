@@ -1,7 +1,7 @@
 import * as React from 'react';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import type { SemanticRecord } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import type { BreadcrumbItemType, BreadcrumbProps } from './Breadcrumb';
 
 type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (
@@ -50,7 +50,7 @@ export function renderItem(
 
   const cls = clsx(
     `${prefixCls}-link`,
-    'inline-flex h-full items-center gap-1 px-1 text-text-secondary',
+    'text-text-secondary inline-flex h-full items-center gap-1 px-1',
     isLastItem && 'text-text',
     semanticCls.root,
   );

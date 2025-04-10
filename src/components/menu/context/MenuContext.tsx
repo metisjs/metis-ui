@@ -1,7 +1,7 @@
 import * as React from 'react';
+import useMemo from '@rc-component/util/es/hooks/useMemo';
+import isEqual from '@rc-component/util/es/isEqual';
 import type { SafeKey } from '@util/type';
-import useMemo from 'rc-util/es/hooks/useMemo';
-import isEqual from 'rc-util/es/isEqual';
 import type { TransitionProps } from '../../transition';
 import type {
   BuiltinPlacements,

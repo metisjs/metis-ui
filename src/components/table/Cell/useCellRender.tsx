@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import useMemo from '@rc-component/util/es/hooks/useMemo';
+import isEqual from '@rc-component/util/es/isEqual';
+import getValue from '@rc-component/util/es/utils/get';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import { isNil } from '@util/isNil';
 import type { AnyObject } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { omit } from 'lodash';
-import useMemo from 'rc-util/es/hooks/useMemo';
-import isEqual from 'rc-util/es/isEqual';
-import getValue from 'rc-util/es/utils/get';
 import type { CellProps } from '.';
 import Form from '../../form';
 import FieldComponent from '../../form/Field';
@@ -123,7 +123,7 @@ export default function useCellRender<RecordType extends AnyObject>({
                 }
               }}
               {...omit(editableConfig, ['editorProps', 'editorRender'])}
-              className="-mb-2 -mt-2"
+              className="-mt-2 -mb-2"
               messageVariables={{
                 label: cellTitle?.toString() ?? '',
                 ...editableConfig.messageVariables,
@@ -164,7 +164,7 @@ export default function useCellRender<RecordType extends AnyObject>({
       cellTitle,
       tableKey,
       tableAction,
-    ] as const,
+    ],
     (prev, next) => {
       if (shouldCellUpdate) {
         const [, prevRecord] = prev;

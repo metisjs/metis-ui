@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
+import { useMergedState } from '@rc-component/util';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useIsMounted from '@util/hooks/useIsMounted';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { devUseWarning } from '@util/warning';
-import { useMergedState } from 'rc-util';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import { useLocale } from '../locale';

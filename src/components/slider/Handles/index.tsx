@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { flushSync } from 'react-dom';
-import raf from 'rc-util/es/raf';
+import raf from '@rc-component/util/es/raf';
 import { ConfigContext } from '../../config-provider';
 import type { TooltipPlacement } from '../../tooltip';
 import SliderContext, { SliderInternalContext } from '../context';

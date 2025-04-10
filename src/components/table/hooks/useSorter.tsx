@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { CaretDownSolid, CaretUpSolid } from '@metisjs/icons';
+import { useEvent } from '@rc-component/util';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import type { UrlStateOptions } from '@util/hooks/useUrlState';
 import useUrlState from '@util/hooks/useUrlState';
-import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../_util/type';
 import type { TooltipProps } from '../../tooltip';
 import Tooltip from '../../tooltip';
@@ -152,7 +152,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
               {
                 [`${prefixCls}-column-sorter-full`]: !!(upNode && downNode),
               },
-              'ms-1 flex items-center text-xs text-text-tertiary transition-colors group-hover/sorter-header:text-text-secondary',
+              'text-text-tertiary group-hover/sorter-header:text-text-secondary ms-1 flex items-center text-xs transition-colors',
             )}
           >
             <span
@@ -269,7 +269,7 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
           cell.className = clsx(
             `${prefixCls}-column-has-sorters`,
             'group/sorter-header',
-            'cursor-pointer hover:bg-fill-quinary',
+            'hover:bg-fill-quinary cursor-pointer',
             cell.className,
           );
           cell.tabIndex = 0;
@@ -543,7 +543,7 @@ const useSorter = <RecordType extends AnyObject = AnyObject>(
 
   const getSorters = () => generateSorterInfo(mergedSorterStates, multiple);
 
-  return [transformColumns, mergedSorterStates, columnTitleSorterProps, getSorters] as const;
+  return [transformColumns, mergedSorterStates, columnTitleSorterProps, getSorters];
 };
 
 export default useSorter;

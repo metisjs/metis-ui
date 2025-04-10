@@ -1,10 +1,10 @@
 import React from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import ExpandIcon from '@util/ExpandIcon';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import pickAttrs from 'rc-util/es/pickAttrs';
 import { ConfigContext } from '../config-provider';
 import CollapsePanel from './CollapsePanel';
 import type { CollapsePanelProps, CollapseProps } from './interface';
@@ -61,7 +61,7 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
         className: clsx(
           `${prefixCls}-arrow`,
           'h-5 w-5',
-          (icon as React.ReactElement)?.props?.className,
+          (icon as React.ReactElement<{ className?: string }>)?.props?.className,
         ),
       }));
     },
@@ -91,7 +91,7 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
       [`${prefixCls}-borderless`]: !bordered,
       [`${prefixCls}-ghost`]: !!ghost,
     },
-    'overflow-hidden rounded-lg border border-border bg-fill-quinary text-sm text-text',
+    'border-border bg-fill-quinary text-text overflow-hidden rounded-lg border text-sm',
     { 'border-0': !bordered, 'border-0 bg-transparent': !!ghost },
     semanticCls.root,
   );

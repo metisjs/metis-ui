@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import raf from 'rc-util/es/raf';
+import raf from '@rc-component/util/es/raf';
 
 type Updater<ValueType> = (prev?: ValueType) => ValueType;
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
 import { clsx } from '@util/classNameUtils';
 import ExpandIcon from '@util/ExpandIcon';
 import useSemanticCls from '@util/hooks/useSemanticCls';
@@ -7,7 +8,6 @@ import { cloneElement, isValidElement } from '@util/reactNode';
 import type { SafeKey } from '@util/type';
 import warning from '@util/warning';
 import Overflow from 'rc-overflow';
-import { useEvent } from 'rc-util';
 import { useMenuId } from '../context/IdContext';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import {
@@ -384,7 +384,10 @@ const InternalSubMenu = (props: SubMenuProps) => {
     >
       <span className={innerCls} style={inlineStyle}>
         {cloneElement(icon, {
-          className: clsx(iconCls, isValidElement(icon) ? icon.props?.className : ''),
+          className: clsx(
+            iconCls,
+            isValidElement<{ className?: string }>(icon) ? icon.props?.className : '',
+          ),
         })}
 
         <span className={contentCls}>{title}</span>

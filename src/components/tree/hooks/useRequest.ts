@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
+import { useMergedState } from '@rc-component/util';
 import type { RequestConfig, SafeKey } from '@util/type';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import { upperFirst } from 'lodash';
-import { useMergedState } from 'rc-util';
 import { ConfigContext } from '../../config-provider';
 import type { RawValueType } from '../../select/interface';
 import type { BasicDataNode, DataNode, FilledFieldNames } from '../interface';

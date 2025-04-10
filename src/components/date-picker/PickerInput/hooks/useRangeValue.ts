@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEvent, useMergedState } from 'rc-util';
+import { useEvent, useMergedState } from '@rc-component/util';
 import useSyncState from '../../hooks/useSyncState';
 import type {
   BaseInfo,

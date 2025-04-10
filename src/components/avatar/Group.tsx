@@ -1,9 +1,9 @@
 import * as React from 'react';
+import toArray from '@rc-component/util/es/Children/toArray';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { cloneElement } from '@util/reactNode';
-import toArray from 'rc-util/es/Children/toArray';
 import { ConfigContext } from '../config-provider';
 import Popover from '../popover';
 import type { AvatarProps } from './Avatar';
@@ -36,7 +36,14 @@ const Group: React.FC<GroupProps> = (props) => {
   const childrenWithProps = toArray(children).map((child, index) =>
     cloneElement(child, {
       key: `avatar-key-${index}`,
-      className: mergeSemanticCls(semanticCls.item, child.props.className),
+      className: mergeSemanticCls(
+        semanticCls.item,
+        (
+          child as React.ReactElement<{
+            className?: string;
+          }>
+        ).props.className,
+      ),
     }),
   );
 

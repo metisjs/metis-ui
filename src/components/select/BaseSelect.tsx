@@ -1,12 +1,13 @@
 import * as React from 'react';
+import type { JSX } from 'react';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InputStatus } from '@util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { Variant } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';

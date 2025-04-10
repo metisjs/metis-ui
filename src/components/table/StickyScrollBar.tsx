@@ -1,19 +1,35 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
+import { getDOM } from '@rc-component/util/es/Dom/findDOMNode';
+import raf from '@rc-component/util/es/raf';
 import { clsx } from '@util/classNameUtils';
-import addEventListener from 'rc-util/es/Dom/addEventListener';
-import { getOffset } from 'rc-util/es/Dom/css';
-import raf from 'rc-util/es/raf';
 import type { ScrollbarRef, ScrollValues } from '../scrollbar';
 import Scrollbar from '../scrollbar';
 import TableContext from './context/TableContext';
 import { useLayoutState } from './hooks/useFrame';
 
 interface StickyScrollBarProps {
-  scrollBodyRef: React.RefObject<ScrollbarRef>;
+  scrollBodyRef: React.RefObject<ScrollbarRef | null>;
   onScroll: (values: ScrollValues, e: React.UIEvent<HTMLElement>) => void;
   offsetScroll: number;
   container: HTMLElement | Window;
+}
+
+export function getOffset(node: HTMLElement | Window) {
+  const element = getDOM(node);
+  const box = element!.getBoundingClientRect();
+  const docElem = document.documentElement;
+
+  return {
+    left:
+      box.left +
+      (window.pageXOffset || docElem.scrollLeft) -
+      (docElem.clientLeft || document.body.clientLeft || 0),
+    top:
+      box.top +
+      (window.pageYOffset || docElem.scrollTop) -
+      (docElem.clientTop || document.body.clientTop || 0),
+  };
 }
 
 const StickyScrollBar: React.ForwardRefRenderFunction<unknown, StickyScrollBarProps> = (
@@ -46,7 +62,7 @@ const StickyScrollBar: React.ForwardRefRenderFunction<unknown, StickyScrollBarPr
       if (!scrollBodyRef.current) {
         return;
       }
-      const tableOffsetTop = getOffset(scrollBodyRef.current.view).top;
+      const tableOffsetTop = getOffset(scrollBodyRef.current.view!).top;
       const tableBottomOffset = tableOffsetTop + scrollBodyRef.current.view!.offsetHeight;
       const currentClientOffset =
         container === window
@@ -71,12 +87,12 @@ const StickyScrollBar: React.ForwardRefRenderFunction<unknown, StickyScrollBarPr
   }));
 
   React.useEffect(() => {
-    const onScrollListener = addEventListener(container, 'scroll', checkScrollBarVisible, false);
-    const onResizeListener = addEventListener(window, 'resize', checkScrollBarVisible, false);
+    window.addEventListener('resize', checkScrollBarVisible, false);
+    container.addEventListener('scroll', checkScrollBarVisible, false);
 
     return () => {
-      onScrollListener.remove();
-      onResizeListener.remove();
+      window.removeEventListener('resize', checkScrollBarVisible);
+      container.removeEventListener('scroll', checkScrollBarVisible);
     };
   }, [container]);
 

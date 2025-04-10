@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import raf from 'rc-util/es/raf';
+import raf from '@rc-component/util/es/raf';
 
 function easeInOutCubic(t: number, b: number, c: number, d: number) {
   const cc = c - b;

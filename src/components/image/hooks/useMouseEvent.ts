@@ -1,7 +1,6 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { devUseWarning } from '@util/warning';
-import addEventListener from 'rc-util/es/Dom/addEventListener';
 import { BASE_SCALE_RATIO, WHEEL_MAX_SCALE_RATIO } from '../constant';
 import { getFixScaleEleTransPosition } from '../util';
 import type {
@@ -11,7 +10,7 @@ import type {
 } from './useImageTransform';
 
 export default function useMouseEvent(
-  imgRef: React.MutableRefObject<HTMLImageElement | null>,
+  imgRef: React.RefObject<HTMLImageElement | null>,
   movable: boolean,
   open: boolean,
   scaleStep: number,
@@ -43,7 +42,7 @@ export default function useMouseEvent(
     setMoving(true);
   };
 
-  const onMouseMove: React.MouseEventHandler<HTMLBodyElement> = (event) => {
+  const onMouseMove = (event: MouseEvent) => {
     if (open && isMoving) {
       updateTransform(
         {
@@ -55,7 +54,7 @@ export default function useMouseEvent(
     }
   };
 
-  const onMouseUp: React.MouseEventHandler<HTMLBodyElement> = () => {
+  const onMouseUp = () => {
     if (open && isMoving) {
       setMoving(false);
 
@@ -64,10 +63,9 @@ export default function useMouseEvent(
       const hasChangedPosition = x !== transformX && y !== transformY;
       if (!hasChangedPosition) return;
 
-      const width = imgRef.current!.offsetWidth * scale;
-      const height = imgRef.current!.offsetHeight * scale;
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const { left, top } = imgRef.current!.getBoundingClientRect();
+      const width = (imgRef.current?.offsetWidth ?? 0) * scale;
+      const height = (imgRef.current?.offsetHeight ?? 0) * scale;
+      const { left, top } = imgRef.current?.getBoundingClientRect() ?? { left: 0, top: 0 };
       const isRotate = rotate % 180 !== 0;
 
       const fixState = getFixScaleEleTransPosition(
@@ -98,21 +96,16 @@ export default function useMouseEvent(
   };
 
   useEffect(() => {
-    let onTopMouseUpListener: any;
-    let onTopMouseMoveListener: any;
-    let onMouseUpListener: any;
-    let onMouseMoveListener: any;
-
     if (movable) {
-      onMouseUpListener = addEventListener(window, 'mouseup', onMouseUp, false);
-      onMouseMoveListener = addEventListener(window, 'mousemove', onMouseMove, false);
+      window.addEventListener('mouseup', onMouseUp, false);
+      window.addEventListener('mousemove', onMouseMove, false);
 
       try {
         // Resolve if in iframe lost event
         /* istanbul ignore next */
         if (window.top !== window.self) {
-          onTopMouseUpListener = addEventListener(window.top, 'mouseup', onMouseUp, false);
-          onTopMouseMoveListener = addEventListener(window.top, 'mousemove', onMouseMove, false);
+          window.top?.addEventListener('mouseup', onMouseUp, false);
+          window.top?.addEventListener('mousemove', onMouseMove, false);
         }
       } catch (error) {
         const warning = devUseWarning('Image');
@@ -121,12 +114,12 @@ export default function useMouseEvent(
     }
 
     return () => {
-      onMouseUpListener?.remove();
-      onMouseMoveListener?.remove();
-      /* istanbul ignore next */
-      onTopMouseUpListener?.remove();
-      /* istanbul ignore next */
-      onTopMouseMoveListener?.remove();
+      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('mousemove', onMouseMove);
+      // /* istanbul ignore next */
+      window.top?.removeEventListener('mouseup', onMouseUp);
+      // /* istanbul ignore next */
+      window.top?.removeEventListener('mousemove', onMouseMove);
     };
   }, [open, isMoving, x, y, rotate, movable]);
 

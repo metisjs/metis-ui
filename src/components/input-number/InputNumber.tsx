@@ -7,6 +7,9 @@ import getMiniDecimal, {
   toFixed,
   validateNumber,
 } from '@rc-component/mini-decimal';
+import { useLayoutUpdateEffect } from '@rc-component/util/es/hooks/useLayoutEffect';
+import proxyObject from '@rc-component/util/es/proxyObject';
+import { composeRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import ContextIsolator from '@util/ContextIsolator';
@@ -14,9 +17,6 @@ import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { InputStatus } from '@util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
-import { useLayoutUpdateEffect } from 'rc-util/es/hooks/useLayoutEffect';
-import proxyObject from 'rc-util/es/proxyObject';
-import { composeRef } from 'rc-util/es/ref';
 import type { Variant } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';

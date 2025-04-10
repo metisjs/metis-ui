@@ -1,6 +1,6 @@
 import React from 'react';
 import { EyeOutline } from '@metisjs/icons';
-import omit from 'rc-util/es/omit';
+import omit from '@rc-component/util/es/omit';
 import type { FieldFC } from '..';
 import type { ImageProps } from '../../../image';
 import Image from '../../../image';

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { composeRef } from '@rc-component/util/es/ref';
 import { clsx } from '@util/classNameUtils';
 import warning from '@util/warning';
-import { composeRef } from 'rc-util/es/ref';
 
 type InputRef = HTMLInputElement | HTMLTextAreaElement;
 
@@ -62,7 +62,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   let inputNode: any = inputElement || (
     <input
       className={clsx(
-        'h-full w-full appearance-none bg-transparent p-0 leading-tight outline-0 focus:outline-0 focus:ring-0',
+        'h-full w-full appearance-none bg-transparent p-0 leading-tight outline-0 focus:ring-0 focus:outline-0',
         !editable && 'cursor-pointer',
       )}
     />

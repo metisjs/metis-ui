@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import Portal from '@rc-component/portal';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
 import getArrowClassName from '@util/placementArrow';
 import getPlacements from '@util/placements';
 import ZIndexContext from '@util/ZIndexContext';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import type { TriggerRef } from '../trigger';
 import Trigger from '../trigger';

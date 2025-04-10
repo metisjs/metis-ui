@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useLayoutUpdateEffect } from 'rc-util/es/hooks/useLayoutEffect';
+import { useLayoutUpdateEffect } from '@rc-component/util/es/hooks/useLayoutEffect';
 
 /**
  * Help to merge callback with `useLayoutEffect`.
@@ -8,7 +8,7 @@ import { useLayoutUpdateEffect } from 'rc-util/es/hooks/useLayoutEffect';
 export default function useUpdate(callback: VoidFunction): () => void {
   const [count, setCount] = useState(0);
   const effectRef = useRef(0);
-  const callbackRef = useRef<VoidFunction>();
+  const callbackRef = useRef<VoidFunction>(null);
   callbackRef.current = callback;
 
   // Trigger on `useLayoutEffect`

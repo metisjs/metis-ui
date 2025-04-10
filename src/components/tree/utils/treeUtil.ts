@@ -1,7 +1,7 @@
 import type * as React from 'react';
+import omit from '@rc-component/util/es/omit';
+import warning from '@rc-component/util/es/warning';
 import type { SafeKey } from '@util/type';
-import omit from 'rc-util/es/omit';
-import warning from 'rc-util/es/warning';
 import type {
   BasicDataNode,
   DataEntity,

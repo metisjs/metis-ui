@@ -54,10 +54,10 @@ export function useTimeoutLock<State>(
   defaultState?: State,
 ): [(state: State) => void, () => State | null] {
   const frameRef = useRef<State | null>(defaultState || null);
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<number>(null);
 
   function cleanUp() {
-    window.clearTimeout(timeoutRef.current);
+    window.clearTimeout(timeoutRef.current!);
   }
 
   function setState(newState: State) {
@@ -66,7 +66,7 @@ export function useTimeoutLock<State>(
 
     timeoutRef.current = window.setTimeout(() => {
       frameRef.current = null;
-      timeoutRef.current = undefined;
+      timeoutRef.current = null;
     }, 100);
   }
 

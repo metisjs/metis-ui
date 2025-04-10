@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { forwardRef } from 'react';
+import { useMergedState } from '@rc-component/util';
 import { clsx } from '@util/classNameUtils';
 import usePlaceholder from '@util/hooks/usePlaceholder';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { getMergedStatus, getStatusClassNames } from '@util/statusUtils';
-import { useMergedState } from 'rc-util';
 import { ConfigContext } from '../config-provider';
 import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';

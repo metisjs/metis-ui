@@ -1,6 +1,6 @@
 import React from 'react';
-import { useEvent, useMergedState } from 'rc-util';
-import raf from 'rc-util/es/raf';
+import { useEvent, useMergedState } from '@rc-component/util';
+import raf from '@rc-component/util/es/raf';
 
 /**
  * Will be `true` immediately for next effect.
@@ -18,7 +18,7 @@ export default function useDelayState<T>(
   const nextValueRef = React.useRef(value);
 
   // ============================= Update =============================
-  const rafRef = React.useRef<number>();
+  const rafRef = React.useRef<number>(null);
   const cancelRaf = () => {
     if (rafRef.current) raf.cancel(rafRef.current);
   };

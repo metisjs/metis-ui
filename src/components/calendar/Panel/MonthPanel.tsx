@@ -1,13 +1,13 @@
 import type { MouseEvent } from 'react';
 import React, { useRef, useState } from 'react';
+import { useEvent } from '@rc-component/util';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx, getSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { AnyObject } from '@util/type';
 import type { Dayjs } from 'dayjs';
 import ResizeObserver from 'rc-resize-observer';
-import { useEvent } from 'rc-util';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import { SolarDay } from 'tyme4ts';
 import type { CellRenderInfo } from '../../date-picker/interface';
 import type { PickerPanelRef } from '../../date-picker/PickerPanel';
@@ -148,11 +148,11 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: MonthPanelProps<D
   const rootCls = clsx(`${prefixCls}-month-panel`, 'h-full w-full', semanticCls.root);
 
   const bodyCls = clsx(
-    'h-full p-0 *:h-full [&_th]:border-b [&_th]:border-b-border [&_th]:px-3 [&_th]:text-right [&_tr:last-of-type_>_td]:border-b-0',
+    '[&_th]:border-b-border h-full p-0 *:h-full [&_th]:border-b [&_th]:px-3 [&_th]:text-right [&_tr:last-of-type_>_td]:border-b-0',
   );
 
   const cellCls = clsx(
-    'group/cell cursor-default border border-border-secondary p-0 first-of-type:border-l-0 last-of-type:border-r-0',
+    'group/cell border-border-secondary cursor-default border p-0 first-of-type:border-l-0 last-of-type:border-r-0',
   );
 
   // ========================= Render =========================
@@ -216,7 +216,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: MonthPanelProps<D
           <div
             className={clsx(
               `${prefixCls}-date-row`,
-              'flex items-center px-1 pb-0.5 pt-1',
+              'flex items-center px-1 pt-1 pb-0.5',
               cellSemanticCls.dateRow,
             )}
           >
@@ -239,7 +239,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: MonthPanelProps<D
                 `${prefixCls}-date`,
                 'ml-auto inline-flex h-7 w-7 items-center justify-end rounded-full px-2',
                 {
-                  'justify-center bg-primary text-white': isToday,
+                  'bg-primary justify-center text-white': isToday,
                 },
                 cellSemanticCls.date,
               )}
@@ -278,7 +278,7 @@ const MonthPanel = <DateType extends AnyObject = Dayjs>(props: MonthPanelProps<D
               <div
                 className={clsx(
                   `${prefixCls}-event-more`,
-                  'absolute text-xs text-text-secondary',
+                  'text-text-secondary absolute text-xs',
                   cellSemanticCls.eventMore,
                 )}
                 style={moreStyle}

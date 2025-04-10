@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import type { JSX } from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import type { Breakpoint } from '@util/responsiveObserver';
 import type { AnyObject, RequestConfig, RequiredWith, SafeKey } from '@util/type';
@@ -394,7 +395,7 @@ type Component<P> =
   | React.ComponentType<P>
   | React.ForwardRefExoticComponent<P>
   | React.FC<P>
-  | keyof React.ReactHTML;
+  | keyof JSX.IntrinsicElements;
 
 export type CustomizeComponent = Component<any>;
 
@@ -690,7 +691,7 @@ export type ColumnSearchType<ValueType extends FieldValueType = 'text'> = {
   key?: React.Key;
   order?: number;
   fieldProps?: FieldValueTypeWithFieldProps[ValueType]['edit'];
-  fieldRender?: (form: FormInstance) => React.ReactNode;
+  fieldRender?: (form: FormInstance) => React.ReactElement<any>;
 } & Omit<FormItemProps, 'children'>;
 
 export type TableSearchConfig = {

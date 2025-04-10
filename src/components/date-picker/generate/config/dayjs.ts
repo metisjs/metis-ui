@@ -1,3 +1,4 @@
+import { noteOnce } from '@rc-component/util/es/warning';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
@@ -7,7 +8,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
-import { noteOnce } from 'rc-util/es/warning';
 import type { GenerateConfig } from '../../interface';
 
 dayjs.extend(customParseFormat);

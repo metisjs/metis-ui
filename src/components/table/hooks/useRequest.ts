@@ -1,9 +1,9 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEvent } from '@rc-component/util';
 import type { AnyObject, RequestConfig } from '@util/type';
 import { devUseWarning } from '@util/warning';
 import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
-import { useEvent } from 'rc-util';
 import { ConfigContext } from '../../config-provider';
 import { useLocale } from '../../locale';
 import type { FilterValue, SorterResult, TablePaginationConfig } from '../interface';

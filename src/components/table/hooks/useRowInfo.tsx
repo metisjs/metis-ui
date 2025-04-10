@@ -1,6 +1,6 @@
 import { useContext } from '@rc-component/context';
+import { useEvent } from '@rc-component/util';
 import type { AnyObject } from '@util/type';
-import { useEvent } from 'rc-util';
 import type { TableContextProps } from '../context/TableContext';
 import TableContext from '../context/TableContext';
 import type { Key } from '../interface';

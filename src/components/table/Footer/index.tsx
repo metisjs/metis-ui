@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext } from '@rc-component/context';
 import { clsx } from '@util/classNameUtils';
+import { isFragment, isValidElement } from '@util/reactNode';
 import type { AnyObject } from '@util/type';
 import TableContext, { responseImmutable } from '../context/TableContext';
 import type { ColumnsPos, InternalColumnType, ScrollOffset, StickyOffsets } from '../interface';
@@ -30,8 +31,8 @@ function Footer<RecordType extends AnyObject>(props: FooterProps<RecordType>) {
 
   const summaryContext = React.useMemo(() => {
     let totalRowCount = 0;
-    if (React.isValidElement(children)) {
-      if (children.type === React.Fragment) {
+    if (isValidElement<{ children?: React.ReactNode }>(children)) {
+      if (isFragment(children)) {
         totalRowCount = React.Children.count(children.props.children);
       } else {
         totalRowCount = React.Children.count(children);

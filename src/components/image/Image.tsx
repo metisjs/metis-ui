@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useContext, useMemo, useState } from 'react';
 import { EyeOutline } from '@metisjs/icons';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
-import { getOffset } from 'rc-util/es/Dom/css';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
 import { COMMON_PROPS } from './constant';
@@ -113,7 +112,10 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
 
   // ========================== Preview ===========================
   const onPreview: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const { left, top } = getOffset(e.target);
+    const rect = (e.target as HTMLDivElement).getBoundingClientRect();
+    const left = rect.x + rect.width / 2;
+    const top = rect.y + rect.height / 2;
+
     if (groupContext) {
       groupContext.onPreview(imageId, src, left, top);
     } else {
@@ -154,7 +156,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
   const placeholderCls = clsx(`${prefixCls}-placeholder`, 'absolute inset-0');
   const maskCls = clsx(
     `${prefixCls}-mask`,
-    'absolute inset-0 flex cursor-pointer items-center justify-center bg-mask text-white opacity-0 transition-opacity duration-200 hover:opacity-100',
+    'bg-mask absolute inset-0 flex cursor-pointer items-center justify-center text-white opacity-0 transition-opacity duration-200 hover:opacity-100',
     semanticCls.mask,
   );
 

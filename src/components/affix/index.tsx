@@ -1,10 +1,10 @@
 import React from 'react';
+import omit from '@rc-component/util/es/omit';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import throttleByAnimationFrame from '@util/throttleByAnimationFrame';
 import ResizeObserver from 'rc-resize-observer';
-import omit from 'rc-util/es/omit';
 import type { ConfigConsumerProps } from '../config-provider';
 import { ConfigContext } from '../config-provider';
 import { getFixedBottom, getFixedTop, getTargetRect } from './utils';
@@ -72,7 +72,7 @@ const Affix = React.forwardRef<AffixRef, AffixProps>((props, ref) => {
   const status = React.useRef<AffixStatus>(AFFIX_STATUS_NONE);
 
   const prevTarget = React.useRef<Window | HTMLElement | null>(null);
-  const prevListener = React.useRef<EventListener>();
+  const prevListener = React.useRef<EventListener>(null);
 
   const placeholderNodeRef = React.useRef<HTMLDivElement>(null);
   const fixedNodeRef = React.useRef<HTMLDivElement>(null);

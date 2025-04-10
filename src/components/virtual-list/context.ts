@@ -6,7 +6,7 @@ export interface VirtualListContextProps {
   onScroll?: ScrollbarProps['onScroll'];
   className?: ScrollbarProps['className'];
   style?: ScrollbarProps['style'];
-  scrollbar: React.RefObject<ScrollbarRef>;
+  scrollbar: React.RefObject<ScrollbarRef | null>;
 }
 
 const VirtualListContext = React.createContext<VirtualListContextProps>(null!);

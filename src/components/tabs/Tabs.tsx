@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import useMergedState from '@rc-component/util/es/hooks/useMergedState';
+import isMobile from '@rc-component/util/es/isMobile';
+import omit from '@rc-component/util/es/omit';
 import { clsx, mergeSemanticCls, type SemanticClassName } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import type { SafeKey } from '@util/type';
 import { devUseWarning } from '@util/warning';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
-import isMobile from 'rc-util/es/isMobile';
-import omit from 'rc-util/es/omit';
 import { ConfigContext } from '../config-provider';
 import type { MenuProps } from '../menu';
 import type { TabContextProps } from './context';
@@ -212,7 +212,7 @@ const Tabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
       [`${prefixCls}-${type}`]: type !== 'line',
       [`${prefixCls}-centered`]: centered,
     },
-    'flex w-full text-sm text-text',
+    'text-text flex w-full text-sm',
     {
       'flex-col': mergedTabPosition === 'top' || mergedTabPosition === 'bottom',
     },

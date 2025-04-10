@@ -1,8 +1,8 @@
-import type { MutableRefObject } from 'react';
+import type { RefObject } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import useState from '@rc-component/util/es/hooks/useState';
 import useLatestValue from '@util/hooks/useLatestValue';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import useState from 'rc-util/es/hooks/useState';
 import type {
   TransitionBeforeEventHandler,
   TransitionEventHandler,
@@ -16,7 +16,7 @@ import useStepQueue, { DoStep, isActive, SkipStep } from './useStepQueue';
 interface StatusArgs {
   appear?: boolean;
   visible: boolean;
-  styles: MutableRefObject<{
+  styles: RefObject<{
     enter?: TransitionStyle;
     enterFrom?: TransitionStyle;
     enterTo?: TransitionStyle;
@@ -56,7 +56,7 @@ export default function useStatus({
   const [status, setStatus] = useState(TransitionStatus.None);
 
   const mountedRef = useRef(false);
-  const deadlineRef = useRef<NodeJS.Timeout>();
+  const deadlineRef = useRef<NodeJS.Timeout>(null);
   const activeRef = useRef(false);
 
   const beforeEnterRef = useLatestValue(beforeEnter);
@@ -99,7 +99,7 @@ export default function useStatus({
       patchTransitionEvents(getElement()!);
 
       if (deadline > 0) {
-        clearTimeout(deadlineRef.current);
+        clearTimeout(deadlineRef.current!);
         deadlineRef.current = setTimeout(() => {
           onInternalMotionEnd({
             deadline: true,
@@ -157,7 +157,7 @@ export default function useStatus({
   useEffect(
     () => () => {
       mountedRef.current = false;
-      clearTimeout(deadlineRef.current);
+      clearTimeout(deadlineRef.current!);
     },
     [],
   );

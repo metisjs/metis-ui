@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fillRef, supportRef, useComposeRef } from 'rc-util/es/ref';
+import { fillRef, getNodeRef, supportRef, useComposeRef } from '@rc-component/util/es/ref';
 import type { TriggerProps } from '.';
 
 export interface TriggerWrapperProps {
@@ -20,10 +20,10 @@ const TriggerWrapper = React.forwardRef<HTMLElement, TriggerWrapperProps>((props
     [getTriggerDOMNode],
   );
 
-  const mergedRef = useComposeRef(setRef, (children as any).ref);
+  const mergedRef = useComposeRef(setRef, getNodeRef(children));
 
   return canUseRef
-    ? React.cloneElement(children, {
+    ? React.cloneElement(children as any, {
         ref: mergedRef,
       })
     : children;

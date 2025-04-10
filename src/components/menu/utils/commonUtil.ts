@@ -1,6 +1,6 @@
 import * as React from 'react';
+import toArray from '@rc-component/util/es/Children/toArray';
 import type { SafeKey } from '@util/type';
-import toArray from 'rc-util/es/Children/toArray';
 
 export function parseChildren(
   children: React.ReactNode | undefined,

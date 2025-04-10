@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
 import type { UrlStateOptions } from '@util/hooks/useUrlState';
 import useUrlState from '@util/hooks/useUrlState';
 import toArray from '@util/toArray';
-import { useEvent } from 'rc-util';
 import type { AnyObject } from '../../../_util/type';
 import { devUseWarning } from '../../../_util/warning';
 import type { FieldValueType } from '../../../form/interface';
@@ -289,7 +289,7 @@ const useFilter = <RecordType extends AnyObject = AnyObject>(
     ),
   );
 
-  return [transformColumns, mergedFilterStates, filters] as const;
+  return [transformColumns, mergedFilterStates, filters];
 };
 
 export default useFilter;

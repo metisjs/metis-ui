@@ -1,8 +1,8 @@
 import { useContext, useMemo, useState } from 'react';
+import { useMergedState } from '@rc-component/util';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import { mergeSemanticCls } from '@util/classNameUtils';
 import type { SafeKey } from '@util/type';
-import { useMergedState } from 'rc-util';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
 import { ConfigContext } from '../../config-provider';
 import type { SpinProps } from '../../spin';
 import type { DataNode, FlattenNode, Key, KeyEntities } from '../interface';

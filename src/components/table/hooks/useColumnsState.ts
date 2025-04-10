@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { merge } from '@rc-component/util/es/utils/set';
 import type { AnyObject } from '@util/type';
-import { merge } from 'rc-util/es/utils/set';
 import { EXPAND_COLUMN, SELECTION_COLUMN } from '../constant';
 import type { ColumnState, ColumnStateType, InternalColumnsType, Key } from '../interface';
 

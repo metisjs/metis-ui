@@ -1,5 +1,5 @@
 import * as React from 'react';
-import toArray from 'rc-util/es/Children/toArray';
+import toArray from '@rc-component/util/es/Children/toArray';
 import type { PanelProps } from '../interface';
 
 function getCollapsible(collapsible?: PanelProps['collapsible']) {

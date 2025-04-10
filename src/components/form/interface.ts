@@ -208,7 +208,7 @@ export type FormItemPropsWithValueType<Values, ValueType extends FieldValueType 
   key?: React.Key;
   valueEnum?: FieldValueEnumObj | FieldValueEnumMap | FieldValueEnumRequestType;
   fieldProps?: FieldValueTypeWithFieldProps[ValueType]['edit'];
-  fieldRender?: (form: FormInstance<Values>) => React.ReactNode;
+  fieldRender?: (form: FormInstance<Values>) => React.ReactElement<any>;
 } & Omit<FormItemProps<Values>, 'children'>;
 
 export type FormItemConfig<Values = any> =

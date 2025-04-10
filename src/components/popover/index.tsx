@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { useMergedState } from '@rc-component/util';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import type { RenderFunction } from '@util/getRenderPropValue';
 import { getRenderPropValue } from '@util/getRenderPropValue';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import { useMergedState } from 'rc-util';
 import { ConfigContext } from '../config-provider';
 import type { AbstractTooltipProps, TooltipRef } from '../tooltip';
 import Tooltip from '../tooltip';

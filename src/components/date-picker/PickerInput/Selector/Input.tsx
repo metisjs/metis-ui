@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useEvent } from '@rc-component/util';
+import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
+import raf from '@rc-component/util/es/raf';
 import { clsx } from '@util/classNameUtils';
-import { useEvent } from 'rc-util';
-import useLayoutEffect from 'rc-util/es/hooks/useLayoutEffect';
-import raf from 'rc-util/es/raf';
 import type { PickerRef } from '../../interface';
 import { leftPad } from '../../utils/miscUtil';
 import PickerContext from '../context';
@@ -327,7 +327,7 @@ const Input = React.forwardRef<InputRef, InputProps>((props, ref) => {
   };
 
   // ======================== Format ========================
-  const rafRef = React.useRef<number>();
+  const rafRef = React.useRef<number>(null);
 
   useLayoutEffect(() => {
     if (!focused || !format || mouseDownRef.current) {
