@@ -130,7 +130,11 @@ const Skeleton: React.FC<SkeletonProps> & CompoundedComponent = (props) => {
           prefixCls: `${prefixCls}-title`,
           ...getTitleBasicProps(hasAvatar, hasParagraph),
           ...customizeProps,
-          className: clsx(hasAvatar && 'mt-3', semanticCls.title, customizeProps.className),
+          className: clsx(
+            hasAvatar && !hasParagraph && 'mt-3',
+            semanticCls.title,
+            customizeProps.className,
+          ),
         };
 
         titleNode = <SkeletonTitle {...titleProps} />;
