@@ -9,11 +9,11 @@ import { LayoutContext } from './Layout';
 
 const dimensionMaxMap = {
   xs: '479.98px',
-  sm: '575.98px',
+  sm: '639.98px',
   md: '767.98px',
-  lg: '991.98px',
-  xl: '1199.98px',
-  '2xl': '1599.98px',
+  lg: '1022.98px',
+  xl: '1279.98px',
+  '2xl': '1535.98px',
 };
 
 export interface SiderContextProps {

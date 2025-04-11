@@ -113,7 +113,8 @@ const Spin: React.FC<SpinProps> = (props) => {
   const containerCls = clsx(
     `${prefixCls}-container`,
     {
-      [`${prefixCls}-blur pointer-events-none opacity-50 select-none`]: spinning,
+      [`${prefixCls}-blur`]: spinning,
+      'opacity-50': spinning,
     },
     'relative h-full transition-opacity',
   );
@@ -132,7 +133,7 @@ const Spin: React.FC<SpinProps> = (props) => {
     {
       [`${prefixCls}-fullscreen-show`]: spinning,
     },
-    'bg-mask invisible fixed inset-0 z-1000 flex h-screen w-screen flex-col items-center justify-center opacity-0 transition-all',
+    'bg-mask invisible fixed inset-0 z-1000 flex h-screen w-screen flex-col items-center justify-center opacity-0 backdrop-blur-[1px] transition-all',
     spinning && 'visible opacity-100',
     semanticCls.fullscreen,
   );

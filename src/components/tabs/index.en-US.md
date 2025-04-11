@@ -84,3 +84,7 @@ Metis UI has 3 types of Tabs for different situations.
 | 名称                    | 说明                                                         |
 | ----------------------- | ------------------------------------------------------------ |
 | triggerRename(key: Key) | Trigger tab rename event, Only works while `label` is string |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify></code>
