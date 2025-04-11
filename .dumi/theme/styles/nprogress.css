@@ -1,0 +1,11 @@
+#nprogress .bar {
+  @apply bg-primary;
+}
+
+#nprogress .peg {
+  @apply shadow-primary shadow-lg;
+}
+
+#nprogress .spinner-icon {
+  @apply border-t-primary border-l-primary;
+}

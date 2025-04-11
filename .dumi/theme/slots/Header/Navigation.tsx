@@ -19,7 +19,7 @@ const HeaderNavigation: React.FC<NavigationProps> = () => {
     {
       key: 'components',
       label: formatMessage({ id: 'app.nav.components' }),
-      link: utils.getLocalizedPathname('/components', isZhCN, search),
+      link: utils.getLocalizedPathname('/components/button', isZhCN, search),
     },
   ];
 

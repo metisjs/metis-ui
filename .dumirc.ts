@@ -1,5 +1,6 @@
 import path from 'path';
 import { defineConfig } from 'dumi';
+import rehype from './.dumi/rehype';
 
 export default defineConfig({
   mfsu: false,
@@ -22,6 +23,7 @@ export default defineConfig({
   },
   tailwindcss: {},
   plugins: ['./plugins/compiled/tailwindcss'],
+  extraRehypePlugins: [rehype],
   headScripts: [
     `
     (function () {

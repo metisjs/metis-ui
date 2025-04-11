@@ -104,6 +104,9 @@ importers:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.3.1
         version: 4.4.1(prettier@3.5.3)
+      '@stackblitz/sdk':
+        specifier: ^1.11.0
+        version: 1.11.0
       '@tailwindcss/cli':
         specifier: ^4.0.17
         version: 4.0.17
@@ -158,6 +161,9 @@ importers:
       lint-staged:
         specifier: ^13.2.1
         version: 13.3.0
+      lz-string:
+        specifier: ^1.5.0
+        version: 1.5.0
       majo:
         specifier: ^0.9.1
         version: 0.9.1
@@ -191,6 +197,9 @@ importers:
       react-highlight-words:
         specifier: ^0.20.0
         version: 0.20.0(react@19.1.0)
+      react-intersection-observer:
+        specifier: ^9.16.0
+        version: 9.16.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-resizable:
         specifier: ^3.0.5
         version: 3.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -6073,6 +6082,15 @@ packages:
     resolution: {integrity: sha512-asCxy+jCehDVhusNmCBoxDf2mm1AJ//D+EzDx1m5K7EqsMBIHdZ5G4LdwbSEXqZq1Ros0G0UySWmAtntSph7XA==}
     peerDependencies:
       react: ^0.14.0 || ^15.0.0 || ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
+
+  react-intersection-observer@9.16.0:
+    resolution: {integrity: sha512-w9nJSEp+DrW9KmQmeWHQyfaP6b03v+TdXynaoA964Wxt7mdR3An11z4NNCQgL4gKSK7y1ver2Fq+JKH6CWEzUA==}
+    peerDependencies:
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
 
   react-intl@7.1.6:
     resolution: {integrity: sha512-TgyzN0GJDILl4EIjbBWJddp+zRMx7IrYXeeUBwDisXfuglJaafAUVYYTx9wTWMRJrm2LubaCeH3L68mIPTmUYA==}
@@ -14276,6 +14294,12 @@ snapshots:
       memoize-one: 4.0.3
       prop-types: 15.8.1
       react: 19.1.0
+
+  react-intersection-observer@9.16.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+    optionalDependencies:
+      react-dom: 19.1.0(react@19.1.0)
 
   react-intl@7.1.6(react@19.1.0)(typescript@5.0.4):
     dependencies:

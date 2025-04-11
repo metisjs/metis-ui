@@ -1,9 +1,7 @@
 import React, { useRef, type FC } from 'react';
-import { XCircleSolid } from '@metisjs/icons';
 import { useLiveDemo, useLocation, type IPreviewerProps } from 'dumi';
 import PreviewerActions from 'dumi/theme-default/slots/PreviewerActions';
-import { clsx } from 'metis-ui';
-import 'dumi/theme-default/builtins/Previewer/index.less';
+import { Alert, clsx, Tag, Tooltip } from 'metis-ui';
 
 export type MetisPreviewerProps = IPreviewerProps & {
   simplify?: boolean;
@@ -11,7 +9,7 @@ export type MetisPreviewerProps = IPreviewerProps & {
 
 const Previewer: FC<MetisPreviewerProps> = (props) => {
   const { simplify } = props;
-  const demoContainer = useRef<HTMLDivElement>(null);
+  const demoContainer = useRef<HTMLDivElement>(null!);
   const { hash } = useLocation();
   const link = `#${props.asset.id}`;
 
@@ -28,15 +26,44 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
   return (
     <div
       id={props.asset.id}
-      className={clsx('dumi-default-previewer', props.className)}
+      className={clsx(
+        'flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10',
+        props.className,
+      )}
       style={props.style}
       data-debug={props.debug}
       data-active={hash === link || undefined}
     >
+      {(props.title || props.debug) && (
+        <div className="flex justify-between px-3 pt-0.5 pb-1.5 text-xs/5 text-gray-400 dark:text-white/50">
+          <a href={link} className="text-gray-400 dark:text-white/50">
+            {props.title}
+            {props.debug && <span className="text-warning ml-2">DEV ONLY</span>}
+          </a>
+          <div className="ml-auto flex gap-4">
+            {props.description && (
+              <Tooltip
+                title={
+                  <div
+                    className="markdown *:[p]:m-0"
+                    dangerouslySetInnerHTML={{ __html: props.description }}
+                  />
+                }
+                className={{ overlay: 'max-w-300' }}
+              >
+                desc
+              </Tooltip>
+            )}
+          </div>
+        </div>
+      )}
       <div
-        className={clsx('dumi-default-previewer-demo', {
-          'p-0': simplify,
-        })}
+        className={clsx(
+          'overflow-auto rounded-lg bg-white p-8 outline outline-white/5 dark:bg-gray-950/50',
+          {
+            'p-0': simplify,
+          },
+        )}
         style={{ background: props.background }}
         data-compact={props.compact || undefined}
         data-transform={props.transform || undefined}
@@ -59,36 +86,7 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
         )}
       </div>
       {liveDemoError && (
-        <div className="dumi-default-previewer-demo-error">
-          <XCircleSolid />
-          {liveDemoError.toString()}
-        </div>
-      )}
-      {!simplify && (
-        <div className="dumi-default-previewer-meta">
-          {(props.title || props.debug) && (
-            <div className="dumi-default-previewer-desc">
-              <h5>
-                <a href={link}>
-                  {props.debug && <strong>DEV ONLY</strong>}
-                  {props.title}
-                </a>
-              </h5>
-              {props.description && (
-                <div className="markdown" dangerouslySetInnerHTML={{ __html: props.description }} />
-              )}
-            </div>
-          )}
-          <PreviewerActions
-            {...props}
-            onSourceChange={setLiveDemoSource}
-            demoContainer={
-              props.iframe
-                ? (demoContainer.current?.firstElementChild as HTMLIFrameElement)
-                : demoContainer.current!
-            }
-          />
-        </div>
+        <Alert banner type="error" message={liveDemoError.toString()} className="rounded-lg" />
       )}
     </div>
   );

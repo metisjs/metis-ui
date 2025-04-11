@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Skeleton } from 'antd';
+import { Skeleton } from 'metis-ui';
 import { InView } from 'react-intersection-observer';
 import type { IntersectionObserverProps } from 'react-intersection-observer';
 

@@ -18,7 +18,7 @@ const IconDark = ({ className }: { className?: string }) => (
       fill="currentColor"
       stroke="currentColor"
       strokeLinecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
     ></path>
     <path
       d="M20.3561 11.5075L20.5 10.5L20.6439 11.5075C20.7068 11.9475 21.0525 12.2932 21.4925 12.3561L22.5 12.5L21.4925 12.6439C21.0525 12.7068 20.7068 13.0525 20.6439 13.4925L20.5 14.5L20.3561 13.4925C20.2932 13.0525 19.9475 12.7068 19.5075 12.6439L18.5 12.5L19.5075 12.3561C19.9475 12.2932 20.2932 11.9475 20.3561 11.5075Z"

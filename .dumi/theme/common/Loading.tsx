@@ -7,7 +7,7 @@ const Loading: React.FC = () => {
 
   if (pathname.startsWith('/components') || pathname.startsWith('/docs')) {
     return (
-      <div className="mx-auto mt-20 w-full max-w-[70vw] text-center">
+      <div className="mx-auto w-full max-w-[70vw] pt-20 text-center">
         <Skeleton active paragraph={{ rows: 3 }} />
         <Skeleton active paragraph={{ rows: 4 }} className="mt-8" />
       </div>

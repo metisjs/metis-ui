@@ -9,7 +9,7 @@ const DocLayout: React.FC = () => {
   const { formatMessage } = useIntl();
   const location = useLocation();
   const { pathname, hash } = location;
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(null!);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const { loading } = useSiteData();
 
   useEffect(() => {
