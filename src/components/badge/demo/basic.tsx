@@ -10,7 +10,7 @@ const App: React.FC = () => (
     <Badge count={0} showZero>
       <Avatar shape="square" size="large" />
     </Badge>
-    <Badge count={<ClockOutline className="h-5 w-5 text-error" />}>
+    <Badge count={<ClockOutline className="text-error size-5" />}>
       <Avatar shape="square" size="large" />
     </Badge>
   </Space>

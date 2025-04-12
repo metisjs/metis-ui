@@ -44,7 +44,7 @@ const App: React.FC = () => {
         value: login,
         label: (
           <div className="flex items-center">
-            <img src={avatar} alt={login} className="mr-2 h-5 w-5" />
+            <img src={avatar} alt={login} className="mr-2 size-5" />
             <span>{login}</span>
           </div>
         ),

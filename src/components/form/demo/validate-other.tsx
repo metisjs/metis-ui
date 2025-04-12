@@ -152,11 +152,11 @@ const App: React.FC = () => (
     <Form.Item label="Dragger">
       <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
         <Upload.Dragger name="files" action="/upload.do">
-          <p className="mb-4">
-            <InboxOutline className="h-12 w-12 text-primary" />
+          <p className="mb-4 text-center">
+            <InboxOutline className="text-primary h-12 w-12" />
           </p>
-          <p className="mb-1 text-base">Click or drag file to this area to upload</p>
-          <p className="text-text-tertiary">Support for a single or bulk upload.</p>
+          <p className="mb-1 text-center text-base">Click or drag file to this area to upload</p>
+          <p className="text-text-tertiary text-center">Support for a single or bulk upload.</p>
         </Upload.Dragger>
       </Form.Item>
     </Form.Item>

@@ -16,7 +16,7 @@ const Demo = () => {
         open={open}
         onOpenChange={setOpen}
         showText={() => (
-          <ChevronDownOutline className="h-5 w-5 text-text-tertiary" rotate={open ? 180 : 0} />
+          <ChevronDownOutline className="text-text-tertiary size-5" rotate={open ? 180 : 0} />
         )}
       />
     </Space>

@@ -27,11 +27,11 @@ const props: UploadProps = {
 
 const App: React.FC = () => (
   <Dragger {...props}>
-    <p className="mb-4">
-      <InboxOutline className="h-12 w-12 text-primary" />
+    <p className="mb-4 text-center">
+      <InboxOutline className="text-primary h-12 w-12" />
     </p>
-    <p className="mb-1 text-base">Click or drag file to this area to upload</p>
-    <p className="text-text-tertiary">
+    <p className="mb-1 text-center text-base">Click or drag file to this area to upload</p>
+    <p className="text-text-tertiary text-center">
       Support for a single or bulk upload. Strictly prohibited from uploading company data or other
       banned files.
     </p>

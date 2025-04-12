@@ -25,12 +25,12 @@ const App: React.FC = () => {
         style={{ width: 300, marginTop: 16 }}
         actions={[
           <Space key="email" size={12}>
-            <EnvelopeSolid className="h-5 w-5" />
-            <span className="font-medium text-text">Email</span>
+            <EnvelopeSolid className="size-5" />
+            <span className="text-text font-medium">Email</span>
           </Space>,
           <Space key="call" size={12}>
-            <PhoneSolid className="h-5 w-5" />
-            <span className="font-medium text-text">Call</span>
+            <PhoneSolid className="size-5" />
+            <span className="text-text font-medium">Call</span>
           </Space>,
         ]}
       >

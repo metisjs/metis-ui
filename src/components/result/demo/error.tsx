@@ -18,12 +18,12 @@ const App: React.FC = () => (
       The content you submitted has the following error:
     </p>
     <p className="mb-2 flex items-center gap-1">
-      <XCircleOutline className="h-5 w-5 text-error" />
+      <XCircleOutline className="text-error size-5" />
       Your account has been frozen.
       <a>Thaw immediately &gt;</a>
     </p>
     <p className="flex items-center gap-1">
-      <XCircleOutline className="h-5 w-5 text-error" />
+      <XCircleOutline className="text-error size-5" />
       Your account is not yet eligible to apply. <a>Apply Unlock &gt;</a>
     </p>
   </Result>

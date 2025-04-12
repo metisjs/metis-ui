@@ -17,9 +17,9 @@ const IconSlider: React.FC<IconSliderProps> = (props) => {
 
   return (
     <div className="flex w-full items-center gap-4">
-      <FaceFrownOutline className={clsx(preColorCls, 'h-5 w-5')} />
+      <FaceFrownOutline className={clsx(preColorCls, 'size-5')} />
       <Slider {...props} onChange={setValue} value={value} className="flex-1" />
-      <FaceSmileOutline className={clsx(nextColorCls, 'h-5 w-5')} />
+      <FaceSmileOutline className={clsx(nextColorCls, 'size-5')} />
     </div>
   );
 };

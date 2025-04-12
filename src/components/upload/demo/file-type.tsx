@@ -98,8 +98,8 @@ const App: React.FC = () => {
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutline className="h-5 w-5" />
+    <button className="flex flex-col items-center border-0 bg-transparent" type="button">
+      <PlusOutline className="size-5" />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );

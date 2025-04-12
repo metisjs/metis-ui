@@ -31,10 +31,7 @@ const App: React.FC = () => (
       <Input defaultValue="Xihu District, Hangzhou" />
     </Space.Compact>
     <Space.Compact size="large">
-      <Input
-        addonBefore={<MagnifyingGlassOutline className="h-5 w-5" />}
-        placeholder="large size"
-      />
+      <Input addonBefore={<MagnifyingGlassOutline className="size-5" />} placeholder="large size" />
       <Input placeholder="another input" />
     </Space.Compact>
   </Space>

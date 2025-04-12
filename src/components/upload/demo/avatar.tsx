@@ -42,11 +42,11 @@ const App: React.FC = () => {
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
+    <button className="flex flex-col items-center border-0 bg-transparent" type="button">
       {loading ? (
-        <LoadingOutline className="h-5 w-5 animate-spin" />
+        <LoadingOutline className="size-5 animate-spin" />
       ) : (
-        <PlusOutline className="h-5 w-5" />
+        <PlusOutline className="size-5" />
       )}
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>

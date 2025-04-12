@@ -84,7 +84,7 @@ const FormDisabledDemo: React.FC = () => {
         </Form.Item>
         <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
-            <button style={{ border: 0, background: 'none' }} type="button">
+            <button className="flex flex-col items-center border-0 bg-transparent" type="button">
               <PlusOutline />
               <div style={{ marginTop: 8 }}>Upload</div>
             </button>

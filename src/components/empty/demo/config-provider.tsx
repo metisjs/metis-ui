@@ -14,7 +14,7 @@ import {
 
 const customizeRenderEmpty = () => (
   <div style={{ textAlign: 'center' }}>
-    <FaceSmileOutline className="h-5 w-5" />
+    <FaceSmileOutline className="size-5" />
     <p>Data Not Found</p>
   </div>
 );

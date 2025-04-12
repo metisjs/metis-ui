@@ -10,7 +10,7 @@ const App: React.FC = () => {
       <Switch checked={show} onChange={() => setShow(!show)} />
       <Badge count={show ? 11 : 0} showZero className="bg-yellow-600" />
       <Badge count={show ? 25 : 0} />
-      <Badge count={show ? <ClockOutline className="h-5 w-5 text-error" /> : 0} />
+      <Badge count={show ? <ClockOutline className="text-error size-5" /> : 0} />
       <Badge count={show ? 109 : 0} className="bg-green-600" />
     </Space>
   );

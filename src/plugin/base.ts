@@ -2,6 +2,7 @@ export default {
   '*': { outlineColor: 'var(--primary)' },
   html: { WebkitTapHighlightColor: 'transparent' },
   body: { color: 'var(--text)' },
+  'svg.metis-icon': { display: 'inline-block' },
   "[type='search']::-webkit-search-cancel-button, [type='search']::-webkit-search-decoration": {
     display: 'none',
     appearance: 'none',

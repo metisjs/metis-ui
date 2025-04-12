@@ -34,8 +34,8 @@ const fileList: UploadFile[] = [
 
 const App: React.FC = () => {
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutline />
+    <button className="flex flex-col items-center border-0 bg-transparent" type="button">
+      <PlusOutline className="size-5" />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
@@ -53,11 +53,11 @@ const App: React.FC = () => {
         {uploadButton}
       </Upload>
       <Dragger disabled>
-        <p className="mb-4">
-          <InboxOutline className="h-12 w-12 text-text-tertiary" />
+        <p className="mb-4 text-center">
+          <InboxOutline className="text-text-tertiary h-12 w-12" />
         </p>
-        <p className="mb-1 text-base">Click or drag file to this area to upload</p>
-        <p className="text-text-tertiary">
+        <p className="mb-1 text-center text-base">Click or drag file to this area to upload</p>
+        <p className="text-text-tertiary text-center">
           Support for a single or bulk upload. Strictly prohibited from uploading company data or
           other banned files.
         </p>

@@ -50,8 +50,8 @@ const App: React.FC = () => {
     setFileList(newFileList);
 
   const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutline />
+    <button className="flex flex-col items-center border-0 bg-transparent" type="button">
+      <PlusOutline className="size-5" />
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );

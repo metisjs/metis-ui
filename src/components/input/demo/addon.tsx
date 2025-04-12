@@ -28,7 +28,7 @@ const App: React.FC = () => (
       }
       defaultValue="mysite"
     />
-    <Input addonAfter={<Cog6ToothOutline className="h-5 w-5" />} defaultValue="mysite" />
+    <Input addonAfter={<Cog6ToothOutline className="size-5" />} defaultValue="mysite" />
     <Input addonBefore="http://" suffix=".com" defaultValue="mysite" />
     <Input
       addonBefore={<Cascader placeholder="cascader" style={{ width: 150 }} />}
