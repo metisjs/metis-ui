@@ -38,11 +38,11 @@ When a numeric value needs to be provided.
 | changeOnBlur | Trigger `onChange` when blur. e.g. reset value in range by blur | boolean | true |  |
 | changeOnWheel | Allow control with mouse wheel | boolean | - |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| controls | Whether to show `+-` controls, or set custom arrows icon | boolean \| { upIcon?: React.ReactNode; downIcon?: React.ReactNode; } | - |  |
+| controls | Whether to show `+-` controls, or set custom arrows icon | boolean, { upIcon?: React.ReactNode; downIcon?: React.ReactNode; } | - |  |
 | decimalSeparator | Decimal separator | string | - | - |
 | defaultValue | The initial value | number | - | - |
 | disabled | If disable the input | boolean | false | - |
-| formatter | Specifies the format of the value presented | function(value: number \| string, info: { userTyping: boolean, input: string }): string | - | info: |
+| formatter | Specifies the format of the value presented | function(value: number, string, info: { userTyping: boolean, input: string }): string | - | info: |
 | keyboard | If enable keyboard behavior | boolean | true |  |
 | max | The max value | number | [Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER) | - |
 | min | The min value | number | [Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER) | - |
@@ -51,15 +51,15 @@ When a numeric value needs to be provided.
 | precision | The precision of input value. Will use `formatter` when config of `formatter` | number | - | - |
 | prefix | The prefix icon for the Input | ReactNode | - |  |
 | readOnly | If readonly the input | boolean | false | - |
-| size | The height of input box | `large` \| `middle` \| `small` | - | - |
-| status | Set validation status | 'error' \| 'warning' | - |  |
-| step | The number to which the current value is increased or decreased. It can be an integer or decimal | number \| string | 1 | - |
+| size | The height of input box | `large`, `middle`, `small` | - | - |
+| status | Set validation status | 'error', 'warning' | - |  |
+| step | The number to which the current value is increased or decreased. It can be an integer or decimal | number, string | 1 | - |
 | stringMode | Set value as string to support high precision decimals. Will return string value by `onChange` | boolean | false |  |
 | value | The current value | number | - | - |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` | `outlined` |  |
-| onChange | The callback triggered when the value is changed | function(value: number \| string \| null) | - | - |
+| variant | Variants of Input | `outlined`, `borderless`, `filled` | `outlined` |  |
+| onChange | The callback triggered when the value is changed | function(value: number, string, null) | - | - |
 | onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - | - |
-| onStep | The callback function that is triggered when click up or down buttons | (value: number, info: { offset: number, type: 'up' \| 'down' }) => void | - |  |
+| onStep | The callback function that is triggered when click up or down buttons | (value: number, info: { offset: number, type: 'up', 'down' }) => void | - |  |
 
 ## Ref
 

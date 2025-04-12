@@ -32,13 +32,13 @@ Used when the text needs to be converted into a QR Code.
 | bordered | Whether has border style | boolean | `true` |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | color | QRCode Color | string | `#000` |  |
-| errorLevel | Error Code Level | `'L' \| 'M' \| 'Q' \| 'H' ` | `M` |  |
+| errorLevel | Error Code Level | `'L', 'M', 'Q', 'H' ` | `M` |  |
 | icon | include image url (only image link are supported) | string | - |  |
-| iconSize | include image size | number \| { width: number; height: number } | 40 |  |
+| iconSize | include image size | number, { width: number; height: number } | 40 |  |
 | size | QRCode size | number | 160 |  |
-| status | QRCode status | `active \| expired \| loading \| scanned` | `active` | scanned: |
+| status | QRCode status | `active, expired, loading, scanned` | `active` | scanned: |
 | statusRender | custom status render | `(info: \[StatusRenderInfo](/components/qr-code-cn#statusrenderinfo)) => React.ReactNode` |  |  |
-| type | render type | `canvas \| svg ` | `canvas` |  |
+| type | render type | `canvas, svg ` | `canvas` |  |
 | value | scanned text | string | - |  |
 | onRefresh | callback | `() => void` | - |  |
 

@@ -27,14 +27,14 @@ description: A content area which can be collapsed and expanded.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | accordion | If true, Collapse renders as Accordion | boolean | false |  |
-| activeKey | Key of the active panel | string\[] \| string <br/> number\[] \| number | No default value. In [accordion mode](#collapse-demo-accordion), it's the key of the first panel |  |
+| activeKey | Key of the active panel | string\[], string <br/> number\[], number | No default value. In [accordion mode](#collapse-demo-accordion), it's the key of the first panel |  |
 | bordered | Toggles rendering of the border around the collapse block | boolean | true |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| collapsible | Specify whether the panels of children be collapsible or the trigger area of collapsible | `header` \| `icon` \| `disabled` | - |  |
-| defaultActiveKey | Key of the initial active panel | string\[] \| string <br/> number\[] \| number | - |  |
+| collapsible | Specify whether the panels of children be collapsible or the trigger area of collapsible | `header`, `icon`, `disabled` | - |  |
+| defaultActiveKey | Key of the initial active panel | string\[], string <br/> number\[], number | - |  |
 | destroyInactivePanel | Destroy Inactive Panel | boolean | false |  |
 | expandIcon | Allow to customize collapse icon | (panelProps) => ReactNode | - |  |
-| expandIconPosition | Set expand icon position | `start` \| `end` | - |  |
+| expandIconPosition | Set expand icon position | `start`, `end` | - |  |
 | ghost | Make the collapse borderless and its background transparent | boolean | false |  |
 | items | collapse items content | [ItemType](#itemtype) | - |  |
 | onChange | Callback function executed when active panel is changed | function | - |  |
@@ -44,12 +44,12 @@ description: A content area which can be collapsed and expanded.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | children | The content of panel | boolean | true |  |
-| className | Semantic DOM class | string \| Record&lt;'root' \| 'header' \| 'content', string> | - |  |
-| collapsible | Specify whether the panel be collapsible or the trigger area of collapsible | `header` \| `icon` \| `disabled` | - |  |
+| className | Semantic DOM class | string, Record&lt;'root', 'header', 'content', string> | - |  |
+| collapsible | Specify whether the panel be collapsible or the trigger area of collapsible | `header`, `icon`, `disabled` | - |  |
 | destroyInactivePanel | Destroy Inactive Panel | boolean | false |  |
 | extra | The extra element in the corner | ReactNode | - |  |
 | forceRender | Forced render of content on panel, instead of lazy rendering after clicking on header | boolean | false |  |
-| key | Unique key identifying the panel from among its siblings | string \| number | - |  |
+| key | Unique key identifying the panel from among its siblings | string, number | - |  |
 | label | Title of the panel | ReactNode | - |  |
 | showArrow | If false, panel will not show arrow icon. If false, collapsible can't be set as icon | boolean | true |  |
 

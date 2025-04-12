@@ -41,8 +41,8 @@ Badge normally appears in proximity to notifications or user avatars with eye-ca
 | offset | Set offset of the badge dot | \[number, number] | - |  |
 | overflowCount | Max count to show | number | 99 |  |
 | showZero | Whether to show badge when `count` is zero | boolean | false |  |
-| size | If `count` is set, `size` sets the size of badge | `default` \| `small` | - | - |
-| status | Set Badge as a status dot | `success` \| `processing` \| `default` \| `error` \| `warning` | - |  |
+| size | If `count` is set, `size` sets the size of badge | `default`, `small` | - | - |
+| status | Set Badge as a status dot | `success`, `processing`, `default`, `error`, `warning` | - |  |
 | styles | Semantic DOM style | [Record&lt;SemanticDOM, CSSProperties>](#semantic-dom) | - |  |
 | text | If `status` is set, `text` sets the display text of the status `dot` | ReactNode | - |  |
 | title | Text to show when hovering over the badge | string | - |  |
@@ -53,7 +53,7 @@ Badge normally appears in proximity to notifications or user avatars with eye-ca
 | --- | --- | --- | --- | --- |
 | className | Semantic DOM class | [SemanticDOM](#badgeribbon-1) | - |  |
 | color | Customize Ribbon color | string | - |  |
-| placement | The placement of the Ribbon, `start` and `end` follow text direction (RTL or LTR) | `start` \| `end` | `end` |  |
+| placement | The placement of the Ribbon, `start` and `end` follow text direction (RTL or LTR) | `start`, `end` | `end` |  |
 | text | Content inside the Ribbon | ReactNode | - |  |
 
 ## Semantic DOM

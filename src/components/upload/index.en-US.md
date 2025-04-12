@@ -42,11 +42,11 @@ Uploading is the process of publishing information (web pages, text, pictures, v
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | accept | File types that can be accepted. See [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) | string | - |  |
-| action | Uploading URL | string \| (file) => Promise&lt;string> | - |  |
-| beforeUpload | Hook function which will be executed before uploading. Uploading will be stopped with `false` or a rejected Promise returned. When returned value is `Upload.LIST_IGNORE`, the list of files that have been uploaded will ignore it. **Warning：this function is not supported in IE9** | (file, fileList) => boolean \| Promise&lt;File> \| `Upload.LIST_IGNORE` | - |  |
+| action | Uploading URL | string, (file) => Promise&lt;string> | - |  |
+| beforeUpload | Hook function which will be executed before uploading. Uploading will be stopped with `false` or a rejected Promise returned. When returned value is `Upload.LIST_IGNORE`, the list of files that have been uploaded will ignore it. **Warning：this function is not supported in IE9** | (file, fileList) => boolean, Promise&lt;File>, `Upload.LIST_IGNORE` | - |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | customRequest | Override for the default xhr behavior allowing for additional customization and the ability to implement your own XMLHttpRequest | function | - |  |
-| data | Uploading extra params or function which can return uploading extra params | object \| (file) => object \| Promise&lt;object> | - |  |
+| data | Uploading extra params or function which can return uploading extra params | object, (file) => object, Promise&lt;object> | - |  |
 | defaultFileList | Default list of files that have been uploaded | object\[] | - |  |
 | directory | Support upload whole directory ([caniuse](https://caniuse.com/#feat=input-file-directory)) | boolean | false |  |
 | disabled | Disable upload button | boolean | false |  |
@@ -61,15 +61,15 @@ Uploading is the process of publishing information (web pages, text, pictures, v
 | multiple | Whether to support selected multiple files. `IE10+` supported. You can select multiple files with CTRL holding down while multiple is set to be true | boolean | false |  |
 | name | The name of uploading file | string | `file` |  |
 | openFileDialogOnClick | Click open file dialog | boolean | true |  |
-| previewFile | Customize preview file logic | (file: File \| Blob) => Promise&lt;dataURL: string> | - |  |
+| previewFile | Customize preview file logic | (file: File, Blob) => Promise&lt;dataURL: string> | - |  |
 | progress | Custom progress bar | [ProgressProps](/components/progress/#api) (support `type="line"` only) | { strokeWidth: 2, showInfo: false } |  |
-| showUploadList | Whether to show default upload list, could be an object to specify `extra`, `showPreviewIcon`, `showRemoveIcon`, `showDownloadIcon`, `removeIcon` and `downloadIcon` individually | boolean \| { extra?: ReactNode \| (file: UploadFile) => ReactNode, showPreviewIcon?: boolean, showDownloadIcon?: boolean, showRemoveIcon?: boolean, previewIcon?: ReactNode \| (file: UploadFile) => ReactNode, removeIcon?: ReactNode \| (file: UploadFile) => ReactNode, downloadIcon?: ReactNode \| (file: UploadFile) => ReactNode } | true |  |
+| showUploadList | Whether to show default upload list, could be an object to specify `extra`, `showPreviewIcon`, `showRemoveIcon`, `showDownloadIcon`, `removeIcon` and `downloadIcon` individually | boolean, { extra?: ReactNode, (file: UploadFile) => ReactNode, showPreviewIcon?: boolean, showDownloadIcon?: boolean, showRemoveIcon?: boolean, previewIcon?: ReactNode, (file: UploadFile) => ReactNode, removeIcon?: ReactNode, (file: UploadFile) => ReactNode, downloadIcon?: ReactNode, (file: UploadFile) => ReactNode } | true |  |
 | withCredentials | The ajax upload with cookie sent | boolean | false |  |
 | onChange | A callback function, can be executed when uploading state is changing. It will trigger by every uploading phase. see [onChange](#onchange) | function | - |  |
 | onDownload | Click the method to download the file, pass the method to perform the method logic, and do not pass the default jump to the new TAB | function(file): void | (Jump to new TAB) |  |
 | onDrop | A callback function executed when files are dragged and dropped into the upload area | (event: React.DragEvent) => void | - |  |
 | onPreview | A callback function, will be executed when the file link or preview icon is clicked | function(file) | - |  |
-| onRemove | A callback function, will be executed when removing file button is clicked, remove event will be prevented when the return value is false or a Promise which resolve(false) or reject | function(file): boolean \| Promise | - |  |
+| onRemove | A callback function, will be executed when removing file button is clicked, remove event will be prevented when the return value is false or a Promise which resolve(false) or reject | function(file): boolean, Promise | - |  |
 
 ### SemanticClassName
 
@@ -86,10 +86,10 @@ Extends File with additional props.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - |  |
+| crossOrigin | CORS settings attributes | `'anonymous'`, `'use-credentials'`, `''` | - |  |
 | name | File name | string | - | - |
 | percent | Upload progress percent | number | - | - |
-| status | Upload status. Show different style when configured | `error` \| `done` \| `uploading` \| `removed` | - | - |
+| status | Upload status. Show different style when configured | `error`, `done`, `uploading`, `removed` | - | - |
 | thumbUrl | Thumb image url | string | - | - |
 | uid | unique id. Will auto-generate when not provided | string | - | - |
 | url | Download url | string | - | - |

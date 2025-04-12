@@ -26,16 +26,16 @@ ConfigProvider 使用 React 的 [context](https://facebook.github.io/react/docs/
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | componentDisabled | 设置 antd 组件禁用状态 | boolean | - |  |
-| componentSize | 设置 antd 组件大小 | `mini` \| `small` \| `middle` \| `large` | - |  |
+| componentSize | 设置 antd 组件大小 | `mini`、 `small`、 `middle`、 `large` | - |  |
 | getPopupContainer | 弹出框（Select, Tooltip, Menu 等等）渲染父节点，默认渲染到 body 上。 | function(triggerNode) | () => document.body |  |
 | getTargetContainer | 配置 Affix、Anchor 滚动监听容器。 | () => HTMLElement | () => window |  |
 | locale | 语言包配置 | object | - |  |
-| popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。`false` 时会关闭虚拟滚动 | boolean \| number | - |  |
-| popupOverflow | Select 类组件弹层展示逻辑，默认为可视区域滚动，可配置成滚动区域滚动 | 'viewport' \| 'scroll' | 'viewport' |  |
+| popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。`false` 时会关闭虚拟滚动 | boolean、 number | - |  |
+| popupOverflow | Select 类组件弹层展示逻辑，默认为可视区域滚动，可配置成滚动区域滚动 | 'viewport'、 'scroll' | 'viewport' |  |
 | prefixCls | 设置统一样式前缀 | string | `metis` |  |
 | renderEmpty | 自定义组件空状态。参考 [空状态](/components/empty-cn) | function(componentName: string): ReactNode | - |  |
-| theme | 设置主题，设置 `auto` 则主题会随系统在 `default-theme` 与 `dark-theme` 之前自动切换 | string \| { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `auto` |  |
-| variant | 设置全局输入组件形态变体 | `outlined` \| `filled` \| `borderless` | - |  |
+| theme | 设置主题，设置 `auto` 则主题会随系统在 `default-theme` 与 `dark-theme` 之前自动切换 | string、 { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `auto` |  |
+| variant | 设置全局输入组件形态变体 | `outlined`、 `filled`、 `borderless` | - |  |
 | virtual | 设置 `false` 时关闭虚拟滚动 | boolean | - |  |
 
 > 当需要主题嵌套时，可设置 `theme.target` 手动指定 `date-theme` 节点
@@ -62,4 +62,4 @@ const { componentDisabled, componentSize } = ConfigProvider.useConfig();
 | 返回值 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | componentDisabled | antd 组件禁用状态 | boolean | - |   |
-| componentSize | antd 组件大小状态 | `mini` \| `small` \| `middle` \| `large` | - |   |
+| componentSize | antd 组件大小状态 | `mini`、 `small`、 `middle`、 `large` | - |   |

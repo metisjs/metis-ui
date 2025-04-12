@@ -27,7 +27,7 @@ demo:
 | Property  | Description                   | Type                         | Default |
 | --------- | ----------------------------- | ---------------------------- | ------- |
 | className | Semantic DOM class            | [SemanticDOM](#semantic-dom) | -       |
-| title     | The text shown in the tooltip | ReactNode \| () => ReactNode | -       |
+| title     | The text shown in the tooltip | ReactNode, () => ReactNode   | -       |
 
 ### Common API
 
@@ -36,7 +36,7 @@ The following APIs are shared by Tooltip, Popconfirm, Popover.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | align | This value will be merged into placement's config | object | - |  |
-| arrow | Change arrow's visible state and change whether the arrow is pointed at the center of target. | boolean \| { pointAtCenter: boolean } | true |  |
+| arrow | Change arrow's visible state and change whether the arrow is pointed at the center of target. | boolean, { pointAtCenter: boolean } | true |  |
 | autoAdjustOverflow | Whether to adjust popup placement automatically when popup is off screen | boolean | true |  |
 | color | The background color | string | - |  |
 | defaultOpen | Whether the floating tooltip card is open by default | boolean | false |  |
@@ -50,7 +50,7 @@ The following APIs are shared by Tooltip, Popconfirm, Popover.
 | overlayInnerStyle | Style of the tooltip inner content | object | - |  |
 | overlayStyle | Style of the tooltip card | object | - |  |
 | placement | The position of the tooltip relative to the target, which can be one of `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | string | `top` |  |
-| trigger | Tooltip trigger mode. Could be multiple by passing an array | `hover` \| `focus` \| `click` \| `contextMenu` \| Array&lt;string> | `hover` |  |
+| trigger | Tooltip trigger mode. Could be multiple by passing an array | `hover`, `focus`, `click`, `contextMenu`, Array&lt;string> | `hover` |  |
 | zIndex | Config `z-index` of Tooltip | number | - |  |
 | onOpenChange | Callback executed when visibility of the tooltip card is changed | (open: boolean) => void | - |  |
 

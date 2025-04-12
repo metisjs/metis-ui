@@ -36,10 +36,10 @@ group: 布局
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| align | 交叉轴方向上的对齐方式 | `start` \| `end` \| `center` \| `baseline` | `center` \| `vertical: start` |  |
+| align | 交叉轴方向上的对齐方式 | `start`、 `end`、 `center`、 `baseline` | `center`、 `vertical: start` |  |
 | block | 以块级元素显示，默认为内联元素 | boolean | false |  |
-| justify | 主轴方向上的对齐方式 | `start` \| `end` \| `center` \| `space-around` \| `space-between` | `start` |  |
-| size | 间距大小 | [Size](#Size) \| [Size\[\]](#Size) | `small` |  |
+| justify | 主轴方向上的对齐方式 | `start`、 `end`、 `center`、 `space-around`、 `space-between` | `start` |  |
+| size | 间距大小 | [Size](#Size)、 [Size\[\]](#Size) | `small` |  |
 | split | 设置拆分 | ReactNode | - |  |
 | vertical | 竖向间距 | boolean | false |  |
 | wrap | 是否自动换行 | boolean | false |  |
@@ -60,8 +60,8 @@ group: 布局
 - Select
 - TimePicker
 
-| 参数     | 说明                         | 类型                           | 默认值   | 版本 |
-| -------- | ---------------------------- | ------------------------------ | -------- | ---- |
-| block    | 将宽度调整为父元素宽度的选项 | boolean                        | false    |      |
-| size     | 子组件大小                   | `large` \| `middle` \| `small` | `middle` |      |
-| vertical | 竖向间距                     | boolean                        | false    |      |
+| 参数     | 说明                         | 类型                         | 默认值   | 版本 |
+| -------- | ---------------------------- | ---------------------------- | -------- | ---- |
+| block    | 将宽度调整为父元素宽度的选项 | boolean                      | false    |      |
+| size     | 子组件大小                   | `large`、 `middle`、 `small` | `middle` |      |
+| vertical | 竖向间距                     | boolean                      | false    |      |

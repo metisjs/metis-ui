@@ -43,10 +43,10 @@ group: 反馈
 | format | 内容的模板函数 | function(percent, successPercent) | (percent) => percent + `%` | - |
 | percent | 百分比 | number | 0 | - |
 | showInfo | 是否显示进度数值或状态图标 | boolean | true | - |
-| size | 进度条的尺寸 | number \| \[number \| string, number] \| { width: number, height: number } \| "small" \| "default" | "default" |  |
+| size | 进度条的尺寸 | number、 \[number、 string, number]、 { width: number, height: number }、 "small"、 "default" | "default" |  |
 | status | 状态，可选：`success` `exception` `normal` `active`(仅限 line) | string | - | - |
 | strokeColor | 进度条的色彩 | string | - | - |
-| strokeLinecap | 进度条的样式 | `round` \| `butt` \| `square`，区别详见 [strokeLinecap](https://developer.mozilla.org/docs/Web/SVG/Attribute/strokeLinecap) | `round` | - |
+| strokeLinecap | 进度条的样式 | `round`、 `butt`、 `square`，区别详见 [strokeLinecap](https://developer.mozilla.org/docs/Web/SVG/Attribute/strokeLinecap) | `round` | - |
 | success | 成功进度条相关配置 | { percent: number, strokeColor: string } | - | - |
 | trailColor | 未完成的分段的颜色 | string | - | - |
 | type | 类型，可选 `line` `circle` `dashboard` | string | `line` | - |
@@ -57,14 +57,14 @@ group: 反馈
 | --- | --- | --- | --- | --- |
 | percentPosition | 进度数值位置，传入对象，`align` 表示数值的水平位置，`type` 表示数值在进度条内部还是外部 | { align: string; type: string } | { align: \\"end\\", type: \\"outer\\" } |  |
 | steps | 进度条总共步数 | number | - | - |
-| strokeColor | 进度条的色彩，传入 object 时为渐变。当有 `steps` 时支持传入一个数组。 | string \| string\[] \| { from: string; to: string; direction: string } | - | : `string[]` |
+| strokeColor | 进度条的色彩，传入 object 时为渐变。当有 `steps` 时支持传入一个数组。 | string、 string\[]、 { from: string; to: string; direction: string } | - | : `string[]` |
 
 ### `type="circle"`
 
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| steps | 进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。 | number \| { count: number, gap: number } | - |  |
-| strokeColor | 圆形进度条线的色彩，传入 object 时为渐变 | string \| { number%: string } | - | - |
+| steps | 进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。 | number、 { count: number, gap: number } | - |  |
+| strokeColor | 圆形进度条线的色彩，传入 object 时为渐变 | string、 { number%: string } | - | - |
 | strokeWidth | 圆形进度条线的宽度，单位是进度条画布宽度的百分比 | number | 6 | - |
 
 ### `type="dashboard"`
@@ -72,8 +72,8 @@ group: 反馈
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | gapDegree | 仪表盘进度条缺口角度，可取值 0 ~ 295 | number | 75 |  |
-| gapPosition | 仪表盘进度条缺口位置 | `top` \| `bottom` \| `left` \| `right` | `bottom` |  |
-| steps | 进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。 | number \| { count: number, gap: number } | - |  |
+| gapPosition | 仪表盘进度条缺口位置 | `top`、 `bottom`、 `left`、 `right` | `bottom` |  |
+| steps | 进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。 | number、 { count: number, gap: number } | - |  |
 | strokeWidth | 仪表盘进度条线的宽度，单位是进度条画布宽度的百分比 | number | 6 |  |
 
 ## Semantic DOM

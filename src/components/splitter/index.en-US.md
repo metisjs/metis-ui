@@ -31,7 +31,7 @@ Can be used to separate areas horizontally or vertically. When you need to freel
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| layout | Layout direction | `horizontal` \| `vertical` | `horizontal` | - |
+| layout | Layout direction | `horizontal`, `vertical` | `horizontal` | - |
 | onResize | Panel size change callback | `(sizes: number[]) => void` | - | - |
 | onResizeEnd | Drag end callback | `(sizes: number[]) => void` | - | - |
 | onResizeStart | Callback before dragging starts | `(sizes: number[]) => void` | - | - |
@@ -41,12 +41,12 @@ Can be used to separate areas horizontally or vertically. When you need to freel
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| collapsible | Quick folding | `boolean \| { start?: boolean; end?: boolean }` | `false` | - |
-| defaultSize | Initial panel size support number for px or 'percent%' usage | `number \| string` | - | - |
-| max | Maximum threshold support number for px or 'percent%' usage | `number \| string` | - | - |
-| min | Minimum threshold support number for px or 'percent%' usage | `number \| string` | - | - |
+| collapsible | Quick folding | `boolean, { start?: boolean; end?: boolean }` | `false` | - |
+| defaultSize | Initial panel size support number for px or 'percent%' usage | `number, string` | - | - |
+| max | Maximum threshold support number for px or 'percent%' usage | `number, string` | - | - |
+| min | Minimum threshold support number for px or 'percent%' usage | `number, string` | - | - |
 | resizable | Whether to enable drag and drop | `boolean` | `true` | - |
-| size | Controlled panel size support number for px or 'percent%' usage | `number \| string` | - | - |
+| size | Controlled panel size support number for px or 'percent%' usage | `number, string` | - | - |
 
 ## Semantic DOM
 

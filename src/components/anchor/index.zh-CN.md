@@ -32,7 +32,7 @@ group:
 | affix | 固定模式 | boolean | true |  |
 | bounds | 锚点区域边界 | number | 5 |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| direction | 设置导航方向 | `vertical` \| `horizontal` | `vertical` |  |
+| direction | 设置导航方向 | `vertical`、 `horizontal` | `vertical` |  |
 | getContainer | 指定滚动的容器 | () => HTMLElement | () => window |  |
 | getCurrentAnchor | 自定义高亮的锚点 | (activeLink: string) => string | - |  |
 | items | 数据化配置选项内容，支持通过 children 嵌套 | { key, href, title, target, className, children }\[] [具体见](#anchoritem) | - |  |
@@ -50,7 +50,7 @@ group:
 | children | 嵌套的 Anchor Link，`注意：水平方向该属性不支持` | [AnchorItem](#anchoritem)\[] | - |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | href | 锚点链接 | string | - |  |
-| key | 唯一标志 | string \| number | - |  |
+| key | 唯一标志 | string、 number | - |  |
 | replace | 替换浏览器历史记录中的项目 href 而不是推送它 | boolean | false |  |
 | target | 该属性指定在何处显示链接的资源 | string | - |  |
 | title | 文字内容 | ReactNode | - |  |

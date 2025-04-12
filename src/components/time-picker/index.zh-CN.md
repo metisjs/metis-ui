@@ -33,9 +33,9 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| allowClear | 自定义清除按钮 | boolean \| { clearIcon?: ReactNode } | true |  |
+| allowClear | 自定义清除按钮 | boolean、 { clearIcon?: ReactNode } | true |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
-| cellRender | 自定义单元格的内容 | (current: number, info: { originNode: React.ReactNode, today: dayjs, range?: 'start' \| 'end', subType: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - |  |
+| cellRender | 自定义单元格的内容 | (current: number, info: { originNode: React.ReactNode, today: dayjs, range?: 'start'、 'end', subType: 'hour'、 'minute'、 'second'、 'meridiem' }) => React.ReactNode | - |  |
 | changeOnScroll | 在滚动时改变选择值 | boolean | false |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | 默认时间 | [DateValue](#datevalue) | - |  |
@@ -49,17 +49,17 @@ demo:
 | minuteStep | 分钟选项间隔 | number | 1 |  |
 | needConfirm | 是否需要确认按钮，为 `false` 时失去焦点即代表选择 | boolean | - |  |
 | open | 面板是否打开 | boolean | false |  |
-| placeholder | 没有值的时候显示的内容 | string \| \[string, string] | `请选择时间` |  |
+| placeholder | 没有值的时候显示的内容 | string、 \[string, string] | `请选择时间` |  |
 | placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
 | renderExtraFooter | 选择框底部显示自定义的内容 | () => ReactNode | - |  |
 | secondStep | 秒选项间隔 | number | 1 |  |
 | showNow | 面板是否显示“此刻”按钮 | boolean | - |  |
-| size | 输入框大小 | `large` \| `middle` \| `small` | - |  |
-| status | 设置校验状态 | 'error' \| 'warning' | - |  |
+| size | 输入框大小 | `large`、 `middle`、 `small` | - |  |
+| status | 设置校验状态 | 'error'、 'warning' | - |  |
 | suffixIcon | 自定义的选择框后缀图标 | ReactNode | - |  |
 | use12Hours | 使用 12 小时制，为 true 时 `format` 默认为 `h:mm:ss a` | boolean | false |  |
 | value | 当前时间 | [DateValue](#datevalue) | - |  |
-| variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| variant | 形态变体 | `outlined`、 `borderless`、 `filled` | `outlined` |  |
 | onChange | 时间发生变化的回调 | function(timeString: string, time: dayjs): void | - |  |
 | onOpenChange | 面板打开/关闭时的回调 | (open: boolean) => void | - |  |
 

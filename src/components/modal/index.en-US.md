@@ -41,13 +41,13 @@ When requiring users to interact with the application, but without jumping to a 
 | cancelText | Text of the Cancel button | ReactNode | `Cancel` |  |
 | centered | Centered Modal | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
+| closable | Whether a close (x) button is visible on top right or not | boolean, { closeIcon?: React.ReactNode } | true |  |
 | confirmLoading | Whether to apply loading visual effect for OK button or not | boolean | false |  |
 | destroyOnClose | Whether to unmount child components on onClose | boolean | false |  |
 | focusTriggerAfterClose | Whether need to focus trigger element after dialog is closed | boolean | true |  |
-| footer | Footer content, set as `footer={null}` when you don't need default buttons | React.ReactNode \| ((params:[footerRenderParams](/components/modal#footerrenderparams))=> React.ReactNode) | (OK and Cancel buttons) | renderFunction: |
+| footer | Footer content, set as `footer={null}` when you don't need default buttons | React.ReactNode, ((params:[footerRenderParams](/components/modal#footerrenderparams))=> React.ReactNode) | (OK and Cancel buttons) | renderFunction: |
 | forceRender | Force render Modal | boolean | false |  |
-| getContainer | The mounted node for Modal but still display at fullscreen | HTMLElement \| () => HTMLElement \| Selectors \| false | document.body |  |
+| getContainer | The mounted node for Modal but still display at fullscreen | HTMLElement, () => HTMLElement, Selectors, false | document.body |  |
 | keyboard | Whether support press esc to close | boolean | true |  |
 | loading | Show the skeleton | boolean |  |  |
 | mask | Whether show mask or not | boolean | true |  |
@@ -59,7 +59,7 @@ When requiring users to interact with the application, but without jumping to a 
 | open | Whether the modal dialog is visible or not | boolean | false |  |
 | style | Style of floating layer, typically used at least for adjusting the position | CSSProperties | - |  |
 | title | The modal dialog's title | ReactNode | - |  |
-| width | Width of the modal dialog | string \| number | 520 |  |
+| width | Width of the modal dialog | string, number | 520 |  |
 | zIndex | The `z-index` of the Modal | number | 1000 |  |
 | onCancel | Specify a function that will be called when a user clicks mask, close button on top right or Cancel button | function(e) | - |  |
 | onOk | Specify a function that will be called when a user clicks the OK button | function(e) | - |  |
@@ -85,15 +85,15 @@ The items listed above are all functions, expecting a settings object as paramet
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | afterClose | Specify a function that will be called when modal is closed completely | function | - |  |
-| autoFocusButton | Specify which button to autofocus | null \| `ok` \| `cancel` | `ok` |  |
+| autoFocusButton | Specify which button to autofocus | null, `ok`, `cancel` | `ok` |  |
 | cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
 | cancelText | Text of the Cancel button with Modal.confirm | string | `Cancel` |  |
 | centered | Centered Modal | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| closable | Whether a close (x) button is visible on top right or not | boolean \| { closeIcon?: React.ReactNode } | true |  |
+| closable | Whether a close (x) button is visible on top right or not | boolean, { closeIcon?: React.ReactNode } | true |  |
 | content | Content | ReactNode | - |  |
-| footer | Footer content, set as `footer: null` when you don't need default buttons | React.ReactNode \| ((params:[footerRenderParams](/components/modal#footerrenderparams))=> React.ReactNode) | - | renderFunction: |
-| getContainer | Return the mount node for Modal | HTMLElement \| () => HTMLElement \| Selectors \| false | document.body |  |
+| footer | Footer content, set as `footer: null` when you don't need default buttons | React.ReactNode, ((params:[footerRenderParams](/components/modal#footerrenderparams))=> React.ReactNode) | - | renderFunction: |
+| getContainer | Return the mount node for Modal | HTMLElement, () => HTMLElement, Selectors, false | document.body |  |
 | icon | Custom icon | ReactNode | &lt;ExclamationCircleFilled /> |  |
 | keyboard | Whether support press esc to close | boolean | true |  |
 | mask | Whether show mask or not. | boolean | true |  |
@@ -103,7 +103,7 @@ The items listed above are all functions, expecting a settings object as paramet
 | okType | Button `type` of the OK button | string | `primary` |  |
 | style | Style of floating layer, typically used at least for adjusting the position | CSSProperties | - |  |
 | title | Title | ReactNode | - |  |
-| width | Width of the modal dialog | string \| number | 416 |  |
+| width | Width of the modal dialog | string, number | 416 |  |
 | zIndex | The `z-index` of the Modal | number | 1000 |  |
 | onCancel | Click to onCancel the callback, the parameter is the closing function, if it returns a promise, resolve means normal closing, reject means not closing | function(close) | - |  |
 | onOk | Click to onOk the callback, the parameter is the closing function, if it returns a promise, resolve means normal closing, reject means not closing | function(close) | - |  |

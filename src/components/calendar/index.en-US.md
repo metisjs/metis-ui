@@ -38,7 +38,7 @@ When data is in the form of dates, such as schedules, timetables, prices calenda
 | headerRender | Render custom header | function(object:{value: Dayjs, mode: CalendarMode, onChange: f(), onModeChange: f()}) | - |  |
 | locale | The calendar's locale | object |  |  |
 | mode | The display mode of the calendar | [CalendarMode](#calendarmode) | `month` |  |
-| modeOptions | The mode options of the calendar | [CalendarMode](#calendarmode)\[] \| null | `month` |  |
+| modeOptions | The mode options of the calendar | [CalendarMode](#calendarmode)\[], null | `month` |  |
 | selectedEventKeys | The selected event keys | Key\[] | - |  |
 | value | The current date | [dayjs](https://day.js.org/) | - |  |
 | onChange | Callback for when date changes | function(date: Dayjs) | - |  |
@@ -57,10 +57,10 @@ type CalendarMode = 'day' | 'week' | 'month' | 'year';
 | --- | --- | --- | --- | --- |
 | allDay | All-day event | boolean | false |  |
 | color | The event color | string | `primary-color` |  |
-| end | The event end time | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| end | The event end time | [dayjs](https://day.js.org/), string, number | - |  |
 | icon | The event icon | ReactNode | `<CalendarOutline />` |  |
 | key | The unique identifier of the event | Key | - |  |
-| start | The event start time | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| start | The event start time | [dayjs](https://day.js.org/), string, number | - |  |
 | title | The event title | string | - |  |
 
 ## Semantic DOM

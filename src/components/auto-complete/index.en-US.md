@@ -37,29 +37,29 @@ The differences with Select are:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| allowClear | Show clear button | boolean \| { clearIcon?: ReactNode } | false |  |
+| allowClear | Show clear button | boolean, { clearIcon?: ReactNode } | false |  |
 | autoFocus | If get focus when component mounted | boolean | false |  |
-| children (for customize input element) | Customize input element | HTMLInputElement \| HTMLTextAreaElement \| React.ReactElement&lt;InputProps> | &lt;Input /> |  |
-| children (for dataSource) | Data source to auto complete | React.ReactElement&lt;OptionProps> \| Array&lt;React.ReactElement&lt;OptionProps>> | - |  |
+| children (for customize input element) | Customize input element | HTMLInputElement, HTMLTextAreaElement, React.ReactElement&lt;InputProps> | &lt;Input /> |  |
+| children (for dataSource) | Data source to auto complete | React.ReactElement&lt;OptionProps>, Array&lt;React.ReactElement&lt;OptionProps>> | - |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
 | defaultOpen | Initial open state of dropdown | boolean | - |  |
 | defaultValue | Initial selected option | string | - |  |
 | disabled | Whether disabled select | boolean | false |  |
 | fieldNames | Customize node label, value, options，groupLabel field name | [FileNames](#filenames) | { label: `label`, value: `value`, options: `options`, groupLabel: `label` } |  |
-| filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns true, the option will be included in the filtered set; Otherwise, it will be excluded | boolean \| function(inputValue, option) | true |  |
+| filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns true, the option will be included in the filtered set; Otherwise, it will be excluded | boolean, function(inputValue, option) | true |  |
 | notFoundContent | Specify content to show when no result matches | ReactNode | - |  |
 | open | Controlled open state of dropdown | boolean | - |  |
-| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`value` \| request: `keyword` |  |
+| optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `label`.If `request` is set, it will be pass to the request method. | string | option:`value`, request: `keyword` |  |
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
 | pagination | Remote pagination request, effective only when using the `request` configuration | boolean | false |  |
 | placeholder | The placeholder of input | string | - |  |
 | popupClassName | The className of dropdown menu | string | - |  |
-| popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
+| popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean, number | true |  |
 | request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
-| status | Set validation status | 'error' \| 'warning' | - |  |
+| status | Set validation status | 'error', 'warning' | - |  |
 | value | Selected option | string | - |  |
-| variant | Variants of input | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| variant | Variants of input | `outlined`, `borderless`, `filled` | `outlined` |  |
 | onBlur | Called when leaving the component | function() | - |  |
 | onChange | Called when selecting an option or changing an input value | function(value) | - |  |
 | onClear | Called when clear | function | - |  |

@@ -35,28 +35,28 @@ group:
 |参数|说明|类型|默认值|版本|
 |:--|:--|:--|:--|:--|
 |allowClear|允许清除选择的颜色|boolean|false||
-|arrow|配置弹出的箭头|`boolean \| { pointAtCenter: boolean }`|true||
+|arrow|配置弹出的箭头|`boolean、 { pointAtCenter: boolean }`|true||
 |children|颜色选择器的触发器|React.ReactNode|-||
 |className|语义化结构 class|[SemanticDOM](#semantic-dom)|-||
-|defaultFormat|颜色格式默认的值|`rgb` \| `hex` \| `hsb`|-||
-|defaultValue|颜色默认的值|string \| `Color`|-||
+|defaultFormat|颜色格式默认的值|`rgb`、 `hex`、 `hsb`|-||
+|defaultValue|颜色默认的值|string、 `Color`|-||
 |destroyTooltipOnHide|关闭后是否销毁弹窗|`boolean`|false||
 |disabled|禁用颜色选择器|boolean|-||
 |disabledAlpha|禁用透明度|boolean|-||
-|format|颜色格式|`rgb` \| `hex` \| `hsb`|`hex`||
-|mode|选择器模式，用于配置单色与渐变|`('single' \| 'gradient')[]`|`single`||
+|format|颜色格式|`rgb`、 `hex`、 `hsb`|`hex`||
+|mode|选择器模式，用于配置单色与渐变|`('single'、 'gradient')[]`|`single`||
 |open|是否显示弹出窗口|boolean|-||
 |panelRender|自定义渲染面板|`(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode`|-||
 |placement|弹出窗口的位置|同 `Tooltips` 组件的 [placement](/components/tooltip-cn/#api) 参数设计|`bottomLeft`||
-|presets|预设的颜色|`{ label: ReactNode, colors: Array<string \| Color>, defaultOpen?: boolean }[]`|-|`defaultOpen: `|
-|showText|显示颜色文本|boolean \| `(color: Color) => React.ReactNode`|-||
-|size|设置触发器大小|`large` \| `middle` \| `small`|`middle`||
-|trigger|颜色选择器的触发模式|`hover` \| `click`|`click`||
-|value|颜色的值|string \| `Color`|-||
+|presets|预设的颜色|`{ label: ReactNode, colors: Array<string、 Color>, defaultOpen?: boolean }[]`|-|`defaultOpen: `|
+|showText|显示颜色文本|boolean、 `(color: Color) => React.ReactNode`|-||
+|size|设置触发器大小|`large`、 `middle`、 `small`|`middle`||
+|trigger|颜色选择器的触发模式|`hover`、 `click`|`click`||
+|value|颜色的值|string、 `Color`|-||
 |onChange|颜色变化的回调|`(value: Color, hex: string) => void`|-||
 |onChangeComplete|颜色选择完成的回调|`(value: Color) => void`|-||
 |onClear|清除的回调|`() => void`|-||
-|onFormatChange|颜色格式变化的回调|`(format: 'hex' \| 'rgb' \| 'hsb') => void`|-||
+|onFormatChange|颜色格式变化的回调|`(format: 'hex'、 'rgb'、 'hsb') => void`|-||
 |onOpenChange|当 `open` 被改变时的回调|`(open: boolean) => void`|-||
 
 ### Color

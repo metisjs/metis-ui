@@ -33,7 +33,7 @@ group: 数据展示
 | extra | 卡片右上角的操作区域 | ReactNode | - |  |
 | hoverable | 鼠标移过时可浮起 | boolean | false |  |
 | loading | 当卡片内容还在加载中时，可以用 loading 展示一个占位 | boolean | false |  |
-| size | card 的尺寸 | `default` \| `small` | `default` |  |
+| size | card 的尺寸 | `default`、 `small` | `default` |  |
 | title | 卡片标题 | ReactNode | - |  |
 
 ### Card.Meta

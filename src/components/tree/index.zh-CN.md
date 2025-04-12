@@ -39,7 +39,7 @@ demo:
 |allowDrop|是否允许拖拽时放置在该节点|({ dropNode, dropPosition }) => boolean|-||
 |autoExpandParent|是否自动展开父节点|boolean|true||
 |checkable|节点前添加 Checkbox 复选框|boolean|false||
-|checkedKeys|（受控）选中复选框的树节点（注意：父子节点有关联，如果传入父节点 key，则子节点自动选中；相应当子节点 key 都传入，父节点也自动选中。当设置 `checkable` 和 `checkStrictly`，它是一个有`checked`和`halfChecked`属性的对象，并且父子节点的选中与否不再关联|string\[] \| {checked: string\[], halfChecked: string\[]}|\[]||
+|checkedKeys|（受控）选中复选框的树节点（注意：父子节点有关联，如果传入父节点 key，则子节点自动选中；相应当子节点 key 都传入，父节点也自动选中。当设置 `checkable` 和 `checkStrictly`，它是一个有`checked`和`halfChecked`属性的对象，并且父子节点的选中与否不再关联|string\[]、 {checked: string\[], halfChecked: string\[]}|\[]||
 |checkStrictly|checkable 状态下节点选择完全受控（父子节点选中状态不再关联）|boolean|false||
 |className|语义化结构 class|[SemanticDOM](#semantic-dom)|-||
 |defaultCheckedKeys|默认选中复选框的树节点|string\[]|\[]||
@@ -47,12 +47,12 @@ demo:
 |defaultExpandedKeys|默认展开指定的树节点|string\[]|\[]||
 |defaultSelectedKeys|默认选中的树节点|string\[]|\[]||
 |disabled|将树禁用|boolean|false||
-|draggable|设置节点可拖拽，可以通过 `icon: true` 开启拖拽提示图标|boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| boolean, nodeDraggable?: (node: DataNode) => boolean }|false||
-|expandAction|展开逻辑，可选：false \| `click` \| `doubleClick`|string \| boolean|`false`||
+|draggable|设置节点可拖拽，可以通过 `icon: true` 开启拖拽提示图标|boolean、 ((node: DataNode) => boolean)、 { icon?: React.ReactNode、 boolean, nodeDraggable?: (node: DataNode) => boolean }|false||
+|expandAction|展开逻辑，可选：false、 `click`、 `doubleClick`|string、 boolean|`false`||
 |expandedKeys|（受控）展开指定的树节点|string\[]|\[]||
 |fieldNames|自定义节点 title、key、children 等字段|object|{ title: `title`, key: `key`, children: `children`, leaf: `leaf`， disabled: `disabled` }||
 |height|设置虚拟滚动容器高度，设置后内部节点不再支持横向滚动|number|-||
-|icon|在标题之前插入自定义图标。需要设置 `showIcon` 为 true|ReactNode \| (props) => ReactNode|-||
+|icon|在标题之前插入自定义图标。需要设置 `showIcon` 为 true|ReactNode、 (props) => ReactNode|-||
 |indent|缩进大小|number|`8`||
 |lazyLoad|懒加载，点击节点时加载，仅使用 `request` 配置时有效 boolean|false|||
 |loadedKeys|（受控）已经加载的节点，需要配合 `loadData` 使用|string\[]|\[]||
@@ -61,8 +61,8 @@ demo:
 |selectable|是否可选中|boolean|true||
 |selectedKeys|（受控）设置选中的树节点，多选需设置 `multiple` 为 true|string\[]|-||
 |showIcon|控制是否展示 `icon` 节点，没有默认样式|boolean|false||
-|showLine|是否展示连接线|boolean \| 'hover'|`hover`||
-|switcherIcon|自定义树节点的展开/折叠图标（带有默认 rotate 角度样式）|ReactNode \| ((props: AntTreeNodeProps) => ReactNode)|-||
+|showLine|是否展示连接线|boolean、 'hover'|`hover`||
+|switcherIcon|自定义树节点的展开/折叠图标（带有默认 rotate 角度样式）|ReactNode、 ((props: AntTreeNodeProps) => ReactNode)|-||
 |switcherLoadingIcon|自定义树节点的加载图标|ReactNode|-||
 |titleRender|自定义渲染节点|(nodeData) => ReactNode|-||
 |treeData|treeNodes 数据|array&lt;{key, title, children, \[disabled, selectable]}>|-||
@@ -86,7 +86,7 @@ demo:
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | disableCheckbox | 禁掉 checkbox | boolean | false |  |
 | disabled | 禁掉响应 | boolean | false |  |
-| icon | 自定义图标。可接收组件，props 为当前节点 props | ReactNode \| (props) => ReactNode | - |  |
+| icon | 自定义图标。可接收组件，props 为当前节点 props | ReactNode、 (props) => ReactNode | - |  |
 | key | 被树的 (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys 属性所用。注意：整个树范围内的所有节点的 key 值不能重复！ | string | (内部计算出的节点位置) |  |
 | leaf | 设置为叶子节点 (设置了 `request` 时有效)。为 `false` 时会强制将其作为父节点 | boolean | - |  |
 | selectable | 设置节点是否可被选中 | boolean | true |  |
@@ -96,7 +96,7 @@ demo:
 
 | 名称 | 说明 |
 | --- | --- |
-| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | 虚拟滚动下，滚动到指定 key 条目 |
+| scrollTo({ key: string、 number; align?: 'top'、 'bottom'、 'auto'; offset?: number }) | 虚拟滚动下，滚动到指定 key 条目 |
 
 ## Semantic DOM
 

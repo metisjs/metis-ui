@@ -41,7 +41,7 @@ description: 按照日历形式展示数据的容器。
 | locale | 国际化配置 | object |  |  |
 | lunar | 显示农历 | false | - |  |
 | mode | 模式 | [CalendarMode](#calendarmode) | `month` |  |
-| modeOptions | 模式选项 | [CalendarMode](#calendarmode)\[] \| null | `month` |  |
+| modeOptions | 模式选项 | [CalendarMode](#calendarmode)\[]、 null | `month` |  |
 | selectedEventKeys | 已选中的事件 | Key\[] | - |  |
 | value | 展示日期 | [dayjs](https://day.js.org/) | - |  |
 | onChange | 日期变化回调 | function(date: Dayjs) | - |  |
@@ -60,10 +60,10 @@ type CalendarMode = 'day' | 'week' | 'month' | 'year';
 | --- | --- | --- | --- | --- |
 | allDay | 是否为全天事件 | boolean | false |  |
 | color | 显示颜色 | string | `主题色` |  |
-| end | 结束时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| end | 结束时间 | [dayjs](https://day.js.org/)、 string、 number | - |  |
 | icon | 图标 | ReactNode | `<CalendarOutline />` |  |
 | key | 唯一标志 | Key | - |  |
-| start | 开始时间 | [dayjs](https://day.js.org/) \| string \| number | - |  |
+| start | 开始时间 | [dayjs](https://day.js.org/)、 string、 number | - |  |
 | title | 标题 | string | - |  |
 
 ## Semantic DOM

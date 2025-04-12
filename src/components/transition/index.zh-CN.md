@@ -22,12 +22,12 @@ group: 其他
 | appear | 动画是否应在初始化时运行 | boolean | true |  |
 | beforeEnter | 状态切换的回调 | () => void | - |  |
 | beforeLeave | 状态切换的回调 | () => void | - |  |
-| enter | `enter`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |
-| enterFrom | `enter`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |
-| enterTo | `enter`阶段开始后立即添加到元素`class`或`style` | string \| CSSProperties | - |  |
-| leave | `leave`阶段添加到元素`class`或`style` | string \| CSSProperties | - |  |
-| leaveFrom | `leave`阶段开始之前添加到元素`class`或`style` | string \| CSSProperties | - |  |
-| leaveTo | `leave`阶段开始后立即添加到元素`class`或`style` | string \| CSSProperties | - |  |
+| enter | `enter`阶段添加到元素`class`或`style` | string、 CSSProperties | - |  |
+| enterFrom | `enter`阶段开始之前添加到元素`class`或`style` | string、 CSSProperties | - |  |
+| enterTo | `enter`阶段开始后立即添加到元素`class`或`style` | string、 CSSProperties | - |  |
+| leave | `leave`阶段添加到元素`class`或`style` | string、 CSSProperties | - |  |
+| leaveFrom | `leave`阶段开始之前添加到元素`class`或`style` | string、 CSSProperties | - |  |
+| leaveTo | `leave`阶段开始后立即添加到元素`class`或`style` | string、 CSSProperties | - |  |
 | removeOnLeave | 根据显示状态是否应卸载或隐藏元素 | boolean | true | - |
 | visible | 子元素应该显示还是隐藏 | boolean | - |  |
 | onVisibleChanged | visible 切换的回调 | (visible: boolean) => void | - |  |
@@ -36,7 +36,7 @@ group: 其他
 
 继承 [Transition](#Transition) 的所有属性。
 
-| 参数      | 说明                 | 类型                          | 默认值 | 版本 |
-| --------- | -------------------- | ----------------------------- | ------ | ---- |
-| component | wrapper component    | string \| React.ComponentType | div    |      |
-| keys      | transition list keys | React.Key\[]                  | -      |      |
+| 参数      | 说明                 | 类型                         | 默认值 | 版本 |
+| --------- | -------------------- | ---------------------------- | ------ | ---- |
+| component | wrapper component    | string、 React.ComponentType | div    |      |
+| keys      | transition list keys | React.Key\[]                 | -      |      |

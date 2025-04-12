@@ -32,12 +32,12 @@ More layouts with navigation: [Layout](/components/layout).
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultOpenKeys | Array with the keys of default opened sub menus | string\[] | - |  |
 | defaultSelectedKeys | Array with the keys of default selected menu items | string\[] | - |  |
-| expandIcon | custom expand icon of submenu | ReactNode \| `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |
+| expandIcon | custom expand icon of submenu | ReactNode, `(props: SubMenuProps & { isSubMenu: boolean }) => ReactNode` | - |  |
 | forceSubMenuRender | Render submenu into DOM before it becomes visible | boolean | false |  |
 | inlineCollapsed | Specifies the collapsed status when menu is inline mode | boolean | - |  |
 | inlineIndent | Indent (in pixels) of inline menu items on each level | number | 24 |  |
 | items | Menu item content | [ItemType\[\]](#itemtype) | - | 4.20.0 |
-| mode | Type of menu | `vertical` \| `horizontal` \| `inline` | `vertical` |  |
+| mode | Type of menu | `vertical`, `horizontal`, `inline` | `vertical` |  |
 | multiple | Allows selection of multiple items | boolean | false |  |
 | openKeys | Array with the keys of currently opened sub-menus | string\[] | - |  |
 | overflowedIndicator | Customized the ellipsis icon when menu is collapsed horizontally | ReactNode | `<EllipsisOutlined />` |  |
@@ -46,8 +46,8 @@ More layouts with navigation: [Layout](/components/layout).
 | style | Style of the root node | CSSProperties | - |  |
 | subMenuCloseDelay | Delay time to hide submenu when mouse leaves (in seconds) | number | 0.1 |  |
 | subMenuOpenDelay | Delay time to show submenu when mouse enters, (in seconds) | number | 0 |  |
-| theme | Color theme of the menu | `light` \| `dark` | `light` |  |
-| triggerSubMenuAction | Which action can trigger submenu open/close | `hover` \| `click` | `hover` |  |
+| theme | Color theme of the menu | `light`, `dark` | `light` |  |
+| triggerSubMenuAction | Which action can trigger submenu open/close | `hover`, `click` | `hover` |  |
 | onClick | Called when a menu item is clicked | function({ item, key, keyPath, domEvent }) | - |  |
 | onDeselect | Called when a menu item is deselected (multiple mode only) | function({ item, key, keyPath, selectedKeys, domEvent }) | - |  |
 | onOpenChange | Called when sub-menus are opened or closed | function(openKeys: string\[]) | - |  |
@@ -55,7 +55,7 @@ More layouts with navigation: [Layout](/components/layout).
 
 ### ItemType
 
-> type ItemType = [MenuItemType](#MenuItemType) \| [SubMenuType](#SubMenuType) \| [MenuItemGroupType](#MenuItemGroupType) \| [MenuDividerType](#MenuDividerType);
+> type ItemType = [MenuItemType](#MenuItemType), [SubMenuType](#SubMenuType), [MenuItemGroupType](#MenuItemGroupType), [MenuDividerType](#MenuDividerType);
 
 #### MenuItemType
 
@@ -81,7 +81,7 @@ More layouts with navigation: [Layout](/components/layout).
 | key | Unique ID of the sub-menu | string | - |  |  |
 | label | Menu label | ReactNode | - |  |  |
 | popupOffset | Sub-menu offset, not working when `mode="inline"` | \[number, number] | - |  |  |
-| theme | Color theme of the SubMenu (inherits from Menu by default) |  | `light` \| `dark` | - |  |
+| theme | Color theme of the SubMenu (inherits from Menu by default) |  | `light`, `dark` | - |  |
 
 #### MenuItemGroupType
 

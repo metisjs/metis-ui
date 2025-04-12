@@ -31,14 +31,14 @@ demo:
 | cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | cancelText | 取消按钮文字 | string | `取消` |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| description | 确认内容的详细描述 | ReactNode \| () => ReactNode | - |  |
+| description | 确认内容的详细描述 | ReactNode、 () => ReactNode | - |  |
 | disabled | 阻止点击 Popconfirm 子元素时弹出确认框 | boolean | false |  |
 | icon | 自定义弹出气泡 Icon 图标 | ReactNode | &lt;ExclamationTriangleOutline /> |  |
 | okButtonProps | ok 按钮 props | [ButtonProps](/components/button-cn#api) | - |  |
 | okText | 确认按钮文字 | string | `确定` |  |
 | okType | 确认按钮类型 | string | `primary` |  |
 | showCancel | 是否显示取消按钮 | boolean | true |  |
-| title | 确认框标题 | ReactNode \| () => ReactNode | - |  |
+| title | 确认框标题 | ReactNode、 () => ReactNode | - |  |
 | onCancel | 点击取消的回调 | function(e) | - |  |
 | onConfirm | 点击确认的回调 | function(e) | - |  |
 | onPopupClick | 弹出气泡点击事件 | function(e) | - |  |

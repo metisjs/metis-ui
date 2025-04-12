@@ -50,7 +50,7 @@ demo:
 |defaultValue|默认选中的值|any|-|||
 |disabled|禁选所有子单选器|boolean|false|||
 |name|RadioGroup 下所有 `input[type="radio"]` 的 `name` 属性|string|-|||
-|options|以配置形式设置子元素|string\[] \| number\[] \| Option\[]>|-|||
+|options|以配置形式设置子元素|string\[]、 number\[]、 Option\[]>|-|||
 |value|用于设置当前选中的值|any|-|||
 |onChange|选项变化时的回调函数|function(e:Event)|-|||
 

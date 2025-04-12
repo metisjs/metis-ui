@@ -32,7 +32,7 @@ demo:
 | --- | --- | --- | --- | --- |
 | bordered | Whether has border style | boolean | true |  |
 | className | Semantic DOM class | [SemanticDOM](#tag-1) | - |  |
-| closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
+| closable | The config of closable | boolean, ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | color | Color of the Tag | string | - |  |
 | icon | Set the icon of tag | ReactNode | - |  |
 | onClose | Callback executed when tag is closed | (e) => void | - |  |

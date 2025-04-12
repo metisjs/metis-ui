@@ -30,22 +30,22 @@ When you need to mention someone or something.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false |  |
+| allowClear | If allow to remove mentions content with clear icon | boolean, { clearIcon?: ReactNode } | false |  |
 | autoFocus | Auto get focus when component mounted | boolean | false |  |
-| autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
+| autoSize | Textarea height autosize feature, can be set to true, false or an object { minRows: 2, maxRows: 6 } | boolean, object | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultValue | Default value | string | - |  |
-| filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
+| filterOption | Customize filter option logic | false, (input: string, option: OptionProps) => boolean | - |  |
 | getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
 | notFoundContent | Set mentions content when not match | ReactNode | `Not Found` |  |
 | options | Option Configuration | [Options](#option) | \[] |  |
-| placement | Set popup placement | `top` \| `bottom` | `bottom` |  |
-| prefix | Set trigger prefix keyword | string \| string\[] | `@` |  |
+| placement | Set popup placement | `top`, `bottom` | `bottom` |  |
+| prefix | Set trigger prefix keyword | string, string\[] | `@` |  |
 | split | Set split string before and after selected mention | string | ` ` |  |
-| status | Set validation status | 'error' \| 'warning' \| 'success' \| 'validating' | - |  |
+| status | Set validation status | 'error', 'warning', 'success', 'validating' | - |  |
 | validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |  |
 | value | Set value of mentions | string | - |  |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| variant | Variants of Input | `outlined`, `borderless`, `filled` | `outlined` |  |
 | onBlur | Trigger when mentions lose focus | () => void | - |  |
 | onChange | Trigger when value changed | (text: string) => void | - |  |
 | onClear | Callback when click the clear button | () => void | - |  |

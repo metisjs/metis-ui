@@ -84,16 +84,16 @@ group: 布局
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| breakpoint | 触发响应式布局的[断点](#breakpoint-width) | `sm` \| `md` \| `lg` \| `xl` \| `2xl` | - |
+| breakpoint | 触发响应式布局的[断点](#breakpoint-width) | `sm`、 `md`、 `lg`、 `xl`、 `2xl` | - |
 | className | 容器 className | string | - |
 | collapsed | 当前收起状态 | boolean | - |
 | collapsible | 是否可收起 | boolean | false |
 | defaultCollapsed | 是否默认收起 | boolean | false |
 | reverseArrow | 翻转折叠提示箭头的方向，当 Sider 在右边时可以使用 | boolean | false |
 | style | 指定样式 | CSSProperties | - |
-| theme | 主题颜色 | `light` \| `dark` | `dark` |
+| theme | 主题颜色 | `light`、 `dark` | `dark` |
 | trigger | 自定义 trigger，设置为 null 时隐藏 trigger | ReactNode | - |
-| width | 宽度 | number \| string | 200 |
+| width | 宽度 | number、 string | 200 |
 | onBreakpoint | 触发响应式布局，断点时的回调 | (broken) => {} | - |
 | onCollapse | 展开-收起时的回调函数，有点击 trigger 以及响应式反馈两种方式可以触发 | (collapsed, type) => {} | - |
 

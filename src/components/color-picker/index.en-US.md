@@ -34,28 +34,28 @@ Used when the user needs to make a customized color selection.
 |Property|Description|Type|Default|Version|
 |:--|:--|:--|:--|:--|
 |allowClear|Allow clearing color selected|boolean|false||
-|arrow|Configuration for popup arrow|`boolean \| { pointAtCenter: boolean }`|true||
+|arrow|Configuration for popup arrow|`boolean, { pointAtCenter: boolean }`|true||
 |children|Trigger of ColorPicker|React.ReactNode|-||
 |className|Semantic DOM class|[SemanticDOM](#semantic-dom)|-||
-|defaultFormat|Default format of color|`rgb` \| `hex` \| `hsb`|-||
-|defaultValue|Default value of color|string \| `Color`|-||
+|defaultFormat|Default format of color|`rgb`, `hex`, `hsb`|-||
+|defaultValue|Default value of color|string, `Color`|-||
 |destroyTooltipOnHide|Whether destroy popover when hidden|`boolean`|false||
 |disabled|Disable ColorPicker|boolean|-||
 |disabledAlpha|Disable Alpha|boolean|-||
-|format|Format of color|`rgb` \| `hex` \| `hsb`|`hex`||
-|mode|Configure single or gradient color|`('single' \| 'gradient')[]`|`single`||
+|format|Format of color|`rgb`, `hex`, `hsb`|`hex`||
+|mode|Configure single or gradient color|`('single', 'gradient')[]`|`single`||
 |open|Whether to show popup|boolean|-||
 |panelRender|Custom Render Panel|`(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode`|-||
 |placement|Placement of popup|The design of the [placement](/components/tooltip/#api) parameter is the same as the `Tooltips` component.|`bottomLeft`||
-|presets|Preset colors|`{ label: ReactNode, colors: Array<string \| Color>, defaultOpen?: boolean }[]`|-|`defaultOpen: `|
-|showText|Show color text|boolean \| `(color: Color) => React.ReactNode`|-||
-|size|Setting the trigger size|`large` \| `middle` \| `small`|`middle`||
-|trigger|ColorPicker trigger mode|`hover` \| `click`|`click`||
-|value|Value of color|string \| `Color`|-||
+|presets|Preset colors|`{ label: ReactNode, colors: Array<string, Color>, defaultOpen?: boolean }[]`|-|`defaultOpen: `|
+|showText|Show color text|boolean, `(color: Color) => React.ReactNode`|-||
+|size|Setting the trigger size|`large`, `middle`, `small`|`middle`||
+|trigger|ColorPicker trigger mode|`hover`, `click`|`click`||
+|value|Value of color|string, `Color`|-||
 |onChange|Callback when `value` is changed|`(value: Color, hex: string) => void`|-||
 |onChangeComplete|Called when color pick ends|`(value: Color) => void`|-||
 |onClear|Called when clear|`() => void`|-||
-|onFormatChange|Callback when `format` is changed|`(format: 'hex' \| 'rgb' \| 'hsb') => void`|-||
+|onFormatChange|Callback when `format` is changed|`(format: 'hex', 'rgb', 'hsb') => void`|-||
 |onOpenChange|Callback when `open` is changed|`(open: boolean) => void`|-||
 
 ### Color

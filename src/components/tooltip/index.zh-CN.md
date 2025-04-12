@@ -29,7 +29,7 @@ demo:
 | 参数      | 说明             | 类型                         | 默认值 |
 | --------- | ---------------- | ---------------------------- | ------ |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | -      |
-| title     | 提示文字         | ReactNode \| () => ReactNode | -      |
+| title     | 提示文字         | ReactNode、 () => ReactNode  | -      |
 
 ### 共同的 API
 
@@ -38,7 +38,7 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | align | 该值将合并到 placement 的配置中 | object | - |  |
-| arrow | 修改箭头的显示状态以及修改箭头是否指向目标元素中心 | boolean \| { pointAtCenter: boolean } | true |  |
+| arrow | 修改箭头的显示状态以及修改箭头是否指向目标元素中心 | boolean、 { pointAtCenter: boolean } | true |  |
 | autoAdjustOverflow | 气泡被遮挡时自动调整位置 | boolean | true |  |
 | color | 背景颜色 | string | - |  |
 | defaultOpen | 默认是否显隐 | boolean | false |  |
@@ -50,7 +50,7 @@ demo:
 | overlayInnerStyle | 卡片内容区域的样式对象 | object | - |  |
 | overlayStyle | 卡片样式 | object | - |  |
 | placement | 气泡框位置，可选 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | string | `top` |  |
-| trigger | 触发行为，可选 `hover` \| `focus` \| `click` \| `contextMenu`，可使用数组设置多个触发行为 | string \| string\[] | `hover` |  |
+| trigger | 触发行为，可选 `hover`、 `focus`、 `click`、 `contextMenu`，可使用数组设置多个触发行为 | string、 string\[] | `hover` |  |
 | zIndex | 设置 Tooltip 的 `z-index` | number | - |  |
 | onOpenChange | 显示隐藏的回调 | (open: boolean) => void | - |  |
 

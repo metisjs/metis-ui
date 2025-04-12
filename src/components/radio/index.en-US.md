@@ -47,7 +47,7 @@ Radio group can wrap a group of `Radio`。
 | defaultValue | Default selected value | any | - |  |
 | disabled | Disable all radio buttons | boolean | false |  |
 | name | The `name` property of all `input[type="radio"]` children | string | - |  |
-| options | Set children optional | string\[] \| number\[] \| Option\[]> | - |  |
+| options | Set children optional | string\[], number\[], Option\[]> | - |  |
 | value | Used for setting the currently selected value | any | - |  |
 | onChange | The callback function that is triggered when the state changes | function(e:Event) | - |  |
 

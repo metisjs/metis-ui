@@ -34,7 +34,7 @@ demo:
 | 参数          | 说明             | 类型                         | 默认值       | 版本 |
 | ------------- | ---------------- | ---------------------------- | ------------ | ---- |
 | className     | 语义化结构 class | [SemanticDOM](#semantic-dom) | -            |      |
-| layout        | 布局方向         | `horizontal` \| `vertical`   | `horizontal` | -    |
+| layout        | 布局方向         | `horizontal`、 `vertical`    | `horizontal` | -    |
 | onResize      | 面板大小变化回调 | `(sizes: number[]) => void`  | -            | -    |
 | onResizeEnd   | 拖拽结束回调     | `(sizes: number[]) => void`  | -            | -    |
 | onResizeStart | 开始拖拽之前回调 | `(sizes: number[]) => void`  | -            | -    |
@@ -44,12 +44,12 @@ demo:
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| collapsible | 快速折叠 | `boolean \| { start?: boolean; end?: boolean }` | `false` | - |
-| defaultSize | 初始面板大小，支持数字 px 或者文字 '百分比%' 类型 | `number \| string` | - | - |
-| max | 最大阈值，支持数字 px 或者文字 '百分比%' 类型 | `number \| string` | - | - |
-| min | 最小阈值，支持数字 px 或者文字 '百分比%' 类型 | `number \| string` | - | - |
+| collapsible | 快速折叠 | `boolean、 { start?: boolean; end?: boolean }` | `false` | - |
+| defaultSize | 初始面板大小，支持数字 px 或者文字 '百分比%' 类型 | `number、 string` | - | - |
+| max | 最大阈值，支持数字 px 或者文字 '百分比%' 类型 | `number、 string` | - | - |
+| min | 最小阈值，支持数字 px 或者文字 '百分比%' 类型 | `number、 string` | - | - |
 | resizable | 是否开启拖拽伸缩 | `boolean` | `true` | - |
-| size | 受控面板大小，支持数字 px 或者文字 '百分比%' 类型 | `number \| string` | - | - |
+| size | 受控面板大小，支持数字 px 或者文字 '百分比%' 类型 | `number、 string` | - | - |
 
 ## Semantic DOM
 

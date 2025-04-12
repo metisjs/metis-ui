@@ -29,7 +29,7 @@ demo:
 | allowClear | Whether to allow clear when click again | boolean | true |  |
 | allowHalf | Whether to allow semi selection | boolean | false |  |
 | autoFocus | If get focus when component mounted | boolean | false |  |
-| character | The custom character of rate | ReactNode \| (RateProps) => ReactNode | &lt;StarSolid /> |  |
+| character | The custom character of rate | ReactNode, (RateProps) => ReactNode | &lt;StarSolid /> |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | count | Star count | number | 5 |  |
 | defaultValue | The default value | number | 0 |  |

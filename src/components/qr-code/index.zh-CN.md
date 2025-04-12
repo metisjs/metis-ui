@@ -33,13 +33,13 @@ group: 数据展示
 | bordered | 是否有边框 | boolean | `true` |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | color | 二维码颜色 | string | `#000` |  |
-| errorLevel | 二维码纠错等级 | `'L' \| 'M' \| 'Q' \| 'H' ` | `M` |  |
+| errorLevel | 二维码纠错等级 | `'L'、 'M'、 'Q'、 'H' ` | `M` |  |
 | icon | 二维码中图片的地址（目前只支持图片地址） | string | - |  |
-| iconSize | 二维码中图片的大小 | number \| { width: number; height: number } | 40 |  |
+| iconSize | 二维码中图片的大小 | number、 { width: number; height: number } | 40 |  |
 | size | 二维码大小 | number | 160 |  |
-| status | 二维码状态 | `active \| expired \| loading \| scanned` | `active` | scanned: |
+| status | 二维码状态 | `active、 expired、 loading、 scanned` | `active` | scanned: |
 | statusRender | 自定义状态渲染器 | (info: [StatusRenderInfo](/components/qr-code-cn#statusrenderinfo)) => React.ReactNode | - |  |
-| type | 渲染类型 | `canvas \| svg ` | `canvas` |  |
+| type | 渲染类型 | `canvas、 svg ` | `canvas` |  |
 | value | 扫描后的文本 | string | - |  |
 | onRefresh | 点击"点击刷新"的回调 | `() => void` | - |  |
 

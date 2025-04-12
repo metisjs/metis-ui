@@ -37,7 +37,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | allowDrop | Whether to allow dropping on the node | ({ dropNode, dropPosition }) => boolean | - |  |
 | autoExpandParent | Whether to automatically expand a parent treeNode | boolean | true |  |
 | checkable | Add a Checkbox before the treeNodes | boolean | false |  |
-| checkedKeys | (Controlled) Specifies the keys of the checked treeNodes (PS: When this specifies the key of a treeNode which is also a parent treeNode, all the children treeNodes of will be checked; and vice versa, when it specifies the key of a treeNode which is a child treeNode, its parent treeNode will also be checked. When `checkable` and `checkStrictly` is true, its object has `checked` and `halfChecked` property. Regardless of whether the child or parent treeNode is checked, they won't impact each other | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  |
+| checkedKeys | (Controlled) Specifies the keys of the checked treeNodes (PS: When this specifies the key of a treeNode which is also a parent treeNode, all the children treeNodes of will be checked; and vice versa, when it specifies the key of a treeNode which is a child treeNode, its parent treeNode will also be checked. When `checkable` and `checkStrictly` is true, its object has `checked` and `halfChecked` property. Regardless of whether the child or parent treeNode is checked, they won't impact each other | string\[], {checked: string\[], halfChecked: string\[]} | \[] |  |
 | checkStrictly | Check treeNode precisely; parent treeNode and children treeNodes are not associated | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultCheckedKeys | Specifies the keys of the default checked treeNodes | string\[] | \[] |  |
@@ -45,13 +45,13 @@ Almost anything can be represented in a tree structure. Examples include directo
 | defaultExpandedKeys | Specify the keys of the default expanded treeNodes | string\[] | \[] |  |
 | defaultSelectedKeys | Specifies the keys of the default selected treeNodes | string\[] | \[] |  |
 | disabled | Whether disabled the tree | boolean | false |  |
-| draggable | Specifies whether this Tree or the node is draggable. Use `icon: false` to disable drag handler icon | boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| false, nodeDraggable?: (node: DataNode) => boolean } | false |  |
-| expandAction | Directory open logic, optional: false \| `click` \| `doubleClick` | string \| boolean | `false` |  |
+| draggable | Specifies whether this Tree or the node is draggable. Use `icon: false` to disable drag handler icon | boolean, ((node: DataNode) => boolean), { icon?: React.ReactNode, false, nodeDraggable?: (node: DataNode) => boolean } | false |  |
+| expandAction | Directory open logic, optional: false, `click`, `doubleClick` | string, boolean | `false` |  |
 | expandedKeys | (Controlled) Specifies the keys of the expanded treeNodes | string\[] | \[] |  |
 | fieldNames | Customize node title, key, children field name | object | { title: `title`, key: `key`, children: `children`, leaf: `leaf`， disabled: `disabled` } |  |
 | filterTreeNode | Defines a function to filter (highlight) treeNodes. When the function returns `true`, the corresponding treeNode will be highlighted | function(node) | - |  |
 | height | Config virtual scroll height. Will not support horizontal scroll when enable this | number | - |  |
-| icon | Insert a custom icon before the title. Need to set `showIcon` to true | ReactNode \| (props) => ReactNode | - |  |
+| icon | Insert a custom icon before the title. Need to set `showIcon` to true | ReactNode, (props) => ReactNode | - |  |
 | lazyLoad | Remote laze load request, effective only when using the `request` configuration. | boolean | false |  |
 | loadedKeys | (Controlled) Set loaded tree nodes. Need work with `loadData` | string\[] | \[] |  |
 | multiple | Allows selecting multiple treeNodes | boolean | false |  |
@@ -59,8 +59,8 @@ Almost anything can be represented in a tree structure. Examples include directo
 | selectable | Whether can be selected | boolean | true |  |
 | selectedKeys | (Controlled) Specifies the keys of the selected treeNodes, multiple selection needs to set `multiple` to true | string\[] | - |  |
 | showIcon | Controls whether to display the `icon` node, no default style | boolean | false |  |
-| showLine | Shows a connecting line | boolean \| 'hover' | `hover` |  |
-| switcherIcon | Customize expand/collapse icons for tree nodes (With default rotate angular style) | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - |  |
+| showLine | Shows a connecting line | boolean, 'hover' | `hover` |  |
+| switcherIcon | Customize expand/collapse icons for tree nodes (With default rotate angular style) | ReactNode, ((props: AntTreeNodeProps) => ReactNode) | - |  |
 | switcherLoadingIcon | Customize loading icons for tree nodes | ReactNode | - |  |
 | titleRender | Customize tree node title render | (nodeData) => ReactNode | - |  |
 | treeData | The treeNodes data Array. | array&lt;{ key, title, children, \[disabled, selectable] }> | - |  |
@@ -84,7 +84,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | disableCheckbox | Disables the checkbox of the treeNode | boolean | false |  |
 | disabled | Disables the treeNode | boolean | false |  |
-| icon | Customize icon. When you pass component, whose render will receive full TreeNode props as component props | ReactNode \| (props) => ReactNode | - |  |
+| icon | Customize icon. When you pass component, whose render will receive full TreeNode props as component props | ReactNode, (props) => ReactNode | - |  |
 | indent | Indent size | number | `8` |  |
 | key | Used with (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys. P.S.: It must be unique in all of treeNodes of the tree | string | (internal calculated position of treeNode) |  |
 | leaf | Determines if this is a leaf node(effective when `request` is specified). `false` will force trade TreeNode as a parent node | boolean | - |  |
@@ -95,7 +95,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 
 | Name | Description |
 | --- | --- |
-| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | Scroll to key item in virtual scroll |
+| scrollTo({ key: string, number; align?: 'top', 'bottom', 'auto'; offset?: number }) | Scroll to key item in virtual scroll |
 
 ## Semantic DOM
 

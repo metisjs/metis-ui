@@ -36,7 +36,7 @@ demo:
 | afterClose | Called when close animation is finished | () => void | - |  |
 | banner | Whether to show as banner | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| closable | The config of closable | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
+| closable | The config of closable | boolean, ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | description | Additional content of Alert | ReactNode | - |  |
 | icon | Custom icon, effective when `showIcon` is true | ReactNode | - |  |
 | message | Content of Alert | ReactNode | - |  |

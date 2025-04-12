@@ -41,20 +41,20 @@ demo:
 | --- | --- | --- | --- | --- |
 | addonAfter | The label text displayed after (on the right side of) the input field | ReactNode | - |  |
 | addonBefore | The label text displayed before (on the left side of) the input field | ReactNode | - |  |
-| allowClear | If allow to remove input content with clear icon | boolean \| { clearIcon: ReactNode } | false |  |
+| allowClear | If allow to remove input content with clear icon | boolean, { clearIcon: ReactNode } | false |  |
 | className | Semantic DOM class | [SemanticDOM](#input-1) | - |  |
 | defaultValue | The initial input content | string | - |  |
 | disabled | Whether the input is disabled | boolean | false |  |
 | id | The ID for input | string | - |  |
 | maxLength | The maximum number of characters in Input | number | - |  |
 | prefix | The prefix icon for the Input | ReactNode | - |  |
-| showCount | Whether to show character count | boolean \| { formatter: (info: { value: string, count: number, maxLength?: number }) => ReactNode } | false |  |
-| size | The size of the input box. Note: in the context of a form, the `middle` size is used | `large` \| `middle` \| `small` | - |  |
-| status | Set validation status | 'error' \| 'warning' | - |  |
+| showCount | Whether to show character count | boolean, { formatter: (info: { value: string, count: number, maxLength?: number }) => ReactNode } | false |  |
+| size | The size of the input box. Note: in the context of a form, the `middle` size is used | `large`, `middle`, `small` | - |  |
+| status | Set validation status | 'error', 'warning' | - |  |
 | suffix | The suffix icon for the Input | ReactNode | - |  |
 | type | The type of input, see: [MDN](https://developer.mozilla.org/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)( use `Input.TextArea` instead of `type="textarea"`) | string | `text` |  |
 | value | The input content value | string | - |  |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| variant | Variants of Input | `outlined`, `borderless`, `filled` | `outlined` |  |
 | onChange | Callback when user input | function(e) | - |  |
 | onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - |  |
 
@@ -68,7 +68,7 @@ Same as Input, and more:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| autoSize | Height auto size feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
+| autoSize | Height auto size feature, can be set to true, false or an object { minRows: 2, maxRows: 6 } | boolean, object | false |  |
 | className | Semantic DOM class | [SemanticDOM](#inputtextarea-1) | - |  |
 
 The rest of the props of `Input.TextArea` are the same as the original [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea).
@@ -78,7 +78,7 @@ The rest of the props of `Input.TextArea` are the same as the original [textarea
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | iconRender | Custom toggle button | (visible) => ReactNode | (visible) => (visible ? &lt;EyeOutlined /> : &lt;EyeInvisibleOutlined />) |  |
-| visibilityToggle | Whether show toggle button or control password visible | boolean \| [VisibilityToggle](#visibilitytoggle) | true |  |
+| visibilityToggle | Whether show toggle button or control password visible | boolean, [VisibilityToggle](#visibilitytoggle) | true |  |
 
 #### VisibilityToggle
 
@@ -92,7 +92,7 @@ The rest of the props of `Input.TextArea` are the same as the original [textarea
 | Name | Description | Parameters | Version |
 | --- | --- | --- | --- |
 | blur | Remove focus | - |  |
-| focus | Get focus | (option?: { preventScroll?: boolean, cursor?: 'start' \| 'end' \| 'all' }) |  |
+| focus | Get focus | (option?: { preventScroll?: boolean, cursor?: 'start', 'end', 'all' }) |  |
 
 ## Semantic DOM
 

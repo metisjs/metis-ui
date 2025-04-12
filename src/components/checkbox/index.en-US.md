@@ -40,11 +40,11 @@ demo:
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | className | Semantic DOM class | [SemanticDOM](#checkbox-group-1) | - |  |
-| defaultValue | Default selected value | (string \| number)\[] | \[] |  |
+| defaultValue | Default selected value | (string, number)\[] | \[] |  |
 | disabled | If disable all checkboxes | boolean | false |  |
 | name | The `name` property of all `input[type="checkbox"]` children | string | - |  |
-| options | Specifies options | string\[] \| number\[] \| Option\[] | \[] |  |
-| value | Used for setting the currently selected value | (string \| number \| boolean)\[] | \[] |  |
+| options | Specifies options | string\[], number\[], Option\[] | \[] |  |
+| value | Used for setting the currently selected value | (string, number, boolean)\[] | \[] |  |
 | onChange | The callback function that is triggered when the state changes | (checkedValue: T\[]) => void | - |  |
 
 ##### Option

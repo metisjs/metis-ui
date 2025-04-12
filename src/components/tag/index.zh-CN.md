@@ -32,7 +32,7 @@ demo:
 | --- | --- | --- | --- | --- |
 | bordered | 是否有边框 | boolean | true |  |
 | className | 语义化结构 class | [SemanticDOM](#tag-1) | - |  |
-| closable | 可关闭配置 | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
+| closable | 可关闭配置 | boolean、 ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
 | color | 标签色 | string | - |  |
 | icon | 设置图标 | ReactNode | - |  |
 | onClose | 关闭时的回调（可通过 `e.preventDefault()` 来阻止默认行为） | (e) => void | - |  |

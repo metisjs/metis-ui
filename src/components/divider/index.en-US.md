@@ -29,10 +29,10 @@ demo:
 | children | The wrapped title | ReactNode | - |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | dashed | Whether line is dashed | boolean | false |  |
-| orientation | The position of title inside divider | `left` \| `right` \| `center` | `center` |  |
+| orientation | The position of title inside divider | `left`, `right`, `center` | `center` |  |
 | plain | Divider text show as plain style | boolean | true |  |
 | style | The style object of container | CSSProperties | - |  |
-| type | The direction type of divider | `horizontal` \| `vertical` | `horizontal` |  |
+| type | The direction type of divider | `horizontal`, `vertical` | `horizontal` |  |
 
 ## Semantic DOM
 

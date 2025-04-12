@@ -26,7 +26,7 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| content | Watermark text content | string \| string\[] | - |  |
+| content | Watermark text content | string, string\[] | - |  |
 | font | Text style | [Font](#font) | [Font](#font) |  |
 | gap | The spacing between watermarks | \[number, number] | \[100, 100] |  |
 | height | The height of the watermark, the default value of `content` is its own height | number | 64 |  |
@@ -44,8 +44,8 @@ demo:
 | color | font color | [CanvasFillStrokeStyles.fillStyle](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/fillStyle) | - |  |
 | fontFamily | font family | string | sans-serif |  |
 | fontSize | font size | number | 16 |  |
-| fontStyle | font style | `none` \| `normal` \| `italic` \| `oblique` | normal |  |
-| fontWeight | font weight | `normal` \| `light` \| `weight` \| number | normal |  |
+| fontStyle | font style | `none`, `normal`, `italic`, `oblique` | normal |  |
+| fontWeight | font weight | `normal`, `light`, `weight`, number | normal |  |
 | textAlign | specify the text alignment direction | [CanvasTextAlign](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/textAlign) | `center` |  |
 
 ## FAQ

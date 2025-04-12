@@ -21,16 +21,16 @@ description: Provide a uniform configuration support for components.
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | componentDisabled | Config antd component `disabled` | boolean | - |  |
-| componentSize | Config antd component size | `mini` \| `small` \| `middle` \| `large` | - |  |
+| componentSize | Config antd component size | `mini`, `small`, `middle`, `large` | - |  |
 | getPopupContainer | To set the container of the popup element. The default is to create a `div` element in `body` | function(triggerNode) | () => document.body |  |
 | getTargetContainer | Config Affix, Anchor scroll target container | () => HTMLElement | () => window |  |
 | locale | Language package setting | object | - |  |
-| popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | - |  |
-| popupOverflow | Select like component popup logic. Can set to show in viewport or follow window scroll | 'viewport' \| 'scroll' | 'viewport' |  |
+| popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean, number | - |  |
+| popupOverflow | Select like component popup logic. Can set to show in viewport or follow window scroll | 'viewport', 'scroll' | 'viewport' |  |
 | prefixCls | Set prefix className | string | `metis` |  |
 | renderEmpty | Set empty content of components. Ref [Empty](/components/empty/) | function(componentName: string): ReactNode | - |  |
 | theme | Set theme，when use `auto` will automatically switch the theme between `default-theme` and `dark-theme` based on the system | string\| { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `auto` |  |
-| variant | Set variant of data entry components | `outlined` \| `filled` \| `borderless` | - |  |
+| variant | Set variant of data entry components | `outlined`, `filled`, `borderless` | - |  |
 | virtual | Disable virtual scroll when set to `false` | boolean | - |  |
 
 > When theme nesting is needed, you can set `theme.target` to manually specify the `date-theme`
@@ -56,4 +56,4 @@ const { componentDisabled, componentSize } = ConfigProvider.useConfig();
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
 | componentDisabled | antd component disabled state | boolean | - |  |
-| componentSize | antd component size state | `mini` \| `small` \| `middle` \| `large` | - |  |
+| componentSize | antd component size state | `mini`, `small`, `middle`, `large` | - |  |

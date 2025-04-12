@@ -46,13 +46,13 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| allowClear | Show clear button | boolean \| { clearIcon?: ReactNode } | false |  |
+| allowClear | Show clear button | boolean, { clearIcon?: ReactNode } | false |  |
 | autoClearSearchValue | Whether the current search will be cleared on selecting an item. Only applies when `mode` is set to `multiple` or `tags` | boolean | true |  |
 | autoFocus | Get focus by default | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
 | defaultOpen | Initial open state of dropdown | boolean | - |  |
-| defaultValue | Initial selected option | string \| string\[] \| <br />number \| number\[] \| <br />Option \| Option\[] | - |  |
+| defaultValue | Initial selected option | string, string\[], <br />number, number\[], <br />Option, Option\[] | - |  |
 | disabled | Whether disabled select | boolean | false |  |
 | displayRender | The render function of displaying selected options | (selectedOption) => ReactNode | - |  |
 | dropdownStyle | The style of dropdown menu | CSSProperties | - |  |
@@ -63,11 +63,11 @@ demo:
 | lazyLoad | Remote laze load request, effective only when using the `request` configuration. if `showSearch` is true, will search by remote service | boolean | false |  |
 | listHeight | Config popup height | number | 224 |  |
 | loading | Indicate loading state | boolean | false |  |
-| maxTagCount | Max tag count to show. `responsive` will cost render performance | number \| `responsive` | - | responsive: 4.10 |
-| maxTagPlaceholder | Placeholder for not showing tags | ReactNode \| function(omittedValues) | - |  |
+| maxTagCount | Max tag count to show. `responsive` will cost render performance | number, `responsive` | - | responsive: 4.10 |
+| maxTagPlaceholder | Placeholder for not showing tags | ReactNode, function(omittedValues) | - |  |
 | maxTagTextLength | Max tag text length to show | number | - |  |
 | menuItemSelectedIcon | The custom menuItemSelected icon with options | ReactNode | - |  |
-| mode | Set mode of Select | `multiple` \| `tags` | - |  |
+| mode | Set mode of Select | `multiple`, `tags` | - |  |
 | notFoundContent | Specify content to show when no result matches | ReactNode | `Not Found` |  |
 | open | Controlled open state of dropdown | boolean | - |  |
 | optionFilterProp | Which prop value of option will be used for filter. If `options` is set, it should be set to `fieldNames.label`.If `request` is set, it will be pass to the request method. | string | `fieldNames.label` |  |
@@ -75,24 +75,24 @@ demo:
 | options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
 | placeholder | Placeholder of select | ReactNode | - |  |
 | placement | The position where the selection box pops up | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
-| popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
+| popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean, number | true |  |
 | popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
 | removeIcon | The custom remove icon | ReactNode | - |  |
 | request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
 | searchValue | The current input "search" text | string | - |  |
 | showSearch | Whether select is searchable | boolean | single: false, multiple: true |  |
-| size | Size of Select input | `large` \| `middle` \| `small` | `middle` |  |
-| status | Set validation status | 'error' \| 'warning' | - |  |
+| size | Size of Select input | `large`, `middle`, `small` | `middle` |  |
+| status | Set validation status | 'error', 'warning' | - |  |
 | suffixIcon | The custom suffix icon. Customize icon will not response click open to avoid icon designed to do other interactive. You can use `pointer-events: none` style to bypass | ReactNode |  |  |
 | tagRender | Customize tag render, only applies when `mode` is set to `multiple` or `tags` | (props) => ReactNode | - |  |
 | tokenSeparators | Separator used to tokenize, only applies when `mode="tags"` | string\[] | - |  |
-| value | Current selected option (considered as a immutable array) | string \| string\[] \| <br />number \| number\[] \| <br />Option \| Option\[] | - |  |
-| variant | Variants of selector | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| value | Current selected option (considered as a immutable array) | string, string\[], <br />number, number\[], <br />Option, Option\[] | - |  |
+| variant | Variants of selector | `outlined`, `borderless`, `filled` | `outlined` |  |
 | virtual | Disable virtual scroll when set to false | boolean | true |  |
 | onBlur | Called when blur | function | - |  |
-| onChange | Called when select an option or input value change | function(value, option:Option \| Array&lt;Option>) | - |  |
+| onChange | Called when select an option or input value change | function(value, option:Option, Array&lt;Option>) | - |  |
 | onClear | Called when clear | function | - | 4.6.0 |
-| onDeselect | Called when an option is deselected, param is the selected option's value. Only called for `multiple` or `tags`, effective in multiple or tags mode only | function(value: string \| number) | - |  |
+| onDeselect | Called when an option is deselected, param is the selected option's value. Only called for `multiple` or `tags`, effective in multiple or tags mode only | function(value: string, number) | - |  |
 | onFocus | Called when focus | function | - |  |
 | onInputKeyDown | Called when key pressed | function | - |  |
 | onMouseEnter | Called when mouse enter | function | - |  |
@@ -100,7 +100,7 @@ demo:
 | onPopupOpenChange | Called when dropdown open | function(open) | - |  |
 | onPopupScroll | Called when dropdown scrolls | function | - |  |
 | onSearch | Callback function that is fired when input changed | function(value: string) | - |  |
-| onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string \| number, option: Option) | - |  |
+| onSelect | Called when an option is selected, the params are option's value (or key) and option instance | function(value: string, number, option: Option) | - |  |
 
 > Note, if you find that the drop-down menu scrolls with the page, or you need to trigger Select in other popup layers, please try to use `getPopupContainer={triggerNode => triggerNode.parentElement}` to fix the drop-down popup rendering node in the parent element of the trigger .
 

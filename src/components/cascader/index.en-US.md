@@ -37,12 +37,12 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| allowClear | Show clear button | boolean \| { clearIcon?: ReactNode } | true |  |
+| allowClear | Show clear button | boolean, { clearIcon?: ReactNode } | true |  |
 | autoClearSearchValue | Whether the current search will be cleared on selecting an item. Only applies when `multiple` is `true` | boolean | true |  |
 | autoFocus | If get focus when component mounted | boolean | false |  |
 | changeOnSelect | (Work on single select) Change value on each selection if set to true, see above demo for details | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
-| defaultValue | Initial selected value | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | \[] |  |
+| defaultValue | Initial selected value | string\[], number\[],string\[]\[], number\[]\[], [Option](#option)\[], [Option](#option)\[]\[] | \[] |  |
 | disabled | Whether disabled select | boolean | false |  |
 | displayRender | The render function of displaying selected options | (label, selectedOptions) => ReactNode | label => label.join(`/`) |  |
 | expandIcon | Customize the current item expand icon | ReactNode | - |  |
@@ -51,8 +51,8 @@ demo:
 | getPopupContainer | Parent Node which the selector should be rendered to. Default to `body`. When position issues happen, try to modify it into scrollable content and position it relative. | function(triggerNode) | () => document.body |  |
 | lazyLoad | Remote laze load request, effective only when using the `request` configuration. if `showSearch` is true, will search by remote service | boolean | false |  |
 | loadingIcon | The appearance of lazy loading (now is useless) | ReactNode | - |  |
-| maxTagCount | Max tag count to show. `responsive` will cost render performance | number \| `responsive` | - |  |
-| maxTagPlaceholder | Placeholder for not showing tags | ReactNode \| function(omittedValues) | - |  |
+| maxTagCount | Max tag count to show. `responsive` will cost render performance | number, `responsive` | - |  |
+| maxTagPlaceholder | Placeholder for not showing tags | ReactNode, function(omittedValues) | - |  |
 | maxTagTextLength | Max tag text length to show | number | - |  |
 | multiple | Support multiple or not | boolean | - |  |
 | notFoundContent | Specify content to show when no result matches | string | `Not Found` |  |
@@ -65,15 +65,15 @@ demo:
 | removeIcon | The custom remove icon | ReactNode | - |  |
 | request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
 | searchValue | Set search value, Need work with `showSearch` | string | - |  |
-| showCheckedStrategy | The way show selected item in box. ** `SHOW_CHILD`: ** just show child treeNode. **`Cascader.SHOW_PARENT`:** just show parent treeNode (when all child treeNode under the parent treeNode are checked) | `Cascader.SHOW_PARENT` \| `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
+| showCheckedStrategy | The way show selected item in box. ** `SHOW_CHILD`: ** just show child treeNode. **`Cascader.SHOW_PARENT`:** just show parent treeNode (when all child treeNode under the parent treeNode are checked) | `Cascader.SHOW_PARENT`, `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
 | showSearch | Whether show search input in single mode | boolean | false |  |
-| size | The input size | `large` \| `middle` \| `small` | - |  |
-| status | Set validation status | 'error' \| 'warning' | - |  |
+| size | The input size | `large`, `middle`, `small` | - |  |
+| status | Set validation status | 'error', 'warning' | - |  |
 | style | The additional style | CSSProperties | - |  |
 | suffixIcon | The custom suffix icon | ReactNode | - |  |
 | tagRender | Custom render function for tags in `multiple` mode | (label: string, onClose: function, value: string) => ReactNode | - |  |
-| value | The selected value | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | - |  |
-| variant | Variants of selector | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| value | The selected value | string\[], number\[],string\[]\[], number\[]\[], [Option](#option)\[], [Option](#option)\[]\[] | - |  |
+| variant | Variants of selector | `outlined`, `borderless`, `filled` | `outlined` |  |
 | onChange | Callback when finishing cascader select | (value, selectedOptions) => void | - |  |
 | onPopupOpenChange | Callback when popup shown or hidden | (value) => void | - |  |
 | onSearch | The callback function triggered when input changed | (search: string) => void | - |  |

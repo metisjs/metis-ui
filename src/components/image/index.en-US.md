@@ -36,11 +36,11 @@ cols: 2
 | alt | Image description | string | - |  |
 | className | Semantic DOM class | [SemanticDOM](#image-1) | - |  |
 | fallback | Load failure fault-tolerant src | string | - |  |
-| height | Image height | string \| number | - |  |
+| height | Image height | string, number | - |  |
 | placeholder | Load placeholder, use default placeholder when set `true` | ReactNode | - |  |
-| preview | preview config, disabled when `false` | boolean \| [PreviewType](#previewtype) | true |  |
+| preview | preview config, disabled when `false` | boolean, [PreviewType](#previewtype) | true |  |
 | src | Image path | string | - |  |
-| width | Image width | string \| number | - |  |
+| width | Image width | string, number | - |  |
 | onError | Load failed callback | (event: Event) => void | - |  |
 
 Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#Attributes)
@@ -52,7 +52,7 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 | closeIcon | Custom close icon | React.ReactNode | - |  |
 | destroyOnClose | Destroy child elements when closing preview | boolean | false |  |
 | forceRender | Force render preview dialog | boolean | - | - |
-| getContainer | The mounted node for preview dialog but still display at fullScreen | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
+| getContainer | The mounted node for preview dialog but still display at fullScreen | string, HTMLElement, (() => HTMLElement), false | - |  |
 | imageRender | Custom preview content | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo) }) => React.ReactNode | - |  |
 | mask | Thumbnail mask | ReactNode | - |  |
 | maxScale | Max scale | number | 50 |  |
@@ -61,7 +61,7 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 | open | Whether the preview dialog is open or not | boolean | - | - |
 | scaleStep | `1 + scaleStep` is the step to increase or decrease the scale | number | 0.5 | - |
 | src | Custom preview src | string | - |  |
-| toolbarRender | Custom toolbar render | (originalNode: React.ReactElement, info: Omit&lt;[ToolbarRenderInfoType](#toolbarrenderinfotype), 'current' \| 'total'>) => React.ReactNode | - |  |
+| toolbarRender | Custom toolbar render | (originalNode: React.ReactElement, info: Omit&lt;[ToolbarRenderInfoType](#toolbarrenderinfotype), 'current', 'total'>) => React.ReactNode | - |  |
 | onOpenChange | Callback when `open` changed | (open: boolean, prevOpen: boolean) => void | - | - |
 | onTransform | Callback when the transform of image changed | { transform: [TransformType](#transformtype), action: [TransformAction](#transformaction) } | - |  |
 
@@ -71,8 +71,8 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 | --- | --- | --- | --- | --- |
 | className | Semantic DOM class | [SemanticDOM](#imagepreviewgroup) | - |  |
 | fallback | Load failure fault-tolerant src | string | - |  |
-| items | Preview items | string\[] \| { src: string, crossOrigin: string, ... }\[] | - |  |
-| preview | Preview config, `disabled` when false | boolean \| [PreviewGroupType](#previewgrouptype) | true |  |
+| items | Preview items | string\[], { src: string, crossOrigin: string, ... }\[] | - |  |
+| preview | Preview config, `disabled` when false | boolean, [PreviewGroupType](#previewgrouptype) | true |  |
 
 ### PreviewGroupType
 
@@ -82,7 +82,7 @@ Other attributes [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 | countRender | Custom preview count content | (current: number, total: number) => React.ReactNode | - |  |
 | current | The index of the current preview | number | - |  |
 | forceRender | Force render preview dialog | boolean | - | - |
-| getContainer | The mounted node for preview dialog but still display at fullScreen | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
+| getContainer | The mounted node for preview dialog but still display at fullScreen | string, HTMLElement, (() => HTMLElement), false | - |  |
 | imageRender | Custom preview content | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo), current: number }) => React.ReactNode | - |  |
 | mask | Thumbnail mask | ReactNode | - |  |
 | maxScale | Max scale | number | 50 |  |

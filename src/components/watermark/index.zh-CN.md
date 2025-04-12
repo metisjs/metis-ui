@@ -27,7 +27,7 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| content | 水印文字内容 | string \| string\[] | - |  |
+| content | 水印文字内容 | string、 string\[] | - |  |
 | font | 文字样式 | [Font](#font) | [Font](#font) |  |
 | gap | 水印之间的间距 | \[number, number] | \[100, 100] |  |
 | height | 水印的高度，`content` 的默认值为自身的高度 | number | 64 |  |
@@ -45,8 +45,8 @@ demo:
 | color | 字体颜色 | [CanvasFillStrokeStyles.fillStyle](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/fillStyle) | - |  |
 | fontFamily | 字体类型 | string | sans-serif |  |
 | fontSize | 字体大小 | number | 16 |  |
-| fontStyle | 字体样式 | `none` \| `normal` \| `italic` \| `oblique` | normal |  |
-| fontWeight | 字体粗细 | `normal` \| `light` \| `weight` \| number | normal |  |
+| fontStyle | 字体样式 | `none`、 `normal`、 `italic`、 `oblique` | normal |  |
+| fontWeight | 字体粗细 | `normal`、 `light`、 `weight`、 number | normal |  |
 | textAlign | 指定文本对齐方向 | [CanvasTextAlign](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/textAlign) |  |  |
 
 ## FAQ

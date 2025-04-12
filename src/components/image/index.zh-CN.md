@@ -37,11 +37,11 @@ cols: 2
 | alt | 图像描述 | string | - |  |
 | className | 语义化结构 class | [SemanticDOM](#image-1) | - |  |
 | fallback | 加载失败容错地址 | string | - |  |
-| height | 图像高度 | string \| number | - |  |
+| height | 图像高度 | string、 number | - |  |
 | placeholder | 加载占位，为 `true` 时使用默认占位 | ReactNode | - |  |
-| preview | 预览参数，为 `false` 时禁用 | boolean \| [PreviewType](#previewtype) | true |  |
+| preview | 预览参数，为 `false` 时禁用 | boolean、 [PreviewType](#previewtype) | true |  |
 | src | 图片地址 | string | - |  |
-| width | 图像宽度 | string \| number | - |  |
+| width | 图像宽度 | string、 number | - |  |
 | onError | 加载错误回调 | (event: Event) => void | - |  |
 
 其他属性见 [&lt;img>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#Attributes)
@@ -53,7 +53,7 @@ cols: 2
 | closeIcon | 自定义关闭 Icon | React.ReactNode | - |  |
 | destroyOnClose | 关闭预览时销毁子元素 | boolean | false |  |
 | forceRender | 强制渲染预览图 | boolean | - | - |
-| getContainer | 指定预览挂载的节点，但依旧为全屏展示，false 为挂载在当前位置 | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
+| getContainer | 指定预览挂载的节点，但依旧为全屏展示，false 为挂载在当前位置 | string、 HTMLElement、 (() => HTMLElement)、 false | - |  |
 | imageRender | 自定义预览内容 | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo) }) => React.ReactNode | - |  |
 | mask | 缩略图遮罩 | ReactNode | - |  |
 | maxScale | 最大放大倍数 | number | 50 |  |
@@ -62,7 +62,7 @@ cols: 2
 | open | 是否显示 | boolean | - | - |
 | scaleStep | `1 + scaleStep` 为缩放放大的每步倍数 | number | 0.5 | - |
 | src | 自定义预览 src | string | - |  |
-| toolbarRender | 自定义工具栏 | (originalNode: React.ReactElement, info: Omit&lt;[ToolbarRenderInfoType](#toolbarrenderinfotype), 'current' \| 'total'>) => React.ReactNode | - |  |
+| toolbarRender | 自定义工具栏 | (originalNode: React.ReactElement, info: Omit&lt;[ToolbarRenderInfoType](#toolbarrenderinfotype), 'current'、 'total'>) => React.ReactNode | - |  |
 | onOpenChange | 当 `open` 发生改变时的回调 | (open: boolean, prevOpen: boolean) => void | - | - |
 | onTransform | 预览图 transform 变化的回调 | { transform: [TransformType](#transformtype), action: [TransformAction](#transformaction) } | - |  |
 
@@ -72,8 +72,8 @@ cols: 2
 | --- | --- | --- | --- | --- |
 | className | 语义化结构 class | [SemanticDOM](#imagepreviewgroup) | - |  |
 | fallback | 加载失败容错地址 | string | - |  |
-| items | 预览数组 | string\[] \| { src: string, crossOrigin: string, ... }\[] | - |  |
-| preview | 预览参数，为 `false` 时禁用 | boolean \| [PreviewGroupType](#previewgrouptype) | true |  |
+| items | 预览数组 | string\[]、 { src: string, crossOrigin: string, ... }\[] | - |  |
+| preview | 预览参数，为 `false` 时禁用 | boolean、 [PreviewGroupType](#previewgrouptype) | true |  |
 
 ### PreviewGroupType
 
@@ -83,7 +83,7 @@ cols: 2
 | countRender | 自定义预览计数内容 | (current: number, total: number) => React.ReactNode | - |  |
 | current | 当前预览图的 index | number | - |  |
 | forceRender | 强制渲染预览图 | boolean | - | - |
-| getContainer | 指定预览挂载的节点，但依旧为全屏展示，false 为挂载在当前位置 | string \| HTMLElement \| (() => HTMLElement) \| false | - |  |
+| getContainer | 指定预览挂载的节点，但依旧为全屏展示，false 为挂载在当前位置 | string、 HTMLElement、 (() => HTMLElement)、 false | - |  |
 | imageRender | 自定义预览内容 | (originalNode: React.ReactElement, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo), current: number }) => React.ReactNode | - |  |
 | mask | 缩略图遮罩 | ReactNode | - |  |
 | maxScale | 最大放大倍数 | number | 50 |  |

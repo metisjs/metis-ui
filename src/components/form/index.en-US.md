@@ -62,26 +62,26 @@ description: High-performance form component with data domain management. Includ
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | clearOnDestroy | Clear form values when the form is uninstalled | boolean | false |  |
 | colon | Configure the default value of `colon` for Form.Item. Indicates whether the colon after the label is displayed (only effective when prop layout is horizontal) | boolean | true |  |
-| column | "Grid display, can be written as pixel values or as a responsive object { xs: 2, sm: 3, md: 4} | number \| Record&lt;Breakpoint, number> | 'auto' |  |
-| component | Set the Form rendering element. Do not create a DOM node for `false` | ComponentType \| false | form |  |
+| column | "Grid display, can be written as pixel values or as a responsive object { xs: 2, sm: 3, md: 4} | number, Record&lt;Breakpoint, number> | 'auto' |  |
+| component | Set the Form rendering element. Do not create a DOM node for `false` | ComponentType, false | form |  |
 | disabled | Set form component disable, only available for metis components | boolean | false |  |
-| errorType｜ Field validation failure prompt style | `popover` \| `default` | `default` |  |  |
+| errorType｜ Field validation failure prompt style | `popover`, `default` | `default` |  |  |
 | feedbackIcons | Can be passed custom icons while `Form.Item` element has `hasFeedback` | [FeedbackIcons](#feedbackicons) | - |  |
 | fields | Control of form fields through state management (such as redux). Not recommended for non-strong demand. View [example](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | Form control instance created by `Form.useForm()`. Automatically created when not provided | [FormInstance](#forminstance) | - |  |
 | initialValues | Set value by Form initialization or reset | object | - |  |
 | items｜ Json schema, same as FormItem | [ItemType](#itemtype) |  |  |  |
-| labelAlign | The text align of label of all items | `left` \| `right` | `right` |  |
-| labelWidth | Label width, pixel value, percentage or 'auto'。 | string \| number | 'auto' |  |
-| layout | Form layout | `horizontal` \| `vertical` \| `inline` | `horizontal` |  |
+| labelAlign | The text align of label of all items | `left`, `right` | `right` |  |
+| labelWidth | Label width, pixel value, percentage or 'auto'。 | string, number | 'auto' |  |
+| layout | Form layout | `horizontal`, `vertical`, `inline` | `horizontal` |  |
 | name | Form name. Will be the prefix of Field `id` | string | - |  |
 | preserve | Keep field value even when field removed. You can get the preserve field value by `getFieldsValue(true)` | boolean | true |  |
-| requiredMark | Required mark style. Can use required mark or optional mark. You can not config to single Form.Item since this is a Form level config | boolean \| `optional` \| ((label: ReactNode, info: { required: boolean }) => ReactNode) | true |  |
-| scrollToFirstError | Auto scroll to first failed field when submit | boolean \| [Options](https://github.com/stipsan/scroll-into-view-if-needed/tree/ece40bd9143f48caf4b99503425ecb16b0ad8249#options) | false |  |
-| size | Set field component size (metis-ui components only) | `small` \| `middle` \| `large` | - |  |
+| requiredMark | Required mark style. Can use required mark or optional mark. You can not config to single Form.Item since this is a Form level config | boolean, `optional`, ((label: ReactNode, info: { required: boolean }) => ReactNode) | true |  |
+| scrollToFirstError | Auto scroll to first failed field when submit | boolean, [Options](https://github.com/stipsan/scroll-into-view-if-needed/tree/ece40bd9143f48caf4b99503425ecb16b0ad8249#options) | false |  |
+| size | Set field component size (metis-ui components only) | `small`, `middle`, `large` | - |  |
 | validateMessages | Validation prompt template, description [see below](#validatemessages) | ValidateMessages | - |  |
-| validateTrigger | Config field validate trigger | string \| string\[] | `onChange` |  |
-| variant | Variant of components inside form | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| validateTrigger | Config field validate trigger | string, string\[] | `onChange` |  |
+| variant | Variant of components inside form | `outlined`, `borderless`, `filled` | `outlined` |  |
 | onFieldsChange | Trigger when field updated | function(changedFields, allFields) | - |  |
 | onFinish | Trigger after submitting the form and verifying data successfully | function(values) | - |  |
 | onFinishFailed | Trigger after submitting the form and verifying data failed | function({ values, errorFields, outOfDate }) | - |  |
@@ -203,15 +203,15 @@ Form field component for data bidirectional binding, validation, layout, and so 
 | extra | The extra prompt message. It is similar to help. Usage example: to display error message and prompt message at the same time | ReactNode | - |  |
 | getValueFromEvent | Specify how to get value from event or other onChange arguments | (..args: any\[]) => any | - |  |
 | getValueProps | Additional props with sub component (It's not recommended to generate dynamic function prop by `getValueProps`. Please pass it to child component directly) | (value: any) => Record&lt;string, any> | - |  |
-| hasFeedback | Used with `validateStatus`, this option specifies the validation status icon. Recommended to be used only with `Input`. Also, It can get feedback icons via icons prop. | boolean \| { icons: [FeedbackIcons](#feedbackicons) } | false |  |
+| hasFeedback | Used with `validateStatus`, this option specifies the validation status icon. Recommended to be used only with `Input`. Also, It can get feedback icons via icons prop. | boolean, { icons: [FeedbackIcons](#feedbackicons) } | false |  |
 | help | The prompt message. If not provided, the prompt message will be generated by the validation rule. | ReactNode | - |  |
 | hidden | Whether to hide Form.Item (still collect and validate value) | boolean | false |  |
 | htmlFor | Set sub label `htmlFor` | string | - |  |
 | initialValue | Config sub default value. Form `initialValues` get higher priority when conflict | string | - |  |
 | label | Label text | ReactNode | - |  |
-| labelAlign | The text align of label | `left` \| `right` | `right` |  |
-| labelWidth | Label width, pixel value, percentage or 'auto'。 | string \| number | 'auto' |  |
-| layout | Form item layout | `horizontal` \| `vertical` | - |  |
+| labelAlign | The text align of label | `left`, `right` | `right` |  |
+| labelWidth | Label width, pixel value, percentage or 'auto'。 | string, number | 'auto' |  |
+| layout | Form item layout | `horizontal`, `vertical` | - |  |
 | messageVariables | The default validate field info, description [see below](#messagevariables) | Record&lt;string, string> | - |  |
 | name | Field name, support array | [NamePath](#namepath) | - |  |
 | normalize | Normalize value from component value before passing to Form instance. Do not support async | (value, prevValue, prevValues) => any | - |  |
@@ -219,14 +219,14 @@ Form field component for data bidirectional binding, validation, layout, and so 
 | preserve | Keep field value even when field removed | boolean | true |  |
 | required | Display required style. It will be generated by the validation rule | boolean | false |  |
 | rules | Rules for field validation. Click [here](#form-demo-basic) to see an example | [Rule](#rule)\[] | - |  |
-| shouldUpdate | Custom field update logic. See [below](#shouldupdate) | boolean \| (prevValue, curValue) => boolean | false |  |
-| span | Display the number of columns, which can be written as pixel values or as a responsive object such as { xs: 2, sm: 3, md: 4} | number \| Record&lt;Breakpoint, number> | 'auto' |  |
-| tooltip | Config tooltip info | ReactNode \| [TooltipProps & { icon: ReactNode }](/components/tooltip#api) | - |  |
+| shouldUpdate | Custom field update logic. See [below](#shouldupdate) | boolean, (prevValue, curValue) => boolean | false |  |
+| span | Display the number of columns, which can be written as pixel values or as a responsive object such as { xs: 2, sm: 3, md: 4} | number, Record&lt;Breakpoint, number> | 'auto' |  |
+| tooltip | Config tooltip info | ReactNode, [TooltipProps & { icon: ReactNode }](/components/tooltip#api) | - |  |
 | trigger | When to collect the value of children node. Click [here](#form-demo-customized-form-controls) to see an example | string | `onChange` |  |
 | validateDebounce | Delay milliseconds to start validation | number | - |  |
-| validateFirst | Whether stop validate on first rule of error for this field. Will parallel validate when `parallel` configured | boolean \| `parallel` | false |  |
+| validateFirst | Whether stop validate on first rule of error for this field. Will parallel validate when `parallel` configured | boolean, `parallel` | false |  |
 | validateStatus | The validation status. If not provided, it will be generated by validation rule. options: `success` `warning` `error` `validating` | string | - |  |
-| validateTrigger | When to validate the value of children node | string \| string\[] | `onChange` |  |
+| validateTrigger | When to validate the value of children node | string, string\[] | `onChange` |  |
 | valuePropName | Props of children node, for example, the prop of Switch or Checkbox is `checked`. This prop is an encapsulation of `getValueProps`, which will be invalid after customizing `getValueProps` | string | `value` |  |
 
 After wrapped by `Form.Item` with `name` property, `value`(or other property defined by `valuePropName`) `onChange`(or other property defined by `trigger`) props will be added to form controls, the flow of form data will be handled by Form which will cause:
@@ -343,7 +343,7 @@ Some operator functions in render form of Form.List.
 | --- | --- | --- | --- | --- |
 | add | add form item | (defaultValue?: any, insertIndex?: number) => void | insertIndex |  |
 | move | move form item | (from: number, to: number) => void | - |  |
-| remove | remove form item | (index: number \| number\[]) => void | number\[] |  |
+| remove | remove form item | (index: number, number\[]) => void | number\[] |  |
 
 ## Form.ErrorList
 
@@ -624,8 +624,8 @@ type Rule = RuleConfig | ((form: FormInstance) => RuleConfig);
 | pattern | Regex pattern | RegExp |  |
 | required | Required field | boolean |  |
 | transform | Transform value to the rule before validation | (value) => any |  |
-| type | Normally `string` \|`number` \|`boolean` \|`url` \| `email`. More type to ref [here](https://github.com/react-component/async-validator#type) | string |  |
-| validateTrigger | Set validate trigger event. Must be the sub set of `validateTrigger` in Form.Item | string \| string\[] |  |
+| type | Normally `string`,`number`,`boolean`,`url`, `email`. More type to ref [here](https://github.com/react-component/async-validator#type) | string |  |
+| validateTrigger | Set validate trigger event. Must be the sub set of `validateTrigger` in Form.Item | string, string\[] |  |
 | validator | Customize validation rule. Accept Promise as return. See [example](#form-demo-register) | ([rule](#rule), value) => Promise |  |
 | warningOnly | Warning only. Not block form submit | boolean |  |
 | whitespace | Failed if only has whitespace, only work with `type: 'string'` rule | boolean |  |

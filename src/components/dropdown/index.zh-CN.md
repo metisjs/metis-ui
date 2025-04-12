@@ -40,7 +40,7 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| arrow | 下拉框箭头是否显示 | boolean \| { pointAtCenter: boolean } | false |  |
+| arrow | 下拉框箭头是否显示 | boolean、 { pointAtCenter: boolean } | false |  |
 | autoAdjustOverflow | 下拉框被遮挡时自动调整位置 | boolean | true |  |
 | autoDestroy | 关闭后是否销毁 Dropdown | boolean | false |  |
 | autoFocus | 打开后自动聚焦下拉框 | boolean | false |  |
@@ -52,7 +52,7 @@ demo:
 | placement | 菜单弹出位置：`bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight` | string | `bottomLeft` |  |
 | popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
 | trigger | 触发下拉的行为, 移动端不支持 hover | Array&lt;`click`\|`hover`\|`contextMenu`> | \[`hover`] |  |
-| onOpenChange | 菜单显示状态改变时调用，点击菜单按钮导致的消失不会触发。 | (open: boolean, info: { source: 'trigger' \| 'menu' }) => void | - |  |
+| onOpenChange | 菜单显示状态改变时调用，点击菜单按钮导致的消失不会触发。 | (open: boolean, info: { source: 'trigger'、 'menu' }) => void | - |  |
 
 ### Dropdown.Button
 
@@ -63,7 +63,7 @@ demo:
 | buttonsRender | 自定义左右两个按钮 | (buttons: ReactNode\[]) => ReactNode\[] | - |  |
 | danger | 设置危险按钮 | boolean | - |  |
 | icon | 右侧的 icon | ReactNode | - |  |
-| loading | 设置按钮载入状态 | boolean \| { delay: number } | false |  |
+| loading | 设置按钮载入状态 | boolean、 { delay: number } | false |  |
 | size | 按钮大小，和 [Button](/components/button-cn#api) 一致 | string | `default` |  |
 | type | 按钮类型，和 [Button](/components/button-cn#api) 一致 | string | `default` |  |
 | onClick | 点击左侧按钮的回调，和 [Button](/components/button-cn#api) 一致 | (event) => void | - |  |

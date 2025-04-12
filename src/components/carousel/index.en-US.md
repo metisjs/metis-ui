@@ -26,18 +26,18 @@ demo:
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| animation | The animation of the slide movement | 'slide' \| 'fade' \| 'card' \| false | `slide` |  |
-| autoPlay | Whether to scroll automatically | boolean \| { interval?: number; hoverToPause?: boolean } | false |  |
+| animation | The animation of the slide movement | 'slide', 'fade', 'card', false | `slide` |  |
+| autoPlay | Whether to scroll automatically | boolean, { interval?: number; hoverToPause?: boolean } | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | defaultIndex | The default index of slide which starts from 0 | number | 0 |  |
 | icons | Customize icons | {prev?: ReactNode; next?: ReactNode;} | - |  |
 | indicator | Whether to render indicator | boolean | true |  |
-| indicatorPosition | Position of indication | 'bottom' \| 'top' \| 'left' \| 'right' \| 'outer' | `bottom` |  |
+| indicatorPosition | Position of indication | 'bottom', 'top', 'left', 'right', 'outer' | `bottom` |  |
 | lazy | Whether to render only the minimum number of children that meet the animation effect | boolean | false |  |
 | showArrow | When to show the switch trigger | boolean | false |  |
 | speed | The duration of the slide movement(ms) | number | 3000 |  |
 | timingFunc | How intermediate values are calculated for CSS properties being affected by a transition effect | string | `cubic-bezier(0.34, 0.69, 0.1, 1)` |  |
-| trigger | How to trigger the slide switch, click/hover the indicator, click/hover 指示器 | 'click' \| 'hover' | `click` |  |
+| trigger | How to trigger the slide switch, click/hover the indicator, click/hover 指示器 | 'click', 'hover' | `click` |  |
 | vertical | Vertical mode | boolean | false |  |
 | onChange | Callback when slide changes. | (current: number, next: number) => void | - |  |
 

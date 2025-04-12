@@ -28,13 +28,13 @@ A list can be used to display content related to a single subject. The content c
 | footer | List footer renderer | ReactNode | - |  |
 | header | List header renderer | ReactNode | - |  |
 | lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean | false |  |
-| loading | Shows a loading indicator while the contents of the list are being fetched | boolean \| [SpinProps](/components/spin/#api) | false |  |
+| loading | Shows a loading indicator while the contents of the list are being fetched | boolean, [SpinProps](/components/spin/#api) | false |  |
 | locale | The i18n text | {emptyText?: string, noMoreText?: string} | {emptyText: `No Data`} |  |
 | renderItem | Customize list item when using `dataSource` | (item) => ReactNode | - |  |
 | request | Method to fetch remote data | `RequestConfig` | - |  |
-| rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T \| (item: T) => `React.Key` | `"key"` |  |
+| rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T, (item: T) => `React.Key` | `"key"` |  |
 | split | Toggles rendering of the split under the list item | boolean | true |  |
-| virtual | Use virtual list | boolean \| [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |
+| virtual | Use virtual list | boolean, [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |
 
 ### List.Item
 

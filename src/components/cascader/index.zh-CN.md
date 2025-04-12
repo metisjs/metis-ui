@@ -37,12 +37,12 @@ demo:
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| allowClear | 支持清除 | boolean \| { clearIcon?: ReactNode } | true |  |
+| allowClear | 支持清除 | boolean、 { clearIcon?: ReactNode } | true |  |
 | autoClearSearchValue | 是否在选中项后清空搜索框，只在 `multiple` 为 `true` 时有效 | boolean | true |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
 | changeOnSelect | （单选时生效）当此项为 true 时，点选每级菜单选项值都会发生变化，具体见上面的演示 | boolean | false |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
-| defaultValue | 默认的选中项 | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | \[] |  |
+| defaultValue | 默认的选中项 | string\[]、 number\[]、string\[]\[]、 number\[]\[]、 [Option](#option)\[]、 [Option](#option)\[]\[] | \[] |  |
 | disabled | 禁用 | boolean | false |  |
 | displayRender | 选择后展示的渲染函数 | (labels, selectedOptions) => ReactNode | labels => labels.join(`/`) |  |
 | displayRender | 选择后展示的渲染函数 | (selectedOption) => ReactNode | - |  |
@@ -53,8 +53,8 @@ demo:
 | filterSort | 搜索时对筛选结果项的排序函数, 类似[Array.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)里的 compareFunction | (optionA: Option, optionB: Option) => number | - |  |
 | getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。 | function(triggerNode) | () => document.body |  |
 | lazyLoad | 懒加载，点击节点时加载，仅使用 `request` 配置时有效，如果开启 `showSearch` 将使用远程搜索 | boolean | false |  |
-| maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - |  |
-| maxTagPlaceholder | 隐藏 tag 时显示的内容 | ReactNode \| function(omittedValues) | - |  |
+| maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number、 `responsive` | - |  |
+| maxTagPlaceholder | 隐藏 tag 时显示的内容 | ReactNode、 function(omittedValues) | - |  |
 | maxTagTextLength | 最大显示的 tag 文本长度 | number | - |  |
 | multiple | 支持多选节点 | boolean | - |  |
 | notFoundContent | 当下拉列表为空时显示的内容 | string | `Not Found` |  |
@@ -68,15 +68,15 @@ demo:
 | removeIcon | 自定义的多选框清除图标 | ReactNode | - |  |
 | request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
 | searchValue | 设置搜索的值，需要与 `showSearch` 配合使用 | string | - |  |
-| showCheckedStrategy | 定义选中项回填的方式。`Cascader.SHOW_CHILD`: 只显示选中的子节点。`Cascader.SHOW_PARENT`: 只显示父节点（当父节点下所有子节点都选中时）。 | `Cascader.SHOW_PARENT` \| `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
+| showCheckedStrategy | 定义选中项回填的方式。`Cascader.SHOW_CHILD`: 只显示选中的子节点。`Cascader.SHOW_PARENT`: 只显示父节点（当父节点下所有子节点都选中时）。 | `Cascader.SHOW_PARENT`、 `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
 | showSearch | 在选择框中显示搜索框 | boolean | false |  |
-| size | 输入框大小 | `large` \| `middle` \| `small` | - |  |
-| status | 设置校验状态 | 'error' \| 'warning' | - |  |
+| size | 输入框大小 | `large`、 `middle`、 `small` | - |  |
+| status | 设置校验状态 | 'error'、 'warning' | - |  |
 | style | 自定义样式 | CSSProperties | - |  |
 | suffixIcon | 自定义的选择框后缀图标 | ReactNode | - |  |
 | tagRender | 自定义 tag 内容 render，仅在多选时生效 | ({ label: string, onClose: function, value: string }) => ReactNode | - |  |
-| value | 指定选中项 | string\[] \| number\[] \|string\[]\[] \| number\[]\[] \| [Option](#option)\[] \| [Option](#option)\[]\[] | - |  |
-| variant | 形态变体 | `outlined` \| `borderless` \| `filled` | `outlined` |  |
+| value | 指定选中项 | string\[]、 number\[]、string\[]\[]、 number\[]\[]、 [Option](#option)\[]、 [Option](#option)\[]\[] | - |  |
+| variant | 形态变体 | `outlined`、 `borderless`、 `filled` | `outlined` |  |
 | onChange | 选择完成后的回调 | (value, selectedOptions) => void | - |  |
 | onPopupOpenChange | 显示/隐藏浮层的回调 | (value) => void | - |  |
 | onSearch | 监听搜索，返回输入的值 | (search: string) => void | - |  |

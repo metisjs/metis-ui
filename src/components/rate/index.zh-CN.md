@@ -30,7 +30,7 @@ demo:
 | allowClear | 是否允许再次点击后清除 | boolean | true |  |
 | allowHalf | 是否允许半选 | boolean | false |  |
 | autoFocus | 自动获取焦点 | boolean | false |  |
-| character | 自定义字符 | ReactNode \| (RateProps) => ReactNode | &lt;StarSolid /> |  |
+| character | 自定义字符 | ReactNode、 (RateProps) => ReactNode | &lt;StarSolid /> |  |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
 | count | star 总数 | number | 5 |  |
 | defaultValue | 默认值 | number | 0 |  |
