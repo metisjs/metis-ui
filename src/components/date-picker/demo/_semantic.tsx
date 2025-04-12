@@ -3,8 +3,10 @@ import dayjs from 'dayjs';
 import { clsx, DatePicker } from 'metis-ui';
 import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
+const now = dayjs();
+const nowRange = [now, now.add(1, 'day')];
+
 const App: React.FC = () => {
-  const now = dayjs();
   return (
     <SemanticPreview
       semantics={[
@@ -49,7 +51,7 @@ const App: React.FC = () => {
     >
       {(hover) => {
         const multi = hover?.path === 'item';
-        const value = multi ? [now, now.add(1, 'day')] : now;
+        const value = multi ? nowRange : now;
         const showTime = hover?.name === 'column';
 
         return (

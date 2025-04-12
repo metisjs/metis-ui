@@ -645,7 +645,7 @@ function RangePicker<DateType extends object = any>(
       generateConfig,
       input: components.input,
     }),
-    [prefixCls, locale, generateConfig, components.input],
+    [prefixCls, generateConfig, components.input],
   );
 
   // ======================== Effect ========================

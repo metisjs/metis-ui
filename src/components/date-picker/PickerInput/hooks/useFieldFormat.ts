@@ -30,5 +30,5 @@ export function useFieldFormat<DateType = any>(
   locale: Locale,
   format?: SharedPickerProps['format'],
 ): [formatList: FormatType<DateType>[], maskFormat?: string] {
-  return React.useMemo(() => getFieldFormat(picker, locale, format), [picker, locale, format]);
+  return React.useMemo(() => getFieldFormat(picker, locale, format), [picker, format]);
 }

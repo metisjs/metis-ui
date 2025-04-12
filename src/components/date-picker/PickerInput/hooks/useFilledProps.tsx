@@ -120,12 +120,12 @@ function useDate<T>(
       formatList.map((format) =>
         typeof format === 'function' ? getRowFormat(picker, locale) : format,
       ) as string[],
-    [formatList, picker, locale],
+    [formatList, picker],
   );
 
   return React.useMemo(
     () => values?.map((value) => parseDate(value, generateConfig, locale, stringFormatList)),
-    [values, generateConfig, locale, stringFormatList],
+    [values, generateConfig, stringFormatList],
   );
 }
 
@@ -313,7 +313,7 @@ export default function useFilledProps<
     }
 
     return { ...config, defaultOpenValue: parsedDefaultOpenValue };
-  }, [internalPicker, showTimeFormat, propFormat, timeProps, mergedLocale, generateConfig]);
+  }, [internalPicker, showTimeFormat, propFormat, timeProps, generateConfig]);
 
   // ======================== Format ========================
   const [formatList, maskFormat] = useFieldFormat<DateType>(internalPicker, mergedLocale, format);
@@ -328,13 +328,11 @@ export default function useFilledProps<
     formatList,
   );
 
-  const [mergedMinDate, mergedMaxDate] = useDate(
-    [minDate, maxDate],
-    generateConfig,
-    internalPicker,
-    mergedLocale,
-    formatList,
-  );
+  const [mergedMinDate] =
+    useDate(minDate, generateConfig, internalPicker, mergedLocale, formatList) ?? [];
+
+  const [mergedMaxDate] =
+    useDate(maxDate, generateConfig, internalPicker, mergedLocale, formatList) ?? [];
 
   // ===================== Disabled =====================
   const disabled = React.useContext(DisabledContext);
