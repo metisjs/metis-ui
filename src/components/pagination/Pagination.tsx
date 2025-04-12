@@ -124,13 +124,13 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       •••
     </span>
   );
-  const prevIcon = <ChevronLeftOutline className="h-4 w-4" />;
-  const nextIcon = <ChevronRightOutline className="h-4 w-4" />;
+  const prevIcon = <ChevronLeftOutline className="size-4" />;
+  const nextIcon = <ChevronRightOutline className="size-4" />;
   const jumpPrevIcon = (
     <>
       <ChevronDoubleLeftOutline
         className={clsx(
-          'text-primary h-4 w-4 opacity-0 transition-opacity',
+          'text-primary size-4 opacity-0 transition-opacity',
           !disabled && 'group-hover/jump:opacity-100',
         )}
       />
@@ -141,7 +141,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     <>
       <ChevronDoubleRightOutline
         className={clsx(
-          'text-primary h-4 w-4 opacity-0 transition-opacity',
+          'text-primary size-4 opacity-0 transition-opacity',
           !disabled && 'group-hover/jump:opacity-100',
         )}
       />

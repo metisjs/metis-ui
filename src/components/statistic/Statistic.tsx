@@ -97,7 +97,7 @@ const Statistic: React.FC<StatisticProps> = (props) => {
     semanticCls.suffix,
   );
 
-  const tipCls = clsx(`${className}-tooltip-icon`, 'h-4 w-4');
+  const tipCls = clsx(`${className}-tooltip-icon`, 'size-4');
 
   const valueNode: React.ReactNode = (
     <StatisticNumber

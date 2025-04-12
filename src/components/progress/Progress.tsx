@@ -124,16 +124,14 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) =>
       text = textFormatter(validProgress(percent), validProgress(successPercent));
     } else if (progressStatus === 'exception') {
       text = isLineType ? (
-        <XCircleSolid
-          className={clsx('h-4 w-4', size === 'small' && 'h-[0.875rem] w-[0.875rem]')}
-        />
+        <XCircleSolid className={clsx('size-4', size === 'small' && 'h-[0.875rem] w-[0.875rem]')} />
       ) : (
         <XMarkOutline className="text-[1.5em]" />
       );
     } else if (progressStatus === 'success') {
       text = isLineType ? (
         <CheckCircleSolid
-          className={clsx('h-4 w-4', size === 'small' && 'h-[0.875rem] w-[0.875rem]')}
+          className={clsx('size-4', size === 'small' && 'h-[0.875rem] w-[0.875rem]')}
         />
       ) : (
         <CheckOutline className="text-[1.5em]" />

@@ -144,7 +144,7 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
   const semanticCls = useSemanticCls(className);
   const rootCls = clsx(
     `${prefixCls}-header`,
-    'relative flex items-center gap-4 px-4 pb-1 pt-4',
+    'relative flex items-center gap-4 px-4 pt-4 pb-1',
     semanticCls.root,
   );
   const titleCls = clsx(`${prefixCls}-header-title`, 'text-2xl font-medium', semanticCls.title);
@@ -153,7 +153,7 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
     'ml-auto flex items-center gap-4',
     semanticCls.actions,
   );
-  const iconCls = 'h-4 w-4 font-normal text-text-tertiary sm:text-text';
+  const iconCls = 'size-4 font-normal text-text-tertiary sm:text-text';
   const extraCls = clsx(`${prefixCls}-header-extra`, semanticCls.extra);
 
   // ========================= Render =========================

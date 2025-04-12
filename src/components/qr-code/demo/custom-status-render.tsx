@@ -11,7 +11,7 @@ const customStatusRender: QRCodeProps['statusRender'] = (info) => {
       return (
         <div>
           <Space>
-            <XCircleSolid className="text-error h-4 w-4" />
+            <XCircleSolid className="text-error size-4" />
             {info.locale?.expired}
           </Space>
           <p>
@@ -31,7 +31,7 @@ const customStatusRender: QRCodeProps['statusRender'] = (info) => {
     case 'scanned':
       return (
         <Space>
-          <CheckCircleSolid className="h-4 w-4 text-green-600" />
+          <CheckCircleSolid className="size-4 text-green-600" />
           {info.locale?.scanned}
         </Space>
       );

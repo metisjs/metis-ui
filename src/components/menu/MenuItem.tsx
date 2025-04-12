@@ -273,7 +273,7 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
-    'h-5 w-5 shrink-0 grow-0',
+    'size-5 shrink-0 grow-0',
     firstLevel && 'h-6 w-6',
     mode !== 'horizontal' &&
       !mergedDisabled && {

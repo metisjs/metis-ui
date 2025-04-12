@@ -247,7 +247,7 @@ const SearchForm = <RecordType extends AnyObject>({
             >
               {collapsed ? tableLocale.search?.expand : tableLocale.search?.collapsed}
               <ChevronDownOutline
-                className={clsx('h-4 w-4 rotate-180 transition-all duration-300', {
+                className={clsx('size-4 rotate-180 transition-all duration-300', {
                   'rotate-0': collapsed,
                 })}
               />

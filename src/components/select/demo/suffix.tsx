@@ -2,8 +2,8 @@ import React from 'react';
 import { FaceFrownOutline, FaceSmileOutline } from '@metisjs/icons';
 import { Select, Space } from 'metis-ui';
 
-const smileIcon = <FaceSmileOutline className="h-4 w-4" />;
-const mehIcon = <FaceFrownOutline className="h-4 w-4" />;
+const smileIcon = <FaceSmileOutline className="size-4" />;
+const mehIcon = <FaceFrownOutline className="size-4" />;
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);

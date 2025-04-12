@@ -182,7 +182,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   );
   const triggerColorBlockCls = clsx(
     {
-      'h-5 w-5': mergedSize === 'mini',
+      'size-5': mergedSize === 'mini',
       'h-6 w-6': mergedSize === 'small',
       'h-8 w-8': mergedSize === 'large',
     },

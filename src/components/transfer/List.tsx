@@ -410,10 +410,10 @@ const TransferList = <RecordType extends KeyWiseTransferItem>(
       <span>
         {isValidIcon(selectionsIcon) ? (
           cloneElement(selectionsIcon, (origin) => ({
-            classNames: clsx('h-4 w-4', origin.classNames),
+            classNames: clsx('size-4', origin.classNames),
           }))
         ) : (
-          <ChevronDownOutline className="h-4 w-4" />
+          <ChevronDownOutline className="size-4" />
         )}
       </span>
     </Dropdown>

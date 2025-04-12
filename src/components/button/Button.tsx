@@ -176,13 +176,13 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
 
   const iconCls = clsx(
     {
-      'h-4 w-4': mergedSize === 'small' || mergedSize === 'middle' || mergedSize === 'mini',
-      'h-5 w-5': mergedSize === 'large',
+      'size-4': mergedSize === 'small' || mergedSize === 'middle' || mergedSize === 'mini',
+      'size-5': mergedSize === 'large',
     },
     iconOnly && {
-      'h-4 w-4': mergedSize === 'mini',
+      'size-4': mergedSize === 'mini',
       'h-[1.125rem] w-[1.125rem]': mergedSize === 'small' || mergedSize === 'middle',
-      'h-5 w-5': mergedSize === 'large',
+      'size-5': mergedSize === 'large',
     },
     semanticCls.icon,
   );

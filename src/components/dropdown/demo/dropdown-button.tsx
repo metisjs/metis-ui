@@ -68,7 +68,7 @@ const App: React.FC = () => (
       <Button>
         <Space>
           Button
-          <ChevronDownOutline className="h-4 w-4" />
+          <ChevronDownOutline className="size-4" />
         </Space>
       </Button>
     </Dropdown>

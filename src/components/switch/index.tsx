@@ -131,10 +131,10 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     );
 
     const handleCls = clsx(
-      'pointer-events-none absolute start-0.5 top-0.5 inline-flex h-5 w-5 transform items-center justify-center rounded-full bg-white shadow-sm transition-all duration-200 ease-in-out',
+      'pointer-events-none absolute start-0.5 top-0.5 inline-flex size-5 transform items-center justify-center rounded-full bg-white shadow-sm transition-all duration-200 ease-in-out',
       {
         'start-[calc(100%-22px)]': innerChecked,
-        'h-4 w-4': isSmall,
+        'size-4': isSmall,
         'start-[calc(100%-18px)]': innerChecked && isSmall,
       },
       `${prefixCls}-handle`,
@@ -155,7 +155,7 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         <div className={handleCls}>
           {loading && (
             <LoadingOutline
-              className={clsx('text-primary h-4 w-4 animate-spin', isSmall && 'h-3 w-3')}
+              className={clsx('text-primary size-4 animate-spin', isSmall && 'h-3 w-3')}
             />
           )}
         </div>

@@ -107,7 +107,7 @@ const App: React.FC = () => {
               </Space>
             ) : (
               <div className="text-text-secondary">
-                ( <FaceSmileOutline className="h-4 w-4" /> No user yet. )
+                ( <FaceSmileOutline className="size-4" /> No user yet. )
               </div>
             );
           }}

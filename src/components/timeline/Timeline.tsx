@@ -39,7 +39,7 @@ const Timeline: React.FC<TimelineProps> = ({
     if (pending) {
       internalItems.push({
         pending: !!pending,
-        dot: pendingDot || <LoadingOutline className="h-4 w-4 animate-spin" />,
+        dot: pendingDot || <LoadingOutline className="size-4 animate-spin" />,
         content: pendingNode,
       });
     }
@@ -59,7 +59,7 @@ const Timeline: React.FC<TimelineProps> = ({
       [`${prefixCls}-pending`]: !!pending,
       [`${prefixCls}-reverse`]: !!reverse,
     },
-    'text-sm text-text',
+    'text-text text-sm',
     semanticCls.root,
   );
 

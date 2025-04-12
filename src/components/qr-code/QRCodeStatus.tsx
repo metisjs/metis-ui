@@ -26,7 +26,7 @@ export default function QRcodeStatus({
     <>
       <p className={`${prefixCls}-expired`}>{locale?.expired}</p>
       {onRefresh && (
-        <Button type="link" icon={<ArrowPathOutline className="h-4 w-4" />} onClick={onRefresh}>
+        <Button type="link" icon={<ArrowPathOutline className="size-4" />} onClick={onRefresh}>
           {locale?.refresh}
         </Button>
       )}

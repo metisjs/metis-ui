@@ -209,7 +209,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
           >
             {previewMask ?? (
               <>
-                <EyeOutline className="mr-1 h-4 w-4" />
+                <EyeOutline className="mr-1 size-4" />
                 {local?.preview}
               </>
             )}

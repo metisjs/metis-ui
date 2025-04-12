@@ -72,7 +72,7 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
         <Dropdown placement="bottom" {...mergeDropDownProps}>
           <span className={clsx(`${prefixCls}-overlay-link`, 'hover:text-text')}>
             {breadcrumbItem}
-            <ChevronDownOutline className="h-4 w-4" />
+            <ChevronDownOutline className="size-4" />
           </span>
         </Dropdown>
       );

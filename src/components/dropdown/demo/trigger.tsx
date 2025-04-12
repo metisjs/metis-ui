@@ -26,7 +26,7 @@ const App: React.FC = () => (
     <a onClick={(e) => e.preventDefault()}>
       <Space>
         Click me
-        <ChevronDownOutline className="h-4 w-4" />
+        <ChevronDownOutline className="size-4" />
       </Space>
     </a>
   </Dropdown>

@@ -74,7 +74,7 @@ const ColorInput: FC<ColorInputProps> = (props) => {
           },
           semanticCls?.formatSelect,
         )}
-        menuItemSelectedIcon={<CheckOutline className="h-4 w-4" />}
+        menuItemSelectedIcon={<CheckOutline className="size-4" />}
       />
       <div className={clsx(colorInputPrefixCls, 'flex-1')}>{steppersNode}</div>
       {!disabledAlpha && (

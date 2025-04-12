@@ -165,7 +165,7 @@ export function useInternalMessage(
       const iconCls = clsx(
         `${prefixCls}-icon`,
         !!type && `${prefixCls}-icon-${type}`,
-        'h-5 w-5',
+        'size-5',
         {
           'text-primary': type === 'info' || type === 'loading',
           'text-success': type === 'success',

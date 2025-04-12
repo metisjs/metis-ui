@@ -150,14 +150,14 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     const siderWidth = isNumeric(rawWidth) ? `${rawWidth}px` : String(rawWidth);
     const iconObj = {
       expanded: reverseArrow ? (
-        <ChevronRightOutline className="h-5 w-5" />
+        <ChevronRightOutline className="size-5" />
       ) : (
-        <ChevronLeftOutline className="h-5 w-5" />
+        <ChevronLeftOutline className="size-5" />
       ),
       collapsed: reverseArrow ? (
-        <ChevronLeftOutline className="h-5 w-5" />
+        <ChevronLeftOutline className="size-5" />
       ) : (
-        <ChevronRightOutline className="h-5 w-5" />
+        <ChevronRightOutline className="size-5" />
       ),
     };
     const status = collapsed ? 'collapsed' : 'expanded';

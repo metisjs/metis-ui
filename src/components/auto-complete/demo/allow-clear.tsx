@@ -27,7 +27,7 @@ const App: React.FC = () => {
         options={options}
         onSearch={(text) => setOptions(getPanelValue(text))}
         placeholder="Customized clear icon"
-        allowClear={{ clearIcon: <XMarkOutline className="h-4 w-4" /> }}
+        allowClear={{ clearIcon: <XMarkOutline className="size-4" /> }}
         className="w-52"
       />
     </>

@@ -32,7 +32,7 @@ const FieldImage: FieldFC<FieldImageProps> = (
           restProps.preview === false
             ? restProps.preview
             : {
-                mask: <EyeOutline className="h-4 w-4" />,
+                mask: <EyeOutline className="size-4" />,
                 ...(restProps.preview === true ? {} : restProps.preview),
               }
         }

@@ -28,7 +28,7 @@ const App: React.FC = () => (
   >
     <Space>
       Selectable
-      <ChevronDownOutline className="h-4 w-4" />
+      <ChevronDownOutline className="size-4" />
     </Space>
   </Dropdown>
 );

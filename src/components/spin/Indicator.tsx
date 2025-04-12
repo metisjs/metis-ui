@@ -12,7 +12,7 @@ export default function Indicator(props: IndicatorProps) {
   const { prefixCls, className, size } = props;
 
   const spinnerClassName = clsx(`${prefixCls}-spinner`, 'flex h-6 w-6 justify-between', {
-    'h-4 w-4': size === 'small',
+    'size-4': size === 'small',
     'h-8 w-8': size === 'large',
   });
   const itemClassName = clsx(

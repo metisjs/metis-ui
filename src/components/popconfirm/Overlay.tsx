@@ -93,7 +93,7 @@ const Overlay: React.FC<OverlayProps> = (props) => {
           <span className={iconCls}>
             {cloneElement(icon, (props) => ({
               ...props,
-              className: clsx('h-5 w-5', props.className),
+              className: clsx('size-5', props.className),
             }))}
           </span>
         )}

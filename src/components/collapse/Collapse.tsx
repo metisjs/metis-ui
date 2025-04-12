@@ -55,12 +55,12 @@ const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, ref) =>
         typeof expandIcon === 'function' ? (
           expandIcon(panelProps)
         ) : (
-          <ExpandIcon open={panelProps.isActive} className="h-5 w-5" />
+          <ExpandIcon open={panelProps.isActive} className="size-5" />
         );
       return cloneElement(icon, () => ({
         className: clsx(
           `${prefixCls}-arrow`,
-          'h-5 w-5',
+          'size-5',
           (icon as React.ReactElement<{ className?: string }>)?.props?.className,
         ),
       }));

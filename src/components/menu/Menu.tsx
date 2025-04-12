@@ -166,7 +166,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
 
     // Icon
     expandIcon,
-    overflowedIndicator = <EllipsisHorizontalOutline className="h-5 w-5 align-middle" />,
+    overflowedIndicator = <EllipsisHorizontalOutline className="size-5 align-middle" />,
     overflowedIndicatorPopupClassName,
 
     // Function

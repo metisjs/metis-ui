@@ -78,7 +78,7 @@ const AllDayEvent = React.forwardRef<HTMLDivElement, AllDayEventProps>((props, r
 
   const iconCls = clsx(
     `${prefixCls}-allday-event-icon`,
-    'flex h-4 w-4 items-center justify-center rounded-full text-white',
+    'flex size-4 items-center justify-center rounded-full text-white',
     semanticCls.icon,
   );
 

@@ -317,7 +317,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const iconCls = clsx(
     `${prefixCls}-item-icon`,
-    'h-5 w-5 shrink-0 grow-0',
+    'size-5 shrink-0 grow-0',
     firstLevel && 'h-6 w-6',
     mode !== 'horizontal' && {
       'text-text-tertiary': firstLevel && contextTheme !== 'dark',
@@ -339,7 +339,7 @@ const InternalSubMenu = (props: SubMenuProps) => {
 
   const expandCls = clsx(
     `${subMenuPrefixCls}-arrow`,
-    'h-5 w-5 transition-transform',
+    'size-5 transition-transform',
     // >>> In Popup
     {
       'in-[.submenu-popup]:text-primary': childrenSelected,

@@ -150,7 +150,7 @@ function SaveEditAction<RecordType extends AnyObject>({
       }}
       className="inline-flex items-center gap-1"
     >
-      {loading ? <LoadingOutline className="h-4 w-4 animate-spin" /> : null}
+      {loading ? <LoadingOutline className="size-4 animate-spin" /> : null}
       {children}
     </a>
   );

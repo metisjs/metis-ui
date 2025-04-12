@@ -24,7 +24,7 @@ const App: React.FC = () => {
 
   const genExtra = () => (
     <Cog6ToothOutline
-      className="h-4 w-4 cursor-pointer"
+      className="size-4 cursor-pointer"
       onClick={(event) => {
         // If you don't want click extra trigger collapse, you can prevent this:
         event.stopPropagation();

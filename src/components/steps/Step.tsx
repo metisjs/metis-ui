@@ -209,8 +209,8 @@ const Step: React.FC<StepProps> = (props) => {
   );
 
   const icons = {
-    finish: <CheckOutline className={clsx(`${prefixCls}-finish-icon`, 'h-5 w-5')} />,
-    error: <XMarkOutline className={clsx(`${prefixCls}-error-icon`, 'h-5 w-5')} />,
+    finish: <CheckOutline className={clsx(`${prefixCls}-finish-icon`, 'size-5')} />,
+    error: <XMarkOutline className={clsx(`${prefixCls}-error-icon`, 'size-5')} />,
   };
 
   // ========================= Render =========================

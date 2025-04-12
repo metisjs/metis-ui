@@ -114,7 +114,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
           'h-9 w-9',
           {
             'h-7 w-7': isLoading,
-            'h-4 w-4': listType === 'text',
+            'size-4': listType === 'text',
           },
           origin.className,
         ),
@@ -127,9 +127,9 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       <DocumentOutline className="h-9 w-9" />
     );
     let icon: React.ReactNode = isLoading ? (
-      <LoadingOutline className="h-4 w-4 animate-spin" />
+      <LoadingOutline className="size-4 animate-spin" />
     ) : (
-      <PaperClipOutline className="h-4 w-4" />
+      <PaperClipOutline className="size-4" />
     );
     if (listType === 'picture') {
       icon = isLoading ? (

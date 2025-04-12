@@ -183,7 +183,7 @@ const ItemLabel: React.FC<ItemLabelProps & { required?: boolean; prefixCls: stri
 
   const tooltipCls = clsx(
     `${prefixCls}-item-tooltip`,
-    'text-text-tertiary ml-1 h-4 w-4 cursor-help',
+    'text-text-tertiary ml-1 size-4 cursor-help',
   );
 
   // ============================== Tooltip ==============================

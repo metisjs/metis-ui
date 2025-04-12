@@ -83,7 +83,7 @@ export default function useIcons({
   if (menuItemSelectedIcon !== undefined) {
     mergedItemIcon = menuItemSelectedIcon;
   } else {
-    mergedItemIcon = <CheckOutline className="h-5 w-5" />;
+    mergedItemIcon = <CheckOutline className="size-5" />;
   }
 
   let mergedRemoveIcon = null;
