@@ -1,3 +1,23 @@
 body {
   @apply bg-white dark:bg-gray-950;
 }
+
+:where([id]) {
+  scroll-margin-top: calc(var(--spacing) * 20);
+}
+
+iframe body {
+  @apply bg-white dark:bg-gray-950/50;
+}
+
+.dumi-default-source-code {
+  @apply focus-within:inset-ring-primary rounded-lg! bg-white/10! inset-ring! inset-ring-white/10! dark:bg-white/5! dark:inset-ring-white/5!;
+}
+
+.dumi-default-source-code-editor:focus-within::after {
+  box-shadow: none !important;
+}
+
+.dumi-default-source-code-copy {
+  @apply rounded-md!;
+}

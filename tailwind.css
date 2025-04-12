@@ -1,4 +1,3 @@
 @import 'tailwindcss';
-@import './.dumi/theme/styles/index.css' layer(components);
-
+@import './.dumi/theme/styles/index.css';
 @plugin './src/plugin';

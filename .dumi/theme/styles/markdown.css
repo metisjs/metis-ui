@@ -25,7 +25,7 @@
     --markdown-blockquote-border-color: var(--color-gray-600);
   }
   @media (prefers-color-scheme: dark) {
-    &:where([data-theme='dark'], [data-theme='dark'] *) {
+    &:where([data-theme='auto'], [data-theme='auto'] *) {
       --markdown-color: var(--color-gray-300);
       --markdown-heading-color: var(--color-white);
       --markdown-strong-color: var(--color-white);
@@ -237,6 +237,11 @@
 
   tbody td {
     vertical-align: baseline;
+
+    &:first-child {
+      color: var(--markdown-link-color);
+      font-weight: var(--font-weight-semibold);
+    }
   }
 
   tfoot {
@@ -284,6 +289,7 @@
   }
 
   blockquote {
+    margin-top: --spacing(6);
     font-style: italic;
     border-inline-start-width: 0.25rem;
     border-inline-start-color: var(--markdown-blockquote-border-color);

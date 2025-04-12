@@ -61,7 +61,7 @@ const DocAnchor: React.FC<DocAnchorProps> = ({ showDebug, debugDemos = [] }) => 
     <Scrollbar className="fixed top-24 right-10 h-[calc(100vh-var(--spacing)*34)] w-62 bg-white backdrop-blur-2xl xl:hidden dark:bg-gray-950/5">
       <Anchor
         affix={false}
-        targetOffset={57}
+        targetOffset={81}
         showInkInFixed
         items={anchorItems.map<AnchorLinkItemProps>(renderAnchorItem)}
       />

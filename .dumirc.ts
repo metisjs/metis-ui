@@ -21,6 +21,7 @@ export default defineConfig({
     'metis-ui': path.join(__dirname, 'src/components'),
     '@util': path.join(__dirname, 'src/components/_util'),
   },
+  theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
   tailwindcss: {},
   plugins: ['./plugins/compiled/tailwindcss'],
   extraRehypePlugins: [rehype],
