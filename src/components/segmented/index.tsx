@@ -211,7 +211,7 @@ const InternalSegmented = React.forwardRef<HTMLDivElement, SegmentedProps>((prop
       {...divProps}
       className={clsx(
         prefixCls,
-        'bg-layout text-text relative inline-flex w-fit items-stretch justify-start gap-x-0.5 rounded-md p-0.5 transition-all duration-300',
+        'bg-fill-quaternary text-text relative inline-flex w-fit items-stretch justify-start gap-x-0.5 rounded-md p-0.5 transition-all duration-300',
         { 'flex w-full': block },
         {
           rounded: mergedSize === 'mini',

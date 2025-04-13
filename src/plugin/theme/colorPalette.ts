@@ -39,17 +39,10 @@ export default {
       quaternary: -6,
     },
     border: { secondary: -1, tertiary: -2 },
-    fill: { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
+    fill: { secondary: 0.15, tertiary: 0.1, quaternary: 0.05, quinary: 0.02 },
   },
   dark: {
-    primary: {
-      bg: 6,
-      'bg-hover': 4,
-      hover: -1,
-      active: 1,
-      border: -3,
-      'border-secondary': 0.1,
-    },
+    primary: darkBase,
     success: darkBase,
     warning: darkBase,
     error: darkBase,
@@ -60,6 +53,6 @@ export default {
       quaternary: 0.25,
     },
     border: { secondary: 2 },
-    fill: { secondary: 0.12, tertiary: 0.08, quaternary: 0.04, quinary: 0.02 },
+    fill: { secondary: 0.15, tertiary: 0.1, quaternary: 0.05, quinary: 0.02 },
   },
 } as const;

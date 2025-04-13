@@ -242,7 +242,7 @@ const TextArea = forwardRef<TextAreaRef, TextAreaProps>(
     );
     const countCls = clsx(
       `${prefixCls}-data-count`,
-      'bg-container text-text-tertiary absolute right-3 bottom-1.5 pl-1',
+      'bg-container text-text-tertiary rounded-0.5 absolute right-2 bottom-1.5 rounded-xs px-1 backdrop-blur-2xl',
       {
         'bg-fill-quinary group-focus-within:bg-container': variant === 'filled',
         'bg-transparent': variant === 'borderless',

@@ -144,7 +144,7 @@ const Footer = generator({
   suffixCls: 'footer',
   tagName: 'footer',
   displayName: 'Footer',
-  innerClassName: clsx('bg-layout shrink-0 grow-0 basis-auto px-[3.125rem] py-6'),
+  innerClassName: clsx('shrink-0 grow-0 basis-auto px-[3.125rem] py-6'),
 })(Basic);
 
 const Content = generator({

@@ -168,7 +168,7 @@ export default function Column({
             },
             'hover:bg-fill-quaternary flex cursor-pointer flex-nowrap items-center gap-1 truncate rounded-sm px-3 py-2 transition-all duration-200',
             {
-              'bg-primary-bg': isActive && !disabled,
+              'bg-primary-bg hover:bg-primary-bg': isActive && !disabled,
               'text-text-tertiary cursor-not-allowed hover:bg-transparent': disabled,
             },
             itemSemanticCls.root,

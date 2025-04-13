@@ -20,7 +20,7 @@ const items: MenuProps['items'] = [
 const App: React.FC = () => {
   return (
     <Dropdown menu={{ items }} trigger={['contextMenu']}>
-      <div className="h-[200px] bg-layout text-center leading-[200px] text-text-tertiary">
+      <div className="text-text-tertiary h-[200px] bg-gray-100 text-center leading-[200px] dark:bg-white/10">
         Right Click on here
       </div>
     </Dropdown>

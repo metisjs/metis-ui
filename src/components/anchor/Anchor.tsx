@@ -265,7 +265,7 @@ const Anchor: React.FC<AnchorProps> = (props) => {
       [`${prefixCls}-fixed`]: !affix && !showInkInFixed,
       [`${prefixCls}-horizontal`]: anchorDirection === 'horizontal',
     },
-    'text-text relative ps-[2px] text-sm',
+    'text-text relative flex flex-col gap-2 ps-[2px] text-sm',
     'before:border-fill-secondary before:absolute before:border-solid',
     {
       'flex before:right-0 before:bottom-0 before:left-0 before:border-b':

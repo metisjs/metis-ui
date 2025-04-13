@@ -75,7 +75,7 @@ const AnchorLink: React.FC<AnchorLinkProps> = (props) => {
     {
       [`${prefixCls}-link-active`]: active,
     },
-    'py-1 ps-4',
+    'flex flex-col gap-2 ps-4 leading-6',
     { 'first-of-type:ps-0': direction === 'horizontal' },
     semanticCls.root,
   );
@@ -85,7 +85,7 @@ const AnchorLink: React.FC<AnchorLinkProps> = (props) => {
     {
       [`${prefixCls}-link-title-active`]: active,
     },
-    'block text-text',
+    'text-text block',
     {
       'text-primary': active,
     },

@@ -8,6 +8,7 @@ export default defineConfig({
   outputPath: '_site',
   favicons: ['/favicon.ico'],
   resolve: {
+    docDirs: [{ type: 'doc', dir: 'docs' }],
     atomDirs: [{ type: 'component', dir: 'src/components' }],
     codeBlockMode: 'passive',
   },

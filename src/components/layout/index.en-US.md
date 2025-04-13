@@ -4,44 +4,6 @@ description: Handling the overall layout of a page.
 group: Layout
 ---
 
-## Specification
-
-### Size
-
-The first level navigation is left aligned near a logo, and the secondary menu is right aligned.
-
-- Top Navigation: the height of the first level navigation `64px`, the second level navigation `48px`.
-- Top Navigation (for landing pages): the height of the first level navigation `80px`, the second level navigation `56px`.
-- Calculation formula of a top navigation: `48+8n`.
-- Calculation formula of an aside navigation: `200+8n`.
-
-### Interaction rules
-
-- The first level navigation and the last level navigation should be distinguishable by visualization;
-- The current item should have the highest priority of visualization;
-- When the current navigation item is collapsed, the style of the current navigation item is applied to its parent level;
-- The left side navigation bar has support for both the accordion and expanding styles; you can choose the one that fits your case the best.
-
-## Visualization rules
-
-Style of a navigation should conform to its level.
-
-- **Emphasis by colorblock**
-
-  When background color is a deep color, you can use this pattern for the parent level navigation item of the current page.
-
-- **The highlight match stick**
-
-  When background color is a light color, you can use this pattern for the current page navigation item; we recommend using it for the last item of the navigation path.
-
-- **Highlighted font**
-
-  From the visualization aspect, a highlighted font is stronger than colorblock; this pattern is often used for the parent level of the current item.
-
-- **Enlarge the size of the font**
-
-  `12px`, `14px` is a standard font size of navigation's, `14px` is used for the first and the second level of the navigation. You can choose an appropriate font size regarding the level of your navigation.
-
 ## Component Overview
 
 - `Layout`: The layout wrapper, in which `Header` `Sider` `Content` `Footer` or `Layout` itself can be nested, and can be placed in any parent container.
@@ -56,12 +18,12 @@ Style of a navigation should conform to its level.
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic Structure</code>
-<code src="./demo/top.tsx" compact background="grey">Header-Content-Footer</code>
-<code src="./demo/top-side.tsx" compact background="grey">Header-Sider</code>
-<code src="./demo/top-side-2.tsx" compact background="grey">Header Sider 2</code>
+<code src="./demo/top.tsx" compact background="oklch(13% 0.028 261.692)">Header-Content-Footer</code>
+<code src="./demo/top-side.tsx" compact background="oklch(13% 0.028 261.692)">Header-Sider</code>
+<code src="./demo/top-side-2.tsx" compact background="oklch(13% 0.028 261.692)">Header Sider 2</code>
 <code src="./demo/side.tsx" iframe="360">Sider</code>
-<code src="./demo/custom-trigger.tsx" compact background="grey">Custom trigger</code>
-<code src="./demo/responsive.tsx" compact background="grey">Responsive</code>
+<code src="./demo/custom-trigger.tsx" compact background="oklch(13% 0.028 261.692)">Custom trigger</code>
+<code src="./demo/responsive.tsx" compact background="oklch(13% 0.028 261.692)">Responsive</code>
 <code src="./demo/fixed.tsx" iframe="360">Fixed Header</code>
 <code src="./demo/fixed-sider.tsx" iframe="360">Fixed Sider</code>
 

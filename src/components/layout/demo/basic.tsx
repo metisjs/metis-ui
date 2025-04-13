@@ -1,67 +1,45 @@
 import React from 'react';
-import { Layout, Space } from 'metis-ui';
+import { clsx, Layout, Space } from 'metis-ui';
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const headerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  height: 64,
-  paddingInline: 50,
-  lineHeight: '64px',
-  backgroundColor: '#7dbcea',
-};
+const headerCls = clsx('h-16 bg-indigo-400 text-center leading-16 text-white');
 
-const contentStyle: React.CSSProperties = {
-  textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#108ee9',
-};
+const contentCls = clsx('min-h-30 bg-indigo-600 text-center leading-30 text-white');
 
-const siderStyle: React.CSSProperties = {
-  textAlign: 'center',
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#3ba0e9',
-};
+const siderCls = clsx('bg-indigo-500 text-center leading-30 text-white');
 
-const footerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#7dbcea',
-};
+const footerCls = clsx('bg-indigo-400 text-center text-white');
 
 const App: React.FC = () => (
   <Space vertical block size={[0, 48]}>
     <Layout>
-      <Header style={headerStyle}>Header</Header>
-      <Content style={contentStyle}>Content</Content>
-      <Footer style={footerStyle}>Footer</Footer>
+      <Header className={headerCls}>Header</Header>
+      <Content className={contentCls}>Content</Content>
+      <Footer className={footerCls}>Footer</Footer>
     </Layout>
     <Layout>
-      <Header style={headerStyle}>Header</Header>
+      <Header className={headerCls}>Header</Header>
       <Layout hasSider>
-        <Sider style={siderStyle}>Sider</Sider>
-        <Content style={contentStyle}>Content</Content>
+        <Sider className={siderCls}>Sider</Sider>
+        <Content className={contentCls}>Content</Content>
       </Layout>
-      <Footer style={footerStyle}>Footer</Footer>
+      <Footer className={footerCls}>Footer</Footer>
     </Layout>
     <Layout>
-      <Header style={headerStyle}>Header</Header>
+      <Header className={headerCls}>Header</Header>
       <Layout hasSider>
-        <Content style={contentStyle}>Content</Content>
-        <Sider style={siderStyle}>Sider</Sider>
+        <Content className={contentCls}>Content</Content>
+        <Sider className={siderCls}>Sider</Sider>
       </Layout>
-      <Footer style={footerStyle}>Footer</Footer>
+      <Footer className={footerCls}>Footer</Footer>
     </Layout>
     <Layout>
-      <Sider style={siderStyle}>Sider</Sider>
+      <Sider className={siderCls}>Sider</Sider>
       <Layout>
-        <Header style={headerStyle}>Header</Header>
-        <Content style={contentStyle}>Content</Content>
-        <Footer style={footerStyle}>Footer</Footer>
+        <Header className={headerCls}>Header</Header>
+        <Content className={contentCls}>Content</Content>
+        <Footer className={footerCls}>Footer</Footer>
       </Layout>
     </Layout>
   </Space>
