@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmetis_ui=self.webpackChunkmetis_ui||[]).push([[6591,8863],{55806:function(n,u,t){t.r(u);var e=t(76798);u.default=e.default},76798:function(n,u,t){t.r(u);var e=t(39546),a=t(74132),s=function(){return(0,a.jsx)("section",{className:"text-text mt-24 text-2xl",children:"\u5EFA\u8BBE\u4E2D..."})};u.default=s}}]);
