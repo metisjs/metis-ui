@@ -50,7 +50,7 @@ const DemoGrid: FC<DemoGridProps> = (props) => {
   }, [props.items, fm.demo]);
 
   return (
-    <div className="my-6 flex gap-6">
+    <div className="demo-grid my-6 flex gap-6">
       {cols.map((col, i) => (
         <section className="flex w-0 flex-1 flex-col gap-6" key={String(i)}>
           {col.map((item) => {

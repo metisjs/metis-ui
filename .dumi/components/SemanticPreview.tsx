@@ -102,7 +102,7 @@ const ClassNameItem = ({
       <Space className="ml-auto">
         {link && (
           <Link to={link} className="inline-flex items-center">
-            <LinkOutline className="h-4 w-4" />
+            <LinkOutline className="size-4" />
           </Link>
         )}
         {args && args.length > 0 && (

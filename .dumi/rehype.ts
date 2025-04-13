@@ -9,6 +9,8 @@ function rehype(): UnifiedTransformer<HastRoot> {
     unistUtilVisit.visit(tree, 'element', (node) => {
       if (node.tagName === 'DumiDemoGrid') {
         node.tagName = 'DemoGrid';
+      } else if (node.tagName === 'SourceCode') {
+        node.tagName = 'SourceCodeWrapper';
       }
     });
   };

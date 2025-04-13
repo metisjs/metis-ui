@@ -44,7 +44,7 @@
   font-size: var(--text-sm);
   line-height: 2;
 
-  * + * {
+  :where(:not(.prism-code, .prism-code *)) + :where(:not(.prism-code, .prism-code *)) {
     margin-top: calc(var(--spacing) * 6);
   }
 
@@ -89,6 +89,7 @@
   }
 
   :is(h2, h3, h4) {
+    margin-bottom: calc(var(--spacing) * 4);
     scroll-margin-top: calc(var(--spacing) * 32);
     @variant lg {
       scroll-margin-top: calc(var(--spacing) * 18);
@@ -135,7 +136,7 @@
   }
 
   ul li + li {
-    margin-top: calc(var(--spacing) * 4);
+    margin-top: calc(var(--spacing) * 2);
   }
 
   ul li::marker {
@@ -198,7 +199,6 @@
   table {
     width: 100%;
     table-layout: auto;
-    margin-top: 2em;
     margin-bottom: 2em;
     font-size: var(--text-sm);
     line-height: 1.4;

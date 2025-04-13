@@ -21,8 +21,8 @@ const flattenMenu = (menuItems: ItemType[]): ItemType[] | null => {
 };
 
 const PrevAndNext: React.FC = () => {
-  const before = <ChevronLeftOutline />;
-  const after = <ChevronRightOutline />;
+  const before = <ChevronLeftOutline className="left" />;
+  const after = <ChevronRightOutline className="right" />;
 
   const [menuItems, selectedKey] = useMenu({ before, after });
 
@@ -46,25 +46,9 @@ const PrevAndNext: React.FC = () => {
   }, [menuItems, selectedKey]);
 
   return (
-    <section>
-      {prev &&
-        React.cloneElement(
-          prev.label as ReactElement<{
-            className: string;
-          }>,
-          {
-            className: clsx(prev.className, ''),
-          },
-        )}
-      {next &&
-        React.cloneElement(
-          next.label as ReactElement<{
-            className: string;
-          }>,
-          {
-            className: clsx(next.className, ''),
-          },
-        )}
+    <section className="mt-16 flex items-center justify-between text-sm leading-6">
+      {prev && <div className="**:[.right]:hidden">{prev.label}</div>}
+      {next && <div className="ml-auto **:[.left]:hidden">{next.label}</div>}
     </section>
   );
 };

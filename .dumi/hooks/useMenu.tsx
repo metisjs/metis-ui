@@ -35,10 +35,12 @@ const MenuItemLabel: React.FC<MenuItemLabelProps> = (props) => {
       to={`${link}${search}`}
       className="text-sm/6 text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-white"
     >
-      {before}
-      {title}
-      {subtitle && <span className="">{subtitle}</span>}
-      {after}
+      <Space block justify="start" align="center" size="small">
+        {before}
+        {title}
+        {subtitle && <span className="text-text-tertiary text-xs">{subtitle}</span>}
+        {after}
+      </Space>
     </Link>
   );
 };

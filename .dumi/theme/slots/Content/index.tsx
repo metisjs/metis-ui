@@ -44,7 +44,7 @@ const Content: React.FC<React.PropsWithChildren> = ({ children }) => {
           <PrevAndNext />
         </InViewSuspense>
       </div>
-      <Footer />
+      <Footer className="pl-72" />
     </div>
   );
 };

@@ -14,7 +14,7 @@ const HeaderNavigation: React.FC<NavigationProps> = () => {
     {
       key: 'docs',
       label: formatMessage({ id: 'app.nav.docs' }),
-      link: utils.getLocalizedPathname('/docs', isZhCN, search),
+      link: utils.getLocalizedPathname('/docs/introduce', isZhCN, search),
     },
     {
       key: 'components',
