@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmetis_ui=self.webpackChunkmetis_ui||[]).push([[6591,8863],{55806:function(t,u,e){e.r(u);var n=e(76798);u.default=n.default},76798:function(t,u,e){e.r(u);var n=e(39546),a=e(74132),d=function(){return(0,a.jsx)("section",{children:"Placeholder"})};u.default=d}}]);
