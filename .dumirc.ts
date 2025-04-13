@@ -74,4 +74,5 @@ export default defineConfig({
     })();
     `,
   ],
+  targets: { chrome: 111 },
 });
