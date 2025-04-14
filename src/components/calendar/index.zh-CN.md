@@ -18,17 +18,6 @@ description: 按照日历形式展示数据的容器。
 
 ## API
 
-**注意**：Calendar 部分 locale 是从 value 中读取，所以请先正确设置 dayjs 的 locale。
-
-```jsx
-// 默认语言为 en-US，所以如果需要使用其他语言，推荐在入口文件全局设置 locale
-// import dayjs from 'dayjs';
-// import 'dayjs/locale/zh-cn';
-// dayjs.locale('zh-cn');
-
-<Calendar />
-```
-
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | className | 语义化结构 class | [SemanticDOM](#semantic-dom) | - |  |
