@@ -1,6 +1,8 @@
 {
   "app.title": "Metis UI - 一套基于 Tailwind CSS 的 React 组件库",
   "app.description": "基于 Tailwind CSS 设计体系的 React UI 组件库，用于研发企业级中后台产品。",
+  "app.banner.title": "一套企业级 React-Tailwind 组件库",
+  "app.banner.desc": "结合 Ant Design 的全面组件库与 Tailwind CSS 的灵活性和实用优先的设计方法，轻松构建现代化、可扩展且视觉惊艳的用户界面。",
   "app.nav.docs": "指南",
   "app.nav.components": "组件"
 }

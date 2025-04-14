@@ -1,6 +1,8 @@
 {
   "app.title": "Metis UI - A React component library based on Tailwind CSS",
   "app.description": "A React UI component library based on the Tailwind CSS design system for developing enterprise-level middle and back-end products.",
+  "app.banner.title": "A Modern React-Tailwind Component Library for Developers.",
+  "app.banner.desc": "Experience the power of Ant Design's comprehensive component library combined with the flexibility and utility-first approach of Tailwind CSS. Build modern, scalable, and visually stunning user interfaces effortlessly.",
   "app.nav.docs": "Docs",
   "app.nav.components": "Components"
 }
