@@ -127,7 +127,7 @@ const App: React.FC = () => {
         extra={<Button type="primary">Add Event</Button>}
         lunar={isCN}
         onModeChange={setMode}
-        className="h-full"
+        className="h-full w-full"
       />
     </SemanticPreview>
   );
