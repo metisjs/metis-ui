@@ -104,9 +104,6 @@ importers:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.3.1
         version: 4.4.1(prettier@3.5.3)
-      '@stackblitz/sdk':
-        specifier: ^1.11.0
-        version: 1.11.0
       '@tailwindcss/cli':
         specifier: ^4.0.17
         version: 4.0.17
@@ -141,8 +138,8 @@ importers:
         specifier: ^1.13.8
         version: 1.13.8
       dumi:
-        specifier: ~2.4.13
-        version: 2.4.18(@babel/core@7.26.10)(@swc/helpers@0.5.1)(@types/node@20.17.24)(@types/react@19.1.0)(eslint@8.57.1)(lightningcss@1.29.2)(prettier@3.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@3.29.5)(stylelint@15.11.0(typescript@5.0.4))(terser@5.39.0)(type-fest@1.4.0)(typescript@5.0.4)(webpack@5.92.1(@swc/core@1.9.2(@swc/helpers@0.5.1)))
+        specifier: ~2.4.20
+        version: 2.4.20(@babel/core@7.26.10)(@swc/helpers@0.5.1)(@types/node@20.17.24)(@types/react@19.1.0)(eslint@8.57.1)(lightningcss@1.29.2)(prettier@3.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@3.29.5)(stylelint@15.11.0(typescript@5.0.4))(terser@5.39.0)(type-fest@1.4.0)(typescript@5.0.4)(webpack@5.92.1(@swc/core@1.9.2(@swc/helpers@0.5.1)))
       eslint:
         specifier: ^8.39.0
         version: 8.57.1
@@ -161,12 +158,12 @@ importers:
       lint-staged:
         specifier: ^13.2.1
         version: 13.3.0
-      lz-string:
-        specifier: ^1.5.0
-        version: 1.5.0
       majo:
         specifier: ^0.9.1
         version: 0.9.1
+      postcss-nested:
+        specifier: ^7.0.2
+        version: 7.0.2(postcss@8.5.3)
       prettier:
         specifier: ^3.3.3
         version: 3.5.3
@@ -3278,8 +3275,8 @@ packages:
   dumi-assets-types@2.4.14:
     resolution: {integrity: sha512-k2Z3z7/IcHOYASP/nDjocShdzXatmOuhkAwgYw/4KNiq36gpAKjn5MlrPkzdGH70TbcHGLGEul9b/4sYJLoS9A==}
 
-  dumi@2.4.18:
-    resolution: {integrity: sha512-rtX5pyhvyY6269iAEDRn+rJqJZ7t2gl82sR/mPR94J91IbUth6WSxfcWFUYadwRv/hdeIXHouufosQji5TYZmg==}
+  dumi@2.4.20:
+    resolution: {integrity: sha512-uA6oGvz9utSo2cHT3U2ADaK1pYK2Nh/PAETTqSUE6gyvdDAnVzqK3LIvSeiV2fB3C5CRa3iPx5jD7xUTI30S5w==}
     hasBin: true
     peerDependencies:
       react: '>=16.8'
@@ -5631,6 +5628,12 @@ packages:
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
+
+  postcss-nested@7.0.2:
+    resolution: {integrity: sha512-5osppouFc0VR9/VYzYxO03VaDa3e8F23Kfd6/9qcZTUI8P58GIYlArOET2Wq0ywSl2o2PjELhYOFI4W7l5QHKw==}
+    engines: {node: '>=18.0'}
+    peerDependencies:
+      postcss: ^8.2.14
 
   postcss-nesting@10.2.0:
     resolution: {integrity: sha512-EwMkYchxiDiKUhlJGzWsD9b2zvq/r2SSubcRrgP+jujMXFzqvANLt16lJANC+5uZ6hjI7lpRmI6O8JIl+8l1KA==}
@@ -10792,7 +10795,7 @@ snapshots:
 
   dumi-assets-types@2.4.14: {}
 
-  dumi@2.4.18(@babel/core@7.26.10)(@swc/helpers@0.5.1)(@types/node@20.17.24)(@types/react@19.1.0)(eslint@8.57.1)(lightningcss@1.29.2)(prettier@3.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@3.29.5)(stylelint@15.11.0(typescript@5.0.4))(terser@5.39.0)(type-fest@1.4.0)(typescript@5.0.4)(webpack@5.92.1(@swc/core@1.9.2(@swc/helpers@0.5.1))):
+  dumi@2.4.20(@babel/core@7.26.10)(@swc/helpers@0.5.1)(@types/node@20.17.24)(@types/react@19.1.0)(eslint@8.57.1)(lightningcss@1.29.2)(prettier@3.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@3.29.5)(stylelint@15.11.0(typescript@5.0.4))(terser@5.39.0)(type-fest@1.4.0)(typescript@5.0.4)(webpack@5.92.1(@swc/core@1.9.2(@swc/helpers@0.5.1))):
     dependencies:
       '@ant-design/icons-svg': 4.4.2
       '@makotot/ghostui': 2.0.0(react@19.1.0)
@@ -13846,6 +13849,11 @@ snapshots:
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.3)
       postcss: 8.5.3
+
+  postcss-nested@7.0.2(postcss@8.5.3):
+    dependencies:
+      postcss: 8.5.3
+      postcss-selector-parser: 7.1.0
 
   postcss-nesting@10.2.0(postcss@8.5.3):
     dependencies:

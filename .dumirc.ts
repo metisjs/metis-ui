@@ -3,6 +3,7 @@ import { defineConfig } from 'dumi';
 import rehype from './.dumi/rehype';
 
 export default defineConfig({
+  autoprefixer: {},
   mfsu: false,
   hash: true,
   outputPath: '_site',
@@ -75,4 +76,5 @@ export default defineConfig({
     `,
   ],
   targets: { chrome: 111 },
+  extraPostCSSPlugins: ['postcss-nested'],
 });
