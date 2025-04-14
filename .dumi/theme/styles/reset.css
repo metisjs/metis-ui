@@ -19,5 +19,9 @@ iframe body {
 }
 
 .dumi-default-source-code-copy {
-  @apply rounded-md!;
+  @apply mt-0! rounded-md!;
+}
+
+.dumi-default-source-code-language {
+  display: none;
 }
