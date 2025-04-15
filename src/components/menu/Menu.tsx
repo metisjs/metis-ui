@@ -509,7 +509,7 @@ const Menu = React.forwardRef<MenuRef, MenuProps>((props, ref) => {
       'w-[72px] px-0': internalInlineCollapsed,
     },
     // >>> Dark
-    theme === 'dark' && 'bg-gray-800',
+    theme === 'dark' && 'bg-gray-900',
     theme === 'dark' && internalMode === 'horizontal' && 'items-center',
     semanticCls.root,
   );

@@ -23,7 +23,7 @@ const InternalSubMenuList = (
           'bg-container outline-border-secondary flex max-h-[calc(100vh-6.25rem)] min-w-[10rem] flex-col gap-1 rounded-md py-1 text-sm shadow-lg outline-1 backdrop-blur-2xl',
         // >>> Inline
         mode === 'inline' && 'mt-1 flex flex-col gap-1 font-normal',
-        theme === 'dark' && 'bg-gray-800 text-white outline-gray-800',
+        theme === 'dark' && 'bg-gray-900 text-white outline-gray-800',
         className,
       )}
       role="menu"

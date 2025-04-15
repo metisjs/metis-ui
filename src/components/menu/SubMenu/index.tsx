@@ -290,9 +290,9 @@ const InternalSubMenu = (props: SubMenuProps) => {
         // >>> Dark Horizontal
         horizontal: {
           'relative flex h-9 items-center rounded-md px-3 text-sm leading-7': true,
-          'text-gray-300 hover:bg-gray-700 hover:text-white': !mergedDisabled && !childrenSelected,
-          'bg-gray-700 text-white': mergedActive,
-          'bg-gray-900 text-white': childrenSelected,
+          'text-gray-300 hover:bg-gray-700/80 hover:text-white':
+            !mergedDisabled && !childrenSelected,
+          'bg-gray-700/80 text-white': mergedActive || childrenSelected,
           'text-gray-500': mergedDisabled,
         },
         // >>> Dark Vertical
@@ -300,14 +300,14 @@ const InternalSubMenu = (props: SubMenuProps) => {
           'text-text-tertiary h-10 truncate rounded-md p-2': true,
           'px-4 leading-10 text-gray-300 in-[.item-group]:ps-7': !firstLevel,
           'text-white': childrenSelected,
-          'hover:bg-gray-700': !mergedDisabled,
+          'hover:bg-gray-700/80': !mergedDisabled,
           'text-gray-500': mergedDisabled,
         },
         // >>> Dark Inline
         inline: {
           'text-text-tertiary h-10 rounded-md p-2': true,
           'text-white': childrenSelected,
-          'hover:bg-gray-700 hover:text-white': !mergedDisabled,
+          'hover:bg-gray-700/80 hover:text-white': !mergedDisabled,
           'text-gray-500': mergedDisabled,
         },
       },
