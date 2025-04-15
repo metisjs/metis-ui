@@ -1,15 +1,15 @@
 import React from 'react';
-import { Space, Splitter } from 'metis-ui';
+import { mergeSemanticCls, Space, Splitter } from 'metis-ui';
 import type { SplitterProps } from 'metis-ui';
 
 const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (
   <Space block justify="center" align="center" className="h-full">
-    <div className="text-base text-text-secondary">{props.text}</div>
+    <div className="text-text-secondary text-base">{props.text}</div>
   </Space>
 );
 
-const CustomSplitter: React.FC<Readonly<SplitterProps>> = ({ style, ...restProps }) => (
-  <Splitter style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', ...style }} {...restProps}>
+const CustomSplitter: React.FC<Readonly<SplitterProps>> = ({ className, ...restProps }) => (
+  <Splitter className={mergeSemanticCls(className, 'bg-gray-950/2 dark:bg-white/5')} {...restProps}>
     <Splitter.Panel collapsible min="20%">
       <Desc text="First" />
     </Splitter.Panel>
@@ -21,8 +21,8 @@ const CustomSplitter: React.FC<Readonly<SplitterProps>> = ({ style, ...restProps
 
 const App: React.FC = () => (
   <Space size="middle" vertical block>
-    <CustomSplitter style={{ height: 200 }} />
-    <CustomSplitter style={{ height: 300 }} layout="vertical" />
+    <CustomSplitter className="h-50" />
+    <CustomSplitter className="h-[300px]" layout="vertical" />
   </Space>
 );
 

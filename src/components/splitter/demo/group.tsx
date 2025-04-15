@@ -3,12 +3,12 @@ import { Space, Splitter } from 'metis-ui';
 
 const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (
   <Space block justify="center" align="center" className="h-full">
-    <div className="text-base text-text-secondary">{props.text}</div>
+    <div className="text-text-secondary text-base">{props.text}</div>
   </Space>
 );
 
 const App: React.FC = () => (
-  <Splitter style={{ height: 300, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+  <Splitter className="h-[300px] bg-gray-950/2 dark:bg-white/5">
     <Splitter.Panel collapsible>
       <Desc text="Left" />
     </Splitter.Panel>

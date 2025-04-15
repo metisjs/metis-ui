@@ -3,14 +3,14 @@ import { Space, Splitter } from 'metis-ui';
 
 const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (
   <Space block justify="center" align="center" className="h-full">
-    <div className="text-base text-text-secondary">{props.text}</div>
+    <div className="text-text-secondary text-base">{props.text}</div>
   </Space>
 );
 
 const App: React.FC = () => (
   <Space vertical size="middle" block>
     <div>[true, 0, false]</div>
-    <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <Splitter className="h-50 bg-gray-950/2 dark:bg-white/5">
       <Splitter.Panel>
         <Desc text={1} />
       </Splitter.Panel>
@@ -22,7 +22,7 @@ const App: React.FC = () => (
       </Splitter.Panel>
     </Splitter>
     <div>[false, 0, true]</div>
-    <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <Splitter className="h-50 bg-gray-950/2 dark:bg-white/5">
       <Splitter.Panel resizable={false}>
         <Desc text={1} />
       </Splitter.Panel>
@@ -34,7 +34,7 @@ const App: React.FC = () => (
       </Splitter.Panel>
     </Splitter>
     <div>Start have min & max</div>
-    <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <Splitter className="h-50 bg-gray-950/2 dark:bg-white/5">
       <Splitter.Panel min={50} max={100}>
         <Desc text={1} />
       </Splitter.Panel>
@@ -43,7 +43,7 @@ const App: React.FC = () => (
       </Splitter.Panel>
     </Splitter>
     <div>End have min & max</div>
-    <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <Splitter className="h-50 bg-gray-950/2 dark:bg-white/5">
       <Splitter.Panel>
         <Desc text={1} />
       </Splitter.Panel>

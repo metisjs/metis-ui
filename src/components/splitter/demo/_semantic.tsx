@@ -4,7 +4,7 @@ import SemanticPreview from '../../../../.dumi/components/SemanticPreview';
 
 const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (
   <Space block justify="center" align="center" className="h-full">
-    <div className="text-base text-text-secondary">{props.text}</div>
+    <div className="text-text-secondary text-base">{props.text}</div>
   </Space>
 );
 const App: React.FC = () => (
@@ -28,9 +28,9 @@ const App: React.FC = () => (
     {(hover) => (
       <Splitter
         className={{
+          root: 'bg-gray-950/2 dark:bg-white/5',
           bar: { collapseBar: clsx(hover?.name === 'collapseBar' && 'opacity-100') },
         }}
-        style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
       >
         <Splitter.Panel defaultSize="40%" min="20%" max="70%" collapsible>
           <Desc text="First" />
