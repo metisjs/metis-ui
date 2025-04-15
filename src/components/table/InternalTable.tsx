@@ -835,7 +835,7 @@ function InternalTable<RecordType extends AnyObject>(
       [`${prefixCls}-has-pin-left`]: hasPinLeft,
       [`${prefixCls}-has-pin-right`]: hasPinRight,
     },
-    'bg-container text-text max-w-full text-sm [&:fullscreen]:p-6',
+    'text-text max-w-full text-sm [&:fullscreen]:p-6',
     semanticCls.root,
   );
 

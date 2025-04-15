@@ -34,9 +34,9 @@ const columns: TableProps<DataType>['columns'] = [
     valueEnum: {
       teacher: { label: 'Teacher', color: 'processing' },
       developer: { label: 'Developer', color: 'processing' },
-      loser: { label: 'Loser', color: 'red' },
-      cool: { label: 'Cool', color: 'green' },
-      nice: { label: 'Nice', color: 'green' },
+      loser: { label: 'Loser', color: 'error' },
+      cool: { label: 'Cool', color: 'success' },
+      nice: { label: 'Nice', color: 'success' },
     },
   },
   {

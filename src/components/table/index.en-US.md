@@ -91,7 +91,7 @@ description: A table displays rows of data.
 | sticky | Set sticky header and scroll bar | boolean, `{offsetHeader?: number, offsetScroll?: number, getContainer?: () => HTMLElement}` | - |  |
 | summary | Summary content | (currentData) => ReactNode | - |  |
 | syncToUrl | Sync pagination、filter、sorter data to url | boolean, [syncToUrl](#synctourl) | - |  |
-| tableLayout | The [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) attribute of table element | -, `auto`, `fixed` | -<hr />`fixed` when header/columns are fixed, or using `column.ellipsis` |  |
+| tableLayout | The [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) attribute of table element | `auto`, `fixed` | `fixed` when header/columns are fixed, or using `column.ellipsis` |  |
 | title | Table title renderer | function(currentPageData) | - |  |
 | toolbar | Config toolbar content | [toolbar](#toolbar) | - |  |
 | verticalLine | Whether to show all table borders | boolean | false |  |

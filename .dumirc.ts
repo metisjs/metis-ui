@@ -3,7 +3,7 @@ import { defineConfig } from 'dumi';
 import rehype from './.dumi/rehype';
 
 export default defineConfig({
-  mfsu: false,
+  mfsu: true,
   hash: true,
   outputPath: '_site',
   favicons: ['/favicon.ico'],

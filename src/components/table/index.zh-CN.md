@@ -94,7 +94,7 @@ description: 展示行列数据。
 | sticky | 设置粘性头部和滚动条 | boolean、 `{offsetHeader?: number, offsetScroll?: number, getContainer?: () => HTMLElement}` | - |  |
 | summary | 总结栏 | (currentData) => ReactNode | - |  |
 | syncToUrl | 同步分页、过滤、排序参数到URL | boolean、 [syncToUrl](#synctourl) | - |  |
-| tableLayout | 表格元素的 [table-layout](https://developer.mozilla.org/zh-CN/docs/Web/CSS/table-layout) 属性，设为 `fixed` 表示内容不会影响列的布局 | -、 `auto`、 `fixed` | 无<hr />固定表头/列或使用了 `column.ellipsis` 时，默认值为 `fixed` |  |
+| tableLayout | 表格元素的 [table-layout](https://developer.mozilla.org/zh-CN/docs/Web/CSS/table-layout) 属性，设为 `fixed` 表示内容不会影响列的布局 | `auto`、 `fixed` | 固定表头/列或使用了 `column.ellipsis` 时，默认值为 `fixed` |  |
 | toolbar | 配置工具栏属性 | [toolbar](#toolbar) | - |  |
 | verticalLine | 显示竖向分割线 | boolean | false |  |
 | onChange | 分页、排序、筛选变化时触发 | function(pagination, filters, sorter, extra: { currentDataSource: \[], action: `paginate`、 `sort`、 `filter` }) | - |  |
