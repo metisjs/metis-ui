@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'dumi';
 import { Segmented } from 'metis-ui';
 import Icons from './Icons';
 
 export default function IconSearch() {
-  let searchInputRef = useRef<HTMLInputElement>(null);
+  const { formatMessage } = useIntl();
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  let [query, setQuery] = useState('');
-  let [type, setType] = useState<string | number>('Outline');
+  const [query, setQuery] = useState('');
+  const [type, setType] = useState<string | number>('Outline');
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -25,7 +27,7 @@ export default function IconSearch() {
 
   return (
     <main>
-      <div className="pointer-events-none sticky top-[76px] z-50 -mb-12 overflow-hidden pb-12">
+      <div className="pointer-events-none sticky top-14 z-50 mt-4 -mb-12 overflow-hidden pb-12">
         <div className="relative">
           <div className="pointer-events-auto relative bg-white pb-4 shadow-[0_1px_3px_rgba(15,23,42,0.08)] dark:bg-[#0a0e13]">
             <div className="flex flex-row items-center sm:flex-col">
@@ -35,8 +37,8 @@ export default function IconSearch() {
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  aria-label="在此搜索图标，点击图标可复制代码"
-                  placeholder="在此搜索图标，点击图标可复制代码"
+                  aria-label={formatMessage({ id: 'app.docs.components.icon.search.placeholder' })}
+                  placeholder={formatMessage({ id: 'app.docs.components.icon.search.placeholder' })}
                   className="block w-full appearance-none rounded-lg border-0 bg-transparent py-4 pr-4 pl-9 text-base text-slate-900 transition placeholder:text-slate-400 focus:ring-0 focus:outline-hidden dark:text-[#c6c9cd] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none"
                 />
                 <svg

@@ -4,5 +4,6 @@
   "app.banner.title": "一套企业级 React-Tailwind 组件库",
   "app.banner.desc": "结合 Ant Design 的全面组件库与 Tailwind CSS 的灵活性和实用优先的设计方法，轻松构建现代化、可扩展且视觉惊艳的用户界面。",
   "app.nav.docs": "指南",
-  "app.nav.components": "组件"
+  "app.nav.components": "组件",
+  "app.docs.components.icon.search.placeholder": "在此搜索图标，点击图标可复制代码"
 }

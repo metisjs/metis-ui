@@ -4,5 +4,6 @@
   "app.banner.title": "A Modern React-Tailwind Component Library for Developers.",
   "app.banner.desc": "Experience the power of Ant Design's comprehensive component library combined with the flexibility and utility-first approach of Tailwind CSS. Build modern, scalable, and visually stunning user interfaces effortlessly.",
   "app.nav.docs": "Docs",
-  "app.nav.components": "Components"
+  "app.nav.components": "Components",
+  "app.docs.components.icon.search.placeholder": "Search icons here, click icon to copy code"
 }
