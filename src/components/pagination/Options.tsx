@@ -163,7 +163,10 @@ const Options: React.FC<OptionsProps> = (props) => {
 
   const rootCls = clsx(
     prefixCls,
-    'ms-1 inline-flex items-center gap-2 sm:hidden',
+    'ms-1 inline-flex items-center gap-3 sm:hidden',
+    {
+      'gap-2': size === 'small' || size === 'mini',
+    },
     semanticCls.root,
   );
 
