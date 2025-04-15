@@ -268,7 +268,7 @@ const Anchor: React.FC<AnchorProps> = (props) => {
     'text-text relative flex flex-col gap-2 ps-[2px] text-sm',
     'before:border-fill-secondary before:absolute before:border-solid',
     {
-      'flex before:right-0 before:bottom-0 before:left-0 before:border-b':
+      'flex flex-row py-1 before:right-0 before:bottom-0 before:left-0 before:border-b':
         anchorDirection === 'horizontal',
       'before:start-0 before:top-0 before:h-full before:border-s': anchorDirection === 'vertical',
     },
