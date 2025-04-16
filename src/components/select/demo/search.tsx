@@ -33,7 +33,7 @@ const App: React.FC = () => (
         label: 'Tom',
       },
     ]}
-    style={{ width: 160 }}
+    className="w-40"
   />
 );
 

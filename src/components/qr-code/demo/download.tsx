@@ -38,7 +38,7 @@ const App: React.FC = () => {
           type={renderType}
           value="https://metisui.com/"
           bgColor="#fff"
-          style={{ marginBottom: 16 }}
+          className="mb-4"
           icon="/logo.svg"
         />
         <Button

@@ -65,7 +65,7 @@ function App() {
   return (
     <ConfigProvider renderEmpty={renderEmpty}>
       {dataSource.length ? toggleButton : null}
-      <div style={{ marginBlock: 8 }} />
+      <div className="my-2" />
       <Table<DataType>
         verticalLine
         dataSource={dataSource}

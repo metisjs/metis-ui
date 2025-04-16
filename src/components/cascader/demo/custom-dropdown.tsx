@@ -45,8 +45,8 @@ const options: Option[] = [
 const popupRender = (menus: React.ReactNode) => (
   <div>
     {menus}
-    <Divider style={{ margin: 0 }} />
-    <div style={{ padding: 8 }}>The footer is not very short.</div>
+    <Divider className="m-0" />
+    <div className="p-2">The footer is not very short.</div>
   </div>
 );
 

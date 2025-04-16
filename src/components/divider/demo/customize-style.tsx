@@ -3,16 +3,16 @@ import { Divider } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
-    <Divider style={{ borderWidth: 2, borderColor: '#7cb305' }} />
-    <Divider style={{ borderColor: '#7cb305' }} dashed />
-    <Divider style={{ borderColor: '#7cb305' }} dashed>
+    <Divider className="border-2 border-lime-600" />
+    <Divider className="border-lime-600" dashed />
+    <Divider className="border-lime-600" dashed>
       Text
     </Divider>
-    <Divider type="vertical" style={{ height: 60, borderColor: '#7cb305' }} />
-    <Divider type="vertical" style={{ height: 60, borderColor: '#7cb305' }} dashed />
+    <Divider type="vertical" className="h-15 border-sky-600" />
+    <Divider type="vertical" className="h-15 border-sky-600" dashed />
 
-    <div style={{ display: 'flex', flexDirection: 'column', height: 50, boxShadow: '0 0 1px red' }}>
-      <Divider style={{ background: 'rgba(0,255,0,0.05)' }} orientation="left">
+    <div className="flex h-12 flex-col">
+      <Divider className="bg-sky-600/5" orientation="left">
         Text
       </Divider>
     </div>

@@ -6,7 +6,7 @@ const { Meta } = Card;
 
 const App: React.FC = () => (
   <Card
-    style={{ width: 300 }}
+    className="w-75"
     cover={
       <img
         alt="example"

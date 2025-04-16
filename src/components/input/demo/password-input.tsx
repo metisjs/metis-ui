@@ -17,7 +17,7 @@ const App: React.FC = () => {
           placeholder="input password"
           visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
         />
-        <Button style={{ width: 80 }} onClick={() => setPasswordVisible((prevState) => !prevState)}>
+        <Button className="w-20" onClick={() => setPasswordVisible((prevState) => !prevState)}>
           {passwordVisible ? 'Hide' : 'Show'}
         </Button>
       </Space>

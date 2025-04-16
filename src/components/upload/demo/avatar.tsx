@@ -48,7 +48,7 @@ const App: React.FC = () => {
       ) : (
         <PlusOutline className="size-5" />
       )}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div className="mt-2">Upload</div>
     </button>
   );
 
@@ -63,7 +63,7 @@ const App: React.FC = () => {
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        {imageUrl ? <img src={imageUrl} alt="avatar" className="w-full" /> : uploadButton}
       </Upload>
       <Upload
         name="avatar"
@@ -74,7 +74,7 @@ const App: React.FC = () => {
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        {imageUrl ? <img src={imageUrl} alt="avatar" className="w-full" /> : uploadButton}
       </Upload>
     </Space>
   );

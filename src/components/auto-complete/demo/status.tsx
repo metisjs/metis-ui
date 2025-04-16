@@ -18,13 +18,13 @@ const App: React.FC = () => {
         options={options}
         onSearch={(text) => setOptions(getPanelValue(text))}
         status="error"
-        style={{ width: 200 }}
+        className="w-50"
       />
       <AutoComplete
         options={anotherOptions}
         onSearch={(text) => setAnotherOptions(getPanelValue(text))}
         status="warning"
-        style={{ width: 200 }}
+        className="w-50"
       />
     </Space>
   );

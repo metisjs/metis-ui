@@ -41,7 +41,7 @@ const App: React.FC = () => {
         name="InputNumber"
         rules={[{ required: true, message: 'Please input!' }]}
       >
-        <InputNumber style={{ width: '100%' }} />
+        <InputNumber className="w-full" />
       </Form.Item>
 
       <Form.Item

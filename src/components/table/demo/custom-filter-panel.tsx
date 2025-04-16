@@ -64,14 +64,14 @@ const App: React.FC = () => {
   const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<DataType> => ({
     filter: {
       dropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-        <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <div className="p-2" onKeyDown={(e) => e.stopPropagation()}>
           <Input
             ref={searchInput}
             placeholder={`Search ${dataIndex}`}
             value={selectedKeys[0]}
             onChange={(value) => setSelectedKeys(value ? [value] : [])}
             onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-            style={{ marginBottom: 8, display: 'block' }}
+            className="mb-2 block"
             size="small"
           />
           <Space>
@@ -80,14 +80,14 @@ const App: React.FC = () => {
               onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
               icon={<MagnifyingGlassOutline />}
               size="mini"
-              style={{ width: 90 }}
+              className="w-[90px]"
             >
               Search
             </Button>
             <Button
               onClick={() => clearFilters && handleReset(clearFilters)}
               size="mini"
-              style={{ width: 90 }}
+              className="w-[90px]"
             >
               Reset
             </Button>

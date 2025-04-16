@@ -69,12 +69,11 @@ const App: React.FC = () => {
       <Menu
         theme={theme}
         onClick={onClick}
-        style={{ width: 256 }}
         defaultOpenKeys={['sub1']}
         selectedKeys={[current]}
         mode="inline"
         items={items}
-        className={theme === 'light' ? 'border-e border-e-border' : ''}
+        className={theme === 'light' ? 'border-e-border w-64 border-e' : 'w-64'}
       />
     </>
   );

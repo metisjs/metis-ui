@@ -61,9 +61,8 @@ const App: React.FC = () => {
       mode="inline"
       openKeys={openKeys}
       onOpenChange={onOpenChange}
-      style={{ width: 288 }}
       items={items}
-      className="border-e border-e-border"
+      className="border-e-border w-72 border-e"
     />
   );
 };

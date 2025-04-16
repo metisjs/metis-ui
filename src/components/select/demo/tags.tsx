@@ -19,7 +19,7 @@ const App: React.FC = () => (
   <Select
     mode="tags"
     showSearch
-    style={{ width: '100%' }}
+    className="w-full"
     placeholder="Tags Mode"
     onChange={handleChange}
     options={options}

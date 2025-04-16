@@ -31,7 +31,7 @@ const HorizontalLayoutDemo = () => {
   return (
     <ColorPicker
       defaultValue={theme.primary}
-      className={{ popup: 'w-[480px]' }}
+      className={{ popup: 'w-120' }}
       presets={presets}
       panelRender={customPanelRender}
     />
@@ -43,16 +43,7 @@ const BasicDemo = () => (
     defaultValue="#4f46e5"
     panelRender={(panel) => (
       <div className="custom-panel">
-        <div
-          style={{
-            fontSize: 12,
-            color: 'rgba(0, 0, 0, 0.88)',
-            lineHeight: '20px',
-            marginBottom: 8,
-          }}
-        >
-          Color Picker
-        </div>
+        <div className="text-text/5 mb-2 text-xs">Color Picker</div>
         {panel}
       </div>
     )}

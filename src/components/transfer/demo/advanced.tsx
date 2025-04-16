@@ -43,21 +43,13 @@ const App: React.FC = () => {
   const renderFooter: TransferProps['footer'] = (_, info) => {
     if (info?.direction === 'left') {
       return (
-        <Button
-          size="small"
-          style={{ display: 'flex', margin: 8, marginInlineEnd: 'auto' }}
-          onClick={getMock}
-        >
+        <Button size="small" onClick={getMock} className="m-2 me-auto flex">
           Left button reload
         </Button>
       );
     }
     return (
-      <Button
-        size="small"
-        style={{ display: 'flex', margin: 8, marginInlineStart: 'auto' }}
-        onClick={getMock}
-      >
+      <Button size="small" onClick={getMock} className="m-2 ms-auto flex">
         Right button reload
       </Button>
     );

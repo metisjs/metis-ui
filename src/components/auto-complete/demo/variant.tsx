@@ -15,14 +15,14 @@ const App: React.FC = () => {
     <Space vertical size={12}>
       <AutoComplete
         options={options}
-        style={{ width: 200 }}
+        className="w-50"
         placeholder="Outlined"
         onSearch={(text) => setOptions(getPanelValue(text))}
         onSelect={globalThis.console.log}
       />
       <AutoComplete
         options={options}
-        style={{ width: 200 }}
+        className="w-50"
         placeholder="Filled"
         onSearch={(text) => setOptions(getPanelValue(text))}
         onSelect={globalThis.console.log}
@@ -30,7 +30,7 @@ const App: React.FC = () => {
       />
       <AutoComplete
         options={options}
-        style={{ width: 200 }}
+        className="w-50"
         placeholder="Borderless"
         onSearch={(text) => setOptions(getPanelValue(text))}
         onSelect={globalThis.console.log}

@@ -6,7 +6,7 @@ const image =
 
 const App: React.FC = () => (
   <Watermark height={128} width={128} image={image}>
-    <div style={{ height: 500 }} />
+    <div className="w-125" />
   </Watermark>
 );
 

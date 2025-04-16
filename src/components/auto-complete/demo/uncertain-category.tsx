@@ -12,12 +12,7 @@ const searchResult = (query: string) =>
       return {
         value: category,
         label: (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
+          <div className="flex justify-between">
             <span>
               Found {query} on{' '}
               <a
@@ -48,7 +43,7 @@ const App: React.FC = () => {
   return (
     <AutoComplete
       popupMatchSelectWidth={252}
-      style={{ width: 300 }}
+      className="w-75"
       options={options}
       onSelect={onSelect}
       onSearch={handleSearch}

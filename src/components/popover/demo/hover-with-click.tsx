@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const clickContent = <div>This is click content.</div>;
   return (
     <Popover
-      style={{ width: 500 }}
+      className="w-125"
       content={hoverContent}
       title="Hover title"
       trigger="hover"

@@ -80,7 +80,7 @@ const App: React.FC = () => {
       <Space.Compact>
         <Button>Prefix</Button>
         <Input
-          addonBefore={<Cascader placeholder="cascader" style={{ width: 150 }} />}
+          addonBefore={<Cascader placeholder="cascader" className="w-[150px]" />}
           defaultValue="mysite"
         />
         <Button type="primary">Submit</Button>
@@ -186,14 +186,14 @@ const App: React.FC = () => {
         />
       </Space.Compact>
       <Space.Compact>
-        <DatePicker.RangePicker style={{ width: '70%' }} />
+        <DatePicker.RangePicker className="w-7/10" />
       </Space.Compact>
       <Space.Compact>
         <InputNumber defaultValue={12} />
       </Space.Compact>
       <Space.Compact>
         <Cascader
-          style={{ width: '70%' }}
+          className="w-7/10"
           options={[
             {
               value: 'zhejiang',

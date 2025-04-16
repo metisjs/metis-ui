@@ -25,7 +25,6 @@ const App: React.FC = () => {
       <Tabs
         defaultActiveKey="1"
         tabPosition={mode}
-        style={{ height: 220 }}
         items={new Array(30).fill(null).map((_, i) => {
           const id = String(i);
           return {
@@ -35,6 +34,7 @@ const App: React.FC = () => {
             content: `Content of tab ${id}`,
           };
         })}
+        className="h-55"
       />
     </div>
   );

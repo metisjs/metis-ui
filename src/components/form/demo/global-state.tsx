@@ -44,8 +44,8 @@ const App: React.FC = () => {
           setFields(newFields);
         }}
       />
-      <div style={{ maxWidth: 440, marginTop: 24 }}>
-        <pre style={{ border: 'none' }}>{JSON.stringify(fields, null, 2)}</pre>
+      <div className="mt-6 max-w-110">
+        <pre className="border-none">{JSON.stringify(fields, null, 2)}</pre>
       </div>
     </>
   );

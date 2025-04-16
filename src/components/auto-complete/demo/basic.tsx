@@ -25,7 +25,7 @@ const App: React.FC = () => {
     <>
       <AutoComplete
         options={options}
-        style={{ width: 200 }}
+        className="w-50"
         onSelect={onSelect}
         onSearch={(text) => setOptions(getPanelValue(text))}
         placeholder="input here"
@@ -35,7 +35,7 @@ const App: React.FC = () => {
       <AutoComplete
         value={value}
         options={anotherOptions}
-        style={{ width: 200 }}
+        className="w-50"
         onSelect={onSelect}
         onSearch={(text) => setAnotherOptions(getPanelValue(text))}
         onChange={onChange}

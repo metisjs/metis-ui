@@ -9,7 +9,7 @@ const App: React.FC = () => (
   <Space wrap>
     <Select
       defaultValue="lucy"
-      style={{ width: 160 }}
+      className="w-40"
       onChange={handleChange}
       options={[
         { value: 'jack', label: 'Jack' },
@@ -20,19 +20,19 @@ const App: React.FC = () => (
     />
     <Select
       defaultValue="lucy"
-      style={{ width: 160 }}
+      className="w-40"
       disabled
       options={[{ value: 'lucy', label: 'Lucy' }]}
     />
     <Select
       defaultValue="lucy"
-      style={{ width: 160 }}
+      className="w-40"
       loading
       options={[{ value: 'lucy', label: 'Lucy' }]}
     />
     <Select
       defaultValue="lucy"
-      style={{ width: 160 }}
+      className="w-40"
       allowClear
       options={[{ value: 'lucy', label: 'Lucy' }]}
     />

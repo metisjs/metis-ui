@@ -32,10 +32,10 @@ const items: DescriptionsProps['items'] = [
 
 const App: React.FC = () => (
   <Space size={8} vertical block>
-    <div style={{ width: 600, border: '1px solid', padding: 20 }}>
+    <div className="w-150 border border-indigo-500 p-4">
       <Descriptions title="User Info" column={2} items={items} />
     </div>
-    <div style={{ width: 600, border: '1px solid', padding: 20 }}>
+    <div className="w-150 border border-indigo-500 p-4">
       <Descriptions layout="vertical" title="User Info" column={2} items={items} />
     </div>
   </Space>

@@ -51,11 +51,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <div style={{ width: 288 }}>
+    <div className="w-72">
       <Button
         type="primary"
         onClick={toggleCollapsed}
-        style={{ marginBottom: 16 }}
+        className="mb-4"
         icon={collapsed ? <ChevronDoubleRightOutline /> : <ChevronDoubleLeftOutline />}
       ></Button>
       <Menu

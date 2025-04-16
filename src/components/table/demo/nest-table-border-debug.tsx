@@ -95,7 +95,7 @@ const App: React.FC = () => {
   const [childVerticalLine, setChildVerticalLine] = useState(true);
   return (
     <>
-      <Form layout="inline" className="table-demo-control-bar" style={{ marginBottom: 16 }}>
+      <Form layout="inline" className="mb-4">
         <Form.Item label="Root Table Vertical Line">
           <Switch checked={rootVerticalLine} onChange={(v) => setRootVerticalLine(v)} />
         </Form.Item>

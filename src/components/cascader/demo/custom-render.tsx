@@ -75,7 +75,7 @@ const App: React.FC = () => (
     options={options}
     defaultValue={['zhejiang', 'hangzhou', 'xihu']}
     displayRender={displayRender}
-    style={{ width: '100%' }}
+    className="w-full"
   />
 );
 

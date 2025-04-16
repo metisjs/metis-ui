@@ -26,11 +26,11 @@ const App: React.FC = () => {
     <div>
       {contextHolder}
       <Space size="large">
-        <Space style={{ width: '100%' }}>
+        <Space className="w-full">
           <span>Enabled: </span>
           <Switch checked={enabled} onChange={(v) => setEnabled(v)} />
         </Space>
-        <Space style={{ width: '100%' }}>
+        <Space className="w-full">
           <span>Threshold: </span>
           <InputNumber
             disabled={!enabled}

@@ -4,9 +4,9 @@ import { Anchor } from 'metis-ui';
 const App: React.FC = () => (
   <div className="flex">
     <div className="basis-2/3">
-      <div id="part-1" style={{ height: '100vh', background: 'rgba(255,0,0,0.02)' }} />
-      <div id="part-2" style={{ height: '100vh', background: 'rgba(0,255,0,0.02)' }} />
-      <div id="part-3" style={{ height: '100vh', background: 'rgba(0,0,255,0.02)' }} />
+      <div id="part-1" className="h-screen bg-amber-200" />
+      <div id="part-2" className="h-screen bg-red-200" />
+      <div id="part-3" className="h-screen bg-sky-200" />
     </div>
     <div className="basis-1/3">
       <Anchor

@@ -116,7 +116,7 @@ const App: React.FC = () => {
           <Button htmlType="submit" type="primary">
             Submit
           </Button>
-          <Button htmlType="button" style={{ margin: '0 8px' }} onClick={showUserModal}>
+          <Button htmlType="button" className="mx-2" onClick={showUserModal}>
             Add User
           </Button>
         </Form.Item>

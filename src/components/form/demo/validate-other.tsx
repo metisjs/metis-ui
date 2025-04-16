@@ -77,9 +77,7 @@ const App: React.FC = () => (
       <Form.Item name="input-number" noStyle>
         <InputNumber min={1} max={10} />
       </Form.Item>
-      <span className="ant-form-text" style={{ marginInlineStart: 8 }}>
-        machines
-      </span>
+      <span className="ms-2">machines</span>
     </Form.Item>
 
     <Form.Item name="switch" label="Switch" valuePropName="checked">

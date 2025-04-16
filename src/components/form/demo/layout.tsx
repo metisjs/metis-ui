@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Segmented } from 'metis-ui';
+import { Button, clsx, Form, Input, Segmented } from 'metis-ui';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -17,7 +17,9 @@ const App: React.FC = () => {
       form={form}
       initialValues={{ layout: formLayout }}
       onValuesChange={onFormLayoutChange}
-      style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 }}
+      className={clsx('max-w-150', {
+        'max-w-none': formLayout === 'inline',
+      })}
     >
       <Form.Item label="Form Layout" name="layout">
         <Segmented

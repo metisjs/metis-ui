@@ -127,11 +127,10 @@ const App: React.FC = () => (
     ]}
   >
     <Menu
-      style={{ width: 288 }}
       openKeys={['teams', 'projects']}
       mode="inline"
       items={items}
-      className="border-e border-e-border"
+      className="border-e-border w-72 border-e"
     />
   </SemanticPreview>
 );

@@ -18,7 +18,7 @@ const handleChange = (value: string[]) => {
 const App: React.FC = () => (
   <Select
     mode="tags"
-    style={{ width: '100%' }}
+    className="w-full"
     onChange={handleChange}
     tokenSeparators={[',']}
     options={options}

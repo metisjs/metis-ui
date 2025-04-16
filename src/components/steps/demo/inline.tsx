@@ -49,7 +49,7 @@ const App: React.FC = () => (
             description="Metis, a design language for background applications, is refined by Ant UED Team"
           />
           <Steps
-            style={{ marginTop: 8 }}
+            className="mt-2"
             type="inline"
             current={item.current}
             status={item.status as StepsProps['status']}

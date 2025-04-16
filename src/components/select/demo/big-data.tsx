@@ -22,7 +22,7 @@ const App: React.FC = () => (
     <h3>{options.length} Items</h3>
     <Select
       mode="multiple"
-      style={{ width: '100%' }}
+      className="w-full"
       placeholder="Please select"
       defaultValue={['a10', 'c12']}
       onChange={handleChange}

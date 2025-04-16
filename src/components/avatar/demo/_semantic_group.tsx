@@ -11,11 +11,11 @@ const App: React.FC = () => (
       { name: 'max', children: [{ name: 'children' }] },
     ]}
   >
-    <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+    <Avatar.Group maxCount={3} className={{ max: 'bg-rose-300 text-rose-800' }}>
       <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-      <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-      <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />
-      <Avatar style={{ backgroundColor: '#1890ff' }} icon={<PaperAirplaneSolid />} />
+      <Avatar className="bg-yellow-500">K</Avatar>
+      <Avatar className="bg-lime-500" icon={<UserSolid />} />
+      <Avatar className="bg-sky-500" icon={<PaperAirplaneSolid />} />
     </Avatar.Group>
   </SemanticPreview>
 );

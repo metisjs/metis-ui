@@ -64,22 +64,22 @@ const App: React.FC = () => {
           </p>
         </div>
         <img
-          style={{ zIndex: 10, width: '100%', maxWidth: 800, position: 'relative' }}
           src="https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*zx7LTI_ECSAAAAAAAAAAAABkARQnAQ"
           alt="img"
+          className="relative z-10 w-full max-w-200"
         />
       </Watermark>
       <Form
-        style={{ width: 280, flexShrink: 0, borderLeft: '1px solid #eee', paddingInlineStart: 16 }}
         form={form}
         layout="vertical"
         initialValues={config}
         onValuesChange={(_, values) => {
           setConfig(values);
         }}
+        className="border-border w-70 shrink-0 border-l ps-4"
       >
         <Form.Item name="content" label="Content">
-          <Input placeholder="请输入" />
+          <Input />
         </Form.Item>
         <Form.Item name="color" label="Color">
           <ColorPicker />
@@ -93,23 +93,23 @@ const App: React.FC = () => {
         <Form.Item name="rotate" label="Rotate">
           <Slider step={1} min={-180} max={180} />
         </Form.Item>
-        <Form.Item label="Gap" style={{ marginBottom: 0 }}>
+        <Form.Item label="Gap" className="mb-0">
           <Space block size="small">
             <Form.Item name={['gap', 0]}>
-              <InputNumber placeholder="gapX" style={{ width: '100%' }} />
+              <InputNumber placeholder="gapX" className="w-full" />
             </Form.Item>
             <Form.Item name={['gap', 1]}>
-              <InputNumber placeholder="gapY" style={{ width: '100%' }} />
+              <InputNumber placeholder="gapY" className="w-full" />
             </Form.Item>
           </Space>
         </Form.Item>
-        <Form.Item label="Offset" style={{ marginBottom: 0 }}>
+        <Form.Item label="Offset" className="mb-0">
           <Space block size="small">
             <Form.Item name={['offset', 0]}>
-              <InputNumber placeholder="offsetLeft" style={{ width: '100%' }} />
+              <InputNumber placeholder="offsetLeft" className="w-full" />
             </Form.Item>
             <Form.Item name={['offset', 1]}>
-              <InputNumber placeholder="offsetTop" style={{ width: '100%' }} />
+              <InputNumber placeholder="offsetTop" className="w-full" />
             </Form.Item>
           </Space>
         </Form.Item>

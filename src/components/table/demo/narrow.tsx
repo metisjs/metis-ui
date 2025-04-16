@@ -32,7 +32,7 @@ const dataSource = Array.from({ length: 200 }).map<DataType>((_, key) => ({
 }));
 
 const App: React.FC = () => (
-  <div style={{ width: 300 }}>
+  <div className="w-75">
     <Table<DataType>
       columns={columns}
       dataSource={dataSource}

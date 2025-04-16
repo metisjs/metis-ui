@@ -12,7 +12,7 @@ const App: React.FC = () => {
       </Button>
       <Modal
         title="20px to Top"
-        style={{ top: 20 }}
+        className="mt-5"
         open={modal1Open}
         onOk={() => setModal1Open(false)}
         onCancel={() => setModal1Open(false)}

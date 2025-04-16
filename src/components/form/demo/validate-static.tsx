@@ -89,7 +89,7 @@ const App: React.FC = () => (
       <Cascader placeholder="I'm Cascader" options={[{ value: 'xx', label: 'xx' }]} allowClear />
     </Form.Item>
 
-    <Form.Item label="Inline" style={{ marginBottom: 0 }}>
+    <Form.Item label="Inline" className="mb-0">
       <Space block align="start">
         <Form.Item validateStatus="error" help="Please select right date" className="flex-auto">
           <DatePicker className="w-full" />

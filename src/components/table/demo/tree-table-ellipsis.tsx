@@ -102,7 +102,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Space align="center" style={{ marginBottom: 16 }}>
+      <Space align="center" className="mb-4">
         Fixed first column: <Switch checked={fixed} onChange={setFixed} />
       </Space>
       <Table<DataType>

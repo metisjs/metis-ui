@@ -37,11 +37,11 @@ const App: React.FC = () => {
                   ]}
                   noStyle
                 >
-                  <Input placeholder="passenger name" style={{ width: '60%' }} />
+                  <Input placeholder="passenger name" className="w-3/5" />
                 </Form.Item>
                 {fields.length > 1 ? (
                   <MinusCircleOutline
-                    className="ml-2 h-6 w-6 cursor-pointer text-text-secondary hover:text-primary"
+                    className="text-text-secondary hover:text-primary ml-2 h-6 w-6 cursor-pointer"
                     onClick={() => remove(field.name)}
                   />
                 ) : null}

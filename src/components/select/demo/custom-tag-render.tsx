@@ -22,7 +22,7 @@ const tagRender = (props: CustomTagProps) => {
       onMouseDown={onPreventMouseDown}
       closable={closable}
       onClose={onClose}
-      style={{ marginRight: 3 }}
+      className="mr-1"
     >
       {label}
     </Tag>
@@ -34,7 +34,7 @@ const App: React.FC = () => (
     mode="multiple"
     tagRender={tagRender}
     defaultValue={['#f50', '#2db7f5']}
-    style={{ width: '100%' }}
+    className="w-full"
     options={options}
   />
 );

@@ -8,12 +8,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <Form
-      name="login"
-      initialValues={{ remember: true }}
-      style={{ maxWidth: 360 }}
-      onFinish={onFinish}
-    >
+    <Form name="login" initialValues={{ remember: true }} className="max-w-90" onFinish={onFinish}>
       <Form.Item
         name="username"
         rules={[{ required: true, message: 'Please input your Username!' }]}

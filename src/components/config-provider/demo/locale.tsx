@@ -218,8 +218,8 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div style={{ marginBottom: 16 }}>
-        <span style={{ marginInlineEnd: 16 }}>Change locale of components:</span>
+      <div className="mb-4">
+        <span className="me-4">Change locale of components:</span>
         <Segmented
           options={[
             { key: 'en', label: 'English', value: enUS },

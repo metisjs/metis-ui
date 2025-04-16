@@ -37,7 +37,7 @@ const props: UploadProps = {
   ],
   showUploadList: {
     extra: ({ size = 0 }) => (
-      <span style={{ color: '#cccccc' }}>({(size / 1024 / 1024).toFixed(2)}MB)</span>
+      <span className="text-gray-300">({(size / 1024 / 1024).toFixed(2)}MB)</span>
     ),
     showDownloadIcon: true,
     downloadIcon: 'Download',

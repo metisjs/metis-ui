@@ -3,7 +3,7 @@ import { Select } from 'metis-ui';
 
 const App: React.FC = () => (
   <Select
-    style={{ width: 120, marginTop: '50vh' }}
+    className="mt-[50vh] w-30"
     options={new Array(100).fill(null).map((_, index) => ({
       value: index,
     }))}

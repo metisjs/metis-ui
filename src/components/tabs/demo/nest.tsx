@@ -91,7 +91,6 @@ const App: React.FC = () => {
                 defaultActiveKey="1"
                 tabPosition={childPos}
                 type={childType}
-                style={{ height: 300 }}
                 items={new Array(20).fill(null).map((_, index) => {
                   const key = String(index);
                   return {
@@ -100,6 +99,7 @@ const App: React.FC = () => {
                     content: `TTTT ${key}`,
                   };
                 })}
+                className="w-75"
               />
             ),
           },

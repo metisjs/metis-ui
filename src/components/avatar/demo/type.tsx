@@ -12,8 +12,8 @@ const App: React.FC = () => (
     <Avatar size={40}>USER</Avatar>
     <Avatar src={url} />
     <Avatar src={<img src={url} alt="avatar" />} />
-    <Avatar style={{ backgroundColor: '#fde3cf', color: '#f56a00' }}>U</Avatar>
-    <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />
+    <Avatar className="bg-pink-200">U</Avatar>
+    <Avatar className="bg-lime-500" icon={<UserSolid />} />
   </Space>
 );
 

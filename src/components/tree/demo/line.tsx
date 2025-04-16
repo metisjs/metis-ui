@@ -78,7 +78,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16 }}>
+      <div className="mb-4">
         showLine: <Switch checked={!!showLine} onChange={setShowLine} />
         <br />
         <br />

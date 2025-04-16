@@ -49,12 +49,11 @@ const App: React.FC = () => {
   return (
     <Menu
       onClick={onClick}
-      style={{ width: 288 }}
       defaultSelectedKeys={['dashboard']}
       defaultOpenKeys={['teams', 'projects']}
       mode="inline"
       items={items}
-      className="border-e border-e-border"
+      className="border-e-border w-72 border-e"
     />
   );
 };

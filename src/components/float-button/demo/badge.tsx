@@ -4,8 +4,8 @@ import { FloatButton } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
-    <FloatButton shape="circle" style={{ insetInlineEnd: 24 + 70 + 70 }} badge={{ dot: true }} />
-    <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 + 70 }}>
+    <FloatButton shape="circle" className="end-[164px]" badge={{ dot: true }} />
+    <FloatButton.Group shape="circle" className="end-[94px]">
       <FloatButton
         href="https://github.com/metisjs/metis-ui"
         tooltip={<div>custom badge color</div>}

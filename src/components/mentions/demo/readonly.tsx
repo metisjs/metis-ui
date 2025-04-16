@@ -9,7 +9,7 @@ const options = ['tom', 'zombiej', 'minm'].map((value) => ({
 
 const App: React.FC = () => (
   <>
-    <div style={{ marginBottom: 10 }}>
+    <div className="mb-2.5">
       <Mentions
         className="w-full"
         placeholder="this is disabled Mentions"

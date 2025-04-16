@@ -35,7 +35,7 @@ const App: React.FC = () => {
       <div className="border-border bg-fill-quaternary text-text-tertiary mt-4 rounded-sm border border-dashed text-center leading-[260px]">
         {steps[current].content}
       </div>
-      <div style={{ marginTop: 24 }}>
+      <div className="mt-6">
         {current < steps.length - 1 && (
           <Button type="primary" onClick={() => next()}>
             Next
@@ -47,7 +47,7 @@ const App: React.FC = () => {
           </Button>
         )}
         {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+          <Button className="mx-2" onClick={() => prev()}>
             Previous
           </Button>
         )}

@@ -86,11 +86,6 @@ const colorObject = {
     DEFAULT: 'var(--container)',
   },
 
-  /** 布局背景色 */
-  layout: {
-    DEFAULT: 'var(--layout)',
-  },
-
   /** 引起注意的背景色 */
   spotlight: {
     DEFAULT: 'var(--spotlight)',

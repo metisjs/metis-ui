@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <p style={{ marginBottom: '20px' }}>
+      <p className="mb-5">
         <Checkbox checked={checked} disabled={disabled} onChange={onChange}>
           {label}
         </Checkbox>
@@ -31,7 +31,7 @@ const App: React.FC = () => {
         <Button type="primary" size="small" onClick={toggleChecked}>
           {!checked ? 'Check' : 'Uncheck'}
         </Button>
-        <Button style={{ margin: '0 10px' }} type="primary" size="small" onClick={toggleDisable}>
+        <Button className="mx-2.5" type="primary" size="small" onClick={toggleDisable}>
           {!disabled ? 'Disable' : 'Enable'}
         </Button>
       </p>

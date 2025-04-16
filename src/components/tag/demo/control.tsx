@@ -78,8 +78,8 @@ const App: React.FC = () => {
             <Tag
               key={tag}
               closable={index !== 0}
-              style={{ userSelect: 'none' }}
               onClose={() => handleClose(tag)}
+              className="select-none"
             >
               <span
                 onDoubleClick={(e) => {

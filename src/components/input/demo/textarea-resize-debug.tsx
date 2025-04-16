@@ -11,11 +11,11 @@ const App: React.FC = () => {
 
   return (
     <Space vertical className="flex">
-      <Button onClick={() => setAutoResize(!autoResize)} style={{ marginBottom: 8 }}>
+      <Button onClick={() => setAutoResize(!autoResize)} className="mb-2">
         Auto Resize: {String(autoResize)}
       </Button>
       <TextArea rows={4} autoSize={autoResize} defaultValue={defaultValue} />
-      <TextArea allowClear style={{ width: 93 }} />
+      <TextArea allowClear className="w-24" />
     </Space>
   );
 };

@@ -5,10 +5,10 @@ const App: React.FC = () => {
   const [top, setTop] = useState(10);
 
   return (
-    <div style={{ height: 10000 }}>
+    <div className="h-[10000px]">
       <div>Top</div>
       <Affix offsetTop={top}>
-        <div style={{ background: 'red' }}>
+        <div className="bg-red-300">
           <Button type="primary" onClick={() => setTop(top + 10)}>
             Affix top
           </Button>

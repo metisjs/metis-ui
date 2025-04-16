@@ -9,15 +9,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <div
-        style={{
-          width: '300vw',
-          height: '300vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <div className="flex h-[300vh] w-[300vw] items-center justify-center">
         <Tooltip title="Thanks for using metis ui. Have a nice day!" trigger="click" defaultOpen>
           <Button>Scroll The Window</Button>
         </Tooltip>

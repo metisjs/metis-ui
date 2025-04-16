@@ -57,7 +57,7 @@ const App: React.FC = () => {
       <br />
       <Menu
         onClick={onClick}
-        style={{ width: 256 }}
+        className="w-64"
         openKeys={['sub1']}
         selectedKeys={[current]}
         mode="vertical"

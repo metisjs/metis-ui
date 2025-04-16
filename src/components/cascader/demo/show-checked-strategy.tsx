@@ -50,7 +50,7 @@ const App: React.FC = () => {
   return (
     <>
       <Cascader
-        style={{ width: '100%' }}
+        className="w-full"
         options={options}
         onChange={onChange}
         multiple
@@ -65,7 +65,7 @@ const App: React.FC = () => {
       <br />
       <br />
       <Cascader
-        style={{ width: '100%' }}
+        className="w-full"
         options={options}
         onChange={onChange}
         multiple

@@ -6,7 +6,7 @@ const App: React.FC = () => {
   return (
     <>
       <Button
-        style={{ marginBottom: 12 }}
+        className="mb-3"
         type="primary"
         onClick={() => setPrefixCls(prefixCls === 'light' ? 'dark' : 'light')}
       >
@@ -14,7 +14,7 @@ const App: React.FC = () => {
       </Button>
       <br />
       <ConfigProvider prefixCls={prefixCls}>
-        <Select style={{ width: 120 }} />
+        <Select className="w-30" />
         <Radio>test</Radio>
         <Checkbox>test</Checkbox>
       </ConfigProvider>

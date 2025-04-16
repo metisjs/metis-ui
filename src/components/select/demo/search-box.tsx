@@ -39,7 +39,7 @@ const fetch = (value: string, callback: (data: any) => void) => {
   }
 };
 
-const SearchInput: React.FC<{ placeholder: string; style: React.CSSProperties }> = (props) => {
+const SearchInput: React.FC<{ placeholder: string; className: string }> = (props) => {
   const [data, setData] = useState<SelectProps['options']>([]);
   const [value, setValue] = useState<string>();
 
@@ -56,7 +56,7 @@ const SearchInput: React.FC<{ placeholder: string; style: React.CSSProperties }>
       showSearch
       value={value}
       placeholder={props.placeholder}
-      style={props.style}
+      className={props.className}
       defaultActiveFirstOption={false}
       suffixIcon={null}
       filterOption={false}
@@ -71,6 +71,6 @@ const SearchInput: React.FC<{ placeholder: string; style: React.CSSProperties }>
   );
 };
 
-const App: React.FC = () => <SearchInput placeholder="input search text" style={{ width: 200 }} />;
+const App: React.FC = () => <SearchInput placeholder="input search text" className="w-50" />;
 
 export default App;

@@ -15,7 +15,7 @@ const App: React.FC = () => {
     >
       <Form.List name="items">
         {(fields, { add, remove }) => (
-          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+          <div className="flex flex-col gap-y-4">
             {fields.map((field) => (
               <Card
                 size="small"

@@ -17,22 +17,19 @@ import {
 const App: React.FC = () => (
   <Space vertical>
     <Space.Compact block>
-      <Input style={{ width: '20%' }} defaultValue="0571" />
-      <Input style={{ width: '30%' }} defaultValue="26888888" />
+      <Input className="w-1/5" defaultValue="0571" />
+      <Input className="w-3/10" defaultValue="26888888" />
     </Space.Compact>
     <Space.Compact block size="small">
-      <Input style={{ width: 'calc(100% - 200px)' }} defaultValue="Metis" />
+      <Input className="w-[calc(100%-200px)]" defaultValue="Metis" />
       <Button type="primary">Submit</Button>
     </Space.Compact>
     <Space.Compact block>
-      <Input style={{ width: 'calc(100% - 200px)' }} defaultValue="Metis" />
+      <Input className="w-[calc(100%-200px)]" defaultValue="Metis" />
       <Button type="primary">Submit</Button>
     </Space.Compact>
     <Space.Compact block>
-      <Input
-        style={{ width: 'calc(100% - 200px)' }}
-        defaultValue="git@github.com:ant-design/ant-design.git"
-      />
+      <Input className="w-[calc(100%-200px)]" defaultValue="git@github.com:metisjs/metis-ui.git" />
       <Tooltip title="copy git url">
         <Button icon={<DocumentDuplicateOutline />} />
       </Tooltip>
@@ -46,7 +43,7 @@ const App: React.FC = () => (
         ]}
         allowClear
       ></Select>
-      <Input style={{ width: '50%' }} defaultValue="Xihu District, Hangzhou" />
+      <Input className="w-1/2" defaultValue="Xihu District, Hangzhou" />
     </Space.Compact>
     <Space.Compact block>
       <Select
@@ -62,9 +59,9 @@ const App: React.FC = () => (
       <Input defaultValue="Xihu District, Hangzhou" className="w-1/2" />
     </Space.Compact>
     <Space.Compact block>
-      <Input style={{ width: '30%' }} defaultValue="0571" />
-      <Input allowClear style={{ width: '50%' }} defaultValue="26888888" />
-      <Input style={{ width: '20%' }} defaultValue="+1" />
+      <Input className="w-3/10" defaultValue="0571" />
+      <Input allowClear className="w-1/2" defaultValue="26888888" />
+      <Input className="w-1/5" defaultValue="+1" />
     </Space.Compact>
     <Space.Compact block>
       <Select
@@ -74,21 +71,21 @@ const App: React.FC = () => (
           { label: 'Option2', value: 'Option2' },
         ]}
       ></Select>
-      <Input style={{ width: '50%' }} defaultValue="input content" />
+      <Input className="w-1/2" defaultValue="input content" />
       <InputNumber defaultValue={12} />
     </Space.Compact>
     <Space.Compact block>
-      <Input style={{ width: '50%' }} defaultValue="input content" />
-      <DatePicker style={{ width: '50%' }} />
+      <Input className="w-1/2" defaultValue="input content" />
+      <DatePicker className="w-1/2" />
     </Space.Compact>
     <Space.Compact block>
-      <DatePicker.RangePicker style={{ width: '70%' }} />
-      <Input style={{ width: '30%' }} defaultValue="input content" />
+      <DatePicker.RangePicker className="w-7/10" />
+      <Input className="w-3/10" defaultValue="input content" />
       <Button type="primary">查询</Button>
     </Space.Compact>
     <Space.Compact block>
-      <Input style={{ width: '30%' }} defaultValue="input content" />
-      <DatePicker.RangePicker style={{ width: '70%' }} />
+      <Input className="w-3/10" defaultValue="input content" />
+      <DatePicker.RangePicker className="w-7/10" />
     </Space.Compact>
     <Space.Compact block>
       <Select
@@ -114,24 +111,13 @@ const App: React.FC = () => (
           { label: 'Except', value: '2' },
         ]}
       />
-      <Input style={{ width: 100, textAlign: 'center' }} placeholder="Minimum" />
+      <Input className="w-25 text-center" placeholder="Minimum" />
       <Input
-        style={{
-          width: 30,
-          borderLeft: 0,
-          borderRight: 0,
-          pointerEvents: 'none',
-        }}
+        className="pointer-events-none w-[30px] border-r-0 border-l-0"
         placeholder="~"
         disabled
       />
-      <Input
-        style={{
-          width: 100,
-          textAlign: 'center',
-        }}
-        placeholder="Maximum"
-      />
+      <Input className="w-25 text-center" placeholder="Maximum" />
     </Space.Compact>
     <Space.Compact block>
       <Select
@@ -140,18 +126,18 @@ const App: React.FC = () => (
           { label: 'Sign Up', value: 'Sign Up' },
           { label: 'Sign In', value: 'Sign In' },
         ]}
-        style={{ width: '30%' }}
+        className="w-3/10"
       ></Select>
       <AutoComplete
-        style={{ width: '70%' }}
+        className="w-7/10"
         placeholder="Email"
         options={[{ value: 'text 1' }, { value: 'text 2' }]}
       />
     </Space.Compact>
     <Space.Compact block>
-      <TimePicker style={{ width: '70%' }} />
+      <TimePicker className="w-7/10" />
       <Cascader
-        style={{ width: '70%' }}
+        className="w-7/10"
         options={[
           {
             value: 'zhejiang',

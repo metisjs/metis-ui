@@ -12,7 +12,7 @@ const App: React.FC = () => {
           description="Further details about the context of this alert."
         />
       </Spin>
-      <div style={{ marginTop: 16 }}>
+      <div className="mt-4">
         Loading state：
         <Switch checked={loading} onChange={setLoading} />
       </div>

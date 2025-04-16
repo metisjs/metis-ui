@@ -20,9 +20,9 @@ const App: React.FC = () => {
     <>
       <Segmented
         value={alignValue}
-        style={{ marginBottom: 8 }}
         onChange={setAlignValue}
         options={['start', 'center', 'end']}
+        className="mb-2"
       />
       <Tabs
         defaultActiveKey="1"

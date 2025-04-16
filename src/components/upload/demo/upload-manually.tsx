@@ -58,7 +58,7 @@ const App: React.FC = () => {
         onClick={handleUpload}
         disabled={fileList.length === 0}
         loading={uploading}
-        style={{ marginTop: 16 }}
+        className="mt-4"
       >
         {uploading ? 'Uploading' : 'Start Upload'}
       </Button>

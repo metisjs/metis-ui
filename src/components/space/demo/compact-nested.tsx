@@ -7,7 +7,7 @@ const App: React.FC = () => (
     <Space.Compact block>
       <Space.Compact>
         <Space.Compact>
-          <Input style={{ width: 90 }} placeholder="Typing..." />
+          <Input className="w-[90px]" placeholder="Typing..." />
           <Button icon={<MagnifyingGlassOutline />} />
         </Space.Compact>
         <Space.Compact>
@@ -24,7 +24,7 @@ const App: React.FC = () => (
       <Button type="primary">Separator</Button>
       <Space.Compact>
         <Space.Compact>
-          <Input style={{ width: 110 }} placeholder="Search" />
+          <Input className="w-[110px]" placeholder="Search" />
           <Button type="primary">Submit</Button>
         </Space.Compact>
         <Space.Compact>

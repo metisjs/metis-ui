@@ -57,7 +57,7 @@ const App: React.FC = () => (
   <Table<DataType>
     columns={columns}
     expandable={{
-      expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.description}</p>,
+      expandedRowRender: (record) => <p className="m-0">{record.description}</p>,
       rowExpandable: (record) => record.name !== 'Not Expandable',
     }}
     dataSource={data}

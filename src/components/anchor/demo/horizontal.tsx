@@ -3,7 +3,7 @@ import { Anchor } from 'metis-ui';
 
 const App: React.FC = () => (
   <>
-    <div style={{ padding: '20px' }}>
+    <div className="p-5">
       <Anchor
         direction="horizontal"
         items={[
@@ -26,28 +26,9 @@ const App: React.FC = () => (
       />
     </div>
     <div>
-      <div
-        id="part-1"
-        style={{
-          width: '100vw',
-          height: '100vh',
-          textAlign: 'center',
-          background: 'rgba(0,255,0,0.02)',
-        }}
-      />
-      <div
-        id="part-2"
-        style={{
-          width: '100vw',
-          height: '100vh',
-          textAlign: 'center',
-          background: 'rgba(0,0,255,0.02)',
-        }}
-      />
-      <div
-        id="part-3"
-        style={{ width: '100vw', height: '100vh', textAlign: 'center', background: '#FFFBE9' }}
-      />
+      <div id="part-1" className="h-screen w-screen bg-amber-200 text-center" />
+      <div id="part-2" className="h-screen w-screen bg-red-200 text-center" />
+      <div id="part-3" className="h-screen w-screen bg-sky-200 text-center" />
     </div>
   </>
 );

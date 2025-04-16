@@ -55,7 +55,7 @@ const App: React.FC = () => {
       <br />
       <br />
       <Menu
-        style={{ width: 256 }}
+        className="w-64"
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
         mode={mode}

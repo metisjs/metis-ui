@@ -21,13 +21,13 @@ const App: React.FC = () => {
 
   return (
     <Select
-      style={{ width: 320 }}
+      className="w-80"
       placeholder="custom dropdown render"
       popupRender={(menu) => (
         <>
           {menu}
-          <Divider style={{ margin: '8px 0' }} />
-          <Space style={{ padding: '0 8px 4px' }}>
+          <Divider className="mx-0 my-2" />
+          <Space className="px-2 pb-1">
             <Input placeholder="Please enter item" ref={inputRef} value={name} onChange={setName} />
             <Button type="text" icon={<PlusOutline />} onClick={addItem}>
               Add item

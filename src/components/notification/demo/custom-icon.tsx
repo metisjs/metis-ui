@@ -8,7 +8,7 @@ const App: React.FC = () => {
       message: 'Notification Title',
       description:
         'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-      icon: <FaceSmileOutline style={{ color: '#108ee9' }} />,
+      icon: <FaceSmileOutline className="text-blue-500" />,
     });
   };
 

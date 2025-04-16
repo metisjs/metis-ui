@@ -8,7 +8,7 @@ const handleChange = (value: string) => {
 const App: React.FC = () => (
   <Select
     defaultValue="lucy"
-    style={{ width: 200 }}
+    className="w-50"
     onChange={handleChange}
     options={[
       {

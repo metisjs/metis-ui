@@ -19,10 +19,10 @@ const App: React.FC = () => (
       <Input defaultValue="26888888" />
     </Space.Compact>
     <Space.Compact>
-      <Input style={{ width: '20%' }} defaultValue="0571" />
-      <Input style={{ width: '80%' }} defaultValue="26888888" />
+      <Input className="w-1/5" defaultValue="0571" />
+      <Input className="w-4/5" defaultValue="26888888" />
     </Space.Compact>
-    <Space.Compact style={{ width: '100%' }}>
+    <Space.Compact className="w-full">
       <Input defaultValue="Combine input and button" />
       <Button type="primary">Submit</Button>
     </Space.Compact>

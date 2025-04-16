@@ -17,7 +17,7 @@ const App: React.FC = () => {
         Disabled
       </Radio>
       <br />
-      <Button type="primary" onClick={toggleDisabled} style={{ marginTop: 16 }}>
+      <Button type="primary" onClick={toggleDisabled} className="mt-4">
         Toggle disabled
       </Button>
     </>

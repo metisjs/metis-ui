@@ -13,7 +13,7 @@ import {
 } from 'metis-ui';
 
 const customizeRenderEmpty = () => (
-  <div style={{ textAlign: 'center' }}>
+  <div className="text-center">
     <FaceSmileOutline className="size-5" />
     <p>Data Not Found</p>
   </div>
@@ -42,7 +42,7 @@ const App: React.FC = () => {
           <Transfer />
           <h4>Table</h4>
           <Table
-            style={{ marginTop: 8 }}
+            className="mt-2"
             columns={[
               { title: 'Name', dataIndex: 'name', key: 'name' },
               { title: 'Age', dataIndex: 'age', key: 'age' },

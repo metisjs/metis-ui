@@ -9,7 +9,7 @@ const options = [
 
 const App: React.FC = () => (
   <AutoComplete
-    style={{ width: 200 }}
+    className="w-50"
     options={options}
     placeholder="try to type `b`"
     filterOption={(inputValue, option) =>

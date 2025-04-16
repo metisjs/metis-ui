@@ -46,7 +46,7 @@ const App: React.FC = () => {
             rules={[{ required: true, message: 'Please enter url' }]}
           >
             <Input
-              style={{ width: '100%' }}
+              className="w-full"
               addonBefore="http://"
               addonAfter=".com"
               placeholder="Please enter url"
@@ -115,7 +115,7 @@ const App: React.FC = () => {
             rules={[{ required: true, message: 'Please choose the dateTime' }]}
           >
             <DatePicker.RangePicker
-              style={{ width: '100%' }}
+              className="w-full"
               getPopupContainer={(trigger) => trigger.parentElement!}
             />
           </Form.Item>

@@ -14,7 +14,7 @@ const App: React.FC = () => {
       placeholder="Inserted are removed"
       value={selectedItems}
       onChange={setSelectedItems}
-      style={{ width: '100%' }}
+      className="w-full"
       options={filteredOptions.map((item) => ({
         value: item,
         label: item,

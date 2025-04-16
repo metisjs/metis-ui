@@ -14,7 +14,7 @@ const App: React.FC = () => (
           noStyle
           rules={[{ required: true, message: 'Username is required' }]}
         >
-          <Input style={{ width: 160 }} placeholder="Please input" />
+          <Input className="w-40" placeholder="Please input" />
         </Form.Item>
         <Tooltip title="Useful information">
           <a href="#API">Need Help?</a>
@@ -41,22 +41,22 @@ const App: React.FC = () => (
           noStyle
           rules={[{ required: true, message: 'Street is required' }]}
         >
-          <Input style={{ width: '50%' }} placeholder="Input street" />
+          <Input className="w-1/2" placeholder="Input street" />
         </Form.Item>
       </Space.Compact>
     </Form.Item>
-    <Form.Item label="BirthDate" style={{ marginBottom: 0 }}>
+    <Form.Item label="BirthDate" className="mb-0">
       <Form.Item
         name="year"
         rules={[{ required: true }]}
-        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+        className="inline-block w-[calc(50%-8px)]"
       >
         <Input placeholder="Input birth year" />
       </Form.Item>
       <Form.Item
         name="month"
         rules={[{ required: true }]}
-        style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
+        className="mx-2 my-0 inline-block w-[calc(50%-8px)]"
       >
         <Input placeholder="Input birth month" />
       </Form.Item>

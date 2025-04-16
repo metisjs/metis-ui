@@ -69,7 +69,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Space align="center" style={{ marginBottom: 16 }}>
+      <Space align="center" className="mb-4">
         CheckStrictly: <Switch checked={checkStrictly} onChange={setCheckStrictly} />
         preserveSelectedRowKeys:{' '}
         <Switch checked={preserveSelectedRowKeys} onChange={setPreserveSelectedRowKeys} />

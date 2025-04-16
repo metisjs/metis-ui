@@ -3,7 +3,7 @@ import { Watermark } from 'metis-ui';
 
 const App: React.FC = () => (
   <Watermark content={['Metis UI', 'Happy Working']}>
-    <div style={{ height: 500 }} />
+    <div className="w-125" />
   </Watermark>
 );
 

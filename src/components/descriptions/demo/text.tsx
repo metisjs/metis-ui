@@ -50,7 +50,7 @@ const items: DescriptionsProps['items'] = [
   },
   {
     key: '2',
-    label: <div style={{ display: 'flex' }}>Billing Mode</div>,
+    label: <div className="flex">Billing Mode</div>,
     content: 'Prepaid',
   },
   {

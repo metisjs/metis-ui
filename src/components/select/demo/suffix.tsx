@@ -14,7 +14,7 @@ const App: React.FC = () => (
     <Select
       suffixIcon={smileIcon}
       defaultValue="lucy"
-      style={{ width: 120 }}
+      className="w-30"
       onChange={handleChange}
       options={[
         { value: 'jack', label: 'Jack' },
@@ -26,7 +26,7 @@ const App: React.FC = () => (
     <Select
       suffixIcon={mehIcon}
       defaultValue="lucy"
-      style={{ width: 120 }}
+      className="w-30"
       disabled
       options={[{ value: 'lucy', label: 'Lucy' }]}
     />

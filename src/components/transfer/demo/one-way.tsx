@@ -63,7 +63,7 @@ const App: React.FC = () => {
         render={(item) => item.title}
         disabled={disabled}
         oneWay
-        style={{ marginBottom: 16 }}
+        className="mb-4"
       />
       <Switch
         unCheckedChildren="disabled"

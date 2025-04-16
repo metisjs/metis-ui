@@ -7,37 +7,33 @@ const App: React.FC = () => (
     <Avatar.Group>
       <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
       <a href="https://metisui.com">
-        <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
+        <Avatar className="bg-yellow-500">K</Avatar>
       </a>
-      <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />
-      <Avatar style={{ backgroundColor: '#1890ff' }} icon={<PaperAirplaneSolid />} />
+      <Avatar className="bg-lime-500" icon={<UserSolid />} />
+      <Avatar className="bg-sky-500" icon={<PaperAirplaneSolid />} />
     </Avatar.Group>
-    <Avatar.Group maxCount={2} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+    <Avatar.Group maxCount={2} className={{ max: 'bg-rose-300 text-rose-800' }}>
       <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-      <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-      <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />
-      <Avatar style={{ backgroundColor: '#1890ff' }} icon={<PaperAirplaneSolid />} />
+      <Avatar className="bg-yellow-500">K</Avatar>
+      <Avatar className="bg-lime-500" icon={<UserSolid />} />
+      <Avatar className="bg-sky-500" icon={<PaperAirplaneSolid />} />
     </Avatar.Group>
-    <Avatar.Group
-      maxCount={2}
-      size="large"
-      maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-    >
+    <Avatar.Group maxCount={2} size="large" className={{ max: 'bg-rose-300 text-rose-800' }}>
       <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=3" />
-      <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-      <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />
-      <Avatar style={{ backgroundColor: '#1890ff' }} icon={<PaperAirplaneSolid />} />
+      <Avatar className="bg-yellow-500">K</Avatar>
+      <Avatar className="bg-lime-500" icon={<UserSolid />} />
+      <Avatar className="bg-sky-500" icon={<PaperAirplaneSolid />} />
     </Avatar.Group>
     <Avatar.Group
       maxCount={2}
       maxPopoverTrigger="click"
       size="large"
-      maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf', cursor: 'pointer' }}
+      className={{ max: 'cursor-pointer bg-rose-300 text-rose-800' }}
     >
       <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-      <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-      <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserSolid />} />
-      <Avatar style={{ backgroundColor: '#1890ff' }} icon={<PaperAirplaneOutline />} />
+      <Avatar className="bg-yellow-500">K</Avatar>
+      <Avatar className="bg-lime-500" icon={<UserSolid />} />
+      <Avatar className="bg-sky-500" icon={<PaperAirplaneOutline />} />
     </Avatar.Group>
   </Space>
 );

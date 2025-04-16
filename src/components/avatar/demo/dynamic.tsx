@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Avatar, Button } from 'metis-ui';
+import { Avatar, Button, clsx } from 'metis-ui';
 
 const UserList = ['U', 'Lucy', 'Tom', 'Edward'];
-const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+const ColorList = ['bg-yellow-500', 'bg-lime-500', 'bg-sky-500', 'bg-pink-500'];
 const GapList = [4, 3, 2, 1];
 
 const App: React.FC = () => {
@@ -23,17 +23,13 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Avatar style={{ backgroundColor: color, verticalAlign: 'middle' }} size="large" gap={gap}>
+      <Avatar className={clsx(color, 'align-middle')} size="large" gap={gap}>
         {user}
       </Avatar>
-      <Button
-        size="small"
-        style={{ margin: '0 16px', verticalAlign: 'middle' }}
-        onClick={changeUser}
-      >
+      <Button size="small" className="mx-4 align-middle" onClick={changeUser}>
         ChangeUser
       </Button>
-      <Button size="small" style={{ verticalAlign: 'middle' }} onClick={changeGap}>
+      <Button size="small" className="align-middle" onClick={changeGap}>
         changeGap
       </Button>
     </>

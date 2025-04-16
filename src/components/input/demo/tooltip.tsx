@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input, Tooltip } from 'metis-ui';
 
 interface NumericInputProps {
-  style: React.CSSProperties;
+  className: string;
   value: string;
   onChange: (value: string) => void;
 }
@@ -50,7 +50,7 @@ const NumericInput = (props: NumericInputProps) => {
 const App: React.FC = () => {
   const [value, setValue] = useState('');
 
-  return <NumericInput style={{ width: 120 }} value={value} onChange={setValue} />;
+  return <NumericInput className="w-30" value={value} onChange={setValue} />;
 };
 
 export default App;

@@ -98,19 +98,9 @@ const App: React.FC = () => {
   return (
     <div>
       <div>
-        <Radio.Group
-          style={{ marginBottom: 10 }}
-          options={topOptions}
-          value={top}
-          onChange={setTop}
-        />
+        <Radio.Group className="mb-2.5" options={topOptions} value={top} onChange={setTop} />
       </div>
-      <Radio.Group
-        style={{ marginBottom: 10 }}
-        options={bottomOptions}
-        value={bottom}
-        onChange={setBottom}
-      />
+      <Radio.Group className="mb-2.5" options={bottomOptions} value={bottom} onChange={setBottom} />
       <Table<DataType>
         columns={columns}
         pagination={{ position: [top, bottom] }}

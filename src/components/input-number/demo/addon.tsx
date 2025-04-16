@@ -31,7 +31,7 @@ const App: React.FC = () => (
     <InputNumber addonBefore={selectBefore} addonAfter={selectAfter} defaultValue={100} />
     <InputNumber addonAfter={<Cog6ToothOutline />} defaultValue={100} />
     <InputNumber
-      addonBefore={<Cascader placeholder="cascader" style={{ width: 150 }} />}
+      addonBefore={<Cascader placeholder="cascader" className="w-[150px]" />}
       defaultValue={100}
     />
     <InputNumber

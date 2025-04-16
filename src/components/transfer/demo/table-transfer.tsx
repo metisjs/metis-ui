@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Space, Switch, Table, Tag, Transfer } from 'metis-ui';
+import { clsx, Space, Switch, Table, Tag, Transfer } from 'metis-ui';
 import type { GetProp, TableColumnsType, TableProps, TransferProps } from 'metis-ui';
 
 type TransferItem = GetProp<TransferProps, 'dataSource'>[number];
@@ -22,7 +22,7 @@ interface TableTransferProps extends TransferProps<TransferItem> {
 const TableTransfer: React.FC<TableTransferProps> = (props) => {
   const { leftColumns, rightColumns, ...restProps } = props;
   return (
-    <Transfer style={{ width: '100%' }} {...restProps}>
+    <Transfer className="w-full" {...restProps}>
       {({
         direction,
         filteredItems,
@@ -47,7 +47,6 @@ const TableTransfer: React.FC<TableTransferProps> = (props) => {
             columns={columns}
             dataSource={filteredItems}
             size="small"
-            style={{ pointerEvents: listDisabled ? 'none' : undefined }}
             onRow={({ key, disabled: itemDisabled }) => ({
               onClick: () => {
                 if (itemDisabled || listDisabled) {
@@ -57,6 +56,7 @@ const TableTransfer: React.FC<TableTransferProps> = (props) => {
               },
             })}
             pagination={{ size: 'mini', className: 'p-2' }}
+            className={clsx({ 'pointer-events-none': listDisabled })}
           />
         );
       }}

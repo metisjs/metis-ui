@@ -6,7 +6,7 @@ const renderTitle = (title: string) => (
   <span>
     {title}
     <a
-      style={{ float: 'right' }}
+      className="float-right"
       href="https://www.google.com/search?q=metis-ui"
       target="_blank"
       rel="noopener noreferrer"

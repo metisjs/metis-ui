@@ -52,7 +52,7 @@ const App: React.FC = () => {
   const uploadButton = (
     <button className="flex flex-col items-center border-0 bg-transparent" type="button">
       <PlusOutline className="size-5" />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div className="mt-2">Upload</div>
     </button>
   );
   return (

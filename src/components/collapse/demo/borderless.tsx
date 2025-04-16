@@ -3,7 +3,7 @@ import type { CollapseProps } from 'metis-ui';
 import { Collapse } from 'metis-ui';
 
 const text = (
-  <p style={{ paddingInlineStart: 24 }}>
+  <p className="ps-6">
     A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found
     as a welcome guest in many households across the world.
   </p>

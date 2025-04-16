@@ -27,8 +27,8 @@ const App: React.FC = () => {
       popupRender={(menu) => (
         <>
           {menu}
-          <Divider style={{ margin: 0 }} />
-          <Space style={{ padding: 8 }}>
+          <Divider className="m-0" />
+          <Space className="p-2">
             <Button type="primary" size="small">
               Click me!
             </Button>

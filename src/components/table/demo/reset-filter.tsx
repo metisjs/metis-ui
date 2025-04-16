@@ -119,7 +119,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Space style={{ marginBottom: 16 }}>
+      <Space className="mb-4">
         <Button onClick={setAgeSort}>Sort age</Button>
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>

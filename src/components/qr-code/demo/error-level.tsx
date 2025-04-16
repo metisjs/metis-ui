@@ -7,7 +7,7 @@ const App: React.FC = () => {
   return (
     <>
       <QRCode
-        style={{ marginBottom: 16 }}
+        className="mb-4"
         errorLevel={level}
         value="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
       />

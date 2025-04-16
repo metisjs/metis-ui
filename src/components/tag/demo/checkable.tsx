@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <span style={{ marginRight: 8 }}>Categories:</span>
+      <span className="mr-2">Categories:</span>
       <Space wrap>
         {tagsData.map((tag) => (
           <CheckableTag

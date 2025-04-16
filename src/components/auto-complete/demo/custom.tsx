@@ -17,12 +17,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <AutoComplete
-      options={options}
-      style={{ width: 200 }}
-      onSelect={onSelect}
-      onSearch={handleSearch}
-    >
+    <AutoComplete options={options} className="w-50" onSelect={onSelect} onSearch={handleSearch}>
       <TextArea placeholder="input here" className="h-12" />
     </AutoComplete>
   );

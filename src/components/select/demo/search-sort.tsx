@@ -4,7 +4,7 @@ import { Select } from 'metis-ui';
 const App: React.FC = () => (
   <Select
     showSearch
-    style={{ width: 200 }}
+    className="w-50"
     placeholder="Search to Select"
     optionFilterProp="children"
     filterOption={(input, option) => (option?.label ?? '').includes(input)}

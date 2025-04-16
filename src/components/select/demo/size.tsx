@@ -38,7 +38,7 @@ const App: React.FC = () => {
           size={size}
           defaultValue="a1"
           onChange={handleChange}
-          style={{ width: 200 }}
+          className="w-50"
           options={options}
           showSearch
         />
@@ -48,7 +48,7 @@ const App: React.FC = () => {
           placeholder="Please select"
           defaultValue={['a10', 'c12']}
           onChange={handleChange}
-          style={{ width: '100%' }}
+          className="w-full"
           options={options}
         />
         <Select
@@ -57,7 +57,7 @@ const App: React.FC = () => {
           placeholder="Please select"
           defaultValue={['a10', 'c12']}
           onChange={handleChange}
-          style={{ width: '100%' }}
+          className="w-full"
           options={options}
         />
       </Space>

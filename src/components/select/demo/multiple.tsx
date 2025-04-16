@@ -20,7 +20,7 @@ const App: React.FC = () => (
     <Select
       mode="multiple"
       allowClear
-      style={{ width: '100%' }}
+      className="w-full"
       placeholder="Please select"
       defaultValue={['a10', 'c12']}
       onChange={handleChange}
@@ -29,7 +29,7 @@ const App: React.FC = () => (
     <Select
       mode="multiple"
       disabled
-      style={{ width: '100%' }}
+      className="w-full"
       placeholder="Please select"
       defaultValue={['a10', 'c12']}
       onChange={handleChange}

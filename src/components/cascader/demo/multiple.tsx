@@ -47,7 +47,7 @@ const onChange = (value: string[][]) => {
 
 const App: React.FC = () => (
   <Cascader
-    style={{ width: '100%' }}
+    className="w-full"
     options={options}
     onChange={onChange}
     multiple

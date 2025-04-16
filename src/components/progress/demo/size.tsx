@@ -3,7 +3,7 @@ import { Progress, Space } from 'metis-ui';
 
 const App: React.FC = () => (
   <Space vertical size="middle" block>
-    <Space vertical size="small" style={{ width: 300 }}>
+    <Space vertical size="small" className="w-75">
       <Progress percent={50} />
       <Progress percent={50} size="small" />
       <Progress percent={50} size={[300, 20]} />

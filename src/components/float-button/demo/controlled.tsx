@@ -21,7 +21,7 @@ const App: React.FC = () => {
         open={open}
         shape="square"
         trigger="click"
-        style={{ insetInlineEnd: 88 }}
+        className="end-22"
         icon={<ChatBubbleLeftOutline />}
       >
         <FloatButton />
