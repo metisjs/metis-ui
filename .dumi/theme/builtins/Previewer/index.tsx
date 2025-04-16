@@ -27,10 +27,7 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
   return (
     <div
       id={props.asset.id}
-      className={clsx(
-        'mt-6 flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 in-[.demo-grid]:mt-0 dark:bg-white/10 dark:inset-ring-white/10',
-        props.className,
-      )}
+      className="mt-6 flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 in-[.demo-grid]:mt-0 dark:bg-white/10 dark:inset-ring-white/10"
       style={props.style}
     >
       {!props.simplify && (
@@ -53,10 +50,14 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
         </div>
       )}
       <div
-        className={clsx('rounded-lg bg-white p-8 outline outline-white/5 dark:bg-gray-950/50', {
-          'p-0': props.simplify || props.compact || props.iframe,
-          relative: props.iframe,
-        })}
+        className={clsx(
+          'rounded-lg bg-white p-8 outline outline-white/5 dark:bg-gray-950/50',
+          {
+            'p-0': props.simplify || props.compact || props.iframe,
+            relative: props.iframe,
+          },
+          props.className,
+        )}
         style={{
           background: props.background,
           ...(props.transform && { transform: 'translate(0, 0)' }),
