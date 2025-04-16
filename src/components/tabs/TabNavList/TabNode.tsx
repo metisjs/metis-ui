@@ -185,7 +185,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'mt-1.5': position === 'bottom',
       },
       {
-        'bg-container mt-0 mb-0 transition-none [&_+_button::before]:opacity-0 [&_+_div_.divider]:opacity-0':
+        'mt-0 mb-0 bg-(--card-active-background-color,var(--container)) transition-none [&_+_button::before]:opacity-0 [&_+_div_.divider]:opacity-0':
           active,
         'hover:bg-fill-tertiary hover:[&+button::before]:opacity-0 hover:[&+div_.divider]:opacity-0':
           !disabled && !active,
@@ -201,16 +201,16 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         },
         'before:pointer-events-none before:absolute before:-left-2.5 before:h-2.5 before:w-2.5',
         {
-          'before:bottom-0 before:bg-[radial-gradient(circle_at_0_0,_transparent_10px,_var(--container)_10px)]':
+          'before:bottom-0 before:bg-[radial-gradient(circle_at_0_0,_transparent_10px,_var(--card-active-background-color,--var(container))_10px)]':
             position === 'top',
-          'before:top-0 before:bg-[radial-gradient(circle_at_0_10px,_transparent_10px,_var(--container)_10px)]':
+          'before:top-0 before:bg-[radial-gradient(circle_at_0_10px,_transparent_10px,_var(--card-active-background-color,--var(container))_10px)]':
             position === 'bottom',
         },
         'after:pointer-events-none after:absolute after:-right-2.5 after:h-2.5 after:w-2.5',
         {
-          'after:bottom-0 after:bg-[radial-gradient(circle_at_10px_0,_transparent_10px,_var(--container)_10px)]':
+          'after:bottom-0 after:bg-[radial-gradient(circle_at_10px_0,_transparent_10px,_var(--card-active-background-color,--var(container))_10px)]':
             position === 'top',
-          'after:top-0 after:bg-[radial-gradient(circle_at_10px_10px,_transparent_10px,_var(--container)_10px)]':
+          'after:top-0 after:bg-[radial-gradient(circle_at_10px_10px,_transparent_10px,_var(--card-active-background-color,--var(container))_10px)]':
             position === 'bottom',
         },
         {
@@ -233,7 +233,7 @@ const TabNode: React.FC<TabNodeProps> = (props) => {
         'ml-3.5 px-2.5 py-1.5': size === 'middle',
         'ml-3 rounded-sm px-2 py-1': size === 'small',
       },
-      renaming && 'outline-primary outline outline-2 -outline-offset-2',
+      renaming && 'outline-primary outline-2 -outline-offset-2',
       disabled && 'text-text-quaternary',
     ],
     disabled && 'cursor-not-allowed',

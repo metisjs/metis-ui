@@ -3,7 +3,7 @@ import { ArrowDownOutline, ArrowUpOutline } from '@metisjs/icons';
 import { Card, Statistic } from 'metis-ui';
 
 const App: React.FC = () => (
-  <div className="grid grid-cols-2 gap-4">
+  <div className="grid grid-cols-2 gap-4 bg-gray-200 p-6 dark:bg-gray-950">
     <Card bordered={false}>
       <Statistic
         title="Active"

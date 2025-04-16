@@ -35,7 +35,7 @@ const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) =>
   const panelCls = clsx(
     prefixCls,
     active && `${prefixCls}-active`,
-    type === 'card' && 'bg-container',
+    type === 'card' && 'bg-(--card-active-background-color,var(--container))',
     semanticCls.root,
   );
 

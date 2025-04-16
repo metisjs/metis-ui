@@ -42,6 +42,15 @@ const items: TabsProps['items'] = [
   },
 ];
 
-const App: React.FC = () => <Tabs type="card" items={items} className={{ panel: 'p-4' }} />;
+const App: React.FC = () => (
+  <Tabs
+    type="card"
+    items={items}
+    className={{
+      root: '[--card-active-background-color:var(--color-gray-950)]',
+      panel: 'p-4',
+    }}
+  />
+);
 
 export default App;

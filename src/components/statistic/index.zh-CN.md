@@ -16,7 +16,7 @@ description: 展示统计数值。
 <code src="./demo/basic.tsx">基本</code>
 <code src="./demo/unit.tsx">单位</code>
 <code src="./demo/animated.tsx">动画效果</code>
-<code src="./demo/card.tsx" background="grey">在卡片中使用</code>
+<code src="./demo/card.tsx" compact>在卡片中使用</code>
 <code src="./demo/group.tsx">组</code>
 <code src="./demo/countdown.tsx">倒计时</code>
 

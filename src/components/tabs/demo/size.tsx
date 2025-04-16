@@ -57,7 +57,13 @@ const App: React.FC = () => {
       />
       <Tabs defaultActiveKey="1" size={size} className="mb-8" items={items} />
       <Tabs defaultActiveKey="1" type="pills" size={size} className="mb-8" items={items} />
-      <Tabs defaultActiveKey="1" type="card" size={size} items={items} />
+      <Tabs
+        defaultActiveKey="1"
+        type="card"
+        size={size}
+        items={items}
+        className="[--card-active-background-color:var(--color-gray-950)]"
+      />
     </div>
   );
 };

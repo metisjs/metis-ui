@@ -43,6 +43,7 @@ const App: React.FC = () => {
         onClose={onClose}
         items={items}
         closable
+        className="[--card-active-background-color:var(--color-gray-950)]"
       />
     </div>
   );
