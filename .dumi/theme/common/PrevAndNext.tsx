@@ -1,7 +1,5 @@
-import type { ReactElement } from 'react';
 import React, { useMemo } from 'react';
 import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
-import { clsx } from 'metis-ui';
 import { ItemType, MenuItemType } from 'metis-ui/es/menu/interface';
 import useMenu from '../../hooks/useMenu';
 

@@ -12,7 +12,7 @@
 ## ✨ Features
 
 - **Reusable Component Logic**: Built on Ant Design's logic to ensure consistent interaction patterns.
-- **Flexible Styling**: Fully customizable styles powered by Tailwind CSS.
+- **Flexible Styling**: Fully customizable styles powered by Tailwind CSS, with the ability to quickly override default styles.
 - **Modern Tech Stack**: Built with React, Tailwind CSS, and TypeScript support.
 - **Documentation-Driven Development**: Quickly develop and debug components with example-driven documentation.
 

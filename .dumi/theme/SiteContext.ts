@@ -7,7 +7,7 @@ export interface SiteContextProps {
 }
 
 const SiteContext = React.createContext<SiteContextProps>({
-  theme: 'auto',
+  theme: 'system',
   updateSiteConfig: () => {},
 });
 
