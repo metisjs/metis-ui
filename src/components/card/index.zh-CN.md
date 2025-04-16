@@ -13,10 +13,10 @@ group: 数据展示
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">典型卡片</code>
-<code src="./demo/border-less.tsx" background="#f3f4f6">无边框</code>
+<code src="./demo/border-less.tsx" compact >无边框</code>
 <code src="./demo/simple.tsx">简洁卡片</code>
 <code src="./demo/flexible-content.tsx">更灵活的内容展示</code>
-<code src="./demo/in-column.tsx" background="#f3f4f6">栅格卡片</code>
+<code src="./demo/in-column.tsx" compact>栅格卡片</code>
 <code src="./demo/loading.tsx">预加载的卡片</code>
 <code src="./demo/meta.tsx">支持更多内容配置</code>
 
