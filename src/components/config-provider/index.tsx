@@ -2,7 +2,7 @@ import * as React from 'react';
 import useMemo from '@rc-component/util/es/hooks/useMemo';
 import { merge } from '@rc-component/util/es/utils/set';
 import dayjs from 'dayjs';
-import { PREFERS_COLOR_KEY } from '../../plugin/constants';
+import { PREFERS_COLOR_KEY, SYS_DATA_THEME } from '../../plugin/constants';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/en_US';
@@ -119,11 +119,11 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   React.useEffect(() => {
     if (rawTheme) {
-      const themeNode = !parentTheme ? document.documentElement : rawThemeTarget?.current;
+      let themeNode = rawThemeTarget?.current;
+      if (!themeNode && !parentTheme) {
+        themeNode = document.documentElement;
+      }
       themeNode?.setAttribute(PREFERS_COLOR_KEY, rawTheme);
-    } else if (!parentTheme) {
-      // Root config，set to html node
-      document.documentElement.setAttribute(PREFERS_COLOR_KEY, 'auto');
     }
   }, [rawTheme, !!parentTheme]);
 
@@ -139,7 +139,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
   };
 
   const config: ConfigConsumerProps = {
-    theme: 'auto',
+    theme: SYS_DATA_THEME,
     ...parentContext,
   };
 
@@ -172,12 +172,12 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   let childNode = <>{children}</>;
 
-  if (rawTheme !== 'auto' && !rawThemeTarget && !!parentTheme) {
+  if (rawTheme && (!rawThemeTarget || !!parentTheme)) {
     childNode = (
       <div
         ref={themeTarget}
         className={`${getPrefixCls('theme')}`}
-        {...{ [PREFERS_COLOR_KEY]: theme }}
+        {...{ [PREFERS_COLOR_KEY]: rawTheme }}
       >
         {childNode}
       </div>
