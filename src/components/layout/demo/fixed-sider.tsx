@@ -11,6 +11,7 @@ import {
 } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Layout, Menu } from 'metis-ui';
+import ContentPlaceholder from './components/ContentPlaceholder';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -31,37 +32,17 @@ const items: MenuProps['items'] = [
 
 const App: React.FC = () => {
   return (
-    <Layout hasSider>
-      <Sider
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-      >
-        <div className="demo-logo-vertical" />
+    <Layout hasSider className="bg-gray-50 dark:bg-gray-950">
+      <Sider className="sticky top-0 bottom-0 left-0 h-screen overflow-auto bg-gray-900">
+        <div className="m-4 h-8 rounded-md bg-gray-800" />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
       </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="bg-container p-0" />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div className="bg-container p-6 text-center">
-            <p>long content</p>
-            {
-              // indicates very long content
-              Array.from({ length: 100 }, (_, index) => (
-                <React.Fragment key={index}>
-                  {index % 20 === 0 && index ? 'more' : '...'}
-                  <br />
-                </React.Fragment>
-              ))
-            }
-          </div>
+      <Layout>
+        <Header className="bg-white p-0 dark:bg-white/10" />
+        <Content className="mx-4 mt-6 rounded-lg p-6 dark:bg-white/10">
+          <ContentPlaceholder className="h-300" />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
+        <Footer className="text-center">Metis UI ©2025 Created by Metis Lab</Footer>
       </Layout>
     </Layout>
   );

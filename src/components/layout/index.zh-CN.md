@@ -19,12 +19,12 @@ group: 布局
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">基本结构</code>
-<code src="./demo/top.tsx" compact background="oklch(13% 0.028 261.692)">上中下布局</code>
-<code src="./demo/top-side.tsx" compact background="oklch(13% 0.028 261.692)">顶部-侧边布局</code>
-<code src="./demo/top-side-2.tsx" compact background="oklch(13% 0.028 261.692)">顶部-侧边布局-通栏</code>
+<code src="./demo/top.tsx" compact>上中下布局</code>
+<code src="./demo/top-side.tsx" compact >顶部-侧边布局</code>
+<code src="./demo/top-side-2.tsx" compact >顶部-侧边布局-通栏</code>
 <code src="./demo/side.tsx" iframe="360">侧边布局</code>
-<code src="./demo/custom-trigger.tsx" compact background="oklch(13% 0.028 261.692)">自定义触发器</code>
-<code src="./demo/responsive.tsx" compact background="oklch(13% 0.028 261.692)">响应式布局</code>
+<code src="./demo/custom-trigger.tsx" compact >自定义触发器</code>
+<code src="./demo/responsive.tsx" compact >响应式布局</code>
 <code src="./demo/fixed.tsx" iframe="360">固定头部</code>
 <code src="./demo/fixed-sider.tsx" iframe="360">固定侧边栏</code>
 

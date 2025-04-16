@@ -18,12 +18,12 @@ group: Layout
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic Structure</code>
-<code src="./demo/top.tsx" compact background="oklch(13% 0.028 261.692)">Header-Content-Footer</code>
-<code src="./demo/top-side.tsx" compact background="oklch(13% 0.028 261.692)">Header-Sider</code>
-<code src="./demo/top-side-2.tsx" compact background="oklch(13% 0.028 261.692)">Header Sider 2</code>
+<code src="./demo/top.tsx" compact >Header-Content-Footer</code>
+<code src="./demo/top-side.tsx" compact >Header-Sider</code>
+<code src="./demo/top-side-2.tsx" compact >Header Sider 2</code>
 <code src="./demo/side.tsx" iframe="360">Sider</code>
-<code src="./demo/custom-trigger.tsx" compact background="oklch(13% 0.028 261.692)">Custom trigger</code>
-<code src="./demo/responsive.tsx" compact background="oklch(13% 0.028 261.692)">Responsive</code>
+<code src="./demo/custom-trigger.tsx" compact >Custom trigger</code>
+<code src="./demo/responsive.tsx" compact >Responsive</code>
 <code src="./demo/fixed.tsx" iframe="360">Fixed Header</code>
 <code src="./demo/fixed-sider.tsx" iframe="360">Fixed Sider</code>
 

@@ -130,14 +130,14 @@ const BasicLayout = React.forwardRef<HTMLDivElement, BasicPropsWithTagName>((pro
 const Layout = generator({
   tagName: 'div',
   displayName: 'Layout',
-  innerClassName: clsx('bg-layout flex min-h-0 flex-auto flex-col text-sm'),
+  innerClassName: clsx('layout flex min-h-0 flex-col text-sm in-[.layout]:flex-1'),
 })(BasicLayout);
 
 const Header = generator({
   suffixCls: 'header',
   tagName: 'header',
   displayName: 'Header',
-  innerClassName: clsx('h-16 shrink-0 grow-0 basis-auto bg-slate-800 px-[3.125rem] leading-[3rem]'),
+  innerClassName: clsx('h-16 shrink-0 grow-0 basis-auto px-[3.125rem] leading-[3rem]'),
 })(Basic);
 
 const Footer = generator({

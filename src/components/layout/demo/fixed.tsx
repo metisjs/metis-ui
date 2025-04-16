@@ -1,22 +1,14 @@
 import React from 'react';
 import { Layout, Menu } from 'metis-ui';
+import ContentPlaceholder from './components/ContentPlaceholder';
 
 const { Header, Content, Footer } = Layout;
 
 const App: React.FC = () => {
   return (
     <Layout>
-      <Header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div className="demo-logo" />
+      <Header className="sticky top-0 z-1 flex w-full items-center bg-gray-900">
+        <div className="me-6 h-8 w-30 min-w-30 rounded-md bg-gray-800" />
         <Menu
           theme="dark"
           mode="horizontal"
@@ -27,10 +19,10 @@ const App: React.FC = () => {
           }))}
         />
       </Header>
-      <Content className="site-layout px-12 py-6">
-        <div className="min-h-[380px] bg-container p-6">Content</div>
+      <Content className="px-6 pt-12">
+        <ContentPlaceholder className="h-90" />
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
+      <Footer className="text-center">Metis UI ©2025 Created by Metis Lab</Footer>
     </Layout>
   );
 };

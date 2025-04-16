@@ -8,6 +8,7 @@ import {
 } from '@metisjs/icons';
 import type { MenuProps } from 'metis-ui';
 import { Layout, Menu } from 'metis-ui';
+import ContentPlaceholder from './components/ContentPlaceholder';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -43,17 +44,22 @@ const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical" />
+    <Layout className="min-h-screen">
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        className="bg-gray-900"
+      >
+        <div className="m-4 h-8 rounded-md bg-gray-800" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
-      <Layout>
-        <Header className="bg-container p-0" />
-        <Content className="m-4">
-          <div className="min-h-[360px] bg-container p-6">Bill is a cat.</div>
+      <Layout className="bg-transparent">
+        <Header className="border-border-secondary border-b p-0 dark:bg-white/10" />
+        <Content className="m-4 mb-0 rounded-lg p-6 dark:bg-white/10">
+          <ContentPlaceholder className="h-90" />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
+        <Footer className="text-center">Metis UI ©2025 Created by Metis Lab</Footer>
       </Layout>
     </Layout>
   );

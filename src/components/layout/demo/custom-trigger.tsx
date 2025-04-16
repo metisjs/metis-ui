@@ -7,6 +7,7 @@ import {
   UsersOutline,
 } from '@metisjs/icons';
 import { Button, Layout, Menu } from 'metis-ui';
+import ContentPlaceholder from './components/ContentPlaceholder';
 
 const { Header, Sider, Content } = Layout;
 
@@ -14,9 +15,9 @@ const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+    <Layout className="bg-gray-50 dark:bg-gray-950">
+      <Sider trigger={null} collapsible collapsed={collapsed} className="bg-gray-900">
+        <div className="m-4 h-8 rounded-md bg-gray-800" />
         <Menu
           theme="dark"
           mode="inline"
@@ -41,19 +42,17 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header className="bg-container p-0">
+        <Header className="border-border-secondary flex items-center border-b bg-white p-0 dark:bg-white/10">
           <Button
             type="text"
             icon={collapsed ? <ChevronRightOutline /> : <ChevronLeftOutline />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
+            className="ml-2 h-9 w-9 text-base"
           />
         </Header>
-        <Content className="mx-4 my-6 min-h-[280px] bg-container p-6">Content</Content>
+        <Content className="m-4 rounded-lg bg-white p-6 dark:bg-white/10">
+          <ContentPlaceholder className="h-90" />
+        </Content>
       </Layout>
     </Layout>
   );

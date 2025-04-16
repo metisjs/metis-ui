@@ -1,12 +1,13 @@
 import React from 'react';
 import { CalendarOutline, FolderOutline, HomeOutline, UsersOutline } from '@metisjs/icons';
 import { Layout, Menu } from 'metis-ui';
+import ContentPlaceholder from './components/ContentPlaceholder';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const App: React.FC = () => {
   return (
-    <Layout>
+    <Layout className="bg-gray-50 dark:bg-gray-950">
       <Sider
         breakpoint="lg"
         onBreakpoint={(broken) => {
@@ -15,8 +16,9 @@ const App: React.FC = () => {
         onCollapse={(collapsed, type) => {
           console.log(collapsed, type);
         }}
+        className="bg-gray-900"
       >
-        <div className="demo-logo-vertical" />
+        <div className="m-4 h-8 rounded-md bg-gray-800" />
         <Menu
           theme="dark"
           mode="inline"
@@ -29,11 +31,11 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header className="bg-container p-0" />
-        <Content style={{ margin: '24px 16px 0' }}>
-          <div className="min-h-[360px] bg-container p-6">content</div>
+        <Header className="bg-white p-0 dark:bg-white/10" />
+        <Content className="m-4 mb-0 rounded-lg bg-white p-6 dark:bg-white/10">
+          <ContentPlaceholder className="h-90" />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Metis UI ©2023 Created by Metis</Footer>
+        <Footer className="text-center">Metis UI ©2025 Created by Metis Lab</Footer>
       </Layout>
     </Layout>
   );

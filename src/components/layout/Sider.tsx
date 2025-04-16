@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ChevronLeftOutline, ChevronRightOutline } from '@metisjs/icons';
 import omit from '@rc-component/util/es/omit';
+import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import isNumeric from '@util/isNumeric';
 import { ConfigContext } from '../config-provider';
 import { LayoutContext } from './Layout';
@@ -26,8 +28,9 @@ export type CollapseType = 'clickTrigger' | 'responsive';
 
 export type SiderTheme = 'light' | 'dark';
 
-export interface SiderProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SiderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
   prefixCls?: string;
+  className?: SemanticClassName<{ trigger: string }>;
   collapsible?: boolean;
   collapsed?: boolean;
   defaultCollapsed?: boolean;
@@ -73,6 +76,8 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     ...otherProps
   } = props;
   const { siderHook } = useContext(LayoutContext);
+
+  const semanticCls = useSemanticCls(className);
 
   const [collapsed, setCollapsed] = useState(
     'collapsed' in props ? props.collapsed : defaultCollapsed,
@@ -167,8 +172,9 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
         <div
           className={clsx(
             `${prefixCls}-trigger`,
-            'fixed bottom-0 z-1 flex h-12 cursor-pointer items-center justify-center bg-gray-700 text-center leading-[3rem] text-white transition-[width]',
+            'fixed bottom-0 z-1 flex h-12 cursor-pointer items-center justify-center bg-gray-950/20 text-center leading-[3rem] text-white transition-[width]',
             theme === 'light' && 'bg-fill-quaternary',
+            semanticCls.trigger,
           )}
           onClick={toggle}
           style={{ width: siderWidth }}
@@ -188,7 +194,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     const siderCls = clsx(
       prefixCls,
       `${prefixCls}-${theme}`,
-      'relative min-w-0 bg-gray-800 transition-all',
+      'relative min-w-0 bg-white/10 transition-all',
       {
         [`${prefixCls}-collapsed`]: !!collapsed,
         [`${prefixCls}-has-trigger pb-12`]: collapsible && trigger !== null,
@@ -196,7 +202,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
         [`${prefixCls}-zero-width`]: parseFloat(siderWidth) === 0,
       },
       theme === 'light' && 'bg-container',
-      className,
+      semanticCls.root,
     );
     return (
       <aside className={siderCls} {...divProps} style={divStyle} ref={ref}>
