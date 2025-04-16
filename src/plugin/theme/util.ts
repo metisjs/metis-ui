@@ -3,7 +3,7 @@ import get from '@rc-component/util/es/utils/get';
 import twColors from 'tailwindcss/colors';
 import type { PluginAPI } from 'tailwindcss/plugin';
 import type { ThemeOptions } from '.';
-import { PREFERS_COLOR_KEY } from '../constants';
+import { PREFERS_COLOR_KEY, SYS_DATA_THEME } from '../constants';
 import colorPalette from './colorPalette';
 
 type ColorParam = { [key: string]: any };
@@ -87,11 +87,8 @@ export function applyThemes(themes: ThemeOptions[], addBase: PluginAPI['addBase'
   if (darkTheme) {
     addBase({
       '@media (prefers-color-scheme: dark)': {
-        [`[${PREFERS_COLOR_KEY}='auto'], [${PREFERS_COLOR_KEY}='auto'] *`]: omit(darkTheme, [
-          'dark',
-          'name',
-          'default',
-        ]),
+        [`[${PREFERS_COLOR_KEY}='${SYS_DATA_THEME}'], [${PREFERS_COLOR_KEY}='${SYS_DATA_THEME}'] *`]:
+          omit(darkTheme, ['dark', 'name', 'default']),
       },
     });
   }

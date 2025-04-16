@@ -4,7 +4,7 @@ import { clsx, Dropdown } from 'metis-ui';
 import { MenuClickEventHandler } from 'metis-ui/es/menu/interface';
 import SiteContext from '../../../theme/SiteContext';
 
-export type ThemeName = 'auto' | 'light' | 'dark';
+export type ThemeName = 'system' | 'light' | 'dark';
 
 const IconDark = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 28 28" fill="none" className={className}>
@@ -44,7 +44,7 @@ const IconLight = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const IconAuto = ({ className }: { className?: string }) => (
+const IconSystem = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 28 28" fill="none" className={className}>
     <path
       d="M7.5 8.5C7.5 7.94772 7.94772 7.5 8.5 7.5H19.5C20.0523 7.5 20.5 7.94772 20.5 8.5V16.5C20.5 17.0523 20.0523 17.5 19.5 17.5H8.5C7.94772 17.5 7.5 17.0523 7.5 16.5V8.5Z"
@@ -65,7 +65,7 @@ const IconAuto = ({ className }: { className?: string }) => (
 const ICON_MAPPING = {
   light: IconLight,
   dark: IconDark,
-  auto: IconAuto,
+  system: IconSystem,
 };
 
 const ThemeSwitch: FC = () => {
@@ -81,11 +81,11 @@ const ThemeSwitch: FC = () => {
     <Dropdown
       trigger={['click']}
       menu={{
-        items: (['light', 'dark', 'auto'] as const).map((c) => {
+        items: (['light', 'dark', 'system'] as const).map((c) => {
           const ThemeIcon = ICON_MAPPING[c];
           return {
             key: c,
-            label: intl.formatMessage({ id: `header.color.mode.${c}` }),
+            label: intl.formatMessage({ id: `header.color.mode.${c === 'system' ? 'auto' : c}` }),
             value: c,
             icon: <ThemeIcon className="-ms-2 size-7" />,
           };

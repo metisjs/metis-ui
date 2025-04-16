@@ -1,6 +1,7 @@
 import tailwindPlugin from 'tailwindcss/plugin';
 import base from './base';
 import config from './config';
+import { SYS_DATA_THEME } from './constants';
 import type { ThemeOptions } from './theme';
 import defaultThemes from './theme/themes';
 import { applyThemes } from './theme/util';
@@ -18,7 +19,7 @@ export default tailwindPlugin.withOptions<Options>(
 
       addVariant('dark', [
         '&:where([data-theme="dark"], [data-theme="dark"] *)',
-        '@media (prefers-color-scheme: dark) {&:where([data-theme="auto"], [data-theme="auto"] *)}',
+        `@media (prefers-color-scheme: dark) {&:where([data-theme="${SYS_DATA_THEME}"], [data-theme="${SYS_DATA_THEME}"] *)}`,
       ]);
 
       if (themes !== false) {
