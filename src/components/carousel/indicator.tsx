@@ -33,10 +33,10 @@ const CarouselIndicator = (props: CarouselIndicatorProps) => {
           {
             [`${prefixCls}-item-active`]: active,
           },
-          'bg-container relative inline-block h-1 w-4 flex-auto grow-0 rounded-full opacity-20 transition-all duration-300',
+          'bg-container relative inline-block h-1 w-4 flex-auto grow-0 rounded-full opacity-50 transition-all duration-300',
           {
             'w-6 opacity-100': active,
-            'hover:opacity-65': !active,
+            'hover:opacity-75': !active,
             'h-4 w-1': position === 'right' || position === 'left',
             'h-5': (position === 'right' || position === 'left') && active,
           },
