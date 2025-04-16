@@ -1,6 +1,7 @@
 ---
 title: Message
 subtitle: 全局提示
+description: 全局展示操作反馈信息。
 demo:
   cols: 2
 group: 反馈

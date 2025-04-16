@@ -1,5 +1,6 @@
 ---
 title: Message
+description: Display global messages as feedback in response to user operations.
 demo:
   cols: 2
 group: Feedback
