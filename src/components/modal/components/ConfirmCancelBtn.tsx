@@ -38,7 +38,7 @@ const ConfirmCancelBtn: FC = () => {
       autoFocus={autoFocusButton === 'cancel'}
       buttonProps={{
         ...cancelButtonProps,
-        className: mergeSemanticCls({ root: 'w-auto xs:w-full' }, cancelButtonProps?.className),
+        className: mergeSemanticCls({ root: 'w-auto max-sm:w-full' }, cancelButtonProps?.className),
       }}
       prefixCls={`${rootPrefixCls}-btn`}
     >

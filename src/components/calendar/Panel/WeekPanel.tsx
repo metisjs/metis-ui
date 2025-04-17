@@ -70,7 +70,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: WeekPanelProps<Dat
 
   const headerCls = clsx(
     `${prefixCls}-week-header`,
-    'flex select-none border-b border-border pl-12',
+    'border-border flex border-b pl-12 select-none',
     semanticCls.header,
   );
 
@@ -107,7 +107,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: WeekPanelProps<Dat
                 className={clsx(
                   `${prefixCls}-week-header-date`,
                   isToday &&
-                    'inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white',
+                    'bg-primary inline-flex h-6 w-6 items-center justify-center rounded-full text-white',
                   cellSemanticCls.date,
                 )}
                 onDoubleClick={() => handleGotoDay(date)}
@@ -117,7 +117,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: WeekPanelProps<Dat
               <span
                 className={clsx(
                   `${prefixCls}-week-header-week-day`,
-                  'text-text-secondary xs:hidden',
+                  'text-text-secondary max-sm:hidden',
                   cellSemanticCls.weekDay,
                 )}
               >
@@ -126,7 +126,7 @@ const WeekPanel = <DateType extends AnyObject = Dayjs>(props: WeekPanelProps<Dat
               <span
                 className={clsx(
                   `${prefixCls}-week-header-lunar`,
-                  'ml-2 text-text-secondary empty:hidden md:hidden',
+                  'text-text-secondary ml-2 empty:hidden max-md:hidden',
                   cellSemanticCls.lunar,
                 )}
               >

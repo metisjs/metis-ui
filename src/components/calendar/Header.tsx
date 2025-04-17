@@ -144,7 +144,7 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
   const semanticCls = useSemanticCls(className);
   const rootCls = clsx(
     `${prefixCls}-header`,
-    'relative flex items-center gap-4 px-4 pt-4 pb-1',
+    '@container relative flex items-center gap-4 px-4 pt-4 pb-1',
     semanticCls.root,
   );
   const titleCls = clsx(`${prefixCls}-header-title`, 'text-2xl font-medium', semanticCls.title);
@@ -153,7 +153,7 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
     'ml-auto flex items-center gap-4',
     semanticCls.actions,
   );
-  const iconCls = 'size-4 font-normal text-text-tertiary sm:text-text';
+  const iconCls = 'size-4 font-normal text-text-tertiary max-sm:text-text';
   const extraCls = clsx(`${prefixCls}-header-extra`, semanticCls.extra);
 
   // ========================= Render =========================
@@ -201,15 +201,15 @@ function CalendarHeader<DateType>(props: CalendarHeaderProps<DateType>) {
             options={mergedModeOptions}
             value={mode}
             onChange={onModeChange}
-            className={'md:hidden'}
+            className={'@max-3xl:hidden'}
           />
         )}
-        <Space.Compact className="md:hidden">
+        <Space.Compact className="@max-lg:hidden">
           <Button icon={<ChevronLeftOutline className={iconCls} />} onClick={handlePrev} />
           <Button onClick={() => onChange(generateConfig.getNow())}>{locale.today}</Button>
           <Button icon={<ChevronRightOutline className={iconCls} />} onClick={handleNext} />
         </Space.Compact>
-        <Dropdown menu={actionMenu} className="hidden md:inline-flex">
+        <Dropdown menu={actionMenu} className="hidden @max-3xl:inline-flex">
           <Button icon={<Bars3Outline />} />
         </Dropdown>
       </div>

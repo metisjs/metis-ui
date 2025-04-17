@@ -75,7 +75,7 @@ const App: React.FC = () => {
             tabBarExtraContent="Extra"
             addable
             closable
-            className="[--card-active-background-color:var(--color-gray-950)]"
+            className="dark:[--card-active-background-color:var(--color-gray-950)]"
           />
         );
       }}

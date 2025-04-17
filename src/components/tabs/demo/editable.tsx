@@ -123,7 +123,7 @@ const App: React.FC = () => {
         type="card"
         {...commonProps}
         renderTabContextMenu={(tab) => renderTabContextMenu(tab, tabsRef3)}
-        className="[--card-active-background-color:var(--color-gray-950)]"
+        className="dark:[--card-active-background-color:var(--color-gray-950)]"
       />
     </Space>
   );

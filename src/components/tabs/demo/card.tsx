@@ -47,7 +47,7 @@ const App: React.FC = () => (
     type="card"
     items={items}
     className={{
-      root: '[--card-active-background-color:var(--color-gray-950)]',
+      root: 'dark:[--card-active-background-color:var(--color-gray-950)]',
       panel: 'p-4',
     }}
   />

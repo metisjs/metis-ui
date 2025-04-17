@@ -105,7 +105,7 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: DayPanelProps<DateT
 
   const headerCls = clsx(
     `${prefixCls}-day-header`,
-    'flex justify-between border-b border-border pr-4 text-lg leading-9',
+    'border-border flex justify-between border-b pr-4 text-lg leading-9',
     semanticCls.header,
   );
 
@@ -113,7 +113,7 @@ const DayPanel = <DateType extends AnyObject = Dayjs>(props: DayPanelProps<DateT
 
   const calendarCls = clsx(
     `${prefixCls}-day-calendar`,
-    'w-72 border-l border-border-secondary sm:hidden',
+    'border-border-secondary w-72 border-l max-sm:hidden',
     semanticCls.calendar,
   );
 

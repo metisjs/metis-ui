@@ -81,11 +81,12 @@ const StatisticGroup: React.FC<StatisticGroupProps> = ({
   const rowCls = clsx(`${prefixCls}-row`, 'grid gap-6');
   const itemCls = clsx(
     `${prefixCls}-item`,
-    'pe-4 transition-[height] ease-in after:absolute after:right-0 after:top-[12.5%] after:h-3/4 after:border-r after:border-border-secondary',
+    'after:border-border-secondary pe-4 transition-[height] ease-in after:absolute after:top-[12.5%] after:right-0 after:h-3/4 after:border-r last:after:border-r-0',
   );
   const actionWrapperCls = clsx(
     `${prefixCls}-action-wrapper`,
-    'flex w-28 items-center justify-center',
+    'relative flex w-28 items-center justify-center',
+    'before:border-border-secondary before:absolute before:top-[12.5%] before:left-0 before:h-3/4 before:border-l',
   );
   const expandCls = clsx(
     `${prefixCls}-action`,

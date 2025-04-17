@@ -46,19 +46,19 @@ const YearPanel = <DateType extends AnyObject = Dayjs>(props: YearPanelProps<Dat
   // ========================= Style =========================
   const rootCls = clsx(
     `${prefixCls}-year-panel`,
-    'grid h-full w-full select-none grid-cols-4 grid-rows-3 gap-6 px-6 pb-6 pt-2 lg:grid-cols-3 lg:grid-rows-4 lg:gap-4 lg:px-4 lg:pb-4 md:grid-cols-2 md:grid-rows-none sm:grid-cols-1',
+    'grid h-full w-full grid-cols-4 grid-rows-3 gap-6 px-6 pt-2 pb-6 select-none max-lg:grid-cols-3 max-lg:grid-rows-4 max-lg:gap-4 max-lg:px-4 max-lg:pb-4 max-md:grid-cols-2 max-md:grid-rows-none max-sm:grid-cols-1',
     semanticCls.root,
   );
 
   const itemCls = clsx('flex flex-col', semanticCls.item);
 
-  const titleCls = clsx(`${prefixCls}-year-title`, 'mb-1 mt-2 px-2 text-lg', semanticCls.title);
+  const titleCls = clsx(`${prefixCls}-year-title`, 'mt-2 mb-1 px-2 text-lg', semanticCls.title);
 
   const bodyCls = clsx(
-    'h-full w-full p-0 text-sm *:h-full lg:text-xs [&_th]:h-auto [&_th]:w-auto [&_th]:text-text-secondary',
+    '[&_th]:text-text-secondary h-full w-full p-0 text-sm *:h-full max-lg:text-xs [&_th]:h-auto [&_th]:w-auto',
   );
 
-  const cellCls = clsx('cursor-default p-0 before:hidden md:py-1', semanticCls.cell);
+  const cellCls = clsx('cursor-default p-0 before:hidden max-md:py-1', semanticCls.cell);
 
   // ========================= Render =========================
   const cellRender = React.useCallback(

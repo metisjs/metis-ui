@@ -99,7 +99,7 @@ const App: React.FC = () => {
                     content: `TTTT ${key}`,
                   };
                 })}
-                className="w-75 [--card-active-background-color:var(--color-gray-950)]"
+                className="w-75 dark:[--card-active-background-color:var(--color-gray-950)]"
               />
             ),
           },
@@ -109,7 +109,7 @@ const App: React.FC = () => {
             content: 'Content of Tab Pane 2',
           },
         ]}
-        className="[--card-active-background-color:var(--color-gray-950)]"
+        className="dark:[--card-active-background-color:var(--color-gray-950)]"
       />
     </Space>
   );

@@ -62,7 +62,7 @@ const App: React.FC = () => {
         type="card"
         size={size}
         items={items}
-        className="[--card-active-background-color:var(--color-gray-950)]"
+        className="dark:[--card-active-background-color:var(--color-gray-950)]"
       />
     </div>
   );
