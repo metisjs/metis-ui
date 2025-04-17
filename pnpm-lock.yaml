@@ -29,8 +29,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(react@19.1.0)
       '@metisjs/icons':
-        specifier: ^0.1.0-alpha
-        version: 0.1.0-alpha(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@rc-component/async-validator':
         specifier: ^5.0.4
         version: 5.0.4
@@ -1218,8 +1218,8 @@ packages:
     peerDependencies:
       react: '>=16'
 
-  '@metisjs/icons@0.1.0-alpha':
-    resolution: {integrity: sha512-rL3l/JO5aqcIC1pI5dlcAdacn9VWi9ndZlHLvmUyZ1zGHd/0UdpkNWjsJ5QX6myihOGJGt4HCFmLI2+TsOTMgQ==}
+  '@metisjs/icons@1.0.0':
+    resolution: {integrity: sha512-2/J1gzct+dLikY7tg5OEtDYII7EUHeAz0oVHa1yKIVAMfGRpEV+35MOeo3fQpfqcM7m1URTUcGGZxhwDuBYk8g==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -8389,7 +8389,7 @@ snapshots:
     dependencies:
       react: 19.1.0
 
-  '@metisjs/icons@0.1.0-alpha(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@metisjs/icons@1.0.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       heroicons: 2.2.0
       react: 19.1.0
