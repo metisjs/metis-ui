@@ -3,6 +3,7 @@ import { useIntl, useLocation } from 'dumi';
 import Link from '../../theme/common/Link';
 import * as utils from '../../theme/utils';
 import ComponentsBlock from './ComponentsBlock';
+import ContentPlaceholder from './ContentPlaceholder';
 
 const Homepage: React.FC = () => {
   const { pathname } = useLocation();
@@ -12,9 +13,9 @@ const Homepage: React.FC = () => {
 
   return (
     <div>
-      <section className="text-text relative mt-14 px-30 pt-24 pb-60 2xl:px-10 2xl:pt-16">
+      <section className="text-text relative mt-14 px-10 pt-16 pb-60 2xl:px-30 2xl:pt-24">
         <div className="banner-bg"></div>
-        <h1 className="max-w-[1280px] text-6xl font-medium tracking-tighter text-balance lg:text-4xl lg:font-normal xl:text-5xl">
+        <h1 className="max-w-[1280px] text-3xl tracking-tighter text-balance max-lg:font-medium max-sm:px-4 sm:text-4xl lg:text-5xl xl:text-7xl">
           {intl.formatMessage({ id: 'app.banner.title' })}
         </h1>
         <div className="relative mt-10 max-w-[1280px] sm:mt-4">
@@ -22,16 +23,16 @@ const Homepage: React.FC = () => {
             {intl.formatMessage({ id: 'app.banner.desc' })}
           </p>
         </div>
-        <div className="relative mt-10 flex gap-4 sm:mt-8 sm:flex-col">
+        <div className="relative mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row">
           <Link
-            className="z-1 inline-block rounded-4xl bg-black px-4 py-2 text-sm/6 font-semibold text-white hover:bg-gray-800 max-sm:hidden sm:text-center dark:bg-gray-700 dark:hover:bg-gray-600"
+            className="z-1 inline-block rounded-4xl bg-black px-6 py-3 text-lg/6 font-semibold text-white hover:bg-gray-800 sm:text-center dark:bg-gray-700 dark:hover:bg-gray-600"
             to={utils.getLocalizedPathname('/components/button', isZhCN)}
           >
             Get started
           </Link>
         </div>
         <div className="mt-24 bg-gray-950/5 p-2 dark:bg-white/10">
-          <div className="h-148 overflow-hidden rounded-2xl bg-gray-50 ring ring-gray-950/5 sm:h-100 dark:bg-white/5">
+          <div className="relative h-100 overflow-hidden rounded-2xl bg-gray-100 ring ring-gray-950/5 sm:h-148 dark:bg-white/5">
             <ComponentsBlock />
           </div>
         </div>

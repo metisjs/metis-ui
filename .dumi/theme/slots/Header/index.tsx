@@ -16,7 +16,7 @@ const Header: FC = () => {
       className="fixed inset-x-0 top-0 z-10 border-b border-gray-950/5 bg-white dark:border-white/10 dark:bg-gray-950"
       onClick={() => setShowMenu(false)}
     >
-      <div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
+      <div className="flex h-14 items-center justify-between gap-8 px-6 sm:px-4">
         <div className="flex items-center gap-4">
           <Logo />
           <div
@@ -26,7 +26,7 @@ const Header: FC = () => {
             v{pkg.version}
           </div>
         </div>
-        <div className="flex items-center gap-6 md:hidden">
+        <div className="hidden items-center gap-6 md:flex">
           <SearchBar />
           <Navigation />
           <div className="h-6 w-px bg-gray-950/10 dark:bg-white/10"></div>
@@ -38,7 +38,7 @@ const Header: FC = () => {
             </a>
           </div>
         </div>
-        <div className="hidden items-center gap-2.5 md:flex"></div>
+        <div className="flex items-center gap-2.5 md:hidden"></div>
       </div>
     </header>
   );

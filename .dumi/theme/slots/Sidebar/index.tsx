@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
           group: {
             root: 'mb-8 last:mb-0',
             label:
-              'p-0 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase sm:text-sm/6 dark:text-gray-400',
+              'p-0 font-mono text-sm/6 font-medium tracking-widest text-gray-500 uppercase sm:text-xs/6 dark:text-gray-400',
             list: 'mt-3 gap-2 border-l border-gray-950/15 p-0 dark:border-white/15',
           },
         }}

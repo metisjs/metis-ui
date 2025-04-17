@@ -19,7 +19,7 @@ const Content: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return (
     <div className="w-full">
-      <div className="py-24 pr-81.5 pl-82 xl:pr-10">
+      <div className="py-24 pr-10 pl-82 xl:pr-81.5">
         <article className="w-full">
           {meta.frontmatter?.title ? (
             <Space block justify="space-between">
