@@ -26,7 +26,7 @@ const Homepage: React.FC = () => {
         <div className="relative mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row">
           <Link
             className="z-1 inline-block rounded-4xl bg-black px-6 py-3 text-lg/6 font-semibold text-white hover:bg-gray-800 sm:text-center dark:bg-gray-700 dark:hover:bg-gray-600"
-            to={utils.getLocalizedPathname('/components/button', isZhCN)}
+            to={utils.getLocalizedPathname('/docs/introduce', isZhCN)}
           >
             Get started
           </Link>

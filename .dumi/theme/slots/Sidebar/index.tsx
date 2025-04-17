@@ -17,17 +17,19 @@ const Sidebar: React.FC = () => {
         mode="inline"
         selectedKeys={[selectedKey]}
         className={{
-          root: 'py-0',
-          item: ({ selected }) => ({
-            root: 'cursor-auto p-0',
+          root: 'gap-2 py-0',
+          item: ({ selected, grouped }) => ({
+            root: 'cursor-auto gap-3 p-0',
             inner: clsx(
-              '-ml-px flex h-6 w-fit flex-col items-start gap-2 rounded-none border-l border-transparent p-0 pl-5 font-normal hover:border-gray-950/25 hover:bg-transparent dark:hover:border-white/25',
+              '-ml-px flex h-7 w-fit flex-col items-start gap-2 rounded-none p-0 font-normal hover:bg-transparent',
+              grouped &&
+                'h-6 border-l border-transparent pl-5 hover:border-gray-950/25 dark:hover:border-white/25',
               selected &&
-                '**:text-text border-gray-950 bg-transparent font-semibold dark:border-white',
+                '**:text-text border-gray-950 bg-transparent font-semibold dark:border-white **:[svg]:stroke-gray-950! dark:**:[svg]:stroke-white!',
             ),
           }),
           group: {
-            root: 'mb-8 last:mb-0',
+            root: 'mt-6 first:mt-0',
             label:
               'p-0 font-mono text-sm/6 font-medium tracking-widest text-gray-500 uppercase sm:text-xs/6 dark:text-gray-400',
             list: 'mt-3 gap-2 border-l border-gray-950/15 p-0 dark:border-white/15',

@@ -14,7 +14,7 @@ const GlobalLayout: React.FC = () => {
   const isCN = id === 'zh-CN';
 
   const [{ theme }, setSiteState] = useLayoutState<SiteState>(() => ({
-    theme: (localStorage.getItem('theme') as ThemeName) ?? 'auto',
+    theme: (localStorage.getItem('theme') as ThemeName) ?? 'system',
   }));
 
   const updateSiteConfig = useCallback((props: SiteState) => {

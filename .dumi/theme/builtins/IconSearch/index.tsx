@@ -30,7 +30,7 @@ export default function IconSearch() {
       <div className="pointer-events-none sticky top-14 z-50 overflow-hidden bg-white/50 pt-4 backdrop-blur dark:bg-gray-950/50">
         <div className="relative">
           <div className="border-border-secondary pointer-events-auto relative border-b pb-4">
-            <div className="flex flex-row items-center sm:flex-col">
+            <div className="flex flex-col items-center sm:flex-row">
               <div className="relative flex-auto">
                 <input
                   ref={searchInputRef}

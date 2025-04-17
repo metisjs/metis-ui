@@ -1,6 +1,7 @@
 import path from 'path';
 import { defineConfig } from 'dumi';
-import rehype from './.dumi/rehype';
+import rehypePlugin from './.dumi/rehypePlugin';
+import remarkPlugin from './.dumi/remarkPlugin';
 
 export default defineConfig({
   mfsu: true,
@@ -25,7 +26,8 @@ export default defineConfig({
   theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
   tailwindcss: {},
   plugins: ['./plugins/compiled/tailwindcss'],
-  extraRehypePlugins: [rehype],
+  extraRehypePlugins: [rehypePlugin],
+  extraRemarkPlugins: [remarkPlugin],
   headScripts: [
     `
     (function () {

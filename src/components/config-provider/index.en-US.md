@@ -29,11 +29,11 @@ description: Provide a uniform configuration support for components.
 | popupOverflow | Select like component popup logic. Can set to show in viewport or follow window scroll | 'viewport', 'scroll' | 'viewport' |  |
 | prefixCls | Set prefix className | string | `metis` |  |
 | renderEmpty | Set empty content of components. Ref [Empty](/components/empty/) | function(componentName: string): ReactNode | - |  |
-| theme | Set theme，when use `auto` will automatically switch the theme between `default-theme` and `dark-theme` based on the system | string\| { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `auto` |  |
+| theme | Set theme，when use `system` will automatically switch the theme between `default-theme` and `dark-theme` based on the system. [How to set theme?](/docs/theme) | string\| { value: string; target: React.RefObject&lt;HTMLElement&gt; } | `system` |  |
 | variant | Set variant of data entry components | `outlined`, `filled`, `borderless` | - |  |
 | virtual | Disable virtual scroll when set to `false` | boolean | - |  |
 
-> When theme nesting is needed, you can set `theme.target` to manually specify the `date-theme`
+> When theme nesting is needed, you can set `theme.target` to manually specify the `data-theme`
 
 ### ConfigProvider.config()
 

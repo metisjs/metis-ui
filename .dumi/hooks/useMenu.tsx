@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { BookOpenOutline, ClockOutline } from '@metisjs/icons';
 import { useFullSidebarData, useSidebarData } from 'dumi';
 import type { MenuProps } from 'metis-ui';
 import { Space } from 'metis-ui';
@@ -14,6 +15,11 @@ interface MenuItemLabelProps {
   search?: string;
 }
 
+const icons: Record<string, React.ReactNode> = {
+  '/docs/introduce': <BookOpenOutline />,
+  '/changelog': <ClockOutline />,
+};
+
 const MenuItemLabel: React.FC<MenuItemLabelProps> = (props) => {
   const { before, after, link, title, subtitle, search } = props;
 
@@ -21,8 +27,9 @@ const MenuItemLabel: React.FC<MenuItemLabelProps> = (props) => {
     return (
       <Link
         to={`${link}${search}`}
-        className="text-sm/6 text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-white"
+        className="inline-flex items-center gap-3 text-base/8 text-gray-600 hover:text-gray-950 sm:text-sm/7 dark:text-gray-300 dark:hover:text-white **:[svg]:stroke-gray-400 **:[svg]:first:size-5 hover:**:[svg]:stroke-gray-950 dark:**:[svg]:stroke-gray-500 dark:hover:**:[svg]:stroke-white"
       >
+        {icons[link.replace(/(-cn$)/g, '')]}
         <Space block justify="start" align="center" size="small">
           <span>{title}</span>
           {subtitle && <span className="text-text-tertiary text-xs">{subtitle}</span>}
@@ -110,7 +117,7 @@ const useMenu = (options: UseMenuOptions = {}): readonly [MenuProps['items'], st
                   before={before}
                   after={after}
                   link={item.link}
-                  title={item?.title}
+                  title={item.title}
                   search={search}
                 />
               ),

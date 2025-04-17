@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useRouteMeta } from 'dumi';
-import { Space } from 'metis-ui';
+import { clsx, Space } from 'metis-ui';
 import InViewSuspense from './InViewSuspense';
 
 const DocAnchor = React.lazy(() => import('./DocAnchor'));
@@ -23,7 +23,14 @@ const Content: React.FC<React.PropsWithChildren> = ({ children }) => {
         <article className="w-full">
           {meta.frontmatter?.title ? (
             <Space block justify="space-between">
-              <h1 className="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
+              <h1
+                className={clsx(
+                  'mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white',
+                  {
+                    'mb-6': meta.frontmatter.__autoDescription,
+                  },
+                )}
+              >
                 <Space>
                   <span>{meta.frontmatter?.title}</span>
                   <span>{meta.frontmatter?.subtitle}</span>
