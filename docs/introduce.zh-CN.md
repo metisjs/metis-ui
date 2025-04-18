@@ -3,6 +3,8 @@ order: 0
 title: 介绍
 ---
 
+<IntroduceIcon></IntroduceIcon>
+
 Metis UI 的目标是为那些喜欢 Ant Design 的开发者提供一个更灵活的选择，特别是希望结合 Tailwind CSS 的开发者。我们在保留 Ant Design 组件设计逻辑的基础上，提供了以下改进：
 
 - 样式覆盖更灵活基于 Tailwind CSS 的样式体系，开发者可以方便地对组件的各个元素进行样式覆盖，无需编写复杂的自定义样式，快速实现个性化设计。
@@ -10,8 +12,6 @@ Metis UI 的目标是为那些喜欢 Ant Design 的开发者提供一个更灵�
 - 轻量化与现代化通过 Tailwind CSS 和 TypeScript 的结合，提供更现代化的开发体验，同时保持组件的高可定制性和一致性。
 
 Metis UI 是为那些希望在 Ant Design 的设计逻辑基础上，享受 Tailwind CSS 灵活性的开发者量身定制的解决方案。
-
-<IntroduceIcon></IntroduceIcon>
 
 ---
 

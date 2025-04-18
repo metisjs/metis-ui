@@ -1,6 +1,7 @@
 @import './reset.css';
 @import './markdown.css';
 @import './nprogress.css';
+@import './code.css';
 
 @layer components {
   .banner-bg {

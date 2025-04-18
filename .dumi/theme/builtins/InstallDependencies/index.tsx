@@ -1,5 +1,4 @@
 import React from 'react';
-import SourceCode from 'dumi/theme-default/builtins/SourceCode';
 import { Tabs } from 'metis-ui';
 import { Tab } from 'metis-ui/es/tabs/interface';
 import SourceCodeWrapper from '../SourceCodeWrapper';
