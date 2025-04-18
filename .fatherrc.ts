@@ -3,9 +3,16 @@ import { defineConfig } from 'father';
 export default defineConfig({
   // more father config: https://github.com/umijs/father/blob/master/docs/config.md
   alias: { '@util/*': 'src/components/_util/*' },
+  cjs: {
+    input: 'src',
+    output: 'lib',
+    platform: 'node',
+    transformer: 'esbuild',
+    ignores: ['src/components/*/demo/*'],
+  },
   esm: {
     input: 'src',
-    output: 'dist',
+    output: 'es',
     platform: 'browser',
     transformer: 'babel',
     ignores: ['src/components/*/demo/*'],

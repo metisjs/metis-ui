@@ -35,21 +35,14 @@
     "component library",
     "css library"
   ],
-  "main": "dist/components/index.js",
-  "typings": "dist/components/index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "es/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "es",
+    "lib"
   ],
-  "exports": {
-    "plugin": {
-      "require": "./dist/plugin/index.js",
-      "import": "./dist/plugin/index.js"
-    },
-    "theme": {
-      "require": "./dist/plugin/theme.js",
-      "import": "./dist/plugin/theme.js"
-    }
-  },
   "sideEffects": false,
   "scripts": {
     "build": "father build",
