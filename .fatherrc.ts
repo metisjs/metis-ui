@@ -8,6 +8,11 @@ export default defineConfig({
     output: 'lib',
     platform: 'node',
     transformer: 'esbuild',
+    alias: {
+      '@rc-component/util/es': '@rc-component/util/lib',
+      'ahooks/es': 'ahooks/lib',
+      'rc-field-form/es': 'rc-field-form/lib',
+    },
     ignores: ['src/components/*/demo/*'],
   },
   esm: {
@@ -15,6 +20,11 @@ export default defineConfig({
     output: 'es',
     platform: 'browser',
     transformer: 'babel',
+    alias: {
+      '@rc-component/util/lib': '@rc-component/util/es',
+      'ahooks/lib': 'ahooks/es',
+      'rc-field-form/lib': 'rc-field-form/es',
+    },
     ignores: ['src/components/*/demo/*'],
   },
   extraBabelPlugins: [
