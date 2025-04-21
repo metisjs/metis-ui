@@ -139,7 +139,7 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 
 ### valueEnum
 
-```ts | pure
+```ts
 const valueEnum = {
   open: '未解决',
   closed: '已解决',
@@ -646,7 +646,7 @@ type Rule = RuleConfig | ((form: FormInstance) => RuleConfig);
 
 Form.Item 默认绑定值属性到 `value` 上，而 Switch、Checkbox 等组件的值属性为 `checked`。你可以通过 `valuePropName` 来修改绑定的值属性。
 
-```tsx | pure
+```tsx
 <Form.Item name="fieldA" valuePropName="checked">
   <Switch />
 </Form.Item>

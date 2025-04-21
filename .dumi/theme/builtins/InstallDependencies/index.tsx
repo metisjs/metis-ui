@@ -46,7 +46,7 @@ const InstallDependencies: React.FC<InstallProps> = (props) => {
   return (
     <Tabs
       className={{
-        root: 'mt-6',
+        root: 'my-6',
         panel: 'markdown',
       }}
       size="small"

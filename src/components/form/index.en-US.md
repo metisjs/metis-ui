@@ -138,7 +138,7 @@ description: High-performance form component with data domain management. Includ
 
 ### valueEnum
 
-```ts | pure
+```ts
 const valueEnum = {
   open: 'Open',
   closed: 'Closed',
@@ -647,7 +647,7 @@ type Rule = RuleConfig | ((form: FormInstance) => RuleConfig);
 
 Form.Item default bind value to `value` prop, but Switch or Checkbox value prop is `checked`. You can use `valuePropName` to change bind value prop.
 
-```tsx | pure
+```tsx
 <Form.Item name="fieldA" valuePropName="checked">
   <Switch />
 </Form.Item>

@@ -276,3 +276,12 @@ pre[class*='language-'] > code[class*='language-'] {
   box-shadow: inset 5px 0 0 #f7d87c;
   z-index: 0;
 }
+
+.dumi-default-source-code > pre.prism-code > .highlighted {
+  background-color: color-mix(in oklab, var(--color-sky-300) 15%, transparent) !important;
+}
+
+.dumi-default-source-code > pre.prism-code > .highlighted::after {
+  background-color: color-mix(in oklab, var(--color-sky-300) 15%, transparent) !important;
+  border-left: 2px solid var(--color-sky-400);
+}

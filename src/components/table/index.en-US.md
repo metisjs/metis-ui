@@ -144,7 +144,7 @@ One of the Table `columns` prop for describing the table's columns.
 
 `valueType` supports multiple types. Refer to [here](https://github.com/metisjs/metis-ui/blob/main/src/components/table/interface.ts#L259) for details. You can use it like this:
 
-```tsx | pure
+```tsx
 // valueType supports passing an object
 const columns = {
   title: 'Amount',

@@ -4,7 +4,7 @@ import DumiSourceCode, { ISourceCodeProps } from 'dumi/theme-default/builtins/So
 import { clsx } from 'metis-ui';
 
 const SourceCodeWrapper: FC<ISourceCodeProps> = (props) => {
-  const { children = '', lang } = props;
+  const { children = '', lang, title } = props;
 
   const timer = useRef<number>(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -36,7 +36,7 @@ const SourceCodeWrapper: FC<ISourceCodeProps> = (props) => {
       data-prefers-color="dark"
     >
       <div className="-mb-6 flex items-center justify-between px-3 pt-0.5 pb-1.5 text-xs/5 text-gray-400 dark:text-white/50">
-        {lang}
+        {title ?? lang}
         <span
           className={clsx('cursor-pointer hover:text-white', isCopied && 'text-white')}
           onClick={copy}

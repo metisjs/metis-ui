@@ -146,7 +146,7 @@ description: 展示行列数据。
 
 `valueType` 支持多种类型，可[参考](https://github.com/metisjs/metis-ui/blob/main/src/components/table/interface.ts#L259)。你可以这样使用：
 
-```tsx | pure
+```tsx
 // valueType 支持传入 object
 const columns = {
   title: '金额',
