@@ -31,7 +31,22 @@ $ npm run dev
 
 <InstallDependencies npm='$ npm install metis-ui tailwindcss @tailwindcss/vite --save' yarn='$ yarn add metis-ui tailwindcss @tailwindcss/vite' pnpm='$ pnpm install metis-ui tailwindcss @tailwindcss/vite --save' bun='$ bun add metis-ui tailwindcss @tailwindcss/vite'></InstallDependencies>
 
-## 配置 metis-ui
+vite 配置中添加 `@tailwindcss/vite` 插件。
+
+<!-- prettier-ignore -->
+```ts vite.config.ts {3,9}
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    react(), 
+    tailwindcss(),
+  ],
+});
+```
 
 根目录下新建 `tailwind.css`。
 
@@ -64,18 +79,17 @@ $ npm run dev
 修改 `src/App.ts`，引入 metis-ui 的按钮组件。
 
 ```tsx
-import React from 'react';
-import { Button } from 'metis-ui';
+import { Alert } from 'metis-ui';
 
 const App = () => (
-  <div className="App">
-    <Button type="primary">Button</Button>
+  <div className="h-screen w-screen">
+    <Alert type="info" banner message="Hello" description="Welcome to metis-ui" />
   </div>
 );
 
 export default App;
 ```
 
-好了，现在你应该能看到页面上已经有了 `metis-ui` 的蓝色按钮组件，接下来就可以继续选用其他组件开发应用了。其他开发流程你可以参考 Vite 的[官方文档](https://cn.vitejs.dev/)。
+好了，现在你应该能看到页面上已经有了 `metis-ui` 的 `Alert` 组件，接下来就可以继续选用其他组件开发应用了。其他开发流程你可以参考 Vite 的[官方文档](https://cn.vitejs.dev/)。
 
 我们现在已经把 metis-ui 组件成功运行起来了，开始开发你的应用吧！
