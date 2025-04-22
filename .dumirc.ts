@@ -25,7 +25,7 @@ export default defineConfig({
   },
   theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
   tailwindcss: {},
-  plugins: ['./plugins/compiled/tailwindcss'],
+  plugins: ['./plugins/compiled/dumi-plugin-tailwindcss'],
   extraRehypePlugins: [rehypePlugin],
   extraRemarkPlugins: [remarkPlugin],
   headScripts: [

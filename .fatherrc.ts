@@ -1,13 +1,14 @@
+import path from 'path';
 import { defineConfig } from 'father';
 
 export default defineConfig({
   // more father config: https://github.com/umijs/father/blob/master/docs/config.md
-  alias: { '@util/*': 'src/components/_util/*' },
+  alias: { '@util/*': path.resolve(__dirname, './src/components/_util/*') },
   cjs: {
     input: 'src',
     output: 'lib',
-    platform: 'node',
-    transformer: 'esbuild',
+    platform: 'browser',
+    transformer: 'babel',
     alias: {
       '@rc-component/util/es': '@rc-component/util/lib',
       'ahooks/es': 'ahooks/lib',
@@ -55,5 +56,7 @@ export default defineConfig({
       },
       'import-a-hooks',
     ],
+    './plugins/compiled/babel-plugin-transform-use-client',
   ],
+  plugins: ['./plugins/father-plugin-generate-locale'],
 });
