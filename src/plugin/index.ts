@@ -1,10 +1,10 @@
 import tailwindPlugin from 'tailwindcss/plugin';
+import type { ThemeOptions } from '../theme';
+import defaultThemes from '../theme/themes';
+import { applyThemes } from '../theme/util';
 import base from './base';
 import config from './config';
 import { SYS_DATA_THEME } from './constants';
-import type { ThemeOptions } from './theme';
-import defaultThemes from './theme/themes';
-import { applyThemes } from './theme/util';
 
 export type Options = {
   themes?: false | string[];

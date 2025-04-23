@@ -56,7 +56,7 @@ function assert(v, message) {
   if (version.includes('-canary.')) tag = 'canary';
 
   // git tag
-  if (tag !== 'canary') {
+  if (tag === 'latest') {
     logger.event('git tag');
     await $`git tag ${version}`;
   }

@@ -14,10 +14,15 @@ export default defineConfig({
       'ahooks/es': 'ahooks/lib',
       'rc-field-form/es': 'rc-field-form/lib',
     },
+    overrides: {
+      'src/components': { output: 'lib' },
+      'src/plugin': { output: 'plugin' },
+      'src/theme': { output: 'theme' },
+    },
     ignores: ['src/components/*/demo/*'],
   },
   esm: {
-    input: 'src',
+    input: 'src/components',
     output: 'es',
     platform: 'browser',
     transformer: 'babel',

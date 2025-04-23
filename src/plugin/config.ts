@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import colors from './theme/colors';
+import colors from '../theme/colors';
 
 const config: Partial<Config> = {
   theme: {

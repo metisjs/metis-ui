@@ -35,14 +35,16 @@
     "component library",
     "css library"
   ],
-  "main": "lib/components/index.js",
-  "module": "es/components/index.js",
-  "typings": "es/components/index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "es/index.d.ts",
   "files": [
     "dist",
     "es",
     "lib",
-    "locale"
+    "locale",
+    "plugin",
+    "theme"
   ],
   "sideEffects": false,
   "scripts": {

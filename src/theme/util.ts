@@ -3,7 +3,7 @@ import get from '@rc-component/util/es/utils/get';
 import twColors from 'tailwindcss/colors';
 import type { PluginAPI } from 'tailwindcss/plugin';
 import type { ThemeOptions } from '.';
-import { PREFERS_COLOR_KEY, SYS_DATA_THEME } from '../constants';
+import { PREFERS_COLOR_KEY, SYS_DATA_THEME } from '../plugin/constants';
 import colorPalette from './colorPalette';
 
 type ColorParam = { [key: string]: any };
