@@ -25,7 +25,7 @@ const DEFAULT_PLACEMENT: NotificationPlacement = 'topRight';
 
 const DEFAULT_TRANSITION: NotificationConfig['transition'] = (placement) => ({
   appear: true,
-  enter: 'transition-[transform,opacity] duration-300 -translate-x-1/2!',
+  enter: 'transition-[transform,translate,opacity] duration-300',
   enterFrom: clsx('opacity-0', {
     '-translate-y-full!': placement === 'top',
     'translate-y-full!': placement === 'bottom',
@@ -109,7 +109,7 @@ export function useInternalNotification(
           'text-text-secondary hover:bg-fill-tertiary hover:text-text-secondary ml-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-sm text-xl',
         ),
         progress: clsx(
-          '[&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:bg-primary absolute right-2 bottom-0 left-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-moz-progress-bar]:bg-violet-400 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg',
+          '[&::-webkit-progress-bar]:bg-fill-quinary [&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary absolute right-2 bottom-0 left-2 block appearance-none border-0 [block-size:2px] [inline-size:calc(100%-1rem)] [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-value]:rounded-lg',
         ),
       },
       className,

@@ -27,7 +27,7 @@ const DEFAULT_OFFSET = 8;
 const DEFAULT_DURATION = 3;
 const DEFAULT_TRANSITION: ConfigOptions['transition'] = {
   appear: true,
-  enter: 'transition-[transform,opacity] duration-300',
+  enter: 'transition-[transform,translate,opacity] duration-300',
   enterFrom: '-translate-y-full! opacity-0',
   enterTo: 'opacity-100 translate-y-0!',
   leave: 'transition-[opacity,margin,max-height] duration-200',
