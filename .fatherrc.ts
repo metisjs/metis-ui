@@ -5,31 +5,29 @@ export default defineConfig({
   // more father config: https://github.com/umijs/father/blob/master/docs/config.md
   alias: { '@util/*': path.resolve(__dirname, './src/components/_util/*') },
   cjs: {
-    input: 'src/components',
+    input: 'src',
     output: 'lib',
-    platform: 'browser',
     transformer: 'babel',
     alias: {
       '@rc-component/util/es': '@rc-component/util/lib',
       'ahooks/es': 'ahooks/lib',
       'rc-field-form/es': 'rc-field-form/lib',
     },
+    overrides: {
+      'src/components': { output: 'lib' },
+      'src/plugin': { output: 'plugin' },
+      'src/theme': { output: 'theme' },
+    },
     ignores: ['src/components/*/demo/*'],
   },
   esm: {
-    input: 'src',
+    input: 'src/components',
     output: 'es',
-    platform: 'browser',
     transformer: 'babel',
     alias: {
       '@rc-component/util/lib': '@rc-component/util/es',
       'ahooks/lib': 'ahooks/es',
       'rc-field-form/lib': 'rc-field-form/es',
-    },
-    overrides: {
-      'src/components': { output: 'es' },
-      'src/plugin': { output: 'plugin' },
-      'src/theme': { output: 'theme' },
     },
     ignores: ['src/components/*/demo/*'],
   },

@@ -10,7 +10,7 @@ export type Options = {
   themes?: false | string[];
 };
 
-export default tailwindPlugin.withOptions<Options>(
+module.exports = tailwindPlugin.withOptions<Options>(
   (options = {}) =>
     ({ addBase, addVariant }) => {
       const { themes = ['light --default', 'dark --dark'] } = options;
@@ -42,4 +42,4 @@ export default tailwindPlugin.withOptions<Options>(
       }
     },
   () => config,
-) as any;
+);

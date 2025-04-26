@@ -32,11 +32,10 @@ export default {
     success: lightBase,
     warning: lightBase,
     error: lightBase,
-    info: lightBase,
     text: {
-      secondary: -4,
-      tertiary: -5,
-      quaternary: -6,
+      secondary: -5,
+      tertiary: -6,
+      quaternary: -7,
     },
     border: { secondary: -1, tertiary: -2 },
     fill: { secondary: 0.15, tertiary: 0.1, quaternary: 0.05, quinary: 0.02 },
@@ -46,7 +45,6 @@ export default {
     success: darkBase,
     warning: darkBase,
     error: darkBase,
-    info: darkBase,
     text: {
       secondary: 0.65,
       tertiary: 0.45,

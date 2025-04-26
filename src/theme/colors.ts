@@ -46,17 +46,6 @@ const colorObject = {
     'border-secondary': 'var(--error-border-secondary)',
   },
 
-  /** 信息色 */
-  info: {
-    DEFAULT: 'var(--info)',
-    bg: 'var(--info-bg)',
-    'bg-hover': 'var(--info-bg-hover)',
-    hover: 'var(--info-hover)',
-    active: 'var(--info-active)',
-    border: 'var(--info-border)',
-    'border-secondary': 'var(--info-border-secondary)',
-  },
-
   /** 文字色 */
   text: {
     DEFAULT: `var(--text)`,

@@ -11,7 +11,7 @@ export type ThemeOptions = {
   [key: string]: any;
 };
 
-export default tailwindPlugin.withOptions<ThemeOptions>((options = {}) => ({ addBase }) => {
+module.exports = tailwindPlugin.withOptions<ThemeOptions>((options = {}) => ({ addBase }) => {
   const { name = 'custom-theme' } = options;
 
   const existTheme = defaultThemes.find((theme) => theme.name === name);
@@ -24,4 +24,4 @@ export default tailwindPlugin.withOptions<ThemeOptions>((options = {}) => ({ add
   }
 
   applyThemes([theme], addBase);
-}) as any;
+});
