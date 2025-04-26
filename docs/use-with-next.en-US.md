@@ -1,6 +1,6 @@
 ---
 group:
-  title: Basic Usage
+  title: Getting Started
 order: 2
 title: Usage with Next.js
 ---

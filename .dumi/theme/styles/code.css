@@ -100,6 +100,10 @@ pre[class*='language-'] {
   text-decoration: underline;
 }
 
+.language-css .token.property {
+  color: #9cdcfe;
+}
+
 .token.operator,
 .token.entity {
   color: #d4d4d4;
@@ -284,4 +288,12 @@ pre[class*='language-'] > code[class*='language-'] {
 .dumi-default-source-code > pre.prism-code > .highlighted::after {
   background-color: color-mix(in oklab, var(--color-sky-300) 15%, transparent) !important;
   border-left: 2px solid var(--color-sky-400);
+}
+
+.token.doctype,
+.token.punctuation,
+.token.entity,
+code[class*='language-'],
+pre[class*='language-'] {
+  color: var(--color-gray-400) !important;
 }

@@ -1,6 +1,6 @@
 ---
 group:
-  title: Basic Usage
+  title: Getting Started
 order: 1
 title: Usage with Vite
 ---

@@ -53,8 +53,8 @@ export default defineConfig({
 ```css tailwind.css
 @import 'tailwindcss';
 
-@source "./node_modules/metis-ui/es";
-@plugin './node_modules/metis-ui/es/plugin';
+@source './node_modules/metis-ui/es';
+@plugin 'metis-ui/plugin';
 ```
 
 修改`index.html`，引入tailwindcss。

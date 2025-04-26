@@ -2,7 +2,7 @@
 group:
   title: Advanced
   order: 1
-order: 0
+order: 1
 title: Theme
 ---
 

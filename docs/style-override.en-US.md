@@ -2,7 +2,7 @@
 group:
   title: Advanced
   order: 1
-order: 2
+order: 3
 title: Style override
 ---
 

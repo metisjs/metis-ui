@@ -29,6 +29,6 @@ title: 安装使用
 ```css tailwind.css {3-4}
 @import 'tailwindcss';
 
-@source "./node_modules/metis-ui/es";
-@plugin './node_modules/metis-ui/es/plugin';
+@source './node_modules/metis-ui/es'; /* 此处只能使用相对路径，需要根据实际入口CSS路径做修改 */
+@plugin 'metis-ui/plugin';
 ```
