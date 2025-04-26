@@ -77,6 +77,7 @@ export default App;
 ```css tailwind.css
 @import 'tailwindcss';
 
+@source './node_modules/metis-ui/es';
 @plugin "metis-ui/plugin";
 @plugin "metis-ui/theme" {
   /* 主题名称 */
@@ -197,6 +198,7 @@ export default App;
 ```css tailwind.css
 @import 'tailwindcss';
 
+@source './node_modules/metis-ui/es';
 @plugin "metis-ui/plugin";
 @plugin "metis-ui/theme" {
   /* 主题名称 */
@@ -243,6 +245,7 @@ export default App;
 ```css tailwind.css
 @import 'tailwindcss';
 
+@source './node_modules/metis-ui/es';
 @plugin "metis-ui/plugin";
 @plugin "metis-ui/theme" {
   /* 主题名称 */
