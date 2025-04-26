@@ -169,7 +169,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     !!banner && 'rounded-none',
     {
       'bg-success-bg text-success-active': type === 'success',
-      'bg-info-bg text-info-active': type === 'info',
+      'bg-primary-bg text-primary-active': type === 'info',
       'bg-warning-bg text-warning-active': type === 'warning',
       'bg-error-bg text-error-active': type === 'error',
     },
@@ -186,7 +186,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     'mt-2',
     {
       'text-success': type === 'success',
-      'text-info': type === 'info',
+      'text-primary': type === 'info',
       'text-warning': type === 'warning',
       'text-error': type === 'error',
     },
@@ -198,7 +198,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     '-m-1.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-md p-1.5 text-xl leading-5',
     {
       'hover:bg-success-bg-hover': type === 'success',
-      'hover:bg-info-bg-hover': type === 'info',
+      'hover:bg-primary-bg-hover': type === 'info',
       'hover:bg-warning-bg-hover': type === 'warning',
       'hover:bg-error-bg-hover': type === 'error',
     },
@@ -210,7 +210,7 @@ const Alert = React.forwardRef<AlertRef, AlertProps>((props, ref) => {
     !!description && 'text-2xl',
     {
       'text-success-hover': type === 'success',
-      'text-info-hover': type === 'info',
+      'text-primary-hover': type === 'info',
       'text-warning-hover': type === 'warning',
       'text-error-hover': type === 'error',
     },

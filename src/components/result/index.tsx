@@ -80,7 +80,7 @@ const Icon: React.FC<IconProps> = ({ icon, status, iconClassName, imageClassName
     IconMap[status as Exclude<ResultStatusType, ExceptionStatusType>],
     {
       className: clsx('h-24 w-24', {
-        'text-info': status === 'info',
+        'text-primary': status === 'info',
         'text-success': status === 'success',
         'text-warning': status === 'warning',
         'text-error': status === 'error',
@@ -95,7 +95,7 @@ const Icon: React.FC<IconProps> = ({ icon, status, iconClassName, imageClassName
   return (
     <div className={iconClassName}>
       {cloneElement(icon, (props) => ({
-        className: clsx('h-24 w-24 text-info', props.className),
+        className: clsx('text-primary h-24 w-24', props.className),
       })) || iconNode}
     </div>
   );
@@ -137,7 +137,7 @@ const Result: ResultType = ({
   const rootCls = clsx(
     prefixCls,
     `${prefixCls}-${status}`,
-    'px-8 py-12 text-sm text-text',
+    'text-text px-8 py-12 text-sm',
     semanticCls.root,
   );
   const iconCls = clsx(`${prefixCls}-icon`, 'mb-6 text-center', semanticCls.icon);
@@ -149,10 +149,10 @@ const Result: ResultType = ({
   const titleCls = clsx(`${prefixCls}-title`, 'my-2 text-center text-2xl', semanticCls.title);
   const subTitleCls = clsx(
     `${prefixCls}-subtitle`,
-    'text-center text-text-tertiary',
+    'text-text-tertiary text-center',
     semanticCls.subTitle,
   );
-  const contentCls = clsx(`${prefixCls}-content`, 'mt-6 bg-fill-quinary p-6', semanticCls.content);
+  const contentCls = clsx(`${prefixCls}-content`, 'bg-fill-quinary mt-6 p-6', semanticCls.content);
   const extraCls = clsx(
     `${prefixCls}-extra`,
     'mt-6 flex justify-center gap-2 text-center',

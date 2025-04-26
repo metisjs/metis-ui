@@ -149,7 +149,7 @@ function ConfirmContent(
     'mx-0 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-2xl max-sm:mx-auto max-sm:h-12 max-sm:w-12',
     {
       'bg-error-bg text-error': type === 'confirm' || type === 'error',
-      'bg-info-bg text-info': type === 'info',
+      'bg-primary-bg text-primary': type === 'info',
       'bg-success-bg text-success': type === 'success',
       'bg-warning-bg text-warning': type === 'warning',
     },

@@ -5,7 +5,7 @@ import { Button, ConfigProvider, Input, Space } from 'metis-ui';
 const App: React.FC = () => {
   return (
     <ConfigProvider
-      input={{ className: 'border-primary border' }}
+      input={{ className: 'outline-primary outline' }}
       button={{ className: { root: 'border-2 border-pink-600', icon: 'text-red-600' } }}
     >
       <Space vertical>

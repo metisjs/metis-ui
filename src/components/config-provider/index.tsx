@@ -172,7 +172,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 
   let childNode = <>{children}</>;
 
-  if (rawTheme && (!rawThemeTarget || !!parentTheme)) {
+  if (rawTheme && !rawThemeTarget?.current && !!parentTheme) {
     childNode = (
       <div
         ref={themeTarget}

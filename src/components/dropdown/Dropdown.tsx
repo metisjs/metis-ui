@@ -3,7 +3,7 @@ import useEvent from '@rc-component/util/es/hooks/useEvent';
 import useMergedState from '@rc-component/util/es/hooks/useMergedState';
 import { composeRef, getNodeRef, supportRef } from '@rc-component/util/es/ref';
 import type { SemanticClassName } from '@util/classNameUtils';
-import { clsx } from '@util/classNameUtils';
+import { clsx, mergeSemanticCls } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { useZIndex } from '@util/hooks/useZIndex';
 import isPrimitive from '@util/isPrimitive';
@@ -41,7 +41,10 @@ export interface DropdownProps {
   align?: AlignType;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   prefixCls?: string;
-  className?: SemanticClassName<{ overlay?: string }, { open?: boolean }>;
+  className?: SemanticClassName<
+    { overlay?: string; menu?: MenuProps['className'] },
+    { open?: boolean }
+  >;
   placement?: Placement;
   forceRender?: boolean;
   mouseEnterDelay?: number;
@@ -164,7 +167,9 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const renderOverlay = () => {
     let overlayNode: React.ReactNode;
     if (menu?.items) {
-      overlayNode = <Menu {...menu} />;
+      overlayNode = (
+        <Menu {...menu} className={mergeSemanticCls(semanticCls.menu, menu.className)} />
+      );
     }
 
     if (popupRender) {
