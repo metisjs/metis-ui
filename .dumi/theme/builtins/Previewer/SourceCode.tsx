@@ -4,7 +4,9 @@ import DumiSourceCode from 'dumi/theme-default/builtins/SourceCode';
 import SourceCodeEditor from 'dumi/theme-default/slots/SourceCodeEditor';
 import { clsx, Tabs } from 'metis-ui';
 
-export interface SourceCodeProps extends IPreviewerProps {}
+export interface SourceCodeProps extends IPreviewerProps {
+  readonly?: boolean;
+}
 
 const SourceCode: FC<SourceCodeProps> = (props) => {
   const files = Object.entries(props.asset.dependencies).filter(([, { type }]) => type === 'FILE');
@@ -34,7 +36,7 @@ const SourceCode: FC<SourceCodeProps> = (props) => {
             label: filename.replace(/^\.\//, ''),
             // only support to edit entry file currently
             content:
-              i === 0 && renderOpts?.compile ? (
+              i === 0 && renderOpts?.compile && !props.readonly ? (
                 <SourceCodeEditor
                   lang={lang}
                   initialValue={files[i][1].value.trim()}

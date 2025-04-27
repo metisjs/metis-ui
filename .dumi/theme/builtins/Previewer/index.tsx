@@ -6,6 +6,7 @@ import SourceCode from './SourceCode';
 
 export type MetisPreviewerProps = IPreviewerProps & {
   simplify?: boolean;
+  readonly?: boolean;
 };
 
 const Previewer: FC<MetisPreviewerProps> = (props) => {
@@ -22,7 +23,9 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
     containerRef: demoContainer,
   });
 
-  const [showCode, setShowCode] = useState(props.forceShowCode || props.defaultShowCode);
+  const [showCode, setShowCode] = useState(
+    props.forceShowCode || props.defaultShowCode || props.readonly,
+  );
 
   return (
     <div
@@ -30,7 +33,7 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
       className="mt-6 flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 in-[.demo-grid]:mt-0 dark:bg-white/10 dark:inset-ring-white/10"
       style={props.style}
     >
-      {!props.simplify && (
+      {!props.simplify && !props.readonly && (
         <div className="flex gap-2 px-3 pt-0.5 pb-1.5 *:inline-flex *:items-center *:text-xs/5 *:text-gray-400 *:hover:text-gray-500 dark:*:text-white/50 dark:*:hover:text-white/70">
           {props.iframe && (
             <div className="relative w-12 before:absolute before:block before:h-2 before:w-2 before:rounded-full before:bg-[#f44] before:shadow-[0_0_0_2px_#f44,_1.5em_0_0_2px_#9b3,_3em_0_0_2px_#fb5]" />
@@ -81,7 +84,9 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
       {liveDemoError && (
         <Alert banner type="error" message={liveDemoError.toString()} className="rounded-lg" />
       )}
-      {showCode && <SourceCode {...props} onSourceChange={setLiveDemoSource} />}
+      {showCode && (
+        <SourceCode {...props} readonly={props.readonly} onSourceChange={setLiveDemoSource} />
+      )}
     </div>
   );
 };
