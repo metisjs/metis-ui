@@ -17,13 +17,6 @@ const THEME_KEYS = [
   'errorHover',
   'errorBorder',
   'errorBorderSecondary',
-  'info',
-  'infoActive',
-  'infoBg',
-  'infoBgHover',
-  'infoHover',
-  'infoBorder',
-  'infoBorderSecondary',
   'success',
   'successActive',
   'successBg',
@@ -78,14 +71,17 @@ export default function useTheme(): Theme {
   const [themeVariables, setThemeVariables] = React.useState(() => genTheme(themeTarget?.current));
 
   React.useEffect(() => {
-    setThemeVariables(genTheme(themeTarget?.current));
+    // Set the theme variables after a short delay to ensure the DOM is ready
+    setTimeout(() => {
+      setThemeVariables(genTheme(themeTarget?.current));
+    }, 0);
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
       setThemeVariables(genTheme(themeTarget?.current));
     };
 
-    if (theme === 'auto') {
+    if (theme === 'system') {
       mediaQuery.addEventListener('change', handleChange);
     }
 
