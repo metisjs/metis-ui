@@ -1,5 +1,6 @@
 import React, { useState, type FC } from 'react';
 import { useSiteData } from 'dumi';
+import { clsx } from 'metis-ui';
 import GithubIcon from './GithubIcon';
 import LangSwitch from './LangSwitch';
 import Logo from './Logo';
@@ -9,11 +10,19 @@ import ThemeSwitch from './ThemeSwitch';
 
 const Header: FC = () => {
   const { pkg } = useSiteData();
+  const { pathname } = location;
   const [showMenu, setShowMenu] = useState(false);
+
+  const isHomePage =
+    ['', '/'].some((path) => path === pathname) ||
+    ['/index'].some((path) => pathname.startsWith(path));
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-10 border-b border-gray-950/5 bg-white dark:border-white/10 dark:bg-gray-950"
+      className={clsx(
+        'fixed inset-x-0 top-0 z-10 border-b border-gray-950/5 bg-white backdrop-blur-2xl dark:border-white/10 dark:bg-gray-950',
+        isHomePage && 'bg-white/50 backdrop-blur-2xl dark:bg-gray-950/50',
+      )}
       onClick={() => setShowMenu(false)}
     >
       <div className="flex h-14 items-center justify-between gap-8 px-6 sm:px-4">

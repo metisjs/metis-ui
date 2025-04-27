@@ -13,7 +13,7 @@ const Homepage: React.FC = () => {
 
   return (
     <div>
-      <section className="text-text relative mt-14 px-10 pt-16 pb-60 2xl:px-30 2xl:pt-24">
+      <section className="text-text relative px-10 pt-30 pb-60 2xl:px-30 2xl:pt-38">
         <div className="banner-bg"></div>
         <h1 className="max-w-[1280px] text-3xl tracking-tighter text-balance max-lg:font-medium max-sm:px-4 sm:text-4xl lg:text-5xl xl:text-7xl">
           {intl.formatMessage({ id: 'app.banner.title' })}
