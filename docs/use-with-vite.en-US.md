@@ -5,65 +5,93 @@ order: 1
 title: Usage with Vite
 ---
 
-[Vite](https://vitejs.dev/) is one of the best React application development tools. Let's use `antd` within it.
+[Vite](https://vitejs.dev/) is one of the best tools in the industry for developing React applications. This article will demonstrate how to use the `metis-ui` components in a project created with Vite and customize Vite's configuration to meet various engineering needs.
 
-## Install and Initialization
+## Installation and Initialization
 
-Before all start, you may need install [yarn](https://github.com/yarnpkg/yarn/) or [pnpm](https://pnpm.io/) or [bun](https://bun.sh/).
+Before getting started, you may need to install [yarn](https://github.com/yarnpkg/yarn/), [pnpm](https://pnpm.io/), or [bun](https://bun.sh/).
 
-<InstallDependencies npm='$ npm create vite antd-demo' yarn='$ yarn create vite antd-demo' pnpm='$ pnpm create vite antd-demo' bun='$ bun create vite antd-demo'></InstallDependencies>
+<InstallDependencies npm='$ npm create vite metis-ui-demo -- --template react-ts' yarn='$ yarn create vite metis-ui-demo --template react-ts' pnpm='$ pnpm create vite metis-ui-demo --template react-ts' bun='$ bun create vite metis-ui-demo --template react-ts'></InstallDependencies>
 
-The tool will create and initialize environment and dependencies automatically, please try config your proxy setting, or use another npm registry if any network errors happen during it.
+The tool will automatically scaffold a project and install the necessary dependencies for a React project. If you encounter network issues during this process, try configuring a proxy or using a different npm registry.
 
-Then we go inside `antd-demo` install dependencies and start it.
+Next, navigate to the project directory, install dependencies, and start the development server.
 
 ```bash
-$ cd antd-demo
+$ cd metis-ui-demo
 $ npm install
 $ npm run dev
 ```
 
-Open the browser at http://localhost:5173/. It renders a header saying `Vite + React` on the page.
+At this point, open your browser and visit http://localhost:5173/. If you see the `Vite + React` interface, the setup is successful.
 
-## Import antd
+## Adding metis-ui
 
-Below is the default directory structure.
+Install `metis-ui`, `tailwindcss`, and `@tailwindcss/vite`.
 
+<InstallDependencies npm='$ npm install metis-ui tailwindcss @tailwindcss/vite --save' yarn='$ yarn add metis-ui tailwindcss @tailwindcss/vite' pnpm='$ pnpm install metis-ui tailwindcss @tailwindcss/vite --save' bun='$ bun add metis-ui tailwindcss @tailwindcss/vite'></InstallDependencies>
+
+Add the `@tailwindcss/vite` plugin to the Vite configuration.
+
+<!-- prettier-ignore -->
+```ts vite.config.ts {3,9}
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    react(), 
+    tailwindcss(),
+  ],
+});
 ```
-├── public
-│   └── vite.svg
-├── src
-│   └── assets
-│       └── react.svg
-│   ├── App.css
-│   ├── App.js
-│   ├── index.css
-│   ├── main.js
-│   └── logo.svg
-├── index.html
-├── package.json
-└── vite.config.ts
+
+Create a new `tailwind.css` file in the root directory.
+
+```css tailwind.css
+@import 'tailwindcss';
+
+@source './node_modules/metis-ui/es';
+@plugin 'metis-ui/plugin';
 ```
 
-Now we install `antd` from yarn or npm or pnpm or bun.
+Modify `index.html` to include the Tailwind CSS file.
 
-<InstallDependencies npm='$ npm install antd --save' yarn='$ yarn add antd' pnpm='$ pnpm install antd --save' bun='$ bun add antd'></InstallDependencies>
+```html index.html {7}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/tailwind.css" rel="stylesheet" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
 
-Modify `src/App.js`, import Button component from `antd`.
+Update `src/App.ts` to include the `metis-ui` Alert component.
 
-```jsx
-import React from 'react';
-import { Button } from 'antd';
+```tsx
+import { Alert } from 'metis-ui';
 
 const App = () => (
-  <div className="App">
-    <Button type="primary">Button</Button>
+  <div className="h-screen w-screen">
+    <Alert type="info" banner message="Hello" description="Welcome to metis-ui" />
   </div>
 );
 
 export default App;
 ```
 
-OK, you should now see a blue primary button displayed on the page. Next you can choose any components of `antd` to develop your application. Visit other workflows of `Vite` at its [User Guide](https://vitejs.dev/).
+Now, you should see the `metis-ui` `Alert` component displayed on the page. You can continue to use other components to develop your application. For additional development workflows, refer to [Vite](https://vitejs.dev/).
 
-We are successfully running antd components now, go build your own application!
+We have successfully set up the `metis-ui` components. Start building your application now!
+
+> Translate by ChartGPT

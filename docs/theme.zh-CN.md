@@ -91,17 +91,17 @@ export default App;
 
   /* 品牌色 */
   primary: 'indigo-600';
-  /* 品牌悬浮色 */
+  /* 品牌悬浮色，可选属性，可由系统推导生成 */
   primary-hover: 'indigo-500';
-  /* 品牌激活色 */
+  /* 品牌激活色，可选属性，可由系统推导生成 */
   primary-active: 'indigo-700';
   /* 品牌背景色，可选属性，可由系统推导生成 */
   primary-bg: 'indigo-50';
   /* 品牌背景悬浮色，可选属性，可由系统推导生成 */
   primary-bg-hover: 'indigo-200';
-  /* 品牌边框色 */
+  /* 品牌边框色，可选属性，可由系统推导生成 */
   primary-border: 'indigo-300';
-  /* 品牌次级边框色 */
+  /* 品牌次级边框色，可选属性，可由系统推导生成 */
   primary-border-secondary: 'indigo-600/10';
 
   /* 成功色 */
