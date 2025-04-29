@@ -1,9 +1,8 @@
 import React from 'react';
-import { useIntl, useLocation } from 'dumi';
+import { FormattedMessage, useIntl, useLocation } from 'dumi';
 import Link from '../../theme/common/Link';
 import * as utils from '../../theme/utils';
 import ComponentsBlock from './ComponentsBlock';
-import ContentPlaceholder from './ContentPlaceholder';
 
 const Homepage: React.FC = () => {
   const { pathname } = useLocation();
@@ -28,7 +27,7 @@ const Homepage: React.FC = () => {
             className="z-1 inline-block rounded-4xl bg-black px-6 py-3 text-lg/6 font-semibold text-white hover:bg-gray-800 sm:text-center dark:bg-gray-700 dark:hover:bg-gray-600"
             to={utils.getLocalizedPathname('/docs/introduce', isZhCN)}
           >
-            Get started
+            <FormattedMessage id="app.home.getting-started" />
           </Link>
         </div>
         <div className="mt-24 bg-gray-950/5 p-2 dark:bg-white/10">

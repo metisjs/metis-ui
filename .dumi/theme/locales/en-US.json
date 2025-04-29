@@ -5,5 +5,6 @@
   "app.banner.desc": "Experience the power of Ant Design's comprehensive component library combined with the flexibility and utility-first approach of Tailwind CSS. Build modern, scalable, and visually stunning user interfaces effortlessly.",
   "app.nav.docs": "Docs",
   "app.nav.components": "Components",
+  "app.home.getting-started": "Get started",
   "app.docs.components.icon.search.placeholder": "Search icons here, click icon to copy code"
 }
