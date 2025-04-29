@@ -87,7 +87,9 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = (props) => {
       <>
         <li className={className}>{link}</li>
         {separator && (
-          <BreadcrumbSeparator className={separatorClassName}>{separator}</BreadcrumbSeparator>
+          <BreadcrumbSeparator prefixCls={prefixCls} className={separatorClassName}>
+            {separator}
+          </BreadcrumbSeparator>
         )}
       </>
     );
