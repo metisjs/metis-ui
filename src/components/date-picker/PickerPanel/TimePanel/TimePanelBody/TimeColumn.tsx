@@ -109,7 +109,7 @@ export default function TimeColumn<DateType extends object>(props: TimeUnitColum
   const cellPrefixCls = `${prefixCls}-time-panel-cell`;
   const rootCls = clsx(
     `${prefixCls}-time-panel-column`,
-    'border-border-secondary my-1 h-auto w-16 flex-auto overflow-auto border-l first:border-l-0',
+    'border-border-secondary my-1 h-auto w-16 flex-auto border-l first:border-l-0',
   );
   const viewCls = clsx('after:block after:h-[calc(100%-1.75rem)]', className);
 
