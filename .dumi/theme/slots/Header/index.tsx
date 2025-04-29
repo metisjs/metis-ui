@@ -1,18 +1,30 @@
-import React, { useState, type FC } from 'react';
-import { useSiteData } from 'dumi';
-import { clsx } from 'metis-ui';
+import React, { useContext, useState, type FC } from 'react';
+import {
+  ComputerDesktopOutline,
+  EllipsisVerticalOutline,
+  MoonSparklesOutline,
+  SunOutline,
+  XMarkOutline,
+} from '@metisjs/icons';
+import { FormattedMessage, useLocation, useSiteData } from 'dumi';
+import { clsx, Segmented } from 'metis-ui';
+import Link from '../../common/Link';
+import SiteContext from '../../SiteContext';
+import * as utils from '../../utils';
 import GithubIcon from './GithubIcon';
 import LangSwitch from './LangSwitch';
 import Logo from './Logo';
 import Navigation from './Navigation';
 import SearchBar from './SearchBar';
-import ThemeSwitch from './ThemeSwitch';
+import ThemeSwitch, { ThemeName } from './ThemeSwitch';
 
 const Header: FC = () => {
   const { pkg } = useSiteData();
-  const { pathname } = location;
+  const { theme, updateSiteConfig } = useContext(SiteContext);
+  const { pathname, search } = useLocation();
   const [showMenu, setShowMenu] = useState(false);
 
+  const isZhCN = utils.isZhCN(pathname);
   const isHomePage =
     ['', '/'].some((path) => path === pathname) ||
     ['/index'].some((path) => pathname.startsWith(path));
@@ -23,9 +35,8 @@ const Header: FC = () => {
         'fixed inset-x-0 top-0 z-10 border-b border-gray-950/5 bg-white backdrop-blur-2xl dark:border-white/10 dark:bg-gray-950',
         isHomePage && 'bg-white/50 backdrop-blur-2xl dark:bg-gray-950/50',
       )}
-      onClick={() => setShowMenu(false)}
     >
-      <div className="flex h-14 items-center justify-between gap-8 px-6 sm:px-4">
+      <div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
         <div className="flex items-center gap-4">
           <Logo />
           <div
@@ -47,8 +58,55 @@ const Header: FC = () => {
             </a>
           </div>
         </div>
-        <div className="flex items-center gap-2.5 md:hidden"></div>
+        <div className="flex items-center gap-2.5 md:hidden">
+          {!showMenu && <SearchBar />}
+          <button
+            type="button"
+            className="undefined relative inline-grid size-7 place-items-center rounded-md text-gray-950 hover:bg-gray-950/5 dark:text-white dark:hover:bg-white/10"
+            aria-label="Navigation"
+            onClick={() => setShowMenu((prev) => !prev)}
+          >
+            {!showMenu ? (
+              <EllipsisVerticalOutline className="size-4" />
+            ) : (
+              <XMarkOutline className="size-4" />
+            )}
+          </button>
+        </div>
       </div>
+      {showMenu && (
+        <div className="absolute inset-0 top-[57px] z-99999 h-[calc(100vh-56px)] bg-white focus:outline-none md:hidden dark:bg-gray-950">
+          <div
+            className="grid grid-cols-1 gap-1 px-1 pb-1 *:rounded-lg *:px-3 *:py-2 *:text-xl/9 *:font-medium *:text-gray-950 *:data-active:bg-gray-950/5 sm:px-3 sm:pb-3 *:dark:text-white *:dark:hover:bg-white/10"
+            onClick={() => setShowMenu(false)}
+          >
+            <Link to={utils.getLocalizedPathname('/docs/introduce', isZhCN, search)}>
+              <FormattedMessage id="app.nav.docs" />
+            </Link>
+            <Link
+              to={utils.getLocalizedPathname('/components/button', isZhCN, search)}
+              className=""
+            >
+              <FormattedMessage id="app.nav.components" />
+            </Link>
+            <a href="https://github.com/metisjs/metis-ui">GitHub</a>
+          </div>
+          <div className="absolute inset-x-0 bottom-4 flex items-center justify-between gap-2 px-4">
+            <LangSwitch className="scale-135" />
+            <Segmented
+              value={theme}
+              options={[
+                { value: 'light', icon: <SunOutline className="size-5" /> },
+                { value: 'dark', icon: <MoonSparklesOutline className="size-5" /> },
+                { value: 'system', icon: <ComputerDesktopOutline className="size-5" /> },
+              ]}
+              onChange={(value) => {
+                updateSiteConfig({ theme: value as ThemeName });
+              }}
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 };

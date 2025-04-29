@@ -2,13 +2,19 @@ import React from 'react';
 import { clsx, Menu, Scrollbar } from 'metis-ui';
 import useMenu from '../../../hooks/useMenu';
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<{ className?: string; onChange?: () => void }> = ({
+  className,
+  onChange,
+}) => {
   const [menuItems, selectedKey] = useMenu();
 
   return (
     <Scrollbar
       className={{
-        root: 'fixed top-14 h-[calc(100vh-57px)] w-72 border-r border-gray-950/5 dark:border-white/10',
+        root: clsx(
+          'fixed top-14 hidden h-[calc(100vh-57px)] w-72 border-r border-gray-950/5 lg:block dark:border-white/10',
+          className,
+        ),
         view: 'p-6',
       }}
     >
@@ -16,6 +22,7 @@ const Sidebar: React.FC = () => {
         items={menuItems}
         mode="inline"
         selectedKeys={[selectedKey]}
+        onClick={onChange}
         className={{
           root: 'gap-2 py-0',
           item: ({ selected, grouped }) => ({

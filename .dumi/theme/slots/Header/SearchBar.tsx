@@ -34,7 +34,14 @@ const SearchBar = () => {
     <>
       <button
         type="button"
-        className="inline-flex items-center gap-1 rounded-full bg-gray-950/2 px-2 py-1 inset-ring inset-ring-gray-950/8 dark:bg-white/5 dark:inset-ring-white/2"
+        className="inline-flex items-center md:hidden"
+        onClick={() => setOpen(true)}
+      >
+        <MagnifyingGlassOutline className="size-4" />
+      </button>
+      <button
+        type="button"
+        className="hidden items-center gap-1 rounded-full bg-gray-950/2 px-2 py-1 inset-ring inset-ring-gray-950/8 md:inline-flex dark:bg-white/5 dark:inset-ring-white/2"
         onClick={() => setOpen(true)}
       >
         <MagnifyingGlassOutline className="-ml-0.5 size-4 text-gray-600 dark:text-gray-500" />

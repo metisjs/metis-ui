@@ -246,8 +246,11 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
   // ======================== Render ========================
   return (
     <div className="relative rounded-sm" ref={containerRef}>
-      <div className="divide-border-secondary flex divide-x" style={{ minHeight: height }}>
-        <div className="divide-border-secondary flex w-0 flex-1 flex-col divide-y">
+      <div className="divide-border-secondary flex flex-col divide-y md:flex-row md:divide-x">
+        <div
+          className="divide-border-secondary flex w-full flex-1 flex-col divide-y md:w-0"
+          style={{ minHeight: height }}
+        >
           {extra && <div className="flex h-[62px] items-center px-5">{extra}</div>}
           <div
             ref={ref}
@@ -260,7 +263,7 @@ const SemanticPreview = forwardRef<HTMLDivElement, SemanticPreviewProps>((props,
             {mergedChildren}
           </div>
         </div>
-        <div className="shrink-0 basis-72">
+        <div className="w-full md:shrink-0 md:basis-72">
           <ul className="divide-border-secondary divide-y">
             {
               <li className="bg-fill-quinary px-3 py-2">

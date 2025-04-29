@@ -54,7 +54,7 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
       )}
       <div
         className={clsx(
-          'rounded-lg bg-white p-8 outline outline-white/5 dark:bg-gray-950/50',
+          'overflow-auto rounded-lg bg-white p-8 outline outline-white/5 dark:bg-gray-950/50',
           {
             'p-0': props.simplify || props.compact || props.iframe,
             relative: props.iframe,

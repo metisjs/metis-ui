@@ -31,7 +31,7 @@ export default function IconSearch() {
         <div className="relative">
           <div className="border-border-secondary pointer-events-auto relative border-b pb-4">
             <div className="flex flex-col items-center sm:flex-row">
-              <div className="relative flex-auto">
+              <div className="relative w-full flex-auto">
                 <input
                   ref={searchInputRef}
                   type="search"

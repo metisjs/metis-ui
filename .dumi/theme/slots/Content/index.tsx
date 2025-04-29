@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useRouteMeta } from 'dumi';
-import { clsx, Space } from 'metis-ui';
+import { Breadcrumb, clsx, Space } from 'metis-ui';
 import InViewSuspense from './InViewSuspense';
+import NavBreadcrumb from './NavBreadcrumb';
 
 const DocAnchor = React.lazy(() => import('./DocAnchor'));
 const Footer = React.lazy(() => import('../Footer'));
@@ -18,8 +19,10 @@ const Content: React.FC<React.PropsWithChildren> = ({ children }) => {
   const showDebug = process.env.NODE_ENV === 'development';
 
   return (
-    <div className="w-full">
-      <div className="py-24 pr-10 pl-82 xl:pr-81.5">
+    <div className="w-full pt-[57px]">
+      <NavBreadcrumb />
+
+      <div className="px-4 pt-6 pb-24 sm:px-6 lg:pt-10 lg:pr-10 lg:pl-82 xl:pr-81.5">
         <article className="w-full">
           {meta.frontmatter?.title ? (
             <Space block justify="space-between">
@@ -51,7 +54,7 @@ const Content: React.FC<React.PropsWithChildren> = ({ children }) => {
           <PrevAndNext />
         </InViewSuspense>
       </div>
-      <Footer className="pl-72" />
+      <Footer className="lg:pl-72" />
     </div>
   );
 };

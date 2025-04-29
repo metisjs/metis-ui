@@ -3,7 +3,7 @@ import { clsx } from 'metis-ui';
 import { useLocation } from 'umi';
 import * as utils from '../../utils';
 
-const LangSwitch = () => {
+const LangSwitch = ({ className }: { className?: string }) => {
   const location = useLocation();
   const { pathname, search } = location;
 
@@ -24,7 +24,11 @@ const LangSwitch = () => {
   }, [location]);
 
   return (
-    <button key="lang-button" className="group relative size-6" onClick={onLangChange}>
+    <button
+      key="lang-button"
+      className={clsx('group relative size-6', className)}
+      onClick={onLangChange}
+    >
       <span
         className={clsx(
           'border-border-secondary absolute flex size-5 items-center justify-center rounded-[1px] text-base',
