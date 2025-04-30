@@ -18,34 +18,36 @@ const NavBreadcrumb = () => {
   }
 
   return (
-    <div className="sticky top-[57px] z-5 flex h-14 w-full items-center border-b border-gray-950/5 bg-white px-4 sm:px-6 lg:hidden dark:border-white/10 dark:bg-gray-950">
-      <button
-        type="button"
-        className="relative -ml-1.5 inline-grid size-7 place-items-center rounded-md text-gray-950 hover:bg-gray-950/5 dark:text-white dark:hover:bg-white/10"
-        aria-label="Open navigation menu"
-        onClick={() => setShowMenu((prev) => !prev)}
-      >
-        <Bars3Outline className="size-5" />
-      </button>
-      <Breadcrumb
-        items={[
-          {
-            title: formatMessage({ id: `app.nav.${category}` }),
-          },
-          {
-            title: `${frontmatter.title} ${frontmatter.subtitle ?? ''}`,
-          },
-        ]}
-        className="ml-4"
-      />
+    <>
+      <div className="sticky top-[57px] z-5 flex h-14 w-full items-center border-b border-gray-950/5 bg-white px-4 sm:px-6 lg:hidden dark:border-white/10 dark:bg-gray-950">
+        <button
+          type="button"
+          className="relative -ml-1.5 inline-grid size-7 place-items-center rounded-md text-gray-950 hover:bg-gray-950/5 dark:text-white dark:hover:bg-white/10"
+          aria-label="Open navigation menu"
+          onClick={() => setShowMenu((prev) => !prev)}
+        >
+          <Bars3Outline className="size-5" />
+        </button>
+        <Breadcrumb
+          items={[
+            {
+              title: formatMessage({ id: `app.nav.${category}` }),
+            },
+            {
+              title: `${frontmatter.title} ${frontmatter.subtitle ?? ''}`,
+            },
+          ]}
+          className="ml-4"
+        />
+      </div>
       <Sidebar
         className={clsx(
-          'fixed top-[114px] left-0 block h-[calc(100vh-57px-57px)] w-full bg-white dark:bg-gray-950',
+          'fixed top-[114px] left-0 z-9 block h-[calc(100vh-57px-57px)] w-full bg-white dark:bg-gray-950',
           { hidden: !showMenu },
         )}
         onChange={() => setShowMenu(false)}
       />
-    </div>
+    </>
   );
 };
 
