@@ -30,7 +30,7 @@ const Sidebar: React.FC<{ className?: string; onChange?: () => void }> = ({
             inner: clsx(
               '-ml-px flex h-7 w-fit flex-col items-start gap-2 rounded-none p-0 font-normal hover:bg-transparent',
               grouped &&
-                'h-6 border-l border-transparent pl-5 hover:border-gray-950/25 dark:hover:border-white/25',
+                'h-7 border-l border-transparent pl-5 hover:border-gray-950/25 lg:h-6 dark:hover:border-white/25',
               selected &&
                 '**:text-text border-gray-950 bg-transparent font-semibold dark:border-white **:[svg]:stroke-gray-950! dark:**:[svg]:stroke-white!',
             ),
