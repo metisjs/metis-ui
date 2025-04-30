@@ -102,7 +102,7 @@ export function useInternalNotification(
           'collapsed-wrapper not-nth-last-[-n+3]:pointer-events-none not-nth-last-[-n+3]:overflow-hidden not-nth-last-[-n+3]:text-transparent not-nth-last-[-n+3]:opacity-0 after:hidden nth-last-2:bg-transparent nth-last-2:backdrop-blur-md nth-last-3:bg-transparent nth-last-3:backdrop-blur-md',
         ),
         notice: clsx(
-          'relative flex w-[24rem] gap-3 overflow-hidden p-4 break-words',
+          'relative flex w-[24rem] max-w-[calc(100vw-3rem)] gap-3 overflow-hidden p-4 break-words',
           '[.collapsed-wrapper:nth-last-child(2)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(2)_&]:transition-opacity [.collapsed-wrapper:nth-last-child(3)_&]:opacity-0 [.collapsed-wrapper:nth-last-child(3)_&]:transition-opacity',
         ),
         close: clsx(

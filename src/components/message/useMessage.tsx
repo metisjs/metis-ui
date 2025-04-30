@@ -74,9 +74,9 @@ const Holder = React.forwardRef<HolderRef, HolderProps>((props, ref) => {
   });
 
   const getClassName = () => ({
-    root: clsx('text-text fixed top-2 z-2010 text-center text-sm'),
+    root: clsx('text-text fixed top-2 z-2010 w-full text-center text-sm'),
     wrapper: clsx(
-      'bg-container outline-border-secondary relative mx-auto mb-3 w-fit rounded-lg shadow-lg outline-1 -outline-offset-1 backdrop-blur-2xl',
+      'bg-container outline-border-secondary relative mx-auto mb-3 w-fit max-w-[calc(100%-1rem)] rounded-lg shadow-lg outline-1 -outline-offset-1 backdrop-blur-2xl',
     ),
     notice: clsx('relative flex items-center gap-2 overflow-hidden p-3 break-words'),
   });
@@ -97,6 +97,7 @@ const Holder = React.forwardRef<HolderRef, HolderProps>((props, ref) => {
       transition={transition}
       closable={false}
       {...restProps}
+      prefixCls={prefixCls}
       className={getClassName}
       style={getStyle}
       ref={holderRef}
