@@ -42,7 +42,7 @@ const NavBreadcrumb = () => {
       </div>
       <Sidebar
         className={clsx(
-          'fixed top-[114px] left-0 z-9 block h-[calc(100vh-57px-57px)] w-full bg-white dark:bg-gray-950',
+          'fixed top-[114px] left-0 z-9 block h-[calc(100vh-57px-57px)] w-full bg-white lg:hidden dark:bg-gray-950',
           { hidden: !showMenu },
         )}
         onChange={() => setShowMenu(false)}
