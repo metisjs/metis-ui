@@ -85,7 +85,7 @@ const QRCode: React.FC<QRCodeProps> = (props) => {
 
   const maskCls = clsx(
     `${prefixCls}-mask`,
-    'bg-container absolute top-0 left-0 z-10 flex h-full w-full flex-col items-center justify-center font-medium opacity-95',
+    'bg-container/90 absolute top-0 left-0 z-10 flex h-full w-full flex-col items-center justify-center font-medium backdrop-blur-xs',
     semanticCls.mask,
   );
 
