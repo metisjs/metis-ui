@@ -92,7 +92,7 @@ interface Option {
   // 标记是否为叶子节点，设置了 `lazyLoad` 时有效
   // 设为 `false` 时会强制标记为父节点，即使当前节点没有 children，也会显示展开图标
   leaf?: boolean;
-} ｜ Record<string, any>;
+} | Record<string, any>;
 ```
 
 > 注意：`Option` 支持 `Record<string, any>`，因此可以自定义任意属性，但需要使用 `fieldNames` 进行配置。

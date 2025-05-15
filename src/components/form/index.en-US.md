@@ -65,12 +65,12 @@ description: High-performance form component with data domain management. Includ
 | column | "Grid display, can be written as pixel values or as a responsive object { xs: 2, sm: 3, md: 4} | number, Record&lt;Breakpoint, number> | 'auto' |  |
 | component | Set the Form rendering element. Do not create a DOM node for `false` | ComponentType, false | form |  |
 | disabled | Set form component disable, only available for metis components | boolean | false |  |
-| errorType｜ Field validation failure prompt style | `popover`, `default` | `default` |  |
+| errorType | Field validation failure prompt style | `popover`, `default` | `default` |  |
 | feedbackIcons | Can be passed custom icons while `Form.Item` element has `hasFeedback` | [FeedbackIcons](#feedbackicons) | - |  |
 | fields | Control of form fields through state management (such as redux). Not recommended for non-strong demand. View [example](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | Form control instance created by `Form.useForm()`. Automatically created when not provided | [FormInstance](#forminstance) | - |  |
 | initialValues | Set value by Form initialization or reset | object | - |  |
-| items｜ Json schema, same as FormItem | [ItemType](#itemtype) |  |  |
+| items | Json schema, same as FormItem | [ItemType](#itemtype) |  |  |
 | labelAlign | The text align of label of all items | `left`, `right` | `right` |  |
 | labelWidth | Label width, pixel value, percentage or 'auto'。 | string, number | 'auto' |  |
 | layout | Form layout | `horizontal`, `vertical`, `inline` | `horizontal` |  |

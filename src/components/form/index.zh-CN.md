@@ -66,12 +66,12 @@ description: 高性能表单控件，自带数据域管理。包含数据录入�
 | column | 栅格显示, 可以写成像素值或支持响应式的对象写法 `{ xs: 2, sm: 3, md: 4}` | number、 Record&lt;Breakpoint, number> | 'auto' |  |
 | component | 设置 Form 渲染元素，为 `false` 则不创建 DOM 节点 | ComponentType、 false | form |  |
 | disabled | 设置表单组件禁用，仅对内部组件有效 | boolean | false |  |
-| errorType｜ 字段验证失败时的提示方式 | `popover`、 `default` | `default` |  |
+| errorType | 字段验证失败时的提示方式 | `popover`、 `default` | `default` |  |
 | feedbackIcons | 当 `Form.Item` 有 `hasFeedback` 属性时可以自定义图标 | [FeedbackIcons](#feedbackicons) | - |  |
 | fields | 通过状态管理（如 redux）控制表单字段，如非强需求不推荐使用。查看[示例](#form-demo-global-state) | [FieldData](#fielddata)\[] | - |  |
 | form | 经 `Form.useForm()` 创建的 form 控制实例，不提供时会自动创建 | [FormInstance](#forminstance) | - |  |
 | initialValues | 表单默认值，只有初始化以及重置时生效 | object | - |  |
-| items｜ 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype)\[] |  |  |
+| items | 表单项, 和 children 方法渲染类似 | [ItemType](#itemtype)\[] |  |  |
 | labelAlign | label 标签的文本对齐方式 | `left`、 `right` | `right` |  |
 | labelWidth | 标签的长度，例如 '50px', 可以使用 auto。 | string、 number | 'auto' |  |
 | layout | 表单布局 | `horizontal`、 `vertical`、 `inline` | `horizontal` |  |

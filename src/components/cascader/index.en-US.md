@@ -90,7 +90,7 @@ interface Option {
   // `false` will force trade TreeNode as a parent node.
   // Show expand icon even if the current node has no children.
   leaf?: boolean;
-} ｜ Record<string, any>;
+} | Record<string, any>;
 ```
 
 > Note: `Option` support `Record<string, any>`, which means you can customize any attributes, but need to configure it through `fieldNames`.
