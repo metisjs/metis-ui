@@ -99,7 +99,7 @@ const ConfirmFooter: React.FC<ConfirmModalProps> = (props) => {
 
     if (typeof footer === 'function') {
       footerNode = footer(footerNode, {
-        OkBtn: ConfirmCancelBtn,
+        OkBtn: ConfirmOkBtn,
         CancelBtn: ConfirmCancelBtn,
       });
     }
