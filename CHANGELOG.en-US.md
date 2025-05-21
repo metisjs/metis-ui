@@ -6,11 +6,19 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.0.2
+
+`2025-05-21`
+
+- 🐞 Fix the error when customizing the `footer` in `Modal.confirm`.[#6](https://github.com/metisjs/metis-ui/issues/6)
+- 💄 Fix the mask style issue of `QRCode` in dark theme.
+- 💄 Fix some style issues of `Notification`.
+
 ## 1.0.1
 
 `2025-04-29`
 
-🐞 fixed `TimePicker` style error.[#2](https://github.com/metisjs/metis-ui/issues/2)
+🐞 Fix `TimePicker` style error.[#2](https://github.com/metisjs/metis-ui/issues/2)
 
 ## 1.0.0
 
