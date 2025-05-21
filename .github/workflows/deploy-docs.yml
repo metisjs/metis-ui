@@ -5,7 +5,7 @@ on:
   workflow_call:
   push:
     tags:
-      - '0.*'
+      - '1.*'
     paths:
       - ".dumi/**"
       - "docs/**"
