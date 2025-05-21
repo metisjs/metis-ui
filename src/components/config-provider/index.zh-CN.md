@@ -25,8 +25,8 @@ ConfigProvider 使用 React 的 [context](https://facebook.github.io/react/docs/
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| componentDisabled | 设置 antd 组件禁用状态 | boolean | - |  |
-| componentSize | 设置 antd 组件大小 | `mini`、 `small`、 `middle`、 `large` | - |  |
+| componentDisabled | 设置 组件禁用状态 | boolean | - |  |
+| componentSize | 设置 组件大小 | `mini`、 `small`、 `middle`、 `large` | - |  |
 | getPopupContainer | 弹出框（Select, Tooltip, Menu 等等）渲染父节点，默认渲染到 body 上。 | function(triggerNode) | () => document.body |  |
 | getTargetContainer | 配置 Affix、Anchor 滚动监听容器。 | () => HTMLElement | () => window |  |
 | locale | 语言包配置 | object | - |  |
@@ -61,5 +61,5 @@ const { componentDisabled, componentSize } = ConfigProvider.useConfig();
 <!-- prettier-ignore -->
 | 返回值 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| componentDisabled | antd 组件禁用状态 | boolean | - |   |
-| componentSize | antd 组件大小状态 | `mini`、 `small`、 `middle`、 `large` | - |   |
+| componentDisabled | 组件禁用状态 | boolean | - |   |
+| componentSize | 组件大小状态 | `mini`、 `small`、 `middle`、 `large` | - |   |

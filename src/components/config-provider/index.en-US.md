@@ -20,8 +20,8 @@ description: Provide a uniform configuration support for components.
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| componentDisabled | Config antd component `disabled` | boolean | - |  |
-| componentSize | Config antd component size | `mini`, `small`, `middle`, `large` | - |  |
+| componentDisabled | Config component `disabled` | boolean | - |  |
+| componentSize | Config component size | `mini`, `small`, `middle`, `large` | - |  |
 | getPopupContainer | To set the container of the popup element. The default is to create a `div` element in `body` | function(triggerNode) | () => document.body |  |
 | getTargetContainer | Config Affix, Anchor scroll target container | () => HTMLElement | () => window |  |
 | locale | Language package setting | object | - |  |
@@ -55,5 +55,5 @@ const { componentDisabled, componentSize } = ConfigProvider.useConfig();
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| componentDisabled | antd component disabled state | boolean | - |  |
-| componentSize | antd component size state | `mini`, `small`, `middle`, `large` | - |  |
+| componentDisabled | component disabled state | boolean | - |  |
+| componentSize | component size state | `mini`, `small`, `middle`, `large` | - |  |
