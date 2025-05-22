@@ -55,7 +55,7 @@ import { ConfigProvider } from 'metis-ui';
 
 // ...
 const Demo: React.FC = () => (
-  <ConfigProvider link={{ history: 'browser', base: '/' }}>
+  <ConfigProvider route={{ history: 'browser', base: '/' }}>
     <App />
   </ConfigProvider>
 );
