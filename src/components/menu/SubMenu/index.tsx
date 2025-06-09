@@ -274,14 +274,14 @@ const InternalSubMenu = (props: SubMenuProps) => {
           'h-10 truncate rounded-md p-2': true,
           'px-4 leading-10 in-[.item-group]:ps-7': !firstLevel,
           'text-primary': childrenSelected,
-          'hover:bg-fill-quaternary': !mergedDisabled,
+          'hover:bg-fill-quinary': !mergedDisabled,
           'text-text-tertiary': mergedDisabled,
         },
         // >>> Light Inline
         inline: {
           'h-10 rounded-md p-2': true,
           'text-primary': childrenSelected,
-          'hover:bg-fill-quaternary': !mergedDisabled,
+          'hover:bg-fill-quinary': !mergedDisabled,
           'text-text-tertiary': mergedDisabled,
         },
       },
