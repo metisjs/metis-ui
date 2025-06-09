@@ -9,7 +9,7 @@ export default (api: IApi) => {
     key: 'onAllBuildComplete',
     fn: () => {
       const localeDir = path.join(api.paths.cwd, 'locale');
-      const localeDts = `import type { Locale } from '../lib/components/locale';
+      const localeDts = `import type { Locale } from '../lib/locale';
 declare const localeValues: Locale;
 export default localeValues;`;
 
@@ -23,7 +23,7 @@ export default localeValues;`;
           const locale = match[1];
           fs.writeFileSync(
             path.join(localeDir, `${locale}.js`),
-            `module.exports = require('../lib/components/locale/${locale}');`,
+            `module.exports = require('../lib/locale/${locale}');`,
           );
           fs.writeFileSync(path.join(localeDir, `${locale}.d.ts`), localeDts);
         }
