@@ -26,7 +26,11 @@ const HeaderNavigation: React.FC<NavigationProps> = () => {
   return (
     <>
       {items.map((item) => (
-        <Link key={item.key} to={item.link} className="text-text text-sm/6 text-nowrap">
+        <Link
+          key={item.key}
+          to={item.link}
+          className="text-text hidden text-sm/6 text-nowrap md:block"
+        >
           {item.label}
         </Link>
       ))}

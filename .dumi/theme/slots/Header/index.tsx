@@ -29,6 +29,8 @@ const Header: FC = () => {
     ['', '/'].some((path) => path === pathname) ||
     ['/index'].some((path) => pathname.startsWith(path));
 
+  console.log(showMenu);
+
   return (
     <header
       className={clsx(
@@ -46,23 +48,20 @@ const Header: FC = () => {
             v{pkg.version}
           </div>
         </div>
-        <div className="hidden items-center gap-6 md:flex">
-          <SearchBar />
+        <div className="flex items-center gap-2.5 md:gap-6">
+          {!showMenu && <SearchBar />}
           <Navigation />
-          <div className="h-6 w-px bg-gray-950/10 dark:bg-white/10"></div>
-          <div className="flex items-center gap-4">
+          <div className="hidden h-6 w-px bg-gray-950/10 md:block dark:bg-white/10"></div>
+          <div className="hidden items-center gap-4 md:flex">
             <LangSwitch />
             <ThemeSwitch />
             <a aria-label="GitHub repository" href="https://github.com/metisjs/metis-ui">
               <GithubIcon />
             </a>
           </div>
-        </div>
-        <div className="flex items-center gap-2.5 md:hidden">
-          {!showMenu && <SearchBar />}
           <button
             type="button"
-            className="undefined relative inline-grid size-7 place-items-center rounded-md text-gray-950 hover:bg-gray-950/5 dark:text-white dark:hover:bg-white/10"
+            className="relative inline-grid size-7 place-items-center rounded-md text-gray-950 hover:bg-gray-950/5 md:hidden dark:text-white dark:hover:bg-white/10"
             aria-label="Navigation"
             onClick={() => setShowMenu((prev) => !prev)}
           >
@@ -91,7 +90,7 @@ const Header: FC = () => {
             </Link>
             <a href="https://github.com/metisjs/metis-ui">GitHub</a>
           </div>
-          <div className="absolute inset-x-0 bottom-4 flex items-center justify-between gap-2 px-4">
+          <div className="mt-4 flex items-center justify-between gap-6 px-6">
             <LangSwitch className="scale-135" />
             <Segmented
               value={theme}
