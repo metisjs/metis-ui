@@ -6,6 +6,13 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.0.3
+
+`2025-06-09`
+
+- 🐞 Fix incorrect `locale` file path.
+- 💄 Adjust selected state styles for the `Menu` component.
+
 ## 1.0.2
 
 `2025-05-21`
