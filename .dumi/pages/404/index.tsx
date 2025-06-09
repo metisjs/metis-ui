@@ -30,13 +30,6 @@ const NotFoundPage: React.FC<NotFoundProps> = ({ router }) => {
         router.replace(utils.getLocalizedPathname(`/${DIRECT_MAP[matchPath]}`, isZhCN).pathname);
       }
     }
-
-    // Report if necessary
-    const { yuyanMonitor } = window as any;
-    yuyanMonitor?.log({
-      code: 11,
-      msg: `Page not found: ${location.href}; Source: ${document.referrer}`,
-    });
   }, []);
 
   return (
