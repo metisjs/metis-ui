@@ -222,7 +222,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
         type === 'default',
       'bg-primary enabled:hover:bg-primary-hover text-white focus-visible:outline-offset-2':
         type === 'primary',
-      'text-text enabled:hover:bg-fill-tertiary shadow-none': type === 'text',
+      'text-text enabled:hover:bg-fill-quaternary shadow-none': type === 'text',
       'text-primary enabled:hover:text-primary-hover shadow-none': type === 'link',
     },
     {
@@ -248,7 +248,7 @@ const InternalButton: React.ForwardRefRenderFunction<unknown, ButtonProps> = (pr
       !mergedDisabled && {
         'hover:bg-fill-quinary': type === 'default',
         'hover:bg-primary-hover': type === 'primary',
-        'hover:bg-fill-secondary': type === 'text',
+        'hover:bg-fill-quaternary': type === 'text',
         'hover:text-primary-hover': type === 'link',
       },
     danger && {
