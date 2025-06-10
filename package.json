@@ -149,7 +149,7 @@
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/sortable": "^7.0.2",
     "@dnd-kit/utilities": "^3.2.2",
-    "@metisjs/icons": "^1.0.1",
+    "@metisjs/icons": "^1.1.0",
     "@rc-component/async-validator": "^5.0.4",
     "@rc-component/context": "^1.4.0",
     "@rc-component/mini-decimal": "^1.1.0",
