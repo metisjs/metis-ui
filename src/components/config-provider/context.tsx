@@ -195,10 +195,6 @@ export type TreeConfig = Pick<TreeProps, 'className'>;
 
 export type UploadConfig = Pick<UploadProps, 'className'>;
 
-export type RouteConfig = {
-  history: 'browser' | 'hash';
-  basename: string;
-};
 export type RequestConfig = Omit<RequestOptions<any, any>, 'manual' | 'refreshDepsAction'>;
 
 export interface ConfigConsumerProps {
@@ -274,7 +270,6 @@ export interface ConfigConsumerProps {
   popConfirm?: PopconfirmConfig;
   tooltip?: TooltipConfig;
   floatButton?: FloatButtonConfig;
-  route: RouteConfig;
   request: RequestConfig;
 }
 
@@ -287,7 +282,6 @@ const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
   getPrefixCls: defaultGetPrefixCls,
-  route: { history: 'hash', basename: '/' },
   request: { debounceWait: 200 },
 });
 

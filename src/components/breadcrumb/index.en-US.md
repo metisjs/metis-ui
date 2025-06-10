@@ -46,20 +46,51 @@ demo:
 
 ### Use with browserHistory
 
-The link of Breadcrumb item targets `#` by default, you can use `itemRender` to make a `ConfigProvider` Link.
+The link of Breadcrumb item targets `#` by default, you can use `itemRender` to make a `browserHistory` Link.
 
 ```jsx
-import React from 'react';
-import { ConfigProvider } from 'metis-ui';
+import { Link } from 'react-router';
 
-// ...
-const Demo: React.FC = () => (
-  <ConfigProvider route={{ history: 'browser', base: '/' }}>
-    <App />
-  </ConfigProvider>
-);
+const items = [
+  {
+    path: '/index',
+    title: 'home',
+  },
+  {
+    path: '/first',
+    title: 'first',
+    children: [
+      {
+        path: '/general',
+        title: 'General',
+      },
+      {
+        path: '/layout',
+        title: 'Layout',
+      },
+      {
+        path: '/navigation',
+        title: 'Navigation',
+      },
+    ],
+  },
+  {
+    path: '/second',
+    title: 'second',
+  },
+];
 
-export default Demo;
+function itemRender(currentRoute, params, items, paths) {
+  const isLast = currentRoute?.path === items[items.length - 1]?.path;
+
+  return isLast ? (
+    <span>{currentRoute.title}</span>
+  ) : (
+    <Link to={`/${paths.join('/')}`}>{currentRoute.title}</Link>
+  );
+}
+
+return <Breadcrumb itemRender={itemRender} items={items} />;
 ```
 
 ## Semantic DOM

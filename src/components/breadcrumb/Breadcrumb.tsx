@@ -70,7 +70,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
     ...restProps
   } = props;
 
-  const { getPrefixCls, route } = React.useContext(ConfigContext);
+  const { getPrefixCls } = React.useContext(ConfigContext);
   const semanticCls = useSemanticCls(className, 'breadcrumb');
 
   let crumbs: React.ReactNode;
@@ -101,7 +101,7 @@ const Breadcrumb = <T extends AnyObject = AnyObject>(props: BreadcrumbProps<T>) 
 
       let { href } = item;
       if (paths.length && mergedPath !== undefined) {
-        href = `${route.history === 'hash' ? '#/' : `${route.basename}`}${paths.join('/')}`;
+        href = `#/${paths.join('/')}`;
       }
 
       const classStr = mergeSemanticCls(semanticCls.item, itemClassName)({});

@@ -6,7 +6,7 @@ import { PREFERS_COLOR_KEY, SYS_DATA_THEME } from '../../plugin/constants';
 import ValidateMessagesContext from '../form/validateMessagesContext';
 import LocaleProvider, { METIS_MARK } from '../locale';
 import defaultLocale from '../locale/en_US';
-import type { ConfigConsumerProps, RequestConfig, RouteConfig, Variant } from './context';
+import type { ConfigConsumerProps, RequestConfig, Variant } from './context';
 import { ConfigConsumer, ConfigContext, Variants } from './context';
 import type { RenderEmptyHandler } from './defaultRenderEmpty';
 import { DisabledContextProvider } from './DisabledContext';
@@ -21,15 +21,11 @@ export { Variants };
 export { ConfigConsumer, ConfigContext, type ConfigConsumerProps, type RenderEmptyHandler };
 
 export interface ConfigProviderProps
-  extends Omit<
-    ConfigConsumerProps,
-    'getPrefixCls' | 'themeTarget' | 'route' | 'request' | 'theme'
-  > {
+  extends Omit<ConfigConsumerProps, 'getPrefixCls' | 'themeTarget' | 'request' | 'theme'> {
   prefixCls?: string;
   children?: React.ReactNode;
   componentSize?: SizeType;
   componentDisabled?: boolean;
-  route?: RouteConfig;
   request?: RequestConfig;
   theme?: string | { value: string; target: React.RefObject<HTMLElement> };
 }

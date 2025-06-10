@@ -47,20 +47,51 @@ demo:
 
 ### 和 browserHistory 配合
 
-和 react-router 一起使用时，默认生成的 url 路径是带有 `#` 的，如果和 browserHistory 一起使用的话，你可以使用 `ConfigProvider` 属性定义面包屑链接。
+和 react-router 一起使用时，默认生成的 url 路径是不带有 `#` 的，如果和 browserHistory 一起使用的话，你可以使用 `itemRender` 属性定义面包屑链接。
 
 ```jsx
-import React from 'react';
-import { ConfigProvider } from 'metis-ui';
+import { Link } from 'react-router';
 
-// ...
-const Demo: React.FC = () => (
-  <ConfigProvider route={{ history: 'browser', base: '/' }}>
-    <App />
-  </ConfigProvider>
-);
+const items = [
+  {
+    path: '/index',
+    title: 'home',
+  },
+  {
+    path: '/first',
+    title: 'first',
+    children: [
+      {
+        path: '/general',
+        title: 'General',
+      },
+      {
+        path: '/layout',
+        title: 'Layout',
+      },
+      {
+        path: '/navigation',
+        title: 'Navigation',
+      },
+    ],
+  },
+  {
+    path: '/second',
+    title: 'second',
+  },
+];
 
-export default Demo;
+function itemRender(currentRoute, params, items, paths) {
+  const isLast = currentRoute?.path === items[items.length - 1]?.path;
+
+  return isLast ? (
+    <span>{currentRoute.title}</span>
+  ) : (
+    <Link to={`/${paths.join('/')}`}>{currentRoute.title}</Link>
+  );
+}
+
+return <Breadcrumb itemRender={itemRender} items={items} />;
 ```
 
 ## Semantic DOM
