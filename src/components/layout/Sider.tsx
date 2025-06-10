@@ -194,14 +194,16 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     const siderCls = clsx(
       prefixCls,
       `${prefixCls}-${theme}`,
-      'relative min-w-0 bg-white/10 transition-all',
+      'relative min-w-0 transition-all',
       {
         [`${prefixCls}-collapsed`]: !!collapsed,
         [`${prefixCls}-has-trigger pb-12`]: collapsible && trigger !== null,
         [`${prefixCls}-below`]: !!below,
         [`${prefixCls}-zero-width`]: parseFloat(siderWidth) === 0,
       },
-      theme === 'light' && 'bg-container',
+      {
+        'bg-gray-900': theme === 'dark',
+      },
       semanticCls.root,
     );
     return (
