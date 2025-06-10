@@ -52,7 +52,6 @@ export interface MenuItemType
   > {
   label?: React.ReactNode;
   disabled?: boolean;
-  itemIcon?: RenderIconType;
   key: SafeKey;
   danger?: boolean;
   icon?: React.ReactNode;

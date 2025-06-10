@@ -244,26 +244,26 @@ const InternalMenuItem = React.forwardRef((props: MenuItemProps, ref: React.Ref<
         // >>> Dark Horizontal
         horizontal: {
           'h-9 rounded-md px-3 py-2 text-sm': true,
-          'text-gray-300 hover:bg-gray-700/80 hover:text-white': !mergedDisabled && !selected,
-          'bg-gray-700/80 text-white': selected,
+          'text-gray-400 hover:bg-gray-800 hover:text-white': !mergedDisabled && !selected,
+          'bg-gray-800 text-white': selected,
           'text-gray-500': mergedDisabled,
         },
         // >>> Dark Vertical
         vertical: {
           'text-text-tertiary h-10 truncate rounded-md p-2 leading-10': true,
-          'ps-4 pe-4 text-gray-300': !firstLevel,
+          'ps-4 pe-4 text-gray-400': !firstLevel,
           'ps-7': !firstLevel && grouped,
           'pe-8': firstLevel && !isInlineCollapsed,
-          'bg-gray-700/80 text-white': selected,
-          'hover:bg-gray-700/80': !selected && !mergedDisabled,
+          'bg-gray-800 text-white': selected,
+          'hover:bg-gray-800': !selected && !mergedDisabled,
           'text-gray-500': mergedDisabled,
         },
         // >>> Dark Inline
         inline: {
           'text-text-tertiary h-10 rounded-md p-2 pe-8': true,
           'pe-7': !firstLevel,
-          'bg-gray-700/80 text-white': selected,
-          'hover:bg-gray-700/80 hover:text-white': !selected && !mergedDisabled,
+          'bg-gray-800 text-white': selected,
+          'hover:bg-gray-800 hover:text-white': !selected && !mergedDisabled,
           'text-gray-500': mergedDisabled,
         },
       },
