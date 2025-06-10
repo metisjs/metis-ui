@@ -6,6 +6,14 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.0.4
+
+`2025-06-10`
+
+- 💄 `Button` 组件 `type=text` 样式调整。
+- 💄 `Layout.sider` 组件 `theme=dark` 样式调整。
+- 💄 `Menu` 组件 `theme=dark` 样式调整。
+
 ## 1.0.3
 
 `2025-06-09`

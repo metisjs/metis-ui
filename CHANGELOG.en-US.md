@@ -6,6 +6,14 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.0.4
+
+`2025-06-10`
+
+- 💄 Adjusted styles for `Button` component with `type=text`.
+- 💄 Adjusted styles for `Layout.sider` component with `theme=dark`.
+- 💄 Adjusted styles for `Menu` component with `theme=dark`.
+
 ## 1.0.3
 
 `2025-06-09`
