@@ -51,6 +51,14 @@ const Header: FC = () => {
         <div className="flex items-center gap-2.5 md:gap-6">
           {!showMenu && <SearchBar />}
           <Navigation />
+          <a
+            href="https://plus.metisui.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-primary-bg relative mx-2 -skew-x-12 rounded px-4 py-1 text-sm font-medium md:mx-0"
+          >
+            <span className="inline-block skew-x-12">Plus</span>
+          </a>
           <div className="hidden h-6 w-px bg-gray-950/10 md:block dark:bg-white/10"></div>
           <div className="hidden items-center gap-4 md:flex">
             <LangSwitch />

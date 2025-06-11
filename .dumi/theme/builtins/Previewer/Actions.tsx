@@ -20,7 +20,7 @@ const Actions: FC<ActionsProps> = (props) => {
           id: 'previewer.actions.separate',
         })}
       >
-        <a target="_blank" rel="noreferrer" href={props.demoUrl}>
+        <a target="_blank" rel="noreferrer" href={props.demoUrl} className="ml-auto">
           <ExternalLinkIcon className="size-3.5" />
         </a>
       </Tooltip>
