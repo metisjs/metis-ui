@@ -80,9 +80,7 @@ const items = [
   },
 ];
 
-function itemRender(currentRoute, params, items, paths) {
-  const isLast = currentRoute?.path === items[items.length - 1]?.path;
-
+function itemRender(currentRoute, params, items, paths, isLast) {
   return isLast ? (
     <span>{currentRoute.title}</span>
   ) : (
