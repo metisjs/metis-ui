@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.0.5
+
+`2025-06-x`
+
+- 🔧 移除 `ConfigProvider` 组件 `route` 属性支持。
+
 ## 1.0.4
 
 `2025-06-10`

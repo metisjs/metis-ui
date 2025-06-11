@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.0.5
+
+`2025-06-x`
+
+- 🔧 Removed support for the `route` property in the `ConfigProvider` component.
+
 ## 1.0.4
 
 `2025-06-10`
