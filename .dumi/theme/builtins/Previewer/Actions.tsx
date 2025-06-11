@@ -1,11 +1,9 @@
 import React, { type FC } from 'react';
-import { IPreviewerProps, openCodeSandbox, openStackBlitz, useIntl } from 'dumi';
+import { IPreviewerProps, useIntl } from 'dumi';
 import { Tooltip } from 'metis-ui';
 import ExternalLinkIcon from '../..//icons/ExternalLinkIcon';
 import CodeExpandIcon from '../../icons/CodeExpandIcon';
 import CodeIcon from '../../icons/CodeIcon';
-import CodeSandboxIcon from '../../icons/CodeSandboxIcon';
-import StackBlitzIcon from '../../icons/StackBlitzIcon';
 
 export type ActionsProps = IPreviewerProps & {
   showCode?: boolean;
@@ -17,24 +15,6 @@ const Actions: FC<ActionsProps> = (props) => {
 
   return (
     <>
-      <Tooltip
-        title={intl.formatMessage({
-          id: 'previewer.actions.codesandbox',
-        })}
-      >
-        <button className="ml-auto" type="button" onClick={() => openCodeSandbox(props)}>
-          <CodeSandboxIcon className="size-3.5" />
-        </button>
-      </Tooltip>
-      <Tooltip
-        title={intl.formatMessage({
-          id: 'previewer.actions.stackblitz',
-        })}
-      >
-        <button type="button" onClick={() => openStackBlitz(props)}>
-          <StackBlitzIcon className="size-3.5" />
-        </button>
-      </Tooltip>
       <Tooltip
         title={intl.formatMessage({
           id: 'previewer.actions.separate',
