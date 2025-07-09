@@ -32,6 +32,7 @@ const THEME_KEYS = [
   'warningBorder',
   'warningBorderSecondary',
   'container',
+  'elevated',
   'mask',
   'spotlight',
   'border',

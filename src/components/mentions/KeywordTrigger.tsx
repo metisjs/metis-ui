@@ -71,7 +71,7 @@ const KeywordTrigger: FC<KeywordTriggerProps> = (props) => {
   }, [placement]);
 
   const popupCls = clsx(
-    'bg-container outline-border-secondary absolute rounded-md text-sm shadow-lg outline-1 backdrop-blur-2xl',
+    'bg-elevated outline-border-secondary absolute rounded-md text-sm shadow-lg outline-1',
     popupClassName,
   );
 

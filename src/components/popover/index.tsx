@@ -89,7 +89,7 @@ const Popover = React.forwardRef<TooltipRef, PopoverProps>((props, ref) => {
   const prefixCls = getPrefixCls('popover');
 
   const overlayCls = clsx(
-    'text-text visible absolute z-1070 box-border block w-max max-w-[100vw] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:var(--container)]',
+    'text-text visible absolute z-1070 box-border block w-max max-w-[100vw] origin-[var(--arrow-x,50%)_var(--arrow-y,50%)] [--metis-arrow-background-color:var(--elevated)]',
     semanticCls.overlay,
   );
 

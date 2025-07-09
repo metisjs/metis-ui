@@ -157,7 +157,7 @@ export default function Popup<DateType extends object = any>(props: PopupProps<D
   // ======================== Style ========================
   const containerCls = clsx(
     `${panelPrefixCls}-container`,
-    'bg-container overflow-hidden rounded-lg backdrop-blur-2xl',
+    'bg-elevated overflow-hidden rounded-lg',
   );
 
   const panelLayoutCls = clsx(

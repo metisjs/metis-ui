@@ -10,7 +10,12 @@ const App: React.FC = () => {
   return (
     <div>
       <div className="flex h-[300vh] w-[300vw] items-center justify-center">
-        <Tooltip title="Thanks for using metis ui. Have a nice day!" trigger="click" defaultOpen>
+        <Tooltip
+          title="Thanks for using metis ui. Have a nice day!"
+          trigger="click"
+          defaultOpen
+          open
+        >
           <Button>Scroll The Window</Button>
         </Tooltip>
       </div>

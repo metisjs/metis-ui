@@ -75,6 +75,11 @@ const colorObject = {
     DEFAULT: 'var(--container)',
   },
 
+  /** 浮层的背景色 */
+  elevated: {
+    DEFAULT: 'var(--elevated)',
+  },
+
   /** 引起注意的背景色 */
   spotlight: {
     DEFAULT: 'var(--spotlight)',
