@@ -41,7 +41,7 @@ const SwitcherIcon: React.FC<SwitcherIconProps> = (props) => {
     return switcher as unknown as React.ReactElement;
   }
 
-  return <ExpandIcon open={expanded} className={clsx(switcherCls, 'transition-none')} />;
+  return <ExpandIcon open={expanded} className={clsx(switcherCls, 'size-4 transition-none')} />;
 };
 
 export default SwitcherIcon;
