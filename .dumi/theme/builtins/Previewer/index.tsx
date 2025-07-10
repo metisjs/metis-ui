@@ -14,8 +14,6 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
   const demoContainer = useRef<HTMLDivElement>(null!);
   const link = `#${props.asset.id}`;
 
-  const iframeRef = useRef(null);
-
   const {
     node: liveDemoNode,
     error: liveDemoError,
@@ -80,7 +78,6 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
       >
         {props.iframe ? (
           <iframe
-            ref={iframeRef}
             className="block h-72 w-full bg-gray-950/5 dark:bg-white/10"
             style={
               ['string', 'number'].includes(typeof props.iframe)
