@@ -1,4 +1,4 @@
-import React, { useRef, useState, type FC } from 'react';
+import React, { ReactEventHandler, useRef, useState, type FC } from 'react';
 import { useLiveDemo, useSiteData, type IPreviewerProps } from 'dumi';
 import { Alert, clsx } from 'metis-ui';
 import Actions from './Actions';
@@ -14,6 +14,8 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
   const demoContainer = useRef<HTMLDivElement>(null!);
   const link = `#${props.asset.id}`;
 
+  const iframeRef = useRef(null);
+
   const {
     node: liveDemoNode,
     error: liveDemoError,
@@ -26,6 +28,15 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
   const [showCode, setShowCode] = useState(
     props.forceShowCode || props.defaultShowCode || props.readonly,
   );
+
+  const handleIframeLoad: ReactEventHandler<HTMLIFrameElement> = (e) => {
+    const iframe = e.target as HTMLIFrameElement;
+    const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document;
+    const body = iframeDocument?.body;
+    if (body) {
+      body.className += ' dark:bg-gray-950/50!';
+    }
+  };
 
   return (
     <div
@@ -69,13 +80,15 @@ const Previewer: FC<MetisPreviewerProps> = (props) => {
       >
         {props.iframe ? (
           <iframe
-            className="block h-72 w-full"
+            ref={iframeRef}
+            className="block h-72 w-full bg-gray-950/5 dark:bg-white/10"
             style={
               ['string', 'number'].includes(typeof props.iframe)
                 ? { height: Number(props.iframe) }
                 : {}
             }
             src={props.demoUrl}
+            onLoad={handleIframeLoad}
           ></iframe>
         ) : (
           liveDemoNode || props.children
