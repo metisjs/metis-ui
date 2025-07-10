@@ -6,10 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
-## 1.0.5
+## 1.1.0
 
-`2025-06-x`
+`2025-07-10`
 
+- 🐞 Fix `Tree` switcher icon not displaying issue in Safari browser.
+- 💄 Add `elevated` background color to theme for floating layers, affecting dark theme styles of `Select`, `Dropdown`, `Popover`, and `Tour` components.
 - 🔧 Removed support for the `route` property in the `ConfigProvider` component.
 
 ## 1.0.4
