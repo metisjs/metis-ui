@@ -225,7 +225,7 @@ function Cell<RecordType extends AnyObject>(props: CellProps<RecordType>) {
     },
     {
       sticky: isSticky || isFixLeft || isFixRight,
-      'bg-container/75 backdrop-blur-sm': pinned || isSticky,
+      'bg-elevated/75 backdrop-blur-sm': pinned || isSticky,
       'border-b-0': atBottom,
       truncate: ellipsis,
       'after:pointer-events-none after:absolute after:top-0 after:right-0 after:-bottom-px after:w-7 after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_rgba(0,_0,_0,_0.08)] after:transition-shadow group-last/body-row:after:bottom-0':
