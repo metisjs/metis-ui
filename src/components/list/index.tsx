@@ -126,7 +126,7 @@ function InternalList<T>(
   }
   loadingProp.spinning = loadingProp.spinning || requestLoading;
   loadingProp.className = mergeSemanticCls(
-    { wrapper: 'flex-1 h-0', indicator: 'h-full' },
+    { wrapper: 'flex-1', indicator: 'h-full' },
     loadingProp.className,
   );
 
@@ -139,9 +139,9 @@ function InternalList<T>(
       [`${prefixCls}-bordered`]: bordered,
       [`${prefixCls}-loading`]: isLoading,
     },
-    'relative flex w-full flex-col rounded-lg text-sm text-text',
+    'text-text relative flex w-full flex-col rounded-lg text-sm',
     {
-      'border border-border': bordered,
+      'border-border border': bordered,
     },
     semanticCls.root,
   );
@@ -149,9 +149,9 @@ function InternalList<T>(
   const bodyCls = clsx(
     `${prefixCls}-body`,
     {
-      'divide-y divide-border-tertiary': !virtual && split,
+      'divide-border-tertiary divide-y': !virtual && split,
       'divide-border-secondary': !virtual && split && bordered,
-      '[&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-t [&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-border-tertiary':
+      '[&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-border-tertiary [&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-t':
         virtual && split,
       '[&_>_div_>_div_>_:not([hidden])_~_:not([hidden])]:border-border-secondary':
         virtual && split && bordered,
@@ -161,7 +161,7 @@ function InternalList<T>(
 
   const headerCls = clsx(
     `${prefixCls}-header`,
-    'border-b border-border-secondary py-5',
+    'border-border-secondary border-b py-5',
     {
       'px-6': bordered,
     },
@@ -170,7 +170,7 @@ function InternalList<T>(
 
   const footerCls = clsx(
     `${prefixCls}-footer`,
-    'border-t border-border-secondary py-5',
+    'border-border-secondary border-t py-5',
     { 'px-6': bordered },
     semanticCls.footer,
   );
@@ -197,7 +197,7 @@ function InternalList<T>(
                 </div>
               )}
               {noMore && locale?.noMoreText && (
-                <div className="flex items-center justify-center py-5 text-text-tertiary">
+                <div className="text-text-tertiary flex items-center justify-center py-5">
                   {locale.noMoreText}
                 </div>
               )}

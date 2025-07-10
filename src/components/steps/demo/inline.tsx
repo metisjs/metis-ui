@@ -38,27 +38,25 @@ const items = [
 ];
 
 const App: React.FC = () => (
-  <div>
-    <List
-      dataSource={data}
-      renderItem={(item, index) => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-            title={<a href="https://metisui.com">{item.title}</a>}
-            description="Metis, a design language for background applications, is refined by Ant UED Team"
-          />
-          <Steps
-            className="mt-2"
-            type="inline"
-            current={item.current}
-            status={item.status as StepsProps['status']}
-            items={items}
-          />
-        </List.Item>
-      )}
-    />
-  </div>
+  <List
+    dataSource={data}
+    renderItem={(item, index) => (
+      <List.Item>
+        <List.Item.Meta
+          avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
+          title={<a href="https://metisui.com">{item.title}</a>}
+          description="Metis, a design language for background applications, is refined by Ant UED Team"
+        />
+        <Steps
+          className="mt-2"
+          type="inline"
+          current={item.current}
+          status={item.status as StepsProps['status']}
+          items={items}
+        />
+      </List.Item>
+    )}
+  />
 );
 
 export default App;
