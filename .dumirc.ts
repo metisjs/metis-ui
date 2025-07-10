@@ -24,6 +24,9 @@ export default defineConfig({
     '@util': path.join(__dirname, 'src/components/_util'),
   },
   theme: { '@c-primary': '#4f46e5', '@c-primary-dark': '#6366f1' },
+  analytics: {
+    ga_v2: 'G-8FBZW4BJD2',
+  },
   tailwindcss: {},
   plugins: ['./plugins/compiled/dumi-plugin-tailwindcss'],
   extraRehypePlugins: [rehypePlugin],
