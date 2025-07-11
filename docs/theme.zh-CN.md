@@ -224,8 +224,10 @@ export default App;
   border: 'gray-300';
   /* 一级填充色 */
   fill: 'gray-950/20';
-  /* 组件容器背景 */
+  /* 组件容器背景色 */
   container: 'white';
+  /* 浮层背景色 */
+  elevated: 'white';
   /* 引起注意的背景色 */
   spotlight: 'gray-900/85';
   /* 浮层的背景蒙层色 */

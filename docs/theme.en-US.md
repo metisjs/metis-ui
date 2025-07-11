@@ -226,6 +226,8 @@ You can simplify theme customization by deriving secondary colors from [`Tailwin
   fill: 'gray-950/20';
   /* Component container background */
   container: 'white';
+  /* Floating layers background*/
+  elevated: 'white';
   /* Attention-grabbing background color */
   spotlight: 'gray-900/85';
   /* Background mask color for overlays */
