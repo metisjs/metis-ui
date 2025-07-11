@@ -237,23 +237,22 @@ const InternalBadge = React.forwardRef<HTMLSpanElement, BadgeProps>((props, ref)
         appear={false}
         enter="transition duration-300"
         enterFrom="scale-0 opacity-0"
-        enterTo="scale-1 opacity-100"
+        enterTo="scale-100 opacity-100"
         leave="transition duration-300"
-        leaveFrom="scale-1 opacity-100"
+        leaveFrom="scale-100 opacity-100"
         leaveTo="scale-0 opacity-0"
         deadline={1000}
       >
-        {({ className: transitionCls }, ref) => (
+        {({ className: transitionCls, style: transitionStyle }, ref) => (
           <ScrollNumber
             ref={ref}
             prefixCls={scrollNumberPrefixCls}
             show={!isHidden}
-            transitionCls={transitionCls}
-            className={scrollNumberCls}
+            className={clsx(scrollNumberCls, transitionCls)}
             customComponentCls={customComponentCls}
             count={displayCount}
             title={titleNode}
-            style={scrollNumberStyle}
+            style={{ ...scrollNumberStyle, ...transitionStyle }}
             key="scrollNumber"
           >
             {displayNode}

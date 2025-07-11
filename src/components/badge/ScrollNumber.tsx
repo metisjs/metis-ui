@@ -8,7 +8,6 @@ export interface ScrollNumberProps {
   prefixCls?: string;
   className?: string;
   customComponentCls?: string;
-  transitionCls?: string;
   count?: string | number | null;
   children?: React.ReactElement;
   component?: React.ComponentType<any>;
@@ -28,7 +27,6 @@ const ScrollNumber = React.forwardRef<HTMLElement, ScrollNumberProps>((props, re
     count,
     className,
     customComponentCls,
-    transitionCls,
     style,
     title,
     show,
@@ -44,7 +42,7 @@ const ScrollNumber = React.forwardRef<HTMLElement, ScrollNumberProps>((props, re
     ...restProps,
     'data-show': show,
     style,
-    className: clsx(prefixCls, className, transitionCls),
+    className: clsx(prefixCls, className),
     title: title as string,
   };
 
@@ -54,7 +52,7 @@ const ScrollNumber = React.forwardRef<HTMLElement, ScrollNumberProps>((props, re
     const numberList = String(count).split('');
 
     numberNodes = (
-      <bdi>
+      <bdi style={{ unicodeBidi: 'plaintext' }}>
         {numberList.map((num, i) => (
           <SingleNumber
             prefixCls={prefixCls}
@@ -70,12 +68,7 @@ const ScrollNumber = React.forwardRef<HTMLElement, ScrollNumberProps>((props, re
 
   if (children) {
     return cloneElement(children, (oriProps) => ({
-      className: clsx(
-        `${prefixCls}-custom-component`,
-        customComponentCls,
-        oriProps?.className,
-        transitionCls,
-      ),
+      className: clsx(`${prefixCls}-custom-component`, customComponentCls, oriProps?.className),
     }));
   }
 
