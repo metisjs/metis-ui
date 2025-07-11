@@ -57,20 +57,15 @@ export default function SingleNumber(props: SingleNumberProps) {
   const [prevCount, setPrevCount] = React.useState(count);
 
   // ============================= Events =============================
-  const onTransitionEnd = () => {
+  const onTransitionEnd: React.TransitionEventHandler<HTMLSpanElement> = () => {
     setPrevValue(value);
     setPrevCount(count);
   };
 
   // Fallback if transition events are not supported
   React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onTransitionEnd();
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    const timer = setTimeout(onTransitionEnd, 1000);
+    return () => clearTimeout(timer);
   }, [value]);
 
   // ============================= Render =============================
@@ -94,23 +89,29 @@ export default function SingleNumber(props: SingleNumberProps) {
       unitNumberList.push(index);
     }
 
+    const unit = prevCount < count ? 1 : -1;
+
     // Fill with number unit nodes
     const prevIndex = unitNumberList.findIndex((n) => n % 10 === prevValue);
-    unitNodes = unitNumberList.map((n, index) => {
+
+    // Cut list
+    const cutUnitNumberList =
+      unit < 0 ? unitNumberList.slice(0, prevIndex + 1) : unitNumberList.slice(prevIndex);
+
+    unitNodes = cutUnitNumberList.map((n, index) => {
       const singleUnit = n % 10;
       return (
         <UnitNumber
           {...props}
           key={n}
           value={singleUnit}
-          offset={index - prevIndex}
+          offset={unit < 0 ? index - prevIndex : index}
           current={index === prevIndex}
         />
       );
     });
 
     // Calculate container offset value
-    const unit = prevCount < count ? 1 : -1;
     offsetStyle = {
       transform: `translateY(${-getOffset(prevValue, value, unit)}00%)`,
     };
@@ -118,7 +119,10 @@ export default function SingleNumber(props: SingleNumberProps) {
 
   return (
     <span
-      className={clsx(`${prefixCls}-only`, 'relative inline-block transition-all duration-300')}
+      className={clsx(
+        `${prefixCls}-only`,
+        'relative inline-block tabular-nums transition-all duration-300',
+      )}
       style={offsetStyle}
       onTransitionEnd={onTransitionEnd}
     >
