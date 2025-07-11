@@ -30,7 +30,6 @@ Metis UI 依次提供了三种选项卡，分别用于不同的场景。
 <code src="./demo/size.tsx">大小</code>
 <code src="./demo/editable.tsx">新增、关闭、重命名页签</code>
 <code src="./demo/custom-add-trigger.tsx">自定义新增页签触发器</code>
-<code src="./demo/custom-tab-bar.tsx">自定义页签头</code>
 <code src="./demo/custom-tab-bar-node.tsx">可拖拽标签</code>
 <code src="./demo/animated.tsx" debug>动画</code>
 <code src="./demo/nest.tsx" debug>嵌套</code>
