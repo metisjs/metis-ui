@@ -57,7 +57,7 @@ demo:
 | placeholder | 输入框提示 | string | - |  |
 | popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。false 时会关闭虚拟滚动 | boolean、 number | true |  |
 | popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
-| request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
+| request | 远程获取 options 方法 | [RequestConfig](/docs/remote-fetch-cn) | - |  |
 | status | 设置校验状态 | 'error'、 'warning' | - |  |
 | value | 指定当前选中的条目 | string | - |  |
 | variant | 形态变体 | `outlined`、 `borderless`、 `filled` | `outlined` |  |
@@ -79,22 +79,6 @@ interface FileNames {
   options?: string;
   disabled?: string | ((option: OptionType) => boolean);
 }
-```
-
-#### RequestConfig
-
-> request 使用 ahooks 的 [useRequest](https://ahooks.js.org/hooks/use-request)，因此支持所有 [useRequest](https://ahooks.js.org/hooks/use-request) 的参数。
-
-```ts
-export type RequestConfig<TData, ParamsType extends any[]> =
-  | RequestService<{ data: TData[]; total?: number }, ParamsType>
-  | {
-      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
-      options?: Omit<
-        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
-        'manual' | 'refreshDepsAction'
-      >;
-    };
 ```
 
 ## 方法

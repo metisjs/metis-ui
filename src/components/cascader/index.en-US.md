@@ -63,7 +63,7 @@ demo:
 | placement | Use preset popup align config from builtinPlacements | `bottomLeft` `bottomRight` `topLeft` `topRight` | `bottomLeft` |  |
 | popupRender | Customize popup content | (menus: ReactNode) => ReactNode | - |  |
 | removeIcon | The custom remove icon | ReactNode | - |  |
-| request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
+| request | Method to fetch remote options | [RequestConfig](/docs/remote-fetch) | - |  |
 | searchValue | Set search value, Need work with `showSearch` | string | - |  |
 | showCheckedStrategy | The way show selected item in box. ** `SHOW_CHILD`: ** just show child treeNode. **`Cascader.SHOW_PARENT`:** just show parent treeNode (when all child treeNode under the parent treeNode are checked) | `Cascader.SHOW_PARENT`, `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
 | showSearch | Whether show search input in single mode | boolean | false |  |
@@ -94,17 +94,6 @@ interface Option {
 ```
 
 > Note: `Option` support `Record<string, any>`, which means you can customize any attributes, but need to configure it through `fieldNames`.
-
-### RequestConfig
-
-> The request property uses the useRequest hook from ahooks, so it supports all the parameters that useRequest does. For more information, you can refer to the [useRequest documentation](https://ahooks.js.org/hooks/use-request).
-
-## Methods
-
-| Name    | Description  | Version |
-| ------- | ------------ | ------- |
-| blur()  | Remove focus |         |
-| focus() | Get focus    |         |
 
 ## Semantic DOM
 

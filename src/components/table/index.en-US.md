@@ -129,7 +129,7 @@ One of the Table `columns` prop for describing the table's columns.
 | key | React key. If a unique `dataIndex` is already set, this property can be omitted. | Key | - |  |
 | minWidth | Minimum column width, only effective when `tableLayout="auto"`. | number | - |  |
 | render | Render function for complex data. Parameters are the current cell value, current row data, and row index. | function(value, record, index, action) {} | - |  |
-| request | Remote data fetching method | [RequestConfig](#requestconfig) | - |  |
+| request | Remote data fetching method | [RequestConfig](/docs/remote-fetch) | - |  |
 | responsive | Responsive breakpoint configuration list. If not set, the column will always be visible. | [Breakpoint](https://github.com/metisjs/metis-ui/blob/main/src/components/_util/responsiveObserver.ts#L1)\[] | - |  |
 | rowScope | Set the column scope | `row`, `rowgroup` | - |  |
 | search | Column search configuration | boolean, [search](#column-search) | - |  |

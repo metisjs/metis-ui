@@ -131,7 +131,7 @@ description: 展示行列数据。
 | key | React 需要的 key，如果已经设置了唯一的 `dataIndex`，可以忽略这个属性 | Key | - |  |
 | minWidth | 最小列宽度，只在 `tableLayout="auto"` 时有效 | number | - |  |
 | render | 生成复杂数据的渲染函数，参数分别为当前单元格的值，当前行数据，行索引 | function(value, record, index, action) {} | - |  |
-| request | 远程获取数据方法 | [RequestConfig](#requestconfig) | - |  |
+| request | 远程获取数据方法 | [RequestConfig](/docs/remote-fetch-cn) | - |  |
 | responsive | 响应式 breakpoint 配置列表。未设置则始终可见。 | [Breakpoint](https://github.com/metisjs/metis-ui/blob/main/src/components/_util/responsiveObserver.ts#L1)\[] | - |  |
 | rowScope | 设置列范围 | `row`、 `rowgroup` | - |  |
 | search | 配置列的搜索 | boolean、 [search](#column-search) | - |  |
@@ -175,10 +175,6 @@ const columns = {
 | 参数  | 说明         | 类型      | 默认值 |
 | ----- | ------------ | --------- | ------ |
 | title | 列头显示文字 | ReactNode | -      |
-
-### RequestConfig
-
-> request 使用 ahooks 的 [useRequest](https://ahooks.js.org/hooks/use-request)，因此支持所有 [useRequest](https://ahooks.js.org/hooks/use-request) 的参数。
 
 ### pagination
 

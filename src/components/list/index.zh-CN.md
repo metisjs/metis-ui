@@ -32,7 +32,7 @@ description: 最基础的列表展示，可承载文字、列表、图片、段�
 | loading | 当卡片内容还在加载中时，可以用 `loading` 展示一个占位 | boolean、 [object](/components/spin-cn#api) | false |  |
 | locale | 默认文案设置 | {emptyText?: string, noMoreText?: string} | {emptyText: `暂无数据`} |  |
 | renderItem | 当使用 dataSource 时，可以用 `renderItem` 自定义渲染列表项 | (item) => ReactNode | - |  |
-| request | 远程获取 options 方法 | `RequestConfig` | - |  |
+| request | 远程获取 options 方法 | [`RequestConfig`](/docs/remote-fetch-cn) | - |  |
 | rowKey | 当 `renderItem` 自定义渲染列表项有效时，自定义每一行的 `key` 的获取方式 | `keyof` T、 (item: T) => `React.Key` | `"key"` |  |
 | split | 是否展示分割线 | boolean | true |  |
 | virtual | 虚拟滚动 | boolean、 [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |

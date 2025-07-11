@@ -55,7 +55,7 @@ Almost anything can be represented in a tree structure. Examples include directo
 | lazyLoad | Remote laze load request, effective only when using the `request` configuration. | boolean | false |  |
 | loadedKeys | (Controlled) Set loaded tree nodes. Need work with `loadData` | string\[] | \[] |  |
 | multiple | Allows selecting multiple treeNodes | boolean | false |  |
-| request | Method to fetch remote options | `RequestConfig` | - |  |
+| request | Method to fetch remote options | [`RequestConfig`](/docs/remote-fetch) | - |  |
 | selectable | Whether can be selected | boolean | true |  |
 | selectedKeys | (Controlled) Specifies the keys of the selected treeNodes, multiple selection needs to set `multiple` to true | string\[] | - |  |
 | showIcon | Controls whether to display the `icon` node, no default style | boolean | false |  |

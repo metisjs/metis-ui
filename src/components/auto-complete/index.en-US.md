@@ -56,7 +56,7 @@ The differences with Select are:
 | placeholder | The placeholder of input | string | - |  |
 | popupClassName | The className of dropdown menu | string | - |  |
 | popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean, number | true |  |
-| request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
+| request | Method to fetch remote options | [RequestConfig](/docs/remote-fetch) | - |  |
 | status | Set validation status | 'error', 'warning' | - |  |
 | value | Selected option | string | - |  |
 | variant | Variants of input | `outlined`, `borderless`, `filled` | `outlined` |  |
@@ -78,22 +78,6 @@ interface FileNames {
   options?: string;
   disabled?: string | ((option: OptionType) => boolean);
 }
-```
-
-#### RequestConfig
-
-> The request property uses the useRequest hook from ahooks, so it supports all the parameters that useRequest does. For more information, you can refer to the [useRequest documentation](https://ahooks.js.org/hooks/use-request).
-
-```ts
-export type RequestConfig<TData, ParamsType extends any[]> =
-  | RequestService<{ data: TData[]; total?: number }, ParamsType>
-  | {
-      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
-      options?: Omit<
-        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
-        'manual' | 'refreshDepsAction'
-      >;
-    };
 ```
 
 ## Methods

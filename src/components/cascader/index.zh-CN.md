@@ -66,7 +66,7 @@ demo:
 | placement | 浮层预设位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | `bottomLeft` |  |
 | popupRender | 自定义下拉框内容 | (menus: ReactNode) => ReactNode | - |  |
 | removeIcon | 自定义的多选框清除图标 | ReactNode | - |  |
-| request | 远程获取 options 方法 | [RequestConfig](#requestconfig) | - |  |
+| request | 远程获取 options 方法 | [RequestConfig](/docs/remote-fetch-cn) | - |  |
 | searchValue | 设置搜索的值，需要与 `showSearch` 配合使用 | string | - |  |
 | showCheckedStrategy | 定义选中项回填的方式。`Cascader.SHOW_CHILD`: 只显示选中的子节点。`Cascader.SHOW_PARENT`: 只显示父节点（当父节点下所有子节点都选中时）。 | `Cascader.SHOW_PARENT`、 `Cascader.SHOW_CHILD` | `Cascader.SHOW_PARENT` |  |
 | showSearch | 在选择框中显示搜索框 | boolean | false |  |
@@ -96,10 +96,6 @@ interface Option {
 ```
 
 > 注意：`Option` 支持 `Record<string, any>`，因此可以自定义任意属性，但需要使用 `fieldNames` 进行配置。
-
-### RequestConfig
-
-> request 使用 ahooks 的 [useRequest](https://ahooks.js.org/hooks/use-request)，因此支持所有 [useRequest](https://ahooks.js.org/hooks/use-request) 的参数。
 
 ## 方法
 

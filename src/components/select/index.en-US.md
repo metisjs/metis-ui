@@ -78,7 +78,7 @@ demo:
 | popupMatchSelectWidth | Determine whether the popup menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean, number | true |  |
 | popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
 | removeIcon | The custom remove icon | ReactNode | - |  |
-| request | Method to fetch remote options | [RequestConfig](#requestconfig) | - |  |
+| request | Method to fetch remote options | [RequestConfig](/docs/remote-fetch) | - |  |
 | searchValue | The current input "search" text | string | - |  |
 | showSearch | Whether select is searchable | boolean | single: false, multiple: true |  |
 | size | Size of Select input | `large`, `middle`, `small` | `middle` |  |
@@ -114,22 +114,6 @@ interface FileNames {
   options?: string;
   disabled?: string;
 }
-```
-
-#### RequestConfig
-
-> The request property uses the useRequest hook from ahooks, so it supports all the parameters that useRequest does. For more information, you can refer to the [useRequest documentation](https://ahooks.js.org/hooks/use-request).
-
-```ts
-export type RequestConfig<TData, ParamsType extends any[]> =
-  | RequestService<{ data: TData[]; total?: number }, ParamsType>
-  | {
-      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
-      options?: Omit<
-        RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
-        'manual' | 'refreshDepsAction'
-      >;
-    };
 ```
 
 ### Select Methods
