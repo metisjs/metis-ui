@@ -433,7 +433,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     ],
     type === 'card' && [
       'bg-fill-quaternary m-0 py-1.5',
-      'before:pointer-events-none before:absolute before:right-0 before:left-0 before:z-1 before:h-1.5 before:bg-(--card-active-background-color,--container)',
+      'before:pointer-events-none before:absolute before:right-0 before:left-0 before:z-1 before:h-1.5 before:bg-(--card-active-background-color,var(--container))',
       {
         'before:bottom-0': tabPosition === 'top',
         'before:top-0': tabPosition === 'bottom',
