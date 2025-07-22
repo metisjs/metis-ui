@@ -6,6 +6,15 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.1.1
+
+`2025-07-22`
+
+- 🐞 Fixed missing type definitions for some components after build and release.
+- 🐞 Fixed some style issues with `tabs`.
+- 🐞 Fixed some style issues with `segmented`.
+- 🐞 Fixed animation style issue with `badge`.
+
 ## 1.1.0
 
 `2025-07-10`
