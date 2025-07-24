@@ -156,6 +156,9 @@ const valueEnum = {
   },
 };
 
+// 注意：当 key 为 number 类型时，由于js在对象转换时会把number转成string，从而导致显示错误，这时你需要使用Map。
+const valueEnum = new Map([[0, '男'], [1, '女']]);
+
 // 也可以从远程获取
 const valueEnum = {
   request: async () => ({data:[{id:1,name:'Open'},{id:2,name:'Closed'}]}),
