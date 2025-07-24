@@ -14,6 +14,9 @@ const valueEnum = {
   },
 };
 
+// \u6CE8\u610F\uFF1A\u5F53 key \u4E3A number \u7C7B\u578B\u65F6\uFF0C\u7531\u4E8Ejs\u5728\u5BF9\u8C61\u8F6C\u6362\u65F6\u4F1A\u628Anumber\u8F6C\u6210string\uFF0C\u4ECE\u800C\u5BFC\u81F4\u663E\u793A\u9519\u8BEF\uFF0C\u8FD9\u65F6\u4F60\u9700\u8981\u4F7F\u7528Map\u3002
+const valueEnum = new Map([[0, '\u7537'], [1, '\u5973']]);
+
 // \u4E5F\u53EF\u4EE5\u4ECE\u8FDC\u7A0B\u83B7\u53D6
 const valueEnum = {
   request: async () => ({data:[{id:1,name:'Open'},{id:2,name:'Closed'}]}),

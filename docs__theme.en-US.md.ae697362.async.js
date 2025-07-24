@@ -103,7 +103,7 @@ export default App;
   error-border-secondary: 'red-500/20';
 
   /* Primary text color */
-  text: 'gray-950';
+  text: 'gray-900';
   /* Secondary text color (optional, can be derived) */
   text-secondary: 'gray-500';
   /* Tertiary text color (optional, can be derived) */
@@ -165,7 +165,7 @@ export default App;
   /* Error color */
   error: 'red-500';
   /* Primary text color */
-  text: 'gray-950';
+  text: 'gray-900';
   /* Primary border color */
   border: 'gray-300';
   /* Primary fill color */

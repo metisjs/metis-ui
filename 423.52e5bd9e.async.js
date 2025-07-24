@@ -14,6 +14,9 @@ const valueEnum = {
   },
 };
 
+// Note: When the key is of type \`number\`, JavaScript will convert the number to a string when transforming objects, which may cause display errors. In this case, you should use \`Map\`.
+const valueEnum = new Map([[0, 'Male'], [1, 'Female']]);
+
 // fetch remote data
 const valueEnum = {
   request: async () => ({data:[{id:1,name:'Open'},{id:2,name:'Closed'}]}),

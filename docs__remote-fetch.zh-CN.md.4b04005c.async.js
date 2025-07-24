@@ -22,7 +22,7 @@ request.interceptors.response.use((response) => {
   const { success, data } = responseData;
 
   // \u5224\u65AD\u5206\u9875\u63A5\u53E3\uFF0C\u6839\u636E\u5B9E\u9645\u60C5\u51B5\u8C03\u6574
-  if (Array.isArray(data.list) && 'total' in data) {
+  if (Array.isArray(data?.list) && 'total' in data) {
     return {
       ...responseData,
       data: data.list,

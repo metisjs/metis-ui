@@ -103,7 +103,7 @@ export default App;
   error-border-secondary: 'red-500/20';
 
   /* \u4E00\u7EA7\u6587\u672C\u8272 */
-  text: 'gray-950';
+  text: 'gray-900';
   /* \u4E8C\u7EA7\u6587\u672C\u8272\uFF0C\u53EF\u9009\u5C5E\u6027\uFF0C\u53EF\u7531\u7CFB\u7EDF\u63A8\u5BFC\u751F\u6210 */
   text-secondary: 'gray-500';
   /* \u4E09\u7EA7\u6587\u672C\u8272\uFF0C\u53EF\u9009\u5C5E\u6027\uFF0C\u53EF\u7531\u7CFB\u7EDF\u63A8\u5BFC\u751F\u6210 */
@@ -165,7 +165,7 @@ export default App;
   /* \u9519\u8BEF\u8272 */
   error: 'red-500';
   /* \u4E00\u7EA7\u6587\u672C\u8272 */
-  text: 'gray-950';
+  text: 'gray-900';
   /* \u4E00\u7EA7\u8FB9\u6846\u8272 */
   border: 'gray-300';
   /* \u4E00\u7EA7\u586B\u5145\u8272 */
