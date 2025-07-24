@@ -41,7 +41,7 @@ request.interceptors.response.use((response) => {
   const { success, data } = responseData;
 
   // Check for paginated API, adjust as needed
-  if (Array.isArray(data.list) && 'total' in data) {
+  if (Array.isArray(data?.list) && 'total' in data) {
     return {
       ...responseData,
       data: data.list,

@@ -41,7 +41,7 @@ request.interceptors.response.use((response) => {
   const { success, data } = responseData;
 
   // 判断分页接口，根据实际情况调整
-  if (Array.isArray(data.list) && 'total' in data) {
+  if (Array.isArray(data?.list) && 'total' in data) {
     return {
       ...responseData,
       data: data.list,
