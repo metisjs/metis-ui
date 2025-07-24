@@ -173,7 +173,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
       <div
         className={clsx(
           `${prefixCls}-toolbar-title`,
-          'mr-auto text-base font-semibold',
+          'mr-auto text-base font-semibold empty:hidden',
           semanticCls.title,
         )}
       >
@@ -192,7 +192,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
       <div
         className={clsx(
           `${prefixCls}-toolbar-actions`,
-          'flex items-center justify-end gap-3',
+          'flex items-center justify-end gap-3 empty:hidden',
           semanticCls.actions,
         )}
       >
