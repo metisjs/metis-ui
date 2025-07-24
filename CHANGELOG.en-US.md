@@ -6,6 +6,14 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.1.2
+
+`2025-07-24`
+
+- 💄 Changed theme color `text` from `gray-950` to `gray-900`.
+- 💄 Optimized some styles of the `table` component.
+- 🐞 Fixed style error when `table` is in fullscreen mode.
+
 ## 1.1.1
 
 `2025-07-22`
