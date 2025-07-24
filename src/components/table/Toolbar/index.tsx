@@ -201,7 +201,7 @@ function ToolBar<T extends AnyObject = AnyObject>({
       <div
         className={clsx(
           `${prefixCls}-toolbar-options`,
-          '*:hover:text-primary flex items-center justify-end gap-2 *:inline-flex *:cursor-pointer *:items-center *:text-xl',
+          '*:hover:text-primary flex items-center justify-end gap-2 *:inline-flex *:cursor-pointer *:items-center *:text-xl empty:hidden',
           semanticCls.options,
         )}
       >
