@@ -180,7 +180,13 @@ function ToolBar<T extends AnyObject = AnyObject>({
         {headerTitle}
       </div>
       {search && (
-        <div className={clsx(`${prefixCls}-toolbar-search`, semanticCls.search)}>
+        <div
+          className={clsx(
+            `${prefixCls}-toolbar-search`,
+            !headerTitle && 'mr-auto',
+            semanticCls.search,
+          )}
+        >
           <Input
             suffix={<MagnifyingGlassOutline />}
             {...searchConfig}
