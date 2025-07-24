@@ -62,10 +62,6 @@ const FieldSelect: FieldFC<{
         loading={loading}
         options={fieldParsingOptions(valueEnum)}
         {...editorProps}
-        style={{
-          minWidth: 120,
-          ...editorProps?.style,
-        }}
       />
     );
     if (renderEditor) {
