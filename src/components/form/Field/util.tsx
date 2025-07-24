@@ -36,9 +36,9 @@ export const FieldBadgeColor: React.FC<StatusProps & { color: string }> = ({ col
   <Badge color={color} text={children} />
 );
 
-export const objectToMap = (
+export const objectToMap: (
   value: FieldValueEnumMap | FieldValueEnumObj | undefined,
-): FieldValueEnumMap => {
+) => FieldValueEnumMap = (value) => {
   if (getType(value) === 'map') {
     return value as FieldValueEnumMap;
   }
