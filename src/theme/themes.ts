@@ -12,7 +12,7 @@ export default [
     success: 'green-500',
     warning: 'yellow-500',
     error: 'red-500',
-    text: 'gray-950',
+    text: 'gray-900',
     border: 'gray-300',
     fill: 'gray-950/20',
     'fill-quinary': 'gray-50',

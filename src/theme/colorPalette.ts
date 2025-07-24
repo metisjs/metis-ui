@@ -33,9 +33,9 @@ export default {
     warning: lightBase,
     error: lightBase,
     text: {
-      secondary: -5,
-      tertiary: -6,
-      quaternary: -7,
+      secondary: -4,
+      tertiary: -5,
+      quaternary: -6,
     },
     border: { secondary: -1, tertiary: -2 },
     fill: { secondary: 0.15, tertiary: 0.1, quaternary: 0.05, quinary: 0.02 },

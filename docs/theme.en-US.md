@@ -150,7 +150,7 @@ To add a new theme, use `@plugin "metis-ui/theme" {}` in the CSS file with the f
   error-border-secondary: 'red-500/20';
 
   /* Primary text color */
-  text: 'gray-950';
+  text: 'gray-900';
   /* Secondary text color (optional, can be derived) */
   text-secondary: 'gray-500';
   /* Tertiary text color (optional, can be derived) */
@@ -219,7 +219,7 @@ You can simplify theme customization by deriving secondary colors from [`Tailwin
   /* Error color */
   error: 'red-500';
   /* Primary text color */
-  text: 'gray-950';
+  text: 'gray-900';
   /* Primary border color */
   border: 'gray-300';
   /* Primary fill color */

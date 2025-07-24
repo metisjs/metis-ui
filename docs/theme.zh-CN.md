@@ -150,7 +150,7 @@ export default App;
   error-border-secondary: 'red-500/20';
 
   /* 一级文本色 */
-  text: 'gray-950';
+  text: 'gray-900';
   /* 二级文本色，可选属性，可由系统推导生成 */
   text-secondary: 'gray-500';
   /* 三级文本色，可选属性，可由系统推导生成 */
@@ -219,7 +219,7 @@ export default App;
   /* 错误色 */
   error: 'red-500';
   /* 一级文本色 */
-  text: 'gray-950';
+  text: 'gray-900';
   /* 一级边框色 */
   border: 'gray-300';
   /* 一级填充色 */
