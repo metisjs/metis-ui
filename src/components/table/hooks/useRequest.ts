@@ -166,7 +166,7 @@ export default function <RecordType extends AnyObject>({
 
     cancel();
 
-    if (resetPageIndex) {
+    if (resetPageIndex && pagination.current !== 1) {
       resetPagination();
       return;
     }
