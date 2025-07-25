@@ -6,7 +6,7 @@ const App: React.FC = () => {
   return (
     <Space>
       <QRCode value="https://metisui.com/" color={theme.success} />
-      <QRCode value="https://metisui.com/" color={theme.text} bgColor={theme.layout} />
+      <QRCode value="https://metisui.com/" color={theme.text} bgColor={theme.elevated} />
     </Space>
   );
 };

@@ -12,40 +12,50 @@ import type { Reference, SorterResult, TablePaginationConfig } from './interface
 import type { TableProps } from './InternalTable';
 import InternalTable from './InternalTable';
 
-const Table = <RecordType extends AnyObject = AnyObject>(
-  props: TableProps<RecordType>,
+const Table = <RecordType extends AnyObject = AnyObject, ParamsType extends any[] = any[]>(
+  props: TableProps<RecordType, ParamsType>,
   ref: React.Ref<Reference>,
 ) => {
   const renderTimesRef = React.useRef<number>(0);
   renderTimesRef.current += 1;
-  return <InternalTable<RecordType> {...props} ref={ref} _renderTimes={renderTimesRef.current} />;
+  return (
+    <InternalTable<RecordType, ParamsType>
+      {...props}
+      ref={ref}
+      _renderTimes={renderTimesRef.current}
+    />
+  );
 };
 
-type MixedTableProps<RecordType extends AnyObject = AnyObject> =
-  | (Omit<TableProps<RecordType>, 'pagination' | 'request'> & {
+type MixedTableProps<RecordType extends AnyObject = AnyObject, ParamsType extends any[] = any[]> =
+  | (Omit<TableProps<RecordType, ParamsType>, 'pagination' | 'request'> & {
       pagination: false;
-      request?: RequestConfig<RecordType, any[]>;
+      request?: RequestConfig<
+        RecordType,
+        ParamsType extends [infer First, ...any] ? First : any,
+        ParamsType extends [any, ...infer Rest] ? Rest : any
+      >;
     })
   | (Omit<TableProps<RecordType>, 'pagination' | 'request'> & {
       pagination?: TablePaginationConfig;
       request?: RequestConfig<
         RecordType,
-        [
-          {
-            filters: Record<string, any>;
-            sorter: SorterResult | SorterResult[];
-            pageSize: number;
-            current: number;
-          },
-          ...any[],
-        ]
+        {
+          filters: Record<string, any>;
+          sorter: SorterResult | SorterResult[];
+          pageSize: number;
+          current: number;
+        },
+        ParamsType
       >;
     });
 
 const ForwardTable = React.forwardRef(Table) as unknown as (<
   RecordType extends AnyObject = AnyObject,
+  ParamsType extends any[] = any[],
 >(
-  props: React.PropsWithChildren<MixedTableProps<RecordType>> & React.RefAttributes<Reference>,
+  props: React.PropsWithChildren<MixedTableProps<RecordType, ParamsType>> &
+    React.RefAttributes<Reference>,
 ) => React.ReactElement) & {
   displayName?: string;
   SELECTION_COLUMN: typeof SELECTION_COLUMN;

@@ -13,7 +13,7 @@ const REQUEST_DEBOUNCE = 200;
 
 export default function <TData extends BaseOptionType>(
   fieldNames: Required<FieldNames<BaseOptionType>>,
-  request?: RequestConfig<TData, any[]>,
+  request?: RequestConfig<TData, any, any[]>,
   showSearch?: boolean,
   searchValue?: string,
   optionFilterProp?: string,
@@ -65,7 +65,8 @@ export default function <TData extends BaseOptionType>(
           pageSize: PAGE_SIZE,
         };
       }
-      return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
+      const params = firstParam ? [firstParam, ...defaultParams] : defaultParams;
+      return await requestService!(...params);
     },
     {
       debounceWait,

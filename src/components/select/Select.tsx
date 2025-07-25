@@ -67,7 +67,7 @@ export interface InternalSelectProps
   defaultValue?: any;
   showSearch?: boolean;
   lazyLoad?: boolean;
-  request?: RequestConfig<BaseOptionType, any[]>;
+  request?: RequestConfig<BaseOptionType, any, any[]>;
   onChange?: (value: any, option?: any) => void;
   onSelect?: (value: RawValueType | BaseOptionType, option?: BaseOptionType) => void;
   onDeselect?: (value: RawValueType | BaseOptionType, option?: BaseOptionType) => void;
@@ -657,8 +657,18 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   ModeType extends 'multiple' | 'tags' | 'default' = 'default',
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
+  InternalValueType = ModeType extends 'default' ? ValueType : ValueType[],
+  ParamsType extends any[] = any[],
 >(
-  props: SelectProps<ValueType, OptionType, ModeType, ShowSearchType, LazyLoadType> & {
+  props: SelectProps<
+    ValueType,
+    OptionType,
+    ModeType,
+    ShowSearchType,
+    LazyLoadType,
+    InternalValueType,
+    ParamsType
+  > & {
     ref?: React.Ref<BaseSelectRef>;
   },
 ) => React.ReactElement) & {

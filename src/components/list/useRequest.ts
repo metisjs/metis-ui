@@ -11,7 +11,7 @@ const PAGE_SIZE = 20;
 const SCROLL_THRESHOLD = 36;
 
 export default function <TData>(
-  request?: RequestConfig<TData, any[]>,
+  request?: RequestConfig<TData, any, any[]>,
   lazyLoad?: LazyLoadType,
   onScroll?: (values: ScrollValues, ev: React.UIEvent<HTMLElement>) => void,
 ) {
@@ -50,7 +50,8 @@ export default function <TData>(
           pageSize: pageSize,
         };
       }
-      return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
+      const params = firstParam ? [firstParam, ...defaultParams] : defaultParams;
+      return await requestService!(...params);
     },
     {
       ready: !!requestService && ready,

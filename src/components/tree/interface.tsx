@@ -36,6 +36,7 @@ export type ExpandAction = false | 'click' | 'doubleClick';
 export interface TreeProps<
   TreeDataType extends BasicDataNode = DataNode,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 > {
   prefixCls?: string;
   className?: SemanticClassName<{ view?: string; node: TreeNodeProps['className'] }>;
@@ -120,7 +121,7 @@ export interface TreeProps<
 
   // >>> Request
   lazyLoad?: LazyLoadType;
-  request?: GetRequestType<TreeDataType, LazyLoadType>;
+  request?: GetRequestType<TreeDataType, LazyLoadType, ParamsType>;
 }
 
 export type TreeRef = {
@@ -290,14 +291,17 @@ export interface FilledFieldNames {
 export type GetRequestType<
   TreeDataType extends BasicDataNode = DataNode,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 > = LazyLoadType extends true
   ? RequestConfig<
       TreeDataType,
-      [
-        {
-          [parentValue: string]: Key;
-        },
-        ...any[],
-      ]
+      {
+        [parentValue: string]: Key;
+      },
+      ParamsType
     >
-  : RequestConfig<TreeDataType, any[]>;
+  : RequestConfig<
+      TreeDataType,
+      ParamsType extends [infer First, ...any] ? First : any,
+      ParamsType extends [any, ...infer Rest] ? Rest : any
+    >;

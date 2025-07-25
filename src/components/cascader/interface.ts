@@ -51,37 +51,36 @@ export type GetRequestType<
   OptionType extends BaseOptionType,
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 > = ShowSearchType extends true
   ? LazyLoadType extends true
     ? RequestConfig<
         OptionType,
-        [
-          {
-            filters: { [key: string]: string };
-          } & { [parentValue: string]: RawValueType },
-          ...any[],
-        ]
+        {
+          filters: { [key: string]: string };
+        } & { [parentValue: string]: RawValueType },
+        ParamsType
       >
     : RequestConfig<
         OptionType,
-        [
-          {
-            filters: { [key: string]: string };
-          },
-          ...any[],
-        ]
+        {
+          filters: { [key: string]: string };
+        },
+        ParamsType
       >
   : LazyLoadType extends true
     ? RequestConfig<
         OptionType,
-        [
-          {
-            [parentValue: string]: RawValueType;
-          },
-          ...any[],
-        ]
+        {
+          [parentValue: string]: RawValueType;
+        },
+        ParamsType
       >
-    : RequestConfig<OptionType, any[]>;
+    : RequestConfig<
+        OptionType,
+        ParamsType extends [infer First, ...any] ? First : any,
+        ParamsType extends [any, ...infer Rest] ? Rest : any
+      >;
 
 export interface FieldNames<OptionType extends DefaultOptionType = DefaultOptionType> {
   value?: keyof OptionType;
@@ -98,6 +97,7 @@ export interface CascaderProps<
   MultipleType extends boolean = false,
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 > extends Omit<
     BaseSelectPropsWithoutPrivate,
     'tokenSeparators' | 'mode' | 'showSearch' | 'className' | 'popupMatchSelectWidth'
@@ -164,5 +164,5 @@ export interface CascaderProps<
 
   // >>> Request
   lazyLoad?: LazyLoadType;
-  request?: GetRequestType<OptionType, ShowSearchType, LazyLoadType>;
+  request?: GetRequestType<OptionType, ShowSearchType, LazyLoadType, ParamsType>;
 }

@@ -596,19 +596,22 @@ export interface TablePaginationConfig extends PaginationProps {
 export type TableGetRequestType<
   RecordType extends AnyObject,
   Pagination extends boolean = true,
+  ParamsType extends any[] = any[],
 > = Pagination extends false
-  ? RequestConfig<RecordType, any[]>
+  ? RequestConfig<
+      RecordType,
+      ParamsType extends [infer First, ...any] ? First : any,
+      ParamsType extends [any, ...infer Rest] ? Rest : any
+    >
   : RequestConfig<
       RecordType,
-      [
-        {
-          filters: Record<string, FilterValue | null>;
-          sorter: SorterResult | SorterResult[];
-          pageSize: number;
-          current: number;
-        },
-        ...any[],
-      ]
+      {
+        filters: Record<string, FilterValue | null>;
+        sorter: SorterResult | SorterResult[];
+        pageSize: number;
+        current: number;
+      },
+      ParamsType
     >;
 
 export type EditableActionRenderFunction<T> = (

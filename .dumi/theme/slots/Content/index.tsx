@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useRouteMeta } from 'dumi';
-import { Breadcrumb, clsx, Space } from 'metis-ui';
+import { clsx, Space } from 'metis-ui';
 import InViewSuspense from './InViewSuspense';
 import NavBreadcrumb from './NavBreadcrumb';
 

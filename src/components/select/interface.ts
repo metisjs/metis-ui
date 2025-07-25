@@ -76,6 +76,7 @@ export interface SelectProps<
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
   InternalValueType = ModeType extends 'default' ? ValueType : ValueType[],
+  ParamsType extends any[] = any[],
 > extends Omit<BaseSelectPropsWithoutPrivate, 'mode' | 'placement' | 'showSearch'> {
   prefixCls?: string;
   id?: string;
@@ -130,6 +131,6 @@ export interface SelectProps<
   placement?: SelectCommonPlacement;
 
   // >>> Request
-  request?: GetRequestType<OptionType, ShowSearchType, LazyLoadType>;
+  request?: GetRequestType<OptionType, ShowSearchType, LazyLoadType, ParamsType>;
   lazyLoad?: LazyLoadType;
 }

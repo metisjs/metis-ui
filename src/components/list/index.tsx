@@ -26,7 +26,7 @@ export type LazyLoadType =
       pageSize?: number;
     };
 
-export interface ListProps<T, R extends LazyLoadType = false> {
+export interface ListProps<T, R extends LazyLoadType = false, ParamsType extends any[] = any[]> {
   bordered?: boolean;
   className?: SemanticClassName<
     {
@@ -53,7 +53,7 @@ export interface ListProps<T, R extends LazyLoadType = false> {
 
   // >>> Request
   lazyLoad?: R;
-  request?: GetRequestType<T, false, R extends false ? false : true>;
+  request?: GetRequestType<T, false, R extends false ? false : true, ParamsType>;
 }
 
 export interface ListLocale {
@@ -235,8 +235,12 @@ function InternalList<T>(
   );
 }
 
-const ListWithForwardRef = React.forwardRef(InternalList) as (<T, R extends LazyLoadType = false>(
-  props: ListProps<T, R> & {
+const ListWithForwardRef = React.forwardRef(InternalList) as (<
+  T,
+  R extends LazyLoadType = false,
+  ParamsType extends any[] = any[],
+>(
+  props: ListProps<T, R, ParamsType> & {
     ref?: React.ForwardedRef<ListRef>;
   },
 ) => ReturnType<typeof InternalList>) &

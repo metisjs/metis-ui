@@ -12,7 +12,7 @@ import { arrAdd, arrDel } from '../utils/miscUtil';
 export default function <TreeDataType extends BasicDataNode = DataNode>(
   fieldNames: FilledFieldNames,
   customizeLoadedKeys?: SafeKey[],
-  request?: RequestConfig<TreeDataType, any[]>,
+  request?: RequestConfig<TreeDataType, any, any[]>,
   lazyLoad?: boolean | string,
 ) {
   const { request: contextRequestOptions } = useContext(ConfigContext);
@@ -53,7 +53,8 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
           [parentField]: parentKey,
         };
       }
-      return requestService!(...[firstParam, ...defaultParams].filter(Boolean));
+      const params = firstParam ? [firstParam, ...defaultParams] : defaultParams;
+      return requestService!(...params);
     },
     {
       ready: !!requestService && ready,

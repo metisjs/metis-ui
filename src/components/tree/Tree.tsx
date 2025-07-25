@@ -29,7 +29,7 @@ import { arrAdd, arrDel, calcDropPosition, getDragChildrenKeys, posToArr } from 
 import { convertNodePropsToEventData, getTreeNodeProps } from './utils/treeUtil';
 
 export type InternalTreeProps = Omit<TreeProps, 'request' | 'lazyLoad'> & {
-  request?: RequestConfig<DataNode, any[]>;
+  request?: RequestConfig<DataNode, any, any[]>;
   lazyLoad?: boolean;
 };
 
@@ -763,8 +763,9 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
 }) as unknown as (<
   TreeDataType extends BasicDataNode = DataNode,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 >(
-  props: TreeProps<TreeDataType, LazyLoadType> & {
+  props: TreeProps<TreeDataType, LazyLoadType, ParamsType> & {
     ref?: React.Ref<TreeRef>;
   },
 ) => React.ReactElement) & {

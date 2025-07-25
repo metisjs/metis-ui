@@ -20,7 +20,7 @@ type RequestProps<RecordType extends AnyObject> = {
   sortStates: SortState<RecordType>[];
   childrenColumnName: keyof RecordType;
   pagination: TablePaginationConfig;
-  request?: RequestConfig<RecordType, any[]>;
+  request?: RequestConfig<RecordType, any, any[]>;
   resetPagination: () => void;
 };
 
@@ -64,18 +64,17 @@ export default function <RecordType extends AnyObject>({
 
   const { loading, refresh, cancel } = useRequest(
     async (...defaultParams: any[]) => {
-      let firstParam: Record<string, any> | undefined = undefined;
+      const params = [...defaultParams];
 
       if (isPaginationActive) {
-        firstParam = {
+        params.unshift({
           filters,
           sorter,
-
           current: pagination.current,
           pageSize: pagination.pageSize,
-        };
+        });
       }
-      return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
+      return await requestService!(...params);
     },
     {
       ready: !!requestService && ready,

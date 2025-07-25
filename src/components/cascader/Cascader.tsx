@@ -61,7 +61,7 @@ export type InternalCascaderProps = Omit<
   multiple?: boolean;
   value?: InternalValueType;
   defaultValue?: InternalValueType;
-  request?: RequestConfig<BaseOptionType, any[]>;
+  request?: RequestConfig<BaseOptionType, any, any[]>;
   lazyLoad?: boolean;
   onChange?: (
     value: SingleValueType | MultiValueType,
@@ -409,8 +409,9 @@ const Cascader = React.forwardRef<CascaderRef, InternalCascaderProps>((props, re
   MultipleType extends boolean = false,
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 >(
-  props: CascaderProps<OptionType, MultipleType, ShowSearchType, LazyLoadType> & {
+  props: CascaderProps<OptionType, MultipleType, ShowSearchType, LazyLoadType, ParamsType> & {
     ref?: React.Ref<CascaderRef>;
   },
 ) => React.ReactElement) & {

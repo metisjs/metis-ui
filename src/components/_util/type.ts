@@ -16,26 +16,44 @@ export type GetRequestType<
   OptionType,
   ShowSearchType extends boolean = false,
   LazyLoadType extends boolean = false,
+  ParamsType extends any[] = any[],
 > = ShowSearchType extends true
   ? LazyLoadType extends true
     ? RequestConfig<
         OptionType,
-        [
-          {
-            current: number;
-            pageSize: number;
-            filters: { [key: string]: string };
-          },
-          ...any[],
-        ]
+        {
+          current: number;
+          pageSize: number;
+          filters: { [key: string]: string };
+        },
+        ParamsType
       >
-    : RequestConfig<OptionType, any[]>
-  : RequestConfig<OptionType, any[]>;
+    : RequestConfig<
+        OptionType,
+        {
+          filters: { [key: string]: string };
+        },
+        ParamsType
+      >
+  : LazyLoadType extends true
+    ? RequestConfig<
+        OptionType,
+        {
+          current: number;
+          pageSize: number;
+        },
+        ParamsType
+      >
+    : RequestConfig<
+        OptionType,
+        ParamsType extends [infer First, ...any] ? First : any,
+        ParamsType extends [any, ...infer Rest] ? Rest : any
+      >;
 
-export type RequestConfig<TData, ParamsType extends any[]> =
-  | RequestService<{ data: TData[]; total?: number }, ParamsType>
+export type RequestConfig<TData, FirstParamType extends any, ParamsType extends any[]> =
+  | RequestService<{ data: TData[]; total?: number }, [FirstParamType, ...ParamsType]>
   | {
-      service: RequestService<{ data: TData[]; total?: number }, ParamsType>;
+      service: RequestService<{ data: TData[]; total?: number }, [FirstParamType, ...ParamsType]>;
       options?: Omit<
         RequestOptions<{ data: TData[]; total?: number }, ParamsType>,
         'manual' | 'refreshDepsAction'

@@ -111,7 +111,10 @@ interface ChangeEventInfo<RecordType extends AnyObject = AnyObject> {
   resetPagination: (current?: number, pageSize?: number) => void;
 }
 
-export type TableProps<RecordType extends AnyObject = AnyObject> = {
+export type TableProps<
+  RecordType extends AnyObject = AnyObject,
+  ParamsType extends any[] = any[],
+> = {
   prefixCls?: string;
   dropdownPrefixCls?: string;
   className?: TableSemanticClsType<RecordType>;
@@ -185,16 +188,18 @@ export type TableProps<RecordType extends AnyObject = AnyObject> = {
 } & (
   | {
       pagination: false;
-      request?: TableGetRequestType<RecordType, false>;
+      request?: TableGetRequestType<RecordType, false, ParamsType>;
     }
   | {
       pagination?: TablePaginationConfig;
-      request?: TableGetRequestType<RecordType, true>;
+      request?: TableGetRequestType<RecordType, true, ParamsType>;
     }
 );
 
-export interface InternalTableProps<RecordType extends AnyObject = AnyObject>
-  extends Omit<TableProps<RecordType>, 'pagination'> {
+export interface InternalTableProps<
+  RecordType extends AnyObject = AnyObject,
+  ParamsType extends any[] = any[],
+> extends Omit<TableProps<RecordType, ParamsType>, 'pagination'> {
   _renderTimes: number;
   pagination?: false | TablePaginationConfig;
 }
@@ -1358,8 +1363,11 @@ function InternalTable<RecordType extends AnyObject>(
   return <TableContext.Provider value={TableContextValue}>{fullTable}</TableContext.Provider>;
 }
 
-export type ForwardGenericTable = (<RecordType extends AnyObject = AnyObject>(
-  props: InternalTableProps<RecordType> & React.RefAttributes<Reference>,
+export type ForwardGenericTable = (<
+  RecordType extends AnyObject = AnyObject,
+  ParamsType extends any[] = any[],
+>(
+  props: InternalTableProps<RecordType, ParamsType> & React.RefAttributes<Reference>,
 ) => React.ReactElement) & { displayName?: string };
 
 const ForwardTable = React.forwardRef(InternalTable) as ForwardGenericTable;

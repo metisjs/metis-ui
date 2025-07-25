@@ -11,7 +11,7 @@ import { doFilter } from './useFilterOptions';
 
 export default function <TData extends DefaultOptionType>(
   fieldNames: InternalFieldNames,
-  request?: RequestConfig<TData, any[]>,
+  request?: RequestConfig<TData, any, any[]>,
   showSearch?: boolean,
   searchValue?: string,
   optionFilterProp?: string,
@@ -64,7 +64,8 @@ export default function <TData extends DefaultOptionType>(
           [parentField]: parentValue,
         };
       }
-      return await requestService!(...[firstParam, ...defaultParams].filter(Boolean));
+      const params = firstParam ? [firstParam, ...defaultParams] : defaultParams;
+      return await requestService!(...params);
     },
     {
       ready: !!requestService && ready,
