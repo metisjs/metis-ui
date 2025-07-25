@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.1.3
+
+`2025-07-25`
+
+- 🐞 Fixed type definition issue for `request` parameters within components.
+
 ## 1.1.2
 
 `2025-07-24`
