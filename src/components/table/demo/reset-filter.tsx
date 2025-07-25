@@ -124,7 +124,7 @@ const App: React.FC = () => {
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>
       </Space>
-      <Table<DataType> columns={columns} dataSource={data} onChange={handleChange} />
+      <Table columns={columns} dataSource={data} onChange={handleChange} />
     </>
   );
 };

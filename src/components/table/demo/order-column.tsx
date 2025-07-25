@@ -50,7 +50,7 @@ const data: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     rowSelection={{}}
     expandable={{

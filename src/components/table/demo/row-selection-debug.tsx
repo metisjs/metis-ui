@@ -74,12 +74,7 @@ const App: React.FC = () => {
           setData(genData(cnt || 0));
         }}
       />
-      <Table<DataType>
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-      />
+      <Table rowSelection={rowSelection} columns={columns} dataSource={data} pagination={false} />
     </>
   );
 };

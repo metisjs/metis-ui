@@ -115,7 +115,7 @@ const App: React.FC = () => {
       <Space align="center" className="mb-4">
         CheckStrictly: <Switch checked={checkStrictly} onChange={setCheckStrictly} />
       </Space>
-      <Table<DataType>
+      <Table
         columns={columns}
         rowSelection={{ ...rowSelection, checkStrictly }}
         dataSource={data}

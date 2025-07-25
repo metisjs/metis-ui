@@ -118,7 +118,7 @@ const App: React.FC = () => {
   }));
 
   return (
-    <Table<DataType>
+    <Table
       verticalLine
       components={{ header: { cell: ResizableTitle } }}
       columns={mergedColumns}

@@ -172,7 +172,7 @@ const App: React.FC = () => {
     >
       <SortableContext items={columns.map((i) => i.key)} strategy={horizontalListSortingStrategy}>
         <DragIndexContext.Provider value={dragIndex}>
-          <Table<DataType>
+          <Table
             rowKey="key"
             columns={columns}
             dataSource={dataSource}

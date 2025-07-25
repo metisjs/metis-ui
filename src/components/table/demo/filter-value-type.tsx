@@ -213,7 +213,7 @@ for (let i = 0; i < 100; i += 1) {
 }
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={data}
     onChange={(_, filters, __) => {

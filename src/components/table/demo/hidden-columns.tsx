@@ -60,7 +60,7 @@ const App: React.FC = () => {
           setCheckedList(value as string[]);
         }}
       />
-      <Table<DataType> columns={newColumns} dataSource={data} className="mt-6" />
+      <Table columns={newColumns} dataSource={data} className="mt-6" />
     </>
   );
 };

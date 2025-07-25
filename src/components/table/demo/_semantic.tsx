@@ -135,7 +135,7 @@ const App: React.FC = () => {
         { name: 'scrollRightShadow', type: 'boolean' },
       ]}
     >
-      <Table<DataType>
+      <Table
         headerTitle="Users"
         columns={columns}
         dataSource={data}

@@ -79,7 +79,7 @@ const App: React.FC = () => {
     ],
   };
 
-  return <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={dataSource} />;
+  return <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />;
 };
 
 export default App;

@@ -168,7 +168,7 @@ const App: React.FC = () => {
     },
   ];
 
-  return <Table<DataType> columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} />;
 };
 
 export default App;

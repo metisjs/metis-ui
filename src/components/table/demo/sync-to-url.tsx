@@ -43,7 +43,7 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     rowKey={(record) => record.login.uuid}
     request={fetchDataWithPagination}

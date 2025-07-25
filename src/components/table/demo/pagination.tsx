@@ -101,11 +101,7 @@ const App: React.FC = () => {
         <Radio.Group className="mb-2.5" options={topOptions} value={top} onChange={setTop} />
       </div>
       <Radio.Group className="mb-2.5" options={bottomOptions} value={bottom} onChange={setBottom} />
-      <Table<DataType>
-        columns={columns}
-        pagination={{ position: [top, bottom] }}
-        dataSource={data}
-      />
+      <Table columns={columns} pagination={{ position: [top, bottom] }} dataSource={data} />
     </div>
   );
 };

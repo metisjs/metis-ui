@@ -80,7 +80,7 @@ const fetchData = (params: { filters: Record<string, any> }) => {
 };
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     headerTitle="Users"
     columns={columns}
     request={fetchData}

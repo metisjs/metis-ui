@@ -102,7 +102,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
 };
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={data}
     onChange={onChange}

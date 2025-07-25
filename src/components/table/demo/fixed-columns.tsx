@@ -60,7 +60,7 @@ const dataSource: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     pagination={false}
     columns={columns}
     dataSource={dataSource}

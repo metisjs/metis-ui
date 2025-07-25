@@ -76,27 +76,23 @@ const columns: TableColumnsType<DataType> = [
 ];
 
 const expandedRowRender = () => (
-  <Table<ExpandedDataType>
-    columns={expandColumns}
-    dataSource={expandDataSource}
-    pagination={false}
-  />
+  <Table columns={expandColumns} dataSource={expandDataSource} pagination={false} />
 );
 
 const App: React.FC = () => (
   <>
-    <Table<DataType>
+    <Table
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
       dataSource={dataSource}
     />
-    <Table<DataType>
+    <Table
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
       dataSource={dataSource}
       size="middle"
     />
-    <Table<DataType>
+    <Table
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
       dataSource={dataSource}

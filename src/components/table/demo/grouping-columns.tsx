@@ -113,7 +113,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={dataSource}
     verticalLine

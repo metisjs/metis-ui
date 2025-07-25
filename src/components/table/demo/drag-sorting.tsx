@@ -103,7 +103,7 @@ const App: React.FC = () => {
         items={dataSource.map((i) => i.key)}
         strategy={verticalListSortingStrategy}
       >
-        <Table<DataType>
+        <Table
           components={{
             body: { row: Row },
           }}

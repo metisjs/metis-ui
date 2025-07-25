@@ -78,7 +78,7 @@ const fixedDataSource = Array.from({ length: 20 }).map<FixedDataType>((_, i) => 
 
 const App: React.FC = () => (
   <Space block vertical size="large">
-    <Table<DataType>
+    <Table
       verticalLine
       columns={columns}
       dataSource={dataSource}
@@ -111,7 +111,7 @@ const App: React.FC = () => (
         );
       }}
     />
-    <Table<FixedDataType>
+    <Table
       columns={fixedColumns}
       dataSource={fixedDataSource}
       pagination={false}

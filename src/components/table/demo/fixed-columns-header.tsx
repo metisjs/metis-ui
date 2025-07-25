@@ -96,11 +96,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => (
-  <Table<DataType>
-    columns={columns}
-    dataSource={dataSource}
-    scroll={{ x: 'max-content', y: 55 * 5 }}
-  />
+  <Table columns={columns} dataSource={dataSource} scroll={{ x: 'max-content', y: 55 * 5 }} />
 );
 
 export default App;

@@ -217,7 +217,7 @@ for (let i = 0; i < 2; i += 1) {
 }
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={data}
     editable={{

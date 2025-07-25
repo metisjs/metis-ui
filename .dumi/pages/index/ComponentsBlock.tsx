@@ -286,7 +286,7 @@ const ComponentsBlock: React.FC = () => {
           ]}
           className="rounded-lg bg-white p-6 dark:bg-gray-950/50"
         />
-        <Table<DataType>
+        <Table
           columns={columns}
           dataSource={tableData}
           pagination={false}

@@ -76,7 +76,7 @@ const App: React.FC = () => {
         value={selectionType}
         onChange={setSelectionType}
       />
-      <Table<DataType>
+      <Table
         rowSelection={{ type: selectionType, ...rowSelection }}
         columns={columns}
         dataSource={data}

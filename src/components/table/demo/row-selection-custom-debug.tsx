@@ -31,7 +31,7 @@ const rowSelection: TableRowSelection<DataType> = {
 };
 
 const App: React.FC = () => (
-  <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
+  <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
 );
 
 export default App;

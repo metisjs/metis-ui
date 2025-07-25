@@ -118,9 +118,7 @@ const items: DescriptionsProps['items'] = [
   {
     key: '12',
     label: 'Config Info',
-    content: (
-      <Table<DataType> size="small" pagination={false} dataSource={dataSource} columns={columns} />
-    ),
+    content: <Table size="small" pagination={false} dataSource={dataSource} columns={columns} />,
   },
 ];
 

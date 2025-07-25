@@ -62,7 +62,7 @@ const expandedDataSource = Array.from({ length: 3 }).map<ExpandedDataType>((_, i
 }));
 
 const createExpandedRowRender = (verticalLine: boolean) => () => (
-  <Table<ExpandedDataType>
+  <Table
     columns={expandedColumns}
     dataSource={expandedDataSource}
     pagination={false}
@@ -103,7 +103,7 @@ const App: React.FC = () => {
           <Switch checked={childVerticalLine} onChange={(v) => setChildVerticalLine(v)} />
         </Form.Item>
       </Form>
-      <Table<DataType>
+      <Table
         columns={columns}
         expandable={{ expandedRowRender: createExpandedRowRender(childVerticalLine) }}
         dataSource={dataSource}

@@ -43,7 +43,7 @@ const App: React.FC = () => {
 
   return (
     <Space size="middle" vertical block>
-      <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
+      <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
     </Space>
   );
 };

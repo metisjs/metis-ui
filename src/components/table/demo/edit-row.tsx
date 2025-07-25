@@ -92,7 +92,7 @@ const columns: TableProps<DataType>['columns'] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     dataSource={data}
     columns={columns}
     editable={{

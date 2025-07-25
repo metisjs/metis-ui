@@ -95,7 +95,7 @@ const fetchData = (params: {
 };
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     request={fetchData}
     toolbar={{

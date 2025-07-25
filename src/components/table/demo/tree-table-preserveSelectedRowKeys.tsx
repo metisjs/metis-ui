@@ -74,7 +74,7 @@ const App: React.FC = () => {
         preserveSelectedRowKeys:{' '}
         <Switch checked={preserveSelectedRowKeys} onChange={setPreserveSelectedRowKeys} />
       </Space>
-      <Table<DataType>
+      <Table
         columns={columns}
         rowSelection={{ ...rowSelection, checkStrictly, preserveSelectedRowKeys }}
         dataSource={dataSource}

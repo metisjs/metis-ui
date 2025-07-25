@@ -86,7 +86,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 const App: React.FC = () => {
   const [fixedTop, setFixedTop] = useState(false);
   return (
-    <Table<DataType>
+    <Table
       columns={columns}
       dataSource={dataSource}
       scroll={{ x: 1500 }}

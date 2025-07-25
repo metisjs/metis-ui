@@ -258,7 +258,7 @@ const App: React.FC = () => {
           ></Radio.Group>
         </Form.Item>
       </Form>
-      <Table<DataType>
+      <Table
         {...tableProps}
         pagination={{ position: [top, bottom] }}
         columns={tableColumns}

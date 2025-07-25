@@ -66,7 +66,7 @@ function App() {
     <ConfigProvider renderEmpty={renderEmpty}>
       {dataSource.length ? toggleButton : null}
       <div className="my-2" />
-      <Table<DataType>
+      <Table
         verticalLine
         dataSource={dataSource}
         columns={columns}
