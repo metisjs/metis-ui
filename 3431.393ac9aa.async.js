@@ -8283,9 +8283,7 @@ const items: DescriptionsProps['items'] = [
   {
     key: '12',
     label: 'Config Info',
-    content: (
-      <Table<DataType> size="small" pagination={false} dataSource={dataSource} columns={columns} />
-    ),
+    content: <Table size="small" pagination={false} dataSource={dataSource} columns={columns} />,
   },
 ];
 
@@ -21239,7 +21237,7 @@ const App: React.FC = () => {
   return (
     <Space>
       <QRCode value="https://metisui.com/" color={theme.success} />
-      <QRCode value="https://metisui.com/" color={theme.text} bgColor={theme.layout} />
+      <QRCode value="https://metisui.com/" color={theme.text} bgColor={theme.elevated} />
     </Space>
   );
 };
@@ -26166,7 +26164,7 @@ const App: React.FC = () => {
         { name: 'scrollRightShadow', type: 'boolean' },
       ]}
     >
-      <Table<DataType>
+      <Table
         headerTitle="Users"
         columns={columns}
         dataSource={data}
@@ -26273,7 +26271,7 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} />;
+const App: React.FC = () => <Table columns={columns} dataSource={data} />;
 
 export default App;
 `},76252:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -26393,7 +26391,7 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} verticalLine />;
+const App: React.FC = () => <Table columns={columns} dataSource={data} verticalLine />;
 
 export default App;
 `},1611:function(e,n){"use strict";n.Z=`import React, { useState } from 'react';
@@ -26464,7 +26462,7 @@ function App() {
     <ConfigProvider renderEmpty={renderEmpty}>
       {dataSource.length ? toggleButton : null}
       <div className="my-2" />
-      <Table<DataType>
+      <Table
         verticalLine
         dataSource={dataSource}
         columns={columns}
@@ -26645,7 +26643,7 @@ const App: React.FC = () => {
     },
   ];
 
-  return <Table<DataType> columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} />;
 };
 
 export default App;
@@ -26823,7 +26821,7 @@ const App: React.FC = () => {
     >
       <SortableContext items={columns.map((i) => i.key)} strategy={horizontalListSortingStrategy}>
         <DragIndexContext.Provider value={dragIndex}>
-          <Table<DataType>
+          <Table
             rowKey="key"
             columns={columns}
             dataSource={dataSource}
@@ -26949,7 +26947,7 @@ const App: React.FC = () => {
         items={dataSource.map((i) => i.key)}
         strategy={verticalListSortingStrategy}
       >
-        <Table<DataType>
+        <Table
           components={{
             body: { row: Row },
           }}
@@ -27223,7 +27221,7 @@ const App: React.FC = () => {
           ></Radio.Group>
         </Form.Item>
       </Form>
-      <Table<DataType>
+      <Table
         {...tableProps}
         pagination={{ position: [top, bottom] }}
         columns={tableColumns}
@@ -27329,7 +27327,7 @@ const columns: TableProps<DataType>['columns'] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     dataSource={data}
     columns={columns}
     editable={{
@@ -27442,7 +27440,7 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} />;
+const App: React.FC = () => <Table columns={columns} dataSource={data} />;
 
 export default App;
 `},32244:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -27520,7 +27518,7 @@ const data = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} />;
+const App: React.FC = () => <Table columns={columns} dataSource={data} />;
 
 export default App;
 `},71479:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -27579,7 +27577,7 @@ const data: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     expandable={{
       expandedRowRender: (record) => <p className="m-0">{record.description}</p>,
@@ -27687,7 +27685,7 @@ const fetchData = (params: {
 };
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     request={fetchData}
     toolbar={{
@@ -27837,9 +27835,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const App: React.FC = () => (
-  <Table<DataType> columns={columns} dataSource={data} onChange={onChange} />
-);
+const App: React.FC = () => <Table columns={columns} dataSource={data} onChange={onChange} />;
 
 export default App;
 `},36654:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -27935,9 +27931,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const App: React.FC = () => (
-  <Table<DataType> columns={columns} dataSource={data} onChange={onChange} />
-);
+const App: React.FC = () => <Table columns={columns} dataSource={data} onChange={onChange} />;
 
 export default App;
 `},79783:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -28155,7 +28149,7 @@ for (let i = 0; i < 100; i += 1) {
 }
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={data}
     onChange={(_, filters, __) => {
@@ -28264,11 +28258,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => (
-  <Table<DataType>
-    columns={columns}
-    dataSource={dataSource}
-    scroll={{ x: 'max-content', y: 55 * 5 }}
-  />
+  <Table columns={columns} dataSource={dataSource} scroll={{ x: 'max-content', y: 55 * 5 }} />
 );
 
 export default App;
@@ -28334,7 +28324,7 @@ const dataSource: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     pagination={false}
     columns={columns}
     dataSource={dataSource}
@@ -28411,7 +28401,7 @@ const dataSource: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     verticalLine
     columns={columns}
     dataSource={dataSource}
@@ -28457,7 +28447,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={dataSource}
     pagination={{ pageSize: 50 }}
@@ -28581,7 +28571,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 }));
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={dataSource}
     verticalLine
@@ -28695,7 +28685,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
 };
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={data}
     onChange={onChange}
@@ -28766,7 +28756,7 @@ const App: React.FC = () => {
           setCheckedList(value as string[]);
         }}
       />
-      <Table<DataType> columns={newColumns} dataSource={data} className="mt-6" />
+      <Table columns={newColumns} dataSource={data} className="mt-6" />
     </>
   );
 };
@@ -28850,9 +28840,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const App: React.FC = () => (
-  <Table<DataType> columns={columns} dataSource={data} onChange={onChange} />
-);
+const App: React.FC = () => <Table columns={columns} dataSource={data} onChange={onChange} />;
 
 export default App;
 `},51925:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -28890,7 +28878,7 @@ const dataSource = Array.from({ length: 200 }).map<DataType>((_, key) => ({
 
 const App: React.FC = () => (
   <div className="w-75">
-    <Table<DataType>
+    <Table
       columns={columns}
       dataSource={dataSource}
       size="small"
@@ -28964,7 +28952,7 @@ const expandedDataSource = Array.from({ length: 3 }).map<ExpandedDataType>((_, i
 }));
 
 const createExpandedRowRender = (verticalLine: boolean) => () => (
-  <Table<ExpandedDataType>
+  <Table
     columns={expandedColumns}
     dataSource={expandedDataSource}
     pagination={false}
@@ -29005,7 +28993,7 @@ const App: React.FC = () => {
           <Switch checked={childVerticalLine} onChange={(v) => setChildVerticalLine(v)} />
         </Form.Item>
       </Form>
-      <Table<DataType>
+      <Table
         columns={columns}
         expandable={{ expandedRowRender: createExpandedRowRender(childVerticalLine) }}
         dataSource={dataSource}
@@ -29094,27 +29082,23 @@ const columns: TableColumnsType<DataType> = [
 ];
 
 const expandedRowRender = () => (
-  <Table<ExpandedDataType>
-    columns={expandColumns}
-    dataSource={expandDataSource}
-    pagination={false}
-  />
+  <Table columns={expandColumns} dataSource={expandDataSource} pagination={false} />
 );
 
 const App: React.FC = () => (
   <>
-    <Table<DataType>
+    <Table
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
       dataSource={dataSource}
     />
-    <Table<DataType>
+    <Table
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
       dataSource={dataSource}
       size="middle"
     />
-    <Table<DataType>
+    <Table
       columns={columns}
       expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
       dataSource={dataSource}
@@ -29176,7 +29160,7 @@ const data: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     rowSelection={{}}
     expandable={{
@@ -29290,11 +29274,7 @@ const App: React.FC = () => {
         <Radio.Group className="mb-2.5" options={topOptions} value={top} onChange={setTop} />
       </div>
       <Radio.Group className="mb-2.5" options={bottomOptions} value={bottom} onChange={setBottom} />
-      <Table<DataType>
-        columns={columns}
-        pagination={{ position: [top, bottom] }}
-        dataSource={data}
-      />
+      <Table columns={columns} pagination={{ position: [top, bottom] }} dataSource={data} />
     </div>
   );
 };
@@ -29344,7 +29324,7 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     rowKey={(record) => record.login.uuid}
     request={fetchDataWithPagination}
@@ -29478,7 +29458,7 @@ const App: React.FC = () => {
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>
       </Space>
-      <Table<DataType> columns={columns} dataSource={data} onChange={handleChange} />
+      <Table columns={columns} dataSource={data} onChange={handleChange} />
     </>
   );
 };
@@ -29604,7 +29584,7 @@ const App: React.FC = () => {
   }));
 
   return (
-    <Table<DataType>
+    <Table
       verticalLine
       components={{ header: { cell: ResizableTitle } }}
       columns={mergedColumns}
@@ -29655,7 +29635,7 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} />;
+const App: React.FC = () => <Table columns={columns} dataSource={data} />;
 
 export default App;
 `},74648:function(e,n){"use strict";n.Z=`import React from 'react';
@@ -29703,7 +29683,7 @@ const App: React.FC = () => {
 
   return (
     <Space size="middle" vertical block>
-      <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
+      <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
     </Space>
   );
 };
@@ -29742,7 +29722,7 @@ const rowSelection: TableRowSelection<DataType> = {
 };
 
 const App: React.FC = () => (
-  <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
+  <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
 );
 
 export default App;
@@ -29827,7 +29807,7 @@ const App: React.FC = () => {
     ],
   };
 
-  return <Table<DataType> rowSelection={rowSelection} columns={columns} dataSource={dataSource} />;
+  return <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />;
 };
 
 export default App;
@@ -29907,12 +29887,7 @@ const App: React.FC = () => {
           setData(genData(cnt || 0));
         }}
       />
-      <Table<DataType>
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-      />
+      <Table rowSelection={rowSelection} columns={columns} dataSource={data} pagination={false} />
     </>
   );
 };
@@ -29996,7 +29971,7 @@ const App: React.FC = () => {
         value={selectionType}
         onChange={setSelectionType}
       />
-      <Table<DataType>
+      <Table
         rowSelection={{ type: selectionType, ...rowSelection }}
         columns={columns}
         dataSource={data}
@@ -30054,7 +30029,7 @@ const data: DataType[] = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     verticalLine
     rowSelection={{ type: 'checkbox', selections: true }}
     columns={columns}
@@ -30188,9 +30163,9 @@ const data: DataType[] = [
 const App: React.FC = () => (
   <>
     <Divider>Middle size table</Divider>
-    <Table<DataType> columns={columns} dataSource={data} size="middle" />
+    <Table columns={columns} dataSource={data} size="middle" />
     <Divider>Small size table</Divider>
-    <Table<DataType> columns={columns} dataSource={data} size="small" />
+    <Table columns={columns} dataSource={data} size="small" />
   </>
 );
 
@@ -30283,7 +30258,7 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 const App: React.FC = () => {
   const [fixedTop, setFixedTop] = useState(false);
   return (
-    <Table<DataType>
+    <Table
       columns={columns}
       dataSource={dataSource}
       scroll={{ x: 1500 }}
@@ -30394,7 +30369,7 @@ const fixedDataSource = Array.from({ length: 20 }).map<FixedDataType>((_, i) => 
 
 const App: React.FC = () => (
   <Space block vertical size="large">
-    <Table<DataType>
+    <Table
       verticalLine
       columns={columns}
       dataSource={dataSource}
@@ -30427,7 +30402,7 @@ const App: React.FC = () => (
         );
       }}
     />
-    <Table<FixedDataType>
+    <Table
       columns={fixedColumns}
       dataSource={fixedDataSource}
       pagination={false}
@@ -30491,7 +30466,7 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     rowKey={(record) => record.login.uuid}
     request={fetchDataWithPagination}
@@ -30585,7 +30560,7 @@ const fetchData = (params: { filters: Record<string, any> }) => {
 };
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     headerTitle="Users"
     columns={columns}
     request={fetchData}
@@ -30719,7 +30694,7 @@ const App: React.FC = () => {
       <Space align="center" className="mb-4">
         CheckStrictly: <Switch checked={checkStrictly} onChange={setCheckStrictly} />
       </Space>
-      <Table<DataType>
+      <Table
         columns={columns}
         rowSelection={{ ...rowSelection, checkStrictly }}
         dataSource={data}
@@ -30836,7 +30811,7 @@ const App: React.FC = () => {
       <Space align="center" className="mb-4">
         Fixed first column: <Switch checked={fixed} onChange={setFixed} />
       </Space>
-      <Table<DataType>
+      <Table
         columns={columns}
         rowSelection={{ columnWidth: 100 }}
         expandable={{ defaultExpandAllRows: true }}
@@ -31066,7 +31041,7 @@ for (let i = 0; i < 2; i += 1) {
 }
 
 const App: React.FC = () => (
-  <Table<DataType>
+  <Table
     columns={columns}
     dataSource={data}
     editable={{
@@ -31134,7 +31109,7 @@ const data: DataType[] = [
   },
 ];
 
-const App: React.FC = () => <Table<DataType> columns={columns} dataSource={data} verticalLine />;
+const App: React.FC = () => <Table columns={columns} dataSource={data} verticalLine />;
 
 export default App;
 `},91686:function(e,n){"use strict";n.Z=`import React, { useState } from 'react';
