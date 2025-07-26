@@ -126,7 +126,7 @@ function InternalList<T>(
   }
   loadingProp.spinning = loadingProp.spinning || requestLoading;
   loadingProp.className = mergeSemanticCls(
-    { wrapper: 'flex-1', indicator: 'h-full' },
+    { wrapper: 'flex-1 min-h-0', indicator: 'h-full' },
     loadingProp.className,
   );
 
