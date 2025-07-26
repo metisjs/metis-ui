@@ -96,8 +96,8 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
   // ================================ Style =================================
   const panelCls = clsx(
     prefixCls,
-    'text-text bg-container pointer-events-auto relative top-28 mb-8 flex w-auto max-w-[calc(100vw-48px)] transform flex-col overflow-hidden rounded-lg text-left text-sm shadow-xl backdrop-blur-2xl transition-all',
-    !!centered && 'top-0',
+    'text-text bg-container pointer-events-auto relative top-26 mx-auto flex w-auto max-w-[calc(100vw-48px)] transform flex-col overflow-hidden rounded-lg text-left text-sm shadow-xl backdrop-blur-2xl transition-all',
+    !!centered && 'top-0 inline-block pb-0 text-start align-middle',
     semanticCls.root,
   );
 
