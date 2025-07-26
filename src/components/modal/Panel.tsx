@@ -103,7 +103,7 @@ const Panel = React.forwardRef<PanelRef, PanelProps>((props, ref) => {
 
   const headerCls = clsx(
     `${prefixCls}-header`,
-    'truncate p-6 pr-14 pb-2 text-base leading-6 font-semibold',
+    'truncate px-6 pt-6 pr-14 pb-4 text-base leading-6 font-semibold',
     semanticCls.header,
   );
 
