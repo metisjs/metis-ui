@@ -105,6 +105,12 @@ const Upload: React.FC<UploadProps> = (props) => {
   });
   const [dragState, setDragState] = React.useState<string>('drop');
 
+  // 解决闭包问题
+  const mergedFileListRef = useRef(mergedFileList);
+  useEffect(() => {
+    mergedFileListRef.current = mergedFileList;
+  }, [mergedFileList]);
+
   // ======================== Warning ========================
   if (process.env.NODE_ENV !== 'production') {
     const warning = devUseWarning('Upload');
@@ -337,63 +343,6 @@ const Upload: React.FC<UploadProps> = (props) => {
     });
   };
 
-  const onSuccess = (response: any, file: InternalFile, xhr: any) => {
-    let resp: any = response;
-    try {
-      if (typeof response === 'string') {
-        resp = JSON.parse(response);
-      }
-    } catch {
-      /* do nothing */
-    }
-
-    // removed
-    if (!getFileItem(file, mergedFileList)) {
-      return;
-    }
-
-    const targetItem = file2Obj(file);
-    targetItem.status = 'done';
-    targetItem.percent = 100;
-    targetItem.response = resp;
-    targetItem.xhr = xhr;
-
-    const nextFileList = updateFileList(targetItem, mergedFileList);
-
-    onInternalChange(targetItem, nextFileList);
-  };
-
-  const onProgress = (e: UploadProgressEvent, file: InternalFile) => {
-    // removed
-    if (!getFileItem(file, mergedFileList)) {
-      return;
-    }
-
-    const targetItem = file2Obj(file);
-    targetItem.status = 'uploading';
-    targetItem.percent = e.percent;
-
-    const nextFileList = updateFileList(targetItem, mergedFileList);
-
-    onInternalChange(targetItem, nextFileList, e);
-  };
-
-  const onError = (error: Error, response: any, file: InternalFile) => {
-    // removed
-    if (!getFileItem(file, mergedFileList)) {
-      return;
-    }
-
-    const targetItem = file2Obj(file);
-    targetItem.error = error;
-    targetItem.response = response;
-    targetItem.status = 'error';
-
-    const nextFileList = updateFileList(targetItem, mergedFileList);
-
-    onInternalChange(targetItem, nextFileList);
-  };
-
   const post = ({ data, origin, action, parsedFile }: Required<ParsedFileInfo>) => {
     if (!isMounted) {
       return;
@@ -401,6 +350,63 @@ const Upload: React.FC<UploadProps> = (props) => {
 
     const { uid } = origin;
     const request = customRequest || defaultRequest;
+
+    const onSuccess = (response: any, file: InternalFile, xhr: any) => {
+      let resp: any = response;
+      try {
+        if (typeof response === 'string') {
+          resp = JSON.parse(response);
+        }
+      } catch {
+        /* do nothing */
+      }
+
+      // removed
+      if (!getFileItem(file, mergedFileListRef.current)) {
+        return;
+      }
+
+      const targetItem = file2Obj(file);
+      targetItem.status = 'done';
+      targetItem.percent = 100;
+      targetItem.response = resp;
+      targetItem.xhr = xhr;
+
+      const nextFileList = updateFileList(targetItem, mergedFileListRef.current);
+
+      onInternalChange(targetItem, nextFileList);
+    };
+
+    const onProgress = (e: UploadProgressEvent, file: InternalFile) => {
+      // removed
+      if (!getFileItem(file, mergedFileListRef.current)) {
+        return;
+      }
+
+      const targetItem = file2Obj(file);
+      targetItem.status = 'uploading';
+      targetItem.percent = e.percent;
+
+      const nextFileList = updateFileList(targetItem, mergedFileListRef.current);
+
+      onInternalChange(targetItem, nextFileList, e);
+    };
+
+    const onError = (error: Error, response: any, file: InternalFile) => {
+      // removed
+      if (!getFileItem(file, mergedFileListRef.current)) {
+        return;
+      }
+
+      const targetItem = file2Obj(file);
+      targetItem.error = error;
+      targetItem.response = response;
+      targetItem.status = 'error';
+
+      const nextFileList = updateFileList(targetItem, mergedFileListRef.current);
+
+      onInternalChange(targetItem, nextFileList);
+    };
 
     const requestOption = {
       action,
