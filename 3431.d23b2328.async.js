@@ -16828,8 +16828,9 @@ const App: React.FC = () => (
 );
 
 export default App;
-`},91985:function(e,n){"use strict";n.Z=`import React from 'react';
-import { Avatar, List } from 'metis-ui';
+`},91985:function(e,n){"use strict";n.Z=`import React, { useRef } from 'react';
+import type { ListRef } from 'metis-ui';
+import { Avatar, Button, List } from 'metis-ui';
 
 interface DataType {
   gender: string;
@@ -16858,24 +16859,33 @@ const fakeFetch = (params: {
     .then((body) => ({ data: body.results, total: 100 }));
 };
 
-const App: React.FC = () => (
-  <List
-    className="h-80"
-    lazyLoad
-    request={fakeFetch}
-    renderItem={(item, i) => (
-      <List.Item key={i}>
-        <List.Item.Meta
-          avatar={<Avatar src={item.picture.large} />}
-          title={<a href="#">{item.name.last}</a>}
-          description={item.email}
-        />
-        <div>Content</div>
-      </List.Item>
-    )}
-    locale={{ noMoreText: 'It is all, nothing more' }}
-  />
-);
+const App: React.FC = () => {
+  const listRef = useRef<ListRef>(null);
+  return (
+    <>
+      <Button type="primary" className="mb-2" onClick={() => listRef.current?.reload()}>
+        Refresh
+      </Button>
+      <List
+        ref={listRef}
+        className="h-80"
+        lazyLoad
+        request={fakeFetch}
+        renderItem={(item, i) => (
+          <List.Item key={i}>
+            <List.Item.Meta
+              avatar={<Avatar src={item.picture.large} />}
+              title={<a href="#">{item.name.last}</a>}
+              description={item.email}
+            />
+            <div>Content</div>
+          </List.Item>
+        )}
+        locale={{ noMoreText: 'It is all, nothing more' }}
+      />
+    </>
+  );
+};
 
 export default App;
 `},55371:function(e,n){"use strict";n.Z=`import React, { useMemo, useRef, useState } from 'react';
@@ -19494,7 +19504,7 @@ const App: React.FC = () => {
       </Button>
       <Modal
         title="20px to Top"
-        className="mt-5"
+        className="top-5"
         open={modal1Open}
         onOk={() => setModal1Open(false)}
         onCancel={() => setModal1Open(false)}
