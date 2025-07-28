@@ -54,6 +54,45 @@ description: 最基础的列表展示，可承载文字、列表、图片、段�
 | description | 列表元素的描述内容 | ReactNode                    | -      |      |
 | title       | 列表元素的标题     | ReactNode                    | -      |      |
 
+### List ref
+
+| 参数 | 说明 | 类型 | 版本 |
+| --- | --- | --- | --- |
+| getScrollInfo | 获取滚动信息 | () => {left: number; top: number;} |  |
+| reload | 重新加载数据，仅使用 `request` 获取远程数据时有效 | () => void |  |
+| scrollTo | 滚动到目标位置 | (config : [ScrollConfig](#scrollconfig)) => void |  |
+
+#### ScrollConfig
+
+```tsx
+type ScrollTo = (arg: number | ScrollConfig) => void;
+
+type ScrollConfig = ScrollTarget | ScrollPos;
+
+type ScrollTarget =
+  | {
+      index: number;
+      align?: ScrollAlign;
+      behavior?: ScrollBehavior;
+      offset?: number;
+    }
+  | {
+      key: React.Key;
+      align?: ScrollAlign;
+      behavior?: ScrollBehavior;
+      offset?: number;
+    };
+
+type ScrollPos = {
+  left?: number;
+  top?: number;
+};
+
+type ScrollAlign = 'start' | 'center' | 'end';
+
+type ScrollBehavior = 'auto' | 'smooth';
+```
+
 ## Semantic DOM
 
 <code src="./demo/_semantic.tsx" simplify></code>

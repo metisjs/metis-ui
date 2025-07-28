@@ -53,6 +53,45 @@ A list can be used to display content related to a single subject. The content c
 | description | The description of list item | ReactNode                    | -       |         |
 | title       | The title of list item       | ReactNode                    | -       |         |
 
+### List ref
+
+| 参数 | 说明 | 类型 | 版本 |
+| --- | --- | --- | --- |
+| getScrollInfo | Get scroll info | () => {left: number; top: number;} |  |
+| reload | Reload remote data | () => void |  |
+| scrollTo | Trigger to scroll to target position. | (config : [ScrollConfig](#scrollconfig)) => void |  |
+
+#### ScrollConfig
+
+```tsx
+type ScrollTo = (arg: number | ScrollConfig) => void;
+
+type ScrollConfig = ScrollTarget | ScrollPos;
+
+type ScrollTarget =
+  | {
+      index: number;
+      align?: ScrollAlign;
+      behavior?: ScrollBehavior;
+      offset?: number;
+    }
+  | {
+      key: React.Key;
+      align?: ScrollAlign;
+      behavior?: ScrollBehavior;
+      offset?: number;
+    };
+
+type ScrollPos = {
+  left?: number;
+  top?: number;
+};
+
+type ScrollAlign = 'start' | 'center' | 'end';
+
+type ScrollBehavior = 'auto' | 'smooth';
+```
+
 ## Semantic DOM
 
 <code src="./demo/_semantic.tsx" simplify></code>

@@ -40,7 +40,7 @@ export default function <TData>(
     ...restOptions
   } = { ...contextRequestOptions, ...requestOptions };
 
-  const { loading, run, params, cancel } = useRequest(
+  const { loading, run, params, cancel, refresh } = useRequest(
     async (...defaultParams: any[]) => {
       let firstParam: Record<string, any> | undefined = undefined;
 
@@ -113,11 +113,20 @@ export default function <TData>(
     onScroll?.(values, ev);
   });
 
+  const reload = useEvent(() => {
+    if (!request) return;
+
+    cancel();
+    current.current = 1;
+    refresh();
+  });
+
   return {
     dataSource,
     loading: !loadingMore && loading,
     onScroll: onInternalScroll,
     loadingMore,
     noMore,
+    reload,
   };
 }

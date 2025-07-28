@@ -18,7 +18,7 @@ import useRequest from './useRequest';
 export type { ListConsumerProps } from './context';
 export type { ListItemMetaProps, ListItemProps } from './Item';
 
-export type ListRef = VirtualListRef;
+export type ListRef = Omit<VirtualListRef, 'nativeElement'> & { reload: () => void };
 
 export type LazyLoadType =
   | boolean
@@ -86,13 +86,26 @@ function InternalList<T>(
   const { getPrefixCls, renderEmpty } = React.useContext(ConfigContext);
   const semanticCls = useSemanticCls(className, 'list', { bordered });
 
+  const virtualListRef = React.useRef<VirtualListRef>(null);
+
   const {
     dataSource: requestDataSource,
     loading: requestLoading,
     onScroll: onInternalScroll,
     loadingMore,
     noMore,
+    reload,
   } = useRequest<T>(request, lazyLoad, onScroll);
+
+  React.useImperativeHandle(ref, () => ({
+    reload,
+    scrollTo: (...args) => {
+      virtualListRef.current?.scrollTo(...args);
+    },
+    getScrollInfo: () => {
+      return virtualListRef.current!.getScrollInfo();
+    },
+  }));
 
   const mergedDataSource = request ? requestDataSource : dataSource;
 
@@ -180,7 +193,7 @@ function InternalList<T>(
     childrenContent = (
       <VirtualList
         prefixCls={`${prefixCls}-virtual-list`}
-        ref={ref}
+        ref={virtualListRef}
         className={{ view: bodyCls }}
         data={mergedDataSource}
         virtual={!!virtual}
