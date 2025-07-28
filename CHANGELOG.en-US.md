@@ -6,6 +6,15 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.1.4
+
+`2025-07-28`
+
+- 🔧 Added `reload` method to `List`.
+- 🐞 Fixed some style issues with `Modal`.
+- 🐞 Fixed ineffective scroll loading in `List`.
+- 🐞 Fixed file status update error in `Upload` caused by closure.
+
 ## 1.1.3
 
 `2025-07-25`

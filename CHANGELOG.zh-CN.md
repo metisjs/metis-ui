@@ -6,6 +6,15 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.1.4
+
+`2025-07-28`
+
+- 🔧 `List` 添加 `reload` 方法。
+- 🐞 修复 `Modal` 部分样式问题。
+- 🐞 修复 `List` 滚动加载实效。
+- 🐞 修复 `Upload` 因为闭包导致的文件状态更新错误。
+
 ## 1.1.3
 
 `2025-07-25`
