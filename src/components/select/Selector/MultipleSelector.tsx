@@ -13,7 +13,7 @@ import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 
 function itemKey(value: DisplayValueType) {
-  return (value.key ?? value.value ?? '') as SafeKey;
+  return (value.key || value.value || '') as SafeKey;
 }
 
 interface SelectorProps extends InnerSelectorProps {
