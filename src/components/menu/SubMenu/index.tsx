@@ -7,7 +7,7 @@ import { useZIndex } from '@util/hooks/useZIndex';
 import { cloneElement, isValidElement } from '@util/reactNode';
 import type { SafeKey } from '@util/type';
 import warning from '@util/warning';
-import Overflow from 'rc-overflow';
+import Overflow from '../../overflow';
 import { useMenuId } from '../context/IdContext';
 import MenuContextProvider, { MenuContext } from '../context/MenuContext';
 import {

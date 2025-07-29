@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import Overflow from 'rc-overflow';
+import Overflow from '../../../../overflow';
 import type { InternalPickerProps } from '../../SinglePicker';
 
 export interface MultipleDatesProps<DateType extends object = any>

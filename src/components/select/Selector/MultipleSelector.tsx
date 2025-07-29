@@ -4,15 +4,16 @@ import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import pickAttrs from '@rc-component/util/es/pickAttrs';
 import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
-import Overflow from 'rc-overflow';
+import type { SafeKey } from '@util/type';
 import type { InnerSelectorProps } from '.';
+import Overflow from '../../overflow';
 import type { CustomTagProps, DisplayValueType, RawValueType, RenderNode } from '../BaseSelect';
 import TransBtn from '../TransBtn';
 import { getTitle } from '../utils/commonUtil';
 import Input from './Input';
 
 function itemKey(value: DisplayValueType) {
-  return value.key ?? value.value ?? '';
+  return (value.key ?? value.value ?? '') as SafeKey;
 }
 
 interface SelectorProps extends InnerSelectorProps {
