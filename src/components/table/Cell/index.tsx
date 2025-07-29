@@ -77,9 +77,12 @@ export const getTitleFromCellRenderChildren = ({
       title = children.toString();
     } else if (
       isValidElement<any>(children) &&
-      typeof (children as React.ReactElement<any>).props.children === 'string'
+      (typeof (children as React.ReactElement<any>).props.children === 'string' ||
+        typeof (children as React.ReactElement<any>).props.text === 'string')
     ) {
-      title = (children as React.ReactElement<any>).props.children;
+      title =
+        (children as React.ReactElement<any>).props.children ??
+        (children as React.ReactElement<any>).props.text;
     }
   }
   return title;
