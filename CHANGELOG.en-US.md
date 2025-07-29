@@ -6,6 +6,13 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.1.5
+
+`2025-07-29`
+
+- 🐞 Fixed the issue where the `ellipsis.showTitle` property of the `Table` component was ineffective.
+- 🐞 Fixed a style error in the `Select` component after packaging, caused by the use of the `rc-overflow` patch.
+
 ## 1.1.4
 
 `2025-07-28`
