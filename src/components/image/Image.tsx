@@ -152,6 +152,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
     {
       'bg-fill-quaternary': placeholder === true,
     },
+    semanticCls.img,
   );
   const placeholderCls = clsx(`${prefixCls}-placeholder`, 'absolute inset-0');
   const maskCls = clsx(

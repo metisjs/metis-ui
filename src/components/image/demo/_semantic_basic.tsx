@@ -9,6 +9,7 @@ const App: React.FC = () => {
       ref={previewRef}
       semantics={[
         { name: 'root' },
+        { name: 'img' },
         { name: 'mask' },
         {
           name: 'preview',

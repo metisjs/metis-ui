@@ -69,7 +69,11 @@ export interface ImagePreviewType {
 
 export interface ImageProps
   extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder' | 'onClick' | 'className'> {
-  className?: SemanticClassName<{ mask?: string; preview?: PreviewProps['className'] }>;
+  className?: SemanticClassName<{
+    img?: string;
+    mask?: string;
+    preview?: PreviewProps['className'];
+  }>;
   // Original
   src: string;
   prefixCls?: string;
