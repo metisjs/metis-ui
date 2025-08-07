@@ -91,6 +91,7 @@ const App: React.FC = () => {
         lazyLoad={{ direction: 'top' }}
         request={fakeFetch}
         rowKey="key"
+        virtual
         split={false}
         followOutput
         alignToBottom
