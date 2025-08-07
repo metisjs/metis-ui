@@ -8,7 +8,7 @@ import DefaultRenderEmpty from '../config-provider/defaultRenderEmpty';
 import type { ScrollValues } from '../scrollbar';
 import type { SpinProps } from '../spin';
 import Spin from '../spin';
-import type { VirtualListRef, VirtualType } from '../virtual-list';
+import type { VirtualListRef } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import { ListContext } from './context';
 import type { ListItemProps } from './Item';
@@ -18,11 +18,15 @@ import useRequest from './useRequest';
 export type { ListConsumerProps } from './context';
 export type { ListItemMetaProps, ListItemProps } from './Item';
 
-export type ListRef = Omit<VirtualListRef, 'nativeElement'> & { reload: () => void };
+export type ListRef<TData = any> = Omit<VirtualListRef, 'nativeElement'> & {
+  reload: () => void;
+  setDataSource: (data: TData[] | ((oldData: TData[]) => TData[] | undefined)) => void;
+};
 
 export type LazyLoadType =
   | boolean
   | {
+      direction?: 'top' | 'bottom';
       pageSize?: number;
     };
 
@@ -41,7 +45,7 @@ export interface ListProps<T, R extends LazyLoadType = false, ParamsType extends
   dataSource?: T[];
   id?: string;
   loading?: boolean | SpinProps;
-  virtual?: VirtualType;
+  virtual?: boolean;
   prefixCls?: string;
   rowKey?: ((item: T) => React.Key) | keyof T;
   renderItem?: (item: T, index: number) => React.ReactNode;
@@ -50,6 +54,9 @@ export interface ListProps<T, R extends LazyLoadType = false, ParamsType extends
   footer?: React.ReactNode;
   locale?: ListLocale;
   onScroll?: (values: ScrollValues, ev: React.UIEvent<HTMLElement>) => void;
+  followOutput?: boolean;
+  atEdgeThreshold?: number;
+  alignToBottom?: boolean;
 
   // >>> Request
   lazyLoad?: R;
@@ -79,9 +86,12 @@ function InternalList<T>(
     lazyLoad,
     virtual = false,
     onScroll,
+    followOutput,
+    atEdgeThreshold = 10,
+    alignToBottom,
     ...rest
-  }: ListProps<T>,
-  ref: React.ForwardedRef<ListRef>,
+  }: ListProps<T, LazyLoadType>,
+  ref: React.ForwardedRef<ListRef<T>>,
 ) {
   const { getPrefixCls, renderEmpty } = React.useContext(ConfigContext);
   const semanticCls = useSemanticCls(className, 'list', { bordered });
@@ -91,20 +101,23 @@ function InternalList<T>(
   const {
     dataSource: requestDataSource,
     loading: requestLoading,
-    onScroll: onInternalScroll,
     loadingMore,
     noMore,
+    firstItemIndex,
     reload,
-  } = useRequest<T>(request, lazyLoad, onScroll);
+    loadMore,
+    setDataSource,
+  } = useRequest<T>(request, lazyLoad, virtualListRef);
 
   React.useImperativeHandle(ref, () => ({
     reload,
     scrollTo: (...args) => {
       virtualListRef.current?.scrollTo(...args);
     },
-    getScrollInfo: () => {
-      return virtualListRef.current!.getScrollInfo();
+    getScrollValues: () => {
+      return virtualListRef.current!.getScrollValues();
     },
+    setDataSource,
   }));
 
   const mergedDataSource = request ? requestDataSource : dataSource;
@@ -188,6 +201,9 @@ function InternalList<T>(
     semanticCls.footer,
   );
 
+  const direction =
+    !!request && typeof lazyLoad !== 'boolean' ? (lazyLoad?.direction ?? 'bottom') : 'bottom';
+
   let childrenContent: React.ReactNode = isLoading && <div className="max-h-full min-h-16" />;
   if (mergedDataSource.length > 0) {
     childrenContent = (
@@ -199,10 +215,18 @@ function InternalList<T>(
         virtual={!!virtual}
         increaseViewportBy={200}
         renderItem={renderItem}
-        onScroll={onInternalScroll}
+        onScroll={onScroll}
+        endReached={direction === 'bottom' ? loadMore : undefined}
+        startReached={direction === 'top' ? loadMore : undefined}
         itemKey={getKey}
+        followOutput={followOutput}
+        atTopThreshold={atEdgeThreshold}
+        atBottomThreshold={atEdgeThreshold}
+        firstItemIndex={direction === 'top' ? firstItemIndex : 0}
+        initialTopMostItemIndex={direction === 'top' ? mergedDataSource.length - 1 : 0}
+        alignToBottom={alignToBottom}
         components={{
-          Footer: () => (
+          [direction === 'bottom' ? 'Footer' : 'Header']: () => (
             <>
               {loadingMore && (
                 <div className="flex items-center justify-center py-5">
@@ -217,7 +241,6 @@ function InternalList<T>(
             </>
           ),
         }}
-        {...(typeof virtual !== 'boolean' && virtual)}
       />
     );
   } else if (!isLoading) {
@@ -254,7 +277,7 @@ const ListWithForwardRef = React.forwardRef(InternalList) as (<
   ParamsType extends any[] = any[],
 >(
   props: ListProps<T, R, ParamsType> & {
-    ref?: React.ForwardedRef<ListRef>;
+    ref?: React.ForwardedRef<ListRef<T>>;
   },
 ) => ReturnType<typeof InternalList>) &
   Pick<React.FC, 'displayName'>;

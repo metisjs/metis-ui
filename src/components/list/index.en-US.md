@@ -22,19 +22,22 @@ A list can be used to display content related to a single subject. The content c
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| alignToBottom | Align content to bottom, commonly used in chat scenarios | boolean | false |  |
+| atEdgeThreshold | Threshold for triggering edge events (pixels) | number | 10 |  |
 | bordered | Toggles rendering of the border around the list | boolean | false |  |
 | className | Semantic DOM class | [SemanticDOM](#semantic-dom) | - |  |
 | dataSource | DataSource array for list | any\[] | - |  |
+| followOutput | Auto follow latest content, scroll to bottom when new data arrives | boolean | false |  |
 | footer | List footer renderer | ReactNode | - |  |
 | header | List header renderer | ReactNode | - |  |
-| lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean | false |  |
+| lazyLoad | Scroll load, effective only when using the `request` configuration. | boolean \| {direction?: 'top' \| 'bottom', pageSize?: number} | false |  |
 | loading | Shows a loading indicator while the contents of the list are being fetched | boolean, [SpinProps](/components/spin/#api) | false |  |
 | locale | The i18n text | {emptyText?: string, noMoreText?: string} | {emptyText: `No Data`} |  |
 | renderItem | Customize list item when using `dataSource` | (item) => ReactNode | - |  |
 | request | Method to fetch remote data | [`RequestConfig`](/docs/remote-fetch) | - |  |
 | rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T, (item: T) => `React.Key` | `"key"` |  |
 | split | Toggles rendering of the split under the list item | boolean | true |  |
-| virtual | Use virtual list | boolean, [VirtuosoProps](https://virtuoso.dev/virtuoso-api/interfaces/VirtuosoProps/) | - |  |
+| virtual | Use virtual list | boolean | - |  |
 
 ### List.Item
 
@@ -57,9 +60,10 @@ A list can be used to display content related to a single subject. The content c
 
 | 参数 | 说明 | 类型 | 版本 |
 | --- | --- | --- | --- |
-| getScrollInfo | Get scroll info | () => {left: number; top: number;} |  |
+| getScrollValues | Get scroll info | () => {left: number; top: number;} |  |
 | reload | Reload remote data | () => void |  |
 | scrollTo | Trigger to scroll to target position. | (config : [ScrollConfig](#scrollconfig)) => void |  |
+| setDataSource | Set list data source | (data: T[] \| ((oldData: T[]) => T[] \| undefined)) => void |  |
 
 #### ScrollConfig
 

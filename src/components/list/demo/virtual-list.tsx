@@ -57,7 +57,7 @@ const App: React.FC = () => {
         className="h-[400px]"
         dataSource={users}
         renderItem={(item) => (
-          <List.Item key={item.name}>
+          <List.Item>
             <List.Item.Meta
               avatar={<Avatar>U</Avatar>}
               title={<a href="#">{item.name}</a>}

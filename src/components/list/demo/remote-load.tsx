@@ -27,7 +27,7 @@ const App: React.FC = () => (
   <List
     request={fakeFetch}
     renderItem={(item) => (
-      <List.Item key={item.email}>
+      <List.Item>
         <List.Item.Meta
           avatar={<Avatar src={item.picture.large} />}
           title={<a href="#">{item.name.last}</a>}

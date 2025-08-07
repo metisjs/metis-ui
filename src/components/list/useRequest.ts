@@ -5,24 +5,40 @@ import { useRequest } from 'ahooks';
 import type { Options, Service } from 'ahooks/lib/useRequest/src/types';
 import type { LazyLoadType } from '.';
 import { ConfigContext } from '../config-provider';
-import type { ScrollValues } from '../scrollbar';
+import type { VirtualListRef } from '../virtual-list';
 
 const PAGE_SIZE = 20;
-const SCROLL_THRESHOLD = 36;
 
 export default function <TData>(
   request?: RequestConfig<TData, any, any[]>,
   lazyLoad?: LazyLoadType,
-  onScroll?: (values: ScrollValues, ev: React.UIEvent<HTMLElement>) => void,
+  virtualListRef?: React.RefObject<VirtualListRef | null>,
 ) {
   const { request: contextRequestOptions } = useContext(ConfigContext);
 
-  const pageSize = typeof lazyLoad !== 'boolean' ? (lazyLoad?.pageSize ?? PAGE_SIZE) : PAGE_SIZE;
+  const { pageSize, direction } =
+    typeof lazyLoad !== 'boolean'
+      ? { pageSize: lazyLoad?.pageSize ?? PAGE_SIZE, direction: lazyLoad?.direction ?? 'bottom' }
+      : { pageSize: PAGE_SIZE, direction: 'bottom' };
 
   const current = useRef(1);
-  const target = useRef<HTMLDivElement>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [finalData, setFinalData] = useState<{ data: TData[]; total?: number }>();
+  const [firstItemIndex, setFirstItemIndex] = useState(0);
+
+  const totalOffset = useRef(0);
+
+  const resetScrollPosition = () => {
+    requestAnimationFrame(() => {
+      if (direction === 'bottom') {
+        virtualListRef?.current?.scrollTo({ top: 0 });
+      } else if (direction === 'top') {
+        virtualListRef?.current?.scrollTo({
+          top: virtualListRef.current.getScrollValues().scrollHeight,
+        });
+      }
+    });
+  };
 
   let requestService: Service<{ data: TData[]; total?: number }, any[]> | undefined = undefined;
   let requestOptions: Options<{ data: TData[]; total?: number }, any[]> | undefined = undefined;
@@ -40,7 +56,7 @@ export default function <TData>(
     ...restOptions
   } = { ...contextRequestOptions, ...requestOptions };
 
-  const { loading, run, params, cancel, refresh } = useRequest(
+  const { loading, runAsync, params, cancel, refreshAsync } = useRequest(
     async (...defaultParams: any[]) => {
       let firstParam: Record<string, any> | undefined = undefined;
 
@@ -56,21 +72,32 @@ export default function <TData>(
     {
       ready: !!requestService && ready,
       refreshDeps: [JSON.stringify(lazyLoad), ...refreshDeps],
-      refreshDepsAction: () => {
+      refreshDepsAction: async () => {
         cancel();
         current.current = 1;
-        target.current?.scrollTo({ top: 0 });
-        run(...params);
+        await runAsync(...params);
+        resetScrollPosition();
       },
       onSuccess: (d, params) => {
         if (current.current === 1) {
+          totalOffset.current = 0;
+          if (direction === 'top') {
+            setFirstItemIndex(d.total - d.data.length);
+          }
           setFinalData(d);
         } else {
+          if (direction === 'top') {
+            setFirstItemIndex(
+              d.total - d.data.length - (finalData?.data.length ?? 0) + totalOffset.current,
+            );
+          }
+
           setFinalData((prev) => {
             if (prev) {
               return {
                 ...prev,
-                data: [...prev.data, ...d.data],
+                data:
+                  direction === 'bottom' ? [...prev.data, ...d.data] : [...d.data, ...prev.data],
               };
             }
             return d;
@@ -99,34 +126,49 @@ export default function <TData>(
     }
 
     current.current = toCurrent;
-    run(...params);
+    runAsync(...params);
   });
 
-  const onInternalScroll = useEvent((values: ScrollValues, ev: React.UIEvent<HTMLElement>) => {
-    target.current = ev.target as HTMLDivElement;
-    const { scrollTop, scrollHeight, clientHeight } = values;
+  const handleLoadMore = useEvent(() => {
     if (lazyLoad && !noMore && !loadingMore) {
-      if (scrollHeight - scrollTop <= clientHeight + SCROLL_THRESHOLD) {
-        loadMore(current.current + 1);
-      }
+      loadMore(current.current + 1);
     }
-    onScroll?.(values, ev);
   });
 
-  const reload = useEvent(() => {
+  const reload = useEvent(async () => {
     if (!request) return;
 
     cancel();
     current.current = 1;
-    refresh();
+
+    await refreshAsync();
+
+    resetScrollPosition();
+  });
+
+  const setDataSource = useEvent(async (arg: any) => {
+    if (!request) return;
+
+    if (typeof arg === 'function') {
+      const newData = await arg(dataSource);
+      totalOffset.current += newData.length - dataSource.length;
+      const newTotal = total + (newData.length - dataSource.length);
+      setFinalData({ data: newData, total: newTotal });
+    } else {
+      totalOffset.current += arg.length - dataSource.length;
+      const newTotal = total + (arg.length - dataSource.length);
+      setFinalData({ data: arg, total: newTotal });
+    }
   });
 
   return {
     dataSource,
     loading: !loadingMore && loading,
-    onScroll: onInternalScroll,
+    loadMore: handleLoadMore,
     loadingMore,
     noMore,
+    firstItemIndex,
     reload,
+    setDataSource,
   };
 }

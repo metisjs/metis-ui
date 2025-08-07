@@ -30,7 +30,7 @@ const fakeFetch = (params: {
 };
 
 const App: React.FC = () => {
-  const listRef = useRef<ListRef>(null);
+  const listRef = useRef<ListRef<DataType>>(null);
   return (
     <>
       <Button type="primary" className="mb-2" onClick={() => listRef.current?.reload()}>
@@ -39,10 +39,11 @@ const App: React.FC = () => {
       <List
         ref={listRef}
         className="h-80"
+        virtual
         lazyLoad
         request={fakeFetch}
-        renderItem={(item, i) => (
-          <List.Item key={i}>
+        renderItem={(item) => (
+          <List.Item>
             <List.Item.Meta
               avatar={<Avatar src={item.picture.large} />}
               title={<a href="#">{item.name.last}</a>}
