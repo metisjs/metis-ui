@@ -6,6 +6,17 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.2.0
+
+`2025-08-07`
+
+- 💄 `List` 添加属性`alignToBottom`、`atEdgeThreshold`、`followOutput`， `lazyLoad` 支持设置滚动加载方向。
+- 💄 `List` 添加方法 `setDataSource`。
+- 💄 `Table` 添加方法 `setDataSource`。
+- 💄 `Tree` 添加方法 `setTreeData`。
+- 🔧 重构了内部组件 `VirtualList` 实现逻辑。
+- 💄 `Image` 样式支持 `img` 元素配置。
+
 ## 1.1.5
 
 `2025-07-29`

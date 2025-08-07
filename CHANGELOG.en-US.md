@@ -6,6 +6,17 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.2.0
+
+`2025-08-07`
+
+- 💄 Added `alignToBottom`, `atEdgeThreshold`, `followOutput` properties to `List`, `lazyLoad` now supports setting scroll loading direction.
+- 💄 Added `setDataSource` method to `List`.
+- 💄 Added `setDataSource` method to `Table`.
+- 💄 Added `setTreeData` method to `Tree`.
+- 🔧 Refactored the internal `VirtualList` component implementation logic.
+- 💄 `Image` styles now support `img` element configuration.
+
 ## 1.1.5
 
 `2025-07-29`
