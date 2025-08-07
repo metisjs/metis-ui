@@ -41,7 +41,7 @@ const ICONS_MAPPING = {
   page: IconPage,
   content: IconContent,
   demo: IconDemo,
-};
+} as const;
 
 type ISearchResult = ReturnType<typeof useSiteSearch>['result'];
 
@@ -188,7 +188,9 @@ const SearchResult: FC<{
             })}
           >
             <List.Item.Meta
-              avatar={React.createElement(ICONS_MAPPING[item.value.type])}
+              avatar={React.createElement(
+                ICONS_MAPPING[item.value.type as keyof typeof ICONS_MAPPING],
+              )}
               title={<Highlight texts={item.value.highlightTitleTexts} />}
               description={<Highlight texts={item.value.highlightTexts} />}
             />
