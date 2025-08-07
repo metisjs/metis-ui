@@ -80,5 +80,6 @@ export default defineConfig({
     `,
   ],
   targets: { chrome: 111 },
+  jsMinifier: 'terser',
   extraPostCSSPlugins: ['postcss-nested'],
 });
