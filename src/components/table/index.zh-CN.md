@@ -111,6 +111,7 @@ description: 展示行列数据。
 | nativeElement | 最外层 div 元素 | HTMLDivElement |  |
 | reload | 重新加载数据，仅使用 `request` 获取远程数据时有效 | (resetPageIndex?: boolean) => void |  |
 | scrollTo | 滚动到目标位置（设置 `key` 时为 Record 对应的 `rowKey`） | (config: { index?: number, key?: Key, top?: number, align?: `start`、 `end`、 `center`, behavior?: `auto`、 `instant`、 `smooth` }) => void |  |
+| setDataSource | 设置表格数据源 | (data: TData\[] \| ((oldData: TData\[]) => TData\[] \| undefined)) => void |  |
 | startEdit | 触发行编辑，仅使用 `editable` 时有效 | (key: Key) => boolean |  |
 
 ### Column

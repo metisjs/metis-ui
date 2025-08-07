@@ -109,6 +109,7 @@ description: A table displays rows of data.
 | nativeElement | The wrap element | HTMLDivElement |  |
 | reload | Reload remote data | (resetPageIndex?: boolean) => void |  |
 | scrollTo | Trigger to scroll to target position. `key` match with record `rowKey` | (config: { index?: number, key?: React.Key, top?: number }) => void |  |
+| setDataSource | Set table data source | (data: TData\[] \| ((oldData: TData\[]) => TData\[] \| undefined)) => void |  |
 | startEdit | When table is editable, to start edit | (key: Key) => boolean |  |
 
 ### Column

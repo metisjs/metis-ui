@@ -173,7 +173,7 @@ export type TableProps<
   search?: TableSearchConfig;
 
   // Toolbar
-  toolbar?: ToolbarConfig;
+  toolbar?: ToolbarConfig<RecordType>;
 
   // ColumnsState
   columnsState?: ColumnStateType;
@@ -184,7 +184,10 @@ export type TableProps<
   // Events
   onScroll?: React.UIEventHandler<HTMLDivElement>;
 
-  extraRender?: (currentDataSource: RecordType[], action: TableActionType) => React.ReactNode;
+  extraRender?: (
+    currentDataSource: RecordType[],
+    action: TableActionType<RecordType>,
+  ) => React.ReactNode;
 } & (
   | {
       pagination: false;
@@ -760,7 +763,7 @@ function InternalTable<RecordType extends AnyObject>(
     mounted.current = true;
   }, []);
 
-  const tableAction = React.useMemo<TableActionType>(
+  const tableAction = React.useMemo<TableActionType<RecordType>>(
     () => ({
       reload,
       fullScreen: () => {
@@ -775,6 +778,7 @@ function InternalTable<RecordType extends AnyObject>(
       },
       startEdit,
       cancelEdit,
+      setDataSource,
     }),
     [reload, startEdit, cancelEdit],
   );
@@ -1367,7 +1371,7 @@ export type ForwardGenericTable = (<
   RecordType extends AnyObject = AnyObject,
   ParamsType extends any[] = any[],
 >(
-  props: InternalTableProps<RecordType, ParamsType> & React.RefAttributes<Reference>,
+  props: InternalTableProps<RecordType, ParamsType> & React.RefAttributes<Reference<RecordType>>,
 ) => React.ReactElement) & { displayName?: string };
 
 const ForwardTable = React.forwardRef(InternalTable) as ForwardGenericTable;

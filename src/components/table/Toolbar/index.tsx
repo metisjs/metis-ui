@@ -24,8 +24,8 @@ export type ToolBarProps<T extends AnyObject = AnyObject> = {
   className?: ToolbarSemanticClsType;
   headerTitle?: React.ReactNode;
   actions?: ReactNode[];
-  tableAction: TableActionType;
-  options?: OptionConfig | boolean;
+  tableAction: TableActionType<T>;
+  options?: OptionConfig<T> | boolean;
   optionsRender?: (defaultDom: React.ReactNode[]) => React.ReactNode[];
   search?: ToolbarSearchProps | boolean;
   searchValues?: Record<Key, any>;
@@ -38,14 +38,14 @@ export type ToolBarProps<T extends AnyObject = AnyObject> = {
 function renderDefaultOption<T extends AnyObject = AnyObject>(
   prefixCls: string,
   tableLocale: TableLocale,
-  options: OptionConfig,
-  tableAction: TableActionType,
+  options: OptionConfig<T>,
+  tableAction: TableActionType<T>,
   columns: InternalColumnsType<T>,
   columnTitleProps: ColumnTitleProps<T>,
 ) {
   return Object.keys(options)
     .filter((item) => item)
-    .map((key: keyof OptionConfig) => {
+    .map((key: keyof OptionConfig<T>) => {
       const value = options[key];
       if (!value) {
         return null;
@@ -109,14 +109,14 @@ function ToolBar<T extends AnyObject = AnyObject>({
       return false;
     }
 
-    const options: OptionConfig = {
+    const options: OptionConfig<T> = {
       reload: () => tableAction.reload(),
       fullScreen: () => tableAction.fullScreen(),
       setting: true,
     };
 
     if (typeof propsOptions === 'object') {
-      Object.entries(propsOptions).forEach(([key, value]: [keyof OptionConfig, any]) => {
+      Object.entries(propsOptions).forEach(([key, value]: [keyof OptionConfig<T>, any]) => {
         if (value !== true || typeof options[key] !== 'function') {
           options[key] = value;
         }

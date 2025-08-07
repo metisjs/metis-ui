@@ -36,10 +36,10 @@ export type ScrollConfig = {
   behavior?: ScrollBehavior;
 };
 
-export type Reference = {
+export type Reference<RecordType extends AnyObject = AnyObject> = {
   nativeElement: HTMLDivElement;
   scrollTo: (config: ScrollConfig) => void;
-} & TableActionType;
+} & TableActionType<RecordType>;
 
 export type GetPopupContainer = (triggerNode: HTMLElement) => HTMLElement;
 
@@ -299,11 +299,12 @@ export type ColumnEditable<
       index: number,
     ) => boolean | ColumnEditableConfig<RecordType, ValueType>);
 
-export type TableActionType = {
+export type TableActionType<TData> = {
   reload: (resetPageIndex?: boolean) => void;
   fullScreen: () => void;
   startEdit: (key: Key) => boolean;
   cancelEdit: () => boolean;
+  setDataSource: (data: TData[] | ((oldData: TData[]) => TData[] | undefined)) => void;
 };
 
 export type ColumnPropsWithValueType<RecordType extends AnyObject> =
@@ -340,7 +341,7 @@ export type ColumnType<RecordType extends AnyObject> = {
     value: any,
     record: RecordType,
     index: number,
-    action: TableActionType,
+    action: TableActionType<RecordType>,
   ) => React.ReactNode;
   shouldCellUpdate?: (record: RecordType, prevRecord: RecordType) => boolean;
   rowSpan?: number;
@@ -645,33 +646,33 @@ export type ToolbarSearchProps = Omit<InputProps, 'defaultValue' | 'value' | 'na
   name?: string;
 };
 
-export type OptionConfig = {
-  fullScreen?: OptionsType;
-  reload?: OptionsType;
+export type OptionConfig<RecordType> = {
+  fullScreen?: OptionsType<RecordType>;
+  reload?: OptionsType<RecordType>;
   setting?: boolean;
 };
 
-export type OptionsFunctionType = (
+export type OptionsFunctionType<RecordType> = (
   e: React.MouseEvent<HTMLSpanElement>,
-  action?: TableActionType,
+  action?: TableActionType<RecordType>,
 ) => void;
 
-export type OptionsType = OptionsFunctionType | boolean;
+export type OptionsType<RecordType> = OptionsFunctionType<RecordType> | boolean;
 
-export type ToolbarConfig =
+export type ToolbarConfig<RecordType> =
   | React.ReactNode[] // as actions
   | {
       search?: ToolbarSearchProps | boolean;
       actions?: React.ReactNode[];
-      options?: OptionConfig | boolean;
+      options?: OptionConfig<RecordType> | boolean;
       optionsRender?: ToolBarProps['optionsRender'];
     }
-  | ((actions: TableActionType) =>
+  | ((actions: TableActionType<RecordType>) =>
       | React.ReactNode[]
       | {
           search?: ToolbarSearchProps | boolean;
           actions?: React.ReactNode[];
-          options?: OptionConfig;
+          options?: OptionConfig<RecordType>;
           optionsRender?: ToolBarProps['optionsRender'];
         });
 

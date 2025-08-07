@@ -39,7 +39,7 @@ export interface TableContextProps<RecordType extends AnyObject = AnyObject> {
   size: 'default' | 'middle' | 'small';
   verticalLine?: boolean;
   tableKey: string;
-  tableAction: TableActionType;
+  tableAction: TableActionType<RecordType>;
   columnStateMap: Record<Key, ColumnState>;
   setColumnStateMap: (value: Record<Key, ColumnState>) => void;
   resetColumnStateMap: () => void;
