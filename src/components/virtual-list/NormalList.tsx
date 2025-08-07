@@ -50,6 +50,8 @@ const InternalNormalList = <D, C>(
     if (viewEl) {
       const listItems = viewEl.children;
 
+      if (!listItems.length) return;
+
       let index: number = 0;
       let align: ScrollLogicalPosition = 'start';
       let behavior: ScrollBehavior = 'auto';
@@ -113,7 +115,9 @@ const InternalNormalList = <D, C>(
   }, [data?.length, followOutput, atBottomThreshold]);
 
   useLayoutEffect(() => {
-    scrollToIndex(initialTopMostItemIndex as FlatIndexLocationWithAlign);
+    if (initialTopMostItemIndex) {
+      scrollToIndex(initialTopMostItemIndex as FlatIndexLocationWithAlign);
+    }
   }, []);
 
   const scrollTo = (location: ScrollToOptions) => {
