@@ -5,7 +5,7 @@
 import * as React from 'react';
 import omit from '@rc-component/util/es/omit';
 import { mergeSemanticCls } from '@util/classNameUtils';
-import type { ScrollTo, VirtualListProps, VirtualListRef, VirtualType } from '../virtual-list';
+import type { ScrollTo, VirtualListProps, VirtualListRef } from '../virtual-list';
 import VirtualList from '../virtual-list';
 import type { BasicDataNode, FlattenNode, Key, KeyEntities, TreeNodeProps } from './interface';
 import TreeNode from './TreeNode';
@@ -37,7 +37,7 @@ interface NodeListProps<TreeDataType extends BasicDataNode> {
   dropPosition: number | null;
 
   // Virtual list
-  virtual?: VirtualType;
+  virtual?: boolean;
 
   onScroll?: VirtualListProps<FlattenNode, any>['onScroll'];
   onContextMenu?: React.MouseEventHandler<HTMLDivElement>;

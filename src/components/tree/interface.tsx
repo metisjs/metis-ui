@@ -3,7 +3,7 @@ import type { SemanticClassName } from '@util/classNameUtils';
 import type { RequestConfig, SafeKey } from '@util/type';
 import type { CheckboxProps } from '../checkbox';
 import type { SpinProps } from '../spin';
-import type { ScrollTo, VirtualListProps, VirtualType } from '../virtual-list';
+import type { ScrollTo, VirtualListProps } from '../virtual-list';
 import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './context';
 
 export interface CheckInfo<TreeDataType extends BasicDataNode = DataNode> {
@@ -115,7 +115,7 @@ export interface TreeProps<
   ) => void;
   switcherIcon?: IconType;
 
-  virtual?: VirtualType;
+  virtual?: boolean;
 
   indent?: number;
 
