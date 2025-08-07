@@ -86,6 +86,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     onMouseEnter,
     onMouseLeave,
     onRightClick,
+    setTreeData,
     ...restProps
   } = useFilledProps(props);
 
@@ -142,6 +143,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
     ref,
     () => ({
       scrollTo,
+      setTreeData,
     }),
     [],
   );
@@ -766,7 +768,7 @@ const Tree = React.forwardRef<TreeRef, InternalTreeProps>((props, ref) => {
   ParamsType extends any[] = any[],
 >(
   props: TreeProps<TreeDataType, LazyLoadType, ParamsType> & {
-    ref?: React.Ref<TreeRef>;
+    ref?: React.Ref<TreeRef<TreeDataType>>;
   },
 ) => React.ReactElement) & {
   displayName?: string;

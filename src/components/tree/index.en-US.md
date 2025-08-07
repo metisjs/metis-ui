@@ -94,8 +94,9 @@ Almost anything can be represented in a tree structure. Examples include directo
 ### Tree Methods
 
 | Name | Description |
-| --- | --- |
+| --- | --- | --- |
 | scrollTo({ key: string, number; align?: 'top', 'bottom', 'auto'; offset?: number }) | Scroll to key item in virtual scroll |
+| setTreeData | Set tree data source, only effective when using `request` to fetch remote data | (data: TData\[] \| ((oldData: TData\[]) => TData\[] \| undefined)) => void |
 
 ## Semantic DOM
 

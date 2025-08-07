@@ -94,8 +94,9 @@ demo:
 ### Tree 方法
 
 | 名称 | 说明 |
-| --- | --- |
+| --- | --- | --- |
 | scrollTo({ key: string、 number; align?: 'top'、 'bottom'、 'auto'; offset?: number }) | 虚拟滚动下，滚动到指定 key 条目 |
+| setTreeData | 设置树形数据源，仅使用 `request` 获取远程数据时有效 | (data: TData\[] \| ((oldData: TData\[]) => TData\[] \| undefined)) => void |
 
 ## Semantic DOM
 

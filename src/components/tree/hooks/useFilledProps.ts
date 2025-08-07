@@ -50,6 +50,7 @@ export default function useFilledProps({
     loadingKeys,
     loadedKeys,
     loadData,
+    setTreeData,
   } = useRequest(filledFieldNames, customizeLoadedKeys, request, lazyLoad);
 
   const mergedTreeData = useMemo(
@@ -213,6 +214,7 @@ export default function useFilledProps({
     allowDrop,
     loadData,
     renderEmpty,
+    setTreeData,
     ...restProps,
   };
 }

@@ -134,5 +134,6 @@ export default function <TreeDataType extends BasicDataNode = DataNode>(
     loadingKeys,
     loadedKeys,
     loadData: request && lazyLoad ? loadData : undefined,
+    setTreeData,
   };
 }

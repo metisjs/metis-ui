@@ -124,8 +124,11 @@ export interface TreeProps<
   request?: GetRequestType<TreeDataType, LazyLoadType, ParamsType>;
 }
 
-export type TreeRef = {
+export type TreeRef<TreeDataType extends BasicDataNode = DataNode> = {
   scrollTo: ScrollTo;
+  setTreeData: (
+    data: TreeDataType[] | ((oldData: TreeDataType[]) => TreeDataType[] | undefined),
+  ) => void;
 };
 
 export interface TreeNodeProps<TreeDataType extends BasicDataNode = DataNode> {
