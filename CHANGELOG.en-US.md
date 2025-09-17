@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.2.1
+
+`2025-09-17`
+
+- 🐞 Fixed incorrect reverse scroll loading position in `List` when virtual rendering is disabled.
+
 ## 1.2.0
 
 `2025-08-07`

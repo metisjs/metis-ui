@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.2.1
+
+`2025-09-17`
+
+- 🐞 修复 `List` 组件在不开启虚拟渲染时，反向滚动加载位置错误问题。
+
 ## 1.2.0
 
 `2025-08-07`
