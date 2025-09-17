@@ -15,7 +15,7 @@ interface MessageType {
   sendTime: number;
 }
 
-const dataSource: MessageType[] = Array.from({ length: 100 }, (_, index) => ({
+const dataSource: MessageType[] = Array.from({ length: 136 }, (_, index) => ({
   key: index + 1,
   content: faker.lorem.paragraph({ min: 1, max: 2 }),
   sender: {

@@ -27,6 +27,7 @@ export default function <TData>(
   const [firstItemIndex, setFirstItemIndex] = useState(0);
 
   const totalOffset = useRef(0);
+  const totalPage = useRef(0);
 
   const resetScrollPosition = () => {
     requestAnimationFrame(() => {
@@ -79,6 +80,8 @@ export default function <TData>(
         resetScrollPosition();
       },
       onSuccess: (d, params) => {
+        totalPage.current = Math.ceil(d.total / pageSize);
+
         if (current.current === 1) {
           totalOffset.current = 0;
           if (direction === 'top') {
@@ -88,7 +91,10 @@ export default function <TData>(
         } else {
           if (direction === 'top') {
             setFirstItemIndex(
-              d.total - d.data.length - (finalData?.data.length ?? 0) + totalOffset.current,
+              Math.max(
+                d.total - d.data.length - (finalData?.data.length ?? 0) + totalOffset.current,
+                0,
+              ),
             );
           }
 
@@ -120,9 +126,8 @@ export default function <TData>(
     setLoadingMore(true);
 
     let toCurrent = c <= 0 ? 1 : c;
-    const tempTotalPage = Math.ceil(total / pageSize);
-    if (toCurrent > tempTotalPage) {
-      toCurrent = Math.max(1, tempTotalPage);
+    if (toCurrent > totalPage.current) {
+      toCurrent = Math.max(1, totalPage.current);
     }
 
     current.current = toCurrent;

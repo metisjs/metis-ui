@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { useEvent } from '@rc-component/util';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
+import usePrevious from '@util/hooks/usePrevious';
 import type { FlatIndexLocationWithAlign } from 'react-virtuoso';
 import { ConfigContext } from '../config-provider';
 import type { ScrollbarRef, ScrollValues } from '../scrollbar';
@@ -45,6 +46,8 @@ const InternalNormalList = <D, C>(
   const scrollbarRef = useRef<ScrollbarRef>(null);
   const atBottomRef = useRef<boolean>(false);
 
+  const previousFirstItemIndex = usePrevious(firstItemIndex);
+
   const scrollToIndex = useEvent((location: number | FlatIndexLocationWithAlign) => {
     const viewEl = scrollbarRef.current?.view;
     if (viewEl) {
@@ -52,25 +55,26 @@ const InternalNormalList = <D, C>(
 
       if (!listItems.length) return;
 
-      let index: number = 0;
+      let virtualIndex: number = 0;
       let align: ScrollLogicalPosition = 'start';
       let behavior: ScrollBehavior = 'auto';
       let offset: number = 0;
 
       if (typeof location === 'number') {
-        index = location;
+        virtualIndex = location;
       } else {
         if (location.index === 'LAST') {
-          index = listItems.length - 1;
+          virtualIndex = listItems.length + firstItemIndex - 1;
         } else {
-          index = location.index;
+          virtualIndex = location.index;
         }
         ({ align = 'start', behavior = 'auto', offset = 0 } = location);
       }
 
-      index = Math.min(Math.max(0, index), listItems.length - 1);
+      let domIndex = virtualIndex - firstItemIndex;
+      domIndex = Math.min(Math.max(0, domIndex), listItems.length - 1);
 
-      const item = listItems[index] as HTMLElement;
+      const item = listItems[domIndex] as HTMLElement;
       // 计算目标元素相对于 ul 的偏移
       const itemTop = item.offsetTop;
       const itemHeight = item.offsetHeight;
@@ -97,6 +101,12 @@ const InternalNormalList = <D, C>(
     }
   });
 
+  useLayoutEffect(() => {
+    if (previousFirstItemIndex && previousFirstItemIndex !== firstItemIndex) {
+      scrollToIndex({ index: previousFirstItemIndex });
+    }
+  }, [firstItemIndex]);
+
   // 处理 followOutput 功能
   useEffect(() => {
     if (followOutput && data?.length) {
@@ -112,11 +122,17 @@ const InternalNormalList = <D, C>(
         }
       }
     }
-  }, [data?.length, followOutput, atBottomThreshold]);
+  }, [data?.length, followOutput, atBottomThreshold, firstItemIndex]);
 
   useLayoutEffect(() => {
     if (initialTopMostItemIndex) {
-      scrollToIndex(initialTopMostItemIndex as FlatIndexLocationWithAlign);
+      let indexLocation = initialTopMostItemIndex as number | FlatIndexLocationWithAlign;
+      if (typeof indexLocation === 'number') {
+        indexLocation = indexLocation + firstItemIndex;
+      } else if (typeof indexLocation.index === 'number') {
+        indexLocation.index += firstItemIndex;
+      }
+      scrollToIndex(indexLocation);
     }
   }, []);
 
@@ -152,19 +168,21 @@ const InternalNormalList = <D, C>(
         return;
       }
 
-      let index: number;
+      let virtualIndex: number;
       const { align } = arg;
 
       if ('index' in arg) {
-        ({ index } = arg);
+        ({ index: virtualIndex } = arg);
       } else {
-        index = data?.findIndex((item, i) => computeItemKey(i, item) === arg.key) ?? 0;
+        const arrayIndex =
+          data?.findIndex((item, i) => computeItemKey(i + firstItemIndex, item) === arg.key) ?? 0;
+        virtualIndex = arrayIndex + firstItemIndex;
       }
 
       const { offset = 0, behavior } = arg;
 
       scrollToIndex({
-        index,
+        index: virtualIndex,
         align,
         behavior,
         offset,
@@ -205,11 +223,14 @@ const InternalNormalList = <D, C>(
       onScroll={handleScroll}
     >
       {Header && <Header context={props.context!} />}
-      {data?.map((item, i) => (
-        <Fragment key={computeItemKey(i + firstItemIndex, item)}>
-          {renderItem?.(item, i + firstItemIndex)}
-        </Fragment>
-      ))}
+      {data?.map((item, arrayIndex) => {
+        const virtualIndex = arrayIndex + firstItemIndex;
+        return (
+          <Fragment key={computeItemKey(virtualIndex, item)}>
+            {renderItem?.(item, virtualIndex)}
+          </Fragment>
+        );
+      })}
       {Footer && <Footer context={props.context!} />}
     </Scrollbar>
   );

@@ -1,6 +1,6 @@
 {
   "name": "metis-ui",
-  "version": "1.2.0",
+  "version": "1.2.1-beta.1",
   "description": "MetisUI - The React Tailwind UI Component Library",
   "license": "MIT",
   "authors": [
@@ -83,8 +83,7 @@
     "defaults"
   ],
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
