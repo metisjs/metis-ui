@@ -14,6 +14,7 @@ A list can be used to display content related to a single subject. The content c
 <code src="./demo/basic.tsx">Basic list</code>
 <code src="./demo/remote-load.tsx">Remote load</code>
 <code src="./demo/scroll-load.tsx">Scroll load</code>
+<code src="./demo/chat.tsx">Chart list</code>
 <code src="./demo/virtual-list.tsx">Virtual list</code>
 
 ## API
