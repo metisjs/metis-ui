@@ -667,7 +667,11 @@ export type ToolbarConfig<RecordType> =
       options?: OptionConfig<RecordType> | boolean;
       optionsRender?: ToolBarProps['optionsRender'];
     }
-  | ((actions: TableActionType<RecordType>) =>
+  | ((
+      actions: TableActionType<RecordType>,
+      filters?: Record<string, FilterValue | undefined>,
+      sorter?: SorterResult | SorterResult[],
+    ) =>
       | React.ReactNode[]
       | {
           search?: ToolbarSearchProps | boolean;

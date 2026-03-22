@@ -1193,7 +1193,14 @@ function InternalTable<RecordType extends AnyObject>(
       return null;
     }
 
-    const toolbarConfig = typeof toolbar === 'function' ? toolbar(tableAction) : toolbar;
+    const toolbarConfig =
+      typeof toolbar === 'function'
+        ? toolbar(
+            tableAction,
+            { ...searchValues, ...changeEventInfo.filters! },
+            changeEventInfo.sorter,
+          )
+        : toolbar;
     const toolbarProps = Array.isArray(toolbarConfig) ? { actions: toolbarConfig } : toolbarConfig;
 
     return (
@@ -1210,7 +1217,7 @@ function InternalTable<RecordType extends AnyObject>(
         {...toolbarProps}
       />
     );
-  }, [headerTitle, rawColumns, toolbar]);
+  }, [headerTitle, rawColumns, toolbar, changeEventInfo]);
 
   const searchable =
     flattenColumns.some((column) => isColumnSearchable(column)) || !!search?.items?.length;
