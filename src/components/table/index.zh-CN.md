@@ -76,7 +76,7 @@ description: 展示行列数据。
 | dataSource | 数据数组 | object\[] | - |  |
 | editable | 配置行编辑属性 | [editable](#editable) | - |  |
 | expandable | 配置展开属性 | [expandable](#expandable) | - |  |
-| extraRender | 搜索表格中间区域的渲染 | (currentDataSource: RecordType\[], action: TableActionType) => ReactNode | - |  |
+| extraRender | 搜索表格中间区域的渲染 | (currentDataSource: RecordType\[], responseData: any, action: TableActionType) => ReactNode | - |  |
 | getPopupContainer | 设置表格内各类浮层的渲染节点，如筛选菜单 | (triggerNode) => HTMLElement | () => TableHtmlElement |  |
 | headerTitle | 表格标题 | ReactNode | - |  |
 | loading | 页面是否加载中 | boolean、 [Spin Props](/components/spin-cn#api) | false |  |

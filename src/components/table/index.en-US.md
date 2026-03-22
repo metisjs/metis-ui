@@ -73,7 +73,7 @@ description: A table displays rows of data.
 | dataSource | Data record array to be displayed | object\[] | - |  |
 | editable | Config editable content | [editable](#editable) | - |  |
 | expandable | Config expandable content | [expandable](#expandable) | - |  |
-| extraRender | Render extra content | (currentDataSource: RecordType\[], action: TableActionType) => ReactNode | - |  |
+| extraRender | Render extra content | (currentDataSource: RecordType\[], responseData: any, action: TableActionType) => ReactNode | - |  |
 | footer | Table footer renderer | function(currentPageData) | - |  |
 | getPopupContainer | The render container of dropdowns in table | (triggerNode) => HTMLElement | () => TableHtmlElement |  |
 | loading | Loading status of table | boolean, [Spin Props](/components/spin/#api) | false |  |

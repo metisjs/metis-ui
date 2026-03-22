@@ -62,7 +62,12 @@ export default function <RecordType extends AnyObject>({
 
   const isPaginationActive = Object.keys(pagination).length > 0;
 
-  const { loading, refresh, cancel } = useRequest(
+  const {
+    loading,
+    refresh,
+    cancel,
+    data: rawData,
+  } = useRequest(
     async (...defaultParams: any[]) => {
       const params = [...defaultParams];
 
@@ -173,5 +178,5 @@ export default function <RecordType extends AnyObject>({
     refresh();
   });
 
-  return [loading, mergedDataSource, pageData, mergedTotal, setFinalData, reload] as const;
+  return [loading, mergedDataSource, pageData, mergedTotal, setFinalData, reload, rawData] as const;
 }

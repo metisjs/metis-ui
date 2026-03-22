@@ -186,6 +186,7 @@ export type TableProps<
 
   extraRender?: (
     currentDataSource: RecordType[],
+    responseData: any,
     action: TableActionType<RecordType>,
   ) => React.ReactNode;
 } & (
@@ -464,19 +465,20 @@ function InternalTable<RecordType extends AnyObject>(
   changeEventInfo.resetPagination = resetPagination;
 
   // ========================== Request ==========================
-  const [requestLoading, mergedDataSource, pageData, total, setDataSource, reload] = useRequest({
-    request,
-    dataSource,
-    filters: { ...searchValues, ...changeEventInfo.filters! },
-    filterStates,
-    sorter: changeEventInfo.sorter!,
-    sortStates,
-    childrenColumnName,
-    pagination: changeEventInfo.pagination!,
-    resetPagination: () => {
-      triggerOnChange({}, 'paginate', true);
-    },
-  });
+  const [requestLoading, mergedDataSource, pageData, total, setDataSource, reload, rawData] =
+    useRequest({
+      request,
+      dataSource,
+      filters: { ...searchValues, ...changeEventInfo.filters! },
+      filterStates,
+      sorter: changeEventInfo.sorter!,
+      sortStates,
+      childrenColumnName,
+      pagination: changeEventInfo.pagination!,
+      resetPagination: () => {
+        triggerOnChange({}, 'paginate', true);
+      },
+    });
 
   mergedPagination.total = total;
 
@@ -1214,7 +1216,7 @@ function InternalTable<RecordType extends AnyObject>(
     flattenColumns.some((column) => isColumnSearchable(column)) || !!search?.items?.length;
 
   const extraDom = extraRender ? (
-    <div className={extraCls}>{extraRender?.(mergedDataSource, tableAction)}</div>
+    <div className={extraCls}>{extraRender?.(mergedDataSource, rawData, tableAction)}</div>
   ) : undefined;
 
   fullTable = (
