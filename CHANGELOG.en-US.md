@@ -6,6 +6,13 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.3.0
+
+`2026-03-22`
+
+- 💄 Added `responseData` parameter to `extraRender` of `Table` component to return original request data.
+- 🐞 Fixed `message` component transparent overlay blocking lower layer elements from receiving events.
+
 ## 1.2.1
 
 `2025-09-17`

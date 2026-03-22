@@ -6,6 +6,13 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.3.0
+
+`2026-03-22`
+
+- 💄 `Table` 组件 `extraRender` 添加参数 `responseData`，返回原始请求数据
+- 🐞 修复 `message` 组件透明遮挡，导致下层元素事件无法响应。
+
 ## 1.2.1
 
 `2025-09-17`
