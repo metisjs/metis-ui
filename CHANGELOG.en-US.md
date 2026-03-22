@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.4.0
+
+`2026-03-22`
+
+- 💄 Added `filters` and `sorter` parameters to `Table` component `toolbar` when it's a function type.
+
 ## 1.3.0
 
 `2026-03-22`

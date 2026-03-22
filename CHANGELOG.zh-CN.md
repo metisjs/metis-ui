@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.4.0
+
+`2026-03-22`
+
+- 💄 `Table` 组件 `toolbar` 为函数类型时，添加参数 `filters` `sorter`
+
 ## 1.3.0
 
 `2026-03-22`
