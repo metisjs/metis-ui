@@ -361,7 +361,7 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
             },
             {
               'pl-6': groupOption,
-              'bg-primary text-white': activeIndex === itemIndex && !disabled,
+              'bg-primary-bg': activeIndex === itemIndex && !disabled,
               'text-text-tertiary cursor-not-allowed': disabled,
               'font-semibold': selected,
             },
@@ -416,7 +416,6 @@ const OptionList: React.ForwardRefRenderFunction<RefOptionListProps, Record<stri
                     'absolute inset-y-0 right-0 flex items-center pr-3',
                     {
                       'text-primary': selected,
-                      'text-white': activeIndex === itemIndex && !disabled,
                     },
                     optionSemanticCls.state,
                   )}
