@@ -2,7 +2,7 @@ import * as React from 'react';
 import isVisible from '@rc-component/util/es/Dom/isVisible';
 import useLayoutEffect from '@rc-component/util/es/hooks/useLayoutEffect';
 import omit from '@rc-component/util/es/omit';
-import { clsx, getSemanticCls } from '@util/classNameUtils';
+import { clsx } from '@util/classNameUtils';
 import useSemanticCls from '@util/hooks/useSemanticCls';
 import { matchScreen } from '@util/responsiveObserver';
 import type { Meta } from 'rc-field-form/lib/interface';
@@ -54,7 +54,7 @@ export default function ItemHolder(props: ItemHolderProps) {
     requiredMark,
     layout: formLayout,
     screens,
-    className: formClassName,
+    semanticCls: formSemanticCls,
   } = React.useContext(FormContext);
 
   // ======================== Layout ========================
@@ -105,7 +105,7 @@ export default function ItemHolder(props: ItemHolderProps) {
   const mergedValidateStatus = getValidateState();
 
   // ======================== Style ========================
-  const semanticCls = useSemanticCls([getSemanticCls(formClassName).item, className]);
+  const semanticCls = useSemanticCls([formSemanticCls?.item, className]);
 
   const itemCls = clsx(
     itemPrefixCls,
@@ -128,6 +128,7 @@ export default function ItemHolder(props: ItemHolderProps) {
       'flex-col': mergedLayout === 'vertical',
       'inline-flex': mergedLayout === 'inline',
     },
+    { hidden: hidden },
     semanticCls.root,
   );
 

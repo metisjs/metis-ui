@@ -2,6 +2,7 @@ import type { PropsWithChildren, ReactNode } from 'react';
 import * as React from 'react';
 import { createContext, useContext, useMemo } from 'react';
 import omit from '@rc-component/util/es/omit';
+import type { SemanticRecord } from '@util/classNameUtils';
 import type { Breakpoint } from '@util/responsiveObserver';
 import { FormProvider as RcFormProvider } from 'rc-field-form';
 import type { FormProviderProps as RcFormProviderProps } from 'rc-field-form/lib/FormContext';
@@ -31,7 +32,7 @@ export interface FormContextProps {
   autoLabelWidth?: number;
   registerLabelWidth?: (val: number, oldVal?: number) => void;
   deregisterLabelWidth?: (val: number) => void;
-  className?: FormProps<any>['className'];
+  semanticCls?: SemanticRecord<FormProps<any>['className']>;
   errorPopover?: true | Omit<PopoverProps, 'content'>;
 }
 
