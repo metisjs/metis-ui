@@ -6,6 +6,13 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.5.0
+
+`2026-08-19`
+
+- 💄 Optimized `Select` options style.
+- 🐞 Fixed `Form` item class-name error.
+
 ## 1.4.0
 
 `2026-03-22`

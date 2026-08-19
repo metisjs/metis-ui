@@ -6,6 +6,13 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.5.0
+
+`2026-08-19`
+
+- 💄 `Select` 组件选项样式优化
+- 🐞 修复 `Form` 组件 `className` 不生效问题
+
 ## 1.4.0
 
 `2026-03-22`
