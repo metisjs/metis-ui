@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.6.0
+
+`2026-08-20`
+
+- 💄 `Upload` 组件支持 `ref`，新增 `abort` 方法
+
 ## 1.5.0
 
 `2026-08-19`

@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.6.0
+
+`2026-08-20`
+
+- 💄 `Upload` supports `ref` and adds an `abort` method
+
 ## 1.5.0
 
 `2026-08-19`

@@ -125,6 +125,12 @@ When uploading state change, it returns:
 
 3. `event` response from the server, including uploading progress, supported by advanced browsers.
 
+## Methods
+
+| Name | Description |
+| --- | --- |
+| abort(file?) | Cancel the upload request. Pass `file` (or its `uid`) to cancel a specific file, or omit it to cancel all in-progress requests. |
+
 ## Semantic DOM
 
 <code src="./demo/_semantic.tsx" simplify></code>

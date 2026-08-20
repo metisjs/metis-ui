@@ -116,6 +116,12 @@ demo:
 
 3. `event` 上传中的服务端响应内容，包含了上传进度等信息，高级浏览器支持。
 
+## 方法
+
+| 名称 | 描述 |
+| --- | --- |
+| abort(file?) | 取消上传请求。传入 `file`（或其 `uid`）时取消对应文件的请求；不传则取消所有进行中的请求。 |
+
 ## Semantic DOM
 
 <code src="./demo/_semantic.tsx" simplify></code>
