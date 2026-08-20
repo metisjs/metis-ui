@@ -108,6 +108,11 @@ export interface UploadProps<T = any> {
   hasControlInside?: boolean;
 }
 
+export interface UploadRef<T = any> {
+  /** Abort the upload request of the given file, or all pending requests when omitted. */
+  abort: (file?: UploadFile<T> | string) => void;
+}
+
 export interface UploadProgressEvent extends Partial<ProgressEvent> {
   percent?: number;
 }

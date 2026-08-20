@@ -18,6 +18,7 @@ import type {
   UploadFile,
   UploadProgressEvent,
   UploadProps,
+  UploadRef,
   UploadRequestError,
 } from './interface';
 import defaultRequest from './request';
@@ -41,7 +42,7 @@ interface ParsedFileInfo {
   parsedFile?: InternalFile;
 }
 
-const Upload: React.FC<UploadProps> = (props) => {
+const InternalUpload: React.ForwardRefRenderFunction<UploadRef, UploadProps> = (props, ref) => {
   const {
     name,
     fileList,
@@ -141,6 +142,10 @@ const Upload: React.FC<UploadProps> = (props) => {
       reqMap.current.clear();
     }
   };
+
+  React.useImperativeHandle(ref, () => ({
+    abort,
+  }));
 
   // ======================== Effect ========================
   useEffect(() => abort, []);
@@ -684,6 +689,11 @@ const Upload: React.FC<UploadProps> = (props) => {
     </div>
   );
 };
+
+const Upload = React.forwardRef<UploadRef, UploadProps>(InternalUpload) as (<T = any>(
+  props: UploadProps<T> & React.RefAttributes<UploadRef<T>>,
+) => React.ReactElement) &
+  Pick<React.FC, 'displayName'>;
 
 if (process.env.NODE_ENV !== 'production') {
   Upload.displayName = 'Upload';
