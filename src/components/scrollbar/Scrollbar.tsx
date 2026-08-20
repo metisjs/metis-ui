@@ -445,7 +445,7 @@ const Scrollbars = (props: ScrollbarProps, ref: React.Ref<ScrollbarRef>) => {
 
   const viewCls = clsx(
     `${prefixCls}-view`,
-    'relative block overflow-scroll',
+    'relative block overflow-scroll outline-none',
     {
       'overflow-hidden': universal && !didMountUniversal,
       'pointer-events-none': dragging,
