@@ -11,6 +11,7 @@ timeline: true
 `2026-08-20`
 
 - 💄 `Upload` 组件支持 `ref`，新增 `abort` 方法
+- 🐞 修复 `Modal` 内 `Input` 的 `autoFocus` 失效问题
 
 ## 1.5.0
 

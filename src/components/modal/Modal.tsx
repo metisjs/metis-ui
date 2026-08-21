@@ -46,7 +46,11 @@ const Modal: React.FC<ModalProps> = (props) => {
   const prefixCls = getPrefixCls('modal', customizePrefixCls);
   const semanticCls = useSemanticCls(className, 'modal');
 
-  const mergedGetContainer = getContainer ?? getContextPopupContainer;
+  // Default to `document.body` so that the portal content is mounted directly into
+  // the DOM (rather than a lazily-appended detached div). Otherwise `@rc-component/portal`
+  // appends its container in a `useLayoutEffect`, which runs after React's `commitMount`
+  // (where `autoFocus` fires), so `focus()` on a still-detached node silently fails.
+  const mergedGetContainer = getContainer ?? getContextPopupContainer ?? (() => document.body);
 
   const lastOutSideActiveElementRef = React.useRef<HTMLElement | null>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);

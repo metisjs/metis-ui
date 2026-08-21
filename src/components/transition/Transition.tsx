@@ -137,7 +137,7 @@ const Transition = React.forwardRef<any, TransitionProps>((props, ref) => {
     // Stable children
     if (mergedVisible) {
       transitionChildren = children({ ...mergedProps }, setNodeRef);
-    } else if (forceRender || !removeOnLeave) {
+    } else if (forceRender || (!removeOnLeave && renderedRef.current)) {
       transitionChildren = children({ ...mergedProps, style: { display: 'none' } }, setNodeRef);
     } else {
       transitionChildren = null;
