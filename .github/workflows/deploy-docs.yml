@@ -5,7 +5,7 @@ on:
   workflow_call:
   push:
     tags:
-      - '1.*'
+      - "1.*"
     paths:
       - ".dumi/**"
       - "docs/**"
@@ -27,7 +27,7 @@ jobs:
 
       - name: Setup pnpm 📦
         run: |
-          npm install -g pnpm
+          npm install -g pnpm@10
 
       - name: Install and Build 🔧
         run: |
