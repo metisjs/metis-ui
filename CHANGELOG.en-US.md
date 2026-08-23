@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.6.1
+
+`2026-08-23`
+
+- 🐞 Fixed `Dropdown` submenu style selector priority issue.
+
 ## 1.6.0
 
 `2026-08-20`

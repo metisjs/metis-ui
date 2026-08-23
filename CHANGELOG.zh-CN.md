@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.6.1
+
+`2026-08-23`
+
+- 🐞 修复 `Dropdown` 子菜单样式选择器优先级问题
+
 ## 1.6.0
 
 `2026-08-20`
