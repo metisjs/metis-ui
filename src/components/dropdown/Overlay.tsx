@@ -29,7 +29,7 @@ const Overlay = forwardRef<HTMLElement, OverlayProps>((props, ref) => {
           icon: 'size-4',
         },
         sub: {
-          root: 'gap-0 px-1 *:px-0',
+          root: 'gap-0 px-1 *:px-0!',
           inner: 'h-8 gap-1.5 px-1 py-1 ps-3 pe-3 leading-6 font-normal',
           icon: 'size-4',
           list: 'gap-0',
