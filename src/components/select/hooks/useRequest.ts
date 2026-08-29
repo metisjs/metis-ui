@@ -47,10 +47,6 @@ export default function <TData extends BaseOptionType>(
 
   const { loading, run, params, cancel } = useRequest(
     async (...defaultParams: any[]) => {
-      // combobox 模式下只在搜索时触发请求
-      if (combobox && !searchValue?.trim()) {
-        return { data: [], total: 0 };
-      }
       let firstParam: Record<string, any> | undefined = undefined;
       if (showSearch || combobox) {
         firstParam = {

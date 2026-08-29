@@ -167,7 +167,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   );
 
   // ===================== Request =====================
-  const requestSearchable = showSearch && request && lazyLoad;
+  const requestSearchable = (showSearch || combobox) && request && lazyLoad;
   const {
     options: requestedOptions,
     loading: requestLoading,
@@ -221,14 +221,6 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
   }, [placement]);
 
   const mergedBuiltinPlacements = useBuiltinPlacements(builtinPlacements, popupOverflow);
-
-  // ========================= FilterOption =========================
-  const mergedFilterOption = React.useMemo(() => {
-    if (filterOption === undefined && mergedMode === 'combobox') {
-      return false;
-    }
-    return filterOption;
-  }, [filterOption, mergedMode]);
 
   // =========================== Option ===========================
   const parsedOptions = useOptions<BaseOptionType>(
@@ -388,7 +380,7 @@ const Select = React.forwardRef((props: InternalSelectProps, ref: React.Ref<Base
     filledTagOptions,
     mergedFieldNames,
     mergedSearchValue,
-    mergedFilterOption,
+    filterOption,
     optionFilterProp,
     !!request && lazyLoad,
   );
