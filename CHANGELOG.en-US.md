@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.6.2
+
+`2026-08-29`
+
+- 🐞 Fixed `Select`/`AutoComplete` search filtering not working when using a non-paginated `request`.
+
 ## 1.6.1
 
 `2026-08-23`

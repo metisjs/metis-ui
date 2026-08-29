@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.6.2
+
+`2026-08-29`
+
+- 🐞 修复 `Select`/`AutoComplete` 使用不分页 `request` 时搜索过滤不生效的问题。
+
 ## 1.6.1
 
 `2026-08-23`
