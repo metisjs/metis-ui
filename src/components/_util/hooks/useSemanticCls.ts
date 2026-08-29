@@ -20,11 +20,6 @@ type OmitType =
   | 'theme'
   | 'themeTarget';
 
-export const clsxDependency = (arg: any) => {
-  const args = toArray(arg);
-  return args.some((a) => typeof a === 'function') ? arg : JSON.stringify(arg);
-};
-
 function useSemanticCls<T extends SemanticClassName<any, any>>(
   className?: T | (T | undefined)[],
 ): SemanticRecord<T>;
@@ -57,7 +52,7 @@ function useSemanticCls(className: any, arg1?: any, arg2?: any): SemanticRecord<
       }
     }
     return getSemanticCls(classNames, args);
-  }, [clsxDependency(className), JSON.stringify(args)]);
+  }, [className, JSON.stringify(args)]);
 }
 
 export default useSemanticCls;

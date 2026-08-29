@@ -7,7 +7,7 @@ import {
   XMarkOutline,
 } from '@metisjs/icons';
 import { clsx, mergeSemanticCls } from '@util/classNameUtils';
-import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Modal from '../modal';
 import { BASE_SCALE_RATIO } from './constant';
 import { PreviewGroupContext } from './context';
@@ -259,7 +259,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
         },
         className,
       ),
-    [clsxDependency(className)],
+    [className],
   );
   const wrapCls = clsx(
     `${prefixCls}-img-wrapper`,

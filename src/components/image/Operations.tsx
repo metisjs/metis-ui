@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext } from 'react';
 import Portal from '@rc-component/portal';
 import { clsx } from '@util/classNameUtils';
-import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import Transition from '../transition';
 import { PreviewGroupContext } from './context';
 import type { OperationsProps, OperationType } from './interface';
@@ -145,7 +145,7 @@ const Operations: React.FC<OperationsProps> = (props) => {
         </div>
       );
     },
-    [prefixCls, clsxDependency(className)],
+    [prefixCls, className],
   );
 
   const switchPrevNode = showSwitch

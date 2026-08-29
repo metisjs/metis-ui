@@ -1,7 +1,6 @@
 import React, { forwardRef, useContext, useImperativeHandle, useMemo, useRef } from 'react';
 import { useEvent } from '@rc-component/util';
 import omit from '@rc-component/util/es/omit';
-import { clsxDependency } from '@util/hooks/useSemanticCls';
 import type { VirtuosoHandle } from 'react-virtuoso';
 import { Virtuoso } from 'react-virtuoso';
 import { ConfigContext } from '../config-provider';
@@ -104,7 +103,7 @@ const InternalVirtuosoList = <D, C>(
 
   const contextValue = useMemo(
     () => ({ prefixCls, onScroll: handleScroll, className, style, scrollbar: scrollbarRef }),
-    [prefixCls, clsxDependency(className), JSON.stringify(style), handleScroll],
+    [prefixCls, className, JSON.stringify(style), handleScroll],
   );
 
   return (

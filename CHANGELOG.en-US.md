@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.6.3
+
+`2026-08-29`
+
+- 🛠 Removed `clsxDependency` from `useSemanticCls`; `className` dependency now uses direct reference comparison to avoid the overhead of repeated deep serialization on every render.
+
 ## 1.6.2
 
 `2026-08-29`

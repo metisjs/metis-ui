@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.6.3
+
+`2026-08-29`
+
+- 🛠 移除 `useSemanticCls` 中的 `clsxDependency`，`className` 依赖改为直接引用比较，避免每次渲染重复深度序列化带来的性能开销。
+
 ## 1.6.2
 
 `2026-08-29`

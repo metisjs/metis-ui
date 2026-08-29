@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import type { SemanticClassName } from '@util/classNameUtils';
 import { clsx } from '@util/classNameUtils';
 import useBreakpoint from '@util/hooks/useBreakpoint';
-import useSemanticCls, { clsxDependency } from '@util/hooks/useSemanticCls';
+import useSemanticCls from '@util/hooks/useSemanticCls';
 import { matchScreen, type Breakpoint } from '@util/responsiveObserver';
 import toArray from '@util/toArray';
 import type { AnyObject } from '@util/type';
@@ -192,7 +192,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormRef, FormProps> = (props,
       autoLabelWidth,
       registerLabelWidth,
       deregisterLabelWidth,
-      clsxDependency(className),
+      className,
       errorPopover,
     ],
   );
