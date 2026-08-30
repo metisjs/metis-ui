@@ -6,6 +6,13 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.7.0
+
+`2026-08-30`
+
+- 🆕 `Image` 预览新增 `getEventTarget` 属性，支持自定义键盘、鼠标、触摸事件的目标节点，便于在容器内预览。
+- 🆕 `Image` 预览新增 `maskClosable` 属性，支持控制点击蒙层是否关闭预览。
+
 ## 1.6.3
 
 `2026-08-29`

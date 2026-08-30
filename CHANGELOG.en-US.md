@@ -6,6 +6,13 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.7.0
+
+`2026-08-30`
+
+- 🆕 Added `getEventTarget` to `Image` preview to customize the event target for keyboard, mouse and touch events, making it easier to preview inside a container.
+- 🆕 Added `maskClosable` to `Image` preview to control whether clicking the mask closes the preview.
+
 ## 1.6.3
 
 `2026-08-29`

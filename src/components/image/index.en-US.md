@@ -20,12 +20,7 @@ cols: 2
 <code src="./demo/preview-group-visible.tsx">Preview from one image</code>
 <code src="./demo/preview-src.tsx">Custom preview image</code>
 <code src="./demo/controlled-preview.tsx">Controlled Preview</code>
-<code src="./demo/toolbar-render.tsx">Custom toolbar render</code>
-<code src="./demo/image-render.tsx">Custom preview render</code>
-<code src="./demo/preview-mask.tsx" debug>Custom preview mask</code>
-<code src="./demo/nested.tsx">nested</code>
-<code src="./demo/preview-group-top-progress.tsx" debug>Top progress customization when previewing multiple images</code>
-<code src="./demo/preview-imgInfo.tsx" debug>Gets image info in the render function</code>
+<code src="./demo/toolbar-render.tsx">Custom toolbar render</code> <code src="./demo/image-render.tsx">Custom preview render</code> <code src="./demo/preview-mask.tsx" debug>Custom preview mask</code> <code src="./demo/nested.tsx">nested</code> <code src="./demo/preview-group-top-progress.tsx" debug>Top progress customization when previewing multiple images</code> <code src="./demo/preview-imgInfo.tsx" debug>Gets image info in the render function</code> <code src="./demo/preview-get-event-target.tsx" debug>Preview in container (custom event target)</code>
 
 ## API
 

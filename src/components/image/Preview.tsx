@@ -128,6 +128,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
     onTransform,
     onChange,
     className,
+    getEventTarget,
     ...restProps
   } = props;
 
@@ -143,6 +144,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
     minScale,
     maxScale,
     onTransform,
+    getEventTarget,
   );
   const { isMoving, onMouseDown, onWheel } = useMouseEvent(
     imgRef,
@@ -152,6 +154,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
     transform,
     updateTransform,
     dispatchZoomChange,
+    getEventTarget,
   );
   const { isTouching, onTouchStart, onTouchMove, onTouchEnd } = useTouchEvent(
     imgRef,
@@ -161,6 +164,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
     transform,
     updateTransform,
     dispatchZoomChange,
+    getEventTarget,
   );
   const { rotate, scale } = transform;
 
@@ -240,10 +244,11 @@ const Preview: React.FC<PreviewProps> = (props) => {
   };
 
   useEffect(() => {
-    addEventListener('keydown', onKeyDown, false);
+    const eventTarget = getEventTarget?.() ?? window;
+    eventTarget.addEventListener('keydown', onKeyDown as EventListener, false);
 
     return () => {
-      removeEventListener('keydown', onKeyDown);
+      eventTarget.removeEventListener('keydown', onKeyDown as EventListener);
     };
   }, [open, showLeftOrRightSwitches, current]);
 
@@ -345,7 +350,7 @@ const Preview: React.FC<PreviewProps> = (props) => {
         scale={scale}
         minScale={minScale}
         maxScale={maxScale}
-        toolbarRender={toolbarRender}
+        toolbarRender={toolbarRender as any}
         onActive={onActive}
         onZoomIn={onZoomIn}
         onZoomOut={onZoomOut}

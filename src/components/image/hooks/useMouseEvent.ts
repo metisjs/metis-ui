@@ -17,6 +17,7 @@ export default function useMouseEvent(
   transform: TransformType,
   updateTransform: UpdateTransformFunc,
   dispatchZoomChange: DispatchZoomChangeFunc,
+  getEventTarget?: () => HTMLElement,
 ) {
   const { rotate, scale, x, y } = transform;
 
@@ -96,26 +97,28 @@ export default function useMouseEvent(
   };
 
   useEffect(() => {
+    const eventTarget = getEventTarget?.() ?? window;
+
     if (movable) {
-      window.addEventListener('mouseup', onMouseUp, false);
-      window.addEventListener('mousemove', onMouseMove, false);
+      eventTarget.addEventListener('mouseup', onMouseUp, false);
+      eventTarget.addEventListener('mousemove', onMouseMove as EventListener, false);
 
       try {
         // Resolve if in iframe lost event
         /* istanbul ignore next */
         if (window.top !== window.self) {
           window.top?.addEventListener('mouseup', onMouseUp, false);
-          window.top?.addEventListener('mousemove', onMouseMove, false);
+          window.top?.addEventListener('mousemove', onMouseMove as EventListener, false);
         }
       } catch (error) {
         const warning = devUseWarning('Image');
-        warning(false, 'breaking', error);
+        warning(false, 'breaking', error as any);
       }
     }
 
     return () => {
-      window.removeEventListener('mouseup', onMouseUp);
-      window.removeEventListener('mousemove', onMouseMove);
+      eventTarget.removeEventListener('mouseup', onMouseUp);
+      eventTarget.removeEventListener('mousemove', onMouseMove as EventListener);
       // /* istanbul ignore next */
       window.top?.removeEventListener('mouseup', onMouseUp);
       // /* istanbul ignore next */

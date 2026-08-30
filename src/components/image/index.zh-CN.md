@@ -27,6 +27,7 @@ cols: 2
 <code src="./demo/nested.tsx">嵌套</code>
 <code src="./demo/preview-group-top-progress.tsx" debug>多图预览时顶部进度自定义</code>
 <code src="./demo/preview-imgInfo.tsx" debug>在渲染函数中获取图片信息</code>
+<code src="./demo/preview-get-event-target.tsx" debug>在容器内预览（自定义事件目标）</code>
 
 ## API
 

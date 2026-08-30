@@ -52,6 +52,7 @@ export default function useTouchEvent(
   transform: TransformType,
   updateTransform: UpdateTransformFunc,
   dispatchZoomChange: DispatchZoomChangeFunc,
+  getEventTarget?: () => HTMLElement,
 ) {
   const { rotate, scale, x, y } = transform;
 
@@ -162,17 +163,19 @@ export default function useTouchEvent(
   };
 
   useEffect(() => {
-    const preventDefault = (e: TouchEvent) => {
+    const preventDefault = (e: Event) => {
       e.preventDefault();
     };
 
+    const eventTarget = getEventTarget?.() ?? window;
+
     if (open && movable) {
-      window.addEventListener('touchmove', preventDefault, {
+      eventTarget.addEventListener('touchmove', preventDefault, {
         passive: false,
       });
     }
     return () => {
-      window.removeEventListener('touchmove', preventDefault);
+      eventTarget.removeEventListener('touchmove', preventDefault);
     };
   }, [open, movable]);
 

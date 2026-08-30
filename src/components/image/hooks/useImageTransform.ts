@@ -56,6 +56,7 @@ export default function useImageTransform(
   minScale: number,
   maxScale: number,
   onTransform?: (info: { transform: TransformType; action: TransformAction }) => void,
+  getEventTarget?: () => HTMLElement,
 ) {
   const frame = useRef<number | null>(null);
   const queue = useRef<TransformType[]>([]);
@@ -113,8 +114,13 @@ export default function useImageTransform(
     }
 
     /** Default center point scaling */
-    const mergedCenterX = centerX ?? innerWidth / 2;
-    const mergedCenterY = centerY ?? innerHeight / 2;
+    const eventTargetRect = getEventTarget?.()?.getBoundingClientRect();
+    const mergedCenterX =
+      centerX ??
+      (eventTargetRect ? eventTargetRect.left + eventTargetRect.width / 2 : innerWidth / 2);
+    const mergedCenterY =
+      centerY ??
+      (eventTargetRect ? eventTargetRect.top + eventTargetRect.height / 2 : innerHeight / 2);
 
     const diffRatio = newRatio - 1;
     /** Deviation calculated from image size */

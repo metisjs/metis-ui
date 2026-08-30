@@ -197,6 +197,7 @@ export interface PreviewProps {
   minScale?: number;
   maxScale?: number;
   getContainer?: GetContainer | false;
+  getEventTarget?: () => HTMLElement;
   mousePosition?: {
     x: number;
     y: number;

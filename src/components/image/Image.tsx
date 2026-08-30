@@ -234,7 +234,7 @@ const ImageInternal: CompoundedComponent<ImageProps> = (props) => {
           scaleStep={scaleStep}
           minScale={minScale}
           maxScale={maxScale}
-          imageRender={imageRender}
+          imageRender={imageRender as any}
           imgCommonProps={imgCommonProps}
           toolbarRender={toolbarRender}
           zIndex={mergedZIndex}
