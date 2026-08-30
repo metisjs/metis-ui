@@ -204,6 +204,7 @@ export interface PreviewProps {
   width?: string | number;
   height?: string | number;
   zIndex?: number;
+  maskClosable?: boolean;
   imageRender?: (
     originalNode: React.ReactElement,
     info: { transform: TransformType; current?: number; image?: ImgInfo },
