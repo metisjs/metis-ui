@@ -6,6 +6,12 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.7.1
+
+`2026-08-30`
+
+- 🐞 修复 1.7.0 发布包内容不完整的问题，重新发布 1.7.1。
+
 ## 1.7.0
 
 `2026-08-30`

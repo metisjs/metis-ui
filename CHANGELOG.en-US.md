@@ -6,6 +6,12 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.7.1
+
+`2026-08-30`
+
+- 🐞 Fixed the incomplete package published in 1.7.0; republished as 1.7.1.
+
 ## 1.7.0
 
 `2026-08-30`
