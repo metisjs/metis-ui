@@ -97,6 +97,15 @@ export function parseDate<T>(
 
   if (typeof value === 'string') {
     parsed = generateConfig.locale.parse(locale.locale, value, formatList);
+
+    // Fallback to native parsing for values that don't strictly match the
+    // locale formats, e.g. ISO 8601 strings like `2026-05-13T05:38:08.000Z`.
+    if ((!parsed || !generateConfig.isValidate(parsed)) && value) {
+      const nativeParsed = generateConfig.get(value);
+      if (nativeParsed && generateConfig.isValidate(nativeParsed)) {
+        parsed = nativeParsed;
+      }
+    }
   } else if (typeof value === 'number') {
     parsed = generateConfig.get(value);
   } else {
