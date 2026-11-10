@@ -6,6 +6,15 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.7.2
+
+`2026-11-10`
+
+- 🆕 `DatePicker` now parses ISO 8601 strings natively, e.g. `2026-05-13T05:38:08.000Z`.
+- 🐞 Fixed `Dropdown` sub menu popups remaining visible after a multi-level menu with controlled `openKeys` was closed.
+- 🐞 Fixed `Dropdown` menus with `multiple` hiding the first level popup on leaf click while the second and third level sub menus were left floating.
+- 🆕 Added three level `Dropdown` demos covering controlled `openKeys` and staying open with `multiple`.
+
 ## 1.7.1
 
 `2026-08-30`

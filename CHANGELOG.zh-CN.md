@@ -6,6 +6,14 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.7.2
+
+`2026-11-10`
+
+- 🆕 `DatePicker` 支持直接解析 ISO 8601 字符串，如 `2026-05-13T05:38:08.000Z`。
+- 🐞 修复 `Dropdown` 多级菜单在受控 `openKeys` 时关闭后子菜单弹层仍然残留的问题。
+- 🐞 修复 `Dropdown` 菜单配置 `multiple` 后点击叶节点，一级面板关闭而二、三级子菜单悬浮残留的问题。
+
 ## 1.7.1
 
 `2026-08-30`
