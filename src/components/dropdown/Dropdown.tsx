@@ -156,13 +156,13 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       }
     : false;
 
-  const onMenuClick = React.useCallback(() => {
-    if (menu?.selectable && menu?.multiple) {
+  const onMenuClick = useEvent(() => {
+    if (menu?.multiple) {
       return;
     }
     onOpenChange?.(false, { source: 'menu' });
     setOpen(false);
-  }, []);
+  });
 
   const renderOverlay = () => {
     let overlayNode: React.ReactNode;

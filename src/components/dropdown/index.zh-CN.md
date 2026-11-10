@@ -33,6 +33,8 @@ demo:
 <code src="./demo/selectable.tsx">菜单可选选择</code>
 <code src="./demo/menu-full.tsx" debug>Menu 完整样式</code>
 <code src="./demo/nested-sub-menu.tsx" debug>嵌套子菜单</code>
+<code src="./demo/three-level.tsx">三级菜单受控展开</code>
+<code src="./demo/three-level-multiple.tsx">三级菜单多选，点击后保持展开</code>
 <code src="./demo/icon-debug.tsx" debug>Icon debug</code>
 
 ## API

@@ -7,7 +7,7 @@ export interface PopupContentProps {
 
 const PopupContent = React.memo(
   ({ children }: PopupContentProps) => children as React.ReactElement,
-  (_, next) => !!next.cache,
+  (prev, next) => !!prev.cache && !!next.cache,
 );
 
 if (process.env.NODE_ENV !== 'production') {
