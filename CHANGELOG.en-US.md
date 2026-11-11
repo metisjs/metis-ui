@@ -6,6 +6,13 @@ timeline: true
 
 Follows [Semantic Versioning 2.0.0](http://semver.org/).
 
+## 1.7.3
+
+`2026-11-11`
+
+- 🐞 Fixed `Image` preview zoom anchoring away from the pointer on wheel and double click when mounted in a container with `getEventTarget`.
+- 🐞 Fixed `Image` preview drag rebound using the viewport bounds instead of the container bounds when mounted in a container with `getEventTarget`.
+
 ## 1.7.2
 
 `2026-11-10`

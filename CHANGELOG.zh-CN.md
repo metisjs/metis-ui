@@ -6,6 +6,13 @@ timeline: true
 
 遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
+## 1.7.3
+
+`2026-11-11`
+
+- 🐞 修复 `Image` 预览在容器内使用 `getEventTarget` 时，滚轮与双击缩放的中心点偏离鼠标指针的问题。
+- 🐞 修复 `Image` 预览在容器内使用 `getEventTarget` 时，拖动结束后回弹边界按视口而非容器计算的问题。
+
 ## 1.7.2
 
 `2026-11-10`
