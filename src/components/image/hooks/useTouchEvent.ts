@@ -155,6 +155,7 @@ export default function useTouchEvent(
       isRotate ? width : height,
       left,
       top,
+      getEventTarget?.(),
     );
 
     if (fixState) {

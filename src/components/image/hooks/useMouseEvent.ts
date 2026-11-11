@@ -74,6 +74,7 @@ export default function useMouseEvent(
         isRotate ? width : height,
         left,
         top,
+        getEventTarget?.(),
       );
 
       if (fixState) {

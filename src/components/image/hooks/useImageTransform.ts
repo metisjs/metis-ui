@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import isEqual from '@rc-component/util/es/isEqual';
 import raf from '@rc-component/util/es/raf';
-import { getClientSize } from '../util';
+import { getClientSize, getImageLayoutCenter } from '../util';
 
 export type TransformType = {
   x: number;
@@ -100,7 +100,7 @@ export default function useImageTransform(
     centerY?,
     isTouch?,
   ) => {
-    const { width, height, offsetWidth, offsetHeight, offsetLeft, offsetTop } = imgRef.current!;
+    const { offsetWidth, offsetHeight } = imgRef.current!;
 
     let newRatio = ratio;
     let newScale = transform.scale * ratio;
@@ -113,6 +113,18 @@ export default function useImageTransform(
       newRatio = newScale / transform.scale;
     }
 
+    /**
+     * The scale transform is applied around the image center, while the pointer is expressed in
+     * viewport coordinates. Resolve the layout center in the same coordinate space, together with
+     * the scale applied by the ancestors, so the anchored point stays under the pointer wherever
+     * the preview is mounted.
+     */
+    const {
+      centerX: imageCenterX,
+      centerY: imageCenterY,
+      scale: ancestorScale,
+    } = getImageLayoutCenter(imgRef.current!);
+
     /** Default center point scaling */
     const eventTargetRect = getEventTarget?.()?.getBoundingClientRect();
     const mergedCenterX =
@@ -122,25 +134,25 @@ export default function useImageTransform(
       centerY ??
       (eventTargetRect ? eventTargetRect.top + eventTargetRect.height / 2 : innerHeight / 2);
 
-    const diffRatio = newRatio - 1;
-    /** Deviation calculated from image size */
-    const diffImgX = diffRatio * width * 0.5;
-    const diffImgY = diffRatio * height * 0.5;
-    /** The difference between the click position and the edge of the document */
-    const diffOffsetLeft = diffRatio * (mergedCenterX - transform.x - offsetLeft);
-    const diffOffsetTop = diffRatio * (mergedCenterY - transform.y - offsetTop);
-    /** Final positioning */
-    let newX = transform.x - (diffOffsetLeft - diffImgX);
-    let newY = transform.y - (diffOffsetTop - diffImgY);
+    /**
+     * Keep the point under the pointer fixed. The current translation is scaled together with the
+     * image, otherwise each zoom step after the first one drifts away from the pointer.
+     */
+    const offsetX = (mergedCenterX - imageCenterX) / ancestorScale;
+    const offsetY = (mergedCenterY - imageCenterY) / ancestorScale;
+
+    let newX = newRatio * transform.x + (1 - newRatio) * offsetX;
+    let newY = newRatio * transform.y + (1 - newRatio) * offsetY;
 
     /**
      * When zooming the image
-     * When the image size is smaller than the width and height of the window, the position is initialized
+     * When the image size is smaller than the width and height of the container,
+     * the position is initialized
      */
     if (ratio < 1 && newScale === 1) {
       const mergedWidth = offsetWidth * newScale;
       const mergedHeight = offsetHeight * newScale;
-      const { width: clientWidth, height: clientHeight } = getClientSize();
+      const { width: clientWidth, height: clientHeight } = getClientSize(getEventTarget?.());
       if (mergedWidth <= clientWidth && mergedHeight <= clientHeight) {
         newX = 0;
         newY = 0;
